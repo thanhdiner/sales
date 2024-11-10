@@ -1,5 +1,14 @@
+import AllRoute from './components/AllRoute'
+import LayoutDefault from './Layout/LayoutDefault'
+
 function App() {
-  return <>Hello</>
+  return (
+    <>
+      <AllRoute>
+        <LayoutDefault></LayoutDefault>
+      </AllRoute>
+    </>
+  )
 }
 
 export default App

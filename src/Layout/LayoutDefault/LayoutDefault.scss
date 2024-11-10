@@ -1,0 +1,130 @@
+$primary-color: #4096ff;
+
+.header {
+  padding: 10px 0;
+  background-color: #fff;
+  &__logo {
+    width: 45px;
+    margin-left: 48px;
+    &--wrap {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+    }
+    &__name {
+      &--first {
+        color: #000000;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+      &--second {
+        color: #000;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+    }
+  }
+  &__action {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 48px;
+    column-gap: 7px;
+    &__search,
+    &__cart,
+    &__account {
+      &--btn,
+      & ul,
+      &--btn--clear {
+        width: 50px;
+        height: 50px;
+        border: none !important;
+        background-color: transparent;
+        box-shadow: none;
+        transition: color 0.1s;
+      }
+    }
+    &__search,
+    &__cart,
+    &__account {
+      &--btn:hover,
+      &--btn--clear:hover,
+      &--btn:active,
+      &--btn:focus-visible {
+        background: transparent !important;
+        outline: none !important;
+        outline-offset: 0 !important;
+        cursor: pointer;
+        color: $primary-color;
+        transition: color 0.1s;
+      }
+    }
+    &__search {
+      display: flex;
+      align-items: center;
+      &--wrap {
+        height: 40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        border-radius: 99px;
+        background: #1618230f;
+      }
+      &--input,
+      &--btn {
+        background: transparent !important;
+        outline: none !important;
+        border: none !important;
+      }
+      &--input {
+        padding: 0 0 1px 0;
+        &:focus,
+        &:focus-within {
+          outline: none !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+      }
+      &--input:not(:placeholder-shown) ~ &--btn {
+        color: $primary-color;
+      }
+      &--btn {
+        height: 40px;
+        border-radius: 0 99px 99px 0;
+        cursor: pointer;
+        &:hover {
+          background: #16182308 !important;
+        }
+      }
+    }
+  }
+  &__nav {
+    &__list {
+      display: flex;
+      justify-content: center;
+      column-gap: 25px;
+    }
+    &__item {
+      & a {
+        color: #000;
+        font-size: 16px;
+        font-weight: 500;
+        transition: color 0.1s;
+        &:hover {
+          color: #7b7194;
+          transition: color 0.1s;
+        }
+        &.active {
+          color: $primary-color;
+          transition: color 0.1s;
+        }
+      }
+    }
+  }
+}
