@@ -5,6 +5,7 @@ import Store from '../pages/Store'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import Blog from '../pages/Blog'
+import Error404 from '../pages/Error404'
 
 export const routes = [
   // Client
@@ -35,6 +36,10 @@ export const routes = [
       {
         path: '/blog',
         element: <Blog />
+      },
+      {
+        path: '*',
+        element: <Error404 />
       }
     ]
   },

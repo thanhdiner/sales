@@ -1,0 +1,44 @@
+.error-page {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  &__left {
+    &__heading {
+      font-size: 50px;
+      font-weight: 700;
+    }
+    &__desc {
+      margin-top: -35px;
+      font-size: 20px;
+      width: 500px;
+    }
+    &__back {
+      &--btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        padding: 10px 20px;
+        background-color: #50a3fd;
+        border-radius: 20px;
+        border: 2px solid #50a3fd;
+        transition: background-color 0.15s, color 0.15s;
+      }
+      &--btn:hover {
+        background-color: #fff;
+        color: #50a3fd;
+        transition: background-color 0.15s, color 0.15s;
+      }
+      &--icon {
+        margin-right: 15px;
+        font-size: 15px;
+      }
+      &--text {
+        font-size: 20px;
+      }
+    }
+  }
+}

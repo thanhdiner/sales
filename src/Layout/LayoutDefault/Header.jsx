@@ -1,4 +1,4 @@
-import { Col, Input, Menu, Modal, Row } from 'antd'
+import { Badge, Col, Input, Menu, Modal, Row } from 'antd'
 import { Link, NavLink } from 'react-router-dom'
 import { SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
@@ -65,7 +65,9 @@ function Header() {
               <div className="header__action__cart">
                 <Link>
                   <button className="header__action__cart--btn">
-                    <ShoppingCartOutlined style={{ fontSize: '22px' }} />
+                    <Badge offset={[5, -5]} size="small" count={123} overflowCount={999}>
+                      <ShoppingCartOutlined style={{ fontSize: '22px' }} />
+                    </Badge>
                   </button>
                 </Link>
               </div>

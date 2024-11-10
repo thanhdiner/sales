@@ -16,7 +16,7 @@ function LayoutDefault() {
       <Layout className="layout-default">
         <Header />
         <Layout>
-          <Sider>
+          <Sider className="layout-default__sider">
             <MenuSider />
           </Sider>
           <Layout>
