@@ -15,17 +15,17 @@ function LayoutDefault() {
     <>
       <Layout className="layout-default">
         <Header />
-        <Layout>
-          <Sider className="layout-default__sider">
-            <MenuSider />
+        <Layout className="layout-default__body">
+          <Sider width={250} className="layout-default__sider">
+            <MenuSider className="layout-default__menu__sider" />
           </Sider>
           <Layout>
-            <Content>
+            <Content className="layout-default__content">
               <Outlet />
             </Content>
+            <Footer />
           </Layout>
         </Layout>
-        <Footer />
       </Layout>
     </>
   )

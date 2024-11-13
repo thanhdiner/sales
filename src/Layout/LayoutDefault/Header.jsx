@@ -26,7 +26,7 @@ function Header() {
               </span>
             </NavLink>
           </Col>
-          <Col span={12}>
+          <Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} span={12}>
             <nav className="header__nav">
               <ul className="header__nav__list">
                 <li className="header__nav__item">
@@ -38,7 +38,7 @@ function Header() {
                   <NavLink to="/products">Products</NavLink>
                 </li>
                 <li className="header__nav__item">
-                  <NavLink to="/store">Store</NavLink>
+                  <NavLink to="/events">Events</NavLink>
                 </li>
                 <li className="header__nav__item">
                   <NavLink to="/about">About</NavLink>
@@ -65,8 +65,8 @@ function Header() {
               <div className="header__action__cart">
                 <Link>
                   <button className="header__action__cart--btn">
-                    <Badge offset={[5, -5]} size="small" count={123} overflowCount={999}>
-                      <ShoppingCartOutlined style={{ fontSize: '22px' }} />
+                    <Badge motionDurationMid="0.1s" offset={[5, -5]} size="small" count={123} overflowCount={999}>
+                      <ShoppingCartOutlined className="header__action__cart--icon" style={{ fontSize: '22px' }} />
                     </Badge>
                   </button>
                 </Link>
