@@ -6,6 +6,11 @@
     height: 1px;
     background-color: #e9e9e9;
   }
+  &__group--divider .ant-menu-item-group-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #000;
+  }
   &.menu-sider__item {
     display: flex;
     align-items: center;

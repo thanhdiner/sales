@@ -133,15 +133,15 @@ function MenuSider() {
           className: 'menu-sider menu-sider__item'
         },
         {
-          key: 'card-wallet-promotions',
-          label: <Link to="/events/card-wallet-promotions">Card & Wallet Promotions</Link>,
-          icon: <img className="menu-sider__icon" src="/icons/cardWalletPromotions.webp" alt="Card & Wallet Promotions" />,
+          key: 'pay-bills-top-up-card',
+          label: <Link to="/events/pay-bills-top-up-card">Pay Bills & Top-up Card</Link>,
+          icon: <img className="menu-sider__icon" src="/icons/payBillTopUpCard.webp" alt="Pay Bills & Top-up Card" />,
           className: 'menu-sider menu-sider__item'
         },
         {
-          key: 'card-wallet-promotions',
-          label: <Link to="/events/card-wallet-promotions">Card & Wallet Promotions</Link>,
-          icon: <img className="menu-sider__icon" src="/icons/cardWalletPromotions.webp" alt="Card & Wallet Promotions" />,
+          key: 'buy-now-pay-later',
+          label: <Link to="/events/buy-now-pay-later">Buy Now & Pay Later</Link>,
+          icon: <img className="menu-sider__icon" src="/icons/buyNowPayLater.webp" alt="Buy Now & Pay Later" />,
           className: 'menu-sider menu-sider__item'
         }
       ]

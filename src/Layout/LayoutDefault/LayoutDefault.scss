@@ -1,8 +1,10 @@
 $primary-color: #4096ff;
+$color-white: #fff;
+$color-black: #000;
 
 .header {
   padding: 10px 0;
-  background-color: #fff;
+  background-color: $color-white;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -16,21 +18,17 @@ $primary-color: #4096ff;
       column-gap: 5px;
     }
     &__name {
-      &--first {
-        color: #000000;
-        font-size: 20px;
+      &--first,
+      &--second {
+        color: $color-black;
+        font-size: 1.25rem;
         font-weight: 700;
-        line-height: 24px;
+        line-height: 0.24;
         letter-spacing: 0.02em;
         text-transform: uppercase;
       }
       &--second {
-        color: #000;
-        font-size: 20px;
         font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
       }
     }
   }
@@ -119,7 +117,7 @@ $primary-color: #4096ff;
       & a {
         display: inline-block;
         color: #000;
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: 500;
         transition: color 0.1s;
         padding: 8px 16px;
@@ -163,7 +161,7 @@ $primary-color: #4096ff;
     z-index: 999;
     overflow: auto;
     padding: 0 4px;
-    background-color: #fff;
+    background-color: $color-white;
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -184,15 +182,14 @@ $primary-color: #4096ff;
   }
   &__body {
     padding-top: 30px;
-    background-color: #fff;
+    background-color: $color-white;
+  }
+  &__body--sub {
+    background-color: $color-white;
   }
   &__content {
     margin-left: 250px;
-    background-color: #7b7194;
-  }
-
-  .footer {
-    background-color: #fff;
-    margin-left: 250px;
+    background-color: $color-white;
+    padding: 0 60px;
   }
 }
