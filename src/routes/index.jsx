@@ -1,7 +1,7 @@
 import LayoutDefault from '../Layout/LayoutDefault'
 import Home from '../pages/Home'
 import Product from '../pages/Product'
-import Store from '../pages/Store'
+import Events from '../pages/Events'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import Blog from '../pages/Blog'
@@ -15,15 +15,17 @@ export const routes = [
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Home />,
+        title: 'Home'
       },
       {
         path: '/products',
-        element: <Product />
+        element: <Product />,
+        component: 'Products'
       },
       {
-        path: '/store',
-        element: <Store />
+        path: '/events',
+        element: <Events />
       },
       {
         path: '/about',

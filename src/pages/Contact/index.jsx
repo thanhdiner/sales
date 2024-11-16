@@ -1,10 +1,8 @@
+import titles from '../../utils/titles'
 
 function Contact() {
-  return (
-    <>
-      Contact
-    </>
-  )
+  titles('Contact')
+  return <>Contact</>
 }
 
 export default Contact

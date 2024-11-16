@@ -1,10 +1,9 @@
+import titles from '../../utils/titles'
 
 function Product() {
-  return (
-    <>
-      Product
-    </>
-  )
+  titles('Products')
+
+  return <>Product</>
 }
 
 export default Product

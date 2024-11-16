@@ -20,7 +20,7 @@ function Header() {
         <Row>
           <Col span={6}>
             <NavLink className="header__logo--wrap" to="/">
-              <img className="header__logo" src="/logo/logo.svg" alt="Logo" />
+              <img className="header__logo" src="/logo/logo.png" alt="Logo" />
               <span className="header__logo__name">
                 <span className="header__logo__name--first">Diner</span> <span className="header__logo__name--second">Store</span>
               </span>
