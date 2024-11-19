@@ -1,0 +1,46 @@
+@import '../../../public/styles/variables';
+
+.slick {
+  &-prev,
+  &-next {
+    width: 32px;
+    height: 32px;
+    background-color: $color-white;
+    border-radius: 50%;
+    z-index: 1;
+    color: $color-blue;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
+    border: 1px solid $color-white;
+    transition: border-color 0.2s;
+
+    &:hover {
+      background-color: $color-white;
+      color: $color-blue;
+      border-color: $color-blue2;
+      transition: border-color 0.2s;
+    }
+  }
+  &-prev {
+    left: 30px;
+  }
+  &-next {
+    right: 30px;
+  }
+
+  &-prev::before,
+  &-next::before {
+    display: none;
+  }
+}
+
+.slick-arrow {
+  &.slick-disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+}

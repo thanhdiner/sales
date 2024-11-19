@@ -1,9 +1,28 @@
-$color-black: #000;
-$color-red: #d93843;
+@import '../../../public/styles/variables';
 
 .home {
   &__heading {
     font-size: 2rem;
     font-weight: 600;
+  }
+  &__heading2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  &__top-deal {
+    margin-top: 30px;
+    &__heading-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & a {
+        font-weight: 500;
+        padding: 5px 10px;
+        transition: color 0.1s;
+        &:hover {
+          transition: color 0.1s;
+        }
+      }
+    }
   }
 }
