@@ -37,7 +37,7 @@ function TopDeal() {
       <Slider {...settings}>
         {products.map(product => (
           <div className="product" key={product.id}>
-            <a href={`/products/${product.slug}`}>
+            <a href={`/products/${product.slug}`} draggable={false}>
               <Badge.Ribbon placement="start" color="#E01020" text={'Giảm ' + product.discountPercentage + '%'}>
                 <div className="products__item">
                   <figure className="products__thumbnail">

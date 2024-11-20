@@ -8,6 +8,10 @@
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+      img {
+        transition: transform 0.25s;
+        transform: scale(1.05);
+      }
     }
     & + .ant-ribbon {
       width: auto !important;
@@ -28,6 +32,7 @@
       height: 100%;
       aspect-ratio: 1/1;
       object-fit: cover;
+      transition: transform 0.25s;
     }
   }
   &__info {
