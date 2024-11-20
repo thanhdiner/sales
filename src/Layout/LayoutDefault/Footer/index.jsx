@@ -4,7 +4,7 @@ import './Footer.scss'
 
 function Footer() {
   const styleFooterRow = {
-    'flex-wrap': 'nowrap',
+    flexWrap: 'nowrap',
     columnGap: '20px',
     justifyContent: 'space-between'
   }
@@ -17,8 +17,8 @@ function Footer() {
             <h3 className="footer__heading">Hỗ trợ khách hàng</h3>
             <p className="footer__small-text footer__small-text--inner">
               Hotline:
-              <a className="footer__small-text--inner--right" target="_blank" rel="noreferrer" href="tel:0345690201">
-                1900-6035
+              <a className="footer__small-text--inner--right" target="_blank" rel="noreferrer" href="tel:19001234">
+                1900 1234
               </a>
               (1000 đ/phút, 8-21h kể cả T7, CN)
             </p>

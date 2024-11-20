@@ -23,7 +23,7 @@ function LayoutDefault() {
             <Content className="layout-default__content">
               <Outlet />
             </Content>
-            <Footer style={{ fontFamily: 'Inter' }} />
+            <Footer />
           </Layout>
         </Layout>
       </Layout>

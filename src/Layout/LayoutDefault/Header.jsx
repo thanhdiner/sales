@@ -1,4 +1,4 @@
-import { Badge, Col, Input, Menu, Modal, Row } from 'antd'
+import { Badge, Col, Input, Modal, Row } from 'antd'
 import { Link, NavLink } from 'react-router-dom'
 import { SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
@@ -65,21 +65,19 @@ function Header() {
               <div className="header__action__cart">
                 <Link>
                   <button className="header__action__cart--btn">
-                    <Badge motionDurationMid="0.1s" offset={[5, -5]} size="small" count={123} overflowCount={999}>
+                    <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={123} overflowCount={999}>
                       <ShoppingCartOutlined className="header__action__cart--icon" style={{ fontSize: '22px' }} />
                     </Badge>
                   </button>
                 </Link>
               </div>
               <div className="header__action__account">
-                <Menu style={{ background: 'transparent' }}>
-                  <button className="header__action__account--btn" onClick={showModal}>
-                    <UserOutlined style={{ fontSize: '22px' }} />
-                  </button>
-                  <Modal title="Đăng ký" open={isModalOpen} onCancel={onCancel}>
-                    <p>Test đăng ký</p>
-                  </Modal>
-                </Menu>
+                <button className="header__action__account--btn" onClick={showModal}>
+                  <UserOutlined style={{ fontSize: '22px' }} />
+                </button>
+                <Modal title="Đăng ký" open={isModalOpen} onCancel={onCancel}>
+                  <p>Test đăng ký</p>
+                </Modal>
               </div>
             </div>
           </Col>

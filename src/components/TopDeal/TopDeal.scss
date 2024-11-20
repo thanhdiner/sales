@@ -65,17 +65,12 @@
     }
   }
   &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 15px;
-    &__cart {
-      color: $primary-color;
-      font-size: 1.3rem;
-      transition: color 0.05s;
-      &:hover {
-        color: #7dd3fc;
-        transition: color 0.05s;
+    &__rate {
+      font-size: 1.1rem;
+      color: $color-orange;
+      .ant-rate-star.ant-rate-star-full {
+        margin-inline-end: 5px;
       }
     }
   }

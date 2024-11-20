@@ -5,8 +5,6 @@ import './TopDeal.scss'
 import { Badge, Rate } from 'antd'
 import { CustomPrevArrow, CustomNextArrow } from '../CustomArrow'
 import { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 
 function TopDeal() {
   const [products, setProducts] = useState([])
@@ -38,30 +36,33 @@ function TopDeal() {
     <>
       <Slider {...settings}>
         {products.map(product => (
-          <Badge.Ribbon placement="start" color="#E01020" text={'Giảm ' + product.discountPercentage + '%'}>
-            <div className="products__item" key={product.id}>
-              <figure className="products__thumbnail">
-                <img src={product.thumbnail} alt={product.title} />
-              </figure>
-              <div className="products__info">
-                <h3 className="products__title">{product.title}</h3>
-                <span className="products__price-wrap">
-                  <p className="products__price">
-                    {((product.price * (100 - product.discountPercentage)) / 100).toFixed(3)}
-                    <sup>₫</sup>
-                  </p>
-                  <p className="products__price--old">
-                    {product.price.toFixed(3)}
-                    <sup>₫</sup>
-                  </p>
-                </span>
-                <div className="products__footer">
-                  <Rate disabled allowHalf value={product.rate} />
-                  <FontAwesomeIcon className="products__footer__cart" icon={faCartPlus} />
+          <div className="product" key={product.id}>
+            <a href={`/products/${product.slug}`}>
+              <Badge.Ribbon placement="start" color="#E01020" text={'Giảm ' + product.discountPercentage + '%'}>
+                <div className="products__item">
+                  <figure className="products__thumbnail">
+                    <img src={product.thumbnail} alt={product.title} />
+                  </figure>
+                  <div className="products__info">
+                    <h3 className="products__title">{product.title}</h3>
+                    <span className="products__price-wrap">
+                      <p className="products__price">
+                        {((product.price * (100 - product.discountPercentage)) / 100).toFixed(3)}
+                        <sup>₫</sup>
+                      </p>
+                      <p className="products__price--old">
+                        {product.price.toFixed(3)}
+                        <sup>₫</sup>
+                      </p>
+                    </span>
+                    <div className="products__footer">
+                      <Rate className="products__footer__rate" disabled allowHalf value={product.rate} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Badge.Ribbon>
+              </Badge.Ribbon>
+            </a>
+          </div>
         ))}
       </Slider>
     </>
