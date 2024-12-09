@@ -5,7 +5,7 @@ import './Footer.scss'
 function Footer() {
   const styleFooterRow = {
     flexWrap: 'nowrap',
-    columnGap: '20px',
+    columnGap: '20px', 
     justifyContent: 'space-between'
   }
 

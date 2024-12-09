@@ -14,41 +14,53 @@ function Header() {
     setIsModalOpen(false)
   }
 
+  const navItems = [
+    {
+      label: 'Home',
+      path: '/'
+    },
+    {
+      label: 'Products',
+      path: '/products'
+    },
+    {
+      label: 'Events',
+      path: '/events'
+    },
+    {
+      label: 'About',
+      path: '/about'
+    },
+    {
+      label: 'Contact',
+      path: '/contact'
+    },
+    {
+      label: 'Blog',
+      path: '/blog'
+    }
+  ]
+
   return (
     <>
       <header className="header">
         <Row>
           <Col span={6}>
-            <NavLink className="header__logo--wrap" to="/">
+            <Link className="header__logo--wrap" to="/">
               <img className="header__logo" src="/logo/logo.png" alt="Logo" />
               <span className="header__logo__name">
                 <span className="header__logo__name--first">Diner</span> <span className="header__logo__name--second">Store</span>
               </span>
-            </NavLink>
+            </Link>
           </Col>
           <Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} span={12}>
             <nav className="header__nav">
               <ul className="header__nav__list">
-                <li className="header__nav__item">
-                  <NavLink to="/" end>
-                    Home
-                  </NavLink>
-                </li>
-                <li className="header__nav__item">
-                  <NavLink to="/products">Products</NavLink>
-                </li>
-                <li className="header__nav__item">
-                  <NavLink to="/events">Events</NavLink>
-                </li>
-                <li className="header__nav__item">
-                  <NavLink to="/about">About</NavLink>
-                </li>
-                <li className="header__nav__item">
-                  <NavLink to="/contact">Contact</NavLink>
-                </li>
-                <li className="header__nav__item">
-                  <NavLink to="/blog">Blog</NavLink>
-                </li>
+                {navItems.map(item => (
+                  <li key={item.path} className="header__nav__item">
+                    <NavLink to={item.path}>{item.label}</NavLink>
+                  </li>
+                ))}
               </ul>
             </nav>
           </Col>
