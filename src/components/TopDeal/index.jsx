@@ -6,6 +6,7 @@ import './TopDeal.scss'
 import { CustomPrevArrow, CustomNextArrow } from '../CustomArrow'
 import { useState, useEffect } from 'react'
 import TopDealProduct from './TopDealProduct'
+import { getProducts } from '../../services/productService'
 
 function TopDeal() {
   const [products, setProducts] = useState([])
@@ -13,11 +14,8 @@ function TopDeal() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      fetch('http://localhost:3002/products')
-        .then(res => res.json())
-        .then(data => {
-          setProducts(data)
-        })
+      const result = await getProducts()
+      setProducts(result.reverse())
     }
     fetchApi()
   }, [])
