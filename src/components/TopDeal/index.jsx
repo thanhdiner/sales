@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import './TopDeal.scss'
 import { CustomPrevArrow, CustomNextArrow } from '../CustomArrow'
 import { useState, useEffect } from 'react'
-import TopDealProduct from './TopDealProduct'
+import ProductItem from '../Products/ProductItem'
 import { getProducts } from '../../services/productService'
 
 function TopDeal() {
@@ -37,8 +37,8 @@ function TopDeal() {
   return (
     <>
       <Slider {...settings}>
-        {products.map(product => (
-          <TopDealProduct product={product} isDragging={isDragging} key={product.id} />
+        {products?.map(product => (
+          <ProductItem product={product} isDragging={isDragging} key={product.id} />
         ))}
       </Slider>
     </>

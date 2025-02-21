@@ -1,12 +1,12 @@
 import LayoutDefault from '../Layout/LayoutDefault'
 import Home from '../pages/Home'
-import Product from '../pages/Products'
+import ProductsPages from '../pages/ProductsPages'
 import Events from '../pages/Events'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import Blog from '../pages/Blog'
 import Error404 from '../pages/Error404'
-import ProductsDetail from '../pages/Products/ProductsDetail'
+import ProductsDetail from '../pages/ProductsPages/ProductsDetail'
 
 export const routes = [
   // Client
@@ -19,12 +19,12 @@ export const routes = [
         element: <Home />
       },
       {
-        path: ':slug',
-        element: <ProductsDetail />
+        path: '/products',
+        element: <ProductsPages />
       },
       {
-        path: '/products',
-        element: <Product />
+        path: '/products/:slug',
+        element: <ProductsDetail />
       },
       {
         path: '/events',
