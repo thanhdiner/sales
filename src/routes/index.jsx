@@ -23,7 +23,7 @@ export const routes = [
         element: <ProductsPages />
       },
       {
-        path: '/products/:slug',
+        path: '/products/:id',
         element: <ProductsDetail />
       },
       {

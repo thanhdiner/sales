@@ -31,7 +31,7 @@ function ProductItem(props) {
     <>
       <div className="product" key={product.id}>
         <Link
-          to={`products/${product.slug}`}
+          to={`products/${product.id}`}
           draggable={false}
           onClick={e => {
             if (isDragging) e.preventDefault()
