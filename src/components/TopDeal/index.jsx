@@ -24,7 +24,7 @@ function TopDeal() {
     cssEase: 'linear',
     infinite: false,
     speed: 300,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
     swipeToSlide: true,
     initialSlide: 0,

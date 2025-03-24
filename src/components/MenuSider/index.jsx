@@ -150,7 +150,7 @@ function MenuSider() {
 
   return (
     <>
-      <Menu items={items}></Menu>
+      <Menu style={{ paddingBottom: '30px' }} items={items}></Menu>
     </>
   )
 }

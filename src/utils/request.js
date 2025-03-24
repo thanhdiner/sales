@@ -1,4 +1,4 @@
-const API_DOMAIN = 'http://localhost:3002/'
+const API_DOMAIN = 'http://localhost:3001/api/v1/'
 
 export const get = async path => {
   try {

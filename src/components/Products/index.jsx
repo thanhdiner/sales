@@ -6,11 +6,11 @@ function Products() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    const fectApi = async () => {
+    const fetchApi = async () => {
       const result = await getProducts()
       setProducts(result)
     }
-    fectApi()
+    fetchApi()
   }, [])
 
   return (

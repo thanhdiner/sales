@@ -4,9 +4,18 @@ import { Rate } from 'antd'
 
 function ProductCard(props) {
   const { product } = props
+
+  const priceNew = ((product.price * (100 - product.discountPercentage)) / 100).toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
+  const price = product.price.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
   return (
     <>
-      <Link to={`/products/${product.id}`}>
+      <Link to={`/products/${product.slug}`}>
         <div className="product__cart">
           <figure className="product__thumbnail">
             <img src={product.thumbnail} alt={product.title} />
@@ -15,11 +24,11 @@ function ProductCard(props) {
             <h3 className="product__title">{product.title}</h3>
             <span className="product__price-wrap">
               <p className="product__price">
-                {((product.price * (100 - product.discountPercentage)) / 100).toFixed(3)}
+                {priceNew}
                 <sup>₫</sup>
               </p>
               <p className="product__price--old">
-                {product.price.toFixed(3)}
+                {price}
                 <sup>₫</sup>
               </p>
             </span>

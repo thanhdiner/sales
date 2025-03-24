@@ -4,7 +4,6 @@
   &__item {
     border: 1px solid #e1e1e1;
     border-radius: $sizeBorderRadiusItem;
-    cursor: pointer;
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
@@ -55,8 +54,9 @@
     font-size: 1.3rem;
     font-weight: 500;
     &-wrap {
-      margin-top: 5px;
       display: flex;
+      flex-wrap: wrap;
+      margin-top: 5px;
       column-gap: 10px;
     }
     sup {
@@ -70,7 +70,25 @@
     }
   }
   &__footer {
-    margin-top: 15px;
+    padding: 0 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__cart {
+      padding: 8px;
+      border: none;
+      background-color: transparent;
+      &--add {
+        font-size: 20px;
+        color: $color-blue4;
+      }
+      &:hover &--add {
+        color: $color-blue5;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
     &__rate {
       font-size: 1.1rem;
       color: $color-orange;

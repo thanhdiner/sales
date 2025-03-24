@@ -25,7 +25,7 @@ function ProductsDetail() {
       try {
         setLoading(true)
         setError(null)
-        const productData = await getProductDetail(params.id)
+        const productData = await getProductDetail(params.slug)
         if (!productData) {
           setNotFound(true)
           return
@@ -39,14 +39,22 @@ function ProductsDetail() {
     }
 
     fetchProduct()
-  }, [params.id, navigate])
+  }, [params.slug, navigate])
   if (loading) return <Spin tip="Đang tải sản phẩm..."> {content}</Spin>
 
   if (notFound) return <Error404 />
 
   if (error) return <p className="product-detail__error">{error}</p>
 
-  const discountedPrice = product.price - (product.price * product.discountPercentage) / 100
+  const priceNew = ((product.price * (100 - product.discountPercentage)) / 100).toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
+  const price = product.price.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
+
   return (
     <>
       {product && (
@@ -60,7 +68,7 @@ function ProductsDetail() {
               <h1 className="product-detail__title">{product.title}</h1>
               <p className="product-detail__rating">⭐ {product.rate} / 5</p>
               <p className="product-detail__price">
-                {discountedPrice.toLocaleString()}đ<span className="product-detail__price--old">{product.price.toLocaleString()}đ</span>
+                {priceNew}đ<span className="product-detail__price--old">{price}đ</span>
               </p>
               <p className="product-detail__stock">Còn {product.stock} sản phẩm</p>
               <button className="product-detail__button product-detail__button--buy">Mua ngay</button>
