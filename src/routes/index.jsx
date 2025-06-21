@@ -7,6 +7,11 @@ import Contact from '../pages/Contact'
 import Blog from '../pages/Blog'
 import Error404 from '../pages/Error404'
 import ProductsDetail from '../pages/ProductsPages/ProductsDetail'
+import AdminDashboard from '../pages/AdminDashboard'
+import LayoutAdmin from '../Layout/LayoutAdmin'
+import AdminProductsPages from '../pages/AdminProductsPages'
+import AdminProductsDetails from '../pages/AdminProductsPages/AdminProductsDetails'
+import { Navigate } from 'react-router-dom'
 
 export const routes = [
   // Client
@@ -49,5 +54,26 @@ export const routes = [
     ]
   },
   // Admin
-  {}
+  {
+    path: '/admin',
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true, // tương đương path: ''
+        element: <Navigate to="/admin/dashboard" replace />
+      },
+      {
+        path: '/admin/dashboard',
+        element: <AdminDashboard />
+      },
+      {
+        path: '/admin/products',
+        element: <AdminProductsPages />
+      },
+      {
+        path: '/admin/products/details/:slug',
+        element: <AdminProductsDetails />
+      }
+    ]
+  }
 ]
