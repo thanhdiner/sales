@@ -20,23 +20,19 @@ function LayoutAdmin() {
 
   const pathSnippets = location.pathname.split('/').filter(i => i)
 
-  const breadcrumbItems = [
-    ...pathSnippets.map((segment, i) => {
-      const url = `/${pathSnippets.slice(0, i + 1).join('/')}`
-      const isLast = i === pathSnippets.length - 1
-      return (
-        <Breadcrumb.Item key={url}>
-          {isLast ? (
-            <span style={{ fontWeight: '600', color: '#1677ff', textTransform: 'capitalize' }}>{segment}</span>
-          ) : (
-            <Link to={url} style={{ textTransform: 'capitalize' }}>
-              {segment}
-            </Link>
-          )}
-        </Breadcrumb.Item>
+  const breadcrumbItems = pathSnippets.map((segment, i) => {
+    const url = `/${pathSnippets.slice(0, i + 1).join('/')}`
+    const isLast = i === pathSnippets.length - 1
+    return {
+      title: isLast ? (
+        <span style={{ fontWeight: '600', color: '#1677ff', textTransform: 'capitalize' }}>{segment}</span>
+      ) : (
+        <Link to={url} style={{ textTransform: 'capitalize' }}>
+          {segment}
+        </Link>
       )
-    })
-  ]
+    }
+  })
 
   const [showLogoText, setShowLogoText] = useState(true)
 
@@ -108,7 +104,7 @@ function LayoutAdmin() {
               </Dropdown>
             </div>
           </Header>
-          <Breadcrumb style={{ margin: '10px 16px 0' }}>{breadcrumbItems}</Breadcrumb>
+          <Breadcrumb style={{ margin: '10px 16px 0' }} items={breadcrumbItems} />
           <Content
             style={{
               margin: '12px 16px 24px',

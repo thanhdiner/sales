@@ -13,7 +13,7 @@ import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
 import Link from 'antd/es/typography/Link'
-import { getProducts } from '../../services/productService'
+import { getAdminProducts } from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 function AdminProductsPages() {
@@ -32,7 +32,7 @@ function AdminProductsPages() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getProducts()
+      const result = await getAdminProducts()
       setProducts(result)
     }
     fetchData()

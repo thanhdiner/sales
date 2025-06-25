@@ -13,7 +13,15 @@ function AdminProductsFilter() {
   return (
     <>
       <div className="products-filter">
-        <Form form={form} onFinish={onFilter} layout="inline">
+        <Form
+          form={form}
+          initialValues={{
+            status: 'all',
+            show: '10'
+          }}
+          onFinish={onFilter}
+          layout="inline"
+        >
           <Form.Item name="productName" label="Product Name">
             <Input placeholder="Product Name" />
           </Form.Item>
@@ -27,14 +35,14 @@ function AdminProductsFilter() {
             <Input placeholder="Quantity" />
           </Form.Item>
           <Form.Item name="status" label="Status">
-            <Select defaultValue="all" style={{ width: 120 }}>
+            <Select style={{ width: 120 }}>
               <Option value="all">All</Option>
               <Option value="active">Active</Option>
               <Option value="inactive">Inactive</Option>
             </Select>
           </Form.Item>
           <Form.Item name="show" label="Show">
-            <Select defaultValue="10" style={{ width: 120 }}>
+            <Select style={{ width: 120 }}>
               <Option value="10">10 per page</Option>
               <Option value="20">20 per page</Option>
               <Option value="50">50 per page</Option>
