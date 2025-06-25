@@ -10,6 +10,6 @@ export const getProductDetail = async slug => {
 }
 
 //# admin
-export const getAdminProducts = async () => {
-  return await get('admin/products')
+export const getAdminProducts = async (page = 1, limit = 10) => {
+  return await get(`admin/products?page=${page}&limit=${limit}`)
 }

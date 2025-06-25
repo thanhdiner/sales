@@ -27,16 +27,27 @@ function AdminProductsPages() {
   //# state
   const [isFilterVisible, setIsFilterVisible] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+  const [limitItems, setLimitItems] = useState(10)
+  const [totalProducts, setTotalProducts] = useState(0)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getAdminProducts()
-      setProducts(result)
+      setIsLoading(true)
+      try {
+        const result = await getAdminProducts(currentPage, limitItems)
+        setProducts(result.products)
+        setLimitItems(result.limitItems)
+        setTotalProducts(result.total)
+        setCurrentPage(result.currentPage)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchData()
-  }, [])
+  }, [currentPage, limitItems])
 
   const rowSelection = {
     selectedRowKeys,
@@ -189,7 +200,7 @@ function AdminProductsPages() {
 
   const handleChangePage = page => {
     setCurrentPage(page)
-    console.log('Current page:', page)
+    setSelectedRowKeys([])
   }
 
   const handleEdit = record => {
@@ -239,16 +250,28 @@ function AdminProductsPages() {
         </div>
       </div>
       <div className="products-table">
-        <Table rowKey="_id" rowSelection={rowSelection} columns={columns} dataSource={products} pagination={false} bordered />
+        <Table
+          loading={{
+            spinning: isLoading,
+            tip: 'Loading products...'
+          }}
+          rowKey="_id"
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={products}
+          pagination={false}
+          bordered
+        />
         <div className="products-table-pagination">
           <span style={{ marginRight: 8 }}>
-            Total <span style={{ fontWeight: 'bold' }}>{products.length}</span> products, Page {currentPage} of{' '}
-            {Math.ceil(products.length / 10)}
+            Total <span style={{ fontWeight: 'bold' }}>{totalProducts}</span> products, Page {currentPage} of{' '}
+            {Math.ceil(totalProducts / limitItems)}
           </span>
           <Pagination
             size="small"
             current={currentPage}
-            total={products.length}
+            total={totalProducts}
+            pageSize={limitItems}
             onChange={handleChangePage}
             showSizeChanger={false}
             showQuickJumper
