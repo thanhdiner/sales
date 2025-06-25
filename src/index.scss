@@ -13,3 +13,30 @@ code {
 ul li {
   list-style: none;
 }
+
+.admin-title {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.custom-btn-orange {
+  background: #ff8904;
+  color: #fff;
+  border-color: #ff8904;
+  &:hover {
+    background: #f4a244 !important;
+    border-color: #f4a244 !important;
+    color: #fff !important;
+  }
+}
+.custom-btn-blue {
+  background: #39df55;
+  color: #fff;
+  border-color: #39df55;
+  &:hover {
+    background: #5ff478 !important;
+    border-color: #5ff478 !important;
+    color: #fff !important;
+  }
+}

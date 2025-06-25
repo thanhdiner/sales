@@ -49,7 +49,7 @@ export const routes = [
       },
       {
         path: '*',
-        element: <Error404 />
+        element: <Error404 path="/" />
       }
     ]
   },
@@ -67,12 +67,16 @@ export const routes = [
         element: <AdminDashboard />
       },
       {
-        path: '/admin/products',
+        path: '/admin/products&categories/products',
         element: <AdminProductsPages />
       },
       {
         path: '/admin/products/details/:slug',
         element: <AdminProductsDetails />
+      },
+      {
+        path: '*',
+        element: <Error404 path="/admin/dashboard" />
       }
     ]
   }

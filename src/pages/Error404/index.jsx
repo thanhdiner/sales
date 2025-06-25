@@ -3,11 +3,11 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import './Error404.scss'
 
-function Error404() {
+function Error404({ path }) {
   const navigate = useNavigate()
 
   const backHome = () => {
-    navigate('/')
+    navigate(path)
   }
 
   return (
@@ -24,7 +24,7 @@ function Error404() {
           </button>
         </div>
         <div className="error-page__right">
-          <img className='error-page__right--img' src="/images/error404.webp" alt="Error404" />
+          <img className="error-page__right--img" src="/images/error404.webp" alt="Error404" />
         </div>
       </section>
     </>

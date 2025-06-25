@@ -1,0 +1,104 @@
+.products-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products-utility {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.products-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 10px;
+  background: #fafafa;
+  padding: 5px 0 15px 20px;
+  width: 100%;
+}
+
+.products-filter .ant-form-item {
+  flex: 1 1 30%;
+  min-width: 200px;
+}
+
+.products-filter .ant-form-item-label {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.products-filter .ant-select,
+.products-filter .ant-input {
+  width: 100%;
+}
+
+.products-filter .ant-btn {
+  margin-top: 15px;
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.ant-form-item-row {
+  display: block;
+}
+
+.toggle-columns-btn {
+  background: #ff8904;
+  color: #fff;
+  border-color: #ff8904;
+}
+.toggle-columns-btn:hover {
+  background: red !important;
+  border-color: red;
+}
+
+.products-table {
+  margin-top: 10px;
+}
+
+.ant-table-cell-style {
+  vertical-align: middle !important;
+}
+
+.ant-table-selection-column {
+  vertical-align: middle !important;
+}
+
+.ant-table-cell.ant-table-selection-column {
+  padding: 0 !important;
+}
+
+.ant-checkbox-wrapper.css-dev-only-do-not-override-apn68 {
+  padding: 16px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.products-header {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.products-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.ant-table-column-sorters.sortable {
+  cursor: pointer;
+  column-gap: 10px;
+}

@@ -45,17 +45,21 @@ function LayoutAdmin() {
     else setShowLogoText(true)
   }, [collapsed])
 
-  const menuItems = [
-    {
-      key: 'dashboard',
-      icon: <HomeOutlined />,
-      label: 'Dashboard'
-    },
-    {
-      key: 'products',
-      icon: <AppstoreOutlined />,
-      label: 'Products Management'
+  const getItem = (label, key, icon, children) => {
+    return {
+      key,
+      icon,
+      children,
+      label
     }
+  }
+
+  const menuItems = [
+    getItem('Dashboard', 'dashboard', <HomeOutlined />),
+    getItem('Products & Categories', 'products&categories', <AppstoreOutlined />, [
+      getItem('Products', 'products&categories/products'),
+      getItem('Categories', 'products/categories')
+    ])
   ]
 
   const items = [
@@ -69,7 +73,7 @@ function LayoutAdmin() {
   return (
     <div>
       <Layout>
-        <Sider theme="light" width="220px" trigger={null} collapsible collapsed={collapsed}>
+        <Sider theme="light" width="235px" trigger={null} collapsible collapsed={collapsed}>
           <Link to={'/admin/dashboard'}>
             <div className={`logo-admin ${collapsed ? 'collapsed' : ''}`}>
               <img src="/logo/logo.png" alt="Diner" className="logo-icon" />
@@ -79,7 +83,7 @@ function LayoutAdmin() {
 
           <Menu onClick={({ key }) => navigate(key)} mode="inline" selectedKeys={[activeKey]} items={menuItems} />
         </Sider>
-        <Layout>
+        <Layout style={{ background: '#fafafa' }}>
           <Header colorBgContainer={colorBgContainer}>
             <Button
               type="text"
@@ -107,9 +111,8 @@ function LayoutAdmin() {
           <Breadcrumb style={{ margin: '10px 16px 0' }}>{breadcrumbItems}</Breadcrumb>
           <Content
             style={{
-              margin: '24px 16px',
+              margin: '12px 16px 24px',
               padding: 24,
-              minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG
             }}
