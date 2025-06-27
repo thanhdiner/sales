@@ -42,3 +42,9 @@ export const changeStatusManyProducts = async (ids, status) => {
     status
   })
 }
+
+export const changePositionManyProducts = async data => {
+  return await patch(`admin/products/change-position-many`, {
+    data
+  })
+}

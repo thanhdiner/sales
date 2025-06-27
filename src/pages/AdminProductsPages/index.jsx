@@ -13,6 +13,7 @@ import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
 import {
+  changePositionManyProducts,
   changeStatusManyProducts,
   deleteManyProducts,
   deleteProduct,
@@ -39,6 +40,7 @@ function AdminProductsPages() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState()
+  const [editedPositions, setEditedPositions] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,9 +152,11 @@ function AdminProductsPages() {
               borderRadius: 4
             }}
             onChange={e => {
-              const newValue = e.target.value
-              console.log(`Change position of ${record.title} to ${newValue}`)
-              // Bạn có thể gọi API update ở đây nếu muốn
+              const newVal = Number(e.target.value)
+              setEditedPositions(prev => ({
+                ...prev,
+                [record._id]: newVal
+              }))
             }}
           />
         </div>
@@ -360,6 +364,40 @@ function AdminProductsPages() {
         })
         break
       }
+      case 'change-position':
+        Modal.confirm({
+          title: 'Confirm Position Change',
+          content: `Change position of ${selectedRowKeys.length} products?`,
+          okText: 'Yes',
+          cancelText: 'Cancel',
+          onOk: async () => {
+            try {
+              const data = selectedRowKeys.map(key => {
+                const editedPosition = editedPositions[key]
+                const originalProduct = products.find(p => p._id === key)
+
+                return {
+                  _id: key,
+                  position: editedPosition !== undefined ? editedPosition : originalProduct?.position || 0
+                }
+              })
+              await changePositionManyProducts(data)
+              setProducts(prev =>
+                prev.map(p => {
+                  const edited = data.find(d => d._id === p._id)
+                  return edited ? { ...p, position: edited.position } : p
+                })
+              )
+              message.success(`✅ Changed position for ${selectedRowKeys.length} products`)
+              setSelectedRowKeys([])
+              setValue(undefined)
+            } catch (err) {
+              console.error('Failed to change positions:', err)
+              message.error('❌ Failed to change positions.')
+            }
+          }
+        })
+        break
 
       default:
         message.warning('⚠️ This action is not supported yet.')
