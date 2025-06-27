@@ -12,7 +12,7 @@ import { Button, message, Modal, Pagination, Space, Table, Tag } from 'antd'
 import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
-import { deleteProduct, getAdminProducts, toggleProductStatus } from '../../services/productService'
+import { deleteManyProducts, deleteProduct, getAdminProducts, toggleProductStatus } from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -275,6 +275,29 @@ function AdminProductsPages() {
     })
   }
 
+  const handleDeleteSelected = () => {
+    Modal.confirm({
+      title: 'Confirm Delete',
+      content: `Are you sure you want to delete ${selectedRowKeys.length} selected products?`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk: async () => {
+        try {
+          console.log('Selected IDs:', selectedRowKeys)
+          await deleteManyProducts(selectedRowKeys)
+          message.success(`🗑️ Deleted ${selectedRowKeys.length} products successfully!`)
+          setProducts(prev => prev.filter(p => !selectedRowKeys.includes(p._id)))
+          setTotalProducts(prev => prev - selectedRowKeys.length)
+          setSelectedRowKeys([])
+        } catch (err) {
+          console.error('Failed to delete products:', err)
+          message.error('❌ Failed to delete selected products.')
+        }
+      }
+    })
+  }
+
   return (
     <>
       <div className="products-wrap">
@@ -309,7 +332,13 @@ function AdminProductsPages() {
               ADD
             </Button>
           </Link>
-          <Button style={{ fontWeight: '700' }} variant="solid" color="danger" disabled={!selectedRowKeys.length}>
+          <Button
+            onClick={handleDeleteSelected}
+            style={{ fontWeight: '700' }}
+            variant="solid"
+            color="danger"
+            disabled={!selectedRowKeys.length}
+          >
             <CloseCircleFilled />
             DELETE
           </Button>

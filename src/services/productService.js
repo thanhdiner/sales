@@ -29,3 +29,9 @@ export const toggleProductStatus = async (id, status) => {
     status
   })
 }
+
+export const deleteManyProducts = async ids => {
+  return await patch('admin/products/delete-many', {
+    ids
+  })
+}
