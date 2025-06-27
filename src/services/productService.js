@@ -1,4 +1,4 @@
-import { get } from '../utils/request'
+import { get, post } from '../utils/request'
 
 //# client
 export const getProducts = async () => {
@@ -12,4 +12,8 @@ export const getProductDetail = async slug => {
 //# admin
 export const getAdminProducts = async (page = 1, limit = 10) => {
   return await get(`admin/products?page=${page}&limit=${limit}`)
+}
+
+export const createProduct = async data => {
+  return await post('admin/products/create', data)
 }

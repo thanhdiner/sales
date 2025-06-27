@@ -16,3 +16,25 @@ export const get = async path => {
     throw error
   }
 }
+
+export const post = async (path, data) => {
+  try {
+    const res = await fetch(API_DOMAIN + path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(`API Error ${res.status}: ${errorText}`)
+    }
+
+    return await res.json()
+  } catch (error) {
+    console.error('Fetch error:', error.message)
+    throw error
+  }
+}

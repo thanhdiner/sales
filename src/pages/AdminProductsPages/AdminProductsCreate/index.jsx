@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select } from 'antd'
+import { createProduct } from '../../../services/productService'
+import { message } from 'antd'
 
 const { RangePicker } = DatePicker
 
@@ -26,17 +28,11 @@ const CreateProductPage = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:3001/api/v1/admin/products/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-
-      if (!res.ok) throw new Error('Failed to create product')
-
+      await createProduct(payload)
       navigate('/admin/products&categories/products')
+      message.success('🎉 Product created successfully!')
     } catch (err) {
-      console.error('Lỗi tạo sản phẩm:', err)
+      message.error('❌ Failed to create product!')
     } finally {
       setLoading(false)
     }
