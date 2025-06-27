@@ -64,8 +64,6 @@ function LayoutAdmin() {
     { key: 'logout', label: <span>Đăng xuất</span> }
   ]
 
-  const activeKey = menuItems.find(item => location.pathname.includes(`/admin/${item.key}`))?.key || 'dashboard'
-
   return (
     <div>
       <Layout>
@@ -77,7 +75,12 @@ function LayoutAdmin() {
             </div>
           </Link>
 
-          <Menu onClick={({ key }) => navigate(key)} mode="inline" selectedKeys={[activeKey]} items={menuItems} />
+          <Menu
+            onClick={({ key }) => navigate(`/admin/${key}`)}
+            mode="inline"
+            selectedKeys={[location.pathname.replace('/admin/', '')]}
+            items={menuItems}
+          />
         </Sider>
         <Layout style={{ background: '#fafafa' }}>
           <Header colorBgContainer={colorBgContainer}>

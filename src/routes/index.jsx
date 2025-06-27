@@ -12,6 +12,7 @@ import LayoutAdmin from '../Layout/LayoutAdmin'
 import AdminProductsPages from '../pages/AdminProductsPages'
 import AdminProductsDetails from '../pages/AdminProductsPages/AdminProductsDetails'
 import { Navigate } from 'react-router-dom'
+import AdminProductsCreate from '../pages/AdminProductsPages/AdminProductsCreate'
 
 export const routes = [
   // Client
@@ -71,8 +72,12 @@ export const routes = [
         element: <AdminProductsPages />
       },
       {
-        path: '/admin/products/details/:slug',
+        path: '/admin/products&categories/products/details/:slug',
         element: <AdminProductsDetails />
+      },
+      {
+        path: '/admin/products&categories/products/create',
+        element: <AdminProductsCreate />
       },
       {
         path: '*',

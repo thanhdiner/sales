@@ -12,10 +12,10 @@ import { Button, Pagination, Space, Table, Tag } from 'antd'
 import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
-import Link from 'antd/es/typography/Link'
 import { getAdminProducts } from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 function AdminProductsPages() {
   // const [columnsVisible, setColumnsVisible] = useState({
   //   title: true,
@@ -41,7 +41,6 @@ function AdminProductsPages() {
         setProducts(result.products)
         setLimitItems(result.limitItems)
         setTotalProducts(result.total)
-        setCurrentPage(result.currentPage)
       } finally {
         setIsLoading(false)
       }
@@ -93,7 +92,7 @@ function AdminProductsPages() {
       key: 'title',
       className: 'ant-table-cell-style',
       render: (productName, record) => (
-        <Link href={`/admin/products/details/${record.slug}`} target="_blank">
+        <Link href={`/admin/products&categories/products/details/${record.slug}`} target="_blank">
           {productName}
         </Link>
       )
@@ -102,21 +101,22 @@ function AdminProductsPages() {
       title: 'Thumbnail',
       dataIndex: 'thumbnail',
       key: 'thumbnail',
-      width: 120,
       className: 'ant-table-cell-style',
       render: (thumbnail, record) => (
-        <img
-          src={thumbnail}
-          alt={record.productName}
-          style={{
-            padding: 5,
-            width: 100,
-            height: 50,
-            objectFit: 'cover',
-            borderRadius: 3,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
-          }}
-        />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img
+            src={thumbnail}
+            alt={record.productName}
+            style={{
+              padding: 3,
+              width: 50,
+              height: 30,
+              objectFit: 'cover',
+              borderRadius: 3,
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+            }}
+          />
+        </div>
       )
     },
     {
@@ -127,8 +127,29 @@ function AdminProductsPages() {
         </div>
       ),
       dataIndex: 'position',
-      className: 'ant-table-cell-style',
-      key: 'position'
+      className: 'ant-table-cell-style position-column',
+      key: 'position',
+      render: (value, record) => (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <input
+            type="number"
+            defaultValue={value}
+            style={{
+              width: '100%',
+              maxWidth: 60,
+              textAlign: 'center',
+              padding: '2px 6px',
+              border: '1px solid #ccc',
+              borderRadius: 4
+            }}
+            onChange={e => {
+              const newValue = e.target.value
+              console.log(`Change position of ${record.title} to ${newValue}`)
+              // Bạn có thể gọi API update ở đây nếu muốn
+            }}
+          />
+        </div>
+      )
     },
     {
       title: (
@@ -215,8 +236,8 @@ function AdminProductsPages() {
     <>
       <div className="products-wrap">
         <div className="admin-title">
-          <UnorderedListOutlined style={{ fontSize: '25px' }} />
-          <h1>Product Manager</h1>
+          <UnorderedListOutlined style={{ fontSize: '16px' }} />
+          <h1 className="products-heading">Product Manager</h1>
         </div>
         <div className="products-utility">
           <Button color="cyan" variant="solid">
@@ -239,10 +260,12 @@ function AdminProductsPages() {
           Selected <span style={{ fontWeight: 'bold' }}>{selectedRowKeys.length}</span> items
         </span>
         <div className="products-header-right">
-          <Button style={{ fontWeight: '700' }} variant="outlined" className="custom-btn-blue">
-            <PlusCircleFilled />
-            ADD
-          </Button>
+          <Link to="/admin/products&categories/products/create">
+            <Button style={{ fontWeight: '700' }} variant="outlined" className="custom-btn-blue">
+              <PlusCircleFilled />
+              ADD
+            </Button>
+          </Link>
           <Button style={{ fontWeight: '700' }} variant="solid" color="danger" disabled={!selectedRowKeys.length}>
             <CloseCircleFilled />
             DELETE
