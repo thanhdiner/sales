@@ -19,5 +19,13 @@ export const createProduct = async data => {
 }
 
 export const deleteProduct = async id => {
-  return await patch(`admin/products/delete/${id}`)
+  return await patch(`admin/products/delete/${id}`, {
+    deleted: true
+  })
+}
+
+export const toggleProductStatus = async (id, status) => {
+  return await patch(`admin/products/changeStatus/${id}`, {
+    status
+  })
 }

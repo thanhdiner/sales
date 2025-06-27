@@ -12,7 +12,7 @@ import { Button, message, Modal, Pagination, Space, Table, Tag } from 'antd'
 import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
-import { deleteProduct, getAdminProducts } from '../../services/productService'
+import { deleteProduct, getAdminProducts, toggleProductStatus } from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -198,7 +198,33 @@ function AdminProductsPages() {
       className: 'ant-table-cell-style',
       key: 'status',
       width: 100,
-      render: status => <Tag color={status === 'active' ? 'green' : 'red'}>{status}</Tag>
+      render: (status, record) => (
+        <Tag
+          color={status === 'active' ? 'green' : 'red'}
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            Modal.confirm({
+              title: 'Change Product Status',
+              content: `Are you sure you want to change status of "${record.title}" from "${status}" to "${
+                status === 'active' ? 'inactive' : 'active'
+              }"?`,
+              okText: 'Yes',
+              cancelText: 'No',
+              onOk: async () => {
+                try {
+                  const updated = await toggleProductStatus(record._id, status)
+                  setProducts(prev => prev.map(p => (p._id === record._id ? { ...p, status: updated.status } : p)))
+                  message.success(`✅ Status updated to ${updated.status}`)
+                } catch (err) {
+                  message.error('❌ Failed to update status')
+                }
+              }
+            })
+          }}
+        >
+          {status}
+        </Tag>
+      )
     },
     {
       title: 'Action',

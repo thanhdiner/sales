@@ -39,14 +39,14 @@ export const post = async (path, data) => {
   }
 }
 
-export const patch = async path => {
+export const patch = async (path, data = {}) => {
   try {
     const res = await fetch(API_DOMAIN + path, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ deleted: true })
+      body: JSON.stringify(data)
     })
 
     if (!res.ok) {
