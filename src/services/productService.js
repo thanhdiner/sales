@@ -35,3 +35,10 @@ export const deleteManyProducts = async ids => {
     ids
   })
 }
+
+export const changeStatusManyProducts = async (ids, status) => {
+  return await patch('admin/products/change-status-many', {
+    ids,
+    status
+  })
+}

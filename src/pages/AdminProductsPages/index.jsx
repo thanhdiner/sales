@@ -8,11 +8,17 @@ import {
   TableOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons'
-import { Button, message, Modal, Pagination, Space, Table, Tag } from 'antd'
+import { Button, message, Modal, Pagination, Space, Table, Tag, TreeSelect } from 'antd'
 import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
-import { deleteManyProducts, deleteProduct, getAdminProducts, toggleProductStatus } from '../../services/productService'
+import {
+  changeStatusManyProducts,
+  deleteManyProducts,
+  deleteProduct,
+  getAdminProducts,
+  toggleProductStatus
+} from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -32,6 +38,7 @@ function AdminProductsPages() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [value, setValue] = useState()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -240,6 +247,32 @@ function AdminProductsPages() {
     }
   ]
 
+  const treeData = [
+    {
+      title: 'Delete',
+      value: 'delete'
+    },
+    {
+      title: 'Change Position',
+      value: 'change-position'
+    },
+    {
+      title: 'Change Status',
+      value: 'change-status',
+      disabled: true,
+      children: [
+        {
+          title: 'Active',
+          value: 'status-active'
+        },
+        {
+          title: 'Inactive',
+          value: 'status-inactive'
+        }
+      ]
+    }
+  ]
+
   //# handler
   const handleToggleFilter = () => {
     setIsFilterVisible(!isFilterVisible)
@@ -275,27 +308,62 @@ function AdminProductsPages() {
     })
   }
 
-  const handleDeleteSelected = () => {
-    Modal.confirm({
-      title: 'Confirm Delete',
-      content: `Are you sure you want to delete ${selectedRowKeys.length} selected products?`,
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk: async () => {
-        try {
-          console.log('Selected IDs:', selectedRowKeys)
-          await deleteManyProducts(selectedRowKeys)
-          message.success(`🗑️ Deleted ${selectedRowKeys.length} products successfully!`)
-          setProducts(prev => prev.filter(p => !selectedRowKeys.includes(p._id)))
-          setTotalProducts(prev => prev - selectedRowKeys.length)
-          setSelectedRowKeys([])
-        } catch (err) {
-          console.error('Failed to delete products:', err)
-          message.error('❌ Failed to delete selected products.')
-        }
+  const handleApplyAction = () => {
+    if (!selectedRowKeys.length) return message.warning('⚠️ Please select products first.')
+    if (!value) return message.warning('⚠️ Please choose an action.')
+
+    switch (value) {
+      case 'delete':
+        Modal.confirm({
+          title: 'Confirm Delete',
+          content: `Are you sure you want to delete ${selectedRowKeys.length} selected products?`,
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'Cancel',
+          onOk: async () => {
+            try {
+              await deleteManyProducts(selectedRowKeys)
+              message.success(`🗑️ Deleted ${selectedRowKeys.length} products successfully!`)
+              setProducts(prev => prev.filter(p => !selectedRowKeys.includes(p._id)))
+              setTotalProducts(prev => prev - selectedRowKeys.length)
+              setSelectedRowKeys([])
+              setValue(undefined)
+            } catch (err) {
+              console.error('Failed to delete products:', err)
+              message.error('❌ Failed to delete selected products.')
+            }
+          }
+        })
+        break
+
+      case 'status-active':
+      case 'status-inactive': {
+        const newStatus = value === 'status-active' ? 'active' : 'inactive'
+
+        Modal.confirm({
+          title: 'Confirm Status Change',
+          content: `Change status of ${selectedRowKeys.length} products to "${newStatus}"?`,
+          okText: 'Yes',
+          cancelText: 'Cancel',
+          onOk: async () => {
+            try {
+              await changeStatusManyProducts(selectedRowKeys, newStatus)
+              setProducts(prev => prev.map(p => (selectedRowKeys.includes(p._id) ? { ...p, status: newStatus } : p)))
+              message.success(`✅ Status updated to "${newStatus}" for ${selectedRowKeys.length} products`)
+              setSelectedRowKeys([])
+              setValue(undefined)
+            } catch (err) {
+              console.error('Failed to update status:', err)
+              message.error('❌ Failed to change status.')
+            }
+          }
+        })
+        break
       }
-    })
+
+      default:
+        message.warning('⚠️ This action is not supported yet.')
+    }
   }
 
   return (
@@ -332,7 +400,7 @@ function AdminProductsPages() {
               ADD
             </Button>
           </Link>
-          <Button
+          {/* <Button
             onClick={handleDeleteSelected}
             style={{ fontWeight: '700' }}
             variant="solid"
@@ -341,6 +409,19 @@ function AdminProductsPages() {
           >
             <CloseCircleFilled />
             DELETE
+          </Button> */}
+          <TreeSelect
+            style={{ width: 160 }}
+            value={value}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treeData}
+            placeholder="Choice Action"
+            treeDefaultExpandAll
+            onChange={setValue}
+            allowClear
+          />
+          <Button type="primary" disabled={!value || !selectedRowKeys.length} onClick={() => handleApplyAction()}>
+            Apply
           </Button>
         </div>
       </div>
