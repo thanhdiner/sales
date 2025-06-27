@@ -8,11 +8,11 @@ import {
   TableOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons'
-import { Button, Pagination, Space, Table, Tag } from 'antd'
+import { Button, message, Modal, Pagination, Space, Table, Tag } from 'antd'
 import './AdminProductsPages.scss'
 import { useEffect, useState } from 'react'
 import AdminProductsFilter from '../../components/AdminProductsFilter'
-import { getAdminProducts } from '../../services/productService'
+import { deleteProduct, getAdminProducts } from '../../services/productService'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -229,7 +229,24 @@ function AdminProductsPages() {
   }
 
   const handleDelete = record => {
-    console.log('Delete product:', record)
+    Modal.confirm({
+      title: 'Confirm Delete',
+      content: `Are you sure you want to delete product "${record.title}"?`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk: async () => {
+        try {
+          await deleteProduct(record._id)
+          message.success('🗑️ Product deleted successfully!')
+          setTotalProducts(prev => prev - 1)
+          setProducts(prev => prev.filter(p => p._id !== record._id))
+          setSelectedRowKeys([])
+        } catch (err) {
+          message.error('❌ Failed to delete product.')
+        }
+      }
+    })
   }
 
   return (

@@ -1,4 +1,4 @@
-import { get, post } from '../utils/request'
+import { get, patch, post } from '../utils/request'
 
 //# client
 export const getProducts = async () => {
@@ -16,4 +16,8 @@ export const getAdminProducts = async (page = 1, limit = 10) => {
 
 export const createProduct = async data => {
   return await post('admin/products/create', data)
+}
+
+export const deleteProduct = async id => {
+  return await patch(`admin/products/delete/${id}`)
 }

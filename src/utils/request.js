@@ -38,3 +38,25 @@ export const post = async (path, data) => {
     throw error
   }
 }
+
+export const patch = async path => {
+  try {
+    const res = await fetch(API_DOMAIN + path, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ deleted: true })
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(`API Error ${res.status}: ${errorText}`)
+    }
+
+    return await res.json()
+  } catch (error) {
+    console.error('Fetch error:', error.message)
+    throw error
+  }
+}
