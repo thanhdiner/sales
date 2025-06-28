@@ -48,3 +48,11 @@ export const changePositionManyProducts = async data => {
     data
   })
 }
+
+export const getProductById = async id => {
+  return await get(`admin/products/${id}`)
+}
+
+export const updateProductById = async (id, data) => {
+  return await patch(`admin/products/edit/${id}`, data)
+}

@@ -13,6 +13,7 @@ import AdminProductsPages from '../pages/AdminProductsPages'
 import AdminProductsDetails from '../pages/AdminProductsPages/AdminProductsDetails'
 import { Navigate } from 'react-router-dom'
 import AdminProductsCreate from '../pages/AdminProductsPages/AdminProductsCreate'
+import AdminProductsEdit from '../pages/AdminProductsPages/AdminProductsEdit'
 
 export const routes = [
   // Client
@@ -78,6 +79,10 @@ export const routes = [
       {
         path: '/admin/products&categories/products/create',
         element: <AdminProductsCreate />
+      },
+      {
+        path: '/admin/products&categories/products/edit/:id',
+        element: <AdminProductsEdit />
       },
       {
         path: '*',

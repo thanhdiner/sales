@@ -1,5 +1,4 @@
 import {
-  CloseCircleFilled,
   DeleteOutlined,
   EditOutlined,
   FilePdfOutlined,
@@ -244,7 +243,9 @@ function AdminProductsPages() {
       width: 100,
       render: (_, record) => (
         <Space size="middle">
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
+          <Link to={`/admin/products&categories/products/edit/${record._id}`}>
+            <Button icon={<EditOutlined />} />
+          </Link>
           <Button color="danger" variant="outlined" icon={<DeleteOutlined />} onClick={() => handleDelete(record)} />
         </Space>
       )
@@ -285,10 +286,6 @@ function AdminProductsPages() {
   const handleChangePage = page => {
     setCurrentPage(page)
     setSelectedRowKeys([])
-  }
-
-  const handleEdit = record => {
-    console.log('Editing product:', record)
   }
 
   const handleDelete = record => {
