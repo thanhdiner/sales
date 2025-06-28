@@ -20,23 +20,26 @@ ul li {
   column-gap: 15px;
 }
 
-.custom-btn-orange {
-  background: #ff8904;
+.admin-heading {
+  font-size: 16px;
+}
+
+@mixin custom-btn($bg-color, $hover-color: darken($bg-color, 10%)) {
+  background: $bg-color;
   color: #fff;
-  border-color: #ff8904;
+  border-color: $bg-color;
+
   &:hover {
-    background: #f4a244 !important;
-    border-color: #f4a244 !important;
+    background: $hover-color !important;
+    border-color: $hover-color !important;
     color: #fff !important;
   }
 }
+
+.custom-btn-orange {
+  @include custom-btn(#ff8904, #f4a244);
+}
+
 .custom-btn-blue {
-  background: #39df55;
-  color: #fff;
-  border-color: #39df55;
-  &:hover {
-    background: #5ff478 !important;
-    border-color: #5ff478 !important;
-    color: #fff !important;
-  }
+  @include custom-btn(#39df55, #5ff478);
 }

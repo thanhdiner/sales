@@ -14,58 +14,45 @@
   background: #fafafa;
   width: 100%;
   margin-top: 10px;
-}
 
-.products-filter-form {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 15px;
-  padding: 15px 20px 0;
-}
+  &-form {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    padding: 15px 20px 0;
+  }
 
-.products-filter .ant-form-item {
-  flex: 1 1 22%;
-  min-width: 200px;
-}
+  .ant-form-item {
+    flex: 1 1 22%;
+    min-width: 200px;
+  }
 
-.products-filter .ant-form-item-label {
-  display: inline-block;
-  font-weight: 600;
-}
+  .ant-form-item-label {
+    font-weight: 600;
+  }
 
-.products-filter .ant-select,
-.products-filter .ant-input {
-  width: 100%;
+  .ant-select,
+  .ant-input {
+    width: 100%;
+  }
 }
 
 .product-filter {
   display: flex;
-  gap: 10px;
   justify-content: flex-end;
-}
-
-.ant-form-item-row {
-  display: block;
-}
-
-.toggle-columns-btn {
-  background: #ff8904;
-  color: #fff;
-  border-color: #ff8904;
-}
-.toggle-columns-btn:hover {
-  background: red !important;
-  border-color: red;
+  gap: 10px;
 }
 
 .products-table {
   margin-top: 10px;
 }
 
-.ant-table-cell-style {
-  vertical-align: middle !important;
+.ant-table-column-sorters.sortable {
+  cursor: pointer;
+  column-gap: 10px;
 }
 
+.ant-table-cell-style,
 .ant-table-selection-column {
   vertical-align: middle !important;
 }
@@ -74,7 +61,7 @@
   padding: 0 !important;
 }
 
-.ant-checkbox-wrapper.css-dev-only-do-not-override-apn68 {
+.ant-checkbox-wrapper {
   padding: 16px 8px !important;
   display: flex !important;
   align-items: center !important;
@@ -86,6 +73,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   &-right {
     display: flex;
     align-items: center;
@@ -93,18 +81,20 @@
   }
 }
 
-.products-table-pagination {
+.products-pagination {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 12px;
 }
 
-.ant-table-column-sorters.sortable {
-  cursor: pointer;
-  column-gap: 10px;
-}
+.toggle-columns-btn {
+  background: #ff8904;
+  color: #fff;
+  border-color: #ff8904;
 
-.products-heading {
-  font-size: 16px;
+  &:hover {
+    background: red !important;
+    border-color: red !important;
+  }
 }
