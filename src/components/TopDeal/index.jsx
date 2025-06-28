@@ -15,7 +15,7 @@ function TopDeal() {
   useEffect(() => {
     const fetchApi = async () => {
       const result = await getProducts()
-      setProducts(result.reverse())
+      setProducts(result)
     }
     fetchApi()
   }, [])
