@@ -40,12 +40,14 @@ function AdminProductsPages() {
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState()
   const [editedPositions, setEditedPositions] = useState({})
+  const [sortOrder, setSortOrder] = useState(null) // 'ascend' | 'descend' | null
+  const [sortField, setSortField] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const result = await getAdminProducts(currentPage, limitItems)
+        const result = await getAdminProducts(currentPage, limitItems, sortField, sortOrder)
         setProducts(result.products)
         setLimitItems(result.limitItems)
         setTotalProducts(result.total)
@@ -54,7 +56,7 @@ function AdminProductsPages() {
       }
     }
     fetchData()
-  }, [currentPage, limitItems])
+  }, [currentPage, limitItems, sortField, sortOrder])
 
   const rowSelection = {
     selectedRowKeys,
@@ -64,17 +66,11 @@ function AdminProductsPages() {
     }
   }
 
-  const [sortOrder, setSortOrder] = useState(null) // 'ascend' | 'descend' | null
-  const [sortField, setSortField] = useState(null)
-
   const handleSort = field => {
-    console.log('Sorting by field:', field)
     if (sortField !== field) {
       setSortField(field)
       setSortOrder('ascend')
-    } else {
-      setSortOrder(prev => (prev === 'ascend' ? 'descend' : prev === 'descend' ? null : 'ascend'))
-    }
+    } else setSortOrder(prev => (prev === 'ascend' ? 'descend' : prev === 'descend' ? null : 'ascend'))
   }
 
   const columns = [

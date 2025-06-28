@@ -10,8 +10,14 @@ export const getProductDetail = async slug => {
 }
 
 //# admin
-export const getAdminProducts = async (page = 1, limit = 10) => {
-  return await get(`admin/products?page=${page}&limit=${limit}`)
+export const getAdminProducts = async (page = 1, limit = 10, sortField, sortOrder) => {
+  const query = new URLSearchParams({
+    page,
+    limit,
+    ...(sortField && sortOrder ? { sortField, sortOrder } : {})
+  }).toString()
+
+  return await get(`admin/products?${query}`)
 }
 
 export const createProduct = async data => {
