@@ -10,11 +10,12 @@ export const getProductDetail = async slug => {
 }
 
 //# admin
-export const getAdminProducts = async (page = 1, limit = 10, sortField, sortOrder) => {
+export const getAdminProducts = async ({ page = 1, limit = 10, sortField, sortOrder, ...rest }) => {
   const query = new URLSearchParams({
     page,
     limit,
-    ...(sortField && sortOrder ? { sortField, sortOrder } : {})
+    ...(sortField && sortOrder ? { sortField, sortOrder } : {}),
+    ...rest
   }).toString()
 
   return await get(`admin/products?${query}`)

@@ -11,18 +11,20 @@
 }
 
 .products-filter {
+  background: #fafafa;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.products-filter-form {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 10px;
-  background: #fafafa;
-  padding: 5px 0 15px 20px;
-  width: 100%;
+  column-gap: 15px;
+  padding: 15px 20px 0;
 }
 
 .products-filter .ant-form-item {
-  flex: 1 1 30%;
+  flex: 1 1 22%;
   min-width: 200px;
 }
 
@@ -36,10 +38,10 @@
   width: 100%;
 }
 
-.products-filter .ant-btn {
-  margin-top: 15px;
-  left: 100%;
-  transform: translateX(-100%);
+.product-filter {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .ant-form-item-row {

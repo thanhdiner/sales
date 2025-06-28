@@ -31,7 +31,7 @@ function AdminProductsPages() {
   // })
 
   //# state
-  const [isFilterVisible, setIsFilterVisible] = useState(true)
+  const [isFilterVisible, setIsFilterVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [limitItems, setLimitItems] = useState(10)
   const [totalProducts, setTotalProducts] = useState(0)
@@ -40,14 +40,21 @@ function AdminProductsPages() {
   const [isLoading, setIsLoading] = useState(false)
   const [value, setValue] = useState()
   const [editedPositions, setEditedPositions] = useState({})
-  const [sortOrder, setSortOrder] = useState(null) // 'ascend' | 'descend' | null
+  const [sortOrder, setSortOrder] = useState(null)
   const [sortField, setSortField] = useState(null)
+  const [filterValues, setFilterValues] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const result = await getAdminProducts(currentPage, limitItems, sortField, sortOrder)
+        const result = await getAdminProducts({
+          page: currentPage,
+          limit: limitItems,
+          sortField,
+          sortOrder,
+          ...filterValues
+        })
         setProducts(result.products)
         setLimitItems(result.limitItems)
         setTotalProducts(result.total)
@@ -55,8 +62,9 @@ function AdminProductsPages() {
         setIsLoading(false)
       }
     }
+
     fetchData()
-  }, [currentPage, limitItems, sortField, sortOrder])
+  }, [currentPage, limitItems, sortField, sortOrder, filterValues])
 
   const rowSelection = {
     selectedRowKeys,
@@ -397,6 +405,13 @@ function AdminProductsPages() {
     }
   }
 
+  const handleFilter = values => {
+    const { show, ...rest } = values
+    setCurrentPage(1)
+    setLimitItems(show ? parseInt(show) : 10)
+    setFilterValues(rest)
+  }
+
   return (
     <>
       <div className="products-wrap">
@@ -419,7 +434,7 @@ function AdminProductsPages() {
           </Button>
         </div>
       </div>
-      {isFilterVisible && <AdminProductsFilter />}
+      {isFilterVisible && <AdminProductsFilter onFilter={handleFilter} />}
       <div className="products-header">
         <span style={{ marginLeft: 8 }}>
           Selected <span style={{ fontWeight: 'bold' }}>{selectedRowKeys.length}</span> items
@@ -431,16 +446,6 @@ function AdminProductsPages() {
               ADD
             </Button>
           </Link>
-          {/* <Button
-            onClick={handleDeleteSelected}
-            style={{ fontWeight: '700' }}
-            variant="solid"
-            color="danger"
-            disabled={!selectedRowKeys.length}
-          >
-            <CloseCircleFilled />
-            DELETE
-          </Button> */}
           <TreeSelect
             style={{ width: 160 }}
             value={value}
