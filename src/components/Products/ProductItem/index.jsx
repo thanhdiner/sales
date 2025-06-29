@@ -4,20 +4,15 @@ import { Badge, Rate } from 'antd'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart } from '../../../stores/cart'
+import { formatVND } from '../../../helpers/formatCurrency'
 
 function ProductItem(props) {
   const carts = useSelector(store => store.cart.items)
   console.log(carts)
   const { product, isDragging } = props
 
-  const priceNew = ((product.price * (100 - product.discountPercentage)) / 100).toLocaleString('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  })
-  const price = product.price.toLocaleString('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  })
+  const priceNew = formatVND((product.price * (100 - product.discountPercentage)) / 100)
+  const price = formatVND(product.price)
 
   const dispatch = useDispatch()
   const handleAddToCart = () => {
@@ -49,10 +44,14 @@ function ProductItem(props) {
                 {priceNew}
                 <sup>₫</sup>
               </p>
-              <p className="products__price--old">
-                {price}
-                <sup>₫</sup>
-              </p>
+              {product.discountPercentage > 0 ? (
+                <p className="products__price--old">
+                  {price}
+                  <span className="currency">đ</span>
+                </p>
+              ) : (
+                <p className="products__price--old placeholder">&nbsp;</p>
+              )}
             </span>
           </div>
         </Link>

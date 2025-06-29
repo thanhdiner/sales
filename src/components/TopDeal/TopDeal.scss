@@ -54,10 +54,7 @@
     font-size: 1.3rem;
     font-weight: 500;
     &-wrap {
-      display: flex;
-      flex-wrap: wrap;
       margin-top: 5px;
-      column-gap: 10px;
     }
     sup {
       font-size: 80%;
@@ -67,6 +64,10 @@
       font-size: 0.9rem;
       font-weight: 500;
       color: #999;
+      &.placeholder {
+        visibility: hidden;
+        height: 1.2em;
+      }
     }
   }
   &__footer {

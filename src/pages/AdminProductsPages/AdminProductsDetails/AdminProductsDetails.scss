@@ -1,0 +1,79 @@
+$font-main: 'system-ui', sans-serif;
+$grey-light: #f9f9f9;
+$border: 1px solid #eee;
+
+.admin-product {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: $font-main;
+
+  &__title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__layout {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__info {
+    flex: 2;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td:first-child {
+      width: 200px;
+      background: $grey-light;
+      font-weight: 500;
+    }
+
+    tr {
+      border-bottom: $border;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  &__content {
+    margin-top: 2rem;
+
+    h3 {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    &-inner {
+      line-height: 1.6;
+    }
+  }
+
+  &__thumb {
+    flex: 1;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      font-size: 0.9rem;
+      color: #555;
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    color: #999;
+  }
+}

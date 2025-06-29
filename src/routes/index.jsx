@@ -73,7 +73,7 @@ export const routes = [
         element: <AdminProductsPages />
       },
       {
-        path: '/admin/products&categories/products/details/:slug',
+        path: '/admin/products&categories/products/details/:id',
         element: <AdminProductsDetails />
       },
       {

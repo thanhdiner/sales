@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 function FieldTitle({ productName, record }) {
   return (
-    <Link href={`/admin/products&categories/products/details/${record.slug}`} target="_blank">
+    <Link to={`/admin/products&categories/products/details/${record._id}`} target="_blank">
       {productName}
     </Link>
   )
