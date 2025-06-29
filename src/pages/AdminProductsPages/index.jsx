@@ -15,6 +15,7 @@ function AdminProductsPages() {
     position: true,
     discountPercentage: true,
     status: true,
+    thumbnail: true,
     actions: true
   })
 
