@@ -14,9 +14,8 @@ function AdminProductsEdit() {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      setLoading(true)
       try {
-        const product = await getProductById(id)
+        const { product } = await getProductById(id)
         if (!product) throw new Error('Not found')
 
         form.setFieldsValue({
@@ -26,13 +25,11 @@ function AdminProductsEdit() {
       } catch (err) {
         message.error('❌ Failed to load product')
         navigate('/admin/products&categories/products')
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchProduct()
-  }, [id, form, navigate])
+  }, [id, navigate, form])
 
   const handleSubmit = async values => {
     setLoading(true)
@@ -110,7 +107,12 @@ function AdminProductsEdit() {
         <Button onClick={() => navigate('/admin/products&categories/products')} disabled={loading} style={{ marginRight: 8 }}>
           Cancel
         </Button>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 140 }}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={loading} // 🎯 loading nút ở đây
+          style={{ width: 140 }}
+        >
           {loading ? 'Saving...' : 'Save Changes'}
         </Button>
       </Form.Item>
