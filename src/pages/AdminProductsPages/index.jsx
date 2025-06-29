@@ -55,7 +55,7 @@ function AdminProductsPages() {
 
   return (
     <>
-      <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible }} />
+      <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, products }} />
       <AdminProductsHeaderActions
         {...{ selectedRowKeys, value, setValue, products, setProducts, setTotalProducts, setSelectedRowKeys, editedPositions }}
       />

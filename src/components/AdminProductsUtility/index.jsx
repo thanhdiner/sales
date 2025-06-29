@@ -1,7 +1,31 @@
-import { FilePdfOutlined, FilterOutlined, TableOutlined } from '@ant-design/icons'
+import { FileExcelOutlined, FilterOutlined, TableOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Dropdown } from 'antd'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 
-function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible }) {
+const exportToExcel = (products, columnsVisible) => {
+  if (!products || products.length === 0) return
+
+  const visibleKeys = Object.keys(columnsVisible).filter(k => columnsVisible[k] && !['actions', 'thumbnail'].includes(k))
+
+  const data = products.map(product => {
+    const row = {}
+    visibleKeys.forEach(key => {
+      row[key] = product[key]
+    })
+    return row
+  })
+
+  const worksheet = XLSX.utils.json_to_sheet(data)
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Products')
+
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
+  const file = new Blob([excelBuffer], { type: 'application/octet-stream' })
+  saveAs(file, 'products_export.xlsx')
+}
+
+function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, products }) {
   const allColumns = [
     { label: 'ID', value: '_id' },
     { label: 'Title', value: 'title' },
@@ -85,12 +109,12 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
   const utilityButtons = handleToggleFilter => [
     {
       key: 'export',
-      icon: <FilePdfOutlined />,
+      icon: <FileExcelOutlined />,
       label: 'Export Products',
       className: '',
       color: 'cyan',
       variant: 'solid',
-      onClick: () => console.log('Export not implemented yet')
+      onClick: () => exportToExcel(products, columnsVisible)
     },
     {
       key: 'toggle-columns',
