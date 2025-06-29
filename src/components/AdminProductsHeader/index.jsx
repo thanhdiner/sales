@@ -4,7 +4,7 @@ import AdminProductsUtility from '../AdminProductsUtility'
 import AdminProductsFilter from '../AdminProductsFilter'
 import { useState } from 'react'
 
-function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues }) {
+function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false)
 
   const handleFilter = values => {
@@ -22,7 +22,7 @@ function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues })
     <>
       <div className="products-wrap">
         <AdminTitle icon={<UnorderedListOutlined style={{ fontSize: '16px' }} />} title="Product Manager" />
-        <AdminProductsUtility {...{ handleToggleFilter }} />
+        <AdminProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible }} />
       </div>
       {isFilterVisible && <AdminProductsFilter onFilter={handleFilter} />}
     </>

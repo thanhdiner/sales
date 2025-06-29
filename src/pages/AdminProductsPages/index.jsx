@@ -7,12 +7,16 @@ import AdminProductsHeaderActions from '../../components/AdminProductsHeaderActi
 import AdminProductsHeader from '../../components/AdminProductsHeader'
 
 function AdminProductsPages() {
-  // const [columnsVisible, setColumnsVisible] = useState({
-  //   title: true,
-  //   price: true,
-  //   status: true,
-  //   actions: true
-  // })
+  const [columnsVisible, setColumnsVisible] = useState({
+    _id: true,
+    title: true,
+    price: true,
+    stock: true,
+    position: true,
+    discountPercentage: true,
+    status: true,
+    actions: true
+  })
 
   //# state
   const [currentPage, setCurrentPage] = useState(1)
@@ -51,7 +55,7 @@ function AdminProductsPages() {
 
   return (
     <>
-      <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues }} />
+      <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible }} />
       <AdminProductsHeaderActions
         {...{ selectedRowKeys, value, setValue, products, setProducts, setTotalProducts, setSelectedRowKeys, editedPositions }}
       />
@@ -66,7 +70,8 @@ function AdminProductsPages() {
           setSortField,
           setSortOrder,
           selectedRowKeys,
-          setSelectedRowKeys
+          setSelectedRowKeys,
+          columnsVisible
         }}
       />
       <AdminProductsPagination {...{ currentPage, totalProducts, limitItems, setCurrentPage, setSelectedRowKeys }} />

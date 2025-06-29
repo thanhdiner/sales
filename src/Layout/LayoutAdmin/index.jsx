@@ -1,12 +1,12 @@
-import { AppstoreOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Dropdown, Layout, Menu, theme } from 'antd'
+import { Breadcrumb, Layout, theme } from 'antd'
 import { useEffect, useState } from 'react'
-import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 
 import './LayoutAdmin.scss'
+import SiderLayout from './SiderLayout'
 
-const { Sider, Content } = Layout
+const { Content } = Layout
 
 function LayoutAdmin() {
   const [collapsed, setCollapsed] = useState(false)
@@ -15,7 +15,6 @@ function LayoutAdmin() {
     token: { colorBgContainer, borderRadiusLG }
   } = theme.useToken()
 
-  const navigate = useNavigate()
   const location = useLocation()
 
   const pathSnippets = location.pathname.split('/').filter(i => i)
@@ -41,72 +40,12 @@ function LayoutAdmin() {
     else setShowLogoText(true)
   }, [collapsed])
 
-  const getItem = (label, key, icon, children) => {
-    return {
-      key,
-      icon,
-      children,
-      label
-    }
-  }
-
-  const menuItems = [
-    getItem('Dashboard', 'dashboard', <HomeOutlined />),
-    getItem('Products & Categories', 'products&categories', <AppstoreOutlined />, [
-      getItem('Products', 'products&categories/products'),
-      getItem('Categories', 'products/categories')
-    ])
-  ]
-
-  const items = [
-    { key: 'profile', label: <span>Thông tin cá nhân</span> },
-    { key: 'settings', label: <span>Cài đặt</span> },
-    { key: 'logout', label: <span>Đăng xuất</span> }
-  ]
-
   return (
     <div>
       <Layout>
-        <Sider theme="light" width="235px" trigger={null} collapsible collapsed={collapsed}>
-          <Link to={'/admin/dashboard'}>
-            <div className={`logo-admin ${collapsed ? 'collapsed' : ''}`}>
-              <img src="/logo/logo.png" alt="Diner" className="logo-icon" />
-              <span className={`logo-text ${!showLogoText ? 'hide' : ''}`}>Diner Store</span>
-            </div>
-          </Link>
-
-          <Menu
-            onClick={({ key }) => navigate(`/admin/${key}`)}
-            mode="inline"
-            selectedKeys={[location.pathname.replace('/admin/', '')]}
-            items={menuItems}
-          />
-        </Sider>
+        <SiderLayout {...{ collapsed, showLogoText, location }} />
         <Layout style={{ background: '#fafafa' }}>
-          <Header colorBgContainer={colorBgContainer}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-                width: 64,
-                height: 64
-              }}
-            />
-
-            <div>
-              <Dropdown menu={{ items }} placement="bottomRight" trigger={['click']}>
-                <Button type="text" className="header-avatar-button">
-                  <img
-                    className="header-avatar"
-                    src="https://i.pinimg.com/474x/68/8a/1f/688a1f972abe2aaa9b112a6064f455c2.jpg"
-                    alt="Avatar"
-                  />
-                </Button>
-              </Dropdown>
-            </div>
-          </Header>
+          <Header {...{ colorBgContainer, collapsed, setCollapsed }} />
           <Breadcrumb style={{ margin: '10px 16px 0' }} items={breadcrumbItems} />
           <Content
             style={{

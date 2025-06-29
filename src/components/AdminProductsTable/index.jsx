@@ -18,7 +18,8 @@ function AdminProductsTable({
   setSortField,
   setSortOrder,
   selectedRowKeys,
-  setSelectedRowKeys
+  setSelectedRowKeys,
+  columnsVisible
 }) {
   const sortableTitle = (label, field) => (
     <div onClick={() => handleSort(field)} className="ant-table-column-sorters sortable" style={{ cursor: 'pointer' }}>
@@ -101,6 +102,8 @@ function AdminProductsTable({
     }
   }
 
+  const visibleColumns = columns.filter(col => columnsVisible[col.key] !== false)
+
   //# handler
   const handleSort = field => {
     if (sortField !== field) {
@@ -140,7 +143,7 @@ function AdminProductsTable({
         }}
         rowKey="_id"
         rowSelection={rowSelection}
-        columns={columns}
+        columns={visibleColumns}
         dataSource={products}
         pagination={false}
         bordered
