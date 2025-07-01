@@ -1,5 +1,5 @@
 import './AdminProductsPages.scss'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAdminProducts } from '../../services/productService'
 import AdminProductsTable from '../../components/AdminProductsTable'
 import AdminProductsPagination from '../../components/AdminProductsPagination'
@@ -32,33 +32,46 @@ function AdminProductsPages() {
   const [sortField, setSortField] = useState(null)
   const [filterValues, setFilterValues] = useState({})
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        const result = await getAdminProducts({
-          page: currentPage,
-          limit: limitItems,
-          sortField,
-          sortOrder,
-          ...filterValues
-        })
-        setProducts(result.products)
-        setLimitItems(result.limitItems)
-        setTotalProducts(result.total)
-      } finally {
-        setIsLoading(false)
-      }
+  const fetchData = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await getAdminProducts({
+        page: currentPage,
+        limit: limitItems,
+        sortField,
+        sortOrder,
+        ...filterValues
+      })
+      setProducts(result.products)
+      setLimitItems(result.limitItems)
+      setTotalProducts(result.total)
+    } finally {
+      setIsLoading(false)
     }
-
-    fetchData()
   }, [currentPage, limitItems, sortField, sortOrder, filterValues])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   return (
     <>
       <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, products }} />
       <AdminProductsHeaderActions
-        {...{ selectedRowKeys, value, setValue, products, setProducts, setTotalProducts, setSelectedRowKeys, editedPositions }}
+        {...{
+          selectedRowKeys,
+          value,
+          setValue,
+          products,
+          setProducts,
+          setTotalProducts,
+          setSelectedRowKeys,
+          editedPositions,
+          totalProducts,
+          currentPage,
+          setCurrentPage,
+          fetchData
+        }}
       />
       <AdminProductsTable
         {...{
@@ -72,7 +85,14 @@ function AdminProductsPages() {
           setSortOrder,
           selectedRowKeys,
           setSelectedRowKeys,
-          columnsVisible
+          columnsVisible,
+          totalProducts,
+          currentPage,
+          setCurrentPage,
+          limitItems,
+          sortOrder,
+          filterValues,
+          fetchData
         }}
       />
       <AdminProductsPagination {...{ currentPage, totalProducts, limitItems, setCurrentPage, setSelectedRowKeys }} />

@@ -11,7 +11,11 @@ function AdminProductsHeaderActions({
   setProducts,
   setTotalProducts,
   setSelectedRowKeys,
-  editedPositions
+  editedPositions,
+  totalProducts,
+  currentPage,
+  setCurrentPage,
+  fetchData
 }) {
   const treeData = [
     {
@@ -46,7 +50,20 @@ function AdminProductsHeaderActions({
         <AddButton />
         <SelectList {...{ value, treeData, setValue }} />
         <ApplyButton
-          {...{ value, setValue, selectedRowKeys, products, setProducts, setTotalProducts, setSelectedRowKeys, editedPositions }}
+          {...{
+            value,
+            setValue,
+            selectedRowKeys,
+            products,
+            setProducts,
+            setTotalProducts,
+            setSelectedRowKeys,
+            editedPositions,
+            totalProducts,
+            currentPage,
+            setCurrentPage,
+            fetchData
+          }}
         />
       </div>
     </div>

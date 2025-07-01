@@ -1,7 +1,20 @@
 import { Button, message, Modal } from 'antd'
 import { changePositionManyProducts, changeStatusManyProducts, deleteManyProducts } from '../../services/productService'
 
-function ApplyButton({ value, setValue, selectedRowKeys, products, setProducts, setTotalProducts, setSelectedRowKeys, editedPositions }) {
+function ApplyButton({
+  value,
+  setValue,
+  selectedRowKeys,
+  products,
+  setProducts,
+  setTotalProducts,
+  setSelectedRowKeys,
+  editedPositions,
+  totalProducts,
+  currentPage,
+  setCurrentPage,
+  fetchData
+}) {
   const handleApplyAction = () => {
     if (!selectedRowKeys.length) return message.warning('⚠️ Please select products first.')
     if (!value) return message.warning('⚠️ Please choose an action.')
@@ -18,10 +31,18 @@ function ApplyButton({ value, setValue, selectedRowKeys, products, setProducts, 
             try {
               await deleteManyProducts(selectedRowKeys)
               message.success(`🗑️ Deleted ${selectedRowKeys.length} products successfully!`)
-              setProducts(prev => prev.filter(p => !selectedRowKeys.includes(p._id)))
-              setTotalProducts(prev => prev - selectedRowKeys.length)
+              const updatedProducts = products.filter(p => !selectedRowKeys.includes(p._id))
+              const updatedTotal = totalProducts - selectedRowKeys.length
+
+              setTotalProducts(updatedTotal)
               setSelectedRowKeys([])
               setValue(undefined)
+
+              if (updatedProducts.length === 0 && updatedTotal > 0 && currentPage > 1) {
+                setCurrentPage(prev => prev - 1)
+              } else {
+                await fetchData()
+              }
             } catch (err) {
               console.error('Failed to delete products:', err)
               message.error('❌ Failed to delete selected products.')

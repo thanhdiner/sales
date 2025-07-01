@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { message, Modal, Table } from 'antd'
-import { deleteProduct } from '../../services/productService'
+import { deleteProduct, getAdminProducts } from '../../services/productService'
 import FieldThumbnail from './FieldThumbnail'
 import FieldTitle from './FieldTitle'
 import FieldPosition from './FieldPosition'
@@ -19,7 +19,14 @@ function AdminProductsTable({
   setSortOrder,
   selectedRowKeys,
   setSelectedRowKeys,
-  columnsVisible
+  columnsVisible,
+  totalProducts,
+  currentPage,
+  setCurrentPage,
+  limitItems,
+  sortOrder,
+  filterValues,
+  fetchData
 }) {
   const sortableTitle = (label, field) => (
     <div onClick={() => handleSort(field)} className="ant-table-column-sorters sortable" style={{ cursor: 'pointer' }}>
@@ -123,8 +130,15 @@ function AdminProductsTable({
         try {
           await deleteProduct(record._id)
           message.success('🗑️ Product deleted successfully!')
-          setTotalProducts(prev => prev - 1)
-          setProducts(prev => prev.filter(p => p._id !== record._id))
+          const updatedProducts = products.filter(p => p._id !== record._id)
+          const updatedTotal = totalProducts - 1
+
+          if (updatedProducts.length === 0 && updatedTotal > 0 && currentPage > 1) {
+            setCurrentPage(prev => prev - 1)
+          } else {
+            fetchData()
+          }
+
           setSelectedRowKeys([])
         } catch (err) {
           message.error('❌ Failed to delete product.')
