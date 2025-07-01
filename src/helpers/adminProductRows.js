@@ -9,7 +9,6 @@ export function adminProductRows(p) {
     ['Product', p.title],
     ['Slug', p.slug],
     ['Category', p.productCategory],
-    ['Description', p.description ?? '—'],
     [
       'Price',
       discounted ? (

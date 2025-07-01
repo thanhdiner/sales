@@ -42,19 +42,6 @@ $border: 1px solid #eee;
     }
   }
 
-  &__content {
-    margin-top: 2rem;
-
-    h3 {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    &-inner {
-      line-height: 1.6;
-    }
-  }
-
   &__thumb {
     flex: 1;
     text-align: center;
@@ -75,5 +62,50 @@ $border: 1px solid #eee;
   &__empty {
     text-align: center;
     color: #999;
+  }
+}
+
+.admin-product__table td:last-child {
+  .ProseMirror,
+  div,
+  p {
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0.4rem 0;
+  }
+
+  ul,
+  ol {
+    display: block !important;
+    list-style-position: outside !important;
+    margin: 0.5em 0;
+    padding-left: 1.25em;
+  }
+
+  ul {
+    list-style-type: disc !important;
+  }
+  ol {
+    list-style-type: decimal !important;
+  }
+  li {
+    display: list-item !important;
+    list-style-type: inherit !important;
+    color: inherit;
+    margin-bottom: 0.25em;
+    &::marker {
+      color: #888;
+    }
   }
 }

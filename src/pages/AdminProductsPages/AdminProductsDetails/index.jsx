@@ -36,15 +36,13 @@ function AdminProductsDetails() {
           <div className="admin-product__layout">
             <div className="admin-product__info">
               <table className="admin-product__table">
-                <tbody>{adminProductRows(product).map(([label, value]) => renderRow(label, value))}</tbody>
-              </table>
+                <tbody>
+                  {adminProductRows(product).map(([label, value]) => renderRow(label, value))}
+                  {renderRow('Description', <div dangerouslySetInnerHTML={{ __html: product.description || '—' }} />)}
 
-              {product.content && (
-                <section className="admin-product__content">
-                  <h3>Content</h3>
-                  <div className="admin-product__content-inner" dangerouslySetInnerHTML={{ __html: product.content }} />
-                </section>
-              )}
+                  {renderRow('Content', <div dangerouslySetInnerHTML={{ __html: product.content || '—' }} />)}
+                </tbody>
+              </table>
             </div>
 
             <div className="admin-product__thumb">

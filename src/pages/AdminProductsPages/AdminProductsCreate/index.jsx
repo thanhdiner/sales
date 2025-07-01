@@ -4,6 +4,7 @@ import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Upload 
 import { createProduct } from '../../../services/productService'
 import { message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import TiptapEditor from '../../../components/TiptapEditor'
 
 const { RangePicker } = DatePicker
 
@@ -104,12 +105,12 @@ const CreateProductPage = () => {
       <Row gutter={16}>
         <Col span={24}>
           <Form.Item name="description" label="Short Description">
-            <Input.TextArea rows={3} />
+            <TiptapEditor />
           </Form.Item>
         </Col>
         <Col span={24}>
           <Form.Item name="content" label="Content">
-            <Input.TextArea rows={3} />
+            <TiptapEditor />
           </Form.Item>
         </Col>
         <Col span={24}>

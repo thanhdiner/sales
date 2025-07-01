@@ -4,6 +4,7 @@ import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Upload,
 import dayjs from 'dayjs'
 import { getProductById, updateProductById } from '../../../services/productService'
 import { PlusOutlined } from '@ant-design/icons'
+import TiptapEditor from '../../../components/TiptapEditor'
 
 const { RangePicker } = DatePicker
 
@@ -126,12 +127,12 @@ function AdminProductsEdit() {
       <Row gutter={16}>
         <Col span={24}>
           <Form.Item name="description" label="Short Description">
-            <Input.TextArea rows={3} />
+            <TiptapEditor value={form.getFieldValue('description')} onChange={value => form.setFieldsValue({ description: value })} />
           </Form.Item>
         </Col>
         <Col span={24}>
           <Form.Item name="content" label="Content">
-            <Input.TextArea rows={3} />
+            <TiptapEditor value={form.getFieldValue('content')} onChange={value => form.setFieldsValue({ content: value })} />
           </Form.Item>
         </Col>
         <Col span={24}>

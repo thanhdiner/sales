@@ -1,20 +1,14 @@
 import { extractFileName } from '../../utils/extractFileName'
+import './AdminProductThumbnail.scss'
 
 function ProductThumbnail({ thumbnail, title }) {
   return (
     <>
-      <img
-        src={thumbnail}
-        alt={title}
-        style={{
-          maxWidth: '100%',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          marginBottom: '0.5rem'
-        }}
-      />
-      <div style={{ fontSize: '0.9rem', color: '#555' }}>
-        <strong>{extractFileName(thumbnail)}</strong>
+      <div className="product-thumbnail">
+        <div className="product-thumbnail__image-wrapper">
+          <img className="product-thumbnail__image" src={thumbnail} alt={title} />
+        </div>
+        <p className="product-thumbnail__filename">{extractFileName(thumbnail)}</p>
       </div>
     </>
   )
