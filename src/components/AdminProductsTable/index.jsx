@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { message, Modal, Table } from 'antd'
-import { deleteProduct, getAdminProducts } from '../../services/productService'
+import { deleteProduct } from '../../services/productService'
 import FieldThumbnail from './FieldThumbnail'
 import FieldTitle from './FieldTitle'
 import FieldPosition from './FieldPosition'
@@ -23,9 +23,6 @@ function AdminProductsTable({
   totalProducts,
   currentPage,
   setCurrentPage,
-  limitItems,
-  sortOrder,
-  filterValues,
   fetchData
 }) {
   const sortableTitle = (label, field) => (

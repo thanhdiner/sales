@@ -5,12 +5,13 @@ function FieldThumbnail({ thumbnail, record }) {
         src={thumbnail}
         alt={record.productName}
         style={{
-          padding: 3,
-          width: 50,
-          height: 30,
+          width: 36,
+          height: 36,
+          borderRadius: 6,
           objectFit: 'cover',
-          borderRadius: 3,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+          backgroundColor: '#f5f5f5',
+          padding: 2,
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)'
         }}
       />
     </div>
