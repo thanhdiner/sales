@@ -100,35 +100,44 @@ const CreateProductPage = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item name="description" label="Short Description">
-        <Input.TextArea rows={3} />
-      </Form.Item>
-      <Form.Item name="content" label="Content">
-        <Input.TextArea rows={3} />
-      </Form.Item>
-      <Form.Item
-        name="thumbnail"
-        label="Thumbnail (URL)"
-        valuePropName="fileList"
-        getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-        rules={[{ required: true, message: 'Please upload an image!' }]}
-      >
-        <Upload
-          listType="picture-card"
-          maxCount={1}
-          accept="image/*"
-          beforeUpload={file => {
-            const isImage = file.type.startsWith('image/')
-            if (!isImage) message.error('You can only upload image files!')
-            return isImage ? false : Upload.LIST_IGNORE
-          }}
-        >
-          <div>
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Add Image</div>
-          </div>
-        </Upload>
-      </Form.Item>
+
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item name="description" label="Short Description">
+            <Input.TextArea rows={3} />
+          </Form.Item>
+        </Col>
+        <Col span={24}>
+          <Form.Item name="content" label="Content">
+            <Input.TextArea rows={3} />
+          </Form.Item>
+        </Col>
+        <Col span={24}>
+          <Form.Item
+            name="thumbnail"
+            label="Thumbnail (URL)"
+            valuePropName="fileList"
+            getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
+            rules={[{ required: true, message: 'Please upload an image!' }]}
+          >
+            <Upload
+              listType="picture-card"
+              maxCount={1}
+              accept="image/*"
+              beforeUpload={file => {
+                const isImage = file.type.startsWith('image/')
+                if (!isImage) message.error('You can only upload image files!')
+                return isImage ? false : Upload.LIST_IGNORE
+              }}
+            >
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Add Image</div>
+              </div>
+            </Upload>
+          </Form.Item>
+        </Col>
+      </Row>
 
       <Form.Item style={{ textAlign: 'right' }}>
         <Button onClick={() => navigate('/admin/products&categories/products')} disabled={loading} style={{ marginRight: 8 }}>
