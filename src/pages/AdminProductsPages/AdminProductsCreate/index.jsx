@@ -141,7 +141,7 @@ const CreateProductPage = () => {
       </Row>
 
       <Form.Item style={{ textAlign: 'right' }}>
-        <Button onClick={() => navigate('/admin/products&categories/products')} disabled={loading} style={{ marginRight: 8 }}>
+        <Button onClick={() => navigate('/admin/products')} disabled={loading} style={{ marginRight: 8 }}>
           Cancel
         </Button>
         <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 120 }}>

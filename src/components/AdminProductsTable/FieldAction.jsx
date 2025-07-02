@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function FieldAction({ record, handleDelete }) {
   return (
     <Space size="middle">
-      <Link to={`/admin/products&categories/products/edit/${record._id}`}>
+      <Link to={`/admin/products/edit/${record._id}`}>
         <Button icon={<EditOutlined />} />
       </Link>
       <Button color="danger" variant="outlined" icon={<DeleteOutlined />} onClick={() => handleDelete(record)} />

@@ -14,6 +14,7 @@ import AdminProductsDetails from '../pages/AdminProductsPages/AdminProductsDetai
 import { Navigate } from 'react-router-dom'
 import AdminProductsCreate from '../pages/AdminProductsPages/AdminProductsCreate'
 import AdminProductsEdit from '../pages/AdminProductsPages/AdminProductsEdit'
+import AdminProductCategoriesPage from '../pages/AdminProductCategoriesPage'
 
 export const routes = [
   // Client
@@ -65,24 +66,28 @@ export const routes = [
         element: <Navigate to="/admin/dashboard" replace />
       },
       {
-        path: '/admin/dashboard',
+        path: 'dashboard',
         element: <AdminDashboard />
       },
       {
-        path: '/admin/products&categories/products',
+        path: 'products',
         element: <AdminProductsPages />
       },
       {
-        path: '/admin/products&categories/products/details/:id',
+        path: 'products/details/:id',
         element: <AdminProductsDetails />
       },
       {
-        path: '/admin/products&categories/products/create',
+        path: 'products/create',
         element: <AdminProductsCreate />
       },
       {
-        path: '/admin/products&categories/products/edit/:id',
+        path: 'products/edit/:id',
         element: <AdminProductsEdit />
+      },
+      {
+        path: 'product-categories',
+        element: <AdminProductCategoriesPage />
       },
       {
         path: '*',

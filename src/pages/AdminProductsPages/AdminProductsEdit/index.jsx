@@ -9,11 +9,13 @@ import TiptapEditor from '../../../components/TiptapEditor'
 const { RangePicker } = DatePicker
 
 function AdminProductsEdit() {
-  const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-  const { id } = useParams()
   const [oldThumbnail, setOldThumbnail] = useState('')
+  const [form] = Form.useForm()
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const pathNavigate = '/admin/products'
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -37,7 +39,7 @@ function AdminProductsEdit() {
         })
       } catch (err) {
         message.error('❌ Failed to load product')
-        navigate('/admin/products&categories/products')
+        navigate(pathNavigate)
       }
     }
 
@@ -53,9 +55,7 @@ function AdminProductsEdit() {
       if (file) {
         formData.append('thumbnail', file)
         formData.append('oldThumbnail', oldThumbnail)
-      } else if (typeof values.thumbnail === 'string') {
-        formData.append('thumbnail', values.thumbnail)
-      }
+      } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
 
       formData.append('title', values.title)
       formData.append('productCategory', values.productCategory)
@@ -74,7 +74,7 @@ function AdminProductsEdit() {
 
       await updateProductById(id, formData)
       message.success('✅ Product updated successfully!')
-      navigate('/admin/products&categories/products')
+      navigate(pathNavigate)
     } catch (err) {
       console.error(err)
       message.error('❌ Failed to update product')
@@ -141,9 +141,7 @@ function AdminProductsEdit() {
             label="Thumbnail (URL)"
             valuePropName="fileList"
             getValueFromEvent={e => {
-              if (Array.isArray(e)) {
-                return e
-              }
+              if (Array.isArray(e)) return e
               return e?.fileList || []
             }}
             rules={[{ required: true, message: 'Please upload an image!' }]}
@@ -168,15 +166,10 @@ function AdminProductsEdit() {
       </Row>
 
       <Form.Item style={{ textAlign: 'right' }}>
-        <Button onClick={() => navigate('/admin/products&categories/products')} disabled={loading} style={{ marginRight: 8 }}>
+        <Button onClick={() => navigate(pathNavigate)} disabled={loading} style={{ marginRight: 8 }}>
           Cancel
         </Button>
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={loading} // 🎯 loading nút ở đây
-          style={{ width: 140 }}
-        >
+        <Button type="primary" htmlType="submit" loading={loading} style={{ width: 140 }}>
           {loading ? 'Saving...' : 'Save Changes'}
         </Button>
       </Form.Item>
