@@ -78,7 +78,6 @@ function AdminProductsPages() {
           isLoading,
           products,
           setEditedPositions,
-          setTotalProducts,
           setProducts,
           sortField,
           setSortField,
@@ -89,9 +88,6 @@ function AdminProductsPages() {
           totalProducts,
           currentPage,
           setCurrentPage,
-          limitItems,
-          sortOrder,
-          filterValues,
           fetchData
         }}
       />

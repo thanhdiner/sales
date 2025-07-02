@@ -3,16 +3,16 @@ import ApplyButton from './ApplyButton'
 import SelectedItems from './SelectedItems'
 import SelectList from './SelectList'
 
-function AdminProductCategoriesHeaderActions({
+function AdminProductsHeaderActions({
   selectedRowKeys,
   value,
   setValue,
-  products,
-  setProducts,
-  setTotalProducts,
+  productCategories,
+  setProductCategories,
+  setTotalProductCategories,
   setSelectedRowKeys,
   editedPositions,
-  totalProducts,
+  totalProductCategories,
   currentPage,
   setCurrentPage,
   fetchData
@@ -44,9 +44,9 @@ function AdminProductCategoriesHeaderActions({
   ]
 
   return (
-    <div className="products-header">
+    <div className="product-categories-header">
       <SelectedItems {...{ selectedRowKeys }} />
-      <div className="products-header-right">
+      <div className="product-categories-header-right">
         <AddButton />
         <SelectList {...{ value, treeData, setValue }} />
         <ApplyButton
@@ -54,12 +54,12 @@ function AdminProductCategoriesHeaderActions({
             value,
             setValue,
             selectedRowKeys,
-            products,
-            setProducts,
-            setTotalProducts,
+            productCategories,
+            setProductCategories,
+            setTotalProductCategories,
             setSelectedRowKeys,
             editedPositions,
-            totalProducts,
+            totalProductCategories,
             currentPage,
             setCurrentPage,
             fetchData
@@ -70,4 +70,4 @@ function AdminProductCategoriesHeaderActions({
   )
 }
 
-export default AdminProductCategoriesHeaderActions
+export default AdminProductsHeaderActions

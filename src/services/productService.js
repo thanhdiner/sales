@@ -10,6 +10,7 @@ export const getProductDetail = async slug => {
 }
 
 //# admin
+//## Products
 export const getAdminProducts = async ({ page = 1, limit = 10, sortField, sortOrder, ...rest }) => {
   const query = new URLSearchParams({
     page,
@@ -63,3 +64,4 @@ export const getProductById = async id => {
 export const updateProductById = async (id, data) => {
   return await patch(`admin/products/edit/${id}`, data)
 }
+

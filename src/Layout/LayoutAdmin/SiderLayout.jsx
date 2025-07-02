@@ -48,6 +48,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       }
     })
     setStateOpenKeys(openKeys)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
   const onOpenChange = openKeys => {

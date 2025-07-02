@@ -1,25 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { message, Modal, Table } from 'antd'
-import { deleteProduct } from '../../services/productService'
+import { deleteProductCategory } from '../../services/productCategoryService'
 import FieldThumbnail from './FieldThumbnail'
 import FieldTitle from './FieldTitle'
 import FieldPosition from './FieldPosition'
 import FieldStatus from './FieldStatus'
 import FieldAction from './FieldAction'
 
-function AdminProductsTable({
+function AdminProductCategoriesTable({
   isLoading,
-  products,
+  productCategories,
   setEditedPositions,
-  setProducts,
+  setProductCategories,
   sortField,
   setSortField,
   setSortOrder,
   selectedRowKeys,
   setSelectedRowKeys,
   columnsVisible,
-  totalProducts,
+  totalProductCategories,
   currentPage,
   setCurrentPage,
   fetchData
@@ -39,11 +39,11 @@ function AdminProductsTable({
       className: 'ant-table-cell-style'
     },
     {
-      title: sortableTitle('Product Name', 'title'),
+      title: sortableTitle('Category Name', 'title'),
       dataIndex: 'title',
       key: 'title',
       className: 'ant-table-cell-style',
-      render: (productName, record) => <FieldTitle {...{ productName, record }} />
+      render: (categoryName, record) => <FieldTitle {...{ categoryName, record }} />
     },
     {
       title: 'Thumbnail',
@@ -59,34 +59,14 @@ function AdminProductsTable({
       key: 'position',
       render: (value, record) => <FieldPosition {...{ value, record, setEditedPositions }} />
     },
-    {
-      title: sortableTitle('Price', 'price'),
-      dataIndex: 'price',
-      className: 'ant-table-cell-style',
-      key: 'price'
-    },
-    {
-      title: sortableTitle('Discount Percentage', 'discountPercentage'),
-      dataIndex: 'discountPercentage',
-      className: 'ant-table-cell-style',
-      key: 'discountPercentage',
-      width: 100
-    },
 
-    {
-      title: sortableTitle('Stock', 'stock'),
-      dataIndex: 'stock',
-      className: 'ant-table-cell-style',
-      key: 'stock',
-      width: 100
-    },
     {
       title: sortableTitle('Status', 'status'),
       dataIndex: 'status',
       className: 'ant-table-cell-style',
       key: 'status',
       width: 100,
-      render: (status, record) => <FieldStatus {...{ status, record, setProducts }} />
+      render: (status, record) => <FieldStatus {...{ status, record, setProductCategories }} />
     },
     {
       title: 'Action',
@@ -118,18 +98,18 @@ function AdminProductsTable({
   const handleDelete = record => {
     Modal.confirm({
       title: 'Confirm Delete',
-      content: `Are you sure you want to delete product "${record.title}"?`,
+      content: `Are you sure you want to delete product category "${record.title}"?`,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'Cancel',
       onOk: async () => {
         try {
-          await deleteProduct(record._id)
-          message.success('🗑️ Product deleted successfully!')
-          const updatedProducts = products.filter(p => p._id !== record._id)
-          const updatedTotal = totalProducts - 1
+          await deleteProductCategory(record._id)
+          message.success('🗑️ Product Category deleted successfully!')
+          const updatedProductCategories = productCategories.filter(p => p._id !== record._id)
+          const updatedTotal = totalProductCategories - 1
 
-          if (updatedProducts.length === 0 && updatedTotal > 0 && currentPage > 1) {
+          if (updatedProductCategories.length === 0 && updatedTotal > 0 && currentPage > 1) {
             setCurrentPage(prev => prev - 1)
           } else {
             fetchData()
@@ -137,7 +117,7 @@ function AdminProductsTable({
 
           setSelectedRowKeys([])
         } catch (err) {
-          message.error('❌ Failed to delete product.')
+          message.error('❌ Failed to delete product category.')
         }
       }
     })
@@ -145,16 +125,16 @@ function AdminProductsTable({
   //# End handler
 
   return (
-    <div className="products-table">
+    <div className="product-categories-table">
       <Table
         loading={{
           spinning: isLoading,
-          tip: 'Loading products...'
+          tip: 'Loading product categories...'
         }}
         rowKey="_id"
         rowSelection={rowSelection}
         columns={visibleColumns}
-        dataSource={products}
+        dataSource={productCategories}
         pagination={false}
         bordered
       />
@@ -162,4 +142,4 @@ function AdminProductsTable({
   )
 }
 
-export default AdminProductsTable
+export default AdminProductCategoriesTable
