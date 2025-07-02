@@ -46,7 +46,6 @@ function AdminProductsEdit() {
 
   const handleSubmit = async values => {
     setLoading(true)
-    console.log(oldThumbnail)
     try {
       const formData = new FormData()
       const file = values.thumbnail?.[0]?.originFileObj
@@ -66,6 +65,7 @@ function AdminProductsEdit() {
       formData.append('description', values.description || '')
       formData.append('status', values.status || 'active')
       formData.append('position', values?.position)
+      formData.append('slug', values.slug || '')
       formData.append('content', values.content || '')
 
       const [timeStart, timeFinish] = values.timeRange || []
