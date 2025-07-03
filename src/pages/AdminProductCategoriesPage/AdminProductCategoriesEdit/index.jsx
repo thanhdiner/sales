@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Col, Form, Input, InputNumber, Row, Select, Upload, message } from 'antd'
-import { updateProductCategoryById } from '../../../services/productCategoryService'
+import { Button, Col, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
+import { getProductCategoryById, getAdminProductCategoryTree, updateProductCategoryById } from '../../../services/productCategoryService'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
-import { getProductCategoryById } from '../../../services/productCategoryService'
+import { removeNodeFromTree } from '../../../utils/removeNodeFromTree'
 
 function AdminProductCategoriesEdit() {
   const [loading, setLoading] = useState(false)
@@ -12,6 +12,7 @@ function AdminProductCategoriesEdit() {
   const [form] = Form.useForm()
   const { id } = useParams()
   const navigate = useNavigate()
+  const [treeData, setTreeData] = useState([])
 
   const pathNavigate = '/admin/product-categories'
 
@@ -40,7 +41,17 @@ function AdminProductCategoriesEdit() {
       }
     }
 
+    const fetchTreeData = async () => {
+      try {
+        const response = await getAdminProductCategoryTree()
+        if (response) setTreeData(removeNodeFromTree(response, id))
+      } catch (error) {
+        message.error('❌ Failed to load category tree data')
+      }
+    }
+
     fetchProduct()
+    fetchTreeData()
   }, [id, form, navigate])
 
   const handleSubmit = async values => {
@@ -66,7 +77,7 @@ function AdminProductCategoriesEdit() {
       navigate(pathNavigate)
     } catch (err) {
       console.error(err)
-      message.error('❌ Failed to update product catgory!')
+      message.error('❌ Failed to update product category!')
     } finally {
       setLoading(false)
     }
@@ -78,8 +89,17 @@ function AdminProductCategoriesEdit() {
           <Form.Item name="title" label="Category Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="parent_id" label="Parent ID">
-            <Input />
+          <Form.Item name="parent_id" label="Parent Category">
+            <TreeSelect
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              treeData={treeData}
+              placeholder="Chọn danh mục cha (nếu có)"
+              treeDefaultExpandAll
+              allowClear
+              showSearch
+              filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
+            />
           </Form.Item>
           <Form.Item name="slug" label="Slug URL">
             <Input />
