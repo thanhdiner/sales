@@ -7,6 +7,7 @@ import FieldTitle from './FieldTitle'
 import FieldPosition from './FieldPosition'
 import FieldStatus from './FieldStatus'
 import FieldAction from './FieldAction'
+import FieldCategory from './FieldCategory'
 
 function AdminProductsTable({
   isLoading,
@@ -49,7 +50,8 @@ function AdminProductsTable({
       title: sortableTitle('Category', 'productCategory'),
       dataIndex: 'productCategory',
       key: 'productCategory',
-      className: 'ant-table-cell-style'
+      className: 'ant-table-cell-style',
+      render: category => <FieldCategory {...{ category }} />
     },
     {
       title: 'Thumbnail',

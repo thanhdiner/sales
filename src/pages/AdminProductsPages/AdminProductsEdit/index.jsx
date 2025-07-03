@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Upload, message } from 'antd'
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
 import dayjs from 'dayjs'
 import { getProductById, updateProductById } from '../../../services/productService'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
+import { getAdminProductCategoryTree } from '../../../services/productCategoryService'
 
 const { RangePicker } = DatePicker
 
@@ -14,6 +15,7 @@ function AdminProductsEdit() {
   const [form] = Form.useForm()
   const { id } = useParams()
   const navigate = useNavigate()
+  const [treeData, setTreeData] = useState([])
 
   const pathNavigate = '/admin/products'
 
@@ -43,7 +45,17 @@ function AdminProductsEdit() {
       }
     }
 
+    const fetchTreeData = async () => {
+      try {
+        const response = await getAdminProductCategoryTree()
+        if (response) setTreeData(response)
+      } catch (error) {
+        message.error('❌ Failed to load category tree data')
+      }
+    }
+
     fetchProduct()
+    fetchTreeData()
   }, [id, form, navigate])
 
   const handleSubmit = async values => {
@@ -90,7 +102,16 @@ function AdminProductsEdit() {
             <Input />
           </Form.Item>
           <Form.Item name="productCategory" label="Category" rules={[{ required: true }]}>
-            <Input />
+            <TreeSelect
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              treeData={treeData}
+              placeholder="Chọn danh mục sản phẩm"
+              treeDefaultExpandAll
+              allowClear
+              showSearch
+              filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
+            />
           </Form.Item>
           <Form.Item name="price" label="Price (VNĐ)" rules={[{ required: true }]}>
             <InputNumber style={{ width: '100%' }} min={0} />

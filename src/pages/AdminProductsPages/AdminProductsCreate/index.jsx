@@ -82,7 +82,6 @@ const CreateProductPage = () => {
           <Form.Item name="title" label="Product Name" rules={[{ required: true }]}>
             <Input placeholder="Nhập tên sản phẩm" />
           </Form.Item>
-
           <Form.Item name="productCategory" label="Category" rules={[{ required: true }]}>
             <TreeSelect
               style={{ width: '100%' }}
