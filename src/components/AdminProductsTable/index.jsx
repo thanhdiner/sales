@@ -46,6 +46,12 @@ function AdminProductsTable({
       render: (productName, record) => <FieldTitle {...{ productName, record }} />
     },
     {
+      title: sortableTitle('Category', 'productCategory'),
+      dataIndex: 'productCategory',
+      key: 'productCategory',
+      className: 'ant-table-cell-style'
+    },
+    {
       title: 'Thumbnail',
       dataIndex: 'thumbnail',
       key: 'thumbnail',
