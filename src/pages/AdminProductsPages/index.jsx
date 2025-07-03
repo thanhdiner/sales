@@ -10,6 +10,7 @@ function AdminProductsPages() {
   const [columnsVisible, setColumnsVisible] = useState({
     _id: true,
     title: true,
+    productCategory: true,
     price: true,
     stock: true,
     position: true,

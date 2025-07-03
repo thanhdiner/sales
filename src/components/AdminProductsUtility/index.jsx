@@ -32,6 +32,7 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
     { label: 'ID', value: '_id' },
     { label: 'Title', value: 'title' },
     { label: 'Price', value: 'price' },
+    { label: 'Category', value: 'productCategory' },
     { label: 'Stock', value: 'stock' },
     { label: 'Position', value: 'position' },
     { label: 'Discount %', value: 'discountPercentage' },
