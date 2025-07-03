@@ -8,12 +8,12 @@ import AdminProductsHeader from '../../components/AdminProductsHeader'
 
 function AdminProductsPages() {
   const [columnsVisible, setColumnsVisible] = useState({
-    _id: true,
+    _id: false,
     title: true,
     productCategory: true,
     price: true,
     stock: true,
-    position: true,
+    position: false,
     discountPercentage: true,
     status: true,
     thumbnail: true,

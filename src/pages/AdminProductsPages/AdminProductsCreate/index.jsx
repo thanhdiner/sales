@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Upload } from 'antd'
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload } from 'antd'
 import { createProduct } from '../../../services/productService'
 import { message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
+import { getAdminProductCategoryTree } from '../../../services/productCategoryService'
 
 const { RangePicker } = DatePicker
 
@@ -18,6 +19,20 @@ const CreateProductPage = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const [treeData, setTreeData] = useState([])
+
+  useEffect(() => {
+    const fetchTreeData = async () => {
+      try {
+        const response = await getAdminProductCategoryTree()
+        if (response) setTreeData(response)
+      } catch (error) {
+        message.error('❌ Failed to load category tree data')
+      }
+    }
+
+    fetchTreeData()
+  }, [])
 
   const handleSubmit = async values => {
     setLoading(true)
@@ -65,13 +80,23 @@ const CreateProductPage = () => {
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item name="title" label="Product Name" rules={[{ required: true }]}>
-            <Input />
+            <Input placeholder="Nhập tên sản phẩm" />
           </Form.Item>
+
           <Form.Item name="productCategory" label="Category" rules={[{ required: true }]}>
-            <Input />
+            <TreeSelect
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              treeData={treeData}
+              placeholder="Chọn danh mục sản phẩm"
+              treeDefaultExpandAll
+              allowClear
+              showSearch
+              filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
+            />
           </Form.Item>
           <Form.Item name="price" label="Price (VNĐ)" rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} min={0} />
+            <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
           </Form.Item>
           <Form.Item name="discountPercentage" label="Discount Percentage (%)">
             <InputNumber style={{ width: '100%' }} min={0} max={100} />
@@ -91,7 +116,7 @@ const CreateProductPage = () => {
             />
           </Form.Item>
           <Form.Item name="position" label="Position">
-            <InputNumber style={{ width: '100%' }} min={0} />
+            <InputNumber placeholder="Nhập vị trí hoặc bỏ trống để tự động tạo" style={{ width: '100%' }} min={0} />
           </Form.Item>
           <Form.Item name="slug" label="Slug URL">
             <Input placeholder="Tự động tạo từ Product Name hoặc bạn có thể sửa" />
