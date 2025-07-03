@@ -13,6 +13,10 @@ export const getAdminProductCategories = async ({ page = 1, limit = 10, sortFiel
   return await get(`admin/product-categories?${query}`)
 }
 
+export async function getAdminProductCategoryTree() {
+  return await get('admin/product-categories/tree')
+}
+
 export const toggleProductCategoryStatus = async (id, status) => {
   return await patch(`admin/product-categories/changeStatus/${id}`, {
     status

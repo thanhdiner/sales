@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Col, Form, Input, InputNumber, Row, Select, Upload } from 'antd'
-import { createProductCategory } from '../../../services/productCategoryService'
+import { Button, Col, Form, Input, InputNumber, Row, Select, TreeSelect, Upload } from 'antd'
+import { createProductCategory, getAdminProductCategoryTree } from '../../../services/productCategoryService'
 import { message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
@@ -13,6 +13,7 @@ const initialValues = {
 const AdminProductCategoriesCreate = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
+  const [treeData, setTreeData] = useState([])
   const navigate = useNavigate()
 
   const handleSubmit = async values => {
@@ -45,6 +46,19 @@ const AdminProductCategoriesCreate = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchTreeData = async () => {
+      try {
+        const response = await getAdminProductCategoryTree()
+        if (response) setTreeData(response)
+      } catch (error) {
+        message.error('❌ Failed to load category tree data')
+      }
+    }
+
+    fetchTreeData()
+  }, [])
+
   return (
     <Form form={form} layout="vertical" initialValues={initialValues} onFinish={handleSubmit}>
       <Row gutter={16}>
@@ -52,8 +66,17 @@ const AdminProductCategoriesCreate = () => {
           <Form.Item name="title" label="Category Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="parent_id" label="Parent ID">
-            <Input />
+          <Form.Item name="parent_id" label="Parent Category">
+            <TreeSelect
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              treeData={treeData}
+              placeholder="Chọn danh mục cha (nếu có)"
+              treeDefaultExpandAll
+              allowClear
+              showSearch
+              filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
+            />
           </Form.Item>
           <Form.Item name="slug" label="Slug URL">
             <Input placeholder="Tự động tạo từ Category Name hoặc bạn có thể sửa" />
