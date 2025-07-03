@@ -1,4 +1,4 @@
-import { get, patch } from '../utils/request'
+import { get, patch, post } from '../utils/request'
 //# admin
 
 //# Product Categories
@@ -42,4 +42,16 @@ export const changePositionManyProductCategories = async data => {
   return await patch(`admin/product-categories/change-position-many`, {
     data
   })
+}
+
+export const createProductCategory = async data => {
+  return await post('admin/product-categories/create', data)
+}
+
+export const getProductCategoryById = async id => {
+  return await get(`admin/product-categories/${id}`)
+}
+
+export const updateProductCategoryById = async (id, data) => {
+  return await patch(`admin/product-categories/edit/${id}`, data)
 }

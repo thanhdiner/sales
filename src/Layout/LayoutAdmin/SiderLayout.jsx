@@ -48,7 +48,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       }
     })
     setStateOpenKeys(openKeys)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
   const onOpenChange = openKeys => {
@@ -57,6 +57,12 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       const repeatIndex = openKeys.filter(key => key !== currentOpenKey).findIndex(key => levelKeys[key] === levelKeys[currentOpenKey])
       setStateOpenKeys(openKeys.filter((_, index) => index !== repeatIndex).filter(key => levelKeys[key] <= levelKeys[currentOpenKey]))
     } else setStateOpenKeys(openKeys)
+  }
+
+  const getSelectedKey = pathname => {
+    if (pathname.includes('/admin/products')) return 'products'
+    if (pathname.includes('/admin/product-categories')) return 'product-categories'
+    return 'dashboard'
   }
 
   return (
@@ -71,7 +77,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       <Menu
         onClick={({ key }) => navigate(`/admin/${key}`)}
         mode="inline"
-        selectedKeys={[location.pathname.replace('/admin/', '')]}
+        selectedKeys={[getSelectedKey(location.pathname)]}
         items={menuItems}
         onOpenChange={onOpenChange}
         openKeys={stateOpenKeys}
