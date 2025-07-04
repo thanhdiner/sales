@@ -1,4 +1,4 @@
-import { AppstoreOutlined, HomeOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, ForkOutlined, HomeOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useEffect, useState } from 'react'
@@ -22,6 +22,10 @@ function SiderLayout({ collapsed, showLogoText, location }) {
     getItem('Products & Categories', 'products&categories', <AppstoreOutlined />, [
       getItem('Products', 'products'),
       getItem('Categories', 'product-categories')
+    ]),
+    getItem('Roles & Permissions', 'roles&permission', <ForkOutlined />, [
+      getItem('Roles', 'roles'),
+      getItem('Permissions', 'roles/permissions')
     ])
   ]
 
@@ -62,6 +66,8 @@ function SiderLayout({ collapsed, showLogoText, location }) {
   const getSelectedKey = pathname => {
     if (pathname.includes('/admin/products')) return 'products'
     if (pathname.includes('/admin/product-categories')) return 'product-categories'
+    if (pathname.includes('/admin/roles/permissions')) return 'roles/permissions'
+    if (pathname.includes('/admin/roles')) return 'roles'
     return 'dashboard'
   }
 
