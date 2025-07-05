@@ -4,7 +4,7 @@ import { getProductById } from '../../../services/productService'
 import { Spin } from 'antd'
 import renderRow from '../../../utils/renderRow'
 import { adminProductRows } from '../../../helpers/adminProductRows'
-import AdminProductThumbnail from '../../../components/AdminProductThumbnail'
+import AdminProductThumbnail from '../../../components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
 import './AdminProductsDetails.scss'
 
 function AdminProductsDetails() {

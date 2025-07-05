@@ -18,10 +18,13 @@ export const get = async path => {
 }
 
 export const post = async (path, data) => {
+  const isFormData = data instanceof FormData
+
   try {
     const res = await fetch(API_DOMAIN + path, {
       method: 'POST',
-      body: data
+      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+      body: isFormData ? data : JSON.stringify(data)
     })
 
     const json = await res.json()
@@ -48,9 +51,20 @@ export const patch = async (path, data = {}) => {
       body: isFormData ? data : JSON.stringify(data)
     })
 
+    let responseData
+    let errorText
+
     if (!res.ok) {
-      const errorText = await res.text()
-      throw new Error(`API Error ${res.status}: ${errorText}`)
+      try {
+        responseData = await res.json()
+        errorText = responseData.error || responseData.message || JSON.stringify(responseData)
+      } catch {
+        errorText = await res.text()
+        responseData = { error: errorText }
+      }
+      const error = new Error(`API Error ${res.status}: ${errorText}`)
+      error.response = responseData
+      throw error
     }
 
     return await res.json()

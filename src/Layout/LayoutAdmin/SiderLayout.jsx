@@ -23,10 +23,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       getItem('Products', 'products'),
       getItem('Categories', 'product-categories')
     ]),
-    getItem('Roles & Permissions', 'roles&permission', <ForkOutlined />, [
-      getItem('Roles', 'roles'),
-      getItem('Permissions', 'roles/permissions')
-    ])
+    getItem('Roles & Permissions', 'roles&permission', <ForkOutlined />, [getItem('Roles', 'roles'), getItem('Permissions', 'permissions')])
   ]
 
   const getLevelKeys = items1 => {
@@ -66,7 +63,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
   const getSelectedKey = pathname => {
     if (pathname.includes('/admin/products')) return 'products'
     if (pathname.includes('/admin/product-categories')) return 'product-categories'
-    if (pathname.includes('/admin/roles/permissions')) return 'roles/permissions'
+    if (pathname.includes('/admin/permissions')) return 'permissions'
     if (pathname.includes('/admin/roles')) return 'roles'
     return 'dashboard'
   }

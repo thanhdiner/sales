@@ -19,6 +19,7 @@ import AdminProductCategoriesCreate from '../pages/AdminProductCategoriesPage/Ad
 import AdminProductCategoriesEdit from '../pages/AdminProductCategoriesPage/AdminProductCategoriesEdit'
 import AdminRolesPage from '../pages/AdminRolesPage'
 import AdminPermissionsPage from '../pages/AdminPermissionsPage'
+import AdminProductCategoriesDetails from '../pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'
 
 export const routes = [
   // Client
@@ -94,6 +95,10 @@ export const routes = [
         element: <AdminProductCategoriesPage />
       },
       {
+        path: 'product-categories/:id',
+        element: <AdminProductCategoriesDetails />
+      },
+      {
         path: 'product-categories/create',
         element: <AdminProductCategoriesCreate />
       },
@@ -106,7 +111,7 @@ export const routes = [
         element: <AdminRolesPage />
       },
       {
-        path: 'roles/permissions',
+        path: 'permissions',
         element: <AdminPermissionsPage />
       },
       {

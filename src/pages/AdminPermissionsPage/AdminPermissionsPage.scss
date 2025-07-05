@@ -1,0 +1,87 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  .ant-typography {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0;
+  }
+  .ant-btn-primary {
+    font-weight: 500;
+    border-radius: 8px;
+  }
+}
+
+.ant-table-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px 0 rgba(100, 116, 139, 0.09);
+  padding: 12px 8px 20px 8px;
+
+  .ant-table {
+    background: transparent;
+    border-radius: 14px;
+
+    .ant-table-thead > tr > th {
+      background: #f4f8fb;
+      font-weight: 600;
+      color: #4a5568;
+      border-bottom: 1.5px solid #e2e8f0;
+      border-radius: 0;
+    }
+    .ant-table-tbody > tr > td {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 15px;
+      color: #353e4e;
+    }
+  }
+}
+
+.ant-btn {
+  border-radius: 8px;
+  box-shadow: none;
+  transition: background 0.16s;
+  font-weight: 500;
+
+  &:hover {
+    filter: brightness(0.96);
+  }
+  &.ant-btn-dangerous {
+    background: #fef2f2;
+    color: #d90429;
+    border: none;
+  }
+}
+
+.ant-modal-content {
+  border-radius: 14px;
+  padding-bottom: 20px;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #11192c;
+  font-size: 15px;
+}
+
+.ant-input,
+.ant-input-textarea {
+  border-radius: 8px !important;
+  font-size: 15px;
+  background: #f7fafd;
+  border: 1.2px solid #dbeafe;
+  &:focus,
+  &:active {
+    border-color: #38b6ff;
+    background: #f0f9ff;
+    box-shadow: 0 0 0 2px #38b6ff22;
+  }
+}
+
+.ant-input-textarea {
+  min-height: 80px;
+}
