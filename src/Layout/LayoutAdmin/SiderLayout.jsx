@@ -26,7 +26,8 @@ function SiderLayout({ collapsed, showLogoText, location }) {
     getItem('Roles & Permissions', 'roles&permission', <ForkOutlined />, [
       getItem('Permission Groups', 'permission-groups'),
       getItem('Permissions', 'permissions'),
-      getItem('Roles', 'roles')
+      getItem('Roles', 'roles'),
+      getItem('Role Permission', 'role-permission')
     ])
   ]
 
@@ -70,6 +71,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
     if (pathname.includes('/admin/permissions')) return 'permissions'
     if (pathname.includes('/admin/roles')) return 'roles'
     if (pathname.includes('/admin/permission-groups')) return 'permission-groups'
+    if (pathname.includes('/admin/role-permission')) return 'role-permission'
     return 'dashboard'
   }
 

@@ -149,7 +149,7 @@ export default function AdminPermissionsPage() {
             ]}
           >
             <Input
-              placeholder="e.g. Quản lý người dùng"
+              placeholder="e.g. View Products"
               onChange={e => {
                 const newSlug = slugify(e.target.value, { lower: true, strict: true, replacement: '_' })
                 if (!modal.editing) form.setFieldsValue({ name: newSlug })
@@ -184,7 +184,7 @@ export default function AdminPermissionsPage() {
               { pattern: /^[a-z0-9_]+$/, message: 'Only a-z, 0-9, and _' }
             ]}
           >
-            <Input placeholder="e.g. manage_users" />
+            <Input placeholder="e.g. view_products" />
           </Form.Item>
           <Form.Item label="Description" name="description">
             <Input.TextArea rows={3} placeholder="Short description about permission" />
