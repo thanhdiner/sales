@@ -31,6 +31,7 @@ export const post = async (path, data) => {
 
     if (!res.ok) {
       const error = new Error(`API Error ${res.status}`)
+      error.status = res.status
       error.response = json
       throw error
     }
@@ -64,6 +65,7 @@ export const patch = async (path, data = {}) => {
       }
       const error = new Error(`API Error ${res.status}: ${errorText}`)
       error.response = responseData
+      error.status = res.status
       throw error
     }
 

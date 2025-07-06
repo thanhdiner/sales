@@ -1,7 +1,6 @@
 import { get, patch, post } from '../utils/request'
 
 export const getAdminPermissions = async group => {
-  String()
   const g = group ? `group=${group}` : ''
   return await get(`admin/permissions?${g}`)
 }

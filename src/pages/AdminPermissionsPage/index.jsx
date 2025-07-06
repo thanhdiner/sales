@@ -4,24 +4,20 @@ import { PlusOutlined, EditOutlined, DeleteOutlined, ToolOutlined } from '@ant-d
 import './AdminPermissionsPage.scss'
 import slugify from 'slugify'
 import { createAdminPermissions, deleteAdminPermission, getAdminPermissions, updatePermissionById } from '../../services/permissionService'
+import { getAdminPermissionGroups } from '../../services/permissionGroupsService'
 
 const { Title } = Typography
-
-const GROUP_OPTIONS = [
-  { label: 'Quản lý sản phẩm', value: 'product' },
-  { label: 'Quản lý người dùng', value: 'user' },
-  { label: 'Báo cáo & Thống kê', value: 'report' },
-  { label: 'Quản trị hệ thống', value: 'system' }
-]
 
 export default function AdminPermissionsPage() {
   const [permissions, setPermissions] = useState([])
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
+  const [permissionGroups, setPermissionGroups] = useState([])
 
   useEffect(() => {
     fetchData()
+    fetchGroups()
   }, [])
 
   const fetchData = async () => {
@@ -31,6 +27,14 @@ export default function AdminPermissionsPage() {
     setLoading(false)
   }
 
+  const fetchGroups = async () => {
+    try {
+      const res = await getAdminPermissionGroups()
+      setPermissionGroups(res.data.filter(g => g.isActive && !g.deleted))
+    } catch {
+      setPermissionGroups([])
+    }
+  }
   useEffect(() => {
     if (modal.visible) {
       if (modal.editing) form.setFieldsValue(modal.editing)
@@ -100,7 +104,7 @@ export default function AdminPermissionsPage() {
       title: 'Group',
       dataIndex: 'group',
       key: 'group',
-      render: group => <span>{GROUP_OPTIONS.find(opt => opt.value === group)?.label || group}</span>
+      render: group => <span>{permissionGroups.find(opt => opt.value === group)?.label || group}</span>
     },
     {
       title: 'Action',
@@ -186,7 +190,7 @@ export default function AdminPermissionsPage() {
             <Input.TextArea rows={3} placeholder="Short description about permission" />
           </Form.Item>
           <Form.Item label="Group" name="group" rules={[{ required: true, message: 'Please select group' }]}>
-            <Select placeholder="Select group" options={GROUP_OPTIONS} allowClear />
+            <Select placeholder="Select group" options={permissionGroups} allowClear />
           </Form.Item>
         </Form>
       </Modal>
