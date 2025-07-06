@@ -26,6 +26,7 @@ function AdminProductCategoriesEdit() {
 
         form.setFieldsValue({
           ...productCategory,
+          parent_id: productCategory?.parent_id?.title,
           thumbnail: [
             {
               uid: '-1',
