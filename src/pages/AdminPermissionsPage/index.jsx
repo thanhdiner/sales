@@ -117,7 +117,7 @@ export default function AdminPermissionsPage() {
           </Popconfirm>
         </Space>
       ),
-      width: 120
+      width: 100
     }
   ]
 
