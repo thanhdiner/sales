@@ -3,6 +3,7 @@ import { Table, Checkbox, Button, message, Typography } from 'antd'
 import { getAdminRoles, updateAdminRoleById } from '../../services/rolesService'
 import { getAdminPermissionGroups } from '../../services/permissionGroupsService'
 import { getAdminPermissions } from '../../services/permissionService'
+import './AdminRolePermissionPage.scss'
 
 const { Title } = Typography
 
@@ -93,7 +94,7 @@ export default function AdminRolePermissionsPage() {
       dataIndex: 'title',
       key: 'title',
       fixed: 'left',
-      width: 200,
+      width: 140,
       render: (title, row) => {
         if (row.isSelectAll) return <span style={{ fontWeight: '600', fontSize: 16 }}>Select all</span>
         return (
@@ -111,26 +112,39 @@ export default function AdminRolePermissionsPage() {
       width: 120,
       align: 'center',
       render: (_, row) => {
+        const currentRole = roles.find(r => r._id === role._id)
+        const groupOfRow = permissionGroups.find(g => g.value === row.groupValue)
+        const isRoleInactive = currentRole && currentRole.isActive === false
+        const isGroupInactive = groupOfRow && groupOfRow.isActive === false
+
         if (row.isSelectAll) {
-          return <Checkbox checked={isRoleSelectAll(role._id)} onChange={e => handleRoleSelectAll(role._id, e.target.checked)} />
+          return (
+            <Checkbox
+              checked={isRoleSelectAll(role._id)}
+              onChange={e => handleRoleSelectAll(role._id, e.target.checked)}
+              disabled={isRoleInactive}
+            />
+          )
         }
         if (row.isGroupSelectAll) {
           return (
             <Checkbox
+              className={row.isGroupSelectAll ? 'checkbox-orange' : ''}
               checked={isGroupSelectAll(role._id, row.groupValue)}
               onChange={e => handleGroupSelectAll(role._id, row.groupValue, e.target.checked)}
-              disabled={isRoleSelectAll(role._id)}
-            >
-              All
-            </Checkbox>
+              disabled={isRoleInactive || isGroupInactive}
+            />
           )
         }
         if (row.isGroup) return null
+
+        const perm = permissions.find(p => p.name === row.name)
+        const isPermInactive = perm && perm.isActive === false
         return (
           <Checkbox
             checked={rolePerm[role._id]?.includes(row.name)}
             onChange={e => handleCheckbox(role._id, row.name, e.target.checked)}
-            disabled={isRoleSelectAll(role._id) || isGroupSelectAll(role._id, row.group)}
+            disabled={isRoleInactive || isGroupInactive || isPermInactive}
           />
         )
       }
@@ -158,11 +172,15 @@ export default function AdminRolePermissionsPage() {
   })
 
   return (
-    <div>
-      <Title level={3} style={{ marginBottom: 20 }}>
-        Role Permission
-      </Title>
+    <>
+      <div className="admin-role-permission-header">
+        <Title level={3}>Role Permission</Title>
+        <Button type="primary" onClick={handleUpdate} loading={loading}>
+          Save Changes
+        </Button>
+      </div>
       <Table
+        scroll={{ x: 1000, y: 500 }}
         columns={columns}
         dataSource={dataSource}
         rowKey="key"
@@ -172,9 +190,6 @@ export default function AdminRolePermissionsPage() {
         rowClassName={row => (row.isGroup ? 'group-row' : '')}
         onRow={row => (row.isGroup ? { style: { background: '#fafafa' } } : {})}
       />
-      <Button type="primary" style={{ marginTop: 24 }} onClick={handleUpdate} loading={loading}>
-        Save Changes
-      </Button>
-    </div>
+    </>
   )
 }
