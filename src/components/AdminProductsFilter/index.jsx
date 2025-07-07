@@ -1,10 +1,27 @@
 import { CloseOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Select, Form } from 'antd'
+import { Button, Input, Select, Form, message, TreeSelect } from 'antd'
+import { useEffect, useState } from 'react'
+import { getAdminProductCategoryTree } from '../../services/productCategoryService'
 
 const { Option } = Select
 
 function AdminProductsFilter({ onFilter }) {
   const [form] = Form.useForm()
+  const [treeData, setTreeData] = useState([])
+
+  useEffect(() => {
+    const fetchTreeData = async () => {
+      try {
+        const response = await getAdminProductCategoryTree()
+        if (response) setTreeData(response)
+      } catch (error) {
+        message.error('❌ Failed to load category tree data')
+      }
+    }
+
+    fetchTreeData()
+  }, [])
+  console.log(treeData)
 
   //# handler
   const handleSubmit = async values => {
@@ -35,8 +52,8 @@ function AdminProductsFilter({ onFilter }) {
         <Form.Item name="price" label="Price">
           <Input placeholder="Price" />
         </Form.Item>
-        <Form.Item name="model" label="Model">
-          <Input placeholder="Model" />
+        <Form.Item name="product_category" label="Product Category">
+          <TreeSelect treeData={treeData} placeholder="Select category" allowClear treeDefaultExpandAll />
         </Form.Item>
         <Form.Item name="stock" label="Stock">
           <Input placeholder="Stock" />

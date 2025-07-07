@@ -44,7 +44,8 @@ function Header() {
   return (
     <>
       <header className="header">
-        <Row>
+        <Row style={{ width: '100%' }}>
+          {/* Col 1 logo */}
           <Col span={6}>
             <Link className="header__logo--wrap" to="/">
               <img className="header__logo" src="/logo/logo.png" alt="Logo" />
@@ -53,6 +54,7 @@ function Header() {
               </span>
             </Link>
           </Col>
+          {/* Col 2 nav */}
           <Col style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} span={12}>
             <nav className="header__nav">
               <ul className="header__nav__list">
@@ -64,6 +66,7 @@ function Header() {
               </ul>
             </nav>
           </Col>
+          {/* Col 3 search, cart, account */}
           <Col span={6}>
             <div className="header__action">
               <div className="header__action__search">
