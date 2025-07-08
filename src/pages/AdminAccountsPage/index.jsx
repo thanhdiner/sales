@@ -54,6 +54,7 @@ function AdminAccountsPage() {
           formData.append('username', values.username)
           formData.append('email', values.email)
           if (!editing) formData.append('password', values.password)
+          if (editing && values.newPassword) formData.append('newPassword', values.newPassword)
           formData.append('fullName', values.fullName)
           formData.append('role_id', values.role_id)
           formData.append('status', values.status)
@@ -249,6 +250,11 @@ function AdminAccountsPage() {
           <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
             <Input placeholder="Nhập email" />
           </Form.Item>
+          {editing && (
+            <Form.Item name="newPassword" label="New Password" rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}>
+              <Input.Password placeholder="Nhập mật khẩu mới (không bắt buộc)" autoComplete="new-password" />
+            </Form.Item>
+          )}
           {!editing && (
             <Form.Item name="password" label="Password" rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}>
               <Input.Password placeholder="Nhập mật khẩu" />
