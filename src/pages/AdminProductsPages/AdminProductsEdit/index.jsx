@@ -66,7 +66,7 @@ function AdminProductsEdit() {
 
       if (file) {
         formData.append('thumbnail', file)
-        formData.append('oldThumbnail', oldThumbnail)
+        formData.append('oldImage', oldThumbnail)
       } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
 
       formData.append('title', values.title)
@@ -159,7 +159,7 @@ function AdminProductsEdit() {
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label="Thumbnail (URL)"
+            label="Thumbnail"
             valuePropName="fileList"
             getValueFromEvent={e => {
               if (Array.isArray(e)) return e

@@ -140,7 +140,7 @@ const CreateProductPage = () => {
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label="Thumbnail (URL)"
+            label="Thumbnail"
             valuePropName="fileList"
             getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
             rules={[{ required: true, message: 'Please upload an image!' }]}

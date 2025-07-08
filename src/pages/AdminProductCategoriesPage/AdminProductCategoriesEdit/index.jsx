@@ -26,7 +26,7 @@ function AdminProductCategoriesEdit() {
 
         form.setFieldsValue({
           ...productCategory,
-          parent_id: productCategory?.parent_id?.title,
+          parent_id: productCategory?.parent_id?._id,
           thumbnail: [
             {
               uid: '-1',
@@ -63,7 +63,7 @@ function AdminProductCategoriesEdit() {
 
       if (file) {
         formData.append('thumbnail', file)
-        formData.append('oldThumbnail', oldThumbnail)
+        formData.append('oldImage', oldThumbnail)
       } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
 
       formData.append('title', values.title)
@@ -132,7 +132,7 @@ function AdminProductCategoriesEdit() {
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label="Thumbnail (URL)"
+            label="Thumbnail"
             valuePropName="fileList"
             getValueFromEvent={e => {
               if (Array.isArray(e)) return e

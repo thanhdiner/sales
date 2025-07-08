@@ -1,0 +1,9 @@
+.ant-table-cell-style,
+.ant-table-selection-column {
+  vertical-align: middle !important;
+}
+
+.ant-modal-body {
+  overflow-y: auto;
+  max-height: 65vh;
+}

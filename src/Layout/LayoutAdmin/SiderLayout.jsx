@@ -1,4 +1,4 @@
-import { AppstoreOutlined, ForkOutlined, HomeOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, ForkOutlined, HomeOutlined, TeamOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useEffect, useState } from 'react'
@@ -28,7 +28,8 @@ function SiderLayout({ collapsed, showLogoText, location }) {
       getItem('Permissions', 'permissions'),
       getItem('Roles', 'roles'),
       getItem('Role Permission', 'role-permission')
-    ])
+    ]),
+    getItem('Accounts', 'accounts', <TeamOutlined />)
   ]
 
   const getLevelKeys = items1 => {
@@ -72,6 +73,7 @@ function SiderLayout({ collapsed, showLogoText, location }) {
     if (pathname.includes('/admin/roles')) return 'roles'
     if (pathname.includes('/admin/permission-groups')) return 'permission-groups'
     if (pathname.includes('/admin/role-permission')) return 'role-permission'
+    if (pathname.includes('/admin/accounts')) return 'accounts'
     return 'dashboard'
   }
 

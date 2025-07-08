@@ -22,6 +22,7 @@ import AdminPermissionsPage from '../pages/AdminPermissionsPage'
 import AdminProductCategoriesDetails from '../pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'
 import AdminPermissionGroupsPage from '../pages/AdminPermissionGroupsPage'
 import AdminRolePermissionPage from '../pages/AdminRolePermissionPage'
+import AdminAccountsPage from '../pages/AdminAccountsPage'
 
 export const routes = [
   // Client
@@ -123,6 +124,10 @@ export const routes = [
       {
         path: 'role-permission',
         element: <AdminRolePermissionPage />
+      },
+      {
+        path: 'accounts',
+        element: <AdminAccountsPage />
       },
       {
         path: '*',

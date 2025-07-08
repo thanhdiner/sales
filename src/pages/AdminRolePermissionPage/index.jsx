@@ -33,8 +33,9 @@ export default function AdminRolePermissionsPage() {
       setRolePerm(mapping)
     } catch (e) {
       message.error('Lỗi khi lấy dữ liệu')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const isRoleSelectAll = roleId => {
