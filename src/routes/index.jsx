@@ -23,6 +23,8 @@ import AdminProductCategoriesDetails from '../pages/AdminProductCategoriesPage/A
 import AdminPermissionGroupsPage from '../pages/AdminPermissionGroupsPage'
 import AdminRolePermissionPage from '../pages/AdminRolePermissionPage'
 import AdminAccountsPage from '../pages/AdminAccountsPage'
+import RequireAuth from '../components/AdminRequireAuth'
+import AdminLoginRoute from '../components/AdminLoginRoute'
 
 export const routes = [
   // Client
@@ -64,10 +66,21 @@ export const routes = [
       }
     ]
   },
+
+  // Admin Login
+  {
+    path: '/admin/auth/login',
+    element: <AdminLoginRoute />
+  },
+
   // Admin
   {
     path: '/admin',
-    element: <LayoutAdmin />,
+    element: (
+      <RequireAuth>
+        <LayoutAdmin />
+      </RequireAuth>
+    ),
     children: [
       {
         index: true, // tương đương path: ''
@@ -75,59 +88,115 @@ export const routes = [
       },
       {
         path: 'dashboard',
-        element: <AdminDashboard />
+        element: (
+          <RequireAuth>
+            <AdminDashboard />
+          </RequireAuth>
+        )
       },
       {
         path: 'products',
-        element: <AdminProductsPages />
+        element: (
+          <RequireAuth>
+            <AdminProductsPages />
+          </RequireAuth>
+        )
       },
       {
         path: 'products/details/:id',
-        element: <AdminProductsDetails />
+        element: (
+          <RequireAuth>
+            <AdminProductsDetails />
+          </RequireAuth>
+        )
       },
       {
         path: 'products/create',
-        element: <AdminProductsCreate />
+        element: (
+          <RequireAuth>
+            <AdminProductsCreate />
+          </RequireAuth>
+        )
       },
       {
         path: 'products/edit/:id',
-        element: <AdminProductsEdit />
+        element: (
+          <RequireAuth>
+            <AdminProductsEdit />
+          </RequireAuth>
+        )
       },
       {
         path: 'product-categories',
-        element: <AdminProductCategoriesPage />
+        element: (
+          <RequireAuth>
+            <AdminProductCategoriesPage />
+          </RequireAuth>
+        )
       },
       {
         path: 'product-categories/:id',
-        element: <AdminProductCategoriesDetails />
+        element: (
+          <RequireAuth>
+            <AdminProductCategoriesDetails />
+          </RequireAuth>
+        )
       },
       {
         path: 'product-categories/create',
-        element: <AdminProductCategoriesCreate />
+        element: (
+          <RequireAuth>
+            <AdminProductCategoriesCreate />
+          </RequireAuth>
+        )
       },
       {
         path: 'product-categories/edit/:id',
-        element: <AdminProductCategoriesEdit />
+        element: (
+          <RequireAuth>
+            <AdminProductCategoriesEdit />
+          </RequireAuth>
+        )
       },
       {
         path: 'roles',
-        element: <AdminRolesPage />
+        element: (
+          <RequireAuth>
+            <AdminRolesPage />
+          </RequireAuth>
+        )
       },
       {
         path: 'permissions',
-        element: <AdminPermissionsPage />
+        element: (
+          <RequireAuth>
+            <AdminPermissionsPage />
+          </RequireAuth>
+        )
       },
       {
         path: 'permission-groups',
-        element: <AdminPermissionGroupsPage />
+        element: (
+          <RequireAuth>
+            <AdminPermissionGroupsPage />
+          </RequireAuth>
+        )
       },
       {
         path: 'role-permission',
-        element: <AdminRolePermissionPage />
+        element: (
+          <RequireAuth>
+            <AdminRolePermissionPage />
+          </RequireAuth>
+        )
       },
       {
         path: 'accounts',
-        element: <AdminAccountsPage />
+        element: (
+          <RequireAuth>
+            <AdminAccountsPage />
+          </RequireAuth>
+        )
       },
       {
         path: '*',

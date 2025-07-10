@@ -1,77 +1,81 @@
+import { getAccessToken, setAccessToken, clearTokens } from './auth'
+import { authAdminRefresh } from '../services/adminAuth.service'
+
 const API_DOMAIN = 'http://localhost:3001/api/v1/'
 
-export const get = async path => {
+const getAuthHeaders = () => {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
+const refreshAccessToken = async () => {
   try {
-    const res = await fetch(API_DOMAIN + path)
-
-    if (!res.ok) {
-      if (res.status === 404) return null
-      const errorText = await res.text()
-      throw new Error(`API Error ${res.status}: ${errorText}`)
+    const res = await authAdminRefresh()
+    if (res.ok && res.accessToken) {
+      setAccessToken(res.accessToken)
+      return res.accessToken
+    } else {
+      clearTokens()
+      throw new Error('Refresh token failed')
     }
-
-    return await res.json()
-  } catch (error) {
-    console.error('Fetch error:', error.message)
-    throw error
+  } catch (err) {
+    clearTokens()
+    throw err
   }
 }
 
-export const post = async (path, data) => {
+const requestWithAuth = async (method, path, data) => {
   const isFormData = data instanceof FormData
-
-  try {
-    const res = await fetch(API_DOMAIN + path, {
-      method: 'POST',
-      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
-      body: isFormData ? data : JSON.stringify(data)
-    })
-
-    const json = await res.json()
-
-    if (!res.ok) {
-      const error = new Error(`API Error ${res.status}`)
-      error.status = res.status
-      error.response = json
-      throw error
-    }
-
-    return json
-  } catch (error) {
-    console.error('Fetch error:', error.message)
-    throw error
+  let headers = {
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...getAuthHeaders()
   }
-}
 
-export const patch = async (path, data = {}) => {
-  const isFormData = data instanceof FormData
+  let options = {
+    method,
+    credentials: 'include',
+    headers
+  }
+  if (method !== 'GET') options.body = isFormData ? data : JSON.stringify(data)
+
+  let res = await fetch(API_DOMAIN + path, options)
+  let json
   try {
-    const res = await fetch(API_DOMAIN + path, {
-      method: 'PATCH',
-      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
-      body: isFormData ? data : JSON.stringify(data)
-    })
+    json = await res.json()
+  } catch {
+    json = null
+  }
 
-    let responseData
-    let errorText
-
-    if (!res.ok) {
-      try {
-        responseData = await res.json()
-        errorText = responseData.error || responseData.message || JSON.stringify(responseData)
-      } catch {
-        errorText = await res.text()
-        responseData = { error: errorText }
+  if ((res.status === 401 || res.status === 403) && path !== 'admin/auth/login' && path !== 'admin/auth/refresh-token') {
+    try {
+      const newToken = await refreshAccessToken()
+      headers = {
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        Authorization: `Bearer ${newToken}`
       }
-      const error = new Error(`API Error ${res.status}: ${errorText}`)
-      error.response = responseData
-      error.status = res.status
-      throw error
+      options.headers = headers
+      res = await fetch(API_DOMAIN + path, options)
+      try {
+        json = await res.json()
+      } catch {
+        json = null
+      }
+    } catch (err) {
+      clearTokens()
+      throw new Error('Vui lòng đăng nhập lại')
     }
+  }
 
-    return await res.json()
-  } catch (error) {
-    console.error('Fetch error:', error.message)
+  if (!res.ok) {
+    const error = new Error(`API Error ${res.status}: ${json?.error || json?.message || res.statusText}`)
+    error.status = res.status
+    error.response = json
     throw error
   }
+
+  return json
 }
+
+export const get = async path => await requestWithAuth('GET', path)
+export const post = async (path, data) => await requestWithAuth('POST', path, data)
+export const patch = async (path, data) => await requestWithAuth('PATCH', path, data)
