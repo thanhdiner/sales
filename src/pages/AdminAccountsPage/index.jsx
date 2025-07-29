@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Button, Modal, Form, Input, Select, message, Popconfirm, Typography, Avatar, Upload } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import './AdminAccountsPage.scss'
-import { getAdminRoles } from '../../services/rolesService'
+import { getAdminRoles } from '@/services/rolesService'
+import titles from '@/utils/titles'
+
 const {
   getAdminAccounts,
   createAdminAccount,
   updateAdminAccount,
   deleteAdminAccount,
   changeStatusAdminAccount
-} = require('../../services/adminAccountsService')
+} = require('@/services/adminAccountsService')
 const { Title } = Typography
 
 const { Option } = Select
 
 function AdminAccountsPage() {
+  titles('Accounts Management')
+
   const [data, setData] = useState([])
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
@@ -150,35 +153,23 @@ function AdminAccountsPage() {
       dataIndex: 'username',
       className: 'ant-table-cell-style',
       render: (_, record) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Avatar
-            src={record.avatarUrl}
-            size={40}
-            shape="square"
-            style={{
-              flexShrink: 0,
-              background: '#eee',
-              borderRadius: 8,
-              width: 40,
-              height: 40,
-              objectFit: 'cover'
-            }}
-          >
-            {!record.avatarUrl && record.fullName ? record.fullName.trim().split(' ').pop().charAt(0).toUpperCase() : null}
+        <div className="flex items-center gap-3">
+          <Avatar src={record.avatarUrl} size={40} shape="square" className="flex-shrink-0 bg-[#eee] rounded-lg w-10 h-10 object-cover">
+            {!record.avatarUrl && record.fullName ? record.fullName?.trim()?.split(' ')?.pop()?.charAt(0)?.toUpperCase() : null}
           </Avatar>
           <div>
-            <div style={{ fontWeight: 600 }}>{record.fullName}</div>
-            <div style={{ fontSize: 12, color: '#888' }}>{record.username}</div>
+            <div className="font-semibold">{record.fullName}</div>
+            <div className="text-[12px] text-[#888]">{record.username}</div>
           </div>
         </div>
       )
     },
 
-    { title: 'Email', dataIndex: 'email', className: 'ant-table-cell-style' },
+    { title: 'Email', dataIndex: 'email', className: 'align-middle' },
     {
       title: 'Role',
       dataIndex: 'role_id',
-      className: 'ant-table-cell-style',
+      className: 'align-middle',
       render: value => {
         const role = roles.find(role => role._id === value)
         return role ? role.label : 'Unknown Role'
@@ -187,9 +178,9 @@ function AdminAccountsPage() {
     {
       title: 'Status',
       dataIndex: 'status',
-      className: 'ant-table-cell-style',
+      className: 'align-middle',
       render: (value, record) => (
-        <Select value={value} style={{ width: 100 }} onChange={newStatus => handleChangeStatus(record._id, newStatus)} size="small">
+        <Select value={value} className="w-25" onChange={newStatus => handleChangeStatus(record._id, newStatus)} size="small">
           <Option value="active">Active</Option>
           <Option value="inactive">Inactive</Option>
           <Option value="banned">Banned</Option>
@@ -199,12 +190,16 @@ function AdminAccountsPage() {
     {
       title: 'Action',
       key: 'actions',
-      className: 'ant-table-cell-style',
+      className: 'align-middle',
       render: (_, record) => (
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Button icon={<EditOutlined />} onClick={() => openModal(record)} />
+        <div className="flex gap-[8px]">
+          <Button
+            className="dark:bg-gray-500  dark:hover:!bg-gray-400"
+            icon={<EditOutlined className="dark:text-gray-300" />}
+            onClick={() => openModal(record)}
+          />
           <Popconfirm title="Bạn chắc chắn muốn xoá?" onConfirm={() => handleDelete(record._id)} okText="Xoá" cancelText="Huỷ">
-            <Button icon={<DeleteOutlined />} danger />
+            <Button className="dark:bg-red-500 dark:hover:!bg-red-400" icon={<DeleteOutlined className="dark:text-gray-300" />} danger />
           </Popconfirm>
         </div>
       )
@@ -213,18 +208,28 @@ function AdminAccountsPage() {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <Title level={3} style={{ margin: 0 }}>
-          Admin Accounts Management
+      <div className="flex items-center justify-between mb-6">
+        <Title level={3} className="m-0 text-gray-900 dark:text-gray-200">
+          Accounts Management
         </Title>
-        <Button type="primary" onClick={() => openModal(null)}>
+        <Button
+          type="primary"
+          onClick={() => openModal(null)}
+          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md p-2"
+        >
           Thêm tài khoản
         </Button>
       </div>
-      <Table columns={columns} dataSource={data} loading={loading} rowKey="_id" />
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        rowKey="_id"
+        className="w-full bg-white dark:bg-gray-900 shadow-md rounded-md"
+      />
       <Modal
         open={modalOpen}
-        title={editing ? 'Sửa tài khoản' : 'Thêm tài khoản'}
+        title={<span className="dark:text-gray-300">{editing ? 'Sửa tài khoản' : 'Thêm tài khoản'}</span>}
         onCancel={() => {
           setModalOpen(false)
           setEditing(null)
@@ -239,31 +244,61 @@ function AdminAccountsPage() {
         <Form form={form} layout="vertical" initialValues={{ status: 'active', role_id: 'admin' }}>
           <Form.Item
             name="username"
-            label="Username"
+            label={<span className="dark:text-gray-300">Username</span>}
             rules={[
               { required: true, min: 4 },
               { pattern: /^[a-zA-Z0-9_]+$/, message: 'Chỉ nhập chữ cái, số, hoặc dấu _; không dùng ký tự đặc biệt!' }
             ]}
           >
-            <Input autoFocus disabled={!!editing} placeholder="Nhập tên người dùng" />
+            <Input
+              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              autoFocus
+              disabled={!!editing}
+              placeholder="Nhập tên người dùng"
+            />
           </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
-            <Input placeholder="Nhập email" />
+          <Form.Item name="email" label={<span className="dark:text-gray-300">Email</span>} rules={[{ required: true, type: 'email' }]}>
+            <Input
+              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              placeholder="Nhập email"
+            />
           </Form.Item>
           {editing && (
-            <Form.Item name="newPassword" label="New Password" rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}>
-              <Input.Password placeholder="Nhập mật khẩu mới (không bắt buộc)" autoComplete="new-password" />
+            <Form.Item
+              name="newPassword"
+              label={<span className="dark:text-gray-300">New Password</span>}
+              rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+            >
+              <Input.Password
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                placeholder="Nhập mật khẩu mới (không bắt buộc)"
+                autoComplete="new-password"
+              />
             </Form.Item>
           )}
           {!editing && (
-            <Form.Item name="password" label="Password" rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}>
-              <Input.Password placeholder="Nhập mật khẩu" />
+            <Form.Item
+              name="password"
+              label={<span className="dark:text-gray-300">Password</span>}
+              rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+            >
+              <Input.Password
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                placeholder="Nhập mật khẩu"
+              />
             </Form.Item>
           )}
-          <Form.Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Tên đầy đủ là bắt buộc!' }]}>
-            <Input placeholder="Nhập tên đầy đủ" />
+          <Form.Item
+            name="fullName"
+            label={<span className="dark:text-gray-300">Full Name</span>}
+            rules={[{ required: true, message: 'Tên đầy đủ là bắt buộc!' }]}
+          >
+            <Input
+              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              placeholder="Nhập tên đầy đủ"
+            />
           </Form.Item>
-          <Form.Item name="role_id" label="Role" rules={[{ required: true }]}>
+          <Form.Item name="role_id" label={<span className="dark:text-gray-300">Role</span>} rules={[{ required: true }]}>
             <Select>
               {roles.map(role => (
                 <Option key={role._id} value={role._id}>
@@ -272,7 +307,7 @@ function AdminAccountsPage() {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>} rules={[{ required: true }]}>
             <Select>
               <Option value="active">Active</Option>
               <Option value="inactive">Inactive</Option>

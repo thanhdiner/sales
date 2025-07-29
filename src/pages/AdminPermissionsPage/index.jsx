@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Table, Button, Modal, Form, Input, message, Space, Typography, Popconfirm, Select } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, ToolOutlined } from '@ant-design/icons'
-import './AdminPermissionsPage.scss'
 import slugify from 'slugify'
-import { createAdminPermissions, deleteAdminPermission, getAdminPermissions, updatePermissionById } from '../../services/permissionService'
-import { getAdminPermissionGroups } from '../../services/permissionGroupsService'
+import { createAdminPermissions, deleteAdminPermission, getAdminPermissions, updatePermissionById } from '@/services/permissionService'
+import { getAdminPermissionGroups } from '@/services/permissionGroupsService'
+import useAdminPermissions from '@/hooks/useAdminPermissions'
+import titles from '@/utils/titles'
 
 const { Title } = Typography
 
 export default function AdminPermissionsPage() {
+  titles('Permissions')
+
   const [permissions, setPermissions] = useState([])
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
   const [permissionGroups, setPermissionGroups] = useState([])
+
+  const hasPermissions = useAdminPermissions()
 
   useEffect(() => {
     fetchData()
@@ -35,6 +40,7 @@ export default function AdminPermissionsPage() {
       setPermissionGroups([])
     }
   }
+
   useEffect(() => {
     if (modal.visible) {
       if (modal.editing) form.setFieldsValue(modal.editing)
@@ -111,10 +117,22 @@ export default function AdminPermissionsPage() {
       key: 'action',
       render: (_, record) => (
         <Space>
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-          <Popconfirm title="Are you sure to delete this permission?" onConfirm={() => handleDelete(record)} okText="Yes" cancelText="No">
-            <Button icon={<DeleteOutlined />} danger />
-          </Popconfirm>
+          {hasPermissions.includes('edit_permission') && (
+            <Button
+              icon={<EditOutlined className="dark:text-gray-300" />}
+              onClick={() => handleEdit(record)}
+              className="text-blue-500 hover:bg-blue-100 dark:bg-gray-500  dark:hover:!bg-gray-400"
+            />
+          )}
+          {hasPermissions.includes('delete_permission') && (
+            <Popconfirm title="Are you sure to delete this permission?" onConfirm={() => handleDelete(record)} okText="Yes" cancelText="No">
+              <Button
+                icon={<DeleteOutlined className="dark:text-gray-300" />}
+                danger
+                className="hover:bg-red-100 dark:bg-red-500 dark:hover:!bg-red-400"
+              />
+            </Popconfirm>
+          )}
         </Space>
       ),
       width: 100
@@ -122,78 +140,96 @@ export default function AdminPermissionsPage() {
   ]
 
   return (
-    <div className="admin-permissions-page">
-      <div className="header">
-        <Title level={3}>Permissions</Title>
-        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-          New Permission
-        </Button>
-      </div>
-      <Table dataSource={permissions} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <ToolOutlined className="text-white text-xl" />
+            </div>
+            <div>
+              <Title level={2} className="text-gray-900 mb-0 dark:text-gray-200">
+                Permissions
+              </Title>
+              <p className="text-gray-500 text-sm mt-1">Manage system permissions and access controls</p>
+            </div>
+          </div>
+          {hasPermissions.includes('create_permission') && (
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreate}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 border-none text-white rounded-lg h-10 px-6"
+            >
+              New Permission
+            </Button>
+          )}
+        </div>
 
-      <Modal
-        title={modal.editing ? 'Edit Permission' : 'Create Permission'}
-        open={modal.visible}
-        onOk={handleOk}
-        onCancel={() => setModal({ visible: false, editing: null })}
-        okText={modal.editing ? 'Save' : 'Create'}
-        destroyOnClose
-      >
-        <Form form={form} layout="vertical" autoComplete="off" initialValues={{ name: '', title: '', description: '', group: '' }}>
-          <Form.Item
-            label="Title"
-            name="title"
-            rules={[
-              { required: true, message: 'Permission title is required' },
-              { min: 3, message: 'Permission title must be at least 3 characters' }
-            ]}
-          >
-            <Input
-              placeholder="e.g. View Products"
-              onChange={e => {
-                const newSlug = slugify(e.target.value, { lower: true, strict: true, replacement: '_' })
-                if (!modal.editing) form.setFieldsValue({ name: newSlug })
-              }}
-            />
-          </Form.Item>
-          <Form.Item
-            label={
-              <span>
-                Permission Name
-                {modal.editing && (
-                  <Button
-                    size="small"
-                    type="link"
-                    style={{ marginLeft: 8, padding: 0, fontSize: 13 }}
-                    onClick={() => {
-                      const title = form.getFieldValue('title') || ''
-                      const newSlug = slugify(title, { lower: true, strict: true, replacement: '_' })
-                      form.setFieldsValue({ name: newSlug })
-                    }}
-                    icon={<ToolOutlined />}
-                  >
-                    Generate
-                  </Button>
-                )}
-              </span>
-            }
-            name="name"
-            rules={[
-              { required: true, message: 'Permission name is required' },
-              { min: 3, message: 'Permission name must be at least 3 characters' },
-              { pattern: /^[a-z0-9_]+$/, message: 'Only a-z, 0-9, and _' }
-            ]}
-          >
-            <Input placeholder="e.g. view_products" />
-          </Form.Item>
-          <Form.Item label="Description" name="description">
-            <Input.TextArea rows={3} placeholder="Short description about permission" />
-          </Form.Item>
-          <Form.Item label="Group" name="group" rules={[{ required: true, message: 'Please select group' }]}>
-            <Select placeholder="Select group" options={permissionGroups} allowClear />
-          </Form.Item>
-        </Form>
-      </Modal>
+        {/* Table */}
+        <Table dataSource={permissions} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} className="mb-6" />
+
+        {/* Modal */}
+        <Modal
+          title={<span className="dark:text-gray-300">{modal.editing ? 'Edit Permission' : 'Create Permission'}</span>}
+          open={modal.visible}
+          onOk={handleOk}
+          onCancel={() => setModal({ visible: false, editing: null })}
+          okText={modal.editing ? 'Save' : 'Create'}
+          destroyOnClose
+          className="custom-modal"
+        >
+          <Form form={form} layout="vertical" autoComplete="off" initialValues={{ name: '', title: '', description: '', group: '' }}>
+            <Form.Item
+              label={<span className="dark:text-gray-300">Permission Title</span>}
+              name="title"
+              rules={[
+                { required: true, message: 'Permission title is required' },
+                { min: 3, message: 'Permission title must be at least 3 characters' }
+              ]}
+            >
+              <Input
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                placeholder="e.g. View Products"
+                onChange={e => {
+                  const newSlug = slugify(e.target.value, { lower: true, strict: true, replacement: '_' })
+                  if (!modal.editing) form.setFieldsValue({ name: newSlug })
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              label={<span className="dark:text-gray-300">Permission Name</span>}
+              name="name"
+              rules={[
+                { required: true, message: 'Permission name is required' },
+                { min: 3, message: 'Permission name must be at least 3 characters' },
+                { pattern: /^[a-z0-9_]+$/, message: 'Only a-z, 0-9, and _' }
+              ]}
+            >
+              <Input
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600 dark:disabled:bg:gray-500"
+                placeholder="e.g. view_products"
+                disabled={!!modal.editing}
+              />
+            </Form.Item>
+            <Form.Item label={<span className="dark:text-gray-300">Description</span>} name="description">
+              <Input.TextArea
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                rows={3}
+                placeholder="Short description about permission"
+              />
+            </Form.Item>
+            <Form.Item
+              label={<span className="dark:text-gray-300">Group</span>}
+              name="group"
+              rules={[{ required: true, message: 'Please select group' }]}
+            >
+              <Select placeholder="Select group" options={permissionGroups} allowClear />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </div>
   )
 }

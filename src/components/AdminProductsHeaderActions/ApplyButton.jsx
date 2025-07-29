@@ -22,8 +22,8 @@ function ApplyButton({
     switch (value) {
       case 'delete':
         Modal.confirm({
-          title: 'Confirm Delete',
-          content: `Are you sure you want to delete ${selectedRowKeys.length} selected products?`,
+          title: <span className="dark:text-gray-300">Confirm Deletion</span>,
+          content: <span className="dark:text-gray-300">Are you sure you want to delete {selectedRowKeys.length} selected products?</span>,
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'Cancel',
@@ -56,14 +56,24 @@ function ApplyButton({
         const newStatus = value === 'status-active' ? 'active' : 'inactive'
 
         Modal.confirm({
-          title: 'Confirm Status Change',
-          content: `Change status of ${selectedRowKeys.length} products to "${newStatus}"?`,
+          title: <span className="dark:text-gray-300">Confirm Status Change</span>,
+          content: (
+            <span className="dark:text-gray-300">
+              Change status of {selectedRowKeys.length} products to "{newStatus}"?
+            </span>
+          ),
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
             try {
-              await changeStatusManyProducts(selectedRowKeys, newStatus)
-              setProducts(prev => prev.map(p => (selectedRowKeys.includes(p._id) ? { ...p, status: newStatus } : p)))
+              const res = await changeStatusManyProducts(selectedRowKeys, newStatus)
+              const updatedProducts = res.products || []
+              setProducts(prev =>
+                prev.map(p => {
+                  const found = updatedProducts.find(u => u._id === p._id)
+                  return found ? { ...p, ...found } : p
+                })
+              )
               message.success(`✅ Status updated to "${newStatus}" for ${selectedRowKeys.length} products`)
               setSelectedRowKeys([])
               setValue(undefined)
@@ -77,8 +87,8 @@ function ApplyButton({
       }
       case 'change-position':
         Modal.confirm({
-          title: 'Confirm Position Change',
-          content: `Change position of ${selectedRowKeys.length} products?`,
+          title: <span className="dark:text-gray-300">Confirm Change Position</span>,
+          content: <span className="dark:text-gray-300">Change position of {selectedRowKeys.length} products?</span>,
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
@@ -92,11 +102,12 @@ function ApplyButton({
                   position: editedPosition !== undefined ? editedPosition : originalProduct?.position || 0
                 }
               })
-              await changePositionManyProducts(data)
+              const res = await changePositionManyProducts(data)
+              const updatedProducts = res.products || []
               setProducts(prev =>
                 prev.map(p => {
-                  const edited = data.find(d => d._id === p._id)
-                  return edited ? { ...p, position: edited.position } : p
+                  const found = updatedProducts.find(u => u._id === p._id)
+                  return found ? { ...p, ...found } : p
                 })
               )
               message.success(`✅ Changed position for ${selectedRowKeys.length} products`)

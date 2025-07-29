@@ -1,9 +1,9 @@
-@import '../../../public/styles/variables';
+@import '../../../../public/styles/variables';
 
 .products {
   &__item {
     border: 1px solid #e1e1e1;
-    border-radius: $sizeBorderRadiusItem;
+    border-radius: var(--border-radius-item);
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
@@ -23,8 +23,8 @@
   &__thumbnail {
     width: 100%;
     height: 200px;
-    border-top-left-radius: $sizeBorderRadiusItem;
-    border-top-right-radius: $sizeBorderRadiusItem;
+    border-top-left-radius: var(--border-radius-item);
+    border-top-right-radius: var(--border-radius-item);
     overflow: hidden;
     & img {
       width: 100%;
@@ -50,7 +50,7 @@
     overflow: hidden;
   }
   &__price {
-    color: $color-red2;
+    color: var(--color-red2);
     font-size: 1.3rem;
     font-weight: 500;
     &-wrap {
@@ -81,10 +81,10 @@
       background-color: transparent;
       &--add {
         font-size: 20px;
-        color: $color-blue4;
+        color: var(--color-blue4);
       }
       &:hover &--add {
-        color: $color-blue5;
+        color: var(--color-blue5);
       }
       &:hover {
         cursor: pointer;
@@ -92,7 +92,7 @@
     }
     &__rate {
       font-size: 1.1rem;
-      color: $color-orange;
+      color: var(--color-orange);
       .ant-rate-star.ant-rate-star-full {
         margin-inline-end: 5px;
       }
@@ -104,7 +104,7 @@
     margin: 0 -5px;
     padding: 0 5px;
   }
-  &-slide > div {
+  .product-slider-top-deal &-slide > div {
     padding: 0 7px;
   }
 }

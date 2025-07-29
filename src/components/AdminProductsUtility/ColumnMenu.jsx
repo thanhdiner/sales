@@ -3,26 +3,8 @@ import { Checkbox } from 'antd'
 function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
   return (
     <>
-      <div
-        style={{
-          padding: 12,
-          minWidth: 240,
-          backgroundColor: '#fff',
-          borderRadius: 8,
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-        }}
-      >
-        <div
-          style={{
-            fontWeight: 600,
-            fontSize: 16,
-            marginBottom: 6,
-            borderBottom: '1px solid #eee',
-            paddingBottom: 8
-          }}
-        >
-          Toggle Columns
-        </div>
+      <div className="p-3 min-w-[240px] bg-white rounded-[8px] dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+        <div className="font-semibold text-base mb-1 border-b border-solid border-[#eee] pb-2 dark:text-gray-200">Toggle Columns</div>
 
         <Checkbox.Group
           value={Object.keys(columnsVisible).filter(key => columnsVisible[key])}
@@ -34,29 +16,13 @@ function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
             setColumnsVisible(updated)
           }}
         >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '0px 12px'
-            }}
-          >
+          <div className="grid grid-cols-2 gap-x-3">
             {allColumns.map((col, index) => (
-              <div
-                key={col.value}
-                style={{
-                  paddingBottom: 2,
-                  paddingTop: 2
-                }}
-              >
+              <div key={col.value} className="pt-0.5 pb-0.5">
                 <label
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    cursor: col.required ? 'not-allowed' : 'pointer',
-                    opacity: col.required ? 0.6 : 1
-                  }}
+                  className={`flex items-center gap-2 dark:text-gray-200 ${
+                    col.required ? 'cursor-not-allowed opacity-60' : 'cursor-pointer opacity-100'
+                  }`}
                 >
                   <Checkbox value={col.value} disabled={col.required} />
                   <span>{col.label}</span>
@@ -65,7 +31,7 @@ function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
             ))}
           </div>
         </Checkbox.Group>
-        <p style={{ marginTop: 5, fontSize: 12, color: '#888', borderTop: '1px solid #eee', paddingTop: 8 }}>
+        <p className="mt-1 text-[12px] text-[#888] border-t border-solid border-[#eee] pt-2">
           * These columns are required and cannot be hidden.
         </p>
       </div>

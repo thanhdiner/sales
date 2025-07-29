@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Table, Button, Modal, Form, Input, message, Space, Typography, Popconfirm, Switch, Select } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { getAdminPermissions } from '../../services/permissionService'
-import { createAdminRole, deleteAdminRole, getAdminRoles, toggleStatusAdminRole, updateAdminRoleById } from '../../services/rolesService'
+import { getAdminPermissions } from '@/services/permissionService'
+import { createAdminRole, deleteAdminRole, getAdminRoles, toggleStatusAdminRole, updateAdminRoleById } from '@/services/rolesService'
+import useAdminPermissions from '@/hooks/useAdminPermissions'
+import titles from '@/utils/titles'
 
 const { Title } = Typography
 
 export default function AdminRolesPage() {
+  titles('Roles')
+
   const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
   const [updatingId, setUpdatingId] = useState(null)
+
+  const hasPermissions = useAdminPermissions()
 
   useEffect(() => {
     fetchData()
@@ -111,12 +117,12 @@ export default function AdminRolesPage() {
       render: perms =>
         perms?.length ? (
           perms.map(p => (
-            <span key={p} style={{ background: '#f0f0ff', padding: '1px 8px', margin: '0 2px', borderRadius: 6, display: 'inline-block' }}>
+            <span key={p} className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs inline-block mr-1">
               {permissions.find(_p => _p.name === p)?.title || p}
             </span>
           ))
         ) : (
-          <i style={{ color: '#888' }}>None</i>
+          <i className="text-gray-400 text-xs">None</i>
         )
     },
     {
@@ -130,6 +136,7 @@ export default function AdminRolesPage() {
           unCheckedChildren="inactive"
           loading={updatingId === record._id}
           onChange={() => handleToggleActive(record)}
+          disabled={!hasPermissions.includes('edit_role')}
         />
       ),
       width: 120
@@ -139,15 +146,27 @@ export default function AdminRolesPage() {
       key: 'action',
       render: (_, record) => (
         <Space>
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-          <Popconfirm
-            title="Xoá role này? (Không thể xoá nếu còn user liên kết)"
-            onConfirm={() => handleDelete(record)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button icon={<DeleteOutlined />} danger />
-          </Popconfirm>
+          {hasPermissions.includes('edit_role') && (
+            <Button
+              icon={<EditOutlined className="dark:text-gray-300" />}
+              onClick={() => handleEdit(record)}
+              className="text-blue-500 hover:bg-blue-100 dark:bg-gray-500  dark:hover:!bg-gray-400"
+            />
+          )}
+          {hasPermissions.includes('delete_role') && (
+            <Popconfirm
+              title="Xoá role này? (Không thể xoá nếu còn user liên kết)"
+              onConfirm={() => handleDelete(record)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                icon={<DeleteOutlined className="dark:text-gray-300" />}
+                danger
+                className="hover:bg-red-100 dark:bg-red-500 dark:hover:!bg-red-400"
+              />
+            </Popconfirm>
+          )}
         </Space>
       ),
       width: 100
@@ -155,48 +174,84 @@ export default function AdminRolesPage() {
   ]
 
   return (
-    <div className="admin-roles-page">
-      <div className="header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title level={3}>Roles</Title>
-        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-          New Role
-        </Button>
-      </div>
-      <Table dataSource={roles} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <PlusOutlined className="text-white text-xl" />
+            </div>
+            <div>
+              <Title level={3} className="text-gray-900 dark:text-gray-200">
+                Roles
+              </Title>
+              <p className="text-gray-500 text-sm">Manage your roles here</p>
+            </div>
+          </div>
+          {hasPermissions.includes('create_role') && (
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreate}
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg px-6 py-3"
+            >
+              New Role
+            </Button>
+          )}
+        </div>
 
-      <Modal
-        title={modal.editing ? 'Edit Role' : 'Create Role'}
-        open={modal.visible}
-        onOk={handleOk}
-        onCancel={() => setModal({ visible: false, editing: null })}
-        okText={modal.editing ? 'Save' : 'Create'}
-        destroyOnClose
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          autoComplete="off"
-          initialValues={{ label: '', description: '', permissions: [], isActive: true }}
+        {/* Table */}
+        <Table dataSource={roles} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} />
+
+        {/* Modal */}
+        <Modal
+          title={<span className="dark:text-gray-300">{modal.editing ? 'Edit Role' : 'Create Role'}</span>}
+          open={modal.visible}
+          onOk={handleOk}
+          onCancel={() => setModal({ visible: false, editing: null })}
+          okText={modal.editing ? 'Save' : 'Create'}
+          destroyOnClose
+          className="custom-modal"
         >
-          <Form.Item label="Name" name="label" rules={[{ required: true, message: 'Name is required' }]}>
-            <Input placeholder="Nhập tên vai trò" />
-          </Form.Item>
-          <Form.Item label="Description" name="description">
-            <Input.TextArea rows={2} placeholder="Mô tả ngắn gọn" />
-          </Form.Item>
-          <Form.Item label="Permissions" name="permissions">
-            <Select
-              mode="multiple"
-              allowClear
-              options={permissions.map(p => ({ label: p.title, value: p.name }))}
-              placeholder="Chọn quyền cho vai trò này"
-            />
-          </Form.Item>
-          <Form.Item label="Status" name="isActive" valuePropName="checked">
-            <Switch checkedChildren="active" unCheckedChildren="inactive" />
-          </Form.Item>
-        </Form>
-      </Modal>
+          <Form
+            form={form}
+            layout="vertical"
+            autoComplete="off"
+            initialValues={{ label: '', description: '', permissions: [], isActive: true }}
+          >
+            <Form.Item
+              label={<span className="dark:text-gray-300">Name</span>}
+              name="label"
+              rules={[{ required: true, message: 'Name is required' }]}
+            >
+              <Input
+                placeholder="Nhập tên vai trò"
+                className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              />
+            </Form.Item>
+            <Form.Item label={<span className="dark:text-gray-300">Description</span>} name="description">
+              <Input.TextArea
+                rows={2}
+                placeholder="Mô tả ngắn gọn"
+                className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              />
+            </Form.Item>
+            <Form.Item label={<span className="dark:text-gray-300">Permissions</span>} name="permissions">
+              <Select
+                mode="multiple"
+                allowClear
+                options={permissions.map(p => ({ label: p.title, value: p.name }))}
+                placeholder="Chọn quyền cho vai trò này"
+                className="rounded-lg"
+              />
+            </Form.Item>
+            <Form.Item label={<span className="dark:text-gray-300">Status</span>} name="isActive" valuePropName="checked">
+              <Switch checkedChildren="active" unCheckedChildren="inactive" />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </div>
   )
 }

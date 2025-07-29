@@ -154,3 +154,11 @@ select {
     cursor: pointer;
   }
 }
+
+html.dark .toolbar-btn {
+  background: oklch(35.9% 0.144 278.697);
+  color: #fff;
+  svg {
+    stroke: #fff;
+  }
+}

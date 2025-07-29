@@ -1,4 +1,10 @@
 import { get, patch, post } from '../utils/request'
+
+//# client
+export async function getProductCategoryTree() {
+  return await get('product-categories/tree')
+}
+
 //# admin
 
 //# Product Categories

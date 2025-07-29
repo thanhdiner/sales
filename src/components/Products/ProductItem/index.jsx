@@ -8,7 +8,7 @@ import { formatVND } from '../../../helpers/formatCurrency'
 
 function ProductItem(props) {
   const carts = useSelector(store => store.cart.items)
-  console.log(carts)
+// console.log(carts)
   const { product, isDragging } = props
 
   const priceNew = formatVND((product.price * (100 - product.discountPercentage)) / 100)

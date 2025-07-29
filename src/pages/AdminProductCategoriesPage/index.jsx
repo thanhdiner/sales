@@ -1,20 +1,35 @@
 import './AdminProductCategoriesPage.scss'
 import { useCallback, useEffect, useState } from 'react'
-import { getAdminProductCategories } from '../../services/productCategoryService'
-import AdminProductCategoriesTable from '../../components/AdminProductCategoriesTable'
-import AdminProductCategoriesPagination from '../../components/AdminProductCategoriesPagination'
-import AdminProductCategoriesHeaderActions from '../../components/AdminProductCategoriesHeaderActions'
-import AdminProductCategoriesHeader from '../../components/AdminProductCategoriesHeader'
+import { getAdminProductCategories } from '@/services/productCategoryService'
+import AdminProductCategoriesTable from '@/components/AdminProductCategoriesTable'
+import AdminProductCategoriesPagination from '@/components/AdminProductCategoriesPagination'
+import AdminProductCategoriesHeaderActions from '@/components/AdminProductCategoriesHeaderActions'
+import AdminProductCategoriesHeader from '@/components/AdminProductCategoriesHeader'
+import titles from '@/utils/titles'
 
 function AdminProductCategoriesPage() {
-  const [columnsVisible, setColumnsVisible] = useState({
-    _id: true,
-    title: true,
-    position: true,
-    status: true,
-    thumbnail: true,
-    actions: true
+  titles('Product Categories')
+
+  const [columnsVisible, setColumnsVisible] = useState(() => {
+    const saved = localStorage.getItem('admin_productCategory_columns')
+    return saved
+      ? JSON.parse(saved)
+      : {
+          _id: true,
+          title: true,
+          position: true,
+          status: true,
+          thumbnail: true,
+          actions: true,
+          createdAt: false,
+          createdBy: false,
+          updateAt: false,
+          updateBy: false
+        }
   })
+  useEffect(() => {
+    localStorage.setItem('admin_productCategory_columns', JSON.stringify(columnsVisible))
+  }, [columnsVisible])
 
   //# state
   const [currentPage, setCurrentPage] = useState(1)

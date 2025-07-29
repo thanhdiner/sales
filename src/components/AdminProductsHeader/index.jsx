@@ -20,8 +20,8 @@ function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues, c
 
   return (
     <>
-      <div className="products-wrap">
-        <AdminTitle icon={<UnorderedListOutlined style={{ fontSize: '16px' }} />} title="Product Manager" />
+      <div className="products-wrap dark:text-gray-200 text-base">
+        <AdminTitle icon={<UnorderedListOutlined />} title="Product Manager" />
         <AdminProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products }} />
       </div>
       {isFilterVisible && <AdminProductsFilter onFilter={handleFilter} />}

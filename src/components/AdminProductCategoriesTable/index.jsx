@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { message, Modal, Table } from 'antd'
-import { deleteProductCategory } from '../../services/productCategoryService'
+import { deleteProductCategory } from '@/services/productCategoryService'
 import FieldThumbnail from './FieldThumbnail'
 import FieldTitle from './FieldTitle'
 import FieldPosition from './FieldPosition'
 import FieldStatus from './FieldStatus'
 import FieldAction from './FieldAction'
+import AdminFieldUserInfo from '@/components/AdminFieldUserInfo'
 
 function AdminProductCategoriesTable({
   isLoading,
@@ -59,7 +60,41 @@ function AdminProductCategoriesTable({
       key: 'position',
       render: (value, record) => <FieldPosition {...{ value, record, setEditedPositions }} />
     },
-
+    {
+      title: 'Updated By',
+      dataIndex: 'updateBy',
+      className: 'ant-table-cell-style',
+      key: 'updateBy',
+      render: (updateByArr = []) => {
+        const lastUpdate = updateByArr.length > 0 ? updateByArr[updateByArr.length - 1] : null
+        return lastUpdate && lastUpdate.by ? <AdminFieldUserInfo user={lastUpdate.by} /> : 'N/A'
+      }
+    },
+    {
+      title: 'Updated At',
+      dataIndex: 'updateBy',
+      className: 'ant-table-cell-style',
+      key: 'updateAt',
+      render: updateBy => {
+        if (!updateBy || updateBy.length === 0) return 'N/A'
+        const last = updateBy[updateBy.length - 1]
+        return last?.at ? new Date(last.at).toLocaleString() : 'N/A'
+      }
+    },
+    {
+      title: sortableTitle('Created By', 'createdBy'),
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      className: 'ant-table-cell-style',
+      render: createdBy => (createdBy && createdBy.by ? <AdminFieldUserInfo user={createdBy.by} /> : 'N/A')
+    },
+    {
+      title: sortableTitle('Created At', 'createdAt'),
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      className: 'ant-table-cell-style',
+      render: v => (v ? new Date(v).toLocaleString() : 'N/A')
+    },
     {
       title: sortableTitle('Status', 'status'),
       dataIndex: 'status',
@@ -97,8 +132,8 @@ function AdminProductCategoriesTable({
 
   const handleDelete = record => {
     Modal.confirm({
-      title: 'Confirm Delete',
-      content: `Are you sure you want to delete product category "${record.title}"?`,
+      title: <span className="dark:text-gray-300">Confirm Delete</span>,
+      content: <span className="dark:text-gray-300">Are you sure you want to delete product category "{record.title}"?</span>,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'Cancel',
@@ -125,7 +160,7 @@ function AdminProductCategoriesTable({
   //# End handler
 
   return (
-    <div className="product-categories-table">
+    <div className="mt-2.5">
       <Table
         loading={{
           spinning: isLoading,

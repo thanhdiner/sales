@@ -43,10 +43,6 @@
   gap: 10px;
 }
 
-.products-table {
-  margin-top: 10px;
-}
-
 .ant-table-column-sorters.sortable {
   cursor: pointer;
   column-gap: 10px;
@@ -97,4 +93,44 @@
     background: red !important;
     border-color: red !important;
   }
+}
+html.dark .ant-table,
+html.dark .ant-table-container,
+html.dark .ant-table-thead > tr > th,
+html.dark .ant-table-tbody > tr > td {
+  background-color: #1f2937 !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+html.dark .ant-table-tbody > tr:hover > td {
+  background: #334155 !important;
+}
+
+html.dark .ant-pagination-item,
+html.dark .ant-pagination-prev,
+html.dark .ant-pagination-next {
+  background: transparent !important;
+  border-color: #374151 !important;
+}
+
+html.dark .ant-pagination-item a {
+  color: #fff;
+}
+
+html.dark .ant-pagination-item-active {
+  background: #2563eb !important;
+}
+html.dark .ant-pagination-item-active a {
+  color: #fff;
+}
+
+html.dark .ant-pagination-options-quick-jumper {
+  color: #fff;
+}
+
+html.dark .ant-pagination-options-quick-jumper input {
+  background: #374151 !important;
+  color: #fff !important;
+  border-color: #374151 !important;
 }

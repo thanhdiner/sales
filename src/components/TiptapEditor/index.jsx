@@ -41,7 +41,7 @@ const TiptapEditor = ({ value = '', onChange }) => {
         <TiptapToolbar
           {...{ editor, highlightRef, setShowHighlightOptions, showHighlightOptions, colorRef, showColorPicker, setShowColorPicker }}
         />
-        <EditorContent editor={editor} />
+        <EditorContent className="dark:bg-gray-800 dark:text-gray-300" editor={editor} />
       </div>
     </div>
   )

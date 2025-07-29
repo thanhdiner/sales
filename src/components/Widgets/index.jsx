@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './Widgets.scss'
 
 function Widgets() {
@@ -6,20 +7,20 @@ function Widgets() {
       <div className="widgets">
         <div className="widgets__list">
           <div className="widgets__item">
-            <a href="#!">
+            <Link to="/products?type=isTopDeal">
               <div className="widgets__icon--wrap">
                 <img src="/icons/widgetsLike.png" alt="TOP DEAL" />
               </div>
               <p className="widgets__title highlight">TOP DEAL</p>
-            </a>
+            </Link>
           </div>
           <div className="widgets__item">
-            <a href="#!">
+            <Link to="/products?type=isFeatured">
               <div className="widgets__icon--wrap">
                 <img src="/icons/widgetsTrading.png" alt="Diner Trading" />
               </div>
-              <p className="widgets__title">Diner Trading</p>
-            </a>
+              <p className="widgets__title">Nổi bật</p>
+            </Link>
           </div>
           <div className="widgets__item">
             <a href="#!">

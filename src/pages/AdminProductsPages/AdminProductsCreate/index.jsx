@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload } from 'antd'
-import { createProduct } from '../../../services/productService'
-import { message } from 'antd'
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, Checkbox, message } from 'antd'
+import { createProduct } from '@/services/productService'
 import { PlusOutlined } from '@ant-design/icons'
-import TiptapEditor from '../../../components/TiptapEditor'
-import { getAdminProductCategoryTree } from '../../../services/productCategoryService'
+import TiptapEditor from '@/components/TiptapEditor'
+import { getAdminProductCategoryTree } from '@/services/productCategoryService'
+import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
 
 const { RangePicker } = DatePicker
 
 const initialValues = {
   status: 'active',
   discountPercentage: 0,
-  stock: 0
+  stock: 0,
+  deliveryEstimateDays: 0
 }
 
 const CreateProductPage = () => {
@@ -45,6 +46,8 @@ const CreateProductPage = () => {
       }
 
       formData.append('title', values.title)
+      const titleNoAccent = removeVietnameseTones(values.title)
+      formData.append('titleNoAccent', titleNoAccent)
       formData.append('productCategory', values.productCategory)
       formData.append('price', values.price)
       formData.append('discountPercentage', values.discountPercentage || 0)
@@ -54,6 +57,9 @@ const CreateProductPage = () => {
       formData.append('position', values?.position)
       formData.append('slug', values.slug || '')
       formData.append('content', values.content || '')
+      formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
+      formData.append('isFeatured', values.isFeatured ? 'true' : 'false')
+      formData.append('deliveryEstimateDays', values.deliveryEstimateDays || 0)
 
       const [timeStart, timeFinish] = values.timeRange || []
       if (timeStart) formData.append('timeStart', timeStart.toISOString())
@@ -79,10 +85,13 @@ const CreateProductPage = () => {
     <Form form={form} layout="vertical" initialValues={initialValues} onFinish={handleSubmit}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item name="title" label="Product Name" rules={[{ required: true }]}>
-            <Input placeholder="Nhập tên sản phẩm" />
+          <Form.Item name="title" label={<span className="dark:text-gray-300">Product Name</span>} rules={[{ required: true }]}>
+            <Input
+              className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
+              placeholder="Nhập tên sản phẩm"
+            />
           </Form.Item>
-          <Form.Item name="productCategory" label="Category" rules={[{ required: true }]}>
+          <Form.Item name="productCategory" label={<span className="dark:text-gray-300">Category</span>} rules={[{ required: true }]}>
             <TreeSelect
               style={{ width: '100%' }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -94,19 +103,31 @@ const CreateProductPage = () => {
               filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
             />
           </Form.Item>
-          <Form.Item name="price" label="Price (VNĐ)" rules={[{ required: true }]}>
+          <Form.Item name="price" label={<span className="dark:text-gray-300">Price (VNĐ)</span>} rules={[{ required: true }]}>
             <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
           </Form.Item>
-          <Form.Item name="discountPercentage" label="Discount Percentage (%)">
+          <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount Percentage (%)</span>}>
             <InputNumber style={{ width: '100%' }} min={0} max={100} />
           </Form.Item>
-          <Form.Item name="stock" label="Stock">
+          <Form.Item name="stock" label={<span className="dark:text-gray-300">Stock</span>}>
             <InputNumber style={{ width: '100%' }} min={0} />
           </Form.Item>
+          <Form.Item
+            name="deliveryEstimateDays"
+            label={<span className="dark:text-gray-300">Dự kiến giao sau (ngày)</span>}
+            rules={[{ required: true, message: 'Vui lòng chọn số ngày giao dự kiến!' }]}
+          >
+            <Select style={{ width: '100%' }}>
+              {[0, 1, 2, 3, 4, 5, 6, 7].map(day => (
+                <Select.Option value={day} key={day}>
+                  {day} ngày
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </Col>
-
         <Col span={12}>
-          <Form.Item name="status" label="Status">
+          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
             <Select
               options={[
                 { label: 'Active', value: 'active' },
@@ -114,33 +135,55 @@ const CreateProductPage = () => {
               ]}
             />
           </Form.Item>
-          <Form.Item name="position" label="Position">
+          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
             <InputNumber placeholder="Nhập vị trí hoặc bỏ trống để tự động tạo" style={{ width: '100%' }} min={0} />
           </Form.Item>
-          <Form.Item name="slug" label="Slug URL">
-            <Input placeholder="Tự động tạo từ Product Name hoặc bạn có thể sửa" />
+          <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
+            <Input
+              className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
+              placeholder="Tự động tạo từ Product Name hoặc bạn có thể sửa"
+            />
           </Form.Item>
-          <Form.Item name="timeRange" label="Promotion Time Range">
-            <RangePicker style={{ width: '100%' }} format="YYYY-MM-DD" showTime />
+          <Form.Item name="timeRange" label={<span className="dark:text-gray-300">Promotion Time Range</span>}>
+            <RangePicker
+              className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+              style={{ width: '100%' }}
+              format="YYYY-MM-DD"
+              showTime
+            />
+          </Form.Item>
+          <Form.Item label={<span className="dark:text-gray-300">Options</span>}>
+            <Row gutter={16}>
+              <Col>
+                <Form.Item name="isTopDeal" valuePropName="checked" noStyle style={{ marginBottom: 0, paddingTop: 2 }}>
+                  <Checkbox className="dark:text-gray-300 !p-[4px_2px]">Top Deal</Checkbox>
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item name="isFeatured" valuePropName="checked" noStyle style={{ marginBottom: 0, paddingTop: 2 }}>
+                  <Checkbox className="dark:text-gray-300 !p-[4px_2px]">Sản phẩm nổi bật</Checkbox>
+                </Form.Item>
+              </Col>
+            </Row>
           </Form.Item>
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item name="description" label="Short Description">
+          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
             <TiptapEditor />
           </Form.Item>
         </Col>
         <Col span={24}>
-          <Form.Item name="content" label="Content">
+          <Form.Item name="content" label={<span className="dark:text-gray-300">Content</span>}>
             <TiptapEditor />
           </Form.Item>
         </Col>
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label="Thumbnail"
+            label={<span className="dark:text-gray-300">Thumbnail</span>}
             valuePropName="fileList"
             getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
             rules={[{ required: true, message: 'Please upload an image!' }]}
@@ -157,7 +200,7 @@ const CreateProductPage = () => {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Add Image</div>
+                <div className="mt-2 dark:text-gray-300">Add Image</div>
               </div>
             </Upload>
           </Form.Item>

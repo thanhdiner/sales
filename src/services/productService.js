@@ -1,8 +1,10 @@
 import { get, patch, post } from '../utils/request'
 
 //# client
-export const getProducts = async () => {
-  return await get('products')
+export const getProducts = async (params = {}) => {
+  const query = new URLSearchParams(params).toString()
+  const url = query ? `products?${query}` : 'products'
+  return await get(url)
 }
 
 export const getProductDetail = async slug => {
@@ -64,4 +66,3 @@ export const getProductById = async id => {
 export const updateProductById = async (id, data) => {
   return await patch(`admin/products/edit/${id}`, data)
 }
-

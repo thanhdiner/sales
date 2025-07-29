@@ -33,3 +33,10 @@
     overflow-wrap: break-word;
   }
 }
+
+.menu-sider__label {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+  display: inline-block;
+}

@@ -2,6 +2,7 @@ import AddButton from './AddButton'
 import ApplyButton from './ApplyButton'
 import SelectedItems from './SelectedItems'
 import SelectList from './SelectList'
+import useAdminPermissions from '../../hooks/useAdminPermissions'
 
 function AdminProductsHeaderActions({
   selectedRowKeys,
@@ -17,16 +18,18 @@ function AdminProductsHeaderActions({
   setCurrentPage,
   fetchData
 }) {
+  const permissions = useAdminPermissions()
+
   const treeData = [
-    {
+    permissions.includes('delete_product_category') && {
       title: 'Delete',
       value: 'delete'
     },
-    {
+    permissions.includes('edit_product_category') && {
       title: 'Change Position',
       value: 'change-position'
     },
-    {
+    permissions.includes('edit_product_category') && {
       title: 'Change Status',
       value: 'change-status',
       disabled: true,
@@ -41,13 +44,13 @@ function AdminProductsHeaderActions({
         }
       ]
     }
-  ]
+  ].filter(Boolean)
 
   return (
-    <div className="product-categories-header">
+    <div className="mt-[15px] flex justify-between items-center">
       <SelectedItems {...{ selectedRowKeys }} />
-      <div className="product-categories-header-right">
-        <AddButton />
+      <div className="flex items-center gap-x-2.5">
+        {permissions.includes('create_product_category') && <AddButton />}
         <SelectList {...{ value, treeData, setValue }} />
         <ApplyButton
           {...{

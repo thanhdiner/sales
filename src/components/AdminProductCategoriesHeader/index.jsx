@@ -27,8 +27,8 @@ function AdminProductCategoriesHeader({
 
   return (
     <>
-      <div className="product-categories-wrap">
-        <AdminTitle icon={<UnorderedListOutlined style={{ fontSize: '16px' }} />} title="Product Categories Manager" />
+      <div className="flex justify-between items-center">
+        <AdminTitle icon={<UnorderedListOutlined className="text-base" />} title="Product Categories Manager" />
         <AdminProductCategoriesUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories }} />
       </div>
       {isFilterVisible && <AdminProductCategoriesFilter onFilter={handleFilter} />}

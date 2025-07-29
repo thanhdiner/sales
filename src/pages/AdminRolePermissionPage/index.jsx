@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Table, Checkbox, Button, message, Typography } from 'antd'
-import { getAdminRoles, updateAdminRoleById } from '../../services/rolesService'
-import { getAdminPermissionGroups } from '../../services/permissionGroupsService'
-import { getAdminPermissions } from '../../services/permissionService'
+import { getAdminRoles, updateAdminRoleById } from '@/services/rolesService'
+import { getAdminPermissionGroups } from '@/services/permissionGroupsService'
+import { getAdminPermissions } from '@/services/permissionService'
 import './AdminRolePermissionPage.scss'
+import useAdminPermissions from '@/hooks/useAdminPermissions'
+import titles from '@/utils/titles'
 
 const { Title } = Typography
 
 export default function AdminRolePermissionsPage() {
+  titles('Role Permission')
+
   const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [permissionGroups, setPermissionGroups] = useState([])
   const [loading, setLoading] = useState(false)
   const [rolePerm, setRolePerm] = useState({})
+
+  const hasPermissions = useAdminPermissions()
 
   useEffect(() => {
     fetchData()
@@ -97,12 +103,12 @@ export default function AdminRolePermissionsPage() {
       fixed: 'left',
       width: 140,
       render: (title, row) => {
-        if (row.isSelectAll) return <span style={{ fontWeight: '600', fontSize: 16 }}>Select all</span>
+        if (row.isSelectAll) return <span className="font-semibold text-base">Select all</span>
         return (
           <span>
             <b>{title}</b>
             <br />
-            {row.name && <span style={{ color: '#888', fontSize: 12 }}>{row.name}</span>}
+            {row.name && <span className="text-xs text-[#888]">{row.name}</span>}
           </span>
         )
       }
@@ -163,7 +169,7 @@ export default function AdminRolePermissionsPage() {
     if (!groupPerms.length) return
     dataSource.push({
       key: `group-selectall-${group.value}`,
-      title: <span style={{ fontWeight: '500', color: '#008cff' }}>{group.label}</span>,
+      title: <span className="font-medium text-[#008cff]">{group.label}</span>,
       isGroupSelectAll: true,
       groupValue: group.value
     })
@@ -174,11 +180,20 @@ export default function AdminRolePermissionsPage() {
 
   return (
     <>
-      <div className="admin-role-permission-header">
-        <Title level={3}>Role Permission</Title>
-        <Button type="primary" onClick={handleUpdate} loading={loading}>
-          Save Changes
-        </Button>
+      <div className="flex items-center justify-between bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <Title level={3} className="text-gray-900 dark:text-gray-200">
+          Role Permission
+        </Title>
+        {hasPermissions.includes('edit_role_permission') && (
+          <Button
+            type="primary"
+            onClick={handleUpdate}
+            loading={loading}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg py-2 px-6"
+          >
+            Save Changes
+          </Button>
+        )}
       </div>
       <Table
         scroll={{ x: 1000, y: 500 }}

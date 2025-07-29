@@ -8,6 +8,7 @@ import FieldPosition from './FieldPosition'
 import FieldStatus from './FieldStatus'
 import FieldAction from './FieldAction'
 import FieldCategory from './FieldCategory'
+import AdminFieldUserInfo from '@/components/AdminFieldUserInfo'
 
 function AdminProductsTable({
   isLoading,
@@ -89,6 +90,41 @@ function AdminProductsTable({
       width: 100
     },
     {
+      title: 'Updated By',
+      dataIndex: 'updateBy',
+      className: 'ant-table-cell-style',
+      key: 'updateBy',
+      render: (updateByArr = []) => {
+        const lastUpdate = updateByArr.length > 0 ? updateByArr[updateByArr.length - 1] : null
+        return lastUpdate && lastUpdate.by ? <AdminFieldUserInfo user={lastUpdate.by} /> : 'N/A'
+      }
+    },
+    {
+      title: 'Updated At',
+      dataIndex: 'updateBy',
+      className: 'ant-table-cell-style',
+      key: 'updateAt',
+      render: updateBy => {
+        if (!updateBy || updateBy.length === 0) return 'N/A'
+        const last = updateBy[updateBy.length - 1]
+        return last?.at ? new Date(last.at).toLocaleString() : 'N/A'
+      }
+    },
+    {
+      title: sortableTitle('Created By', 'createdBy'),
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      className: 'ant-table-cell-style',
+      render: createdBy => (createdBy && createdBy.by ? <AdminFieldUserInfo user={createdBy.by} /> : 'N/A')
+    },
+    {
+      title: sortableTitle('Created At', 'createdAt'),
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      className: 'ant-table-cell-style',
+      render: v => (v ? new Date(v).toLocaleString() : 'N/A')
+    },
+    {
       title: sortableTitle('Status', 'status'),
       dataIndex: 'status',
       className: 'ant-table-cell-style',
@@ -125,8 +161,8 @@ function AdminProductsTable({
 
   const handleDelete = record => {
     Modal.confirm({
-      title: 'Confirm Delete',
-      content: `Are you sure you want to delete product "${record.title}"?`,
+      title: <span className="dark:text-gray-300">Confirm Delete</span>,
+      content: <span className="dark:text-gray-300">Are you sure you want to delete product "{record.title}"?</span>,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'Cancel',
@@ -153,7 +189,7 @@ function AdminProductsTable({
   //# End handler
 
   return (
-    <div className="products-table">
+    <div className="mt-[10px]">
       <Table
         loading={{
           spinning: isLoading,

@@ -29,14 +29,14 @@ function AdminProductsDetails() {
 
   return (
     <div className="admin-product">
-      <h1 className="admin-product__title">Product Details</h1>
+      <h1 className="admin-product__title dark:text-gray-200">Product Details</h1>
 
       <Spin spinning={isLoading} tip="Loading product...">
         {!isLoading && product ? (
           <div className="admin-product__layout">
             <div className="admin-product__info">
               <table className="admin-product__table">
-                <tbody>
+                <tbody className="dark:text-gray-300">
                   {adminProductRows(product).map(([label, value]) => renderRow(label, value))}
                   {renderRow('Description', <div dangerouslySetInnerHTML={{ __html: product.description || '—' }} />)}
 

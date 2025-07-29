@@ -87,10 +87,10 @@ function AdminProductCategoriesEdit() {
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item name="title" label="Category Name" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item name="title" label={<span className="dark:text-gray-300">Category Name</span>} rules={[{ required: true }]}>
+            <Input className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600" />
           </Form.Item>
-          <Form.Item name="parent_id" label="Parent Category">
+          <Form.Item name="parent_id" label={<span className="dark:text-gray-300">Parent Category</span>}>
             <TreeSelect
               style={{ width: '100%' }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -102,13 +102,13 @@ function AdminProductCategoriesEdit() {
               filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
             />
           </Form.Item>
-          <Form.Item name="slug" label="Slug URL">
-            <Input />
+          <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
+            <Input className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600" />
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item name="status" label="Status">
+          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
             <Select
               options={[
                 { label: 'Active', value: 'active' },
@@ -116,7 +116,7 @@ function AdminProductCategoriesEdit() {
               ]}
             />
           </Form.Item>
-          <Form.Item name="position" label="Position">
+          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
             <InputNumber style={{ width: '100%' }} min={0} />
           </Form.Item>
         </Col>
@@ -124,7 +124,7 @@ function AdminProductCategoriesEdit() {
 
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item name="description" label="Short Description">
+          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
             <TiptapEditor value={form.getFieldValue('description')} onChange={value => form.setFieldsValue({ description: value })} />
           </Form.Item>
         </Col>
@@ -132,7 +132,7 @@ function AdminProductCategoriesEdit() {
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label="Thumbnail"
+            label={<span className="dark:text-gray-300">Thumbnail</span>}
             valuePropName="fileList"
             getValueFromEvent={e => {
               if (Array.isArray(e)) return e
@@ -152,7 +152,7 @@ function AdminProductCategoriesEdit() {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Add Image</div>
+                <div className="mt-2 dark:text-gray-300">Add Image</div>
               </div>
             </Upload>
           </Form.Item>

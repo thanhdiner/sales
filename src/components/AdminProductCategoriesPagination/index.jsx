@@ -7,9 +7,9 @@ function AdminProductCategoriesPagination({ currentPage, totalProductCategories,
   }
 
   return (
-    <div className="product-categories-pagination">
-      <span style={{ marginRight: 8 }}>
-        Total <span style={{ fontWeight: 'bold' }}>{totalProductCategories}</span> categories, Page {currentPage} of{' '}
+    <div className="flex justify-between items-center mt-3">
+      <span className="mr-2 dark:text-gray-200">
+        Total <span className="font-bold">{totalProductCategories}</span> categories, Page {currentPage} of{' '}
         {Math.ceil(totalProductCategories / limitItems)}
       </span>
       <Pagination

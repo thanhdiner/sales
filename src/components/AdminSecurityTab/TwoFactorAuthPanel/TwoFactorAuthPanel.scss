@@ -1,0 +1,83 @@
+.ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ant-steps-item-finish {
+  .ant-steps-item-icon {
+    background-color: #52c41a;
+    border-color: #52c41a;
+  }
+}
+
+.ant-list-item {
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+}
+
+.ant-tag {
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ant-switch {
+  &.ant-switch-checked {
+    background-color: #52c41a;
+  }
+}
+
+.ant-modal {
+  .ant-modal-header {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 16px 24px;
+  }
+
+  .ant-modal-body {
+    padding: 24px;
+  }
+
+  .ant-modal-footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 16px 24px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .backup-codes-container {
+    background-color: #f0f5fd;
+    color: #ffffff;
+  }
+
+  .ant-list-item {
+    &:hover {
+      background-color: #f0f5fd;
+    }
+  }
+}
+
+html.dark :where(.css-dev-only-do-not-override-apn68).ant-modal .ant-modal-content {
+  background-color: oklch(27.9% 0.041 260.031);
+}
+
+html.dark :where(.css-dev-only-do-not-override-apn68).ant-modal .ant-modal-header {
+  background-color: oklch(27.9% 0.041 260.031);
+}
+
+html.dark :where(.css-dev-only-do-not-override-apn68).ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+  background: oklch(70.4% 0.04 256.788);
+}

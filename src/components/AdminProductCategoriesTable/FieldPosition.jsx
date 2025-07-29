@@ -1,17 +1,10 @@
 function FieldPosition({ value, record, setEditedPositions }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div className="flex justify-center">
       <input
         type="number"
         defaultValue={value}
-        style={{
-          width: '100%',
-          maxWidth: 60,
-          textAlign: 'center',
-          padding: '2px 6px',
-          border: '1px solid #ccc',
-          borderRadius: 4
-        }}
+        className="w-full max-w-[60px] text-center text-black p-[2px_6px] border border-[#ccc] rounded-[4px] dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600"
         onChange={e => {
           const newVal = Number(e.target.value)
           setEditedPositions(prev => ({

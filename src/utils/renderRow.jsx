@@ -1,17 +1,8 @@
 function renderRow(label, value) {
   return (
-    <tr key={label} style={{ borderBottom: '1px solid #eee' }}>
-      <td
-        style={{
-          padding: '0.75rem 1rem',
-          fontWeight: 500,
-          backgroundColor: '#f9f9f9',
-          width: '200px'
-        }}
-      >
-        {label}
-      </td>
-      <td style={{ padding: '0.75rem 1rem' }}>{value}</td>
+    <tr key={label} className="border border-solid border-[#eee]">
+      <td className="py-3 px-4 font-medium bg-[#f9f9f9] w-[200px] dark:!bg-gray-900 dark:text-gray-300">{label}</td>
+      <td className="py-3 px-4 dark:text-gray-300">{value}</td>
     </tr>
   )
 }

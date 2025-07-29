@@ -34,7 +34,11 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
     { label: 'Position', value: 'position' },
     { label: 'Status', value: 'status' },
     { label: 'Thumbnail *', value: 'thumbnail', required: true },
-    { label: 'Actions *', value: 'actions', required: true }
+    { label: 'Actions *', value: 'actions', required: true },
+    { label: 'Created By', value: 'createdBy' },
+    { label: 'Created At', value: 'createdAt' },
+    { label: 'Updated By', value: 'updateBy' },
+    { label: 'Updated At', value: 'updateAt' }
   ]
   const columnMenu = <ColumnMenu {...{ columnsVisible, setColumnsVisible, allColumns }} />
 

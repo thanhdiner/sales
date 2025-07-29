@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom'
 
-export default function RequireAuth({ children }) {
+export default function AdminRequireAuth({ children }) {
   const isLoggedIn = Boolean(localStorage.getItem('adminAccessToken'))
   const location = useLocation()
 

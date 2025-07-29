@@ -26,8 +26,12 @@ function ApplyButton({
     switch (value) {
       case 'delete':
         Modal.confirm({
-          title: 'Confirm Delete',
-          content: `Are you sure you want to delete ${selectedRowKeys.length} selected product categories?`,
+          title: <span className="dark:text-gray-300">Confirm Delete</span>,
+          content: (
+            <span className="dark:text-gray-300">
+              Are you sure you want to delete {selectedRowKeys.length} selected product categories?
+            </span>
+          ),
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'Cancel',
@@ -60,14 +64,24 @@ function ApplyButton({
         const newStatus = value === 'status-active' ? 'active' : 'inactive'
 
         Modal.confirm({
-          title: 'Confirm Status Change',
-          content: `Change status of ${selectedRowKeys.length} product categories to "${newStatus}"?`,
+          title: <span className="dark:text-gray-300">Confirm Status Change</span>,
+          content: (
+            <span className="dark:text-gray-300">
+              Change status of {selectedRowKeys.length} product categories to "{newStatus}"?
+            </span>
+          ),
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
             try {
-              await changeStatusManyProductCategories(selectedRowKeys, newStatus)
-              setProductCategories(prev => prev.map(p => (selectedRowKeys.includes(p._id) ? { ...p, status: newStatus } : p)))
+              const res = await changeStatusManyProductCategories(selectedRowKeys, newStatus)
+              const updatedProductCategories = res.productCategories || []
+              setProductCategories(prev =>
+                prev.map(p => {
+                  const found = updatedProductCategories.find(u => u._id === p._id)
+                  return found ? { ...p, ...found } : p
+                })
+              )
               message.success(`✅ Status updated to "${newStatus}" for ${selectedRowKeys.length} product categories`)
               setSelectedRowKeys([])
               setValue(undefined)
@@ -81,8 +95,8 @@ function ApplyButton({
       }
       case 'change-position':
         Modal.confirm({
-          title: 'Confirm Position Change',
-          content: `Change position of ${selectedRowKeys.length} product categories?`,
+          title: <span className="dark:text-gray-300">Confirm Position Change</span>,
+          content: <span className="dark:text-gray-300">Change position of {selectedRowKeys.length} product categories?</span>,
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
@@ -96,11 +110,12 @@ function ApplyButton({
                   position: editedPosition !== undefined ? editedPosition : originalProductCategory?.position || 0
                 }
               })
-              await changePositionManyProductCategories(data)
+              const res = await changePositionManyProductCategories(data)
+              const updatedProductCategories = res.productCategories || []
               setProductCategories(prev =>
                 prev.map(p => {
-                  const edited = data.find(d => d._id === p._id)
-                  return edited ? { ...p, position: edited.position } : p
+                  const found = updatedProductCategories.find(u => u._id === p._id)
+                  return found ? { ...p, ...found } : p
                 })
               )
               message.success(`✅ Changed position for ${selectedRowKeys.length} product categories`)

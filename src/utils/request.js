@@ -1,44 +1,61 @@
 import { getAccessToken, setAccessToken, clearTokens } from './auth'
 import { authAdminRefresh } from '../services/adminAuth.service'
+import { store } from '../stores'
+import { setUser } from '../stores/adminUser'
 
-const API_DOMAIN = 'http://localhost:3001/api/v1/'
+const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
 
-const getAuthHeaders = () => {
-  const token = getAccessToken()
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
+let refreshingPromise = null
+
+const getAuthHeaders = accessToken => (accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
 
 const refreshAccessToken = async () => {
   try {
     const res = await authAdminRefresh()
-    if (res.ok && res.accessToken) {
+    if (res?.accessToken) {
       setAccessToken(res.accessToken)
+
+      const currentUser = store.getState().user.user
+      if (currentUser) {
+        store.dispatch(setUser({ user: currentUser, token: res.accessToken }))
+      }
       return res.accessToken
-    } else {
-      clearTokens()
-      throw new Error('Refresh token failed')
     }
+    throw new Error('No new token')
   } catch (err) {
     clearTokens()
     throw err
+  } finally {
+    refreshingPromise = null
   }
+}
+
+const getFreshAccessToken = async () => {
+  if (refreshingPromise) {
+    try {
+      await refreshingPromise
+    } catch {}
+  }
+  return getAccessToken()
 }
 
 const requestWithAuth = async (method, path, data) => {
   const isFormData = data instanceof FormData
+  let accessToken = await getFreshAccessToken()
+
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-    ...getAuthHeaders()
+    ...getAuthHeaders(accessToken)
   }
 
-  let options = {
+  const options = {
     method,
     credentials: 'include',
-    headers
+    headers,
+    ...(method !== 'GET' && { body: isFormData ? data : JSON.stringify(data) })
   }
-  if (method !== 'GET') options.body = isFormData ? data : JSON.stringify(data)
 
-  let res = await fetch(API_DOMAIN + path, options)
+  let res = await fetch(`${API_DOMAIN}/${path}`, options)
   let json
   try {
     json = await res.json()
@@ -46,15 +63,16 @@ const requestWithAuth = async (method, path, data) => {
     json = null
   }
 
-  if ((res.status === 401 || res.status === 403) && path !== 'admin/auth/login' && path !== 'admin/auth/refresh-token') {
+  if ((res.status === 401 || res.status === 403) && !path.startsWith('admin/auth/')) {
     try {
-      const newToken = await refreshAccessToken()
+      if (!refreshingPromise) refreshingPromise = refreshAccessToken()
+      const newToken = await refreshingPromise
       headers = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         Authorization: `Bearer ${newToken}`
       }
       options.headers = headers
-      res = await fetch(API_DOMAIN + path, options)
+      res = await fetch(`${API_DOMAIN}/${path}`, options)
       try {
         json = await res.json()
       } catch {
@@ -76,6 +94,7 @@ const requestWithAuth = async (method, path, data) => {
   return json
 }
 
-export const get = async path => await requestWithAuth('GET', path)
-export const post = async (path, data) => await requestWithAuth('POST', path, data)
-export const patch = async (path, data) => await requestWithAuth('PATCH', path, data)
+export const get = path => requestWithAuth('GET', path)
+export const post = (path, data) => requestWithAuth('POST', path, data)
+export const patch = (path, data) => requestWithAuth('PATCH', path, data)
+export const del = (path, data) => requestWithAuth('DELETE', path, data)

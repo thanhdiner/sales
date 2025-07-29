@@ -2,6 +2,7 @@ function FieldPosition({ value, record, setEditedPositions }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <input
+        className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
         type="number"
         defaultValue={value}
         style={{

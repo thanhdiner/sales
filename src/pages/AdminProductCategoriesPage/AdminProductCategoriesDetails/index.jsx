@@ -29,7 +29,7 @@ function AdminProductCategoriesDetails() {
 
   return (
     <div className="admin-product-category">
-      <h1 className="admin-product-category__title">Product Category Details</h1>
+      <h1 className="admin-product-category__title dark:text-gray-200">Product Category Details</h1>
 
       <Spin spinning={isLoading} tip="Loading product category...">
         {!isLoading && productCategory ? (

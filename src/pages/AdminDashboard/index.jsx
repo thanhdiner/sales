@@ -1,7 +1,11 @@
+import titles from '@/utils/titles'
+
 function AdminDashboard() {
+  titles('Dashboard')
+
   return (
     <>
-      <h1>Admin Dashboard</h1>
+      <h1 className="dark:text-gray-200">Admin Dashboard</h1>
     </>
   )
 }

@@ -23,8 +23,19 @@ import AdminProductCategoriesDetails from '../pages/AdminProductCategoriesPage/A
 import AdminPermissionGroupsPage from '../pages/AdminPermissionGroupsPage'
 import AdminRolePermissionPage from '../pages/AdminRolePermissionPage'
 import AdminAccountsPage from '../pages/AdminAccountsPage'
-import RequireAuth from '../components/AdminRequireAuth'
+import AdminRequireAuth from '../components/AdminRequireAuth'
 import AdminLoginRoute from '../components/AdminLoginRoute'
+import AdminProfilePage from '../pages/AdminProfilePage'
+import AdminSettingsPage from '../pages/AdminSettingsPage'
+import AccessDenied from '../components/AccessDenied'
+import AdminProtectedRoute from '../components/AdminProtectedRoute'
+import AuthRoute from '@/components/AuthRoute'
+import RegisterPage from '@/pages/Auth/RegisterPage'
+import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
+import LoginPage from '@/pages/Auth/LoginPage'
+import OauthCallbackPage from '@/pages/Auth/OauthCallbackPage'
+import ProfilePage from '@/pages/ProfilePage'
+// import RequireAuth from '@/components/RequireAuth'
 
 export const routes = [
   // Client
@@ -61,13 +72,51 @@ export const routes = [
         element: <Blog />
       },
       {
+        path: '/user/profile',
+        element: <ProfilePage />
+      },
+      {
         path: '*',
         element: <Error404 path="/" />
       }
     ]
   },
 
-  // Admin Login
+  //# Client Auth
+  {
+    path: '/user/login',
+    element: (
+      <AuthRoute>
+        <LoginPage />
+      </AuthRoute>
+    )
+  },
+  {
+    path: '/user/register',
+    element: (
+      <AuthRoute>
+        <RegisterPage />
+      </AuthRoute>
+    )
+  },
+  {
+    path: '/user/forgot-password',
+    element: (
+      <AuthRoute>
+        <ForgotPasswordPage />
+      </AuthRoute>
+    )
+  },
+  {
+    path: '/user/oauth-callback',
+    element: (
+      <AuthRoute>
+        <OauthCallbackPage />
+      </AuthRoute>
+    )
+  },
+
+  //# Admin Login
   {
     path: '/admin/auth/login',
     element: <AdminLoginRoute />
@@ -77,9 +126,9 @@ export const routes = [
   {
     path: '/admin',
     element: (
-      <RequireAuth>
+      <AdminRequireAuth>
         <LayoutAdmin />
-      </RequireAuth>
+      </AdminRequireAuth>
     ),
     children: [
       {
@@ -89,114 +138,156 @@ export const routes = [
       {
         path: 'dashboard',
         element: (
-          <RequireAuth>
+          <AdminRequireAuth>
             <AdminDashboard />
-          </RequireAuth>
+          </AdminRequireAuth>
         )
       },
       {
         path: 'products',
         element: (
-          <RequireAuth>
-            <AdminProductsPages />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_products">
+            <AdminRequireAuth>
+              <AdminProductsPages />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'products/details/:id',
         element: (
-          <RequireAuth>
-            <AdminProductsDetails />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_products">
+            <AdminRequireAuth>
+              <AdminProductsDetails />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'products/create',
         element: (
-          <RequireAuth>
-            <AdminProductsCreate />
-          </RequireAuth>
+          <AdminProtectedRoute permission="create_product">
+            <AdminRequireAuth>
+              <AdminProductsCreate />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'products/edit/:id',
         element: (
-          <RequireAuth>
-            <AdminProductsEdit />
-          </RequireAuth>
+          <AdminProtectedRoute permission="edit_product">
+            <AdminRequireAuth>
+              <AdminProductsEdit />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'product-categories',
         element: (
-          <RequireAuth>
-            <AdminProductCategoriesPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_product_categories">
+            <AdminRequireAuth>
+              <AdminProductCategoriesPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'product-categories/:id',
         element: (
-          <RequireAuth>
-            <AdminProductCategoriesDetails />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_product_categories">
+            <AdminRequireAuth>
+              <AdminProductCategoriesDetails />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'product-categories/create',
         element: (
-          <RequireAuth>
-            <AdminProductCategoriesCreate />
-          </RequireAuth>
+          <AdminProtectedRoute permission="create_product_category">
+            <AdminRequireAuth>
+              <AdminProductCategoriesCreate />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'product-categories/edit/:id',
         element: (
-          <RequireAuth>
-            <AdminProductCategoriesEdit />
-          </RequireAuth>
+          <AdminProtectedRoute permission="edit_product_category">
+            <AdminRequireAuth>
+              <AdminProductCategoriesEdit />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'roles',
         element: (
-          <RequireAuth>
-            <AdminRolesPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_roles">
+            <AdminRequireAuth>
+              <AdminRolesPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'permissions',
         element: (
-          <RequireAuth>
-            <AdminPermissionsPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_permissions">
+            <AdminRequireAuth>
+              <AdminPermissionsPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'permission-groups',
         element: (
-          <RequireAuth>
-            <AdminPermissionGroupsPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_permission_groups">
+            <AdminRequireAuth>
+              <AdminPermissionGroupsPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'role-permission',
         element: (
-          <RequireAuth>
-            <AdminRolePermissionPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_role_permission">
+            <AdminRequireAuth>
+              <AdminRolePermissionPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
       },
       {
         path: 'accounts',
         element: (
-          <RequireAuth>
-            <AdminAccountsPage />
-          </RequireAuth>
+          <AdminProtectedRoute permission="view_accounts">
+            <AdminRequireAuth>
+              <AdminAccountsPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
         )
+      },
+      {
+        path: 'profile',
+        element: (
+          <AdminRequireAuth>
+            <AdminProfilePage />
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'settings',
+        element: <AdminSettingsPage />
+      },
+      {
+        path: '403',
+        element: <AccessDenied />
       },
       {
         path: '*',

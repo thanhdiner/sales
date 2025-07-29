@@ -1,7 +1,7 @@
 function SelectedItems({ selectedRowKeys }) {
   return (
-    <span style={{ marginLeft: 8 }}>
-      Selected <span style={{ fontWeight: 'bold' }}>{selectedRowKeys.length}</span> items
+    <span className="ml-2 dark:text-gray-200">
+      Selected <span className="font-bold">{selectedRowKeys.length}</span> items
     </span>
   )
 }

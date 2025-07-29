@@ -55,7 +55,7 @@ function TiptapToolbar({
   setShowColorPicker
 }) {
   return (
-    <div className="toolbar">
+    <div className="toolbar dark:bg-gray-800">
       {toolbarButtons.map((btn, i) =>
         btn.custom ? (
           <button
@@ -79,7 +79,7 @@ function TiptapToolbar({
         )
       )}
 
-      <div className="highlight-dropdown" ref={highlightRef}>
+      <div className="highlight-dropdown mt-1" ref={highlightRef}>
         <button type="button" className="toolbar-btn" onClick={() => setShowHighlightOptions(v => !v)} title="Highlight">
           <PaintbrushIcon size={16} />
         </button>
@@ -110,7 +110,7 @@ function TiptapToolbar({
         )}
       </div>
 
-      <div className="color-dropdown" ref={colorRef}>
+      <div className="color-dropdown mt-1" ref={colorRef}>
         <button type="button" className="toolbar-btn" onClick={() => setShowColorPicker(v => !v)}>
           <TypeIcon size={16} />
         </button>
@@ -129,6 +129,7 @@ function TiptapToolbar({
             </button>
             {textColors.map(color => (
               <button
+                type="button"
                 key={color}
                 style={{
                   backgroundColor: color,

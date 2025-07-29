@@ -3,10 +3,10 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './TopDeal.scss'
-import { CustomPrevArrow, CustomNextArrow } from '../CustomArrow'
+import { CustomPrevArrow, CustomNextArrow } from '../../CustomArrow'
 import { useState, useEffect } from 'react'
-import ProductItem from '../Products/ProductItem'
-import { getProducts } from '../../services/productService'
+import ProductItem from '../../Products/ProductItem'
+import { getProducts } from '@/services/productService'
 
 function TopDeal() {
   const [products, setProducts] = useState([])
@@ -14,7 +14,7 @@ function TopDeal() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getProducts()
+      const result = await getProducts({ isTopDeal: true })
       setProducts(result)
     }
     fetchApi()
@@ -22,10 +22,11 @@ function TopDeal() {
 
   const settings = {
     cssEase: 'linear',
-    infinite: false,
     speed: 300,
     slidesToShow: 5,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
     swipeToSlide: true,
     initialSlide: 0,
     prevArrow: <CustomPrevArrow />,
@@ -35,13 +36,11 @@ function TopDeal() {
   }
 
   return (
-    <>
-      <Slider {...settings}>
-        {products?.map(product => (
-          <ProductItem product={product} isDragging={isDragging} key={product.id} />
-        ))}
-      </Slider>
-    </>
+    <Slider className="group product-slider-top-deal" {...settings}>
+      {products?.map(product => (
+        <ProductItem product={product} isDragging={isDragging} key={product._id} />
+      ))}
+    </Slider>
   )
 }
 
