@@ -6,8 +6,11 @@ import renderRow from '../../../utils/renderRow'
 import { adminProductCategoryRows } from '../../../helpers/adminProductCategoryRows'
 import AdminProductCategoryThumbnail from '../../../components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
 import './AdminProductCategoriesDetails.scss'
+import titles from '@/utils/titles'
 
 function AdminProductCategoriesDetails() {
+  titles('Chi tiết danh mục sản phẩm')
+
   const { id } = useParams()
   const [productCategory, setProductCategory] = useState(null)
   const [isLoading, setIsLoading] = useState(false)

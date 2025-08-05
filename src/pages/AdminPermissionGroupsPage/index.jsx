@@ -203,6 +203,7 @@ export default function AdminPermissionGroupsPage() {
           onCancel={() => setModal({ visible: false, editing: null })}
           okText={modal.editing ? 'Save' : 'Create'}
           destroyOnClose
+          confirmLoading={loading}
           className="custom-modal"
         >
           <Form form={form} layout="vertical" autoComplete="off" initialValues={{ label: '', value: '', description: '', isActive: true }}>

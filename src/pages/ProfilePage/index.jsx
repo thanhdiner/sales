@@ -14,10 +14,13 @@ import { updateProfile as reduxUpdateProfile } from '@/stores/user'
 import EmailUpdateSection from '@/components/EmailUpdateSection'
 import dayjs from 'dayjs'
 import { clientUpdateProfile, requestEmailUpdate, confirmEmailUpdate, getClientMe } from '@/services/userService'
+import titles from '@/utils/titles'
 
 const { Title, Text } = Typography
 
 function ProfilePage() {
+  titles('Thông tin tài khoản')
+
   const dispatch = useDispatch()
   const user = useSelector(state => state.clientUser.user)
   const [form] = Form.useForm()

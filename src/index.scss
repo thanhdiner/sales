@@ -250,3 +250,30 @@ html.dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
 .ant-dropdown-menu {
   z-index: 1235 !important;
 }
+
+.qtyInput::-webkit-outer-spin-button,
+.qtyInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.qtyInput {
+  -moz-appearance: textfield;
+}
+
+.ant-modal-mask {
+  z-index: 1236 !important;
+}
+
+.ant-modal-wrap {
+  z-index: 1237 !important;
+}
+.my-date-popup {
+  z-index: 1238 !important;
+}
+
+//# custom scrollbar styles products page
+.products-scrollbar {
+  display: hidden !important;
+  scrollbar-width: thin;
+  scrollbar-color: #dfdfdf #f9f9f9;
+}

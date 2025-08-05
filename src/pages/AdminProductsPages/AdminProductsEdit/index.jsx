@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
 import dayjs from 'dayjs'
-import { getProductById, updateProductById } from '../../../services/productService'
+import { getProductById, updateProductById } from '@/services/productService'
 import { PlusOutlined } from '@ant-design/icons'
-import TiptapEditor from '../../../components/TiptapEditor'
-import { getAdminProductCategoryTree } from '../../../services/productCategoryService'
+import TiptapEditor from '@/components/TiptapEditor'
+import { getAdminProductCategoryTree } from '@/services/productCategoryService'
+import titles from '@/utils/titles'
 
 const { RangePicker } = DatePicker
 
 function AdminProductsEdit() {
+  titles('Chỉnh sửa sản phẩm')
+
   const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [form] = Form.useForm()
@@ -69,9 +72,18 @@ function AdminProductsEdit() {
         formData.append('oldImage', oldThumbnail)
       } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
 
+      if (values.features) {
+        if (values.features.length > 0) {
+          values.features.forEach(f => formData.append('features', f))
+        } else {
+          formData.append('features', '')
+        }
+      }
+
       formData.append('title', values.title)
       formData.append('productCategory', values.productCategory)
       formData.append('price', values.price)
+      formData.append('costPrice', values.costPrice)
       formData.append('discountPercentage', values.discountPercentage || 0)
       formData.append('stock', values.stock || 0)
       formData.append('description', values.description || '')
@@ -118,6 +130,24 @@ function AdminProductsEdit() {
           <Form.Item name="price" label={<span className="dark:text-gray-300">Price (VNĐ)</span>} rules={[{ required: true }]}>
             <InputNumber style={{ width: '100%' }} min={0} />
           </Form.Item>
+          <Form.Item
+            name="costPrice"
+            label={<span className="dark:text-gray-300">Cost Price (VNĐ)</span>}
+            rules={[
+              { required: true, message: 'Vui lòng nhập giá gốc (costPrice)!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value === undefined || value < 0) return Promise.reject('Giá gốc phải lớn hơn hoặc bằng 0!')
+                  if (getFieldValue('price') !== undefined && value > getFieldValue('price')) {
+                    return Promise.reject('Giá nhập không được lớn hơn giá bán!')
+                  }
+                  return Promise.resolve()
+                }
+              })
+            ]}
+          >
+            <InputNumber placeholder="Nhập giá nhập hàng" style={{ width: '100%' }} min={0} />
+          </Form.Item>
           <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount Percentage (%)</span>}>
             <InputNumber style={{ width: '100%' }} min={0} max={100} />
           </Form.Item>
@@ -162,6 +192,29 @@ function AdminProductsEdit() {
       </Row>
 
       <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item label={<span className="dark:text-gray-300">Tính năng nổi bật</span>}>
+            <Form.List name="features">
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <div key={key} className="flex items-center mb-2">
+                      <Form.Item {...restField} name={name} style={{ flex: 1, marginBottom: 0 }}>
+                        <Input placeholder={`Tính năng #${name + 1}`} />
+                      </Form.Item>
+                      <Button danger type="text" onClick={() => remove(name)}>
+                        Xóa
+                      </Button>
+                    </div>
+                  ))}
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Thêm tính năng
+                  </Button>
+                </div>
+              )}
+            </Form.List>
+          </Form.Item>
+        </Col>
         <Col span={24}>
           <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
             <TiptapEditor value={form.getFieldValue('description')} onChange={value => form.setFieldsValue({ description: value })} />

@@ -1,94 +1,63 @@
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getActiveWidgets } from '@/services/widgetsService'
 import './Widgets.scss'
+import WidgetsSkeleton from '../WidgetsSkeleton'
 
 function Widgets() {
+  const [widgets, setWidgets] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchWidgets() {
+      try {
+        const res = await getActiveWidgets()
+        setWidgets(res.data || [])
+      } catch {
+        setWidgets([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchWidgets()
+  }, [])
+
+  if (loading) return <WidgetsSkeleton />
+  if (widgets.length === 0) return <div>No widgets available</div>
+
   return (
-    <>
-      <div className="widgets">
-        <div className="widgets__list">
-          <div className="widgets__item">
-            <Link to="/products?type=isTopDeal">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsLike.png" alt="TOP DEAL" />
+    <div className="widgets">
+      <div className="widgets__list">
+        {widgets.map(widget => (
+          <div key={widget._id} className="widgets__item">
+            {widget.link ? (
+              widget.link.startsWith('http') ? (
+                <Link to={widget.link}>
+                  <div className="widgets__icon--wrap">
+                    <img src={widget.iconUrl} alt={widget.title} />
+                  </div>
+                  <p className="widgets__title">{widget.title}</p>
+                </Link>
+              ) : (
+                <Link to={widget.link}>
+                  <div className="widgets__icon--wrap">
+                    <img src={widget.iconUrl} alt={widget.title} />
+                  </div>
+                  <p className="widgets__title">{widget.title}</p>
+                </Link>
+              )
+            ) : (
+              <div>
+                <div className="widgets__icon--wrap">
+                  <img src={widget.iconUrl} alt={widget.title} />
+                </div>
+                <p className="widgets__title">{widget.title}</p>
               </div>
-              <p className="widgets__title highlight">TOP DEAL</p>
-            </Link>
+            )}
           </div>
-          <div className="widgets__item">
-            <Link to="/products?type=isFeatured">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsTrading.png" alt="Diner Trading" />
-              </div>
-              <p className="widgets__title">Nổi bật</p>
-            </Link>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsCoupon.png" alt="Coupon siêu hot" />
-              </div>
-              <p className="widgets__title">Coupon siêu hot</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsSpin.png" alt="Quay số trúng xu" />
-              </div>
-              <p className="widgets__title">Quay số trúng xu</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsForeign.png" alt="Hàng ngoại giá hot" />
-              </div>
-              <p className="widgets__title">Hàng ngoại giá hot</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsMomBaby.webp" alt="Cùng mẹ chăm bé" />
-              </div>
-              <p className="widgets__title">Cùng mẹ chăm bé</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsBook.webp" alt="Mọt sách Diner" />
-              </div>
-              <p className="widgets__title">Mọt sách Diner</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsTechnology.webp" alt="Thế giới công nghệ" />
-              </div>
-              <p className="widgets__title">Thế giới công nghệ</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsCooker.webp" alt="Yêu bếp nghiện nhà" />
-              </div>
-              <p className="widgets__title">Yêu bếp nghiện nhà</p>
-            </a>
-          </div>
-          <div className="widgets__item">
-            <a href="#!">
-              <div className="widgets__icon--wrap">
-                <img src="/icons/widgetsBeauty.webp" alt="Khỏe đẹp toàn diện" />
-              </div>
-              <p className="widgets__title">Khỏe đẹp toàn diện</p>
-            </a>
-          </div>
-        </div>
+        ))}
       </div>
-    </>
+    </div>
   )
 }
 

@@ -4,6 +4,7 @@ import Widgets from '@/components/Widgets'
 import HeroBanner from '@/components/HeroBanner'
 import TopDealSession from '@/components/TopDealSession'
 import FeaturedProductsSession from '@/components/FeaturedProductsSession'
+import FlashSaleSession from '@/components/FlashSaleSession'
 
 function Home() {
   titles('Home')
@@ -12,6 +13,7 @@ function Home() {
     <div className="home">
       <HeroBanner />
       <Widgets />
+      <FlashSaleSession />
       <TopDealSession />
       <FeaturedProductsSession />
     </div>

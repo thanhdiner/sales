@@ -1,4 +1,4 @@
-import { get, patch, post } from '../utils/request'
+import { get, patch, post } from '@/utils/request'
 
 //# client
 export const getProducts = async (params = {}) => {
@@ -9,6 +9,11 @@ export const getProducts = async (params = {}) => {
 
 export const getProductDetail = async slug => {
   return await get(`products/${slug}`)
+}
+
+export const getProductSuggestions = async (params = {}) => {
+  const query = new URLSearchParams(params).toString()
+  return await get(`products/suggest?${query}`)
 }
 
 //# admin

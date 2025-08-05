@@ -1,10 +1,10 @@
-// src/pages/Auth/OauthCallbackPage.jsx
 import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/stores/user'
 import { Spin, message } from 'antd'
 import { setClientAccessToken } from '@/utils/auth'
+import titles from '@/utils/titles'
 
 function getQueryParam(search, key) {
   const params = new URLSearchParams(search)
@@ -12,6 +12,8 @@ function getQueryParam(search, key) {
 }
 
 export default function OauthCallbackPage() {
+  titles('Đăng nhập Google')
+
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()

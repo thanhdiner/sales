@@ -1,26 +1,21 @@
-import { Badge, Col, Input, Dropdown, Row, message } from 'antd'
+import { Badge, Col, Dropdown, Row, message } from 'antd'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import {
-  SearchOutlined,
-  ShoppingCartOutlined,
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  LoginOutlined,
-  UserAddOutlined
-} from '@ant-design/icons'
+import { ShoppingCartOutlined, UserOutlined, SettingOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { userLogout } from '@/services/userService'
 import { logout } from '@/stores/user'
 import { clearClientTokens, clearClientTokensSession } from '@/utils/auth'
 
+import SearchSuggest from '@/components/SearchSuggest'
+import HeaderSkeleton from '@/components/HeaderSkeleton'
+
 function Header() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const cartItems = useSelector(state => state.cart.items) || []
 
   const user = useSelector(state => state.clientUser.user)
-
   const isLoggedIn = !!user
 
   const guestMenuItems = [
@@ -41,6 +36,11 @@ function Header() {
       key: 'profile',
       label: 'Profile',
       icon: <UserOutlined />
+    },
+    {
+      key: 'orders',
+      label: 'My Orders',
+      icon: <ShoppingCartOutlined />
     },
     {
       key: 'settings',
@@ -65,6 +65,7 @@ function Header() {
     } else {
       if (key === 'profile') navigate('/user/profile')
       if (key === 'settings') navigate('/user/settings')
+      if (key === 'orders') navigate('/orders')
       if (key === 'logout') {
         try {
           await userLogout()
@@ -85,11 +86,15 @@ function Header() {
   const navItems = [
     { label: 'Home', path: '/' },
     { label: 'Products', path: '/products' },
-    { label: 'Events', path: '/events' },
+    { label: 'Flash Sale', path: '/flash-sale' },
     { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' },
-    { label: 'Blog', path: '/blog' }
+    { label: 'Contact', path: '/contact' }
+    // { label: 'Blog', path: '/blog' }
   ]
+
+  if (!websiteConfig || !websiteConfig.logoUrl) {
+    return <HeaderSkeleton />
+  }
 
   return (
     <header className="header">
@@ -121,20 +126,42 @@ function Header() {
 
         <Col span={6}>
           <div className="header__action">
+            {/* SEARCH HEADER */}
             <div className="header__action__search">
-              <div className="header__action__search--wrap">
-                <Input placeholder="Search Product..." className="header__action__search--input" />
-                <button className="header__action__search--btn">
+              {/* <form
+                className="header__action__search--wrap"
+                onSubmit={handleHeaderSearch}
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <Input
+                  placeholder="Search Product..."
+                  className="header__action__search--input"
+                  value={headerSearch}
+                  onChange={e => setHeaderSearch(e.target.value)}
+                  onPressEnter={handleHeaderSearch}
+                />
+                <button
+                  type="submit"
+                  className="header__action__search--btn"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                  tabIndex={-1}
+                >
                   <SearchOutlined style={{ fontSize: '22px' }} />
                 </button>
-              </div>
+              </form> */}
+              <SearchSuggest />
             </div>
 
             {isLoggedIn && (
               <div className="header__action__cart">
                 <Link to="/cart">
                   <button className="header__action__cart--btn">
-                    <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={123} overflowCount={999}>
+                    <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={cartItems.length} overflowCount={999}>
                       <ShoppingCartOutlined className="header__action__cart--icon" style={{ fontSize: '22px' }} />
                     </Badge>
                   </button>

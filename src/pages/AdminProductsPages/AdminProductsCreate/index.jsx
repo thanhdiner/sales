@@ -6,6 +6,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { getAdminProductCategoryTree } from '@/services/productCategoryService'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
+import titles from '@/utils/titles'
 
 const { RangePicker } = DatePicker
 
@@ -17,6 +18,8 @@ const initialValues = {
 }
 
 const CreateProductPage = () => {
+  titles('Tạo sản phẩm mới')
+
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -45,11 +48,16 @@ const CreateProductPage = () => {
         formData.append('thumbnail', file)
       }
 
+      if (values.features && values.features.length > 0) {
+        values.features.forEach(f => formData.append('features', f))
+      }
+
       formData.append('title', values.title)
       const titleNoAccent = removeVietnameseTones(values.title)
       formData.append('titleNoAccent', titleNoAccent)
       formData.append('productCategory', values.productCategory)
       formData.append('price', values.price)
+      formData.append('costPrice', values.costPrice)
       formData.append('discountPercentage', values.discountPercentage || 0)
       formData.append('stock', values.stock || 0)
       formData.append('description', values.description || '')
@@ -105,6 +113,13 @@ const CreateProductPage = () => {
           </Form.Item>
           <Form.Item name="price" label={<span className="dark:text-gray-300">Price (VNĐ)</span>} rules={[{ required: true }]}>
             <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
+          </Form.Item>
+          <Form.Item
+            name="costPrice"
+            label={<span className="dark:text-gray-300">Cost Price (VNĐ)</span>}
+            rules={[{ required: true, message: 'Vui lòng nhập giá gốc (costPrice)!' }]}
+          >
+            <InputNumber placeholder="Nhập giá nhập hàng" style={{ width: '100%' }} min={0} />
           </Form.Item>
           <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount Percentage (%)</span>}>
             <InputNumber style={{ width: '100%' }} min={0} max={100} />
@@ -170,6 +185,35 @@ const CreateProductPage = () => {
       </Row>
 
       <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item label={<span className="dark:text-gray-300">Tính năng nổi bật</span>}>
+            <Form.List name="features">
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <div key={key} className="flex items-center mb-2">
+                      <Form.Item
+                        {...restField}
+                        name={name}
+                        rules={[{ required: true, message: 'Nhập tính năng!' }]}
+                        style={{ flex: 1, marginBottom: 0 }}
+                      >
+                        <Input placeholder={`Tính năng #${name + 1}`} />
+                      </Form.Item>
+                      <Button danger type="text" onClick={() => remove(name)}>
+                        Xóa
+                      </Button>
+                    </div>
+                  ))}
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    Thêm tính năng
+                  </Button>
+                </div>
+              )}
+            </Form.List>
+          </Form.Item>
+        </Col>
+
         <Col span={24}>
           <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
             <TiptapEditor />

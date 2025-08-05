@@ -17,7 +17,6 @@ export default function AdminPermissionsPage() {
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
   const [permissionGroups, setPermissionGroups] = useState([])
-
   const hasPermissions = useAdminPermissions()
 
   useEffect(() => {
@@ -178,6 +177,7 @@ export default function AdminPermissionsPage() {
           onCancel={() => setModal({ visible: false, editing: null })}
           okText={modal.editing ? 'Save' : 'Create'}
           destroyOnClose
+          confirmLoading={loading}
           className="custom-modal"
         >
           <Form form={form} layout="vertical" autoComplete="off" initialValues={{ name: '', title: '', description: '', group: '' }}>
@@ -225,7 +225,7 @@ export default function AdminPermissionsPage() {
               name="group"
               rules={[{ required: true, message: 'Please select group' }]}
             >
-              <Select placeholder="Select group" options={permissionGroups} allowClear />
+              <Select dropdownStyle={{ zIndex: 1238 }} placeholder="Select group" options={permissionGroups} allowClear />
             </Form.Item>
           </Form>
         </Modal>

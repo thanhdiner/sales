@@ -1,5 +1,5 @@
 import { Breadcrumb, Layout } from 'antd'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 
@@ -27,17 +27,10 @@ function LayoutAdmin() {
     }
   })
 
-  const [showLogoText, setShowLogoText] = useState(true)
-
-  useEffect(() => {
-    if (collapsed) setTimeout(() => setShowLogoText(false), 100)
-    else setShowLogoText(true)
-  }, [collapsed])
-
   return (
     <>
       <Layout>
-        <SiderLayout {...{ collapsed, showLogoText, location }} />
+        <SiderLayout {...{ collapsed, location }} />
         <Layout className="bg-gray-100 dark:bg-gray-700">
           <Header {...{ collapsed, setCollapsed }} />
           <Breadcrumb className="mt-2.5 mx-4 mb-0" items={breadcrumbItems} />

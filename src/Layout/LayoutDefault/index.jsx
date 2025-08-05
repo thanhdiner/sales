@@ -5,12 +5,37 @@ import { Layout } from 'antd'
 import MenuSider from '../../components/MenuSider'
 import { Outlet } from 'react-router-dom'
 import './LayoutDefault.scss'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setCart } from '@/stores/cart'
+import { getCart } from '@/services/cartsService'
+import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 
 const { Content } = Layout
 
 const { Sider } = Layout
 
 function LayoutDefault() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const token = getClientAccessToken() || getClientAccessTokenSession()
+      if (token) {
+        try {
+          const cart = await getCart()
+          dispatch(setCart(cart.items))
+        } catch {
+          dispatch(setCart([]))
+        }
+      } else {
+        dispatch(setCart([]))
+      }
+    }
+    fetchCart()
+    // eslint-disable-next-line
+  }, [dispatch])
+
   return (
     <>
       <Layout className="layout-default">

@@ -1,4 +1,4 @@
-import { Menu } from 'antd'
+import { Menu, Skeleton } from 'antd'
 import { Link, useLocation } from 'react-router-dom'
 import './MenuSider.scss'
 import { useEffect, useState } from 'react'
@@ -6,23 +6,24 @@ import { getProductCategoryTree } from '@/services/productCategoryService'
 
 function MenuSider() {
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
   const location = useLocation()
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true)
       try {
         const res = await getProductCategoryTree()
         setCategories(res.data)
-
         const expandedKeys = findOpenKeys(res.data, location.pathname)
         setOpenKeys(expandedKeys)
       } catch (err) {
         console.error('Failed to fetch categories', err)
       }
+      setLoading(false)
     }
-
     fetchCategories()
   }, [])
 
@@ -30,7 +31,6 @@ function MenuSider() {
     if (categories.length > 0) {
       const selected = findSelectedKey(categories, location.pathname)
       const expandedKeys = findOpenKeys(categories, location.pathname)
-
       setSelectedKeys(selected)
       setOpenKeys(expandedKeys)
     }
@@ -67,7 +67,11 @@ function MenuSider() {
 
       return {
         key,
-        icon: category.thumbnail ? <img src={category.thumbnail} alt={category.title} className="menu-sider__icon" /> : null,
+        icon: category.thumbnail ? (
+          <img src={category.thumbnail} alt={category.title} className="menu-sider__icon" />
+        ) : (
+          <span className="menu-sider__icon-placeholder" />
+        ),
         label: (
           <Link className="menu-sider__label" to={`/product-categories/${category.slug}`}>
             {category.title}
@@ -87,7 +91,11 @@ function MenuSider() {
     }
   ]
 
-  return (
+  return loading ? (
+    <div style={{ padding: 24 }}>
+      <Skeleton active paragraph={{ rows: 7 }} title={false} />
+    </div>
+  ) : (
     <Menu
       mode="inline"
       items={items}

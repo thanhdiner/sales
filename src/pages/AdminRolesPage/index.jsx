@@ -212,6 +212,7 @@ export default function AdminRolesPage() {
           onCancel={() => setModal({ visible: false, editing: null })}
           okText={modal.editing ? 'Save' : 'Create'}
           destroyOnClose
+          confirmLoading={loading}
           className="custom-modal"
         >
           <Form

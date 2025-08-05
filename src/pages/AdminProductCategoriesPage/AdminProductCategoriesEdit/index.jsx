@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Col, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
-import { getProductCategoryById, getAdminProductCategoryTree, updateProductCategoryById } from '../../../services/productCategoryService'
+import { getProductCategoryById, getAdminProductCategoryTree, updateProductCategoryById } from '@/services/productCategoryService'
 import { PlusOutlined } from '@ant-design/icons'
-import TiptapEditor from '../../../components/TiptapEditor'
-import { removeNodeFromTree } from '../../../utils/removeNodeFromTree'
+import TiptapEditor from '@/components/TiptapEditor'
+import { removeNodeFromTree } from '@/utils/removeNodeFromTree'
+import titles from '@/utils/titles'
 
 function AdminProductCategoriesEdit() {
+  titles('Chỉnh sửa danh mục sản phẩm')
+
   const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [form] = Form.useForm()

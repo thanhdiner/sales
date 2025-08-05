@@ -1,8 +1,13 @@
 import { get, patch, post } from '../utils/request'
+import { get as getClient } from '../utils/clientRequest'
 
 //# client
 export async function getProductCategoryTree() {
-  return await get('product-categories/tree')
+  return await getClient('product-categories/tree')
+}
+
+export async function getProductsByCategory(slug) {
+  return await getClient(`product-categories/${slug}/products`)
 }
 
 //# admin

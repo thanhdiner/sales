@@ -1,19 +1,57 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Rate } from 'antd'
 import { formatDeliveryDate } from '@/utils/formatDeliveryDate'
+import { useDispatch } from 'react-redux'
+import { message } from 'antd'
+import { addToCart, getCart } from '@/services/cartsService'
+import { setCart } from '@/stores/cart'
 
 function ProductCard(props) {
   const { product } = props
+  const [addCartLoading, setAddCartLoading] = useState(false)
 
   const priceNew = (product.price * (100 - product.discountPercentage)) / 100
   const price = product.price
   const deliveryText = formatDeliveryDate(product.deliveryEstimateDays || 0)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const handleAddToCart = e => {
+  const handleAddToCart = async e => {
     e.preventDefault()
     e.stopPropagation()
-    console.log('Đã thêm sản phẩm vào giỏ hàng:', product.title)
+
+    if (addCartLoading) return
+
+    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
+    if (!isLoggedIn) {
+      message.info('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!')
+      navigate('/user/login')
+      return
+    }
+
+    setAddCartLoading(true)
+
+    try {
+      const cart = await getCart()
+      const cartItem = cart.items.find(item => item.productId === (product._id || product.id))
+      const currentQtyInCart = cartItem ? cartItem.quantity : 0
+      const available = Math.max(0, product.stock - currentQtyInCart)
+
+      if (available <= 0) {
+        message.warning('Bạn đã thêm hết số lượng sản phẩm này vào giỏ hàng!')
+        return
+      }
+
+      await addToCart({ productId: product._id || product.id, quantity: 1 })
+      const updatedCart = await getCart()
+      dispatch(setCart(updatedCart.items))
+      message.success(`Đã thêm sản phẩm ${product.title} vào giỏ hàng!`)
+    } catch (err) {
+      message.error('Thêm sản phẩm vào giỏ hàng thất bại!')
+    } finally {
+      setAddCartLoading(false)
+    }
   }
 
   return (
@@ -45,15 +83,23 @@ function ProductCard(props) {
             onClick={handleAddToCart}
             className="absolute top-2 right-2 w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-white/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-xl hover:scale-110 z-30"
             title="Thêm vào giỏ hàng"
+            disabled={addCartLoading || product.stock <= 0}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h10"
-              />
-            </svg>
+            {addCartLoading ? (
+              <svg className="w-4 h-4 animate-spin text-blue-500 hover:text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h10"
+                />
+              </svg>
+            )}
           </button>
 
           <img

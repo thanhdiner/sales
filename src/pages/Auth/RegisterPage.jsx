@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, Checkbox, Divider, message, Space, Typography, Select } from 'antd'
+import { Form, Input, Button, Checkbox, Divider, message, Space, Typography } from 'antd'
 import {
   UserOutlined,
   LockOutlined,
@@ -19,7 +19,6 @@ import { userRegister } from '@/services/userService'
 import { useNavigate } from 'react-router-dom'
 
 const { Title, Text } = Typography
-const { Option } = Select
 
 const RegisterPage = () => {
   const navigate = useNavigate()

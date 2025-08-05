@@ -1,4 +1,4 @@
-import { del, get, patch, post } from '../utils/request'
+import { del, get, patch, post } from '@/utils/request'
 
 export const getAdminAccounts = async () => {
   return await get(`admin/accounts`)

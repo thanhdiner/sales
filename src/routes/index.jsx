@@ -1,7 +1,6 @@
 import LayoutDefault from '../Layout/LayoutDefault'
 import Home from '../pages/Home'
 import ProductsPages from '../pages/ProductsPages'
-import Events from '../pages/Events'
 import About from '../pages/About'
 import Contact from '../pages/Contact'
 import Blog from '../pages/Blog'
@@ -35,7 +34,34 @@ import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
 import LoginPage from '@/pages/Auth/LoginPage'
 import OauthCallbackPage from '@/pages/Auth/OauthCallbackPage'
 import ProfilePage from '@/pages/ProfilePage'
-// import RequireAuth from '@/components/RequireAuth'
+import CartPage from '@/pages/CartPage'
+import AdminPromoCodesPage from '@/pages/AdminPromoCodesPage'
+import CheckoutPage from '@/pages/CheckoutPage'
+import OrderSuccessPage from '@/pages/OrderSuccessPage'
+import OrdersPage from '@/pages/OrdersPage'
+import OrderDetailPage from '@/pages/OrderDetailPage'
+import AdminOrdersPage from '@/pages/AdminOrdersPage'
+import AdminOrderDetailPage from '@/pages/AdminOrderDetailPage'
+import RequireAuth from '@/components/RequireAuth'
+import AdminWidgetsPage from '@/pages/AdminWidgetsPage'
+import AdminBannersPage from '@/pages/AdminBannersPage'
+import AdminFlashSalesPage from '@/pages/AdminFlashSalesPage'
+import FlashSalePage from '@/pages/FlashSalePage'
+import ShoppingGuide from '@/pages/ShoppingGuide'
+import CouponsPage from '@/pages/CouponsPage'
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage'
+import ReturnPolicyPage from '@/pages/ReturnPolicyPage'
+import FAQPage from '@/pages/FAQPage'
+import TermsOfServicePage from '@/pages/TermsOfServicePage'
+import CooperationContactPage from '@/pages/CooperationContactPage'
+import GameAccountComingSoon from '@/pages/GameAccountComingSoon'
+import SpecialPackageComingSoon from '@/pages/SpecialPackageComingSoon'
+import ProductCategoryPage from '@/pages/ProductCategoryPage'
+import GameNewsComingSoon from '@/pages/GameNewsComingSoon'
+import VipComingSoon from '@/pages/VipComingSoon'
+import CommunityComingSoon from '@/pages/CommunityComingSoon'
+import QuickSupportComingSoon from '@/pages/QuickSupportComingSoon'
+import LicenseComingSoon from '@/pages/LicenseComingSoon'
 
 export const routes = [
   // Client
@@ -56,8 +82,8 @@ export const routes = [
         element: <ProductsDetail />
       },
       {
-        path: '/events',
-        element: <Events />
+        path: '/product-categories/:slug',
+        element: <ProductCategoryPage />
       },
       {
         path: '/about',
@@ -74,6 +100,106 @@ export const routes = [
       {
         path: '/user/profile',
         element: <ProfilePage />
+      },
+      {
+        path: '/cart',
+        element: (
+          <RequireAuth>
+            <CartPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/checkout',
+        element: (
+          <RequireAuth>
+            <CheckoutPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/order-success',
+        element: (
+          <RequireAuth>
+            <OrderSuccessPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/orders',
+        element: (
+          <RequireAuth>
+            <OrdersPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/orders/:id',
+        element: (
+          <RequireAuth>
+            <OrderDetailPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/flash-sale',
+        element: <FlashSalePage />
+      },
+      {
+        path: '/shopping-guide',
+        element: <ShoppingGuide />
+      },
+      {
+        path: '/coupons',
+        element: <CouponsPage />
+      },
+      {
+        path: '/privacy-policy',
+        element: <PrivacyPolicyPage />
+      },
+      {
+        path: '/return-policy',
+        element: <ReturnPolicyPage />
+      },
+      {
+        path: '/faq',
+        element: <FAQPage />
+      },
+      {
+        path: '/terms-of-service',
+        element: <TermsOfServicePage />
+      },
+      {
+        path: '/cooperation-contact',
+        element: <CooperationContactPage />
+      },
+      {
+        path: '/game-account',
+        element: <GameAccountComingSoon />
+      },
+      {
+        path: '/special-package',
+        element: <SpecialPackageComingSoon />
+      },
+      {
+        path: '/game-news',
+        element: <GameNewsComingSoon />
+      },
+      {
+        path: '/vip',
+        element: <VipComingSoon />
+      },
+      {
+        path: '/community',
+        element: <CommunityComingSoon />
+      },
+      {
+        path: '/quick-support',
+        element: <QuickSupportComingSoon />
+      },
+      {
+        path: '/license',
+        element: <LicenseComingSoon />
       },
       {
         path: '*',
@@ -284,6 +410,30 @@ export const routes = [
       {
         path: 'settings',
         element: <AdminSettingsPage />
+      },
+      {
+        path: 'promo-codes',
+        element: <AdminPromoCodesPage />
+      },
+      {
+        path: 'orders',
+        element: <AdminOrdersPage />
+      },
+      {
+        path: 'orders/:id',
+        element: <AdminOrderDetailPage />
+      },
+      {
+        path: 'widgets',
+        element: <AdminWidgetsPage />
+      },
+      {
+        path: 'banners',
+        element: <AdminBannersPage />
+      },
+      {
+        path: 'flash-sales',
+        element: <AdminFlashSalesPage />
       },
       {
         path: '403',

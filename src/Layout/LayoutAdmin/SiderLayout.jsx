@@ -1,4 +1,4 @@
-import { AppstoreOutlined, ForkOutlined, HomeOutlined, TeamOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, CodeSandboxOutlined, ForkOutlined, HomeOutlined, RadiusSettingOutlined, TeamOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ import { hasAllPermissions } from '@/utils/hasAllPermissions'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useSelector } from 'react-redux'
 
-function SiderLayout({ collapsed, showLogoText, location }) {
+function SiderLayout({ collapsed, location }) {
   const navigate = useNavigate()
   const [stateOpenKeys, setStateOpenKeys] = useState([])
   const permissions = useAdminPermissions()
@@ -36,7 +36,16 @@ function SiderLayout({ collapsed, showLogoText, location }) {
     filterMenuChildren(
       getItem('Products & Categories', 'products&categories', <AppstoreOutlined />, [
         permissions.includes('view_products') && getItem('Products', 'products'),
-        permissions.includes('view_product_categories') && getItem('Categories', 'product-categories')
+        permissions.includes('view_product_categories') && getItem('Categories', 'product-categories'),
+        permissions.includes('view_promo_codes') && getItem('Promo Codes', 'promo-codes'),
+        permissions.includes('view_flashsales') && getItem('Flash Sales', 'flash-sales')
+      ])
+    ),
+    permissions.includes('view_orders') && getItem('Orders', 'orders', <CodeSandboxOutlined />),
+    filterMenuChildren(
+      getItem('Info Layout', 'info-layout', <RadiusSettingOutlined />, [
+        permissions.includes('view_banners') && getItem('Banners', 'banners'),
+        permissions.includes('view_widgets') && getItem('Widgets', 'widgets')
       ])
     ),
     filterMenuChildren(
@@ -87,11 +96,16 @@ function SiderLayout({ collapsed, showLogoText, location }) {
   const getSelectedKey = pathname => {
     if (pathname.includes('/admin/products')) return 'products'
     if (pathname.includes('/admin/product-categories')) return 'product-categories'
+    if (pathname.includes('/admin/promo-codes')) return 'promo-codes'
     if (pathname.includes('/admin/permissions')) return 'permissions'
     if (pathname.includes('/admin/roles')) return 'roles'
     if (pathname.includes('/admin/permission-groups')) return 'permission-groups'
     if (pathname.includes('/admin/role-permission')) return 'role-permission'
     if (pathname.includes('/admin/accounts')) return 'accounts'
+    if (pathname.includes('/admin/orders')) return 'orders'
+    if (pathname.includes('/admin/banners')) return 'banners'
+    if (pathname.includes('/admin/widgets')) return 'widgets'
+    if (pathname.includes('/admin/flash-sales')) return 'flash-sales'
     return 'dashboard'
   }
 

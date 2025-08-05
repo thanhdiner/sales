@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getProductById } from '../../../services/productService'
+import { getProductById } from '@/services/productService'
 import { Spin } from 'antd'
-import renderRow from '../../../utils/renderRow'
-import { adminProductRows } from '../../../helpers/adminProductRows'
-import AdminProductThumbnail from '../../../components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
+import renderRow from '@/utils/renderRow'
+import { adminProductRows } from '@/helpers/adminProductRows'
+import AdminProductThumbnail from '@/components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
 import './AdminProductsDetails.scss'
+import titles from '@/utils/titles'
 
 function AdminProductsDetails() {
+  titles('Chi tiết sản phẩm')
+
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [isLoading, setIsLoading] = useState(false)

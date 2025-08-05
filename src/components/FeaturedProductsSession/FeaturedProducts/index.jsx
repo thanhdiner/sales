@@ -11,14 +11,32 @@ import { getProducts } from '@/services/productService'
 function FeaturedProducts() {
   const [products, setProducts] = useState([])
   const [isDragging, setIsDragging] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchApi = async () => {
+      setLoading(true)
       const result = await getProducts({ isFeatured: true })
-      setProducts(result)
+      setProducts(result.data)
+      setLoading(false)
     }
     fetchApi()
   }, [])
+
+  const skeletonCards = Array(5).fill(0)
+  if (loading)
+    return (
+      <div className="product-slider-flash-sale-skeleton">
+        {skeletonCards.map((_, idx) => (
+          <div className="flash-sale-skeleton-card" key={idx}>
+            <div className="skeleton-img" />
+            <div className="skeleton-line short" />
+            <div className="skeleton-line long" />
+          </div>
+        ))}
+      </div>
+    )
+  if (products.length < 5) return null
 
   const settings = {
     cssEase: 'linear',
@@ -36,7 +54,7 @@ function FeaturedProducts() {
   }
 
   return (
-    <Slider className="group product-slider-top-deal" {...settings}>
+    <Slider className="product-slider-featured" {...settings}>
       {products?.map(product => (
         <ProductItem product={product} isDragging={isDragging} key={product._id} />
       ))}
