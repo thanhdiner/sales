@@ -56,7 +56,7 @@ function ProductCard(props) {
 
   return (
     <Link to={`/products/${product.slug}`} className="block">
-      <div className="shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1">
+      <div className="shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:outline dark:outline-gray-600 dark:outline-1">
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20"></div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10"></div>
@@ -110,9 +110,9 @@ function ProductCard(props) {
           />
         </div>
 
-        <div className="p-3 flex-1 flex flex-col bg-gradient-to-b from-white via-white to-gray-50/50">
+        <div className="p-3 flex-1 flex flex-col bg-gradient-to-b from-white via-white to-gray-50/50 dark:from-gray-800 dark:to-gray-800">
           <div className="h-16">
-            <h3 className="text-[16px] font-medium text-gray-800 leading-5 line-clamp-2 flex-1 group-hover:text-blue-600 transition-colors">
+            <h3 className="text-[16px] font-medium text-gray-800 leading-5 line-clamp-2 flex-1 group-hover:text-blue-600 transition-colors dark:text-white">
               {product.title}
             </h3>
 
@@ -133,7 +133,7 @@ function ProductCard(props) {
           </div>
 
           <div className="mt-2 pt-2 border-t border-gray-100">
-            <div className="flex items-center text-xs text-green-600 bg-gradient-to-r from-green-50/50 to-emerald-50/50 px-2 py-1 rounded-md">
+            <div className="flex items-center text-xs text-green-600 bg-gradient-to-r from-green-50/50 to-emerald-50/50 px-2 py-1 rounded-md dark:bg-green-400 dark:text-green-700">
               <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"

@@ -198,6 +198,7 @@
     margin-left: 250px;
     background-color: var(--color-bg-container);
     padding: 0 60px;
+    min-height: 100vh;
   }
 }
 
@@ -208,4 +209,74 @@ h1 {
 
 .menu-sider__group--divider {
   padding-top: 12px;
+}
+
+/* Drawer styles */
+.layout-default__drawer.ant-drawer .ant-drawer-header {
+  background: var(--color-bg-container);
+}
+.layout-default__drawer__inner {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  /* below lg */
+  .layout-default__sider {
+    display: none;
+  }
+  .layout-default__content {
+    margin-left: 0;
+    padding: 0 20px 20px;
+  }
+  .footer {
+    margin: 40px 0 0 0;
+    padding: 30px 20px 20px;
+  }
+  .header {
+    padding: 8px 0;
+  }
+  .header__action {
+    margin-right: 12px;
+  }
+  .header__logo--wrap img {
+    margin-left: 4px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  /* xs */
+  .layout-default__content {
+    padding: 0 14px 20px;
+  }
+  .header__action__search {
+    max-width: 150px;
+  }
+  .footer {
+    padding: 24px 14px 16px;
+  }
+  .footer .footer__heading {
+    margin-bottom: 12px;
+  }
+}
+/* --- Mobile NAV Drawer chips --- */
+.header__navsheet__wrap {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.header__navchip {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+.header__navchip--active {
+  background: #667eea;
+  color: #fff;
+  border-color: transparent;
 }

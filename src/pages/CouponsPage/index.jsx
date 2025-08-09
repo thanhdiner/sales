@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Typography, Space, Tag, Row, Col, Input, message, Tabs, Progress, Divider, Badge, Empty, Alert } from 'antd'
+import { Card, Button, Typography, Space, Row, Col, Input, message, Tabs, Divider, Badge, Empty } from 'antd'
 import {
   GiftOutlined,
   PercentageOutlined,
@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom'
 import titles from '@/utils/titles'
 
 const { Title, Text, Paragraph } = Typography
-const { Search } = Input
 
 const CouponPage = () => {
   titles('Kho Mã Giảm Giá')
@@ -123,27 +122,27 @@ const CouponPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 p-4 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <Title level={1} className="!text-4xl !text-gray-800 !mb-4">
             🎁 Kho Mã Giảm Giá
           </Title>
-          <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
             Khám phá hàng trăm mã giảm giá hấp dẫn. Tiết kiệm ngay hôm nay!
           </Paragraph>
         </div>
 
-        <Card className="mb-8 shadow-md rounded-xl">
+        <Card className="mb-8 shadow-md rounded-xl dark:bg-gray-800">
           <Row gutter={[16, 16]} align="middle">
             <Col xs={24} md={12}>
-              <Search
+              <Input
                 placeholder="Tìm mã giảm giá..."
                 allowClear
                 size="large"
                 prefix={<SearchOutlined />}
                 onChange={e => setSearchText(e.target.value)}
-                className="w-full"
+                className="w-full dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
               />
             </Col>
             <Col xs={24} md={12}>
@@ -158,7 +157,7 @@ const CouponPage = () => {
           </Row>
         </Card>
 
-        <Card className="mb-8 shadow-md rounded-xl">
+        <Card className="coupons-card mb-8 shadow-md rounded-xl dark:bg-gray-800">
           <Tabs
             activeKey={activeTab}
             onChange={setActiveTab}
@@ -169,7 +168,7 @@ const CouponPage = () => {
               label: (
                 <Space>
                   {getCategoryIcon(item.key)}
-                  {item.label}
+                  {<span className='dark:text-gray-300'>{item.label}</span>}
                 </Space>
               )
             }))}
@@ -177,15 +176,15 @@ const CouponPage = () => {
         </Card>
 
         {filteredCoupons.length === 0 ? (
-          <Card className="text-center py-12">
-            <Empty description="Không tìm thấy mã giảm giá nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <Card className="text-center py-12 dark:bg-gray-800">
+            <Empty description={<span className='dark:text-gray-100'>Không tìm thấy mã giảm giá nào</span>} image={Empty.PRESENTED_IMAGE_SIMPLE} />
           </Card>
         ) : (
           <Row gutter={[24, 24]}>
             {filteredCoupons.map(coupon => (
               <Col xs={24} sm={12} lg={8} key={coupon._id}>
                 <Card
-                  className="h-full shadow-lg rounded-xl hover:-translate-y-1 hover:shadow-xl transition-all duration-300 border-0"
+                  className="h-full shadow-lg rounded-xl hover:-translate-y-1 hover:shadow-xl transition-all duration-300 border-0 dark:bg-gray-700"
                   cover={
                     <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center">
                       <div className="text-4xl mb-2">{getCategoryIcon(coupon.category)}</div>
@@ -201,8 +200,8 @@ const CouponPage = () => {
                   </Title>
                   <Paragraph className="text-gray-600 text-sm">{coupon.description || 'Áp dụng theo điều kiện hệ thống'}</Paragraph>
 
-                  <div className="bg-gray-50 rounded-lg p-3 mb-3 border-2 border-dashed border-gray-200">
-                    <div className="flex justify-between items-center">
+                  <div className="bg-gray-50 rounded-lg p-3 mb-3 border-2 border-dashed border-gray-200 dark:bg-gray-700">
+                    <div className="flex justify-between items-center dark:bg-gray-700">
                       <div>
                         <Text type="secondary" className="text-xs">
                           Mã giảm giá:
@@ -225,11 +224,11 @@ const CouponPage = () => {
                   </div>
 
                   <div className="mb-2">
-                    <div className="text-xs text-gray-500">Đơn tối thiểu: {coupon.minOrder?.toLocaleString() || 0}đ</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Đơn tối thiểu: {coupon.minOrder?.toLocaleString() || 0}đ</div>
                   </div>
 
                   {timeLeft[coupon._id] && (
-                    <div className="mb-3 p-2 bg-orange-50 rounded-lg">
+                    <div className="mb-3 p-2 bg-orange-50 rounded-lg dark:bg-gray-800">
                       <Space className="w-full justify-center">
                         <ClockCircleOutlined className="text-orange-500" />
                         <Text className="text-orange-600 text-sm">
@@ -256,7 +255,7 @@ const CouponPage = () => {
             ))}
           </Row>
         )}
-        <Card className="mt-12 shadow-lg rounded-xl">
+        <Card className="mt-12 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={3} className="text-center !mb-6">
             💡 Mẹo Sử Dụng Mã Giảm Giá
           </Title>

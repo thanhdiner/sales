@@ -32,7 +32,6 @@ const FlashSaleAdmin = () => {
     fetchFlashSales()
   }, [])
 
-  // Fetch 20 sản phẩm đầu khi mở modal tạo mới
   const handleOpenCreate = async () => {
     setProductLoading(true)
     try {
@@ -83,15 +82,23 @@ const FlashSaleAdmin = () => {
     setProductLoading(false)
   }
 
-  const handleDelete = async _id => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa flash sale này?')) return
-    try {
-      await deleteFlashSale(_id)
-      message.success('Đã xóa flash sale thành công')
-      fetchFlashSales()
-    } catch (err) {
-      message.error(err.message || 'Xóa thất bại')
-    }
+  const handleDelete = _id => {
+    Modal.confirm({
+      title: <span className="dark:text-white">Xác nhận xóa</span>,
+      content: <span className="dark:text-white">Bạn có chắc chắn muốn xóa flash sale này?</span>,
+      okText: 'Xóa',
+      cancelText: 'Hủy',
+      okType: 'danger',
+      onOk: async () => {
+        try {
+          await deleteFlashSale(_id)
+          message.success('Đã xóa flash sale thành công')
+          fetchFlashSales()
+        } catch (err) {
+          message.error(err.message || 'Xóa thất bại')
+        }
+      }
+    })
   }
 
   // SERVER-SIDE SEARCH khi gõ vào select (debounced)
@@ -216,50 +223,50 @@ const FlashSaleAdmin = () => {
   const totalProducts = flashSales.reduce((sum, sale) => sum + sale.soldQuantity, 0)
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 dark:bg-gray-800 rounded-xl">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Quản Lý Flash Sale</h1>
-          <p className="text-gray-600">Quản lý các chương trình khuyến mãi flash sale</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 dark:text-white">Quản Lý Flash Sale</h1>
+          <p className="text-gray-600 dark:text-gray-400">Quản lý các chương trình khuyến mãi flash sale</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm border p-6 dark:bg-gray-800 dark:text-gray-100 dark:outline dark:outline-2 dark:outline-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Tổng Doanh Thu</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(totalRevenue)}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-white">Tổng Doanh Thu</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(totalRevenue)}</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="bg-white rounded-lg shadow-sm border p-6 dark:bg-gray-800 dark:text-gray-100 dark:outline dark:outline-2 dark:outline-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Sale Đang Diễn Ra</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-white">Sale Đang Diễn Ra</p>
                 <p className="text-2xl font-bold text-blue-600">{activeSales}</p>
               </div>
               <Clock className="h-8 w-8 text-blue-600" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="bg-white rounded-lg shadow-sm border p-6 dark:bg-gray-800 dark:text-gray-100 dark:outline dark:outline-2 dark:outline-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Tổng Sản Phẩm Bán</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-white">Tổng Sản Phẩm Bán</p>
                 <p className="text-2xl font-bold text-purple-600">{totalProducts}</p>
               </div>
               <ShoppingCart className="h-8 w-8 text-purple-600" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="bg-white rounded-lg shadow-sm border p-6 dark:bg-gray-800 dark:text-gray-100 dark:outline dark:outline-2 dark:outline-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Tổng Chương Trình</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-white">Tổng Chương Trình</p>
                 <p className="text-2xl font-bold text-orange-600">{flashSales.length}</p>
               </div>
               <Tag className="h-8 w-8 text-orange-600" />
@@ -268,29 +275,45 @@ const FlashSaleAdmin = () => {
         </div>
 
         {/* Action Bar */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex space-x-4">{/* Nếu cần filter thêm ở đây */}</div>
-          <Button type="primary" icon={<Plus className="h-4 w-4" />} onClick={handleOpenCreate}>
-            Tạo Flash Sale Mới
-          </Button>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+          <div className="flex flex-wrap gap-3">{/* Filters sau này */}</div>
+          <div>
+            <Button type="primary" icon={<Plus className="h-4 w-4" />} onClick={handleOpenCreate} className="w-full sm:w-auto">
+              Tạo Flash Sale Mới
+            </Button>
+          </div>
         </div>
 
         {/* Flash Sales Table */}
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+        <div className="bg-white rounded-lg shadow-sm border overflow-hidden dark:bg-gray-800">
+          <div className="overflow-x-auto -mx-2 sm:mx-0">
+            <table className="min-w-[960px] divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+              <thead className="bg-gray-50 dark:bg-gray-900">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên Chương Trình</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời Gian</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Giảm Giá</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số Lượng</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng Thái</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doanh Thu</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Thao Tác</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Tên Chương Trình
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Thời Gian
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Giảm Giá
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Số Lượng
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Trạng Thái
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Doanh Thu
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white">
+                    Thao Tác
+                  </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                 {tableLoading ? (
                   <tr>
                     <td colSpan={7} className="text-center py-10 text-gray-400">
@@ -306,23 +329,23 @@ const FlashSaleAdmin = () => {
                 ) : (
                   flashSales.map(sale => (
                     <tr key={sale._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap align-top">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{sale.name}</div>
-                          <div className="text-sm text-gray-500">{sale.products.length} sản phẩm</div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{sale.name}</div>
+                          <div className="text-sm text-gray-500 dark:text-white">{sale.products.length} sản phẩm</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{dayjs(sale.startAt).format('YYYY-MM-DD HH:mm')}</div>
-                        <div className="text-sm text-gray-500">đến {dayjs(sale.endAt).format('YYYY-MM-DD HH:mm')}</div>
+                      <td className="px-6 py-4 whitespace-nowrap align-top">
+                        <div className="text-sm text-gray-900 dark:text-white">{dayjs(sale.startAt).format('YYYY-MM-DD HH:mm')}</div>
+                        <div className="text-sm text-gray-500 dark:text-white">đến {dayjs(sale.endAt).format('YYYY-MM-DD HH:mm')}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap align-top">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                           -{sale.discountPercent}%
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap align-top">
+                        <div className="text-sm text-gray-900 dark:text-white">
                           {sale.soldQuantity}/{sale.maxQuantity}
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
@@ -332,7 +355,7 @@ const FlashSaleAdmin = () => {
                           ></div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap align-top">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
                             sale.status
@@ -341,8 +364,10 @@ const FlashSaleAdmin = () => {
                           {getStatusText(sale.status)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(sale.revenue)}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white align-top">
+                        {formatCurrency(sale.revenue)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium align-top">
                         <div className="flex justify-end space-x-2">
                           <Button type="link" onClick={() => handleEdit(sale)} icon={<Edit2 className="h-4 w-4" />} />
                           <Button type="link" danger onClick={() => handleDelete(sale._id)} icon={<Trash2 className="h-4 w-4" />} />
@@ -358,7 +383,13 @@ const FlashSaleAdmin = () => {
 
         {/* Modal */}
         <Modal
-          title={editingItem ? 'Chỉnh Sửa Flash Sale' : 'Tạo Flash Sale Mới'}
+          title={
+            editingItem ? (
+              <span className="dark:text-white">Chỉnh Sửa Flash Sale</span>
+            ) : (
+              <span className="dark:text-white">Tạo Flash Sale Mới</span>
+            )
+          }
           open={showModal}
           onCancel={() => {
             setShowModal(false)
@@ -378,7 +409,7 @@ const FlashSaleAdmin = () => {
         >
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                 Tên chương trình <span className="text-red-500">*</span>
               </label>
               <Input
@@ -386,41 +417,42 @@ const FlashSaleAdmin = () => {
                 value={formData.name}
                 onChange={e => handleChange('name', e.target.value)}
                 placeholder="Nhập tên chương trình flash sale"
+                className="dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-500"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                   Ngày & giờ bắt đầu <span className="text-red-500">*</span>
                 </label>
                 <DatePicker
                   showTime
                   value={formData.startAt}
                   onChange={val => handleChange('startAt', val)}
-                  className="w-full"
+                  className="w-full dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-500"
                   format="YYYY-MM-DD HH:mm"
                   placeholder="Ngày bắt đầu"
                   getPopupContainer={trigger => trigger.parentNode}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                   Ngày & giờ kết thúc <span className="text-red-500">*</span>
                 </label>
                 <DatePicker
                   showTime
                   value={formData.endAt}
                   onChange={val => handleChange('endAt', val)}
-                  className="w-full"
+                  className="w-full dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-500"
                   format="YYYY-MM-DD HH:mm"
                   placeholder="Ngày kết thúc"
                   getPopupContainer={trigger => trigger.parentNode}
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                   Phần trăm giảm giá (%) <span className="text-red-500">*</span>
                 </label>
                 <InputNumber
@@ -434,7 +466,7 @@ const FlashSaleAdmin = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                   Số lượng tối đa <span className="text-red-500">*</span>
                 </label>
                 <InputNumber
@@ -448,7 +480,7 @@ const FlashSaleAdmin = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                 Sản phẩm áp dụng <span className="text-red-500">*</span>
               </label>
               <Select

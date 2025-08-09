@@ -66,10 +66,15 @@ function FlashSale() {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     beforeChange: () => setIsDragging(true),
-    afterChange: () => setIsDragging(false)
+    afterChange: () => setIsDragging(false),
+    responsive: [
+      { breakpoint: 1200, settings: { slidesToShow: 4 } },
+      { breakpoint: 992, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } }
+    ]
   }
 
-  // Thêm salePrice và savings cho từng product
   const productsWithDiscount = products.map(product => {
     const salePrice = product.price && discountPercent ? Math.round(product.price * (1 - discountPercent / 100)) : product.price
     const savings = product.price && discountPercent ? product.price - salePrice : 0

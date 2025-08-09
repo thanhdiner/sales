@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Form, Input, Button, Typography, message, Card, Modal } from 'antd'
-import { authAdmin2FAVerify, authAdminLogin } from '../../services/adminAuth.service'
-import { setAccessToken } from '../../utils/auth'
+import { authAdmin2FAVerify, authAdminLogin } from '@/services/adminAuth.service'
+import { setAccessToken } from '@/utils/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../stores/adminUser'
-import { trustDevice } from '../../services/adminAccountsService'
+import { setUser } from '@/stores/adminUser'
+import { trustDevice } from '@/services/adminAccountsService'
 import titles from '@/utils/titles'
 
 const { Title } = Typography
@@ -118,37 +118,46 @@ function AdminLoginPage() {
   const is2FACodeValid = useBackup ? twoFACode.length >= 7 : /^\d{6}$/.test(twoFACode)
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(120deg,#f0f4ff 0%,#f7f8fa 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
+    <div className="admin-login-page dark:from-gray-500 dark:to-gray-800 flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] to-[#f7f8fa] px-4 py-8">
       <Card
         style={{
-          width: 350,
-          borderRadius: 16,
-          boxShadow: '0 6px 32px #0001',
-          padding: 24
+          width: '100%',
+          maxWidth: 420,
+          borderRadius: 20,
+          boxShadow: '0 8px 36px -4px rgba(0,0,0,0.12)',
+          padding: 0
         }}
         styles={{ body: { padding: 0 } }}
+        className="dark:bg-gray-800 w-full"
       >
-        <div style={{ padding: 32 }}>
-          <Title level={3} style={{ marginBottom: 16, textAlign: 'center' }}>
+        <div className="p-8 sm:p-10">
+          <Title level={3} style={{ marginBottom: 16, textAlign: 'center', fontSize: 'clamp(1.4rem, 4vw, 1.9rem)' }}>
             Admin Login
           </Title>
           {!pending2FA ? (
             <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ username: '', password: '' }}>
-              <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Nhập username!' }]}>
-                <Input placeholder="Tài khoản" autoFocus autoComplete="username" />
+              <Form.Item
+                name="username"
+                label={<span className="dark:text-gray-100">Username</span>}
+                rules={[{ required: true, message: 'Nhập username!' }]}
+              >
+                <Input placeholder="Tài khoản" autoFocus autoComplete="username" className="dark:bg-gray-800 dark:text-gray-200" />
               </Form.Item>
-              <Form.Item name="password" label="Password" rules={[{ required: true, message: 'Nhập mật khẩu!' }]}>
-                <Input.Password placeholder="Mật khẩu" autoComplete="current-password" />
+              <Form.Item
+                name="password"
+                label={<span className="dark:text-gray-100">Password</span>}
+                rules={[{ required: true, message: 'Nhập mật khẩu!' }]}
+              >
+                <Input.Password placeholder="Mật khẩu" autoComplete="current-password" className="dark:bg-gray-800 dark:text-gray-200" />
               </Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading} block style={{ marginTop: 8 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                block
+                style={{ marginTop: 8 }}
+                className="h-11 text-[15px] font-semibold"
+              >
                 Đăng nhập
               </Button>
             </Form>
@@ -168,14 +177,21 @@ function AdminLoginPage() {
                 }
                 style={{
                   marginBottom: 12,
-                  fontSize: 20,
+                  fontSize: 'clamp(1rem, 4.5vw, 1.25rem)',
                   letterSpacing: useBackup ? 2 : 4,
                   textAlign: 'center'
                 }}
                 autoFocus
                 disabled={loading2FA}
               />
-              <Button type="primary" loading={loading2FA} onClick={handle2FAVerify} disabled={!is2FACodeValid} block>
+              <Button
+                type="primary"
+                loading={loading2FA}
+                onClick={handle2FAVerify}
+                disabled={!is2FACodeValid}
+                block
+                className="h-11 text-[15px] font-semibold"
+              >
                 Xác thực & Đăng nhập
               </Button>
               <Button type="link" onClick={() => setUseBackup(b => !b)} style={{ marginTop: 8 }} disabled={loading2FA} block>
@@ -200,7 +216,7 @@ function AdminLoginPage() {
         </div>
       </Card>
 
-      <Modal
+  <Modal
         open={showTrustDeviceModal}
         onCancel={() => onTrustDevice(false)}
         footer={[

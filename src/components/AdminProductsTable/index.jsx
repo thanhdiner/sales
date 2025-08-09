@@ -189,7 +189,7 @@ function AdminProductsTable({
   //# End handler
 
   return (
-    <div className="mt-[10px]">
+    <div className="mt-[10px] admin-products-table-wrapper overflow-x-auto">
       <Table
         loading={{
           spinning: isLoading,
@@ -201,6 +201,8 @@ function AdminProductsTable({
         dataSource={products}
         pagination={false}
         bordered
+        scroll={{ x: 1200 }}
+        className="min-w-[900px]"
       />
     </div>
   )

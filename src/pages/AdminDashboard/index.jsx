@@ -7,7 +7,8 @@ import {
   FallOutlined,
   TeamOutlined,
   ArrowUpOutlined,
-  ArrowDownOutlined
+  ArrowDownOutlined,
+  AppstoreOutlined
 } from '@ant-design/icons'
 import {
   AreaChart,
@@ -35,6 +36,7 @@ export default function AdminDashboard() {
   titles('Dashboard')
   const [loading, setLoading] = useState(false)
   const [dateRange, setDateRange] = useState('7days')
+  const [isMobile, setIsMobile] = useState(false)
   const [statsData, setStatsData] = useState({
     totalUsers: { value: 0, change: 0, trend: 'up', new: { current: 0 } },
     totalAdmins: { value: 0, change: 0, trend: 'up', new: { current: 0 } },
@@ -148,6 +150,16 @@ export default function AdminDashboard() {
     fetchDashboard()
   }, [dateRange])
 
+  // Detect mobile / tablet to adjust component heights & density
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const orderColumns = [
     {
       title: 'Đơn hàng',
@@ -205,8 +217,8 @@ export default function AdminDashboard() {
   }
 
   const StatCard = ({ title, value, change, trend, icon, color, prefix = '', subInfo = [], isCurrency }) => (
-    <Card className="stat-card" hoverable>
-      <div className="stat-content" style={{ display: 'flex', gap: 16 }}>
+    <Card className="stat-card dark:bg-gray-900 dark:text-gray-100 shadow-md rounded-2xl border-0" hoverable>
+      <div className="stat-content " style={{ display: 'flex', gap: 16 }}>
         <div
           className="stat-icon"
           style={{
@@ -225,7 +237,7 @@ export default function AdminDashboard() {
           <div className="stat-title" style={{ color: '#64748b', fontWeight: 500, fontSize: 16 }}>
             {title}
           </div>
-          <div style={{ fontSize: 28, fontWeight: 700, color: '#1f2937', marginTop: 4 }}>
+          <div style={{ fontSize: 28, fontWeight: 700, color: '#1f2937', marginTop: 4 }} className="stat-value">
             {isCurrency
               ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
               : value.toLocaleString('vi-VN')}
@@ -261,8 +273,8 @@ export default function AdminDashboard() {
   )
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
+    <div className="dashboard-container dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid rounded-xl">
+      <div className="dashboard-header dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
         <div className="header-content">
           <div className="title-section">
             <Title level={1} className="dashboard-title">
@@ -354,6 +366,47 @@ export default function AdminDashboard() {
                   isCurrency
                 />
               </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <StatCard
+                  title="Lợi nhuận"
+                  value={statsData.profit.value}
+                  change={statsData.profit.change}
+                  trend={statsData.profit.trend}
+                  icon={<DollarCircleOutlined />}
+                  color="#fbbf24"
+                  isCurrency
+                />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <StatCard
+                  title="Sản phẩm"
+                  value={statsData.product.total}
+                  change={statsData.product.new.change}
+                  trend={statsData.product.new.trend}
+                  icon={<ShoppingCartOutlined />}
+                  color="#f43f5e"
+                  subInfo={[
+                    { label: 'Đang hiển thị', value: statsData.product.active },
+                    { label: 'Đã ẩn', value: statsData.product.inactive },
+                    { label: 'Mới tuần này', value: statsData.product.new.current }
+                  ]}
+                />
+              </Col>
+              <Col xs={24} sm={12} lg={6}>
+                <StatCard
+                  title="Danh mục sản phẩm"
+                  value={statsData.category.total}
+                  change={statsData.category.new.change}
+                  trend={statsData.category.new.trend}
+                  icon={<AppstoreOutlined />}
+                  color="#fb923c"
+                  subInfo={[
+                    { label: 'Đang hiển thị', value: statsData.category.active },
+                    { label: 'Đã ẩn', value: statsData.category.inactive },
+                    { label: 'Mới tuần này', value: statsData.category.new.current }
+                  ]}
+                />
+              </Col>
             </>
           )}
         </Row>
@@ -374,7 +427,7 @@ export default function AdminDashboard() {
                 }
                 className="chart-card"
               >
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={isMobile ? 220 : 300}>
                   <AreaChart data={salesData}>
                     <defs>
                       <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -406,7 +459,7 @@ export default function AdminDashboard() {
               <Skeleton.Input block active style={{ width: '100%', height: 404, borderRadius: 20 }} />
             ) : (
               <Card title="Phân loại sản phẩm" className="chart-card">
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={isMobile ? 250 : 300}>
                   <PieChart>
                     <Pie
                       data={categoryData}
@@ -455,7 +508,7 @@ export default function AdminDashboard() {
             />
           </Col>
           <Col xs={24} lg={16}>
-            <Card title="Đơn hàng gần đây" className="orders-card">
+            <Card title="Đơn hàng gần đây" className="orders-card ">
               {loading ? (
                 <div className="orders-table-skeleton">
                   <table>
@@ -503,7 +556,15 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               ) : (
-                <Table dataSource={recentOrders} columns={orderColumns} pagination={false} size="small" className="orders-table" />
+                <Table
+                  dataSource={recentOrders}
+                  columns={orderColumns}
+                  pagination={false}
+                  size={isMobile ? 'small' : 'middle'}
+                  className="orders-table"
+                  rowKey="id"
+                  scroll={{ x: 680 }}
+                />
               )}
             </Card>
           </Col>
@@ -519,7 +580,7 @@ export default function AdminDashboard() {
                       .fill(0)
                       .map((_, idx) => (
                         <Col xs={24} sm={12} lg={8} xl={4.8} key={idx}>
-                          <div className="product-item">
+                          <div className="product-item dark:bg-gray-800 dark:outline dark:outline-bg-gray-600 dark:outline-1 dark:outline-solid">
                             <div className="product-img-wrapper" style={{ marginBottom: 12 }}>
                               <Skeleton.Avatar shape="square" size={64} active style={{ borderRadius: 12 }} />
                             </div>
@@ -545,7 +606,7 @@ export default function AdminDashboard() {
                       ))
                   : topProducts.map((product, index) => (
                       <Col xs={24} sm={12} lg={8} xl={4.8} key={index}>
-                        <div className="product-item">
+                        <div className="product-item dark:bg-gray-800 dark:outline dark:outline-bg-gray-600 dark:outline-1 dark:outline-solid">
                           <div className="product-img-wrapper">
                             <img src={product.image} alt={product.name} />
                           </div>

@@ -50,7 +50,13 @@ function FeaturedProducts() {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     beforeChange: () => setIsDragging(true),
-    afterChange: () => setIsDragging(false)
+    afterChange: () => setIsDragging(false),
+    responsive: [
+      { breakpoint: 1200, settings: { slidesToShow: 4 } },
+      { breakpoint: 992, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } }
+    ]
   }
 
   return (

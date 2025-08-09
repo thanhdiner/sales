@@ -36,6 +36,8 @@ import {
   SearchOutlined
 } from '@ant-design/icons'
 import titles from '@/utils/titles'
+import { Grid } from 'antd'
+const { useBreakpoint } = Grid
 
 const { Title, Paragraph, Text } = Typography
 const { Option } = Select
@@ -43,6 +45,8 @@ const { TextArea } = Input
 const { Panel } = Collapse
 
 const ReturnPolicyPage = () => {
+  const screens = useBreakpoint()
+  const isMobile = !screens.md
   titles('Chính sách đổi trả & hoàn tiền')
 
   const [requestModalVisible, setRequestModalVisible] = useState(false)
@@ -51,51 +55,51 @@ const ReturnPolicyPage = () => {
 
   const returnSteps = [
     {
-      title: 'Yêu cầu đổi trả',
-      description: 'Gửi yêu cầu qua website hoặc hotline',
+      title: <span className="dark:text-gray-100">Yêu cầu đổi trả</span>,
+      description: <span className="dark:text-gray-300">Gửi yêu cầu qua website hoặc hotline</span>,
       icon: <FileTextOutlined />
     },
     {
-      title: 'Xác nhận yêu cầu',
-      description: 'Chúng tôi sẽ xác nhận trong 24h',
+      title: <span className="dark:text-gray-100">Xác nhận yêu cầu</span>,
+      description: <span className="dark:text-gray-300">Chúng tôi sẽ xác nhận trong 24h</span>,
       icon: <CheckCircleOutlined />
     },
     {
-      title: 'Gửi sản phẩm',
-      description: 'Đóng gói và gửi sản phẩm về',
+      title: <span className="dark:text-gray-100">Gửi sản phẩm</span>,
+      description: <span className="dark:text-gray-300">Đóng gói và gửi sản phẩm về</span>,
       icon: <TruckOutlined />
     },
     {
-      title: 'Kiểm tra & xử lý',
-      description: 'Kiểm tra sản phẩm và xử lý yêu cầu',
+      title: <span className="dark:text-gray-100">Kiểm tra & xử lý</span>,
+      description: <span className="dark:text-gray-300">Kiểm tra sản phẩm và xử lý yêu cầu</span>,
       icon: <ExclamationCircleOutlined />
     },
     {
-      title: 'Hoàn tất',
-      description: 'Đổi sản phẩm mới hoặc hoàn tiền',
+      title: <span className="dark:text-gray-100">Hoàn tất</span>,
+      description: <span className="dark:text-gray-300">Đổi sản phẩm mới hoặc hoàn tiền</span>,
       icon: <DollarOutlined />
     }
   ]
 
   const onlineSteps = [
     {
-      title: 'Gửi yêu cầu hỗ trợ',
-      description: 'Liên hệ qua website, Zalo hoặc email',
+      title: <span className="dark:text-gray-100">Gửi yêu cầu hỗ trợ</span>,
+      description: <span className="dark:text-gray-300">Liên hệ qua website, Zalo hoặc email</span>,
       icon: <FileTextOutlined />
     },
     {
-      title: 'Xác minh & kiểm tra',
-      description: 'Kiểm tra trạng thái giao dịch & tài khoản',
+      title: <span className="dark:text-gray-100">Xác minh & kiểm tra</span>,
+      description: <span className="dark:text-gray-300">Kiểm tra trạng thái giao dịch & tài khoản</span>,
       icon: <SearchOutlined />
     },
     {
-      title: 'Xử lý & phản hồi',
-      description: 'Sửa lỗi, kích hoạt lại, cấp lại dịch vụ hoặc hoàn tiền nếu đủ điều kiện',
+      title: <span className="dark:text-gray-100">Xử lý & phản hồi</span>,
+      description: <span className="dark:text-gray-300">Sửa lỗi, kích hoạt lại, cấp lại dịch vụ hoặc hoàn tiền nếu đủ điều kiện</span>,
       icon: <SafetyOutlined />
     },
     {
-      title: 'Hoàn tất',
-      description: 'Kết thúc yêu cầu, xác nhận với khách hàng',
+      title: <span className="dark:text-gray-100">Hoàn tất</span>,
+      description: <span className="dark:text-gray-300">Kết thúc yêu cầu, xác nhận với khách hàng</span>,
       icon: <CheckCircleOutlined />
     }
   ]
@@ -239,7 +243,7 @@ const ReturnPolicyPage = () => {
       render: conditions => (
         <div>
           {conditions.map((condition, index) => (
-            <div key={index} className="text-xs text-gray-600">
+            <div key={index} className="text-xs text-gray-600 dark:text-gray-300">
               • {condition}
             </div>
           ))}
@@ -259,7 +263,7 @@ const ReturnPolicyPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
@@ -296,44 +300,60 @@ const ReturnPolicyPage = () => {
         </div>
 
         {/* Process Steps */}
-        <Card className="mb-8 shadow-lg rounded-xl">
+        <Card className="mb-8 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="text-center !text-2xl !mb-8">
             <SwapOutlined className="mr-3 text-green-500" />
             Quy Trình Đổi Trả (Hàng Vật Lý)
           </Title>
-          <Steps current={-1} items={returnSteps} responsive={false} className="mb-6" />
+          <Steps
+            current={-1}
+            items={returnSteps}
+            direction={isMobile ? 'vertical' : 'horizontal'}
+            size={isMobile ? 'small' : 'default'}
+            className="mb-6"
+          />
           <Alert
-            message="Lưu ý quan trọng"
-            description="Vui lòng giữ nguyên tình trạng sản phẩm và đóng gói cẩn thận khi gửi về để đảm bảo quá trình xử lý nhanh chóng."
+            message={<span className="dark:text-gray-100">Lưu ý quan trọng</span>}
+            description={
+              <span className="dark:text-gray-300">
+                Vui lòng giữ nguyên tình trạng sản phẩm và đóng gói cẩn thận khi gửi về để đảm bảo quá trình xử lý nhanh chóng.
+              </span>
+            }
             type="info"
             showIcon
-            className="mt-6"
+            className="mt-6 dark:bg-gray-800"
           />
         </Card>
 
-        <Card className="mb-8 shadow-lg rounded-xl">
+        <Card className="mb-8 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="text-center !text-2xl !mb-8">
             <SafetyOutlined className="mr-3 text-blue-500" />
             Quy Trình Xử Lý Dịch Vụ Online / Tài Khoản / Phần Mềm
           </Title>
-          <Steps current={-1} items={onlineSteps} responsive={false} className="mb-6" />
+          <Steps
+            current={-1}
+            items={onlineSteps}
+            direction={isMobile ? 'vertical' : 'horizontal'}
+            size={isMobile ? 'small' : 'default'}
+            className="mb-6"
+          />
           <Alert
-            message="Lưu ý"
+            message={<span className="dark:text-gray-100">Lưu ý</span>}
             description={
               <>
-                <div>
+                <div className="dark:text-gray-300">
                   <strong>Lưu ý:</strong> Một số sản phẩm số, phần mềm bản quyền, tài khoản số, dịch vụ nâng cấp online…{' '}
                   <b>chỉ hỗ trợ hoàn tiền/đổi mới khi phát sinh lỗi từ hệ thống hoặc không sử dụng được</b>. Vui lòng liên hệ CSKH để được
                   tư vấn cụ thể từng trường hợp.
                 </div>
-                <div className="mt-2">
+                <div className="mt-2 dark:text-gray-300">
                   Sau khi dịch vụ đã được kích hoạt thành công, một số sản phẩm không áp dụng hoàn tiền theo quy định của nhà phát hành.
                 </div>
               </>
             }
             type="warning"
             showIcon
-            className="mt-6"
+            className="mt-6 dark:bg-gray-800"
           />
         </Card>
 
@@ -344,13 +364,13 @@ const ReturnPolicyPage = () => {
               title={
                 <Space>
                   <CheckCircleOutlined className="text-green-500" />
-                  <span>Điều Kiện Đổi Trả</span>
+                  <span className="dark:text-gray-100">Điều Kiện Đổi Trả</span>
                 </Space>
               }
-              className="h-full shadow-md rounded-lg"
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
             >
               <div className="space-y-4">
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200 dark:bg-gray-800 dark:outline dark:outline-gray-600 dark:outline-1 dark:outline-solid">
                   <Title level={5} className="!text-green-700 !mb-2">
                     ✅ Được chấp nhận
                   </Title>
@@ -378,7 +398,7 @@ const ReturnPolicyPage = () => {
                   </div>
                 </div>
 
-                <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                <div className="p-4 bg-red-50 rounded-lg border border-red-200 dark:bg-gray-800 dark:outline dark:outline-gray-600 dark:outline-1 dark:outline-solid">
                   <Title level={5} className="!text-red-700 !mb-2">
                     ❌ Không được chấp nhận
                   </Title>
@@ -415,16 +435,18 @@ const ReturnPolicyPage = () => {
               title={
                 <Space>
                   <DollarOutlined className="text-blue-500" />
-                  <span>Phương Thức Hoàn Tiền</span>
+                  <span className="dark:text-gray-100">Phương Thức Hoàn Tiền</span>
                 </Space>
               }
-              className="h-full shadow-md rounded-lg"
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
             >
               <div className="space-y-3">
                 {refundMethods.map((method, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded-lg border ${method.popular ? 'border-blue-200 bg-blue-50' : 'border-gray-200 bg-gray-50'}`}
+                    className={`p-3 rounded-lg border ${
+                      method.popular ? 'border-blue-200 bg-blue-50' : 'border-gray-200 bg-gray-50'
+                    } dark:bg-gray-800 dark:outline-gray-600 dark:outline-1 dark:outline-solid dark:outline`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <Space>
@@ -437,7 +459,7 @@ const ReturnPolicyPage = () => {
                         )}
                       </Space>
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
                       <div>⏱️ Thời gian: {method.time}</div>
                       <div>💰 Phí: {method.fee}</div>
                     </div>
@@ -449,7 +471,7 @@ const ReturnPolicyPage = () => {
         </Row>
 
         {/* Product Categories Table */}
-        <Card className="mb-8 shadow-lg rounded-xl">
+        <Card className="mb-8 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="!text-2xl !mb-6">
             <ShoppingCartOutlined className="mr-3 text-purple-500" />
             Thời Hạn Đổi Trả Theo Danh Mục
@@ -458,16 +480,21 @@ const ReturnPolicyPage = () => {
           <Table dataSource={productCategories} columns={columns} pagination={false} className="mb-4" scroll={{ x: 800 }} />
 
           <Alert
-            message="Thông tin bổ sung"
-            description="Thời hạn đổi trả được tính từ ngày nhận hàng. Các sản phẩm trong chương trình clearance sale có thể có thời hạn đổi trả ngắn hơn."
+            message={<span className="dark:text-gray-100">Thông tin bổ sung</span>}
+            description={
+              <span className="dark:text-gray-300">
+                Thời hạn đổi trả được tính từ ngày nhận hàng. Các sản phẩm trong chương trình clearance sale có thể có thời hạn đổi trả ngắn
+                hơn.
+              </span>
+            }
             type="warning"
             showIcon
-            className="mt-4"
+            className="mt-4 dark:bg-gray-800"
           />
         </Card>
 
         {/* Return Reasons */}
-        <Card className="mb-8 shadow-lg rounded-xl">
+        <Card className="mb-8 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="!text-2xl !mb-6">
             <ExclamationCircleOutlined className="mr-3 text-orange-500" />
             Lý Do Đổi Trả Phổ Biến
@@ -476,7 +503,7 @@ const ReturnPolicyPage = () => {
           <Row gutter={[16, 16]}>
             {returnReasons.map((reason, index) => (
               <Col xs={24} sm={12} lg={8} key={index}>
-                <Card size="small" className="text-center hover:shadow-md transition-shadow">
+                <Card size="small" className="text-center hover:shadow-md transition-shadow dark:bg-gray-800">
                   <Tag color={reason.color} className="mb-2">
                     {reason.label}
                   </Tag>
@@ -488,15 +515,15 @@ const ReturnPolicyPage = () => {
         </Card>
 
         {/* FAQ Section */}
-        <Card className="mb-8 shadow-lg rounded-xl">
+        <Card className="mb-8 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="!text-2xl !mb-6">
             <QuestionCircleOutlined className="mr-3 text-red-500" />
             Câu Hỏi Thường Gặp
           </Title>
 
-          <Collapse>
+          <Collapse ghost>
             {faqData.map((faq, index) => (
-              <Panel header={faq.question} key={index}>
+              <Panel header={<span className="dark:text-gray-100">{faq.question}</span>} key={index}>
                 <Text>{faq.answer}</Text>
               </Panel>
             ))}
@@ -506,9 +533,13 @@ const ReturnPolicyPage = () => {
         {/* Contact & Support */}
         <Row gutter={[24, 24]}>
           <Col xs={24} md={12}>
-            <Card title="💡 Mẹo Đổi Trả Thành Công" className="h-full shadow-md rounded-lg">
+            <Card
+              title={<span className="dark:text-gray-100">💡 Mẹo Đổi Trả Thành Công</span>}
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
+            >
               <Timeline
                 size="small"
+                className="dark:text-gray-300"
                 items={[
                   {
                     children: 'Chụp ảnh sản phẩm trước khi đóng gói'
@@ -531,28 +562,31 @@ const ReturnPolicyPage = () => {
           </Col>
 
           <Col xs={24} md={12}>
-            <Card title="📞 Hỗ Trợ Khách Hàng" className="h-full shadow-md rounded-lg">
+            <Card
+              title={<span className="dark:text-gray-100">📞 Hỗ Trợ Khách Hàng</span>}
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
+            >
               <Space direction="vertical" className="w-full">
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-gray-600 dark:outline-1 dark:outline-solid">
                   <Space>
                     <PhoneOutlined className="text-blue-500" />
-                    <span>Hotline đổi trả</span>
+                    <span className="dark:text-gray-100">Hotline đổi trả</span>
                   </Space>
                   <Text strong>0823387108</Text>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-gray-600 dark:outline-1 dark:outline-solid">
                   <Space>
                     <MailOutlined className="text-green-500" />
-                    <span>Email hỗ trợ</span>
+                    <span className="dark:text-gray-100">Email hỗ trợ</span>
                   </Space>
                   <Text strong>lunashop.business.official@gmail.com</Text>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-gray-600 dark:outline-1 dark:outline-solid">
                   <Space>
                     <ClockCircleOutlined className="text-orange-500" />
-                    <span>Thời gian hỗ trợ</span>
+                    <span className="dark:text-gray-100">Thời gian hỗ trợ</span>
                   </Space>
                   <Text strong>8:00 - 21:00</Text>
                 </div>
@@ -677,7 +711,7 @@ const ReturnPolicyPage = () => {
         </Modal>
 
         {/* Footer CTA */}
-        <div className="text-center mt-12 p-8 bg-white rounded-xl shadow-lg">
+        <div className="text-center mt-12 p-8 bg-white rounded-xl shadow-lg dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
           <Title level={3} className="!mb-4">
             Cần hỗ trợ thêm?
           </Title>

@@ -160,7 +160,7 @@ function AdminProductCategoriesTable({
   //# End handler
 
   return (
-    <div className="mt-2.5">
+    <div className="mt-2.5 admin-product-categories-table-wrapper overflow-x-auto">
       <Table
         loading={{
           spinning: isLoading,
@@ -172,6 +172,8 @@ function AdminProductCategoriesTable({
         dataSource={productCategories}
         pagination={false}
         bordered
+        scroll={{ x: 1000 }}
+        className="min-w-[820px]"
       />
     </div>
   )

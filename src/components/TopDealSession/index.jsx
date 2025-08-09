@@ -5,15 +5,15 @@ import './TopDealSession.scss'
 function TopDealSession() {
   return (
     <>
-      <section className="home__top-deal">
+      <section className="home__top-deal dark:bg-gray-800 dark:border-2 dark:border-gray-600">
         <div className="home__top-deal__header">
           <div className="home__top-deal__title-group">
             <div className="home__top-deal__badge">🔥 HOT DEALS</div>
             <h2 className="home__heading2">
               <span className="home__heading2__gradient">Top Deal</span>
-              <span className="home__heading2__accent">của tuần</span>
+              <span className="home__heading2__accent dark:text-gray-400">của tuần</span>
             </h2>
-            <p className="home__top-deal__subtitle">Những ưu đãi không thể bỏ lỡ</p>
+            <p className="home__top-deal__subtitle dark:text-gray-400">Những ưu đãi không thể bỏ lỡ</p>
           </div>
           <Link to="/products?type=isTopDeal" className="home__top-deal__view-all">
             <span>Xem tất cả</span>

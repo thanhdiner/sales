@@ -94,3 +94,12 @@
     }
   }
 }
+
+.product-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #d7d7d7 #ffffff;
+}
+
+html.dark .product-list-scroll {
+  scrollbar-color: #d7d7d7 #1E2939;
+}

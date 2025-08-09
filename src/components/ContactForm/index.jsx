@@ -49,8 +49,8 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid">
+      <h3 className="dark:text-gray-100 text-2xl font-bold text-gray-800 mb-6 flex items-center">
         <Send className="w-6 h-6 mr-3 text-blue-600" />
         Gửi tin nhắn cho shop
       </h3>
@@ -66,7 +66,7 @@ const ContactForm = () => {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <div className="block text-gray-700 font-medium mb-2">
+              <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
                 <User className="w-4 h-4 inline mr-2" />
                 Tên của bạn
               </div>
@@ -75,12 +75,12 @@ const ContactForm = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 placeholder="Nhập tên của bạn"
               />
             </div>
             <div>
-              <div className="block text-gray-700 font-medium mb-2">
+              <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
                 <Mail className="w-4 h-4 inline mr-2" />
                 Email
               </div>
@@ -89,13 +89,13 @@ const ContactForm = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 placeholder="email@example.com"
               />
             </div>
           </div>
           <div>
-            <div className="block text-gray-700 font-medium mb-2">
+            <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
               <FileText className="w-4 h-4 inline mr-2" />
               Chủ đề
             </div>
@@ -111,7 +111,7 @@ const ContactForm = () => {
             />
           </div>
           <div>
-            <div className="block text-gray-700 font-medium mb-2">
+            <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
               <MessageCircle className="w-4 h-4 inline mr-2" />
               Tin nhắn
             </div>
@@ -120,7 +120,7 @@ const ContactForm = () => {
               value={formData.message}
               onChange={handleChange}
               rows="5"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 resize-none"
+              className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 resize-none"
               placeholder="Nhập tin nhắn của bạn..."
             ></textarea>
           </div>

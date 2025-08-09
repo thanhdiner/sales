@@ -5,12 +5,12 @@ import './FlashSaleSession.scss'
 function FlashSaleSession() {
   return (
     <section className="home__flash-sale">
-      <div className="home__flash-sale__header">
+      <div className="home__flash-sale__header dark:bg-gray-800">
         <div className="home__flash-sale__title-group">
           <div className="home__flash-sale__badge">⚡ FLASH SALE</div>
           <h2 className="home__heading2">
             <span className="home__heading2__gradient">Flash Sale</span>
-            <span className="home__heading2__accent">hàng ngày</span>
+            <span className="home__heading2__accent dark:text-gray-400">hàng ngày</span>
           </h2>
           <p className="home__flash-sale__subtitle">Deal chớp nhoáng, giá sốc mỗi ngày!</p>
         </div>
@@ -22,7 +22,7 @@ function FlashSaleSession() {
         </Link>
       </div>
 
-      <div className="home__flash-sale__content">
+      <div className="home__flash-sale__content dark:bg-gray-800">
         <div className="home__flash-sale__decoration">
           <div className="floating-elements">
             <div className="floating-circle circle-1"></div>

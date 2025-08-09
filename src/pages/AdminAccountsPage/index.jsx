@@ -208,25 +208,29 @@ function AdminAccountsPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <Title level={3} className="m-0 text-gray-900 dark:text-gray-200">
           Accounts Management
         </Title>
         <Button
           type="primary"
           onClick={() => openModal(null)}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md p-2"
+          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md p-2 w-full sm:w-auto"
         >
           Thêm tài khoản
         </Button>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        rowKey="_id"
-        className="w-full bg-white dark:bg-gray-900 shadow-md rounded-md"
-      />
+      <div className="overflow-x-auto custom-scrollbar bg-white dark:bg-gray-900 shadow-md rounded-md">
+        <Table
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          rowKey="_id"
+          pagination={false}
+          scroll={{ x: 900 }}
+          style={{ minWidth: 820 }}
+        />
+      </div>
       <Modal
         open={modalOpen}
         title={<span className="dark:text-gray-300">{editing ? 'Sửa tài khoản' : 'Thêm tài khoản'}</span>}
@@ -240,6 +244,7 @@ function AdminAccountsPage() {
         confirmLoading={submitLoading}
         okButtonProps={{ disabled: submitLoading }}
         cancelButtonProps={{ disabled: submitLoading }}
+        style={{ maxWidth: '95%' }}
       >
         <Form form={form} layout="vertical" initialValues={{ status: 'active', role_id: 'admin' }}>
           <Form.Item
@@ -299,7 +304,7 @@ function AdminAccountsPage() {
             />
           </Form.Item>
           <Form.Item name="role_id" label={<span className="dark:text-gray-300">Role</span>} rules={[{ required: true }]}>
-            <Select>
+            <Select getPopupContainer={trigger => trigger.parentElement}>
               {roles.map(role => (
                 <Option key={role._id} value={role._id}>
                   {role.label}
@@ -308,7 +313,7 @@ function AdminAccountsPage() {
             </Select>
           </Form.Item>
           <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>} rules={[{ required: true }]}>
-            <Select>
+            <Select getPopupContainer={trigger => trigger.parentElement}>
               <Option value="active">Active</Option>
               <Option value="inactive">Inactive</Option>
               <Option value="banned">Banned</Option>
@@ -316,7 +321,7 @@ function AdminAccountsPage() {
           </Form.Item>
           <Form.Item
             name="avatarUrl"
-            label="Avatar Image"
+            label={<span className="dark:text-gray-300">Avatar Image</span>}
             valuePropName="fileList"
             getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
           >
@@ -339,7 +344,7 @@ function AdminAccountsPage() {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Add Avatar</div>
+                <div className="mt-2 dark:text-gray-300">Add Avatar</div>
               </div>
             </Upload>
           </Form.Item>

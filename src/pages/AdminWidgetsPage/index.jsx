@@ -52,7 +52,6 @@ export default function AdminWidgetsPage() {
     setLoading(true)
     try {
       const res = await getAdminWidgets()
-      // Ép kiểu isActive chuẩn boolean
       setWidgets(
         (res.data || []).map(w => ({
           ...w,
@@ -131,8 +130,8 @@ export default function AdminWidgetsPage() {
 
   const deleteWidget = id => {
     Modal.confirm({
-      title: '🗑️ Xác nhận xóa',
-      content: 'Bạn có chắc chắn muốn xóa widget này không?',
+      title: <span className="dark:text-gray-100">🗑️ Xác nhận xóa</span>,
+      content: <span className="dark:text-gray-100">Bạn có chắc chắn muốn xóa widget này không?</span>,
       okText: 'Xóa',
       cancelText: 'Hủy',
       okType: 'danger',
@@ -158,6 +157,14 @@ export default function AdminWidgetsPage() {
       ),
       dataIndex: 'title',
       key: 'title',
+      width: 260,
+      onCell: () => ({
+        style: {
+          minWidth: 220,
+          whiteSpace: 'normal',
+          wordBreak: 'break-word'
+        }
+      }),
       render: (text, record) => (
         <Space size="middle">
           <Avatar src={record.iconUrl} size={40} style={{ backgroundColor: '#f0f2f5', border: '2px solid #d9d9d9' }} />
@@ -182,6 +189,7 @@ export default function AdminWidgetsPage() {
       ),
       dataIndex: 'link',
       key: 'link',
+      width: 280,
       render: text =>
         text ? (
           <Tooltip title="Click để mở liên kết">
@@ -233,15 +241,21 @@ export default function AdminWidgetsPage() {
   ]
 
   return (
-    <div style={{ padding: 24, background: '#f5f5f5', minHeight: '100vh' }}>
-      <Card style={{ marginBottom: 24, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', body: { padding: 24 } }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <div>
-            <Title level={2} style={{ margin: 0, color: '#1890ff' }}>
+    <div style={{ padding: 24, minHeight: '100vh' }} className="bg-[#f5f5f5] dark:bg-gray-800 dark:text-white rounded-xl">
+      <Card
+        style={{ marginBottom: 24, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', body: { padding: 24 } }}
+        className="dark:bg-gray-800 dark:text-white"
+      >
+        <div
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}
+          className="flex flex-col sm:flex-row sm:space-y-0 space-y-4"
+        >
+          <div className="w-full">
+            <Title level={2} style={{ margin: 0, color: '#1890ff' }} className="!mb-1">
               <AppstoreOutlined style={{ marginRight: 12 }} />
               Quản lý Widgets
             </Title>
-            <Text type="secondary" style={{ fontSize: 16 }}>
+            <Text type="secondary" style={{ fontSize: 16 }} className="block">
               Quản lý các widget hiển thị trên trang chủ
             </Text>
           </div>
@@ -251,6 +265,7 @@ export default function AdminWidgetsPage() {
             icon={<PlusOutlined />}
             onClick={() => openModal()}
             style={{ borderRadius: 8, height: 44, fontWeight: 500, boxShadow: '0 2px 4px rgba(24, 144, 255, 0.3)' }}
+            className="w-full sm:w-auto"
           >
             Thêm Widget Mới
           </Button>
@@ -258,45 +273,58 @@ export default function AdminWidgetsPage() {
 
         <Divider style={{ margin: '16px 0' }} />
 
-        <div style={{ display: 'flex', gap: 16, marginBottom: 20, fontSize: 14 }}>
-          <div style={{ padding: '8px 16px', background: '#e6f7ff', borderRadius: 8, color: '#1890ff' }}>
+        <div style={{ display: 'flex', gap: 16, marginBottom: 20, fontSize: 14 }} className="flex flex-wrap">
+          <div style={{ padding: '8px 16px', background: '#e6f7ff', borderRadius: 8, color: '#1890ff' }} className="flex-1 min-w-[160px]">
             📊 Tổng: {widgets.length} widgets
           </div>
-          <div style={{ padding: '8px 16px', background: '#f6ffed', borderRadius: 8, color: '#52c41a' }}>
+          <div style={{ padding: '8px 16px', background: '#f6ffed', borderRadius: 8, color: '#52c41a' }} className="flex-1 min-w-[160px]">
             ✅ Hoạt động: {widgets.filter(w => w.isActive).length}
           </div>
-          <div style={{ padding: '8px 16px', background: '#fff2e8', borderRadius: 8, color: '#fa8c16' }}>
+          <div style={{ padding: '8px 16px', background: '#fff2e8', borderRadius: 8, color: '#fa8c16' }} className="flex-1 min-w-[160px]">
             ⏸️ Tạm dừng: {widgets.filter(w => !w.isActive).length}
           </div>
         </div>
       </Card>
 
       <Card style={{ borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }} bodyStyle={{ padding: 0 }}>
-        <Table
-          rowKey="_id"
-          dataSource={widgets}
-          columns={columns}
-          loading={loading}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} widgets`
-          }}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
-          style={{
-            '.ant-table-thead > tr > th': {
-              backgroundColor: '#fafafa',
-              fontWeight: '600'
-            }
-          }}
-        />
+        <div className="overflow-x-auto custom-scrollbar">
+          <Table
+            rowKey="_id"
+            dataSource={widgets}
+            columns={columns}
+            loading={loading}
+            scroll={{ x: 800 }}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total, range) => (
+                <span className="dark:text-gray-100">
+                  {range[0]}-{range[1]} của {total} widgets
+                </span>
+              )
+            }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
+            style={{
+              minWidth: 720,
+              '.ant-table-thead > tr > th': {
+                backgroundColor: '#fafafa',
+                fontWeight: '600'
+              }
+            }}
+            className="dark:bg-gray-800 dark:text-white text-[13.5px] [&_.ant-table-tbody_td]:align-top"
+          />
+        </div>
       </Card>
 
       <Modal
         title={
           <div style={{ display: 'flex', alignItems: 'center', fontSize: 18, fontWeight: 600 }}>
-            {editingWidget ? '✏️ Chỉnh sửa Widget' : '➕ Thêm Widget mới'}
+            {editingWidget ? (
+              <span className="dark:text-gray-100">✏️ Chỉnh sửa Widget</span>
+            ) : (
+              <span className="dark:text-gray-100">➕ Thêm Widget mới</span>
+            )}
           </div>
         }
         open={modalVisible}
@@ -305,7 +333,7 @@ export default function AdminWidgetsPage() {
         okText="💾 Lưu"
         cancelText="❌ Hủy"
         width={600}
-        style={{ top: 50 }}
+        style={{ top: 50, maxWidth: '95%' }}
         okButtonProps={{ size: 'large', style: { borderRadius: 8, height: 40, fontWeight: 500 } }}
         cancelButtonProps={{ size: 'large', style: { borderRadius: 8, height: 40 } }}
         confirmLoading={submitLoading}
@@ -322,7 +350,12 @@ export default function AdminWidgetsPage() {
             name="title"
             rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
           >
-            <Input placeholder="Nhập tiêu đề cho widget..." size="large" style={{ borderRadius: 8 }} />
+            <Input
+              placeholder="Nhập tiêu đề cho widget..."
+              size="large"
+              style={{ borderRadius: 8 }}
+              className="dark:bg-gray-800 dark:text-white dark:border-gray-700"
+            />
           </Form.Item>
 
           <Form.Item
@@ -357,7 +390,7 @@ export default function AdminWidgetsPage() {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload Icon</div>
+                <div className="mt-2 dark:text-gray-100">Upload Icon</div>
               </div>
             </Upload>
           </Form.Item>
@@ -370,7 +403,12 @@ export default function AdminWidgetsPage() {
             }
             name="link"
           >
-            <Input placeholder="https://example.com (tùy chọn)" size="large" style={{ borderRadius: 8 }} />
+            <Input
+              placeholder="https://example.com (tùy chọn)"
+              size="large"
+              style={{ borderRadius: 8 }}
+              className="dark:bg-gray-800 dark:text-white dark:border-gray-700"
+            />
           </Form.Item>
 
           <div style={{ display: 'flex', gap: 16 }}>

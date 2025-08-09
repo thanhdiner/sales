@@ -3,12 +3,14 @@ import cartReducer from './cart'
 import adminUserReducer from './adminUser'
 import websiteConfigReducer from './websiteConfigSlice'
 import userReducer from './user'
+import darkModeReducer from './darkModeSlice'
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     user: adminUserReducer,
     websiteConfig: websiteConfigReducer,
-    clientUser: userReducer
+    clientUser: userReducer,
+    darkMode: darkModeReducer
   }
 })

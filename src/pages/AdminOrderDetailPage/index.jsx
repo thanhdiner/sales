@@ -58,7 +58,7 @@ export default function AdminOrderDetailPage() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
         <div>
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-6"></div>
           <p className="text-slate-600 font-medium text-lg text-center">Đang tải đơn hàng...</p>
@@ -80,12 +80,12 @@ export default function AdminOrderDetailPage() {
   const StatusIcon = statusInfo.icon
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-gray-800 dark:to-gray-800">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
-            className="inline-flex items-center text-slate-600 hover:text-blue-600 transition-colors duration-200 mb-4"
+            className="inline-flex items-center text-slate-600 hover:text-blue-600 transition-colors duration-200 mb-4 dark:text-gray-100"
             onClick={() => navigate('/admin/orders')}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -104,7 +104,7 @@ export default function AdminOrderDetailPage() {
             </div>
 
             {/* Status Update */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <Select
                   value={status}
@@ -149,9 +149,9 @@ export default function AdminOrderDetailPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Customer Info & Items */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+          <div className="lg:col-span-2 space-y-6 ">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
+              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center dark:text-gray-100">
                 <User className="h-5 w-5 mr-2 text-blue-600" />
                 Thông tin khách hàng
               </h2>
@@ -159,7 +159,7 @@ export default function AdminOrderDetailPage() {
                 <div className="flex items-start gap-3">
                   <User className="h-5 w-5 text-slate-400 mt-0.5" />
                   <div>
-                    <p className="font-medium text-slate-800">
+                    <p className="font-medium text-slate-800 dark:text-gray-100">
                       {order.contact.firstName} {order.contact.lastName}
                     </p>
                   </div>
@@ -167,7 +167,7 @@ export default function AdminOrderDetailPage() {
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-slate-400 mt-0.5" />
                   <div>
-                    <p className="text-slate-600">{order.contact.phone}</p>
+                    <p className="text-slate-600 dark:text-gray-400">{order.contact.phone}</p>
                   </div>
                 </div>
                 {order.contact.email && (
@@ -190,20 +190,20 @@ export default function AdminOrderDetailPage() {
             </div>
 
             {/* Order Items */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
+              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center dark:text-gray-100">
                 <Package className="h-5 w-5 mr-2 text-blue-600" />
                 Sản phẩm đã đặt
               </h2>
               <div className="space-y-4">
                 {order.orderItems.map((item, index) => (
-                  <div key={item.productId} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                  <div key={item.productId} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700 hover:!bg-blue-50 dark:hover:!bg-gray-700 cursor-pointer">
                     <div className="flex-1">
-                      <h3 className="font-medium text-slate-800">{item.name}</h3>
-                      <p className="text-sm text-slate-500">{item.category}</p>
+                      <h3 className="font-medium text-slate-800 dark:text-gray-100">{item.name}</h3>
+                      <p className="text-sm text-slate-500 dark:text-gray-100">{item.category}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-slate-800">x{item.quantity}</p>
+                      <p className="font-medium text-slate-800 dark:text-gray-200">x{item.quantity}</p>
                       <p className="text-sm text-blue-600 font-semibold">{item.price?.toLocaleString('vi-VN')}₫</p>
                     </div>
                   </div>
@@ -214,10 +214,10 @@ export default function AdminOrderDetailPage() {
 
           {/* Order Summary & Payment Info */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Tổng quan đơn hàng</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
+              <h2 className="text-xl font-semibold text-slate-800 mb-4 dark:text-gray-100">Tổng quan đơn hàng</h2>
               <div className="space-y-3">
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-slate-600 dark:text-gray-400">
                   <span>Tạm tính:</span>
                   <span>{order.subtotal?.toLocaleString('vi-VN')}₫</span>
                 </div>
@@ -227,7 +227,7 @@ export default function AdminOrderDetailPage() {
                     <span>-{order.discount?.toLocaleString('vi-VN')}₫</span>
                   </div>
                 )}
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-slate-600 dark:text-gray-400">
                   <span>Phí vận chuyển:</span>
                   <span>{order.shipping === 0 ? 'Miễn phí' : `${order.shipping?.toLocaleString('vi-VN')}₫`}</span>
                 </div>

@@ -132,7 +132,7 @@ function ProductItem(props) {
   const rightBadgeGroup = badgesRight.length > 0 && <div className="absolute top-2 right-2 flex flex-col items-end z-30">{badgesRight}</div>
 
   const productContent = (
-    <div className="group relative bg-white rounded-2xl overflow-hidden hover:border-blue-500 transition-all duration-300 transform border border-solid border-gray-200 flex flex-col h-full">
+    <div className="group relative bg-white rounded-2xl overflow-hidden hover:border-blue-500 transition-all duration-300 transform border border-solid border-gray-200 flex flex-col h-full dark:bg-gray-800">
       {/* Badge phải */}
       {rightBadgeGroup}
       <Link
@@ -164,7 +164,7 @@ function ProductItem(props) {
         {/* Product Info */}
         <div className="p-4 space-y-1 flex-1 flex flex-col">
           <h3
-            className="font-semibold text-gray-900 text-sm line-clamp-2 group-hover:text-blue-600 transition-colors duration-200"
+            className="dark:text-gray-300 font-semibold text-gray-900 text-sm line-clamp-2 group-hover:text-blue-600 transition-colors duration-200"
             style={{ minHeight: '40px' }}
           >
             {product.title}

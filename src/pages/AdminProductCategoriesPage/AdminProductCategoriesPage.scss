@@ -55,3 +55,51 @@
     border-color: red !important;
   }
 }
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .product-categories-utility {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-categories-filter {
+    &-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 14px 0;
+    }
+    .ant-form-item {
+      flex: 1 1 100%;
+      min-width: unset;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .toggle-columns-btn {
+    width: 100%;
+  }
+}
+
+/* Horizontal scroll wrapper for table */
+.admin-product-categories-table-wrapper {
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+.admin-product-categories-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.admin-product-categories-table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.admin-product-categories-table-wrapper::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+html.dark .admin-product-categories-table-wrapper::-webkit-scrollbar-thumb {
+  background: #374151;
+}

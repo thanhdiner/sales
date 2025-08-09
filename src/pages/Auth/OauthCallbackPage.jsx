@@ -25,7 +25,7 @@ export default function OauthCallbackPage() {
       navigate('/user/login')
       return
     }
-    fetch('http://localhost:3001/api/v1/user/oauth-code-login', {
+    fetch(`${process.env.REACT_APP_API_URL}/user/oauth-code-login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code })

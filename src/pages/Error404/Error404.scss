@@ -4,6 +4,9 @@
   justify-content: center;
   align-items: center;
   height: 90vh;
+  padding: 40px 60px;
+  gap: 60px;
+
   &__left {
     &__heading {
       font-size: 50px;
@@ -42,5 +45,95 @@
         font-size: 20px;
       }
     }
+  }
+}
+
+/* ============= Responsive ============= */
+@media (max-width: 1199.98px) {
+  /* lg */
+  .error-page {
+    padding: 40px 40px;
+    gap: 40px;
+    &__left__heading {
+      font-size: 44px;
+    }
+    &__left__desc {
+      width: 460px;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* md */
+  .error-page {
+    padding: 40px 30px;
+    gap: 30px;
+    &__left__heading {
+      font-size: 40px;
+    }
+    &__left__desc {
+      width: 420px;
+      font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* sm */
+  .error-page {
+    flex-direction: column-reverse;
+    text-align: center;
+    height: auto;
+    padding: 60px 24px 80px;
+    gap: 32px;
+  }
+  .error-page__left__heading {
+    font-size: 38px;
+  }
+  .error-page__left__desc {
+    width: 100%;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .error-page__left__back--btn {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .error-page__right--img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 575.98px) {
+  /* xs */
+  .error-page {
+    padding: 50px 18px 70px;
+  }
+  .error-page__left__heading {
+    font-size: 32px;
+  }
+  .error-page__left__desc {
+    font-size: 16px;
+  }
+  .error-page__left__back--btn {
+    padding: 10px 18px;
+  }
+  .error-page__left__back--text {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .error-page {
+    padding: 44px 16px 60px;
+  }
+  .error-page__left__heading {
+    font-size: 28px;
+  }
+  .error-page__left__back--text {
+    font-size: 16px;
   }
 }

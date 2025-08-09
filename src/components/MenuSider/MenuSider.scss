@@ -25,6 +25,7 @@
     height: 32px;
     aspect-ratio: 1/1;
     object-fit: contain;
+    border-radius: 8px;
   }
   & a {
     width: 135px;
@@ -39,4 +40,13 @@
   word-break: break-word;
   line-height: 1.4;
   display: inline-block;
+}
+
+html.dark i.ant-menu-submenu-arrow:before,
+html.dark i.ant-menu-submenu-arrow:after {
+  color: #fff;
+}
+
+html.dark .ant-menu-item.ant-menu-item-selected {
+  background-color: oklch(54.6% 0.245 262.881);
 }

@@ -5,6 +5,7 @@ import HeroBanner from '@/components/HeroBanner'
 import TopDealSession from '@/components/TopDealSession'
 import FeaturedProductsSession from '@/components/FeaturedProductsSession'
 import FlashSaleSession from '@/components/FlashSaleSession'
+import WhyChooseUs from '@/components/WhyChooseUs'
 
 function Home() {
   titles('Home')
@@ -16,6 +17,7 @@ function Home() {
       <FlashSaleSession />
       <TopDealSession />
       <FeaturedProductsSession />
+      <WhyChooseUs />
     </div>
   )
 }

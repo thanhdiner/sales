@@ -118,7 +118,7 @@ function Products() {
 
   return (
     <>
-      <h1 className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4 ml-4">
+      <h1 className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4 ml-4">
         <ShoppingBag className="w-8 h-8 text-blue-500" />
         Danh sách sản phẩm
         <span className="ml-2 text-base font-normal text-gray-400 dark:text-gray-400">({total} sản phẩm)</span>
@@ -128,7 +128,7 @@ function Products() {
         <Input
           allowClear
           prefix={<Search className="text-gray-400" size={18} />}
-          className="w-full md:w-72"
+          className="w-full md:w-72 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           placeholder="Tìm kiếm sản phẩm..."
           value={searchInput}
           onChange={handleSearchInput}
@@ -150,7 +150,7 @@ function Products() {
       </div>
 
       {loading ? (
-        <ProductListSkeleton count={8} />
+        <ProductListSkeleton count={10} />
       ) : (
         <>
           <ProductList products={products} />

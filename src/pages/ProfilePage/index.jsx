@@ -154,22 +154,22 @@ function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="dark:bg-gray-800 rounded-xl flex items-center justify-center min-h-screen">
         <Spin size="large" tip="Chờ chút đang tải thông tin...">
-          <div>Nội dung chờ load</div>
+          <div className="dark:text-white">Nội dung chờ load</div>
         </Spin>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4">
+    <div className="dark:from-gray-800 dark:to-gray-800 rounded-xl min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <Title level={2} className="!mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <Title level={2} className="dark:text-white !mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Thông tin tài khoản
           </Title>
-          <Text type="secondary" className="text-base">
+          <Text type="secondary" className="dark:text-gray-300 text-base">
             Quản lý thông tin cá nhân và cài đặt bảo mật của bạn
           </Text>
         </div>
@@ -189,8 +189,11 @@ function ProfilePage() {
           />
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-1 shadow-lg rounded-2xl border-0 overflow-hidden" styles={{ body: { padding: '32px 24px' } }}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 dark:bg-gray-800">
+          <Card
+            className="lg:col-span-1 shadow-lg rounded-2xl border-0 overflow-hidden dark:bg-gray-800 dark:border-gray-600 dark:border-2"
+            styles={{ body: { padding: '32px 24px' } }}
+          >
             <div className="text-center">
               <div className="relative inline-block mb-6">
                 <div className="relative w-32 h-32 mx-auto">
@@ -230,30 +233,35 @@ function ProfilePage() {
                 <input ref={inputRef} type="file" accept="image/*" onChange={handleFileChange} className="!hidden" />
               </div>
 
-              <Title level={4} className="!mb-2">
+              <Title level={4} className="!mb-2 dark:text-white">
                 {user.fullName || user.username}
               </Title>
-              <Text type="secondary" className="block mb-4">
+              <Text type="secondary" className="block mb-4 dark:text-gray-300">
                 @{user.username}
               </Text>
 
               <Badge
                 status={getStatusColor(user.status)}
-                text={<span className="capitalize font-medium">{user.status === 'active' ? 'Hoạt động' : user.status}</span>}
+                text={
+                  <span className="dark:text-gray-300 capitalize font-medium">{user.status === 'active' ? 'Hoạt động' : user.status}</span>
+                }
                 className="text-sm"
               />
-              <Text className="block">
+              <Text className="block dark:text-gray-300">
                 Lần đăng nhập cuối: {user.lastLogin ? dayjs(user.lastLogin).format('HH:mm DD/MM/YYYY') : 'Chưa có'}
               </Text>
             </div>
           </Card>
 
-          <Card className="lg:col-span-2 shadow-lg rounded-2xl border-0" styles={{ body: { padding: '32px' } }}>
+          <Card
+            className="lg:col-span-2 shadow-lg rounded-2xl border-0 dark:bg-gray-800 dark:border-gray-600 dark:border-2"
+            styles={{ body: { padding: '32px' } }}
+          >
             <Form form={form} layout="vertical" initialValues={user} onFinish={handleSave} size="large">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Form.Item
                   label={
-                    <span className="text-gray-700 font-medium flex items-center gap-2">
+                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
                       <UserOutlined className="text-blue-500" />
                       Họ và tên
                     </span>
@@ -264,13 +272,13 @@ function ProfilePage() {
                 >
                   <Input
                     placeholder="Nhập họ và tên của bạn"
-                    className="rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                    className="rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
                   />
                 </Form.Item>
 
                 <Form.Item
                   label={
-                    <span className="text-gray-700 font-medium flex items-center gap-2">
+                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
                       <UserOutlined className="text-green-500" />
                       Username
                     </span>
@@ -287,7 +295,7 @@ function ProfilePage() {
 
                 <Form.Item
                   label={
-                    <span className="text-gray-700 font-medium flex items-center gap-2">
+                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
                       <SafetyOutlined className="text-orange-500" />
                       Số điện thoại
                     </span>
@@ -304,7 +312,7 @@ function ProfilePage() {
                 >
                   <Input
                     placeholder="Nhập số điện thoại"
-                    className="rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                    className="dark:bg-gray-700 rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500"
                     maxLength={11}
                   />
                 </Form.Item>
@@ -312,11 +320,15 @@ function ProfilePage() {
 
               <Form.Item
                 label={
-                  <span className="text-gray-700 font-medium flex items-center gap-2">
+                  <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
                     <MailOutlined className="text-purple-500" />
                     Email
-                    {getEmailStatus().status === 'success' && <Badge status="success" text="Đã xác thực" />}
-                    {getEmailStatus().status === 'error' && <Badge status="error" text="Chưa xác thực" />}
+                    {getEmailStatus().status === 'success' && (
+                      <Badge status="success" text={<span className="dark:text-gray-300">Đã xác thực</span>} />
+                    )}
+                    {getEmailStatus().status === 'error' && (
+                      <Badge status="error" text={<span className="dark:text-gray-300">Chưa xác thực</span>} />
+                    )}
                   </span>
                 }
                 className="mb-6"
@@ -354,7 +366,11 @@ function ProfilePage() {
               <Divider className="my-8" />
 
               <div className="flex justify-end gap-4">
-                <Button size="large" className="rounded-lg px-8" onClick={() => form.resetFields()}>
+                <Button
+                  size="large"
+                  className="dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600! rounded-lg px-8 button-profile-cancel"
+                  onClick={() => form.resetFields()}
+                >
                   Hủy bỏ
                 </Button>
                 <Button
@@ -373,7 +389,7 @@ function ProfilePage() {
 
         <Modal
           title={
-            <div className="flex items-center gap-2 text-lg">
+            <div className="flex items-center gap-2 text-lg dark:text-gray-300">
               <MailOutlined className="text-blue-500" />
               Cập nhật email mới
             </div>
@@ -389,7 +405,7 @@ function ProfilePage() {
             <div className="py-4">
               <Form layout="vertical" onFinish={handleSendCode}>
                 <Form.Item
-                  label="Email mới"
+                  label={<span className="dark:text-gray-300">Email mới</span>}
                   name="email"
                   rules={[
                     { required: true, message: 'Vui lòng nhập email mới!' },
@@ -403,7 +419,7 @@ function ProfilePage() {
                     disabled={updatingEmail}
                     size="large"
                     prefix={<MailOutlined className="text-gray-400" />}
-                    className="rounded-lg"
+                    className="rounded-lg dark:bg-gray-700"
                   />
                 </Form.Item>
                 <Button

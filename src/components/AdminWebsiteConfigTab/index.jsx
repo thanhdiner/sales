@@ -338,9 +338,9 @@ export default function WebsiteConfigTab() {
       <Form form={form} layout="vertical" onFinish={handleSave} initialValues={getInitial(websiteConfig)} className="w-full">
         <Tabs defaultActiveKey="1" className="w-full" items={tabItems} />
         <Divider />
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Button
-            className="dark:bg-blue-600 dark:text-gray-300 dark:hover:!bg-blue-500 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
+            className="w-full sm:w-auto dark:bg-blue-600 dark:text-gray-300 dark:hover:!bg-blue-500 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
             icon={<EyeOutlined />}
             size="large"
             onClick={handlePreview}
@@ -349,9 +349,9 @@ export default function WebsiteConfigTab() {
             Xem trước
           </Button>
 
-          <Space>
+          <div className="flex w-full sm:w-auto justify-stretch sm:justify-end gap-2">
             <Button
-              className="dark:bg-gray-500 dark:text-gray-200 dark:hover:!bg-gray-400 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
+              className="w-full sm:w-auto dark:bg-gray-500 dark:text-gray-200 dark:hover:!bg-gray-400 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
               size="large"
               disabled={loading}
               onClick={() => {
@@ -361,10 +361,11 @@ export default function WebsiteConfigTab() {
             >
               Hủy bỏ
             </Button>
-            <Button type="primary" htmlType="submit" icon={<SaveOutlined />} size="large" loading={loading}>
+
+            <Button type="primary" htmlType="submit" icon={<SaveOutlined />} size="large" loading={loading} className="w-full sm:w-auto">
               Lưu cấu hình
             </Button>
-          </Space>
+          </div>
         </div>
       </Form>
     </div>

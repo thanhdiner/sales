@@ -283,65 +283,98 @@ export default function AdminPromoCodesPage() {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen dark:bg-gray-800 rounded-xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Quản lý mã giảm giá</h1>
-        <p className="text-gray-600">Tạo và quản lý các mã giảm giá cho khách hàng</p>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2 dark:text-gray-100">Quản lý mã giảm giá</h1>
+        <p className="text-gray-600 dark:text-gray-400">Tạo và quản lý các mã giảm giá cho khách hàng</p>
       </div>
 
       {/* Statistics */}
-      <Row gutter={16} className="mb-6">
-        <Col span={6}>
-          <Card>
-            <Statistic title="Tổng số mã" value={stats.total} prefix={<PercentageOutlined />} />
+      <Row gutter={[16, 16]} className="mb-6">
+        <Col xs={24} sm={12} lg={6}>
+          <Card className="dark:bg-gray-800 dark:text-gray-100">
+            <Statistic
+              title={<span className="dark:text-white">Tổng số mã</span>}
+              value={stats.total}
+              prefix={<PercentageOutlined />}
+              valueStyle={{ color: 'inherit' }}
+              className="dark:text-white"
+            />
           </Card>
         </Col>
-        <Col span={6}>
-          <Card>
-            <Statistic title="Đang hoạt động" value={stats.active} valueStyle={{ color: '#3f8600' }} prefix={<PercentageOutlined />} />
+        <Col xs={24} sm={12} lg={6}>
+          <Card className="dark:bg-gray-800">
+            <Statistic
+              title={<span className="dark:text-gray-100">Đang hoạt động</span>}
+              value={stats.active}
+              valueStyle={{ color: 'inherit' }}
+              className="text-[#3f8600] dark:text-white"
+              prefix={<PercentageOutlined />}
+            />
           </Card>
         </Col>
-        <Col span={6}>
-          <Card>
-            <Statistic title="Đã hết hạn" value={stats.expired} valueStyle={{ color: '#cf1322' }} prefix={<CalendarOutlined />} />
+        <Col xs={24} sm={12} lg={6}>
+          <Card className="dark:bg-gray-800 dark:text-gray-100">
+            <Statistic
+              title={<span className="dark:text-white">Đã hết hạn</span>}
+              value={stats.expired}
+              valueStyle={{ color: 'inherit' }}
+              className="text-[#cf1322] dark:text-white"
+              prefix={<CalendarOutlined />}
+            />
           </Card>
         </Col>
-        <Col span={6}>
-          <Card>
-            <Statistic title="Lượt sử dụng" value={stats.totalUsed} prefix={<UserOutlined />} />
+        <Col xs={24} sm={12} lg={6}>
+          <Card className="dark:bg-gray-800 dark:text-gray-100">
+            <Statistic
+              title={<span className="dark:text-white">Lượt sử dụng</span>}
+              value={stats.totalUsed}
+              valueStyle={{ color: 'inherit' }}
+              className="text-[#1677ff] dark:text-white"
+              prefix={<UserOutlined />}
+            />
           </Card>
         </Col>
       </Row>
 
       {/* Table */}
-      <Card>
-        <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Danh sách mã giảm giá</h2>
+      <Card className="dark:bg-gray-800 dark:text-gray-100">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-lg font-semibold dark:text-white">Danh sách mã giảm giá</h2>
           <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
             Tạo mã mới
           </Button>
         </div>
-
-        <Table
-          columns={columns}
-          dataSource={promoCodes}
-          rowKey="_id"
-          loading={loading}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: total => `Tổng ${total} mã giảm giá`
-          }}
-          onChange={handleTableChange}
-        />
+        <div className="-mx-2 sm:mx-0 overflow-x-auto">
+          <Table
+            columns={columns}
+            dataSource={promoCodes}
+            rowKey="_id"
+            loading={loading}
+            pagination={{
+              current: pagination.current,
+              pageSize: pagination.pageSize,
+              total: pagination.total,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: total => <span className="dark:text-white">Tổng {total} mã giảm giá</span>
+            }}
+            onChange={handleTableChange}
+            scroll={{ x: 900 }}
+            className="min-w-[900px]"
+          />
+        </div>
       </Card>
 
       {/* Create/Edit Modal */}
       <Modal
-        title={editingCode ? 'Chỉnh sửa mã giảm giá' : 'Tạo mã giảm giá mới'}
+        title={
+          editingCode ? (
+            <span className="dark:text-white">Chỉnh sửa mã giảm giá</span>
+          ) : (
+            <span className="dark:text-white">Tạo mã giảm giá mới</span>
+          )
+        }
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -357,14 +390,21 @@ export default function AdminPromoCodesPage() {
             isActive: true
           }}
         >
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name="code" label="Mã giảm giá" rules={[{ required: true, message: 'Vui lòng nhập mã giảm giá' }]}>
-                <Input placeholder="VD: WELCOME20" />
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="code"
+                label={<span className="dark:text-white">Mã giảm giá</span>}
+                rules={[{ required: true, message: 'Vui lòng nhập mã giảm giá' }]}
+              >
+                <Input
+                  placeholder="VD: WELCOME20"
+                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
+                />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item name="discountType" label="Loại giảm giá" rules={[{ required: true }]}>
+            <Col xs={24} sm={12}>
+              <Form.Item name="discountType" label={<span className="dark:text-white">Loại giảm giá</span>} rules={[{ required: true }]}>
                 <Select>
                   <Option value="percent">Phần trăm (%)</Option>
                   <Option value="amount">Số tiền cố định</Option>
@@ -372,18 +412,22 @@ export default function AdminPromoCodesPage() {
               </Form.Item>
             </Col>
           </Row>
-
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name="discountValue" label="Giá trị giảm" rules={[{ required: true, message: 'Vui lòng nhập giá trị giảm' }]}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item
+                name="discountValue"
+                label={<span className="dark:text-white">Giá trị giảm</span>}
+                rules={[{ required: true, message: 'Vui lòng nhập giá trị giảm' }]}
+              >
                 <InputNumber
                   max={discountType === 'percent' ? 100 : undefined}
                   formatter={value => (discountType === 'percent' ? `${value}%` : `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
+                  min={0}
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item name="maxDiscount" label="Giảm tối đa (VNĐ)">
+            <Col xs={24} sm={12}>
+              <Form.Item name="maxDiscount" label={<span className="dark:text-white">Giảm tối đa (VNĐ)</span>}>
                 <InputNumber
                   min={0}
                   style={{ width: '100%' }}
@@ -393,10 +437,9 @@ export default function AdminPromoCodesPage() {
               </Form.Item>
             </Col>
           </Row>
-
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name="minOrder" label="Đơn hàng tối thiểu (VNĐ)">
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item name="minOrder" label={<span className="dark:text-white">Đơn hàng tối thiểu (VNĐ)</span>}>
                 <InputNumber
                   min={0}
                   style={{ width: '100%' }}
@@ -405,27 +448,27 @@ export default function AdminPromoCodesPage() {
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item name="usageLimit" label="Giới hạn sử dụng">
+            <Col xs={24} sm={12}>
+              <Form.Item name="usageLimit" label={<span className="dark:text-white">Giới hạn sử dụng</span>}>
                 <InputNumber min={1} style={{ width: '100%' }} placeholder="Để trống = không giới hạn" />
               </Form.Item>
             </Col>
           </Row>
-
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name="expiresAt" label="Ngày hết hạn">
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item name="expiresAt" label={<span className="dark:text-white">Ngày hết hạn</span>}>
                 <DatePicker
                   style={{ width: '100%' }}
                   format="DD/MM/YYYY"
                   placeholder="Chọn ngày hết hạn"
                   allowClear
                   popupClassName="my-date-popup"
+                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item name="isActive" label="Trạng thái" valuePropName="checked">
+            <Col xs={24} sm={12}>
+              <Form.Item name="isActive" label={<span className="dark:text-white">Trạng thái</span>} valuePropName="checked">
                 <Switch checkedChildren="Hoạt động" unCheckedChildren="Tắt" />
               </Form.Item>
             </Col>
@@ -441,13 +484,19 @@ export default function AdminPromoCodesPage() {
       </Modal>
 
       {/* Detail Modal */}
-      <Modal title="Chi tiết mã giảm giá" open={detailModalVisible} onCancel={() => setDetailModalVisible(false)} footer={null} width={500}>
+      <Modal
+        title={<span className="dark:text-white">Chi tiết mã giảm giá</span>}
+        open={detailModalVisible}
+        onCancel={() => setDetailModalVisible(false)}
+        footer={null}
+        width={500}
+      >
         {selectedCode && (
           <div className="space-y-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="bg-blue-50 p-4 rounded-lg dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
               <div className="text-center">
-                <h3 className="text-xl font-bold text-blue-600 font-mono">{selectedCode.code}</h3>
-                <p className="text-gray-600 mt-1">
+                <h3 className="text-xl font-bold text-blue-600 font-mono dark:text-white">{selectedCode.code}</h3>
+                <p className="text-gray-600 mt-1 dark:text-white">
                   {selectedCode.discountType === 'percent'
                     ? `Giảm ${selectedCode.discountValue}%`
                     : `Giảm ${formatCurrency(selectedCode.discountValue)}`}
@@ -457,35 +506,37 @@ export default function AdminPromoCodesPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-500">Đơn tối thiểu</label>
-                <p className="text-gray-800">{formatCurrency(selectedCode.minOrder)}</p>
+                <label className="text-sm font-medium text-gray-500 dark:text-white">Đơn tối thiểu</label>
+                <p className="text-gray-800 dark:text-white">{formatCurrency(selectedCode.minOrder)}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Giảm tối đa</label>
-                <p className="text-gray-800">{selectedCode.maxDiscount ? formatCurrency(selectedCode.maxDiscount) : 'Không giới hạn'}</p>
+                <label className="text-sm font-medium text-gray-500 dark:text-white">Giảm tối đa</label>
+                <p className="text-gray-800 dark:text-white">
+                  {selectedCode.maxDiscount ? formatCurrency(selectedCode.maxDiscount) : 'Không giới hạn'}
+                </p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Đã sử dụng</label>
-                <p className="text-gray-800">
+                <label className="text-sm font-medium text-gray-500 dark:text-white">Đã sử dụng</label>
+                <p className="text-gray-800 dark:text-white">
                   {selectedCode.usedCount} / {selectedCode.usageLimit || '∞'}
                 </p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Hết hạn</label>
-                <p className="text-gray-800">
+                <label className="text-sm font-medium text-gray-500 dark:text-white">Hết hạn</label>
+                <p className="text-gray-800 dark:text-white">
                   {selectedCode.expiresAt ? dayjs(selectedCode.expiresAt).format('DD/MM/YYYY HH:mm') : 'Không giới hạn'}
                 </p>
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-500">Trạng thái</label>
+              <label className="text-sm font-medium text-gray-500 dark:text-white">Trạng thái</label>
               <div className="mt-1">{getStatusTag(selectedCode)}</div>
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-500">Ngày tạo</label>
-              <p className="text-gray-800">{dayjs(selectedCode.createdAt).format('DD/MM/YYYY HH:mm')}</p>
+              <label className="text-sm font-medium text-gray-500 dark:text-white">Ngày tạo</label>
+              <p className="text-gray-800 dark:text-white">{dayjs(selectedCode.createdAt).format('DD/MM/YYYY HH:mm')}</p>
             </div>
           </div>
         )}

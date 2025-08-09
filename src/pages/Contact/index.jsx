@@ -7,9 +7,9 @@ import titles from '@/utils/titles'
 
 const sellers = [
   {
-    name: 'Luna Shop',
+    name: 'Smartmall Gdv 1',
     role: 'Chuyên phần mềm bản quyền',
-    avatar: '/images/lunashoplogo.png',
+    avatar: '/images/avt.jpg',
     methods: [
       {
         icon: SiZalo,
@@ -35,38 +35,38 @@ const sellers = [
         icon: FaEnvelope,
         title: 'Email',
         description: 'Gửi email',
-        value: 'lunashop.business.official@gmail.com',
+        value: 'smartmall.business.official@gmail.com',
         color: 'from-purple-500 to-purple-600',
         bgColor: 'bg-purple-50',
         action: 'Gửi email',
-        link: 'mailto:lunashop.business.official@gmail.com'
+        link: 'mailto:smartmall.business.official@gmail.com'
       }
     ]
   },
   {
-    name: 'Torenjada',
+    name: 'Smartmall Gdv 2',
     role: 'Chuyên tư vấn & hỗ trợ đơn hàng',
-    avatar: '/images/avtlmt.png',
+    avatar: '/images/avt.jpg',
     methods: [
       {
         icon: SiZalo,
         title: 'Zalo',
         description: 'Nhắn tin qua Zalo',
-        value: '0902xxxxxx',
+        value: '0822516521',
         color: 'from-blue-400 to-cyan-500',
         bgColor: 'bg-cyan-50',
         action: 'Nhắn Zalo',
-        link: 'https://zalo.me/0902xxxxxx'
+        link: 'https://zalo.me/0822516521'
       },
       {
         icon: FaFacebook,
         title: 'Facebook',
         description: 'Chat Facebook',
-        value: 'fb.com/61578793657369',
+        value: 'fb.com/smartmall.world',
         color: 'from-blue-500 to-blue-600',
         bgColor: 'bg-blue-50',
         action: 'Chat FB',
-        link: 'https://www.facebook.com/profile.php?id=61578793657369'
+        link: 'https://www.facebook.com/smartmall.world'
       },
       {
         icon: FaEnvelope,
@@ -115,7 +115,7 @@ const ContactPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden dark:from-gray-800 dark:to-gray-800">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-3xl animate-pulse"></div>
@@ -136,7 +136,7 @@ const ContactPage = () => {
               Sẵn sàng hỗ trợ bạn 24/7
             </div>
             <div className="relative mb-8">
-              <div className="inline-block p-8 bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50">
+              <div className="inline-block p-8 bg-white/80 rounded-3xl shadow-2xl border border-white/50">
                 <div className="relative">
                   <Phone className="w-16 h-16 text-blue-600 mx-auto" />
                   <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-green-400 to-green-500 rounded-full animate-pulse"></div>
@@ -146,25 +146,25 @@ const ContactPage = () => {
             <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-6 leading-tight">
               Liên hệ với chúng mình
             </h1>
-            <p className="text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto mb-8">
+            <p className="dark:text-gray-300 text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto mb-8">
               Có thắc mắc gì về sản phẩm? Cần tư vấn? Hay chỉ đơn giản muốn chat? Mình luôn sẵn sàng lắng nghe và hỗ trợ bạn một cách tận
               tình nhất!
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50">
+              <div className="bg-white/70 rounded-2xl p-4 shadow-lg border border-white/50 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <Zap className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-                <div className="text-lg font-bold text-gray-800">{'< 3h'}</div>
-                <div className="text-sm text-gray-600">Thời gian phản hồi</div>
+                <div className="text-lg font-bold text-gray-800 dark:text-gray-100">{'< 3h'}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">Thời gian phản hồi</div>
               </div>
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50">
+              <div className="bg-white/70 rounded-2xl p-4 shadow-lg border border-white/50 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <Shield className="w-8 h-8 text-green-500 mx-auto mb-2" />
-                <div className="text-lg font-bold text-gray-800">100%</div>
-                <div className="text-sm text-gray-600">Bảo mật thông tin</div>
+                <div className="text-lg font-bold text-gray-800 dark:text-gray-100">100%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">Bảo mật thông tin</div>
               </div>
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 md:col-span-1 col-span-2">
+              <div className="bg-white/70 rounded-2xl p-4 shadow-lg border border-white/50 md:col-span-1 col-span-2 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <Heart className="w-8 h-8 text-pink-500 mx-auto mb-2" />
-                <div className="text-lg font-bold text-gray-800">24/7</div>
-                <div className="text-sm text-gray-600">Hỗ trợ tận tâm</div>
+                <div className="text-lg font-bold text-gray-800 dark:text-gray-100">24/7</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">Hỗ trợ tận tâm</div>
               </div>
             </div>
           </div>
@@ -174,14 +174,14 @@ const ContactPage = () => {
         <div className="py-16 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">Cách liên hệ nhanh nhất</h2>
-              <p className="text-gray-600 text-lg">Chọn đúng người, đúng chuyên môn để được hỗ trợ nhanh nhất!</p>
+              <h2 className="dark:text-gray-100 text-3xl font-bold text-gray-800 mb-4">Cách liên hệ nhanh nhất</h2>
+              <p className="dark:text-gray-300 text-gray-600 text-lg">Chọn đúng người, đúng chuyên môn để được hỗ trợ nhanh nhất!</p>
             </div>
             <div className="grid md:grid-cols-2 gap-10">
               {sellers.map((seller, idx) => (
                 <div
                   key={idx}
-                  className="bg-white/90 backdrop-blur-lg rounded-3xl shadow-xl p-8 flex flex-col items-center border border-blue-100"
+                  className="bg-white/90 rounded-3xl shadow-xl p-8 flex flex-col items-center border border-blue-100 dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid"
                 >
                   <img
                     src={seller.avatar}
@@ -189,7 +189,7 @@ const ContactPage = () => {
                     className="w-20 h-20 rounded-full border-4 border-blue-200 object-cover mb-3"
                   />
                   <div className="text-xl font-bold text-blue-700 mb-1">{seller.name}</div>
-                  <div className="text-gray-500 mb-5">{seller.role}</div>
+                  <div className="text-gray-500 mb-5 dark:text-gray-300">{seller.role}</div>
                   <div className="w-full grid gap-4">
                     {seller.methods.map((method, i) => {
                       const Icon = method.icon
@@ -198,18 +198,29 @@ const ContactPage = () => {
                           key={i}
                           href={method.link}
                           target="_blank"
-                          rel="noopener noreferrer"
-                          className={`group flex items-center gap-3 p-4 rounded-xl border hover:shadow-lg transition-all duration-300 ${method.bgColor} border-blue-100`}
+                          rel="noopener noreferrer nofollow"
+                          className={`group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl border hover:shadow-lg transition-all duration-300 ${method.bgColor} border-blue-100 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1`}
                         >
-                          <Icon className={`w-6 h-6 mr-2 ${method.color}`} />
-                          <div className="flex-1">
-                            <div className="font-semibold text-blue-700">{method.title}</div>
-                            <div className="text-sm text-gray-600">{method.description}</div>
+                          {/* Icon + thông tin */}
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className={`p-2 rounded-lg bg-gradient-to-r ${method.color} text-white flex items-center justify-center`}>
+                              <Icon className="w-5 h-5" />
+                            </span>
+                            <div className="min-w-0">
+                              <div className="font-semibold text-blue-700 dark:text-gray-100">{method.title}</div>
+                              <div className="text-sm text-gray-600 dark:text-gray-300">{method.description}</div>
+                            </div>
                           </div>
-                          <div className="font-bold text-blue-700">{method.value}</div>
-                          <span className="ml-2 px-3 py-1 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-xs rounded-xl font-medium group-hover:scale-105 transition">
-                            {method.action}
-                          </span>
+
+                          {/* Value + nút */}
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="font-bold text-blue-700 dark:text-gray-100 truncate max-w-[140px]" title={method.value}>
+                              {method.value}
+                            </span>
+                            <span className="px-3 py-1 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-xs rounded-xl font-medium group-hover:scale-105 transition whitespace-nowrap">
+                              {method.action}
+                            </span>
+                          </div>
                         </a>
                       )
                     })}
@@ -229,20 +240,20 @@ const ContactPage = () => {
               {/* Working Hours & FAQ */}
               <div className="space-y-8">
                 {/* Working Hours */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <div className="bg-white/80 rounded-3xl p-8 shadow-lg border border-white/50 dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center dark:text-gray-100">
                     <Clock className="w-6 h-6 mr-3 text-green-600" />
                     Thời gian hoạt động
                   </h3>
                   <div className="space-y-4">
                     {workingHours.map((schedule, index) => (
                       <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                        <span className="text-gray-700 font-medium">{schedule.day}</span>
+                        <span className="text-gray-700 font-medium dark:text-gray-300">{schedule.day}</span>
                         <span className="text-blue-600 font-semibold">{schedule.time}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-6 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                  <div className="mt-6 p-4 bg-blue-50 rounded-2xl border border-blue-100 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                     <div className="flex items-center text-blue-700">
                       <AlertCircle className="w-5 h-5 mr-2" />
                       <span className="font-medium">Lưu ý:</span>
@@ -252,15 +263,15 @@ const ContactPage = () => {
                 </div>
 
                 {/* FAQ */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Câu hỏi thường gặp</h3>
+                <div className="bg-white/80 rounded-3xl p-8 shadow-lg border border-white/50 dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6 dark:text-gray-100">Câu hỏi thường gặp</h3>
                   <div className="space-y-4">
                     {faqs.map((faq, index) => (
                       <details key={index} className="group">
-                        <summary className="cursor-pointer font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-blue-600 transition-colors duration-300">
+                        <summary className="cursor-pointer font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-blue-600 transition-colors duration-300 dark:text-gray-300">
                           {faq.question}
                         </summary>
-                        <p className="text-gray-600 text-sm mt-3 pb-3 leading-relaxed">{faq.answer}</p>
+                        <p className="dark:text-gray-400 text-gray-600 text-sm mt-3 pb-3 leading-relaxed">{faq.answer}</p>
                       </details>
                     ))}
                   </div>
@@ -273,7 +284,7 @@ const ContactPage = () => {
         {/* Bottom CTA giữ nguyên */}
         <div className="py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/50 relative overflow-hidden">
+            <div className="bg-white/90 rounded-3xl p-12 shadow-2xl border border-white/50 relative overflow-hidden dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid">
               <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-x-16 -translate-y-16"></div>
               <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-full translate-x-20 translate-y-20"></div>
               <div className="relative z-10">
@@ -283,7 +294,7 @@ const ContactPage = () => {
                 <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
                   Bạn chưa tìm được thông tin cần thiết?
                 </h3>
-                <p className="text-gray-700 mb-8 max-w-2xl mx-auto">
+                <p className="text-gray-700 mb-8 max-w-2xl mx-auto dark:text-gray-300">
                   Đừng ngại liên hệ trực tiếp với mình! Mình luôn sẵn sàng tư vấn và hỗ trợ bạn tìm được sản phẩm phù hợp nhất.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -297,7 +308,7 @@ const ContactPage = () => {
                   </a>
                   <a
                     href="/products"
-                    className="px-8 py-4 border-2 border-blue-300 text-blue-700 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-105 text-center"
+                    className="px-8 py-4 border-2 border-blue-300 text-blue-700 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-105 text-center dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid"
                   >
                     Xem sản phẩm
                   </a>

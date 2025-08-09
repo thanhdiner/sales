@@ -4,9 +4,8 @@ import useMeasure from 'react-use-measure'
 import ProductCard from './ProductCard'
 import './ProductList.scss'
 
-const COLUMNS_PER_ROW = 5
-const ROW_HEIGHT = 380
 const GRID_HEIGHT = 550
+const ROW_HEIGHT = 380
 const COLUMN_GAP = 16
 
 function ProductList({ products = [], loading = false, className = '' }) {
@@ -15,9 +14,13 @@ function ProductList({ products = [], loading = false, className = '' }) {
   const gridConfig = useMemo(() => {
     if (width <= 0) return { columnCount: 0, rowCount: 0, columnWidth: 0 }
 
-    const columnCount = COLUMNS_PER_ROW
-    const rowCount = Math.ceil(products.length / columnCount)
+    // Responsive columns by container width (Tailwind-like breakpoints)
+    let columnCount = 5 // >= 1024px giữ nguyên 5 cột (desktop & laptop)
+    if (width < 640) columnCount = 2 // < sm (mobile)
+    else if (width < 768) columnCount = 3 // < md (phablet)
+    else if (width < 1024) columnCount = 4 // < lg (tablet)
 
+    const rowCount = Math.ceil(products.length / columnCount)
     const availableWidth = width - COLUMN_GAP * (columnCount + 1)
     const columnWidth = Math.floor(availableWidth / columnCount)
 
@@ -56,6 +59,7 @@ function ProductList({ products = [], loading = false, className = '' }) {
           width={width}
           overscanRowCount={2}
           overscanColumnCount={1}
+          className="product-list-scroll"
         >
           {({ columnIndex, rowIndex, style }) => {
             const index = rowIndex * gridConfig.columnCount + columnIndex

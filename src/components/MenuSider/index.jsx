@@ -74,7 +74,7 @@ function MenuSider() {
         ),
         label: (
           <Link className="menu-sider__label" to={`/product-categories/${category.slug}`}>
-            {category.title}
+            {<span className="dark:text-white">{category.title}</span>}
           </Link>
         ),
         children: hasChildren ? renderCategoryItems(category.children) : undefined
@@ -85,7 +85,7 @@ function MenuSider() {
     {
       key: 'product-category-group',
       type: 'group',
-      label: 'Danh mục sản phẩm',
+      label: <span className="dark:text-white">Danh mục sản phẩm</span>,
       className: 'menu-sider__group--divider',
       children: renderCategoryItems(categories)
     }
@@ -103,6 +103,7 @@ function MenuSider() {
       onOpenChange={keys => setOpenKeys(keys)}
       selectedKeys={selectedKeys}
       style={{ paddingBottom: '30px' }}
+      className="dark:bg-gray-800"
     />
   )
 }

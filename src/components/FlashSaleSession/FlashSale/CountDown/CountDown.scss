@@ -22,3 +22,40 @@
   letter-spacing: 1.3px;
   margin-left: 5px;
 }
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .home__flash-sale__countdown {
+    font-size: 17px;
+    padding: 6px 18px;
+  }
+  .countdown-timer {
+    font-size: 19px;
+  }
+}
+@media (max-width: 767.98px) {
+  .home__flash-sale__countdown {
+    font-size: 15px;
+    padding: 6px 16px;
+    border-radius: 12px;
+    gap: 6px;
+  }
+  .countdown-timer {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+}
+@media (max-width: 575.98px) {
+  .home__flash-sale__countdown {
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 10px;
+  }
+  .countdown-timer {
+    font-size: 16px;
+    margin-left: 4px;
+  }
+  .home__flash-sale__countdown span:first-child {
+    display: none;
+  } /* ẩn label để tiết kiệm chỗ */
+}

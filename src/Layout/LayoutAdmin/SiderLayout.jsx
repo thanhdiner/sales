@@ -1,4 +1,12 @@
-import { AppstoreOutlined, CodeSandboxOutlined, ForkOutlined, HomeOutlined, RadiusSettingOutlined, TeamOutlined } from '@ant-design/icons'
+import {
+  AppstoreOutlined,
+  BankOutlined,
+  CodeSandboxOutlined,
+  ForkOutlined,
+  HomeOutlined,
+  RadiusSettingOutlined,
+  TeamOutlined
+} from '@ant-design/icons'
 import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useEffect, useState } from 'react'
@@ -8,7 +16,7 @@ import { hasAllPermissions } from '@/utils/hasAllPermissions'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useSelector } from 'react-redux'
 
-function SiderLayout({ collapsed, location }) {
+function SiderLayout({ collapsed, setCollapsed, location }) {
   const navigate = useNavigate()
   const [stateOpenKeys, setStateOpenKeys] = useState([])
   const permissions = useAdminPermissions()
@@ -56,7 +64,8 @@ function SiderLayout({ collapsed, location }) {
         canViewRolePermission && getItem('Role Permission', 'role-permission')
       ])
     ),
-    permissions.includes('view_accounts') && getItem('Accounts', 'accounts', <TeamOutlined />)
+    permissions.includes('view_accounts') && getItem('Accounts', 'accounts', <TeamOutlined />),
+    permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />)
   ]
 
   const getLevelKeys = items1 => {
@@ -106,8 +115,24 @@ function SiderLayout({ collapsed, location }) {
     if (pathname.includes('/admin/banners')) return 'banners'
     if (pathname.includes('/admin/widgets')) return 'widgets'
     if (pathname.includes('/admin/flash-sales')) return 'flash-sales'
+    if (pathname.includes('/admin/bank-info')) return 'bank-info'
     return 'dashboard'
   }
+
+  // Auto close menu on small screens when route changes
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setCollapsed(true)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [setCollapsed])
+
+  useEffect(() => {
+    if (window.innerWidth < 768) setCollapsed(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname])
 
   return (
     <Sider
@@ -116,7 +141,9 @@ function SiderLayout({ collapsed, location }) {
       trigger={null}
       collapsible
       collapsed={collapsed}
-      className="h-screen sticky top-0 left-0 flex flex-col z-10 bg-white dark:bg-gray-800 transition-all ease-in-out duration-300"
+      className={`h-screen flex flex-col z-30 bg-white dark:bg-gray-800 transition-all ease-in-out duration-300
+      md:sticky md:top-0 md:left-0
+      fixed top-0 left-0 ${collapsed ? '-translate-x-full' : 'translate-x-0'} md:translate-x-0 shadow-lg md:shadow-none`}
     >
       <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 px-3">
         <Link to={'/admin/dashboard'}>

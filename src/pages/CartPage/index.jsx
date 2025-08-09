@@ -129,7 +129,7 @@ const CartPage = () => {
 
   const removeItem = async id => {
     Modal.confirm({
-      title: 'Bạn chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
+      title: <span className="text-gray-800 dark:text-gray-100">Bạn chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</span>,
       okText: 'Xóa',
       cancelText: 'Hủy',
       okButtonProps: { danger: true },
@@ -213,15 +213,15 @@ const CartPage = () => {
 
   if (!cartItems || cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-3xl shadow-xl p-12">
+            <div className="bg-white rounded-3xl shadow-xl p-12 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
               <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-full flex items-center justify-center">
                 <ShoppingBag className="w-16 h-16 text-blue-600" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">Giỏ hàng trống</h2>
-              <p className="text-gray-600 mb-8">Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!</p>
+              <h2 className="text-3xl font-bold text-gray-800 mb-4 dark:text-gray-100">Giỏ hàng trống</h2>
+              <p className="text-gray-600 mb-8 dark:text-gray-300">Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!</p>
               <button
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
                 onClick={() => navigate('/products')}
@@ -236,21 +236,21 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
             Giỏ hàng của bạn
           </h1>
-          <p className="text-gray-600">Bạn có {cartItems.length} sản phẩm trong giỏ hàng</p>
+          <p className="text-gray-600 dark:text-gray-300">Bạn có {cartItems.length} sản phẩm trong giỏ hàng</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {/* Select All */}
-            <div className="bg-white rounded-2xl shadow-lg p-4">
+            <div className="bg-white rounded-2xl shadow-lg p-4 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -258,7 +258,7 @@ const CartPage = () => {
                   onChange={handleSelectAll}
                   className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
                 />
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-gray-800 dark:text-gray-100">
                   Chọn tất cả ({selectedItems.size}/{cartItems.length})
                 </span>
               </label>
@@ -269,7 +269,7 @@ const CartPage = () => {
                 key={item.productId}
                 className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
                   selectedItems.has(item.productId) ? 'ring-2 ring-blue-500' : ''
-                }`}
+                } dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid`}
               >
                 <div className="p-6">
                   <div className="flex flex-col sm:flex-row gap-6">
@@ -303,7 +303,7 @@ const CartPage = () => {
                           <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full mb-2">
                             {item.category}
                           </span>
-                          <h3 className="text-xl font-bold text-gray-800 mb-1">{item.name}</h3>
+                          <h3 className="text-xl font-bold text-gray-800 mb-1 dark:text-gray-100">{item.name}</h3>
                           <div className="flex items-center gap-2">
                             <div className="flex items-center">
                               {[...Array(5)].map((_, i) => (
@@ -313,7 +313,7 @@ const CartPage = () => {
                                 />
                               ))}
                             </div>
-                            <span className="text-sm text-gray-600">({item.rating})</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">({item.rating})</span>
                           </div>
                         </div>
                         <button
@@ -327,7 +327,7 @@ const CartPage = () => {
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div className="space-y-1">
                           <div className="flex items-center gap-3">
-                            <span className="text-2xl font-bold text-gray-800">{formatPrice(item.price)}</span>
+                            <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">{formatPrice(item.price)}</span>
                             {item.originalPrice > item.price && (
                               <span className="text-lg text-gray-400 line-through">{formatPrice(item.originalPrice)}</span>
                             )}
@@ -388,8 +388,8 @@ const CartPage = () => {
           {/* Order Summary */}
           <div className="space-y-6">
             {/* Promo Code */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Mã giảm giá</h3>
+            <div className="bg-white rounded-2xl shadow-lg p-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 dark:text-gray-100">Mã giảm giá</h3>
               <div className="space-y-3">
                 <div className="flex gap-2">
                   <input
@@ -397,7 +397,7 @@ const CartPage = () => {
                     placeholder="Nhập mã giảm giá"
                     value={promoCode}
                     onChange={e => setPromoCode(e.target.value)}
-                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid dark:text-gray-100 dark:border-gray-700 dark:focus:ring-gray-500"
                   />
                   <button
                     onClick={() => handleApplyPromo()}
@@ -425,12 +425,14 @@ const CartPage = () => {
             </div>
 
             {/* Summary */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-6">Tóm tắt đơn hàng</h3>
+            <div className="bg-white rounded-2xl shadow-lg p-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
+              <h3 className="text-lg font-bold text-gray-800 mb-6 dark:text-gray-100">Tóm tắt đơn hàng</h3>
               <div className="space-y-4">
                 <div className="flex justify-between text-gray-600">
-                  <span>Tạm tính ({selectedCartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm đã chọn)</span>
-                  <span>{formatPrice(subtotal)}</span>
+                  <span className="dark:text-gray-300">
+                    Tạm tính ({selectedCartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm đã chọn)
+                  </span>
+                  <span className="dark:text-gray-300">{formatPrice(subtotal)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-green-600">
@@ -439,12 +441,12 @@ const CartPage = () => {
                   </div>
                 )}
                 <div className="flex justify-between text-gray-600">
-                  <span>Phí vận chuyển</span>
-                  <span>{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
+                  <span className="dark:text-gray-300">Phí vận chuyển</span>
+                  <span className="dark:text-gray-300">{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
                 </div>
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-xl font-bold text-gray-800">
-                    <span>Tổng cộng</span>
+                    <span className="dark:text-gray-300">Tổng cộng</span>
                     <span className="text-blue-600">{formatPrice(total)}</span>
                   </div>
                 </div>
@@ -454,15 +456,15 @@ const CartPage = () => {
               <div className="mt-6 space-y-3">
                 <div className="flex items-center gap-3 text-sm text-gray-600">
                   <Shield className="w-4 h-4 text-green-500" />
-                  <span>Bảo hành chính hãng</span>
+                  <span className="dark:text-gray-300">Bảo hành chính hãng</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-gray-600">
                   <Truck className="w-4 h-4 text-blue-500" />
-                  <span>Giao hàng nhanh 2-4h</span>
+                  <span className="dark:text-gray-300">Giao hàng nhanh 2-4h</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-gray-600">
                   <Package className="w-4 h-4 text-purple-500" />
-                  <span>Đóng gói cẩn thận</span>
+                  <span className="dark:text-gray-300">Đóng gói cẩn thận</span>
                 </div>
               </div>
 

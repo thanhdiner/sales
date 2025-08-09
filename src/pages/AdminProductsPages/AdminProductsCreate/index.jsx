@@ -198,14 +198,23 @@ const CreateProductPage = () => {
                         rules={[{ required: true, message: 'Nhập tính năng!' }]}
                         style={{ flex: 1, marginBottom: 0 }}
                       >
-                        <Input placeholder={`Tính năng #${name + 1}`} />
+                        <Input
+                          placeholder={`Tính năng #${name + 1}`}
+                          className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
+                        />
                       </Form.Item>
                       <Button danger type="text" onClick={() => remove(name)}>
                         Xóa
                       </Button>
                     </div>
                   ))}
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  <Button
+                    type="dashed"
+                    className="dark:bg-gray-800 dark:text-gray-100 dark:hover:!bg-gray-700"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
                     Thêm tính năng
                   </Button>
                 </div>

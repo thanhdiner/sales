@@ -118,8 +118,8 @@ export default function AdminBannersPage() {
 
   const deleteBanner = id => {
     Modal.confirm({
-      title: '🗑️ Xác nhận xóa',
-      content: 'Bạn có chắc chắn muốn xóa banner này không?',
+      title: <span className="dark:text-gray-100">🗑️ Xác nhận xóa</span>,
+      content: <span className="dark:text-gray-100">Bạn có chắc chắn muốn xóa banner này không?</span>,
       okText: 'Xóa',
       cancelText: 'Hủy',
       okType: 'danger',
@@ -225,12 +225,16 @@ export default function AdminBannersPage() {
   ]
 
   return (
-    <div style={{ padding: 24, background: '#f5f5f5', minHeight: '100vh' }}>
+    <div style={{ padding: 24, minHeight: '100vh' }} className="bg-[#f5f5f5] dark:bg-gray-800 rounded-xl">
       <Card
+        className="dark:bg-gray-800 dark:text-white"
         style={{ marginBottom: 24, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', body: { padding: 24 } }}
         title={
-          <div style={{ display: 'flex', padding: '24px 0', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Title level={2} style={{ margin: 0, color: '#1890ff' }}>
+          <div
+            style={{ display: 'flex', padding: '24px 0', justifyContent: 'space-between', alignItems: 'center' }}
+            className="flex flex-col sm:flex-row sm:space-y-0 space-y-4"
+          >
+            <Title level={2} style={{ margin: 0, color: '#1890ff' }} className="!mb-0">
               Quản lý Banner
             </Title>
             <Button
@@ -239,37 +243,45 @@ export default function AdminBannersPage() {
               icon={<PlusOutlined />}
               onClick={() => openModal()}
               style={{ borderRadius: 8, height: 44, fontWeight: 500, boxShadow: '0 2px 4px rgba(24,144,255,0.3)' }}
+              className="w-full sm:w-auto"
             >
               Thêm Banner Mới
             </Button>
           </div>
         }
       >
-        <Table
-          rowKey="_id"
-          dataSource={banners}
-          columns={columns}
-          loading={loading}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} banners`
-          }}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
-          style={{
-            '.ant-table-thead > tr > th': {
-              backgroundColor: '#fafafa',
-              fontWeight: '600'
-            }
-          }}
-        />
+        <div className="overflow-x-auto custom-scrollbar">
+          <Table
+            rowKey="_id"
+            dataSource={banners}
+            columns={columns}
+            loading={loading}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} banners`
+            }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
+            style={{
+              minWidth: 720,
+              '.ant-table-thead > tr > th': {
+                backgroundColor: '#fafafa',
+                fontWeight: '600'
+              }
+            }}
+          />
+        </div>
       </Card>
 
       <Modal
         title={
           <div style={{ display: 'flex', alignItems: 'center', fontSize: 18, fontWeight: 600 }}>
-            {editingBanner ? '✏️ Chỉnh sửa Banner' : '➕ Thêm Banner mới'}
+            {editingBanner ? (
+              <span className="dark:text-gray-100">✏️ Chỉnh sửa Banner</span>
+            ) : (
+              <span className="dark:text-gray-100">➕ Thêm Banner mới</span>
+            )}
           </div>
         }
         open={modalVisible}
@@ -278,7 +290,7 @@ export default function AdminBannersPage() {
         okText="💾 Lưu"
         cancelText="❌ Hủy"
         width={600}
-        style={{ top: 50 }}
+        style={{ top: 50, maxWidth: '95%' }}
         okButtonProps={{ size: 'large', style: { borderRadius: 8, height: 40, fontWeight: 500 } }}
         cancelButtonProps={{ size: 'large', style: { borderRadius: 8, height: 40 } }}
         confirmLoading={submitLoading}
@@ -289,14 +301,19 @@ export default function AdminBannersPage() {
         <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ isActive: true }} style={{ marginTop: 20 }}>
           <Form.Item
             label={
-              <Text strong style={{ fontSize: 16 }}>
+              <Text strong style={{ fontSize: 16 }} className="dark:text-gray-100">
                 📝 Tiêu đề banner
               </Text>
             }
             name="title"
             rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
           >
-            <Input placeholder="Nhập tiêu đề banner..." size="large" style={{ borderRadius: 8 }} />
+            <Input
+              placeholder="Nhập tiêu đề banner..."
+              size="large"
+              style={{ borderRadius: 8 }}
+              className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
+            />
           </Form.Item>
 
           <Form.Item
@@ -307,10 +324,15 @@ export default function AdminBannersPage() {
             }
             name="link"
           >
-            <Input placeholder="Nhập link chuyển hướng (tùy chọn)" size="large" style={{ borderRadius: 8 }} />
+            <Input
+              placeholder="Nhập link chuyển hướng (tùy chọn)"
+              size="large"
+              style={{ borderRadius: 8 }}
+              className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
+            />
           </Form.Item>
 
-          <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
+          <Form.Item label={<span className="dark:text-gray-100">Trạng thái</span>} name="isActive" valuePropName="checked">
             <Switch size="default" />
           </Form.Item>
 
@@ -347,7 +369,7 @@ export default function AdminBannersPage() {
               {fileList.length < 1 && (
                 <div>
                   <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
+                  <div className="mt-2 dark:text-gray-100">Upload</div>
                 </div>
               )}
             </Upload>

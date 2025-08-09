@@ -135,9 +135,9 @@ const FlashSale = () => {
   const formatDateTime = dt => dayjs(dt).format('DD/MM/YYYY HH:mm')
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 rounded-xl">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 text-white py-8">
+      <div className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 text-white py-8 rounded-tl-xl rounded-tr-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-2 flex items-center justify-center">
@@ -176,7 +176,7 @@ const FlashSale = () => {
         {/* Active Flash Sales */}
         {activeFlashSales.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center dark:text-gray-100">
               <Flame className="w-6 h-6 mr-2 text-red-600" />
               Flash Sale Đang Diễn Ra
             </h2>
@@ -240,7 +240,7 @@ const FlashSale = () => {
                     </div>
 
                     {/* Products Grid */}
-                    <div className="p-6">
+                    <div className="p-6 dark:bg-gray-800 dark:border-gray-600 dark:border-solid dark:border-2 dark:border-t-0">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {sale.products.map(product => {
                           const salePrice = product.price * (1 - sale.discountPercent / 100)
@@ -262,7 +262,7 @@ const FlashSale = () => {
                             >
                               <div
                                 key={product._id}
-                                className="group relative bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+                                className="group relative bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 dark:bg-gray-800 dark:border-solid dark:border-gray-600 dark:border-1"
                               >
                                 <div className="relative">
                                   <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
@@ -294,14 +294,14 @@ const FlashSale = () => {
                                   )}
                                 </div>
                                 <div className="p-4 flex flex-col h-full">
-                                  <h4 className="font-semibold text-gray-900 mb-1 line-clamp-2 text-base min-h-[40px]">{product.title}</h4>
+                                  <h4 className="font-semibold text-gray-900 mb-1 line-clamp-2 text-base min-h-[50px] dark:text-gray-200">{product.title}</h4>
                                   <div className="flex items-center gap-2 mb-2">
                                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                    <span className="text-sm text-gray-600">
+                                    <span className="text-sm text-gray-600 dark:text-gray-400">
                                       {product.rating ? Number(product.rating).toFixed(1) : 'Chưa có đánh giá'}
                                     </span>
                                     {product.soldQuantity > 0 && (
-                                      <span className="ml-2 text-xs text-gray-500">{product.soldQuantity} đã bán</span>
+                                      <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">{product.soldQuantity} đã bán</span>
                                     )}
                                   </div>
                                   <div className="min-h-[110px]">
@@ -416,8 +416,8 @@ const FlashSale = () => {
         {filteredFlashSales.length === 0 && (
           <div className="text-center py-12">
             <Clock className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">Không có Flash Sale nào</h3>
-            <p className="text-gray-500">Hãy quay lại sau để không bỏ lỡ các chương trình khuyến mãi hấp dẫn!</p>
+            <h3 className="text-xl font-semibold text-gray-600 mb-2 dark:text-gray-100">Không có Flash Sale nào</h3>
+            <p className="text-gray-500 dark:text-gray-400">Hãy quay lại sau để không bỏ lỡ các chương trình khuyến mãi hấp dẫn!</p>
           </div>
         )}
       </div>

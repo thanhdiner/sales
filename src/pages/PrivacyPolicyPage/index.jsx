@@ -14,12 +14,15 @@ import {
   QuestionCircleOutlined
 } from '@ant-design/icons'
 import titles from '@/utils/titles'
+import { useSelector } from 'react-redux'
 
 const { Title, Paragraph, Text } = Typography
 const { Panel } = Collapse
 
 const PrivacyPolicyPage = () => {
   titles('Chính sách bảo mật')
+
+  const websiteConfig = useSelector(state => state.websiteConfig.data)
 
   const [contactModalVisible, setContactModalVisible] = useState(false)
 
@@ -140,7 +143,7 @@ const PrivacyPolicyPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
@@ -172,17 +175,22 @@ const PrivacyPolicyPage = () => {
 
         {/* Quick Summary Alert */}
         <Alert
-          message="Tóm tắt nhanh"
-          description="Chúng tôi thu thập thông tin cần thiết để cung cấp dịch vụ, bảo vệ dữ liệu bằng mã hóa SSL, không bán thông tin cho bên thứ ba, và bạn có toàn quyền kiểm soát dữ liệu cá nhân."
+          message={<span className="dark:text-gray-100">Tóm tắt nhanh</span>}
+          description={
+            <span className="dark:text-gray-300">
+              Chúng tôi thu thập thông tin cần thiết để cung cấp dịch vụ, bảo vệ dữ liệu bằng mã hóa SSL, không bán thông tin cho bên thứ
+              ba, và bạn có toàn quyền kiểm soát dữ liệu cá nhân.
+            </span>
+          }
           type="info"
           showIcon
-          className="mb-8 rounded-lg"
+          className="mb-8 rounded-lg dark:bg-gray-800"
         />
 
         <Row gutter={[24, 24]}>
           {/* Navigation Sidebar */}
           <Col xs={24} lg={6}>
-            <Card className="sticky top-4 shadow-lg rounded-xl">
+            <Card className="sticky top-4 shadow-lg rounded-xl dark:bg-gray-800">
               <Title level={4} className="!mb-4">
                 <FileProtectOutlined className="mr-2 text-blue-500" />
                 Mục lục
@@ -194,7 +202,7 @@ const PrivacyPolicyPage = () => {
                   title: (
                     <Space>
                       {section.icon}
-                      {section.title}
+                      <span className="dark:text-gray-100">{section.title}</span>
                     </Space>
                   )
                 }))}
@@ -207,7 +215,7 @@ const PrivacyPolicyPage = () => {
           <Col xs={24} lg={18}>
             <div className="space-y-8">
               {/* Thu thập thông tin */}
-              <Card id="thu-thap-thong-tin" className="shadow-lg rounded-xl">
+              <Card id="thu-thap-thong-tin" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <DatabaseOutlined className="mr-3 text-blue-500" />
                   1. Thu thập thông tin
@@ -220,13 +228,16 @@ const PrivacyPolicyPage = () => {
                 <Row gutter={[16, 16]}>
                   {dataTypes.map((type, index) => (
                     <Col xs={24} sm={12} lg={6} key={index}>
-                      <Card size="small" className={`h-full border-l-4 border-l-${type.color}-500 hover:shadow-md transition-shadow`}>
+                      <Card
+                        size="small"
+                        className={`h-full border-l-4 border-l-${type.color}-500 hover:shadow-md transition-shadow dark:bg-gray-800`}
+                      >
                         <Title level={5} className={`!text-${type.color}-600 !mb-3`}>
                           {type.title}
                         </Title>
                         <ul className="space-y-1">
                           {type.items.map((item, i) => (
-                            <li key={i} className="text-sm text-gray-600">
+                            <li key={i} className="text-sm text-gray-600 dark:text-gray-300">
                               • {item}
                             </li>
                           ))}
@@ -237,16 +248,21 @@ const PrivacyPolicyPage = () => {
                 </Row>
 
                 <Alert
-                  message="Lưu ý quan trọng"
-                  description="Chúng tôi chỉ thu thập thông tin cần thiết và với sự đồng ý của bạn. Bạn có thể từ chối cung cấp một số thông tin nhưng điều này có thể ảnh hưởng đến chất lượng dịch vụ."
+                  message={<span className="dark:text-gray-100">Lưu ý quan trọng</span>}
+                  description={
+                    <span className="dark:text-gray-300">
+                      Chúng tôi chỉ thu thập thông tin cần thiết và với sự đồng ý của bạn. Bạn có thể từ chối cung cấp một số thông tin
+                      nhưng điều này có thể ảnh hưởng đến chất lượng dịch vụ.
+                    </span>
+                  }
                   type="warning"
                   showIcon
-                  className="mt-6"
+                  className="mt-6 dark:bg-gray-800"
                 />
               </Card>
 
               {/* Sử dụng thông tin */}
-              <Card id="su-dung-thong-tin" className="shadow-lg rounded-xl">
+              <Card id="su-dung-thong-tin" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <EyeOutlined className="mr-3 text-green-500" />
                   2. Sử dụng thông tin
@@ -299,7 +315,7 @@ const PrivacyPolicyPage = () => {
               </Card>
 
               {/* Chia sẻ thông tin */}
-              <Card id="chia-se-thong-tin" className="shadow-lg rounded-xl">
+              <Card id="chia-se-thong-tin" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <GlobalOutlined className="mr-3 text-orange-500" />
                   3. Chia sẻ thông tin
@@ -308,11 +324,11 @@ const PrivacyPolicyPage = () => {
                 <Paragraph>Chúng tôi có thể chia sẻ thông tin của bạn trong các trường hợp sau:</Paragraph>
 
                 <div className="grid md:grid-cols-2 gap-4 mt-4">
-                  <div className="p-4 bg-blue-50 rounded-lg">
+                  <div className="p-4 bg-blue-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-1 dark:outline-gray-600 dark:outline-solid">
                     <Title level={5} className="!text-blue-600">
                       ✅ Được phép chia sẻ
                     </Title>
-                    <ul className="space-y-2 text-sm">
+                    <ul className="space-y-2 text-sm dark:text-gray-300">
                       <li>• Với đối tác vận chuyển để giao hàng</li>
                       <li>• Với ngân hàng/cổng thanh toán để xử lý giao dịch</li>
                       <li>• Với cơ quan pháp luật khi có yêu cầu hợp lệ</li>
@@ -320,11 +336,11 @@ const PrivacyPolicyPage = () => {
                     </ul>
                   </div>
 
-                  <div className="p-4 bg-red-50 rounded-lg">
+                  <div className="p-4 bg-red-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-1 dark:outline-gray-600 dark:outline-solid">
                     <Title level={5} className="!text-red-600">
                       ❌ Không được chia sẻ
                     </Title>
-                    <ul className="space-y-2 text-sm">
+                    <ul className="space-y-2 text-sm dark:text-gray-300">
                       <li>• Bán thông tin cho bên thứ ba</li>
                       <li>• Chia sẻ với mục đích thương mại khác</li>
                       <li>• Tiết lộ thông tin nhạy cảm không cần thiết</li>
@@ -335,7 +351,7 @@ const PrivacyPolicyPage = () => {
               </Card>
 
               {/* Bảo mật thông tin */}
-              <Card id="bao-mat-thong-tin" className="shadow-lg rounded-xl">
+              <Card id="bao-mat-thong-tin" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <LockOutlined className="mr-3 text-purple-500" />
                   4. Bảo mật thông tin
@@ -348,7 +364,7 @@ const PrivacyPolicyPage = () => {
                 <Row gutter={[16, 16]}>
                   {securityMeasures.map((measure, index) => (
                     <Col xs={24} sm={12} key={index}>
-                      <Card size="small" className="h-full hover:shadow-md transition-shadow">
+                      <Card size="small" className="h-full hover:shadow-md transition-shadow dark:bg-gray-800">
                         <Space className="mb-3">
                           {measure.icon}
                           <Title level={5} className="!mb-0">
@@ -363,7 +379,7 @@ const PrivacyPolicyPage = () => {
                   ))}
                 </Row>
 
-                <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-600 dark:outline-solid">
                   <Title level={5} className="!text-green-700 !mb-2">
                     <SafetyOutlined className="mr-2" />
                     Cam kết bảo mật
@@ -375,7 +391,7 @@ const PrivacyPolicyPage = () => {
               </Card>
 
               {/* Quyền của người dùng */}
-              <Card id="quyen-nguoi-dung" className="shadow-lg rounded-xl">
+              <Card id="quyen-nguoi-dung" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <UserOutlined className="mr-3 text-indigo-500" />
                   5. Quyền của người dùng
@@ -385,7 +401,10 @@ const PrivacyPolicyPage = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   {userRights.map((right, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-1 dark:outline-gray-600 dark:outline-solid"
+                    >
                       <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Text className="text-white text-xs font-bold">{index + 1}</Text>
                       </div>
@@ -394,7 +413,7 @@ const PrivacyPolicyPage = () => {
                   ))}
                 </div>
 
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-1 dark:outline-gray-600 dark:outline-solid">
                   <Title level={5} className="!text-blue-700 !mb-2">
                     Cách thực hiện quyền của bạn
                   </Title>
@@ -411,7 +430,7 @@ const PrivacyPolicyPage = () => {
               </Card>
 
               {/* Cookies */}
-              <Card id="cookies" className="shadow-lg rounded-xl">
+              <Card id="cookies" className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <FileProtectOutlined className="mr-3 text-yellow-600" />
                   6. Cookies và công nghệ theo dõi
@@ -420,15 +439,15 @@ const PrivacyPolicyPage = () => {
                 <Paragraph>Chúng tôi sử dụng cookies và các công nghệ tương tự để:</Paragraph>
 
                 <Collapse ghost>
-                  <Panel header="Cookies thiết yếu" key="essential">
+                  <Panel header={<span className="dark:text-gray-100">Cookies thiết yếu</span>} key="essential">
                     <Text>
                       Cần thiết cho hoạt động cơ bản của website như đăng nhập, giỏ hàng, bảo mật. Không thể tắt loại cookies này.
                     </Text>
                   </Panel>
-                  <Panel header="Cookies hiệu suất" key="performance">
+                  <Panel header={<span className="dark:text-gray-100">Cookies hiệu suất</span>} key="performance">
                     <Text>Giúp chúng tôi hiểu cách bạn sử dụng website để cải thiện trải nghiệm. Thông tin được thu thập ẩn danh.</Text>
                   </Panel>
-                  <Panel header="Cookies tiếp thị" key="marketing">
+                  <Panel header={<span className="dark:text-gray-100">Cookies tiếp thị</span>} key="marketing">
                     <Text>
                       Được sử dụng để hiển thị quảng cáo phù hợp với sở thích của bạn trên các website khác. Bạn có thể từ chối loại cookies
                       này.
@@ -436,21 +455,21 @@ const PrivacyPolicyPage = () => {
                   </Panel>
                 </Collapse>
 
-                <Button type="dashed" className="mt-4" block>
+                <Button type="dashed" className="mt-4 dark:bg-primary dark:text-white dark:hover:!bg-blue-400 dark:hover:!text-white" block>
                   Quản lý cài đặt Cookies
                 </Button>
               </Card>
 
               {/* FAQ */}
-              <Card className="shadow-lg rounded-xl">
+              <Card className="shadow-lg rounded-xl dark:bg-gray-800">
                 <Title level={2} className="!text-2xl !mb-6">
                   <QuestionCircleOutlined className="mr-3 text-green-500" />
                   Câu hỏi thường gặp
                 </Title>
 
-                <Collapse>
+                <Collapse ghost>
                   {faqData.map((faq, index) => (
-                    <Panel header={faq.question} key={index}>
+                    <Panel header={<span className="dark:text-gray-100">{faq.question}</span>} key={index}>
                       <Text>{faq.answer}</Text>
                     </Panel>
                   ))}
@@ -458,7 +477,10 @@ const PrivacyPolicyPage = () => {
               </Card>
 
               {/* Liên hệ */}
-              <Card id="lien-he" className="shadow-lg rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+              <Card
+                id="lien-he"
+                className="shadow-lg rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white dark:from-gray-800 dark:to-gray-800"
+              >
                 <Title level={2} className="!text-white !text-2xl !mb-6">
                   <PhoneOutlined className="mr-3" />
                   7. Thông tin liên hệ
@@ -475,7 +497,7 @@ const PrivacyPolicyPage = () => {
                       <Title level={5} className="!text-white">
                         Email
                       </Title>
-                      <Text className="text-blue-100">lunashop.business.official@gmail.com</Text>
+                      <Text className="text-blue-100">{websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'}</Text>
                     </div>
                   </Col>
                   <Col xs={24} md={8}>
@@ -484,7 +506,7 @@ const PrivacyPolicyPage = () => {
                       <Title level={5} className="!text-white">
                         Hotline
                       </Title>
-                      <Text className="text-blue-100">0822387108</Text>
+                      <Text className="text-blue-100">{websiteConfig?.contactInfo?.phone || '0823387108'}</Text>
                     </div>
                   </Col>
                   <Col xs={24} md={8}>
@@ -493,7 +515,7 @@ const PrivacyPolicyPage = () => {
                       <Title level={5} className="!text-white">
                         Website
                       </Title>
-                      <Text className="text-blue-100">www.lunashop.id.vn</Text>
+                      <Text className="text-blue-100">{websiteConfig?.contactInfo?.website || 'www.smartmall.site'}</Text>
                     </div>
                   </Col>
                 </Row>

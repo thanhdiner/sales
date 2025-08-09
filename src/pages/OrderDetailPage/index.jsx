@@ -72,8 +72,8 @@ export default function OrderDetailPage() {
 
   const handleCancelOrder = () => {
     Modal.confirm({
-      title: 'Xác nhận hủy đơn hàng',
-      content: 'Bạn có chắc muốn hủy đơn hàng này không?',
+      title: <span className="text-gray-800 dark:text-gray-100">Xác nhận hủy đơn hàng</span>,
+      content: <span className="text-gray-600 dark:text-gray-300">Bạn có chắc muốn hủy đơn hàng này không?</span>,
       okText: 'Hủy đơn',
       cancelText: 'Không',
       okButtonProps: { danger: true, loading: cancelling },
@@ -97,10 +97,10 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center dark:from-gray-800 dark:to-gray-800 rounded-xl">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Đang tải chi tiết đơn hàng...</p>
+          <p className="text-gray-600 font-medium dark:text-gray-300">Đang tải chi tiết đơn hàng...</p>
         </div>
       </div>
     )
@@ -112,7 +112,7 @@ export default function OrderDetailPage() {
   const StatusIcon = statusConfig.icon
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -124,11 +124,11 @@ export default function OrderDetailPage() {
             <span className="font-medium">Quay lại danh sách đơn hàng</span>
           </button>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+          <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Đơn hàng #{order._id.slice(-6).toUpperCase()}</h1>
-                <p className="text-gray-600">Chi tiết thông tin đơn hàng của bạn</p>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">Đơn hàng #{order._id}</h1>
+                <p className="text-gray-600 dark:text-gray-300">Chi tiết thông tin đơn hàng của bạn</p>
               </div>
               <div
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${statusConfig.bgColor} ${statusConfig.borderColor}`}
@@ -144,46 +144,46 @@ export default function OrderDetailPage() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Contact Information */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <User className="w-5 h-5 text-blue-600" />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">Thông tin nhận hàng</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Thông tin nhận hàng</h2>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <User className="w-4 h-4 text-gray-400" />
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
                     {order.contact.firstName} {order.contact.lastName}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{order.contact.phone}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{order.contact.phone}</span>
                 </div>
                 {order.contact.email && (
                   <div className="flex items-center gap-3">
                     <Mail className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-700">{order.contact.email}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{order.contact.email}</span>
                   </div>
                 )}
                 {order.contact.notes && (
                   <div className="flex items-start gap-3">
                     <FileText className="w-4 h-4 text-gray-400 mt-0.5" />
-                    <span className="text-gray-700">{order.contact.notes}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{order.contact.notes}</span>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Order Items */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-green-100 rounded-lg">
                   <Package className="w-5 h-5 text-green-600" />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">Danh sách sản phẩm</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Danh sách sản phẩm</h2>
               </div>
               <div className="space-y-4">
                 {order.orderItems.map((item, index) => (
@@ -199,12 +199,12 @@ export default function OrderDetailPage() {
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 truncate">{item.name}</h3>
-                      <p className="text-sm text-gray-500">{item.category}</p>
+                      <h3 className="font-semibold text-gray-900 truncate dark:text-gray-100">{item.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.category}</p>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-lg text-blue-600">{item.price?.toLocaleString('vi-VN')}₫</div>
-                      <div className="text-sm text-gray-500">x{item.quantity}</div>
+                      <div className="font-bold text-lg text-blue-600 dark:text-gray-100">{item.price?.toLocaleString('vi-VN')}₫</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">x{item.quantity}</div>
                     </div>
                   </div>
                 ))}
@@ -214,33 +214,33 @@ export default function OrderDetailPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 sticky top-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Tóm tắt đơn hàng</h2>
+            <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-white/20 sticky top-8 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
+              <h2 className="text-xl font-bold text-gray-900 mb-6 dark:text-gray-100">Tóm tắt đơn hàng</h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Tạm tính:</span>
-                  <span className="font-medium">{order.subtotal?.toLocaleString('vi-VN')}₫</span>
+                  <span className="text-gray-600 dark:text-gray-300">Tạm tính:</span>
+                  <span className="font-medium dark:text-gray-100">{order.subtotal?.toLocaleString('vi-VN')}₫</span>
                 </div>
                 {order.discount > 0 && (
                   <div className="flex justify-between items-center text-emerald-600">
-                    <span className="font-medium">Giảm giá:</span>
-                    <span className="font-medium">-{order.discount?.toLocaleString('vi-VN')}₫</span>
+                    <span className="font-medium dark:text-gray-100">Giảm giá:</span>
+                    <span className="font-medium dark:text-gray-100">-{order.discount?.toLocaleString('vi-VN')}₫</span>
                   </div>
                 )}
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Phí vận chuyển:</span>
-                  <span className="font-medium">
+                  <span className="text-gray-600 dark:text-gray-300">Phí vận chuyển:</span>
+                  <span className="font-medium dark:text-gray-100">
                     {order.shipping === 0 ? (
-                      <span className="text-emerald-600 font-semibold">Miễn phí</span>
+                      <span className="text-emerald-600 font-semibold dark:text-gray-100">Miễn phí</span>
                     ) : (
-                      `${order.shipping?.toLocaleString('vi-VN')}₫`
+                      <span className="dark:text-gray-100">{order.shipping?.toLocaleString('vi-VN')}₫</span>
                     )}
                   </span>
                 </div>
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-bold text-gray-900">Tổng cộng:</span>
-                    <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    <span className="text-lg font-bold text-gray-900 dark:text-gray-100">Tổng cộng:</span>
+                    <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:text-gray-100">
                       {order.total?.toLocaleString('vi-VN')}₫
                     </span>
                   </div>
@@ -248,15 +248,15 @@ export default function OrderDetailPage() {
               </div>
               {/* Action Buttons */}
               <div className="mt-6 space-y-3">
-                <button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                <button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                   Theo dõi đơn hàng
                 </button>
-                <button className="w-full border border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors">
+                <button className="w-full border border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
                   Liên hệ hỗ trợ
                 </button>
                 {order.status === 'pending' && (
                   <button
-                    className="w-full border border-red-300 text-red-700 font-semibold py-3 px-4 rounded-xl hover:bg-red-50 transition-colors"
+                    className="w-full border border-red-300 text-red-700 font-semibold py-3 px-4 rounded-xl hover:bg-red-50 transition-colors dark:border-red-600 dark:text-red-300 dark:hover:bg-red-700"
                     onClick={handleCancelOrder}
                     disabled={cancelling}
                   >

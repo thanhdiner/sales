@@ -49,7 +49,24 @@ export default function HeroBanner() {
     cssEase: 'cubic-bezier(0.87, 0, 0.13, 1)',
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    dotsClass: 'slick-dots custom-dots'
+    dotsClass: 'slick-dots custom-dots',
+    responsive: [
+      {
+        breakpoint: 992, // below lg
+        settings: {
+          arrows: false, // hide arrows for tablets & phones
+          speed: 600
+        }
+      },
+      {
+        breakpoint: 576, // phones
+        settings: {
+          arrows: false,
+          speed: 500,
+          autoplaySpeed: 4500
+        }
+      }
+    ]
   }
 
   if (loading) {
@@ -61,7 +78,7 @@ export default function HeroBanner() {
   }
 
   return (
-    <div className="HeroBanner-root group">
+    <div className="HeroBanner-root group" role="region" aria-label="Banner nổi bật">
       <Slider {...settings}>
         {banners.map((banner, index) => (
           <div
@@ -96,7 +113,9 @@ export default function HeroBanner() {
             />
             <div className="HeroBanner-overlay" />
             <div className="HeroBanner-title-wrap">
-              <h3 className="HeroBanner-title">{banner.title}</h3>
+              <h3 className="HeroBanner-title" aria-label={banner.title}>
+                {banner.title}
+              </h3>
             </div>
           </div>
         ))}

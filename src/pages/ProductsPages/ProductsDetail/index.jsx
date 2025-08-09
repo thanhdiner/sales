@@ -221,15 +221,15 @@ function ProductsDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       {/* Breadcrumb */}
       <div className="container mx-auto max-w-7xl px-4 py-8">
         <div className="flex items-center space-x-2 text-sm text-gray-500 mb-8">
-          <span>Trang chủ</span>
+          <span className="dark:text-gray-300">Trang chủ</span>
           <span>/</span>
-          <span>Sản phẩm</span>
+          <span className="dark:text-gray-300">Sản phẩm</span>
           <span>/</span>
-          <span className="text-gray-900 font-medium">{product.title}</span>
+          <span className="text-gray-900 dark:text-gray-100 font-medium">{product.title}</span>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -301,7 +301,7 @@ function ProductsDetail() {
                   </span>
                 )}
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">{product.title}</h1>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight dark:text-gray-100">{product.title}</h1>
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center space-x-1">
                   {[...Array(5)].map((_, i) => (
@@ -313,13 +313,13 @@ function ProductsDetail() {
                   {product.rate && product.rate > 0 ? (
                     <span className="text-gray-600 ml-2">({product.rate}/5)</span>
                   ) : (
-                    <span className="text-gray-500 ml-2 italic">Chưa có đánh giá</span>
+                    <span className="text-gray-500 ml-2 italic dark:text-gray-400">Chưa có đánh giá</span>
                   )}
                 </div>
 
                 <div className="text-sm text-gray-500 flex items-center space-x-1">
                   <Eye className="h-4 w-4" />
-                  <span>Còn {product.stock} sản phẩm</span>
+                  <span className="dark:text-gray-300">Còn {product.stock} sản phẩm</span>
                 </div>
               </div>
             </div>
@@ -337,18 +337,18 @@ function ProductsDetail() {
 
             {/* Quantity */}
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700 font-medium">Số lượng:</span>
+              <span className="text-gray-700 font-medium dark:text-gray-300">Số lượng:</span>
               <div className="flex items-center border border-gray-300 rounded-xl">
                 <button
                   onClick={() => setQuantity(q => String(Math.max(1, +q - 1)))}
                   className="p-2 hover:bg-gray-100 transition-colors rounded-l-xl"
                   disabled={+quantity <= 1 || maxAvailable <= 0}
                 >
-                  <Minus className="h-4 w-4" />
+                  <Minus className="h-4 w-4 dark:text-gray-300" />
                 </button>
                 <input
                   type="number"
-                  className="qtyInput w-14 text-center border-0 outline-none"
+                  className="qtyInput w-14 text-center border-0 outline-none dark:text-gray-300 dark:bg-gray-800"
                   value={quantity}
                   onChange={handleQtyInputChange}
                   onBlur={handleQtyBlur}
@@ -361,7 +361,7 @@ function ProductsDetail() {
                   className="p-2 hover:bg-gray-100 transition-colors rounded-r-xl"
                   disabled={+quantity >= maxAvailable}
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-4 w-4 dark:text-gray-300" />
                 </button>
               </div>
               {maxAvailable !== null && maxAvailable <= 0 && (
@@ -422,20 +422,20 @@ function ProductsDetail() {
 
             {/* Service Info */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/20">
+              <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <Shield className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-gray-700">Bảo hành</p>
-                <p className="text-xs text-gray-500">Trọn gói</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Bảo hành</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Trọn gói</p>
               </div>
-              <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/20">
+              <div className="text-center p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <Truck className="h-8 w-8 text-blue-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-gray-700">Giao hàng</p>
-                <p className="text-xs text-gray-500">Miễn phí</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Giao hàng</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Miễn phí</p>
               </div>
-              <div className="text-center p-4 bg-white/50 rounded-xl border border-white/20">
+              <div className="text-center p-4 bg-white/50 rounded-xl border border-white/20 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
                 <RotateCcw className="h-8 w-8 text-purple-500 mx-auto mb-2" />
-                <p className="text-sm font-medium text-gray-700">Hỗ trợ khách hàng</p>
-                <p className="text-xs text-gray-500">Tư vấn 24/7</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Hỗ trợ khách hàng</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Tư vấn 24/7</p>
               </div>
             </div>
 

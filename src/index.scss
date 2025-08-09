@@ -277,3 +277,19 @@ html.dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
   scrollbar-width: thin;
   scrollbar-color: #dfdfdf #f9f9f9;
 }
+.ant-input-status-error,
+.ant-input-status-error:focus {
+  background: #1e40af22 !important;
+  color: #fff !important;
+}
+
+.ant-btn:hover.button-profile-cancel {
+  background-color: #495464 !important;
+}
+
+html.dark .ant-typography {
+  color: #d1d5db !important;
+}
+html.dark .coupons-card .ant-tabs-tab-active {
+  background: #495464 !important;
+}

@@ -142,8 +142,8 @@ export default function AdminPermissionsPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center space-x-3 flex-1">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <ToolOutlined className="text-white text-xl" />
             </div>
@@ -159,7 +159,7 @@ export default function AdminPermissionsPage() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={handleCreate}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 border-none text-white rounded-lg h-10 px-6"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 border-none text-white rounded-lg h-10 px-6 w-full sm:w-auto"
             >
               New Permission
             </Button>
@@ -167,7 +167,17 @@ export default function AdminPermissionsPage() {
         </div>
 
         {/* Table */}
-        <Table dataSource={permissions} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} className="mb-6" />
+        <div className="overflow-x-auto custom-scrollbar mb-6">
+          <Table
+            dataSource={permissions}
+            columns={columns}
+            rowKey="_id"
+            bordered
+            loading={loading}
+            pagination={false}
+            style={{ minWidth: 720 }}
+          />
+        </div>
 
         {/* Modal */}
         <Modal
@@ -225,7 +235,13 @@ export default function AdminPermissionsPage() {
               name="group"
               rules={[{ required: true, message: 'Please select group' }]}
             >
-              <Select dropdownStyle={{ zIndex: 1238 }} placeholder="Select group" options={permissionGroups} allowClear />
+              <Select
+                getPopupContainer={trigger => trigger.parentElement}
+                dropdownStyle={{ zIndex: 1238 }}
+                placeholder="Select group"
+                options={permissionGroups}
+                allowClear
+              />
             </Form.Item>
           </Form>
         </Modal>

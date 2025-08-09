@@ -282,6 +282,71 @@
     font-size: 24px !important;
   }
 }
+
+/* Extra small devices */
+@media (max-width: 640px) {
+  .dashboard-content {
+    padding: 16px;
+  }
+  .stat-card :global(.ant-card-body) {
+    padding: 16px !important;
+  }
+  .stat-content {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .stat-value {
+    font-size: 22px !important;
+  }
+  .chart-card :global(.ant-card-head),
+  .orders-card :global(.ant-card-head),
+  .products-card :global(.ant-card-head) {
+    padding: 16px 16px 0 16px !important;
+  }
+  .orders-table :global(.ant-table-thead > tr > th),
+  .orders-table :global(.ant-table-tbody > tr > td) {
+    padding: 8px 12px !important;
+    font-size: 12px;
+  }
+  .product-item {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .product-img-wrapper {
+    margin: 0;
+    width: 64px;
+    height: 64px;
+  }
+  .product-img-wrapper img {
+    max-width: 64px;
+    max-height: 64px;
+  }
+  .product-info {
+    padding-right: 0;
+  }
+  .product-name {
+    height: auto;
+    margin-bottom: 4px;
+  }
+  .products-card :global(.ant-card-body) {
+    padding: 16px !important;
+  }
+}
+
+/* Medium devices adjustments */
+@media (min-width: 641px) and (max-width: 991px) {
+  .dashboard-content {
+    padding: 24px;
+  }
+  .stat-card :global(.ant-card-body) {
+    padding: 20px !important;
+  }
+  .product-item {
+    padding: 18px;
+  }
+}
 .product-img-wrapper {
   width: 80px;
   height: 80px;
@@ -344,4 +409,36 @@
 }
 .orders-table-skeleton .skeleton-btn {
   height: 28px !important;
+}
+
+html.dark .stat-card,
+html.dark .chart-card,
+html.dark .orders-card,
+html.dark .products-card {
+  background: #111827 !important;
+  color: #f3f4f6 !important;
+  border: 1px solid #334155;
+}
+
+html.dark .stat-title,
+html.dark .stat-value {
+  color: #fff !important;
+}
+
+html.dark .dashboard-container .ant-card-head-title,
+html.dark .dashboard-container .ant-card-head-title span {
+  color: #fff !important;
+}
+
+html.dark .orders-table-skeleton table tr th,
+html.dark .orders-table-skeleton tbody tr td {
+  background: #17191f !important;
+  color: #fff;
+}
+
+html.dark .orders-table-skeleton .ant-skeleton-avatar,
+html.dark .orders-table-skeleton .ant-skeleton-input,
+html.dark .orders-table-skeleton .ant-skeleton-button {
+  background: #b1b1b1 !important;
+  color: #fff !important;
 }

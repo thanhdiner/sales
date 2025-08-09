@@ -125,33 +125,21 @@ export default function SearchSuggest() {
         prefix={<SearchOutlined style={{ color: isFocused ? '#1890ff' : '#bfbfbf' }} />}
         allowClear
         size="large"
-        style={{
-          borderRadius: 26,
-          background: isFocused ? '#fff' : '#f8f9fa',
-          border: isFocused ? '2px solid #1890ff' : '2px solid transparent',
-          boxShadow: isFocused ? '0 4px 16px rgba(24, 144, 255, 0.15)' : '0 2px 8px rgba(0,0,0,0.06)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          fontSize: '15px',
-          height: '48px'
-        }}
+        className={`dark:bg-gray-800 dark:border-gray-600 dark:text-white rounded-[26px] ${
+          isFocused
+            ? 'bg-white border-2 border-solid border-[#1890ff] shadow-[0_4px_16px_rgba(24,144,255,0.15)]'
+            : 'bg-[#f8f9fa] border-2 border-solid border-transparent shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+        }
+    transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+    text-[15px]
+    h-[48px]
+    focus:outline-none
+  `}
       />
 
       {showDropdown && (
         <div
-          style={{
-            position: 'absolute',
-            top: 56,
-            left: 0,
-            right: 0,
-            background: '#fff',
-            border: 'none',
-            borderRadius: 20,
-            zIndex: 1000,
-            boxShadow: '0 8px 40px rgba(0,0,0,0.12)',
-            overflow: 'hidden',
-            backdropFilter: 'blur(10px)',
-            animation: 'slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
-          }}
+          className={`absolute top-[56px] left-0 right-0 bg-white border-none rounded-[20px] z-[1000] shadow-[0_8px_40px_rgba(0,0,0,0.12)] overflow-hidden backdrop-blur-[10px] animate-[slideUp_0.25s_cubic-bezier(0.4,0,0.2,1)] dark:bg-gray-800 dark:shadow-[0_8px_40px_rgba(0,0,0,0.2)]`}
         >
           <style>
             {`
@@ -171,21 +159,12 @@ export default function SearchSuggest() {
             suggestions.map((kw, i) => (
               <div
                 key={i}
-                style={{
-                  padding: '16px 24px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 16,
-                  background: hoveredIdx === i ? 'linear-gradient(90deg, #e6f7ff 0%, #f0f9ff 100%)' : 'transparent',
-                  borderLeft: hoveredIdx === i ? '4px solid #1890ff' : '4px solid transparent',
-                  fontWeight: hoveredIdx === i ? '600' : '400',
-                  color: hoveredIdx === i ? '#1890ff' : '#262626',
-                  fontSize: '15px',
-                  transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transform: hoveredIdx === i ? 'translateX(4px)' : 'translateX(0)',
-                  position: 'relative'
-                }}
+                className={`dark:text-white px-6 py-4 cursor-pointer flex items-center gap-4 relative text-[15px] transition-all duration-200 ${
+                  hoveredIdx === i
+                    ? 'bg-gradient-to-r dark:text-[#1890ff] dark:from-gray-600 dark:to-gray-600 from-[#e6f7ff] to-[#f0f9ff] border-l-4 border-[#1890ff] font-semibold text-[#1890ff] translate-x-1'
+                    : 'bg-transparent border-l-4 border-transparent font-normal text-[#262626] translate-x-0'
+                }
+  `}
                 onMouseDown={() => handleSelect(kw)}
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(-1)}

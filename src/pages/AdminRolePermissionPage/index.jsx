@@ -180,8 +180,8 @@ export default function AdminRolePermissionsPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-        <Title level={3} className="text-gray-900 dark:text-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <Title level={3} className="text-gray-900 dark:text-gray-200 !mb-0">
           Role Permission
         </Title>
         {hasPermissions.includes('edit_role_permission') && (
@@ -189,23 +189,26 @@ export default function AdminRolePermissionsPage() {
             type="primary"
             onClick={handleUpdate}
             loading={loading}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg py-2 px-6"
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg py-2 px-6 w-full sm:w-auto"
           >
             Save Changes
           </Button>
         )}
       </div>
-      <Table
-        scroll={{ x: 1000, y: 500 }}
-        columns={columns}
-        dataSource={dataSource}
-        rowKey="key"
-        bordered
-        pagination={false}
-        loading={loading}
-        rowClassName={row => (row.isGroup ? 'group-row' : '')}
-        onRow={row => (row.isGroup ? { style: { background: '#fafafa' } } : {})}
-      />
+      <div className="overflow-x-auto custom-scrollbar">
+        <Table
+          scroll={{ x: 1000, y: 500 }}
+          columns={columns}
+          dataSource={dataSource}
+          rowKey="key"
+          bordered
+          pagination={false}
+          loading={loading}
+          rowClassName={row => (row.isGroup ? 'group-row' : '')}
+          onRow={row => (row.isGroup ? { style: { background: '#fafafa' } } : {})}
+          style={{ minWidth: 900 }}
+        />
+      </div>
     </>
   )
 }

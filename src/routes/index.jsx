@@ -1,33 +1,33 @@
 import LayoutDefault from '../Layout/LayoutDefault'
-import Home from '../pages/Home'
-import ProductsPages from '../pages/ProductsPages'
-import About from '../pages/About'
-import Contact from '../pages/Contact'
-import Blog from '../pages/Blog'
-import Error404 from '../pages/Error404'
-import ProductsDetail from '../pages/ProductsPages/ProductsDetail'
-import AdminDashboard from '../pages/AdminDashboard'
+import Home from '@/pages/Home'
+import ProductsPages from '@/pages/ProductsPages'
+import About from '@/pages/About'
+import Contact from '@/pages/Contact'
+import Blog from '@/pages/Blog'
+import Error404 from '@/pages/Error404'
+import ProductsDetail from '@/pages/ProductsPages/ProductsDetail'
+import AdminDashboard from '@/pages/AdminDashboard'
 import LayoutAdmin from '../Layout/LayoutAdmin'
-import AdminProductsPages from '../pages/AdminProductsPages'
-import AdminProductsDetails from '../pages/AdminProductsPages/AdminProductsDetails'
+import AdminProductsPages from '@/pages/AdminProductsPages'
+import AdminProductsDetails from '@/pages/AdminProductsPages/AdminProductsDetails'
 import { Navigate } from 'react-router-dom'
-import AdminProductsCreate from '../pages/AdminProductsPages/AdminProductsCreate'
-import AdminProductsEdit from '../pages/AdminProductsPages/AdminProductsEdit'
-import AdminProductCategoriesPage from '../pages/AdminProductCategoriesPage'
-import AdminProductCategoriesCreate from '../pages/AdminProductCategoriesPage/AdminProductCategoriesCreate'
-import AdminProductCategoriesEdit from '../pages/AdminProductCategoriesPage/AdminProductCategoriesEdit'
-import AdminRolesPage from '../pages/AdminRolesPage'
-import AdminPermissionsPage from '../pages/AdminPermissionsPage'
-import AdminProductCategoriesDetails from '../pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'
-import AdminPermissionGroupsPage from '../pages/AdminPermissionGroupsPage'
-import AdminRolePermissionPage from '../pages/AdminRolePermissionPage'
-import AdminAccountsPage from '../pages/AdminAccountsPage'
-import AdminRequireAuth from '../components/AdminRequireAuth'
-import AdminLoginRoute from '../components/AdminLoginRoute'
-import AdminProfilePage from '../pages/AdminProfilePage'
-import AdminSettingsPage from '../pages/AdminSettingsPage'
-import AccessDenied from '../components/AccessDenied'
-import AdminProtectedRoute from '../components/AdminProtectedRoute'
+import AdminProductsCreate from '@/pages/AdminProductsPages/AdminProductsCreate'
+import AdminProductsEdit from '@/pages/AdminProductsPages/AdminProductsEdit'
+import AdminProductCategoriesPage from '@/pages/AdminProductCategoriesPage'
+import AdminProductCategoriesCreate from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesCreate'
+import AdminProductCategoriesEdit from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesEdit'
+import AdminRolesPage from '@/pages/AdminRolesPage'
+import AdminPermissionsPage from '@/pages/AdminPermissionsPage'
+import AdminProductCategoriesDetails from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'
+import AdminPermissionGroupsPage from '@/pages/AdminPermissionGroupsPage'
+import AdminRolePermissionPage from '@/pages/AdminRolePermissionPage'
+import AdminAccountsPage from '@/pages/AdminAccountsPage'
+import AdminRequireAuth from '@/components/AdminRequireAuth'
+import AdminLoginRoute from '@/components/AdminLoginRoute'
+import AdminProfilePage from '@/pages/AdminProfilePage'
+import AdminSettingsPage from '@/pages/AdminSettingsPage'
+import AccessDenied from '@/components/AccessDenied'
+import AdminProtectedRoute from '@/components/AdminProtectedRoute'
 import AuthRoute from '@/components/AuthRoute'
 import RegisterPage from '@/pages/Auth/RegisterPage'
 import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
@@ -62,6 +62,8 @@ import VipComingSoon from '@/pages/VipComingSoon'
 import CommunityComingSoon from '@/pages/CommunityComingSoon'
 import QuickSupportComingSoon from '@/pages/QuickSupportComingSoon'
 import LicenseComingSoon from '@/pages/LicenseComingSoon'
+import SettingsPage from '@/pages/SettingsPage'
+import AdminBankInfoPage from '@/pages/AdminBankInfoPage'
 
 export const routes = [
   // Client
@@ -134,6 +136,14 @@ export const routes = [
         )
       },
       {
+        path: '/settings',
+        element: (
+          <RequireAuth>
+            <SettingsPage />
+          </RequireAuth>
+        )
+      },
+      {
         path: '/orders/:id',
         element: (
           <RequireAuth>
@@ -151,7 +161,11 @@ export const routes = [
       },
       {
         path: '/coupons',
-        element: <CouponsPage />
+        element: (
+          <RequireAuth>
+            <CouponsPage />
+          </RequireAuth>
+        )
       },
       {
         path: '/privacy-policy',
@@ -408,32 +422,81 @@ export const routes = [
         )
       },
       {
+        path: 'bank-info',
+        element: (
+          <AdminRequireAuth>
+            <AdminBankInfoPage />
+          </AdminRequireAuth>
+        )
+      },
+      {
         path: 'settings',
-        element: <AdminSettingsPage />
+        element: (
+          <AdminRequireAuth>
+            <AdminSettingsPage />
+          </AdminRequireAuth>
+        )
       },
       {
         path: 'promo-codes',
-        element: <AdminPromoCodesPage />
+        element: (
+          <AdminProtectedRoute permission="view_promo_codes">
+            <AdminRequireAuth>
+              <AdminPromoCodesPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
       {
         path: 'orders',
-        element: <AdminOrdersPage />
+        element: (
+          <AdminProtectedRoute permission="view_orders">
+            <AdminRequireAuth>
+              <AdminOrdersPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
+
       {
         path: 'orders/:id',
-        element: <AdminOrderDetailPage />
+        element: (
+          <AdminProtectedRoute permission="view_orders">
+            <AdminRequireAuth>
+              <AdminOrderDetailPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
       {
         path: 'widgets',
-        element: <AdminWidgetsPage />
+        element: (
+          <AdminProtectedRoute permission="view_widgets">
+            <AdminRequireAuth>
+              <AdminWidgetsPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
       {
         path: 'banners',
-        element: <AdminBannersPage />
+        element: (
+          <AdminProtectedRoute permission="view_banners">
+            <AdminRequireAuth>
+              <AdminBannersPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
       {
         path: 'flash-sales',
-        element: <AdminFlashSalesPage />
+        element: (
+          <AdminProtectedRoute permission="view_flashsales">
+            <AdminRequireAuth>
+              <AdminFlashSalesPage />
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
       },
       {
         path: '403',

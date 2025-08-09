@@ -3,7 +3,7 @@ import LayoutDefault from './Layout/LayoutDefault'
 import ScrollToTop from './components/ScrollToTop'
 import { useEffect } from 'react'
 import { getAdminMe } from './services/adminMeService'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setUser, logout } from './stores/adminUser'
 import { clearTokens, getAccessToken, getClientAccessToken, getClientAccessTokenSession, setAccessToken } from './utils/auth'
@@ -17,6 +17,29 @@ function App() {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
+
+  // Client theme (Redux) — GIỮ như bạn đang có
+  const clientDarkMode = useSelector(state => state.darkMode?.value)
+
+  // ✅ Chỉ App áp dụng html.dark dựa vào route
+  const isAdmin = location.pathname.startsWith('/admin')
+
+  // Admin: đọc từ localStorage('darkMode') vì bạn không lưu redux cho admin
+  const adminDarkMode = (() => {
+    try {
+      return localStorage.getItem('darkMode') === 'true'
+    } catch {
+      return false
+    }
+  })()
+
+  const isDark = isAdmin ? adminDarkMode : !!clientDarkMode
+
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.toggle('dark', isDark)
+    root.style.colorScheme = isDark ? 'dark' : 'light'
+  }, [isDark])
 
   useEffect(() => {
     dispatch(fetchWebsiteConfig())

@@ -177,8 +177,8 @@ export default function AdminRolesPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center space-x-3 flex-1">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <PlusOutlined className="text-white text-xl" />
             </div>
@@ -194,7 +194,7 @@ export default function AdminRolesPage() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={handleCreate}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg px-6 py-3"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg px-6 py-3 w-full sm:w-auto"
             >
               New Role
             </Button>
@@ -202,7 +202,17 @@ export default function AdminRolesPage() {
         </div>
 
         {/* Table */}
-        <Table dataSource={roles} columns={columns} rowKey="_id" bordered loading={loading} pagination={false} />
+        <div className="overflow-x-auto custom-scrollbar mb-6">
+          <Table
+            dataSource={roles}
+            columns={columns}
+            rowKey="_id"
+            bordered
+            loading={loading}
+            pagination={false}
+            style={{ minWidth: 720 }}
+          />
+        </div>
 
         {/* Modal */}
         <Modal

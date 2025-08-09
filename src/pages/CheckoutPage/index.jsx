@@ -102,7 +102,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -114,7 +114,7 @@ export default function CheckoutPage() {
             Quay lại giỏ hàng
           </button>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">Thanh toán</h1>
-          <p className="text-gray-600">Hoàn tất đơn hàng của bạn</p>
+          <p className="text-gray-600 dark:text-gray-300">Hoàn tất đơn hàng của bạn</p>
         </div>
 
         <StepIndicator step={step} />
@@ -163,7 +163,7 @@ export default function CheckoutPage() {
               {step > 1 && (
                 <button
                   onClick={() => setStep(step - 1)}
-                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-gray-400 transition-all duration-200"
+                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-gray-400 transition-all duration-200 dark:border-gray-600 dark:text-gray-300 dark:hover:border-gray-500"
                 >
                   Quay lại
                 </button>

@@ -14,12 +14,19 @@ import {
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import titles from '@/utils/titles'
+import { useSelector } from 'react-redux'
+import { Grid } from 'antd'
+const { useBreakpoint } = Grid
 
 const { Title, Paragraph, Text } = Typography
 const { Panel } = Collapse
 
 const ShoppingGuide = () => {
+  const screens = useBreakpoint()
+  const isMobile = !screens.md // nhỏ hơn md = mobile
   titles('Hướng dẫn mua hàng')
+
+  const websiteConfig = useSelector(state => state.websiteConfig.data)
 
   const [currentStep, setCurrentStep] = useState(0)
   const navigate = useNavigate()
@@ -76,7 +83,7 @@ const ShoppingGuide = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 dark:from-gray-800 dark:to-gray-800 rounded-xl">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
@@ -90,11 +97,11 @@ const ShoppingGuide = () => {
 
         {/* Quick Start Alert */}
         <Alert
-          message="Mua hàng nhanh chóng"
-          description="Đăng ký tài khoản để sử dụng đầy đủ tính năng của hệ thống."
+          message={<span className="dark:text-gray-100">Mua hàng nhanh chóng</span>}
+          description={<span className="dark:text-gray-400">Đăng ký tài khoản để sử dụng đầy đủ tính năng của hệ thống.</span>}
           type="success"
           showIcon
-          className="mb-8 rounded-lg"
+          className="mb-8 rounded-lg dark:bg-gray-800"
           action={
             <Button type="primary" size="small" onClick={() => navigate('/user/register')}>
               Đăng ký ngay
@@ -103,14 +110,24 @@ const ShoppingGuide = () => {
         />
 
         {/* Main Steps */}
-        <Card className="mb-10 shadow-lg rounded-xl">
+        <Card className="mb-10 shadow-lg rounded-xl dark:bg-gray-800">
           <Title level={2} className="text-center !text-2xl !mb-8">
             Quy Trình Mua Hàng
           </Title>
 
-          <Steps current={currentStep} className="mb-8" responsive={false}>
+          <Steps
+            current={currentStep}
+            direction={isMobile ? 'vertical' : 'horizontal'}
+            size={isMobile ? 'small' : 'default'}
+            className="mb-8"
+          >
             {steps.map((step, index) => (
-              <Steps.Step key={index} title={step.title} description={step.content} icon={step.icon} />
+              <Steps.Step
+                key={index}
+                title={<span className="dark:text-gray-100">{step.title}</span>}
+                description={<span className="dark:text-gray-400">{step.content}</span>}
+                icon={step.icon}
+              />
             ))}
           </Steps>
 
@@ -133,10 +150,10 @@ const ShoppingGuide = () => {
               title={
                 <Space>
                   <ShoppingCartOutlined className="text-blue-500" />
-                  <span>Chi Tiết Từng Bước</span>
+                  <span className="dark:text-gray-100">Chi Tiết Từng Bước</span>
                 </Space>
               }
-              className="h-full shadow-md rounded-lg"
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
             >
               <Timeline
                 items={[
@@ -200,23 +217,23 @@ const ShoppingGuide = () => {
               title={
                 <Space>
                   <CreditCardOutlined className="text-green-500" />
-                  <span>Phương Thức Thanh Toán</span>
+                  <span className="dark:text-gray-100">Phương Thức Thanh Toán</span>
                 </Space>
               }
-              className="h-full shadow-md rounded-lg"
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
             >
               <List
                 dataSource={paymentMethods}
                 renderItem={item => (
-                  <List.Item>
+                  <List.Item className="dark:hover:bg-gray-600 rounded-xl">
                     <List.Item.Meta
                       title={
                         <Space>
-                          {item.name}
+                          <span className="dark:text-gray-200">{item.name}</span>
                           {item.popular && <Tag color="red">Phổ biến</Tag>}
                         </Space>
                       }
-                      description={item.desc}
+                      description={<span className="dark:text-gray-300">{item.desc}</span>}
                     />
                   </List.Item>
                 )}
@@ -225,12 +242,12 @@ const ShoppingGuide = () => {
               <Divider />
 
               <Alert
-                message="Bảo mật thanh toán"
-                description="Tất cả giao dịch được mã hóa SSL 256-bit đảm bảo an toàn tuyệt đối"
+                message={<span className="dark:text-gray-100">Bảo mật thanh toán</span>}
+                description={<span className="dark:text-gray-400">Tất cả giao dịch được mã hóa SSL 256-bit đảm bảo an toàn tuyệt đối</span>}
                 type="info"
                 showIcon
                 icon={<SafetyOutlined />}
-                className="mt-4"
+                className="mt-4 dark:bg-gray-800"
               />
             </Card>
           </Col>
@@ -241,15 +258,14 @@ const ShoppingGuide = () => {
           title={
             <Space>
               <QuestionCircleOutlined className="text-orange-500" />
-              <span>Câu Hỏi Thường Gặp</span>
+              <span className="dark:text-gray-100">Câu Hỏi Thường Gặp</span>
             </Space>
           }
-          className="mb-10 shadow-md rounded-lg"
+          className="mb-10 shadow-md rounded-lg dark:bg-gray-800"
         >
           <Collapse ghost>
             {faqData.map((faq, index) => (
-              <Panel header={faq.question} key={index}>
-                {/* Thêm style whiteSpace: pre-line để xuống dòng */}
+              <Panel header={<span className="dark:text-gray-200">{faq.question}</span>} key={index}>
                 <Paragraph style={{ whiteSpace: 'pre-line' }}>{faq.answer}</Paragraph>
               </Panel>
             ))}
@@ -259,7 +275,10 @@ const ShoppingGuide = () => {
         {/* Contact & Support */}
         <Row gutter={[24, 24]}>
           <Col xs={24} md={12}>
-            <Card title="🎯 Mẹo Mua Hàng Thông Minh" className="h-full shadow-md rounded-lg">
+            <Card
+              title={<span className="dark:text-gray-100">🎯 Mẹo Mua Hàng Thông Minh</span>}
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
+            >
               <List
                 size="small"
                 dataSource={[
@@ -270,7 +289,7 @@ const ShoppingGuide = () => {
                   'Sử dụng mã giảm giá và voucher có sẵn'
                 ]}
                 renderItem={item => (
-                  <List.Item>
+                  <List.Item className="dark:text-gray-300 dark:hover:bg-gray-700">
                     <CheckCircleOutlined className="text-green-500 mr-2" />
                     {item}
                   </List.Item>
@@ -280,28 +299,33 @@ const ShoppingGuide = () => {
           </Col>
 
           <Col xs={24} md={12}>
-            <Card title="📞 Hỗ Trợ Khách Hàng" className="h-full shadow-md rounded-lg">
+            <Card
+              title={<span className="dark:text-gray-100">📞 Hỗ Trợ Khách Hàng</span>}
+              className="h-full shadow-md rounded-lg dark:bg-gray-800"
+            >
               <Space direction="vertical" className="w-full">
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg dark:bg-gray-800 dark:outline-2 dark:outline-gray-600 dark:outline-solid dark:outline">
                   <Space>
                     <PhoneOutlined className="text-blue-500" />
-                    <span>Hotline</span>
+                    <span className="dark:text-gray-300">Hotline</span>
                   </Space>
-                  <Text strong>0823387108</Text>
+                  <Text strong>{websiteConfig?.contactInfo?.phone || '0823387108'}</Text>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                  <Space>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-green-50 rounded-lg dark:bg-gray-800 dark:outline-2 dark:outline-gray-600 dark:outline-solid dark:outline">
+                  <Space className="mb-1 sm:mb-0">
                     <MailOutlined className="text-green-500" />
-                    <span>Email</span>
+                    <span className="dark:text-gray-300">Email</span>
                   </Space>
-                  <Text strong>lunashop.business.official@gmail.com</Text>
+                  <Text strong className="break-all" title={websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'}>
+                    {websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'}
+                  </Text>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg dark:bg-gray-800 dark:outline-2 dark:outline-gray-600 dark:outline-solid dark:outline">
                   <Space>
                     <ClockCircleOutlined className="text-orange-500" />
-                    <span>Giờ làm việc</span>
+                    <span className="dark:text-gray-300">Giờ làm việc</span>
                   </Space>
                   <Text strong>8:00 - 22:00</Text>
                 </div>
@@ -311,7 +335,7 @@ const ShoppingGuide = () => {
         </Row>
 
         {/* Footer CTA */}
-        <div className="text-center mt-12 p-8 bg-white rounded-xl shadow-lg">
+        <div className="text-center mt-12 p-8 bg-white rounded-xl shadow-lg dark:bg-gray-800 dark:border-2 dark:border-solid dark:border-gray-400">
           <Title level={3} className="!mb-4">
             Sẵn sàng bắt đầu mua sắm?
           </Title>

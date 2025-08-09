@@ -17,11 +17,11 @@ export default function OrderSuccessPage() {
   }, [])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white rounded-3xl shadow-xl p-12 text-center max-w-lg mx-auto">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <div className="bg-white rounded-3xl shadow-xl p-12 text-center max-w-lg mx-auto dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
         <CheckCircle className="mx-auto text-green-500 w-16 h-16 mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">Đặt hàng thành công!</h2>
-        <p className="text-gray-600 mb-4">
+        <h2 className="text-3xl font-bold text-gray-800 mb-3 dark:text-gray-100">Đặt hàng thành công!</h2>
+        <p className="text-gray-600 mb-4 dark:text-gray-300">
           {orderId ? (
             <>
               Mã đơn hàng của bạn: <span className="font-bold text-blue-600">{orderId}</span>

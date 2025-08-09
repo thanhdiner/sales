@@ -14,7 +14,7 @@ const AdminSecurityTab = () => {
         <Col xs={24} md={12}>
           <ChangePasswordForm />
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={12} className="mt-4 md:mt-0">
           <TwoFactorAuthPanel />
         </Col>
       </Row>

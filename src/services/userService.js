@@ -49,3 +49,7 @@ export const requestEmailUpdate = async email => {
 export const confirmEmailUpdate = async (email, code) => {
   return await post('user/confirm-email-update', { email, code })
 }
+
+export const changePassword = async formData => {
+  return await patch(`user/change-password`, formData)
+}
