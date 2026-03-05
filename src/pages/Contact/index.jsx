@@ -72,11 +72,11 @@ const sellers = [
         icon: FaEnvelope,
         title: 'Email',
         description: 'Gửi email',
-        value: 'thib@email.com',
+        value: 'smartmallhq@email.com',
         color: 'from-purple-500 to-purple-600',
         bgColor: 'bg-purple-50',
         action: 'Gửi email',
-        link: 'mailto:thib@email.com'
+        link: 'mailto:smartmallhq@gmail.com'
       }
     ]
   }

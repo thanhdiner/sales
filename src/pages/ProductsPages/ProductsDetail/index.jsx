@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { setCart } from '@/stores/cart'
 import Error404 from '@/pages/Error404'
 import titles from '@/utils/titles'
+import ReviewSection from '@/components/ReviewSection'
 
 function ProductsDetail() {
   titles('Chi tiết sản phẩm')
@@ -467,6 +468,11 @@ function ProductsDetail() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Reviews */}
+        <div id="reviews-section">
+          <ReviewSection productId={product._id || product.id} />
         </div>
       </div>
     </div>

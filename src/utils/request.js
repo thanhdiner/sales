@@ -96,5 +96,6 @@ const requestWithAuth = async (method, path, data) => {
 
 export const get = path => requestWithAuth('GET', path)
 export const post = (path, data) => requestWithAuth('POST', path, data)
+export const put = (path, data) => requestWithAuth('PUT', path, data)
 export const patch = (path, data) => requestWithAuth('PATCH', path, data)
 export const del = (path, data) => requestWithAuth('DELETE', path, data)

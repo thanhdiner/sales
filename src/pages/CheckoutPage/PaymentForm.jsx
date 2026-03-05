@@ -1,10 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Table, Button, Modal, Form, Input, Space, Typography, Tag, Popconfirm, message, Switch, Card } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined, BankOutlined, Copy, CheckCheck, Download } from '@ant-design/icons' // nếu dùng lucide-react thì import Copy/CheckCheck từ đó
+import { useEffect, useState } from 'react'
+import { message } from 'antd'
 import { Lock } from 'lucide-react'
 import { getActiveBankInfo } from '@/services/bankInfo.service'
-
-const { Title, Text } = Typography
 
 export function PaymentForm({ paymentMethod, setPaymentMethod, paymentMethods, formData, handleInputChange }) {
   const [bankInfo, setBankInfo] = useState(null)

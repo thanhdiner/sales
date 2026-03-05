@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FaChevronUp, FaFacebookMessenger, FaPhoneAlt, FaComments, FaTimes, FaArrowUp } from 'react-icons/fa'
+import { FaFacebookMessenger, FaPhoneAlt, FaComments, FaTimes, FaArrowUp } from 'react-icons/fa'
 import { SiZalo } from 'react-icons/si'
 
 const FloatingButtons = () => {
@@ -57,14 +57,14 @@ const FloatingButtons = () => {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 flex flex-col items-end gap-4 z-50">
+      <div className="fixed bottom-8 right-8 flex flex-col items-end gap-4 z-50 pointer-events-none">
         {/* Contact buttons */}
         <div className="flex flex-col items-end gap-3">
           {contactButtons.map((button, index) => (
             <div
               key={index}
               className={`transform transition-all duration-700 ease-out ${
-                openContact ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-12 opacity-0 scale-0'
+                openContact ? 'translate-y-0 opacity-100 scale-100 pointer-events-auto' : 'translate-y-12 opacity-0 scale-0 pointer-events-none'
               }`}
               style={{
                 transitionDelay: openContact ? `${index * 100}ms` : `${(contactButtons.length - index - 1) * 80}ms`
@@ -87,9 +87,9 @@ const FloatingButtons = () => {
                   href={button.href}
                   target={button.target}
                   rel={button.target ? 'noopener noreferrer' : undefined}
-                  className={`relative w-14 h-14 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-2xl ${button.shadowColor} transform transition-all duration-300 hover:scale-125 hover:-translate-y-2 active:scale-110 group`}
+                  className={`relative w-14 h-14 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-2xl ${button.shadowColor} transform transition-all duration-300 hover:scale-125 hover:-translate-y-2 active:scale-110 group pointer-events-auto`}
                 >
-                  <div className={`absolute inset-0 rounded-full ${button.bgColor} opacity-60 scale-100 animate-ping`}></div>
+                  <div className={`absolute inset-0 rounded-full ${button.bgColor} opacity-60 scale-100 animate-ping pointer-events-none`}></div>
                   <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">{button.icon}</div>
                   <div className="absolute inset-1 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                 </a>
@@ -100,14 +100,14 @@ const FloatingButtons = () => {
 
         <div className="relative group">
           <div
-            className={`absolute -inset-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 opacity-60 transition-all duration-500 ${
+            className={`absolute -inset-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 opacity-60 transition-all duration-500 pointer-events-none ${
               openContact ? 'animate-spin' : 'animate-pulse'
             }`}
           ></div>
 
           <button
             onClick={() => setOpenContact(!openContact)}
-            className={`relative w-12 h-12 flex items-center justify-center rounded-full
+            className={`relative w-12 h-12 flex items-center justify-center rounded-full pointer-events-auto
               bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-2xl shadow-purple-500/50
               transform transition-all duration-500 hover:scale-110 active:scale-95
               ${openContact ? 'bg-gradient-to-br from-red-500 to-orange-600' : ''}`}
@@ -115,12 +115,12 @@ const FloatingButtons = () => {
           >
             <div className="relative z-10">{openContact ? <FaTimes size={18} /> : <FaComments size={18} />}</div>
 
-            <div className="absolute inset-2 rounded-full bg-white/30 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+            <div className="absolute inset-2 rounded-full bg-white/30 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
 
             {!openContact && (
               <>
-                <div className="absolute -inset-3 rounded-full border-2 border-purple-400/30 animate-ping"></div>
-                <div className="absolute -inset-6 rounded-full border border-purple-400/20 animate-ping animation-delay-300"></div>
+                <div className="absolute -inset-3 rounded-full border-2 border-purple-400/30 animate-ping pointer-events-none"></div>
+                <div className="absolute -inset-6 rounded-full border border-purple-400/20 animate-ping animation-delay-300 pointer-events-none"></div>
               </>
             )}
           </button>
@@ -129,13 +129,13 @@ const FloatingButtons = () => {
         {/* Scroll to top button */}
         <div
           className={`transform transition-all duration-500 ${
-            showScroll ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-0'
+            showScroll ? 'translate-y-0 opacity-100 scale-100 pointer-events-auto' : 'translate-y-8 opacity-0 scale-0 pointer-events-none'
           }`}
         >
           <div className="group relative">
             <button
               onClick={scrollToTop}
-              className={`relative w-12 h-12 rounded-full flex items-center justify-center
+              className={`relative w-12 h-12 rounded-full flex items-center justify-center pointer-events-auto
                     transition-all duration-300 ${showScroll ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
               aria-label="Cuộn lên đầu trang"
             >

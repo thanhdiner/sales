@@ -96,13 +96,13 @@ function Footer() {
                 <img src="/icons/paymentJCB.svg" alt="JCB" />
               </span>
               <span className="footer__payment__item">
-                <img src="/icons/paymentMomo.svg" alt="M" />
+                <img src="/icons/paymentMomo.svg" alt="Momo" />
               </span>
               <span className="footer__payment__item">
-                <img src="/icons/paymentZaloPay.svg" alt="ViettelMoney" />
+                <img src="/icons/paymentZalopay.svg" alt="ZaloPay" />
               </span>
               <span className="footer__payment__item">
-                <img src="/icons/paymentViettelMoney.svg" alt="ZaloPay" />
+                <img src="/icons/paymentViettelMoney.svg" alt="ViettelMoney" />
               </span>
               <span className="footer__payment__item">
                 <img src="/icons/paymentVnpay.svg" alt="Vnpay" />

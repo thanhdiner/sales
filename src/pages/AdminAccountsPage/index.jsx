@@ -39,6 +39,10 @@ function AdminAccountsPage() {
       const [accounts, rolesData] = await Promise.all([getAdminAccounts(), getAdminRoles()])
       setData(accounts.data)
       setRoles(rolesData.data)
+
+      if (!editing && rolesData.data?.length) {
+        form.setFieldsValue({ role_id: rolesData.data[0]._id })
+      }
     } catch (err) {
       message.error('Không thể tải danh sách tài khoản.')
     } finally {
@@ -59,7 +63,7 @@ function AdminAccountsPage() {
           if (!editing) formData.append('password', values.password)
           if (editing && values.newPassword) formData.append('newPassword', values.newPassword)
           formData.append('fullName', values.fullName)
-          formData.append('role_id', values.role_id)
+          formData.append('role_id', String(values.role_id))
           formData.append('status', values.status)
           if (file) {
             formData.append('avatarUrl', file)
@@ -87,7 +91,7 @@ function AdminAccountsPage() {
           form.resetFields()
         } catch (e) {
           if (e?.status === 400 && e?.response?.message) message.error(e.response.message)
-          else message.error('Failed to save group')
+          else message.error('Failed to save account')
         } finally {
           setSubmitLoading(false)
         }
@@ -114,8 +118,11 @@ function AdminAccountsPage() {
     setModalOpen(true)
     if (account) {
       setOldAvatar(account.avatarUrl || '')
+      const roleField = typeof account.role_id === 'object' && account.role_id?._id ? account.role_id._id : account.role_id
+
       form.setFieldsValue({
         ...account,
+        role_id: roleField,
         avatarUrl: account.avatarUrl
           ? [
               {
@@ -130,6 +137,7 @@ function AdminAccountsPage() {
     } else {
       setOldAvatar('')
       form.resetFields()
+      if (roles?.length) form.setFieldsValue({ status: 'active', role_id: roles[0]._id })
     }
   }
 
@@ -170,9 +178,12 @@ function AdminAccountsPage() {
       title: 'Role',
       dataIndex: 'role_id',
       className: 'align-middle',
-      render: value => {
-        const role = roles.find(role => role._id === value)
-        return role ? role.label : 'Unknown Role'
+      render: (value, record) => {
+        if (value && typeof value === 'object') {
+          return value.label || value.name || 'Unknown Role'
+        }
+        const found = roles.find(r => r._id === value)
+        return found ? found.label || found.name : 'Unknown Role'
       }
     },
     {
@@ -246,7 +257,7 @@ function AdminAccountsPage() {
         cancelButtonProps={{ disabled: submitLoading }}
         style={{ maxWidth: '95%' }}
       >
-        <Form form={form} layout="vertical" initialValues={{ status: 'active', role_id: 'admin' }}>
+        <Form form={form} layout="vertical" initialValues={{ status: 'active' }}>
           <Form.Item
             name="username"
             label={<span className="dark:text-gray-300">Username</span>}
@@ -307,7 +318,7 @@ function AdminAccountsPage() {
             <Select getPopupContainer={trigger => trigger.parentElement}>
               {roles.map(role => (
                 <Option key={role._id} value={role._id}>
-                  {role.label}
+                  {role.label || role.name}
                 </Option>
               ))}
             </Select>
