@@ -3,8 +3,9 @@ import { Button } from 'antd'
 import { useState, useEffect } from 'react'
 import UserMenu from './UserMenu'
 import { useNavigate } from 'react-router-dom'
+import NotificationBell from '@/components/NotificationBell'
 
-function Header({ collapsed, setCollapsed }) {
+function Header({ collapsed, setCollapsed, onNewOrder }) {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const navigate = useNavigate()
 
@@ -12,7 +13,6 @@ function Header({ collapsed, setCollapsed }) {
     const savedTheme = localStorage.getItem('darkMode')
     const isDark = savedTheme === 'true' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
     setIsDarkMode(isDark)
-
     if (isDark) document.documentElement.classList.add('dark')
     else document.documentElement.classList.remove('dark')
   }, [])
@@ -20,9 +20,7 @@ function Header({ collapsed, setCollapsed }) {
   const toggleDarkMode = () => {
     const newDarkMode = !isDarkMode
     setIsDarkMode(newDarkMode)
-
     localStorage.setItem('darkMode', newDarkMode.toString())
-
     if (newDarkMode) document.documentElement.classList.add('dark')
     else document.documentElement.classList.remove('dark')
   }
@@ -49,6 +47,8 @@ function Header({ collapsed, setCollapsed }) {
           title={isDarkMode ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
           className="dark:text-gray-300"
         />
+        {/* Notification Bell — chỉ hiện với admin */}
+        <NotificationBell onNewOrder={onNewOrder} />
         <UserMenu />
       </div>
     </header>
