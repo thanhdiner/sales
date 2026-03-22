@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, Space, Typography, Tag, Popconfirm, 
 import { PlusOutlined, EditOutlined, DeleteOutlined, BankOutlined, QrcodeOutlined, EyeOutlined } from '@ant-design/icons'
 
 import { getBankInfos, createBankInfo, updateBankInfo, deleteBankInfo, activateBankInfo } from '@/services/adminBankInfoService'
+import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
 
@@ -208,9 +209,7 @@ export default function AdminBankInfoPage() {
   return (
     <div className="p-4 dark:bg-gray-800 rounded-xl">
       <SEO title="Admin – Ngân hàng" noIndex />
-            <SEO title="Admin – Ngân hàng" noIndex />
-            <SEO title="Admin – Ngân hàng" noIndex />
-            <Card
+      <Card
         className="shadow-lg rounded-xl dark:bg-gray-800"
         title={
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

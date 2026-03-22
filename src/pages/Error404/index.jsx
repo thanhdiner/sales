@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import './Error404.scss'
+import SEO from '@/components/SEO'
 
 function Error404({ path }) {
   const navigate = useNavigate()
@@ -13,9 +14,7 @@ function Error404({ path }) {
   return (
     <>
       <SEO title="404 – Trang không tồn tại" noIndex />
-            <SEO title="404 – Trang không tồn tại" noIndex />
-            <SEO title="404 – Trang không tồn tại" noIndex />
-            <section className="error-page dark:bg-gray-800">
+      <section className="error-page dark:bg-gray-800">
         <div className="error-page__left">
           <h1 className="error-page__left__heading dark:text-gray-200">404 - PAGE NOT FOUND</h1>
           <p className="error-page__left__desc dark:text-gray-300">

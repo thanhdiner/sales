@@ -4,6 +4,7 @@ import { message as antdMessage } from 'antd'
 import { changePassword } from '@/services/userService'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode } from '@/stores/darkModeSlice'
+import SEO from '@/components/SEO'
 
 export default function SettingsPage() {
   const hasPassword = useSelector(state => state.user.user?.hasPassword)
@@ -82,14 +83,12 @@ export default function SettingsPage() {
 
   return (
     <div
-      <SEO title="Cài đặt tài khoản" noIndex />
-            <SEO title="Cài đặt tài khoản" noIndex />
-            <SEO title="Cài đặt tài khoản" noIndex />
-            className={`
+      className={`
         min-h-screen relative transition-colors duration-200
         ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'}
       rounded-xl`}
     >
+      <SEO title="Cài đặt tài khoản" noIndex />
       {/* Pattern chấm mờ overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-10 -z-1">
         <div
