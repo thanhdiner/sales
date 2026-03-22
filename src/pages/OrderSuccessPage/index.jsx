@@ -1,7 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import SEO from '@/components/SEO'
+import { getCart, removeManyCartItems } from '@/services/cartsService'
+import { getOrderDetail } from '@/services/ordersService'
+import { setCart } from '@/stores/cart'
 
 const GATEWAY_NAMES = {
   vnpay: 'VNPay',
@@ -12,6 +16,7 @@ const GATEWAY_NAMES = {
 export default function OrderSuccessPage() {
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const search = new URLSearchParams(location.search)
 
   // Từ navigate state (thanh toán thủ công)
@@ -39,6 +44,22 @@ export default function OrderSuccessPage() {
     sessionStorage.removeItem('promoCode')
     sessionStorage.removeItem('appliedPromo')
 
+    // Xóa cart sau khi thanh toán online thành công
+    const clearCartItems = async (oid) => {
+      try {
+        const res = await getOrderDetail(oid)
+        if (res?.order?.orderItems) {
+          const productIds = res.order.orderItems.map(i => i.productId)
+          await removeManyCartItems({ productIds })
+          const newCart = await getCart()
+          dispatch(setCart(newCart.items?.map(item => ({ ...item, id: item.productId })) || []))
+        }
+      } catch (e) {
+        // silent — không block UI
+        console.warn('[Cart] Could not clear cart after payment:', e.message)
+      }
+    }
+
     // Thanh toán thủ công (từ state)
     if (orderIdFromState) {
       setOrderId(orderIdFromState)
@@ -50,23 +71,30 @@ export default function OrderSuccessPage() {
     if (vnpResponseCode !== null) {
       setGatewayName('VNPay')
       setOrderId(orderIdFromQuery)
-      setPageState(vnpResponseCode === '00' ? 'success' : 'failed')
+      const success = vnpResponseCode === '00'
+      setPageState(success ? 'success' : 'failed')
+      if (success && orderIdFromQuery) clearCartItems(orderIdFromQuery)
       return
     }
 
     // MoMo redirect (có query resultCode)
     if (momoResultCode !== null) {
       setGatewayName('MoMo')
-      setOrderId(orderIdFromQuery || search.get('orderId'))
-      setPageState(momoResultCode === '0' ? 'success' : 'failed')
+      const oid = orderIdFromQuery || search.get('orderId')
+      setOrderId(oid)
+      const success = momoResultCode === '0'
+      setPageState(success ? 'success' : 'failed')
+      if (success && oid) clearCartItems(oid)
       return
     }
 
-    // Generic redirect từ backend (ZaloPay / method param)
+    // Generic redirect (ZaloPay / method param)
     if (method) {
       setGatewayName(GATEWAY_NAMES[method] || method)
       setOrderId(orderIdFromQuery)
-      setPageState(status === 'failed' ? 'failed' : 'success')
+      const success = status !== 'failed'
+      setPageState(success ? 'success' : 'failed')
+      if (success && orderIdFromQuery) clearCartItems(orderIdFromQuery)
       return
     }
 
