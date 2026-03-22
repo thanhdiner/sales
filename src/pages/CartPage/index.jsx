@@ -3,7 +3,7 @@ import { getCart, updateCartItem, removeCartItem } from '@/services/cartsService
 import { useSelector, useDispatch } from 'react-redux'
 import { setCart } from '@/stores/cart'
 import { message, Modal } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { validatePromoCode } from '@/services/promoCodesService'
 import { useLocation, useNavigate } from 'react-router-dom'
 import SEO from '@/components/SEO'
@@ -11,7 +11,8 @@ import SEO from '@/components/SEO'
 const CartPage = () => {
 
   const dispatch = useDispatch()
-  const cartItems = useSelector(state => state.cart.items) || []
+  const rawCartItems = useSelector(state => state.cart.items)
+  const cartItems = useMemo(() => rawCartItems || [], [rawCartItems])
 
   const [promoCode, setPromoCode] = useState('')
   const [appliedPromo, setAppliedPromo] = useState(null)

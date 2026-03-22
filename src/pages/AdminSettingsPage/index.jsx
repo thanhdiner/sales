@@ -1,7 +1,6 @@
 import { Tabs } from 'antd'
 import AdminSecurityTab from '@/components/AdminSecurityTab'
 import AdminWebsiteConfigTab from '@/components/AdminWebsiteConfigTab'
-import SEO from '@/components/SEO'
 
 const AdminSettingsPage = () => {return (
     <Tabs

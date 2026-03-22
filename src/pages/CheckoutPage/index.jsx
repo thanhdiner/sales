@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { CreditCard, Package, Phone, ArrowLeft, Banknote, Smartphone } from 'lucide-react'
+import { Package, Phone, ArrowLeft, Banknote } from 'lucide-react'
 import { ContactForm } from './ContactForm'
 import { StepIndicator } from './StepIndicator'
 import { PaymentForm } from './PaymentForm'

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Table, Button, Modal, Form, Input, Select, message, Popconfirm, Typography, Avatar, Upload } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { getAdminRoles } from '@/services/rolesService'
-import SEO from '@/components/SEO'
 
 const {
   getAdminAccounts,
@@ -26,11 +25,7 @@ function AdminAccountsPage() {const [data, setData] = useState([])
   const [isRemoveAvatar, setIsRemoveAvatar] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
       const [accounts, rolesData] = await Promise.all([getAdminAccounts(), getAdminRoles()])
@@ -45,7 +40,11 @@ function AdminAccountsPage() {const [data, setData] = useState([])
     } finally {
       setLoading(false)
     }
-  }
+  }, [editing, form])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   const handleSave = () => {
     form

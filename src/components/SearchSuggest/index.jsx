@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from 'antd'
 import { SearchOutlined, FireFilled, StockOutlined } from '@ant-design/icons'
@@ -16,19 +16,21 @@ export default function SearchSuggest() {
   const ref = useRef()
 
   // Debounce fetch API
-  const fetchSuggestions = useCallback(
-    debounce(async q => {
-      if (!q) {
-        setSuggestions([])
-        return
-      }
-      try {
-        const res = await getProductSuggestions({ query: q, limit: 10 })
-        setSuggestions(res.suggestions || [])
-      } catch {
-        setSuggestions([])
-      }
-    }, 250),
+  const fetchSuggestions = useMemo(
+    () =>
+      debounce(async q => {
+        if (!q) {
+          setSuggestions([])
+          return
+        }
+        try {
+          const res = await getProductSuggestions({ query: q, limit: 10 })
+          setSuggestions(res.suggestions || [])
+        } catch {
+          setSuggestions([])
+        }
+      }, 250),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 

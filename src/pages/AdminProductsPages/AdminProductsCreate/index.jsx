@@ -6,7 +6,6 @@ import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { getAdminProductCategoryTree } from '@/services/productCategoryService'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
-import SEO from '@/components/SEO'
 
 const { RangePicker } = DatePicker
 

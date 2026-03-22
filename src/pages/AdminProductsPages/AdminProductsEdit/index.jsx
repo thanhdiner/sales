@@ -6,7 +6,6 @@ import { getProductById, updateProductById } from '@/services/productService'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { getAdminProductCategoryTree } from '@/services/productCategoryService'
-import SEO from '@/components/SEO'
 
 const { RangePicker } = DatePicker
 

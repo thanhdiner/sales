@@ -5,7 +5,6 @@ import { getProductCategoryById, getAdminProductCategoryTree, updateProductCateg
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { removeNodeFromTree } from '@/utils/removeNodeFromTree'
-import SEO from '@/components/SEO'
 
 function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')

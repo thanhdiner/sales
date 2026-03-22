@@ -1,7 +1,7 @@
 import { Menu, Skeleton } from 'antd'
 import { Link, useLocation } from 'react-router-dom'
 import './MenuSider.scss'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { getProductCategoryTree } from '@/services/productCategoryService'
 
 function MenuSider() {
@@ -10,6 +10,30 @@ function MenuSider() {
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
   const location = useLocation()
+
+  const findOpenKeys = useCallback((list, path, parentKeys = []) => {
+    for (const item of list) {
+      const currentKey = item.slug || item.value
+      if (path.includes(currentKey)) return [...parentKeys, currentKey]
+      if (item.children?.length) {
+        const childKeys = findOpenKeys(item.children, path, [...parentKeys, currentKey])
+        if (childKeys.length) return childKeys
+      }
+    }
+    return []
+  }, [])
+
+  const findSelectedKey = useCallback((list, path) => {
+    for (const item of list) {
+      const currentKey = item.slug || item.value
+      if (path.includes(currentKey)) return [currentKey]
+      if (item.children?.length) {
+        const childSelected = findSelectedKey(item.children, path)
+        if (childSelected.length) return childSelected
+      }
+    }
+    return []
+  }, [])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,7 +49,7 @@ function MenuSider() {
       setLoading(false)
     }
     fetchCategories()
-  }, [])
+  }, [findOpenKeys, location.pathname])
 
   useEffect(() => {
     if (categories.length > 0) {
@@ -34,31 +58,8 @@ function MenuSider() {
       setSelectedKeys(selected)
       setOpenKeys(expandedKeys)
     }
-  }, [location.pathname, categories])
+  }, [location.pathname, categories, findOpenKeys, findSelectedKey])
 
-  const findOpenKeys = (list, path, parentKeys = []) => {
-    for (const item of list) {
-      const currentKey = item.slug || item.value
-      if (path.includes(currentKey)) return [...parentKeys, currentKey]
-      if (item.children?.length) {
-        const childKeys = findOpenKeys(item.children, path, [...parentKeys, currentKey])
-        if (childKeys.length) return childKeys
-      }
-    }
-    return []
-  }
-
-  const findSelectedKey = (list, path) => {
-    for (const item of list) {
-      const currentKey = item.slug || item.value
-      if (path.includes(currentKey)) return [currentKey]
-      if (item.children?.length) {
-        const childSelected = findSelectedKey(item.children, path)
-        if (childSelected.length) return childSelected
-      }
-    }
-    return []
-  }
 
   const renderCategoryItems = list =>
     list.map(category => {

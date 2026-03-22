@@ -9,24 +9,6 @@ import { getClientAccessToken, getAccessToken } from '@/utils/auth'
 //──────────────────────────────────────────────
 // Tiny helpers
 //──────────────────────────────────────────────
-const StarPicker = ({ value, onChange, size = 28, disabled = false }) => (
-  <div className="flex gap-1">
-    {[1, 2, 3, 4, 5].map(s => (
-      <button
-        key={s}
-        type="button"
-        disabled={disabled}
-        onClick={() => onChange && onChange(s)}
-        className="focus:outline-none transition-transform hover:scale-110 disabled:cursor-not-allowed"
-      >
-        <Star
-          size={size}
-          className={s <= value ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}
-        />
-      </button>
-    ))}
-  </div>
-)
 
 const StarDisplay = ({ value, size = 16 }) => (
   <div className="flex gap-0.5">

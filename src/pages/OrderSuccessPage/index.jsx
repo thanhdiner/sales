@@ -33,7 +33,7 @@ export default function OrderSuccessPage() {
   // MoMo redirect
   const momoResultCode = search.get('resultCode')
   // ZaloPay redirect
-  const zpStatus = search.get('status')
+  // ZaloPay redirect — uses the same `status` param already captured above
 
   const [pageState, setPageState] = useState('loading') // 'loading' | 'success' | 'failed'
   const [orderId, setOrderId] = useState(null)

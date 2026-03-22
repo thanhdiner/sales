@@ -5,7 +5,6 @@ import { createProductCategory, getAdminProductCategoryTree } from '../../../ser
 import { message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
-import SEO from '@/components/SEO'
 
 const initialValues = {
   status: 'active'
