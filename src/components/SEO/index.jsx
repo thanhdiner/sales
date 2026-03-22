@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 
 const SITE_NAME = 'SmartMall'
-const SITE_URL = import.meta.env.VITE_CLIENT_URL || 'https://smartmall.site'
+const SITE_URL = process.env.REACT_APP_CLIENT_URL || 'https://smartmall.site'
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-default.jpg`
 const DEFAULT_DESC =
   'SmartMall – Mua tài khoản game, phần mềm bản quyền chính hãng, giá tốt. Giao hàng nhanh, hỗ trợ tận tâm 24/7.'
