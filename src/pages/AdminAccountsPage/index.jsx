@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Table, Button, Modal, Form, Input, Select, message, Popconfirm, Typography, Avatar, Upload } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { getAdminRoles } from '@/services/rolesService'
+import SEO from '@/components/SEO'
 
 const {
   getAdminAccounts,
