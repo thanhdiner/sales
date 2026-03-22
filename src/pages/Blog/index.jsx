@@ -1,8 +1,6 @@
-import titles from '../../utils/titles'
+import SEO from '@/components/SEO'
 
-function Blog() {
-  titles('Blog')
-  return <>Blog</>
+function Blog() {return <>Blog</>
 }
 
 export default Blog

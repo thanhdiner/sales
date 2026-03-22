@@ -5,12 +5,9 @@ import AdminProductsTable from '@/components/AdminProductsTable'
 import AdminProductsPagination from '@/components/AdminProductsPagination'
 import AdminProductsHeaderActions from '@/components/AdminProductsHeaderActions'
 import AdminProductsHeader from '@/components/AdminProductsHeader'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-function AdminProductsPages() {
-  titles('Products')
-
-  const [columnsVisible, setColumnsVisible] = useState(() => {
+function AdminProductsPages() {const [columnsVisible, setColumnsVisible] = useState(() => {
     const saved = localStorage.getItem('admin_product_columns')
     return saved
       ? JSON.parse(saved)
@@ -72,7 +69,8 @@ function AdminProductsPages() {
 
   return (
     <>
-      <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, products }} />
+      <SEO title="Admin – Sản phẩm" noIndex />
+            <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, products }} />
       <AdminProductsHeaderActions
         {...{
           selectedRowKeys,

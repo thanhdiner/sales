@@ -207,7 +207,10 @@ export default function AdminBankInfoPage() {
 
   return (
     <div className="p-4 dark:bg-gray-800 rounded-xl">
-      <Card
+      <SEO title="Admin – Ngân hàng" noIndex />
+            <SEO title="Admin – Ngân hàng" noIndex />
+            <SEO title="Admin – Ngân hàng" noIndex />
+            <Card
         className="shadow-lg rounded-xl dark:bg-gray-800"
         title={
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

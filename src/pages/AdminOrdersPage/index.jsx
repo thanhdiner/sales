@@ -4,12 +4,9 @@ import { getAllOrders } from '@/services/adminOrdersService'
 import { useNavigate } from 'react-router-dom'
 import { Select } from 'antd'
 import { FilterOutlined } from '@ant-design/icons'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-export default function AdminOrdersPage() {
-  titles('Quản lý đơn hàng')
-
-  const [orders, setOrders] = useState([])
+export default function AdminOrdersPage() {const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const [keyword, setKeyword] = useState('')
   const [status, setStatus] = useState('')
@@ -79,7 +76,8 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <div className="max-w-7xl mx-auto">
+      <SEO title="Admin – Đơn hàng" noIndex />
+            <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">

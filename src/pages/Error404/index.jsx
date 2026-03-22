@@ -12,7 +12,10 @@ function Error404({ path }) {
 
   return (
     <>
-      <section className="error-page dark:bg-gray-800">
+      <SEO title="404 – Trang không tồn tại" noIndex />
+            <SEO title="404 – Trang không tồn tại" noIndex />
+            <SEO title="404 – Trang không tồn tại" noIndex />
+            <section className="error-page dark:bg-gray-800">
         <div className="error-page__left">
           <h1 className="error-page__left__heading dark:text-gray-200">404 - PAGE NOT FOUND</h1>
           <p className="error-page__left__desc dark:text-gray-300">

@@ -13,7 +13,7 @@ import {
   ClockCircleOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { useSelector } from 'react-redux'
 import { Grid } from 'antd'
 const { useBreakpoint } = Grid
@@ -23,10 +23,7 @@ const { Panel } = Collapse
 
 const ShoppingGuide = () => {
   const screens = useBreakpoint()
-  const isMobile = !screens.md // nhỏ hơn md = mobile
-  titles('Hướng dẫn mua hàng')
-
-  const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const isMobile = !screens.md // nhỏ hơn md = mobileconst websiteConfig = useSelector(state => state.websiteConfig.data)
 
   const [currentStep, setCurrentStep] = useState(0)
   const navigate = useNavigate()
@@ -84,7 +81,9 @@ const ShoppingGuide = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <div className="max-w-6xl mx-auto">
+      <SEO title="Hướng dẫn mua hàng"
+        description="Hướng dẫn mua hàng tại SmartMall từ A đến Z: tìm sản phẩm, thanh toán, nhận hàng." />
+            <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
           <Title level={1} className="!text-4xl !text-gray-800 !mb-4">

@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react'
 import { getMyOrders } from '@/services/ordersService'
 import { useNavigate } from 'react-router-dom'
 import { Package, ShoppingBag, Clock, CheckCircle, XCircle, Calendar, CreditCard, Truck } from 'lucide-react'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-export default function OrdersPage() {
-  titles('Đơn hàng của tôi')
-
-  const [orders, setOrders] = useState([])
+export default function OrdersPage() {const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -76,7 +73,8 @@ export default function OrdersPage() {
   if (loading) {
     return (
       <div className="dark:from-gray-800 dark:to-gray-800 rounded-xl min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="container mx-auto px-4 py-12">
+      <SEO title="Đơn hàng của tôi" noIndex />
+              <div className="container mx-auto px-4 py-12">
           <div className="flex items-center justify-center">
             <div className="relative">
               <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>

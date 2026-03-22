@@ -11,14 +11,11 @@ import {
 } from '@/services/permissionGroupsService'
 
 import useAdminPermissions from '@/hooks/useAdminPermissions'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title } = Typography
 
-export default function AdminPermissionGroupsPage() {
-  titles('Permission Groups')
-
-  const permissions = useAdminPermissions()
+export default function AdminPermissionGroupsPage() {const permissions = useAdminPermissions()
 
   const [groups, setGroups] = useState([])
   const [loading, setLoading] = useState(false)
@@ -168,7 +165,8 @@ export default function AdminPermissionGroupsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
-      <div className="max-w-7xl mx-auto">
+      <SEO title="Admin – Nhóm quyền" noIndex />
+            <div className="max-w-7xl mx-auto">
         <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center space-x-3 flex-1">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">

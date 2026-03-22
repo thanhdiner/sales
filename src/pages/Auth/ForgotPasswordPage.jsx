@@ -10,16 +10,13 @@ import {
   ArrowLeftOutlined
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { forgotPassword, verifyResetCode, resetPassword } from '@/services/userService'
 
 const { Title, Text } = Typography
 const { Step } = Steps
 
-const ForgotPasswordPage = () => {
-  titles('Forgot Password')
-
-  const [loading, setLoading] = useState(false)
+const ForgotPasswordPage = () => {const [loading, setLoading] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [email, setEmail] = useState('')
   const [form] = Form.useForm()
@@ -244,7 +241,8 @@ const ForgotPasswordPage = () => {
       case 3:
         return (
           <div className="text-center">
-            <div className="mb-6">
+      <SEO title="Quên mật khẩu" noIndex />
+                  <div className="mb-6">
               <CheckCircleOutlined className="text-6xl text-green-400 mb-4" />
               <Title level={3} className="!text-white !mb-2">
                 Thành công!

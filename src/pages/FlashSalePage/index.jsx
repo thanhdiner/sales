@@ -7,10 +7,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { message } from 'antd'
 import { addToCart, getCart } from '@/services/cartsService'
 import { setCart } from '@/stores/cart'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const FlashSale = () => {
-  titles('Flash Sale')
 
   const [flashSales, setFlashSales] = useState([])
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -136,6 +135,11 @@ const FlashSale = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 rounded-xl">
+      <SEO
+        title="Flash Sale – Giảm giá sốc"
+        description="Flash Sale SmartMall – Giảm giá sốc mỗi ngày, số lượng có hạn. Nhanh tay sắm tài khoản game và phần mềm bản quyền giá tốt nhất!"
+        url="https://smartmall.site/flash-sale"
+      />
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 text-white py-8 rounded-tl-xl rounded-tr-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

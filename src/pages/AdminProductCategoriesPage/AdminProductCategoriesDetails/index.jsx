@@ -6,12 +6,9 @@ import renderRow from '../../../utils/renderRow'
 import { adminProductCategoryRows } from '../../../helpers/adminProductCategoryRows'
 import AdminProductCategoryThumbnail from '../../../components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
 import './AdminProductCategoriesDetails.scss'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-function AdminProductCategoriesDetails() {
-  titles('Chi tiết danh mục sản phẩm')
-
-  const { id } = useParams()
+function AdminProductCategoriesDetails() {const { id } = useParams()
   const [productCategory, setProductCategory] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -32,7 +29,8 @@ function AdminProductCategoriesDetails() {
 
   return (
     <div className="admin-product-category">
-      <h1 className="admin-product-category__title dark:text-gray-200">Product Category Details</h1>
+      <SEO title="Admin – Chi tiết danh mục" noIndex />
+            <h1 className="admin-product-category__title dark:text-gray-200">Product Category Details</h1>
 
       <Spin spinning={isLoading} tip="Loading product category...">
         {!isLoading && productCategory ? (

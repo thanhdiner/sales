@@ -27,14 +27,11 @@ import {
   EyeInvisibleOutlined
 } from '@ant-design/icons'
 import { createWidget, deleteWidgetById, getAdminWidgets, updateWidgetById } from '@/services/adminWidgetsService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
 
-export default function AdminWidgetsPage() {
-  titles('Quản lý Widgets')
-
-  const [widgets, setWidgets] = useState([])
+export default function AdminWidgetsPage() {const [widgets, setWidgets] = useState([])
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [editingWidget, setEditingWidget] = useState(null)
@@ -242,7 +239,8 @@ export default function AdminWidgetsPage() {
 
   return (
     <div style={{ padding: 24, minHeight: '100vh' }} className="bg-[#f5f5f5] dark:bg-gray-800 dark:text-white rounded-xl">
-      <Card
+      <SEO title="Admin – Widgets" noIndex />
+            <Card
         style={{ marginBottom: 24, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', body: { padding: 24 } }}
         className="dark:bg-gray-800 dark:text-white"
       >

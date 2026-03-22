@@ -5,12 +5,9 @@ import AdminProductCategoriesTable from '@/components/AdminProductCategoriesTabl
 import AdminProductCategoriesPagination from '@/components/AdminProductCategoriesPagination'
 import AdminProductCategoriesHeaderActions from '@/components/AdminProductCategoriesHeaderActions'
 import AdminProductCategoriesHeader from '@/components/AdminProductCategoriesHeader'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-function AdminProductCategoriesPage() {
-  titles('Product Categories')
-
-  const [columnsVisible, setColumnsVisible] = useState(() => {
+function AdminProductCategoriesPage() {const [columnsVisible, setColumnsVisible] = useState(() => {
     const saved = localStorage.getItem('admin_productCategory_columns')
     return saved
       ? JSON.parse(saved)
@@ -68,7 +65,8 @@ function AdminProductCategoriesPage() {
 
   return (
     <>
-      <AdminProductCategoriesHeader
+      <SEO title="Admin – Danh mục" noIndex />
+            <AdminProductCategoriesHeader
         {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, productCategories }}
       />
       <AdminProductCategoriesHeaderActions

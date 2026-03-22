@@ -3,7 +3,7 @@ import { FaFacebook, FaEnvelope } from 'react-icons/fa'
 import { SiZalo } from 'react-icons/si'
 import { Clock, AlertCircle, Zap, Shield, Heart, Star, Phone, MessageCircle } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const sellers = [
   {
@@ -83,7 +83,6 @@ const sellers = [
 ]
 
 const ContactPage = () => {
-  titles('Contact')
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => setIsVisible(true), [])
@@ -116,6 +115,11 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden dark:from-gray-800 dark:to-gray-800">
+      <SEO
+        title="Liên hệ"
+        description="Liên hệ SmartMall qua Zalo, Facebook hoặc email. Hỗ trợ nhanh chóng, tư vấn tận tâm trong giờ hành chính và cả ngoài giờ."
+        url="https://smartmall.site/contact"
+      />
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-3xl animate-pulse"></div>

@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { getCart, removeManyCartItems } from '@/services/cartsService'
 import { setCart } from '@/stores/cart'
 import { message } from 'antd'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const deliveryOptions = [
   {
@@ -47,7 +47,6 @@ const paymentMethods = [
 ]
 
 export default function CheckoutPage() {
-  titles('Thanh toán đơn hàng')
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -103,6 +102,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <SEO title="Thanh toán đơn hàng" noIndex />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">

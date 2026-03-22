@@ -4,14 +4,11 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { getAdminPermissions } from '@/services/permissionService'
 import { createAdminRole, deleteAdminRole, getAdminRoles, toggleStatusAdminRole, updateAdminRoleById } from '@/services/rolesService'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title } = Typography
 
-export default function AdminRolesPage() {
-  titles('Roles')
-
-  const [roles, setRoles] = useState([])
+export default function AdminRolesPage() {const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState({ visible: false, editing: null })
@@ -175,7 +172,8 @@ export default function AdminRolesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
-      <div className="max-w-7xl mx-auto">
+      <SEO title="Admin – Vai trò" noIndex />
+            <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center space-x-3 flex-1">

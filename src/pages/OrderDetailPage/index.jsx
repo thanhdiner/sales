@@ -3,12 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { cancelOrder, getOrderDetail } from '@/services/ordersService'
 import { ArrowLeft, Package, User, Phone, Mail, FileText, CheckCircle, Clock, XCircle, Truck } from 'lucide-react'
 import { message, Modal } from 'antd'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-export default function OrderDetailPage() {
-  titles('Chi tiết đơn hàng')
-
-  const { id } = useParams()
+export default function OrderDetailPage() {const { id } = useParams()
   const navigate = useNavigate()
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -98,7 +95,8 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center dark:from-gray-800 dark:to-gray-800 rounded-xl">
-        <div className="text-center">
+      <SEO title="Chi tiết đơn hàng" noIndex />
+              <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600 font-medium dark:text-gray-300">Đang tải chi tiết đơn hàng...</p>
         </div>

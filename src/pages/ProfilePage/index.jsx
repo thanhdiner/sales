@@ -14,14 +14,11 @@ import { updateProfile as reduxUpdateProfile } from '@/stores/user'
 import EmailUpdateSection from '@/components/EmailUpdateSection'
 import dayjs from 'dayjs'
 import { clientUpdateProfile, requestEmailUpdate, confirmEmailUpdate, getClientMe } from '@/services/userService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
 
-function ProfilePage() {
-  titles('Thông tin tài khoản')
-
-  const dispatch = useDispatch()
+function ProfilePage() {const dispatch = useDispatch()
   const user = useSelector(state => state.clientUser.user)
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
@@ -155,7 +152,8 @@ function ProfilePage() {
   if (!user) {
     return (
       <div className="dark:bg-gray-800 rounded-xl flex items-center justify-center min-h-screen">
-        <Spin size="large" tip="Chờ chút đang tải thông tin...">
+      <SEO title="Hồ sơ của tôi" noIndex />
+              <Spin size="large" tip="Chờ chút đang tải thông tin...">
           <div className="dark:text-white">Nội dung chờ load</div>
         </Spin>
       </div>

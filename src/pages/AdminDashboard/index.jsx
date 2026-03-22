@@ -23,7 +23,7 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import './AdminDashboard.scss'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { getAdminDashboard } from '@/services/adminDashboardService'
 import TopCustomers from '@/components/TopCustomers'
 
@@ -32,9 +32,7 @@ const { Option } = Select
 
 const getPieColor = (idx, total) => `hsl(${(idx * 360) / total}, 70%, 56%)`
 
-export default function AdminDashboard() {
-  titles('Dashboard')
-  const [loading, setLoading] = useState(false)
+export default function AdminDashboard() {const [loading, setLoading] = useState(false)
   const [dateRange, setDateRange] = useState('7days')
   const [isMobile, setIsMobile] = useState(false)
   const [statsData, setStatsData] = useState({
@@ -274,7 +272,8 @@ export default function AdminDashboard() {
 
   return (
     <div className="dashboard-container dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid rounded-xl">
-      <div className="dashboard-header dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
+      <SEO title="Admin – Tổng quan" noIndex />
+            <div className="dashboard-header dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
         <div className="header-content">
           <div className="title-section">
             <Title level={1} className="dashboard-title">

@@ -6,14 +6,11 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/stores/adminUser'
 import { trustDevice } from '@/services/adminAccountsService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title } = Typography
 
-function AdminLoginPage() {
-  titles('Login Admin')
-
-  const [loading, setLoading] = useState(false)
+function AdminLoginPage() {const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
   const [pending2FA, setPending2FA] = useState(null)
   const [twoFACode, setTwoFACode] = useState('')
@@ -119,7 +116,8 @@ function AdminLoginPage() {
 
   return (
     <div className="admin-login-page dark:from-gray-500 dark:to-gray-800 flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] to-[#f7f8fa] px-4 py-8">
-      <Card
+      <SEO title="Admin – Đăng nhập" noIndex />
+            <Card
         style={{
           width: '100%',
           maxWidth: 420,

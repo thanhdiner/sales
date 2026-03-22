@@ -6,14 +6,11 @@ import { getProductById, updateProductById } from '@/services/productService'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { getAdminProductCategoryTree } from '@/services/productCategoryService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { RangePicker } = DatePicker
 
-function AdminProductsEdit() {
-  titles('Chỉnh sửa sản phẩm')
-
-  const [loading, setLoading] = useState(false)
+function AdminProductsEdit() {const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [form] = Form.useForm()
   const { id } = useParams()

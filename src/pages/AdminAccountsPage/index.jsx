@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table, Button, Modal, Form, Input, Select, message, Popconfirm, Typography, Avatar, Upload } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { getAdminRoles } from '@/services/rolesService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const {
   getAdminAccounts,
@@ -15,10 +15,7 @@ const { Title } = Typography
 
 const { Option } = Select
 
-function AdminAccountsPage() {
-  titles('Accounts Management')
-
-  const [data, setData] = useState([])
+function AdminAccountsPage() {const [data, setData] = useState([])
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
@@ -219,7 +216,8 @@ function AdminAccountsPage() {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <SEO title="Admin – Tài khoản" noIndex />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <Title level={3} className="m-0 text-gray-900 dark:text-gray-200">
           Accounts Management
         </Title>

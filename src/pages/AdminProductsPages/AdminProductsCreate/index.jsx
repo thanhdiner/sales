@@ -6,7 +6,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { getAdminProductCategoryTree } from '@/services/productCategoryService'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { RangePicker } = DatePicker
 
@@ -17,10 +17,7 @@ const initialValues = {
   deliveryEstimateDays: 0
 }
 
-const CreateProductPage = () => {
-  titles('Tạo sản phẩm mới')
-
-  const [form] = Form.useForm()
+const CreateProductPage = () => {const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [treeData, setTreeData] = useState([])

@@ -12,15 +12,11 @@ import {
   ContactsOutlined
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { useSelector } from 'react-redux'
 
 const { Title } = Typography
-const { Panel } = Collapse
-
-titles('Câu hỏi thường gặp')
-
-const FAQPage = () => {
+const { Panel } = Collapseconst FAQPage = () => {
   const websiteConfig = useSelector(state => state.websiteConfig.data)
 
   const faqData = [
@@ -86,7 +82,9 @@ const FAQPage = () => {
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4 bg-blue-50 rounded-2xl shadow-md dark:bg-gray-800">
-      <div className="text-center mb-8">
+      <SEO title="Câu hỏi thường gặp"
+        description="Giải đáp mọi thắc mắc về SmartMall: cách mua hàng, thanh toán, bảo hành, hỗ trợ khách hàng." />
+            <div className="text-center mb-8">
         <QuestionCircleOutlined className="text-4xl text-blue-500 mb-2 animate-bounce" />
         <Title level={2} className="!text-blue-600 !font-bold">
           Câu hỏi thường gặp

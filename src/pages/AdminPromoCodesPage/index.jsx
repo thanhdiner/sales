@@ -32,14 +32,11 @@ import {
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { getPromoCodes, createPromoCode, updatePromoCode, deletePromoCode, getPromoCodeDetail } from '@/services/adminPromoCodesService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Option } = Select
 
-export default function AdminPromoCodesPage() {
-  titles('Quản lý mã giảm giá')
-
-  const [promoCodes, setPromoCodes] = useState([])
+export default function AdminPromoCodesPage() {const [promoCodes, setPromoCodes] = useState([])
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [detailModalVisible, setDetailModalVisible] = useState(false)
@@ -219,7 +216,8 @@ export default function AdminPromoCodesPage() {
 
         return (
           <div className="text-sm">
-            <div>
+      <SEO title="Admin – Mã giảm giá" noIndex />
+                  <div>
               {record.usedCount} / {record.usageLimit || '∞'}
             </div>
             {record.usageLimit && (

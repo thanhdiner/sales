@@ -5,12 +5,9 @@ import { getProductCategoryById, getAdminProductCategoryTree, updateProductCateg
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '@/components/TiptapEditor'
 import { removeNodeFromTree } from '@/utils/removeNodeFromTree'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-function AdminProductCategoriesEdit() {
-  titles('Chỉnh sửa danh mục sản phẩm')
-
-  const [loading, setLoading] = useState(false)
+function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [form] = Form.useForm()
   const { id } = useParams()

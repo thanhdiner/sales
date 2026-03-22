@@ -14,17 +14,14 @@ import {
   ContactsOutlined
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { userRegister } from '@/services/userService'
 import { useNavigate } from 'react-router-dom'
 
 const { Title, Text } = Typography
 
 const RegisterPage = () => {
-  const navigate = useNavigate()
-  titles('Register')
-
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
 
   const onFinish = async values => {
@@ -66,7 +63,8 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated Background */}
+      <SEO title="Đăng ký tài khoản" noIndex />
+            {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
 

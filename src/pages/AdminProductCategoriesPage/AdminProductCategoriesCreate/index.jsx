@@ -5,16 +5,13 @@ import { createProductCategory, getAdminProductCategoryTree } from '../../../ser
 import { message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import TiptapEditor from '../../../components/TiptapEditor'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const initialValues = {
   status: 'active'
 }
 
-const AdminProductCategoriesCreate = () => {
-  titles('Tạo danh mục sản phẩm')
-
-  const [form] = Form.useForm()
+const AdminProductCategoriesCreate = () => {const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [treeData, setTreeData] = useState([])
   const navigate = useNavigate()

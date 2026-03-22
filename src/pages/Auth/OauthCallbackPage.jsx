@@ -4,17 +4,14 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@/stores/user'
 import { Spin, message } from 'antd'
 import { setClientAccessToken } from '@/utils/auth'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 function getQueryParam(search, key) {
   const params = new URLSearchParams(search)
   return params.get(key)
 }
 
-export default function OauthCallbackPage() {
-  titles('Đăng nhập Google')
-
-  const location = useLocation()
+export default function OauthCallbackPage() {const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -51,7 +48,8 @@ export default function OauthCallbackPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <Spin size="large" tip="Đang đăng nhập..." />
+      <SEO title="Đang xác thực..." noIndex />
+            <Spin size="large" tip="Đang đăng nhập..." />
     </div>
   )
 }

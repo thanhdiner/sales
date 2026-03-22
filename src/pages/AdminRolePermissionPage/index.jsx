@@ -5,14 +5,11 @@ import { getAdminPermissionGroups } from '@/services/permissionGroupsService'
 import { getAdminPermissions } from '@/services/permissionService'
 import './AdminRolePermissionPage.scss'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title } = Typography
 
-export default function AdminRolePermissionsPage() {
-  titles('Role Permission')
-
-  const [roles, setRoles] = useState([])
+export default function AdminRolePermissionsPage() {const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [permissionGroups, setPermissionGroups] = useState([])
   const [loading, setLoading] = useState(false)
@@ -180,7 +177,8 @@ export default function AdminRolePermissionsPage() {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+      <SEO title="Admin – Phân quyền" noIndex />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
         <Title level={3} className="text-gray-900 dark:text-gray-200 !mb-0">
           Role Permission
         </Title>

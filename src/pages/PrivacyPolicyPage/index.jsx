@@ -13,16 +13,13 @@ import {
   FileProtectOutlined,
   QuestionCircleOutlined
 } from '@ant-design/icons'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { useSelector } from 'react-redux'
 
 const { Title, Paragraph, Text } = Typography
 const { Panel } = Collapse
 
-const PrivacyPolicyPage = () => {
-  titles('Chính sách bảo mật')
-
-  const websiteConfig = useSelector(state => state.websiteConfig.data)
+const PrivacyPolicyPage = () => {const websiteConfig = useSelector(state => state.websiteConfig.data)
 
   const [contactModalVisible, setContactModalVisible] = useState(false)
 
@@ -144,7 +141,9 @@ const PrivacyPolicyPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <div className="max-w-7xl mx-auto px-4">
+      <SEO title="Chính sách bảo mật"
+        description="Chính sách bảo mật thông tin của SmartMall – cam kết bảo vệ dữ liệu cá nhân của bạn." />
+            <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-500 rounded-full mb-4">

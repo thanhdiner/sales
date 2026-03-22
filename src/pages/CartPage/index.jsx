@@ -6,10 +6,9 @@ import { message, Modal } from 'antd'
 import { useEffect, useState } from 'react'
 import { validatePromoCode } from '@/services/promoCodesService'
 import { useLocation, useNavigate } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const CartPage = () => {
-  titles('Giỏ hàng của bạn')
 
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.cart.items) || []
@@ -214,6 +213,7 @@ const CartPage = () => {
   if (!cartItems || cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+        <SEO title="Giỏ hàng" noIndex />
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
             <div className="bg-white rounded-3xl shadow-xl p-12 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
@@ -237,6 +237,7 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <SEO title="Giỏ hàng của bạn" noIndex />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">

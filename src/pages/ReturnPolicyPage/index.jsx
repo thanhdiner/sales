@@ -35,7 +35,7 @@ import {
   TruckOutlined,
   SearchOutlined
 } from '@ant-design/icons'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import { Grid } from 'antd'
 const { useBreakpoint } = Grid
 
@@ -46,10 +46,7 @@ const { Panel } = Collapse
 
 const ReturnPolicyPage = () => {
   const screens = useBreakpoint()
-  const isMobile = !screens.md
-  titles('Chính sách đổi trả & hoàn tiền')
-
-  const [requestModalVisible, setRequestModalVisible] = useState(false)
+  const isMobile = !screens.mdconst [requestModalVisible, setRequestModalVisible] = useState(false)
   const [trackingModalVisible, setTrackingModalVisible] = useState(false)
   const [form] = Form.useForm()
 
@@ -264,7 +261,9 @@ const ReturnPolicyPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <div className="max-w-7xl mx-auto px-4">
+      <SEO title="Chính sách đổi trả"
+        description="Chính sách đổi trả hàng tại SmartMall – rõ ràng, minh bạch, bảo vệ quyền lợi khách hàng." />
+            <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-green-500 rounded-full mb-4">

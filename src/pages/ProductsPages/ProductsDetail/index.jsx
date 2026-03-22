@@ -7,11 +7,11 @@ import { addToCart, getCart } from '@/services/cartsService'
 import { useDispatch } from 'react-redux'
 import { setCart } from '@/stores/cart'
 import Error404 from '@/pages/Error404'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 import ReviewSection from '@/components/ReviewSection'
 
 function ProductsDetail() {
-  titles('Chi tiết sản phẩm')
+  // SEO được render sau khi product load
   const params = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -221,8 +221,20 @@ function ProductsDetail() {
     }
   }
 
+  // Strip HTML tags for meta description
+  const plainDesc = product.description
+    ? product.description.replace(/<[^>]*>/g, '').slice(0, 160)
+    : `Mua ${product.title} chính hãng tại SmartMall. Giá tốt, giao hàng nhanh, hỗ trợ 24/7.`
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <SEO
+        title={product.title}
+        description={plainDesc}
+        image={product.thumbnail || product.images?.[0]}
+        url={`https://smartmall.site/products/${product.slug}`}
+        type="product"
+      />
       {/* Breadcrumb */}
       <div className="container mx-auto max-w-7xl px-4 py-8">
         <div className="flex items-center space-x-2 text-sm text-gray-500 mb-8">

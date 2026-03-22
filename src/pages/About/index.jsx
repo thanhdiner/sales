@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Shield, Zap, Headphones, DollarSign, Store, Clock, Users, Heart, Star, CheckCircle, ArrowRight, Sparkles } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const AboutPage = () => {
-  titles('About Us')
 
   const [isVisible, setIsVisible] = useState(false)
   const [activeFeature, setActiveFeature] = useState(0)
@@ -73,6 +72,11 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 overflow-hidden dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <SEO
+        title="Về SmartMall"
+        description="SmartMall – Shop nhỏ chuyên bán tài khoản game và phần mềm bản quyền. Uy tín, rõ ràng, giá hợp lý, hỗ trợ tận tâm."
+        url="https://smartmall.site/about"
+      />
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-3xl animate-pulse"></div>

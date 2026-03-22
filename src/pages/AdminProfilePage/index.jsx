@@ -4,12 +4,9 @@ import { CloseCircleFilled } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile } from '../../stores/adminUser'
 import { updateAdminAvatar, updateAdminProfile } from '../../services/adminAccountsService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-function AdminProfilePage() {
-  titles('Profile')
-
-  const profile = useSelector(state => state.user.user)
+function AdminProfilePage() {const profile = useSelector(state => state.user.user)
   const [loading, setLoading] = useState(false)
   const [avatarFile, setAvatarFile] = useState(null)
   const [avatarPreview, setAvatarPreview] = useState('')
@@ -123,7 +120,8 @@ function AdminProfilePage() {
 
   return (
     <div className="max-w-[1200px] mx-auto bg-white dark:bg-gray-800 rounded-lg p-8 shadow-[0_2px_16px_rgba(0,_0,_0,_0.01)]">
-      <h2 className="mb-5 font-bold text-[26px] dark:text-gray-200">Basic Information</h2>
+      <SEO title="Admin – Hồ sơ" noIndex />
+            <h2 className="mb-5 font-bold text-[26px] dark:text-gray-200">Basic Information</h2>
       <Form form={form} layout="vertical" initialValues={profile} onFinish={handleSave}>
         <Form.Item label={<span className="dark:text-gray-300">Avatar</span>}>
           <div className="flex items-center gap-10 min-h-[110px]">

@@ -5,14 +5,12 @@ import dayjs from 'dayjs'
 import debounce from 'lodash.debounce'
 import { getAdminFlashSales, createFlashSale, updateFlashSaleById, deleteFlashSale } from '@/services/adminFlashSalesService'
 import { getAdminProducts } from '@/services/productService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Option } = Select
 
 const FlashSaleAdmin = () => {
-  titles('Quản lý Flash Sale')
-
-  const [flashSales, setFlashSales] = useState([])
+const [flashSales, setFlashSales] = useState([])
   const [productList, setProductList] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
@@ -224,7 +222,8 @@ const FlashSaleAdmin = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 dark:bg-gray-800 rounded-xl">
-      <div className="max-w-7xl mx-auto">
+      <SEO title="Admin – Flash Sale" noIndex />
+            <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2 dark:text-white">Quản Lý Flash Sale</h1>

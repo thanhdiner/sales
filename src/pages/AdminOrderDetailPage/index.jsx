@@ -3,12 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getOrderDetailAdmin, updateOrderStatus } from '@/services/adminOrdersService'
 import { User, Phone, Mail, FileText, Package, CreditCard, Truck, CheckCircle, Clock, XCircle, ArrowLeft } from 'lucide-react'
 import { message as antdMessage, Select } from 'antd'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-export default function AdminOrderDetailPage() {
-  titles('Chi tiết đơn hàng')
-
-  const { id } = useParams()
+export default function AdminOrderDetailPage() {const { id } = useParams()
   const navigate = useNavigate()
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -59,7 +56,8 @@ export default function AdminOrderDetailPage() {
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-        <div>
+      <SEO title="Admin – Chi tiết đơn" noIndex />
+              <div>
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-6"></div>
           <p className="text-slate-600 font-medium text-lg text-center">Đang tải đơn hàng...</p>
         </div>

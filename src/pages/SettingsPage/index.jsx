@@ -82,7 +82,10 @@ export default function SettingsPage() {
 
   return (
     <div
-      className={`
+      <SEO title="Cài đặt tài khoản" noIndex />
+            <SEO title="Cài đặt tài khoản" noIndex />
+            <SEO title="Cài đặt tài khoản" noIndex />
+            className={`
         min-h-screen relative transition-colors duration-200
         ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'}
       rounded-xl`}

@@ -15,13 +15,11 @@ import {
 } from '@ant-design/icons'
 import { getPromoCodes } from '@/services/promoCodesService'
 import { useNavigate } from 'react-router-dom'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title, Text, Paragraph } = Typography
 
-const CouponPage = () => {
-  titles('Kho Mã Giảm Giá')
-  const [copiedCoupons, setCopiedCoupons] = useState(new Set())
+const CouponPage = () => {const [copiedCoupons, setCopiedCoupons] = useState(new Set())
   const [searchText, setSearchText] = useState('')
   const [activeTab, setActiveTab] = useState('all')
   const [timeLeft, setTimeLeft] = useState({})
@@ -123,7 +121,9 @@ const CouponPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 p-4 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <div className="max-w-7xl mx-auto">
+      <SEO title="Mã giảm giá"
+        description="Khám phá các mã giảm giá và ưu đãi độc quyền tại SmartMall." />
+            <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <Title level={1} className="!text-4xl !text-gray-800 !mb-4">
             🎁 Kho Mã Giảm Giá

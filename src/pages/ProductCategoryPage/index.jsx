@@ -4,11 +4,10 @@ import { getProductsByCategory } from '@/services/productCategoryService'
 import ProductItem from '@/components/Products/ProductItem'
 import { Search, Grid, List } from 'lucide-react'
 import { Select } from 'antd'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 const { Option } = Select
 
 function ProductCategoryPage() {
-  titles('Danh mục sản phẩm')
   const { slug } = useParams()
   const [category, setCategory] = useState(null)
   const [products, setProducts] = useState([])
@@ -100,6 +99,13 @@ function ProductCategoryPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <SEO
+        title={category?.title || 'Danh mục sản phẩm'}
+        description={category?.description
+          ? category.description.replace(/<[^>]*>/g, '').slice(0, 160)
+          : `Xem tất cả sản phẩm trong danh mục ${category?.title || ''} tại SmartMall.`}
+        url={`https://smartmall.site/categories/${slug}`}
+      />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white rounded-tl-xl rounded-tr-xl">
         <div className="max-w-7xl mx-auto px-4 py-16">

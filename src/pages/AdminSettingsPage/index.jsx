@@ -1,12 +1,9 @@
 import { Tabs } from 'antd'
 import AdminSecurityTab from '@/components/AdminSecurityTab'
 import AdminWebsiteConfigTab from '@/components/AdminWebsiteConfigTab'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
-const AdminSettingsPage = () => {
-  titles('Settings')
-
-  return (
+const AdminSettingsPage = () => {return (
     <Tabs
       defaultActiveKey="security"
       className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"

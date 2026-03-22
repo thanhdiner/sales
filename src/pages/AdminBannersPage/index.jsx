@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Table, Button, Modal, Form, Input, Upload, message, Space, Card, Typography, Image, Switch, Divider, Tooltip, Tag } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, LinkOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 import { getBanners, createBanner, updateBannerById, deleteBannerById } from '@/services/adminBannersService'
-import titles from '@/utils/titles'
+import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
 
-export default function AdminBannersPage() {
-  titles('Quản lý Banner')
-
-  const [banners, setBanners] = useState([])
+export default function AdminBannersPage() {const [banners, setBanners] = useState([])
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [editingBanner, setEditingBanner] = useState(null)
@@ -226,7 +223,8 @@ export default function AdminBannersPage() {
 
   return (
     <div style={{ padding: 24, minHeight: '100vh' }} className="bg-[#f5f5f5] dark:bg-gray-800 rounded-xl">
-      <Card
+      <SEO title="Admin – Banners" noIndex />
+            <Card
         className="dark:bg-gray-800 dark:text-white"
         style={{ marginBottom: 24, borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', body: { padding: 24 } }}
         title={
