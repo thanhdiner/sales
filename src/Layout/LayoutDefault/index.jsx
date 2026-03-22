@@ -24,7 +24,7 @@ function LayoutDefault() {
   const screens = useBreakpoint()
   const isDesktop = screens.lg
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const user = useSelector(state => state.user.data)
+  const user = useSelector(state => state.user.user)
   const [notifApi, notifContextHolder] = notification.useNotification()
 
   // ─── Load cart ────────────────────────────────────────────────────
