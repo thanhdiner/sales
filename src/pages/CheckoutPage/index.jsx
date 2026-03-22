@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { CreditCard, Package, Phone, ArrowLeft } from 'lucide-react'
+import { CreditCard, Package, Phone, ArrowLeft, Banknote, Smartphone } from 'lucide-react'
 import { ContactForm } from './ContactForm'
 import { StepIndicator } from './StepIndicator'
 import { PaymentForm } from './PaymentForm'
@@ -35,8 +35,26 @@ const paymentMethods = [
   {
     id: 'transfer',
     name: 'Chuyển khoản ngân hàng',
-    icon: <CreditCard className="w-5 h-5" />,
+    icon: <Banknote className="w-5 h-5" />,
     description: 'Chuyển khoản trước, nhận hàng sau'
+  },
+  {
+    id: 'vnpay',
+    name: 'VNPay',
+    icon: <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="VNPay" className="w-6 h-6 object-contain" />,
+    description: 'Thanh toán qua cổng VNPay (ATM, Visa, QR)'
+  },
+  {
+    id: 'momo',
+    name: 'Ví MoMo',
+    icon: <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" className="w-6 h-6 object-contain rounded" />,
+    description: 'Thanh toán qua Ví điện tử MoMo'
+  },
+  {
+    id: 'zalopay',
+    name: 'ZaloPay',
+    icon: <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png" alt="ZaloPay" className="w-6 h-6 object-contain rounded" />,
+    description: 'Thanh toán qua ứng dụng ZaloPay'
   },
   {
     id: 'contact',

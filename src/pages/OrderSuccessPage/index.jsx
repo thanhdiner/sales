@@ -1,46 +1,157 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { CheckCircle } from 'lucide-react'
-import { useEffect } from 'react'
+import { CheckCircle, XCircle, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import SEO from '@/components/SEO'
+
+const GATEWAY_NAMES = {
+  vnpay: 'VNPay',
+  momo: 'MoMo',
+  zalopay: 'ZaloPay'
+}
 
 export default function OrderSuccessPage() {
   const location = useLocation()
   const navigate = useNavigate()
-  const orderId = location.state?.orderId
+  const search = new URLSearchParams(location.search)
 
-  useEffect(() => {sessionStorage.removeItem('checkoutOrdered')
+  // Từ navigate state (thanh toán thủ công)
+  const orderIdFromState = location.state?.orderId
+
+  // Từ query params (cổng thanh toán redirect về)
+  const status = search.get('status')           // 'failed' | null
+  const reason = search.get('reason')
+  const orderIdFromQuery = search.get('orderId')
+  const method = search.get('method')           // 'vnpay' | 'momo' | 'zalopay'
+
+  // VNPay redirect
+  const vnpResponseCode = search.get('vnp_ResponseCode')
+  // MoMo redirect
+  const momoResultCode = search.get('resultCode')
+  // ZaloPay redirect
+  const zpStatus = search.get('status')
+
+  const [pageState, setPageState] = useState('loading') // 'loading' | 'success' | 'failed'
+  const [orderId, setOrderId] = useState(null)
+  const [gatewayName, setGatewayName] = useState(null)
+
+  useEffect(() => {
+    sessionStorage.removeItem('checkoutOrdered')
     sessionStorage.removeItem('promoCode')
     sessionStorage.removeItem('appliedPromo')
+
+    // Thanh toán thủ công (từ state)
+    if (orderIdFromState) {
+      setOrderId(orderIdFromState)
+      setPageState('success')
+      return
+    }
+
+    // VNPay redirect
+    if (vnpResponseCode !== null) {
+      setGatewayName('VNPay')
+      setOrderId(orderIdFromQuery)
+      setPageState(vnpResponseCode === '00' ? 'success' : 'failed')
+      return
+    }
+
+    // MoMo redirect (có query resultCode)
+    if (momoResultCode !== null) {
+      setGatewayName('MoMo')
+      setOrderId(orderIdFromQuery || search.get('orderId'))
+      setPageState(momoResultCode === '0' ? 'success' : 'failed')
+      return
+    }
+
+    // Generic redirect từ backend (ZaloPay / method param)
+    if (method) {
+      setGatewayName(GATEWAY_NAMES[method] || method)
+      setOrderId(orderIdFromQuery)
+      setPageState(status === 'failed' ? 'failed' : 'success')
+      return
+    }
+
+    // Nếu có status=failed
+    if (status === 'failed') {
+      setPageState('failed')
+      return
+    }
+
+    // Fallback
+    setPageState('success')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (pageState === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+        <SEO title="Đang xử lý thanh toán" noIndex />
+        <div className="text-center">
+          <Loader2 className="mx-auto w-12 h-12 text-blue-500 animate-spin mb-4" />
+          <p className="text-gray-600 dark:text-gray-300">Đang xử lý kết quả thanh toán…</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <SEO title="Đặt hàng thành công" noIndex />
-            <div className="bg-white rounded-3xl shadow-xl p-12 text-center max-w-lg mx-auto dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-        <CheckCircle className="mx-auto text-green-500 w-16 h-16 mb-4" />
-        <h2 className="text-3xl font-bold text-gray-800 mb-3 dark:text-gray-100">Đặt hàng thành công!</h2>
-        <p className="text-gray-600 mb-4 dark:text-gray-300">
-          {orderId ? (
-            <>
-              Mã đơn hàng của bạn: <span className="font-bold text-blue-600">{orderId}</span>
-            </>
+      <SEO title={pageState === 'success' ? 'Đặt hàng thành công' : 'Thanh toán thất bại'} noIndex />
+      <div className="bg-white rounded-3xl shadow-xl p-12 text-center max-w-lg mx-auto dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
+
+        {pageState === 'success' ? (
+          <>
+            <CheckCircle className="mx-auto text-green-500 w-20 h-20 mb-4" />
+            <h2 className="text-3xl font-bold text-gray-800 mb-3 dark:text-gray-100">
+              {gatewayName ? `Thanh toán ${gatewayName} thành công!` : 'Đặt hàng thành công!'}
+            </h2>
+            {orderId && (
+              <p className="text-gray-600 mb-2 dark:text-gray-300">
+                Mã đơn hàng: <span className="font-bold text-blue-600">{String(orderId).slice(-8).toUpperCase()}</span>
+              </p>
+            )}
+            <p className="text-gray-500 mb-8 dark:text-gray-400">
+              {gatewayName
+                ? `Thanh toán qua ${gatewayName} đã được xác nhận. Chúng tôi sẽ xử lý đơn hàng sớm nhất.`
+                : 'Chúng tôi sẽ liên hệ và xử lý đơn hàng của bạn sớm nhất có thể.'}
+            </p>
+          </>
+        ) : (
+          <>
+            <XCircle className="mx-auto text-red-500 w-20 h-20 mb-4" />
+            <h2 className="text-3xl font-bold text-gray-800 mb-3 dark:text-gray-100">Thanh toán thất bại</h2>
+            <p className="text-gray-600 mb-2 dark:text-gray-300">
+              {reason === 'invalid_signature' && 'Chữ ký không hợp lệ từ cổng thanh toán.'}
+              {reason === 'payment_failed' && 'Giao dịch không thành công. Vui lòng thử lại.'}
+              {reason === 'server_error' && 'Có lỗi phía máy chủ. Vui lòng liên hệ hỗ trợ.'}
+              {!reason && 'Thanh toán không thành công hoặc đã bị hủy.'}
+            </p>
+            <p className="text-gray-500 mb-8 dark:text-gray-400">Đơn hàng của bạn chưa được xác nhận. Vui lòng thử lại hoặc chọn phương thức khác.</p>
+          </>
+        )}
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl px-8 py-3 shadow-lg transition-all duration-300 hover:scale-105"
+            onClick={() => navigate('/', { replace: true })}
+          >
+            Về trang chủ
+          </button>
+          {pageState === 'success' ? (
+            <button
+              className="border-2 border-blue-600 text-blue-600 font-semibold rounded-xl px-8 py-3 transition-all duration-300 hover:bg-blue-50 dark:hover:bg-gray-700"
+              onClick={() => navigate('/orders', { replace: true })}
+            >
+              Xem đơn hàng
+            </button>
           ) : (
-            <>Cảm ơn bạn đã đặt hàng.</>
+            <button
+              className="border-2 border-red-600 text-red-600 font-semibold rounded-xl px-8 py-3 transition-all duration-300 hover:bg-red-50 dark:hover:bg-gray-700"
+              onClick={() => navigate('/cart', { replace: true })}
+            >
+              Quay lại giỏ hàng
+            </button>
           )}
-        </p>
-        <p className="text-gray-500 mb-8">Chúng tôi sẽ liên hệ và xử lý đơn hàng của bạn sớm nhất có thể.</p>
-        <button
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl px-8 py-3 shadow-lg transition-all duration-300 hover:scale-105"
-          onClick={() => navigate('/', { replace: true })}
-        >
-          Về trang chủ
-        </button>
-        <button
-          className="ml-4 border-2 border-blue-600 text-blue-600 font-semibold rounded-xl px-8 py-3 transition-all duration-300 hover:bg-blue-50"
-          onClick={() => navigate('/orders', { replace: true })}
-        >
-          Xem đơn hàng của tôi
-        </button>
+        </div>
       </div>
     </div>
   )
