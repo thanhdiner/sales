@@ -590,11 +590,13 @@ export default function AdminChatPage() {
                   </div>
                 </div>
                 {selectedConv.customer?.currentPage && (
-                  <div className="flex items-start gap-2">
+                  <div className="flex items-start gap-2 min-w-0">
                     <Globe className="w-3.5 h-3.5 text-gray-400 flex-shrink-0 mt-0.5" />
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-[10px] text-gray-400">Trang hiện tại</p>
-                      <p className="text-gray-700 dark:text-gray-300 truncate">{selectedConv.customer.currentPage}</p>
+                      <p className="text-gray-700 dark:text-gray-300 text-[11px] break-all line-clamp-2" title={selectedConv.customer.currentPage}>
+                        {selectedConv.customer.currentPage}
+                      </p>
                     </div>
                   </div>
                 )}
