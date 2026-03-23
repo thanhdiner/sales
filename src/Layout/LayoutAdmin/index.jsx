@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Header from './Header'
 import SiderLayout from './SiderLayout'
-import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
+import { connectSocket, getSocket } from '@/services/socketService'
 
 const { Content } = Layout
 
@@ -14,10 +14,9 @@ function LayoutAdmin() {
   const user = useSelector(state => state.user.user)
   const newOrderHandlerRef = useRef(null)
 
-  // Khởi động socket khi admin vào layout, cleanup khi rời
+  // Khởi động socket khi admin vào layout — KHÔNG disconnect khi unmount vì socket phải persistent
   useEffect(() => {
     connectSocket({ role: 'admin', userId: user?._id })
-    return () => disconnectSocket()
   }, [user?._id])
 
   // Hàm để Header có thể đăng ký lắng nghe new_order

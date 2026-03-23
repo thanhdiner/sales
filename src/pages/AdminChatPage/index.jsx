@@ -165,11 +165,20 @@ export default function AdminChatPage() {
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const typingTimerRef = useRef(null)
+  // Refs để socket handlers có thể đọc giá trị mới nhất mà không cần re-register
+  const selectedSessionRef = useRef(null)
+  const activeTabRef = useRef('unassigned')
+  const agentIdRef = useRef(null)
 
   const admin = useSelector(s => s.user?.user)
   const agentId = admin?._id || null
   const agentName = admin?.fullName || admin?.name || 'Agent'
   const agentAvatar = admin?.avatar || null
+
+  // Sync refs với state
+  useEffect(() => { selectedSessionRef.current = selectedSession }, [selectedSession])
+  useEffect(() => { activeTabRef.current = activeTab }, [activeTab])
+  useEffect(() => { agentIdRef.current = agentId }, [agentId])
 
   // ─── Load conversations ───────────────────────────────────────────────────
   const loadConversations = useCallback(async () => {
@@ -218,55 +227,76 @@ export default function AdminChatPage() {
   useEffect(() => { loadConversations() }, [loadConversations])
   useEffect(() => { loadCounts() }, [loadCounts])
 
-  // ─── Socket ───────────────────────────────────────────────────────────────
+  // ─── Socket: chỉ setup 1 lần khi mount ───────────────────────────────────
   useEffect(() => {
-    connectSocket({ role: 'admin' })
+    // LayoutAdmin đã gọi connectSocket(role:'admin') — chỉ cần getSocket
     const socket = getSocket()
+    // Đảm bảo đang trong agents room
+    if (socket.connected) {
+      socket.emit('join', { role: 'admin' })
+    } else {
+      socket.once('connect', () => socket.emit('join', { role: 'admin' }))
+    }
 
     const onNewConv = (conv) => {
-      setConversations(prev => {
-        if (prev.find(c => c.sessionId === conv.sessionId)) return prev
-        return [conv, ...prev]
-      })
+      // Chỉ add vào list nếu đang ở tab unassigned
+      if (activeTabRef.current === 'unassigned') {
+        setConversations(prev => {
+          if (prev.find(c => c.sessionId === conv.sessionId)) return prev
+          return [conv, ...prev]
+        })
+      }
       loadCounts()
     }
 
     const onNewMsg = (msg) => {
+      // Cập nhật lastMessage trong list
       setConversations(prev =>
         prev.map(c => c.sessionId === msg.sessionId
-          ? { ...c, lastMessage: msg.message, lastMessageAt: msg.createdAt, lastMessageSender: msg.sender, unreadByAgent: (c.unreadByAgent || 0) + (msg.sender === 'customer' ? 1 : 0) }
+          ? { ...c, lastMessage: msg.message, lastMessageAt: msg.createdAt, lastMessageSender: msg.sender, unreadByAgent: selectedSessionRef.current === msg.sessionId ? 0 : (c.unreadByAgent || 0) + (msg.sender === 'customer' ? 1 : 0) }
           : c
         ).sort((a, b) => new Date(b.lastMessageAt || b.createdAt) - new Date(a.lastMessageAt || a.createdAt))
       )
-
-      if (selectedSession === msg.sessionId) {
+      // Thêm vào chat nếu đang xem session này
+      if (selectedSessionRef.current === msg.sessionId) {
         setMessages(prev => prev.some(m => m._id === msg._id) ? prev : [...prev, msg])
       }
     }
 
     const onMessage = (msg) => {
-      if (selectedSession === msg.sessionId) {
+      if (selectedSessionRef.current === msg.sessionId) {
         setMessages(prev => prev.some(m => m._id === msg._id) ? prev : [...prev, msg])
+      } else if (msg.sender === 'customer') {
+        // Cập nhật unread count trong list
+        setConversations(prev =>
+          prev.map(c => c.sessionId === msg.sessionId
+            ? { ...c, unreadByAgent: (c.unreadByAgent || 0) + 1 }
+            : c
+          )
+        )
       }
     }
 
     const onConvUpdated = (conv) => {
-      setConversations(prev =>
-        prev.map(c => c.sessionId === conv.sessionId ? { ...c, ...conv } : c)
-          .filter(c => {
-            if (activeTab === 'unassigned') return c.status === 'unassigned'
-            if (activeTab === 'mine') return c.status === 'open' && c.assignedAgent?.agentId === agentId
-            if (activeTab === 'open') return c.status === 'open'
-            if (activeTab === 'resolved') return c.status === 'resolved'
-            return true
-          })
-      )
-      if (selectedConv?.sessionId === conv.sessionId) setSelectedConv(prev => ({ ...prev, ...conv }))
+      setConversations(prev => {
+        const tab = activeTabRef.current
+        const aid = agentIdRef.current
+        const updated = prev.map(c => c.sessionId === conv.sessionId ? { ...c, ...conv } : c)
+        // Lọc theo tab hiện tại
+        return updated.filter(c => {
+          if (tab === 'unassigned') return c.status === 'unassigned'
+          if (tab === 'mine') return c.status === 'open' && c.assignedAgent?.agentId === aid
+          if (tab === 'open') return c.status === 'open'
+          if (tab === 'resolved') return c.status === 'resolved'
+          return true
+        })
+      })
+      setSelectedConv(prev => prev?.sessionId === conv.sessionId ? { ...prev, ...conv } : prev)
       loadCounts()
     }
 
     const onCustomerTyping = ({ sessionId, isTyping }) => {
-      if (selectedSession === sessionId) {
+      if (selectedSessionRef.current === sessionId) {
         setCustomerTyping(isTyping)
         clearTimeout(typingTimerRef.current)
         if (isTyping) typingTimerRef.current = setTimeout(() => setCustomerTyping(false), 3500)
@@ -286,7 +316,8 @@ export default function AdminChatPage() {
       socket.off('chat:conversation_updated', onConvUpdated)
       socket.off('chat:customer_typing', onCustomerTyping)
     }
-  }, [selectedSession, selectedConv, activeTab, agentId, loadCounts])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // chỉ chạy 1 lần khi mount
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
