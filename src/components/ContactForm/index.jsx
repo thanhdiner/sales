@@ -127,10 +127,17 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-5 py-3.5 text-white shadow-[0_12px_28px_-14px_rgba(59,130,246,0.9)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_16px_30px_-14px_rgba(79,140,255,0.95)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
           >
-            <span className="flex items-center justify-center gap-2">
-              <Send className="w-5 h-5" />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+            />
+
+            <span className="relative z-10 flex items-center justify-center gap-2 text-base font-semibold tracking-wide">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/30 backdrop-blur-sm">
+                <Send className="h-[18px] w-[18px]" />
+              </span>
               {isSubmitting ? 'Đang gửi...' : 'Gửi tin nhắn'}
             </span>
           </button>
