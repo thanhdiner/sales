@@ -374,7 +374,7 @@ export default function AdminChatPage() {
   const isResolved = selectedConv?.status === 'resolved'
 
   return (
-    <div className="flex h-[calc(100vh-180px)] bg-white dark:bg-gray-900 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+    <div className="flex h-full bg-white dark:bg-gray-900 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
 
       {/* ── COL 1: Conversation List ──────────────────────────────────────────── */}
       <div className="w-[280px] flex-shrink-0 flex flex-col border-r border-gray-100 dark:border-gray-800">
