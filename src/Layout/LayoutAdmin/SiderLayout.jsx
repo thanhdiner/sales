@@ -4,6 +4,7 @@ import {
   CodeSandboxOutlined,
   ForkOutlined,
   HomeOutlined,
+  MessageOutlined,
   RadiusSettingOutlined,
   TeamOutlined
 } from '@ant-design/icons'
@@ -65,7 +66,8 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
       ])
     ),
     permissions.includes('view_accounts') && getItem('Accounts', 'accounts', <TeamOutlined />),
-    permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />)
+    permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />),
+    getItem('Live Chat', 'chat', <MessageOutlined />)
   ]
 
   const getLevelKeys = items1 => {
@@ -116,6 +118,7 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     if (pathname.includes('/admin/widgets')) return 'widgets'
     if (pathname.includes('/admin/flash-sales')) return 'flash-sales'
     if (pathname.includes('/admin/bank-info')) return 'bank-info'
+    if (pathname.includes('/admin/chat')) return 'chat'
     return 'dashboard'
   }
 
