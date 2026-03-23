@@ -65,6 +65,7 @@ import LicenseComingSoon from '@/pages/LicenseComingSoon'
 import SettingsPage from '@/pages/SettingsPage'
 import AdminBankInfoPage from '@/pages/AdminBankInfoPage'
 import WishlistPage from '@/pages/WishlistPage'
+import ComparePage from '@/pages/ComparePage'
 
 export const routes = [
   // Client
@@ -79,6 +80,10 @@ export const routes = [
       {
         path: '/products',
         element: <ProductsPages />
+      },
+      {
+        path: '/compare',
+        element: <ComparePage />
       },
       {
         path: '/products/:slug',

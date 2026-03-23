@@ -12,6 +12,7 @@ import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 import FloatingButtons from '@/components/FloatingButtons'
 import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
 import { Package } from 'lucide-react'
+import CompareBar from '@/components/CompareBar'
 
 const { Content } = Layout
 
@@ -114,6 +115,7 @@ function LayoutDefault() {
           </div>
         </Drawer>
       )}
+      <CompareBar />
     </Layout>
   )
 }

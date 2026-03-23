@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Star, ShoppingCart, Zap, Heart, Share2, Minus, Plus, Shield, Truck, RotateCcw, Award, Eye, Clock } from 'lucide-react'
+import { Star, ShoppingCart, Zap, Heart, Share2, Minus, Plus, Shield, Truck, RotateCcw, Award, Eye, Clock, BarChart2 } from 'lucide-react'
+import { toggleCompareLocal } from '@/stores/compare'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { message, Spin } from 'antd'
 import { getProductDetail } from '@/services/productService'
@@ -30,7 +31,9 @@ function ProductsDetail() {
   const [buyNowLoading, setBuyNowLoading] = useState(false)
 
   const wishlistItems = useSelector(state => state.wishlist.items)
+  const compareItems = useSelector(state => state.compare.items)
   const isInWishlist = product ? wishlistItems.some(i => i.productId === (product._id || product.id)) : false
+  const isInCompare = product ? compareItems.some(i => i.productId === (product._id || product.id)) : false
 
   // Helper: format price
   const formatPrice = price => {
@@ -336,6 +339,28 @@ function ProductsDetail() {
                       ? <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin block" />
                       : <Heart className={`h-5 w-5 ${isInWishlist ? 'fill-white text-white' : ''}`} />
                     }
+                  </button>
+                  <button 
+                    onClick={() => dispatch(toggleCompareLocal({
+                      productId: product._id || product.id,
+                      name: product.title,
+                      price: priceNew,
+                      originalPrice: priceOrigin,
+                      discountPercentage: discountPercent,
+                      image: product.thumbnail,
+                      slug: product.slug,
+                      rate: product.rate,
+                      stock: product.stock,
+                      inStock: product.stock > 0
+                    }))}
+                    className={`p-2 backdrop-blur-sm rounded-full shadow-lg transition-all duration-300 ${
+                      isInCompare
+                        ? 'bg-blue-500 text-white scale-110'
+                        : 'bg-white/80 hover:bg-white text-gray-600 hover:text-blue-500'
+                    }`}
+                    title="So sánh sản phẩm"
+                  >
+                    <BarChart2 className="h-5 w-5" />
                   </button>
                   <button className="p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300">
                     <Share2 className="h-5 w-5 text-gray-600" />

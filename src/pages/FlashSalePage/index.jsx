@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Clock, Tag, Timer, Zap, Star, Flame, Heart } from 'lucide-react'
+import { Clock, Tag, Timer, Zap, Star, Flame, Heart, BarChart2 } from 'lucide-react'
+import { toggleCompareLocal } from '@/stores/compare'
 import { getClientFlashSales } from '@/services/flashSaleService'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +17,7 @@ const FlashSale = () => {
   const [flashSales, setFlashSales] = useState([])
   const [currentTime, setCurrentTime] = useState(new Date())
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const compareItems = useSelector(state => state.compare.items)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [buyNowLoading, setBuyNowLoading] = useState({})
@@ -348,28 +350,57 @@ const FlashSale = () => {
                                       -{sale.discountPercent}%
                                     </span>
                                   </div>
-                                  {/* ❤️ Wishlist button */}
-                                  {(() => {
-                                    const productId = product._id || product.id
-                                    const inWishlist = wishlistItems.some(i => i.productId === productId)
-                                    return (
-                                      <button
-                                        onClick={e => handleToggleWishlist(e, product, salePrice)}
-                                        disabled={wishlistLoading[productId]}
-                                        className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 z-30
-                                          ${inWishlist
-                                            ? 'bg-pink-500 text-white border-pink-500 scale-110'
-                                            : 'bg-white/95 text-gray-400 border-white/70 hover:text-pink-500 opacity-0 group-hover:opacity-100'
-                                          }`}
-                                        title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
-                                      >
-                                        {wishlistLoading[productId]
-                                          ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                                          : <Heart className={`w-4 h-4 transition-all duration-150 ${inWishlist ? 'fill-white' : ''}`} />
-                                        }
-                                      </button>
-                                    )
-                                  })()}
+                                  {/* ❤️ Wishlist button & 📊 Compare button */}
+                                  <div className="absolute top-3 right-3 flex flex-col gap-2 z-30">
+                                    {(() => {
+                                      const productId = product._id || product.id
+                                      const inWishlist = wishlistItems.some(i => i.productId === productId)
+                                      return (
+                                        <button
+                                          onClick={e => handleToggleWishlist(e, product, salePrice)}
+                                          disabled={wishlistLoading[productId]}
+                                          className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
+                                            ${inWishlist
+                                              ? 'bg-pink-500 text-white border-pink-500 scale-110'
+                                              : 'bg-white/95 text-gray-400 border-white/70 hover:text-pink-500 opacity-0 group-hover:opacity-100'
+                                            }`}
+                                          title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+                                        >
+                                          {wishlistLoading[productId]
+                                            ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                            : <Heart className={`w-4 h-4 transition-all duration-150 ${inWishlist ? 'fill-white' : ''}`} />
+                                          }
+                                        </button>
+                                      )
+                                    })()}
+
+                                    <button
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        dispatch(toggleCompareLocal({
+                                          productId: product._id || product.id,
+                                          name: product.title,
+                                          price: salePrice,
+                                          originalPrice: product.price,
+                                          discountPercentage: sale.discountPercent || 0,
+                                          image: product.thumbnail,
+                                          slug: product.slug,
+                                          rate: product.rate,
+                                          stock: product.stock,
+                                          inStock: product.stock > 0
+                                        }));
+                                      }}
+                                      className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
+                                        ${compareItems.some(i => i.productId === (product._id || product.id))
+                                          ? 'bg-blue-500 text-white border-blue-500 scale-110'
+                                          : 'bg-white/95 text-gray-400 border-white/70 hover:text-blue-500 opacity-0 group-hover:opacity-100'
+                                        }`}
+                                      title="So sánh sản phẩm"
+                                    >
+                                      <BarChart2 className="w-4 h-4" />
+                                    </button>
+                                  </div>
                                   {product.soldQuantity > 10 && (
                                     <div className="absolute bottom-3 right-3 bg-yellow-400 text-white px-2 py-1 rounded-full text-xs font-bold shadow">
                                       Bán chạy

@@ -8,7 +8,8 @@ import { addToCart, getCart } from '@/services/cartsService'
 import { setCart } from '@/stores/cart'
 import { addToWishlistLocal, removeFromWishlistLocal } from '@/stores/wishlist'
 import { toggleWishlist } from '@/services/wishlistService'
-import { Heart } from 'lucide-react'
+import { Heart, BarChart2 } from 'lucide-react'
+import { toggleCompareLocal } from '@/stores/compare'
 
 function ProductCard(props) {
   const { product } = props
@@ -22,7 +23,9 @@ function ProductCard(props) {
   const navigate = useNavigate()
 
   const wishlistItems = useSelector(state => state.wishlist.items)
+  const compareItems = useSelector(state => state.compare.items)
   const isInWishlist = wishlistItems.some(i => i.productId === (product._id || product.id))
+  const isInCompare = compareItems.some(i => i.productId === (product._id || product.id))
 
   const handleAddToCart = async e => {
     e.preventDefault()
@@ -148,22 +151,51 @@ function ProductCard(props) {
             )}
           </div>
 
-          {/* ❤️ Wishlist button — top-right */}
-          <button
-            onClick={handleToggleWishlist}
-            disabled={wishlistLoading}
-            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 z-40
-              ${isInWishlist
-                ? 'bg-pink-500 text-white border-pink-500 scale-110'
-                : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100'
-              }`}
-            title={isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
-          >
-            {wishlistLoading
-              ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              : <Heart className={`w-4 h-4 transition-all duration-150 ${isInWishlist ? 'fill-white scale-110' : ''}`} />
-            }
-          </button>
+          {/* ❤️ Wishlist & 📊 Compare buttons — top-right */}
+          <div className="absolute top-2 right-2 flex flex-col gap-1.5 z-40">
+            <button
+              onClick={handleToggleWishlist}
+              disabled={wishlistLoading}
+              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
+                ${isInWishlist
+                  ? 'bg-pink-500 text-white border-pink-500 scale-110'
+                  : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100'
+                }`}
+              title={isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+            >
+              {wishlistLoading
+                ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                : <Heart className={`w-4 h-4 transition-all duration-150 ${isInWishlist ? 'fill-white scale-110' : ''}`} />
+              }
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dispatch(toggleCompareLocal({
+                  productId: product._id || product.id,
+                  name: product.title,
+                  price: priceNew,
+                  originalPrice: price,
+                  discountPercentage: product.discountPercentage || 0,
+                  image: product.thumbnail,
+                  slug: product.slug,
+                  rate: product.rate,
+                  stock: product.stock,
+                  inStock: product.stock > 0
+                }));
+              }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
+                ${isInCompare
+                  ? 'bg-blue-500 text-white border-blue-500 scale-110'
+                  : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-blue-50 hover:text-blue-500 hover:border-blue-300 opacity-0 group-hover:opacity-100'
+                }`}
+              title="So sánh sản phẩm"
+            >
+              <BarChart2 className="w-4 h-4" />
+            </button>
+          </div>
 
           {/* Add to cart button — bottom-right */}
           <button
