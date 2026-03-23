@@ -14,6 +14,12 @@ function getSessionId() {
   return sid
 }
 
+function newSessionId() {
+  const sid = 'chat_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
+  localStorage.setItem('chatSessionId', sid)
+  return sid
+}
+
 const QUICK_ACTIONS = [
   { label: '🛍️ Hỏi về sản phẩm', text: 'Tôi muốn hỏi về sản phẩm' },
   { label: '📦 Kiểm tra đơn hàng', text: 'Tôi cần kiểm tra đơn hàng của mình' },
@@ -82,8 +88,9 @@ function MessageBubble({ msg, showAvatar }) {
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 export default function LiveChat() {
-  const [open, setOpen] = useState(false)
-  const [view, setView] = useState('home') // 'home' | 'chat'
+  // ── Persist open/view state qua reload ──────────────────────────────────────
+  const [open, setOpen] = useState(() => localStorage.getItem('chatOpen') === 'true')
+  const [view, setView] = useState(() => localStorage.getItem('chatView') || 'home')
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [isTypingAgent, setIsTypingAgent] = useState(false)
@@ -91,7 +98,11 @@ export default function LiveChat() {
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [conversation, setConversation] = useState(null)
   const [isResolved, setIsResolved] = useState(false)
-  const [sessionId] = useState(getSessionId)
+  const [sessionId, setSessionId] = useState(getSessionId)
+
+  // Sync open/view vào localStorage
+  const handleSetOpen = (val) => { setOpen(val); localStorage.setItem('chatOpen', String(val)) }
+  const handleSetView = (val) => { setView(val); localStorage.setItem('chatView', val) }
 
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
@@ -179,7 +190,7 @@ export default function LiveChat() {
   // ─── Gửi tin nhắn ──────────────────────────────────────────────────────────
   const sendMessage = (text) => {
     const t = (text || input).trim()
-    if (!t || isResolved) return
+    if (!t) return
     const socket = getSocket()
     socket.emit('chat:join', { sessionId })
     socket.emit('chat:send', {
@@ -193,6 +204,20 @@ export default function LiveChat() {
     setInput('')
     if (inputRef.current) inputRef.current.style.height = 'auto'
     inputRef.current?.focus()
+  }
+
+  // Bắt đầu cuộc trò chuyện MỚI (khi resolved)
+  const startNewConversation = () => {
+    const newSid = newSessionId()
+    setSessionId(newSid)
+    setMessages([])
+    setConversation(null)
+    setIsResolved(false)
+    setHistoryLoaded(false)
+    // Join room mới
+    const socket = getSocket()
+    socket.emit('chat:join', { sessionId: newSid })
+    handleSetView('chat')
   }
 
   // Emit typing event debounced
@@ -225,12 +250,15 @@ export default function LiveChat() {
     ? conversation.assignedAgent
     : null
 
+  // Wrapper để cả open và view thay đổi đồng thời persist vào localStorage
+  const openChat = () => { handleSetOpen(true); handleSetView('chat') }
+
   return (
     <>
       {/* ── Trigger Button ──────────────────────────────────────────────── */}
       {!open && (
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => handleSetOpen(true)}
           className="fixed bottom-8 left-6 z-[1000] w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-full shadow-2xl shadow-blue-500/30 flex items-center justify-center transition-all active:scale-95 hover:scale-110 hover:shadow-blue-500/50"
         >
           <MessageCircle className="w-6 h-6" />
@@ -253,7 +281,7 @@ export default function LiveChat() {
               <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-6 pt-6 pb-16 flex-shrink-0">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-white font-bold text-base">SmartMall Support</span>
-                  <button onClick={() => setOpen(false)} className="text-white/70 hover:text-white p-1">
+                  <button onClick={() => handleSetOpen(false)} className="text-white/70 hover:text-white p-1">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -265,7 +293,7 @@ export default function LiveChat() {
               <div className="flex-1 overflow-y-auto px-4 -mt-10">
                 {/* Start chat card */}
                 <div
-                  onClick={() => setView('chat')}
+                  onClick={() => openChat()}
                   className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 cursor-pointer hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700 mb-4"
                 >
                   <div className="flex items-center gap-3">
@@ -297,7 +325,7 @@ export default function LiveChat() {
                   {QUICK_ACTIONS.map((qa, i) => (
                     <button
                       key={i}
-                      onClick={() => { setView('chat'); setTimeout(() => sendMessage(qa.text), 200) }}
+                      onClick={() => { openChat(); setTimeout(() => sendMessage(qa.text), 200) }}
                       className="w-full text-left px-4 py-3 bg-gray-50 dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl text-sm text-gray-700 dark:text-gray-300 transition-colors border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-700"
                     >
                       {qa.label}
@@ -325,7 +353,7 @@ export default function LiveChat() {
               {/* Chat Header */}
               <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center gap-3 flex-shrink-0">
                 <button
-                  onClick={() => setView('home')}
+                  onClick={() => handleSetView('home')}
                   className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                 >
                   <ChevronDown className="w-4 h-4 rotate-90" />
@@ -347,7 +375,7 @@ export default function LiveChat() {
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setOpen(false)} className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                <button onClick={() => handleSetOpen(false)} className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -395,12 +423,19 @@ export default function LiveChat() {
                 <div ref={bottomRef} />
               </div>
 
-              {/* Resolved banner */}
+              {/* Resolved banner + New conversation */}
               {isResolved && (
-                <div className="px-4 py-2.5 bg-green-50 dark:bg-green-900/20 border-t border-green-100 dark:border-green-800 flex-shrink-0">
-                  <p className="text-xs text-green-700 dark:text-green-400 text-center">
+                <div className="px-4 py-3 bg-green-50 dark:bg-green-900/20 border-t border-green-100 dark:border-green-800 flex-shrink-0">
+                  <p className="text-xs text-green-700 dark:text-green-400 text-center mb-2">
                     ✅ Cuộc trò chuyện đã được giải quyết
                   </p>
+                  <button
+                    onClick={startNewConversation}
+                    className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    Bắt đầu cuộc trò chuyện mới
+                  </button>
                 </div>
               )}
 
