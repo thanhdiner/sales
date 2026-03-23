@@ -412,10 +412,10 @@ export default function LiveChat() {
                       <Bot className="w-4 h-4 text-white" />
                     </div>
                     <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-2xl rounded-bl-sm border border-gray-100 dark:border-gray-700 shadow-sm">
-                      <div className="flex gap-1 items-center">
-                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '160ms' }} />
-                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '320ms' }} />
+                      <div className="flex gap-1.5 items-center h-4">
+                        <span className="typing-dot" />
+                        <span className="typing-dot" />
+                        <span className="typing-dot" />
                       </div>
                     </div>
                   </div>
