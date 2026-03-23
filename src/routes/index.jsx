@@ -64,6 +64,7 @@ import QuickSupportComingSoon from '@/pages/QuickSupportComingSoon'
 import LicenseComingSoon from '@/pages/LicenseComingSoon'
 import SettingsPage from '@/pages/SettingsPage'
 import AdminBankInfoPage from '@/pages/AdminBankInfoPage'
+import WishlistPage from '@/pages/WishlistPage'
 
 export const routes = [
   // Client
@@ -140,6 +141,14 @@ export const routes = [
         element: (
           <RequireAuth>
             <SettingsPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/wishlist',
+        element: (
+          <RequireAuth>
+            <WishlistPage />
           </RequireAuth>
         )
       },

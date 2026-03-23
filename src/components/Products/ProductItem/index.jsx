@@ -2,15 +2,22 @@ import { faCartPlus, faStar, faStarHalfAlt, faSpinner } from '@fortawesome/free-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setCart } from '../../../stores/cart'
+import { addToWishlistLocal, removeFromWishlistLocal } from '../../../stores/wishlist'
 import { addToCart, getCart } from '@/services/cartsService'
+import { toggleWishlist } from '@/services/wishlistService'
 import { formatVND } from '../../../helpers/formatCurrency'
 import { useState } from 'react'
+import { Heart } from 'lucide-react'
 
 function ProductItem(props) {
   const { product, isDragging } = props
   const [addCartLoading, setAddCartLoading] = useState(false)
+  const [wishlistLoading, setWishlistLoading] = useState(false)
+
+  const wishlistItems = useSelector(state => state.wishlist.items)
+  const isInWishlist = wishlistItems.some(i => i.productId === (product._id || product.id))
 
   const priceNew = formatVND(
     product.salePrice !== undefined && product.salePrice !== null
@@ -75,6 +82,65 @@ function ProductItem(props) {
     }
   }
 
+  const handleToggleWishlist = async e => {
+    e.preventDefault()
+    e.stopPropagation()
+    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
+    if (!isLoggedIn) {
+      message.info('Bạn cần đăng nhập để thêm vào danh sách yêu thích!')
+      navigate('/user/login')
+      return
+    }
+    if (wishlistLoading) return
+
+    // ✅ OPTIMISTIC UI: cập nhật Redux người dùng thấy liền
+    const productId = product._id || product.id
+    const wasInWishlist = isInWishlist
+    if (wasInWishlist) {
+      dispatch(removeFromWishlistLocal(productId))
+    } else {
+      dispatch(addToWishlistLocal({
+        productId,
+        name: product.title,
+        price: product.price * (1 - (product.discountPercentage || 0) / 100),
+        originalPrice: product.price,
+        discountPercentage: product.discountPercentage || 0,
+        image: product.thumbnail,
+        slug: product.slug,
+        stock: product.stock,
+        inStock: product.stock > 0,
+        rate: product.rate
+      }))
+    }
+
+    setWishlistLoading(true)
+    try {
+      await toggleWishlist(productId)
+      // Không cần dispatch lại — đã optimistic rồi
+    } catch {
+      // Revert nếu API lỗi
+      if (wasInWishlist) {
+        dispatch(addToWishlistLocal({
+          productId,
+          name: product.title,
+          price: product.price * (1 - (product.discountPercentage || 0) / 100),
+          originalPrice: product.price,
+          discountPercentage: product.discountPercentage || 0,
+          image: product.thumbnail,
+          slug: product.slug,
+          stock: product.stock,
+          inStock: product.stock > 0,
+          rate: product.rate
+        }))
+      } else {
+        dispatch(removeFromWishlistLocal(productId))
+      }
+      message.error('Có lỗi xảy ra, thử lại!')
+    } finally {
+      setWishlistLoading(false)
+    }
+  }
+
   let ribbonText = ''
   let ribbonColor = ''
   const discountVal = product.discountPercent || product.discountPercentage || 0
@@ -135,6 +201,7 @@ function ProductItem(props) {
     <div className="group relative bg-white rounded-2xl overflow-hidden hover:border-blue-500 transition-all duration-300 transform border border-solid border-gray-200 flex flex-col h-full dark:bg-gray-800">
       {/* Badge phải */}
       {rightBadgeGroup}
+
       <Link
         to={`/products/${product.slug}`}
         state={{
@@ -160,6 +227,22 @@ function ProductItem(props) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+          {/* ❤️ Wishlist — góc DƯỚI-TRÁI của ảnh (cách xa badges top-left/top-right) */}
+          <button
+            onClick={handleToggleWishlist}
+            disabled={wishlistLoading}
+            className={`absolute bottom-2 left-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-all duration-200 z-20
+              ${isInWishlist
+                ? 'bg-pink-500 text-white scale-110'
+                : 'bg-white/90 dark:bg-gray-700/90 text-gray-400 hover:text-pink-500 opacity-0 group-hover:opacity-100'
+              }`}
+            title={isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+          >
+            {wishlistLoading
+              ? <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              : <Heart className={`w-4 h-4 transition-transform duration-150 ${isInWishlist ? 'fill-white scale-110' : ''}`} />
+            }
+          </button>
         </div>
         {/* Product Info */}
         <div className="p-4 space-y-1 flex-1 flex flex-col">

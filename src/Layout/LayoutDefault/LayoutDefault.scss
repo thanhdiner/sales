@@ -280,3 +280,22 @@ h1 {
   color: #fff;
   border-color: transparent;
 }
+
+.header__action__cart--btn,
+.header__action__account--btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.header__action__cart .ant-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__action__cart--icon {
+  display: block;
+  vertical-align: middle;
+}

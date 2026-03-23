@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Clock, Tag, Timer, Zap, Star, Flame } from 'lucide-react'
+import { Clock, Tag, Timer, Zap, Star, Flame, Heart } from 'lucide-react'
 import { getClientFlashSales } from '@/services/flashSaleService'
 import dayjs from 'dayjs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { message } from 'antd'
 import { addToCart, getCart } from '@/services/cartsService'
 import { setCart } from '@/stores/cart'
+import { addToWishlistLocal, removeFromWishlistLocal } from '@/stores/wishlist'
+import { toggleWishlist } from '@/services/wishlistService'
 import SEO from '@/components/SEO'
 
 const FlashSale = () => {
@@ -17,6 +19,9 @@ const FlashSale = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [buyNowLoading, setBuyNowLoading] = useState({})
+  const [wishlistLoading, setWishlistLoading] = useState({})
+
+  const wishlistItems = useSelector(state => state.wishlist.items)
 
   useEffect(() => {
     const fetchFlashSales = async () => {
@@ -120,6 +125,67 @@ const FlashSale = () => {
       message.error('Mua ngay thất bại!')
     } finally {
       setBuyNowLoading(prev => ({ ...prev, [product._id || product.id]: false }))
+    }
+  }
+
+  const handleToggleWishlist = async (e, product, salePrice) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
+    if (!isLoggedIn) {
+      message.info('Bạn cần đăng nhập để thêm vào danh sách yêu thích!')
+      navigate('/user/login')
+      return
+    }
+
+    const productId = product._id || product.id
+    if (wishlistLoading[productId]) return
+
+    const isInWishlist = wishlistItems.some(i => i.productId === productId)
+
+    // ✅ OPTIMISTIC UI
+    if (isInWishlist) {
+      dispatch(removeFromWishlistLocal(productId))
+    } else {
+      dispatch(addToWishlistLocal({
+        productId,
+        name: product.title,
+        price: salePrice,
+        originalPrice: product.price,
+        discountPercentage: 0,
+        image: product.thumbnail,
+        slug: product.slug,
+        stock: product.stock,
+        inStock: product.stock > 0,
+        rate: product.rate
+      }))
+    }
+
+    setWishlistLoading(prev => ({ ...prev, [productId]: true }))
+    try {
+      await toggleWishlist(productId)
+    } catch {
+      // Revert nếu lỗi
+      if (isInWishlist) {
+        dispatch(addToWishlistLocal({
+          productId,
+          name: product.title,
+          price: salePrice,
+          originalPrice: product.price,
+          discountPercentage: 0,
+          image: product.thumbnail,
+          slug: product.slug,
+          stock: product.stock,
+          inStock: product.stock > 0,
+          rate: product.rate
+        }))
+      } else {
+        dispatch(removeFromWishlistLocal(productId))
+      }
+      message.error('Có lỗi xảy ra, thử lại!')
+    } finally {
+      setWishlistLoading(prev => ({ ...prev, [productId]: false }))
     }
   }
 
@@ -276,13 +342,36 @@ const FlashSale = () => {
                                       className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
                                     />
                                   </div>
+                                  {/* Badge giảm gía */}
                                   <div className="absolute top-3 left-3">
                                     <span className="bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow">
                                       -{sale.discountPercent}%
                                     </span>
                                   </div>
+                                  {/* ❤️ Wishlist button */}
+                                  {(() => {
+                                    const productId = product._id || product.id
+                                    const inWishlist = wishlistItems.some(i => i.productId === productId)
+                                    return (
+                                      <button
+                                        onClick={e => handleToggleWishlist(e, product, salePrice)}
+                                        disabled={wishlistLoading[productId]}
+                                        className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 z-30
+                                          ${inWishlist
+                                            ? 'bg-pink-500 text-white border-pink-500 scale-110'
+                                            : 'bg-white/95 text-gray-400 border-white/70 hover:text-pink-500 opacity-0 group-hover:opacity-100'
+                                          }`}
+                                        title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+                                      >
+                                        {wishlistLoading[productId]
+                                          ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                          : <Heart className={`w-4 h-4 transition-all duration-150 ${inWishlist ? 'fill-white' : ''}`} />
+                                        }
+                                      </button>
+                                    )
+                                  })()}
                                   {product.soldQuantity > 10 && (
-                                    <div className="absolute top-3 right-3 bg-yellow-400 text-white px-2 py-1 rounded-full text-xs font-bold shadow">
+                                    <div className="absolute bottom-3 right-3 bg-yellow-400 text-white px-2 py-1 rounded-full text-xs font-bold shadow">
                                       Bán chạy
                                     </div>
                                   )}

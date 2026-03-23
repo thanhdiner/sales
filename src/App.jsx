@@ -12,6 +12,8 @@ import { fetchWebsiteConfig } from './stores/websiteConfigSlice'
 import FaviconUpdater from '@/components/FaviconUpdater'
 import { setUser as setClientUser } from './stores/user'
 import { getClientMe } from './services/userService'
+import { setWishlist } from './stores/wishlist'
+import { getWishlist } from './services/wishlistService'
 
 function App() {
   const dispatch = useDispatch()
@@ -79,6 +81,21 @@ function App() {
       fetchUser()
     }
   }, [dispatch, location])
+
+  // Load wishlist khi user đã đăng nhập
+  useEffect(() => {
+    if (!location.pathname.startsWith('/admin')) {
+      const token = localStorage.getItem('clientAccessToken') || sessionStorage.getItem('clientAccessToken')
+      if (token) {
+        getWishlist()
+          .then(res => dispatch(setWishlist(res.items || [])))
+          .catch(() => {})
+      } else {
+        dispatch(setWishlist([]))
+      }
+    }
+    // eslint-disable-next-line
+  }, [location, dispatch])
 
   useEffect(() => {
     let isMounted = true

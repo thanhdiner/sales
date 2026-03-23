@@ -4,6 +4,7 @@ import adminUserReducer from './adminUser'
 import websiteConfigReducer from './websiteConfigSlice'
 import userReducer from './user'
 import darkModeReducer from './darkModeSlice'
+import wishlistReducer from './wishlist'
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     user: adminUserReducer,
     websiteConfig: websiteConfigReducer,
     clientUser: userReducer,
-    darkMode: darkModeReducer
+    darkMode: darkModeReducer,
+    wishlist: wishlistReducer
   }
 })

@@ -4,8 +4,10 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { message, Spin } from 'antd'
 import { getProductDetail } from '@/services/productService'
 import { addToCart, getCart } from '@/services/cartsService'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setCart } from '@/stores/cart'
+import { addToWishlistLocal, removeFromWishlistLocal } from '@/stores/wishlist'
+import { toggleWishlist } from '@/services/wishlistService'
 import Error404 from '@/pages/Error404'
 import SEO from '@/components/SEO'
 import ReviewSection from '@/components/ReviewSection'
@@ -21,11 +23,14 @@ function ProductsDetail() {
   const [error, setError] = useState(null)
   const [notFound, setNotFound] = useState(false)
   const [selectedImage, setSelectedImage] = useState(0)
-  const [isLiked, setIsLiked] = useState(false)
+  const [wishlistLoading, setWishlistLoading] = useState(false)
   const [quantity, setQuantity] = useState('1')
   const [maxAvailable, setMaxAvailable] = useState(0)
   const [addCartLoading, setAddCartLoading] = useState(false)
   const [buyNowLoading, setBuyNowLoading] = useState(false)
+
+  const wishlistItems = useSelector(state => state.wishlist.items)
+  const isInWishlist = product ? wishlistItems.some(i => i.productId === (product._id || product.id)) : false
 
   // Helper: format price
   const formatPrice = price => {
@@ -221,6 +226,62 @@ function ProductsDetail() {
     }
   }
 
+  const handleToggleWishlist = async () => {
+    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
+    if (!isLoggedIn) {
+      message.info('Bạn cần đăng nhập để lưu yêu thích!')
+      navigate('/user/login')
+      return
+    }
+    if (wishlistLoading || !product) return
+
+    // ✅ OPTIMISTIC UI
+    const productId = product._id || product.id
+    const wasInWishlist = isInWishlist
+    if (wasInWishlist) {
+      dispatch(removeFromWishlistLocal(productId))
+    } else {
+      dispatch(addToWishlistLocal({
+        productId,
+        name: product.title,
+        price: priceNew,
+        originalPrice: priceOrigin,
+        discountPercentage: discountPercent,
+        image: product.thumbnail,
+        slug: product.slug,
+        stock: product.stock,
+        inStock: product.stock > 0,
+        rate: product.rate
+      }))
+    }
+
+    setWishlistLoading(true)
+    try {
+      await toggleWishlist(productId)
+    } catch {
+      // Revert nếu lỗi
+      if (wasInWishlist) {
+        dispatch(addToWishlistLocal({
+          productId,
+          name: product.title,
+          price: priceNew,
+          originalPrice: priceOrigin,
+          discountPercentage: discountPercent,
+          image: product.thumbnail,
+          slug: product.slug,
+          stock: product.stock,
+          inStock: product.stock > 0,
+          rate: product.rate
+        }))
+      } else {
+        dispatch(removeFromWishlistLocal(productId))
+      }
+      message.error('Có lỗi xảy ra, thử lại!')
+    } finally {
+      setWishlistLoading(false)
+    }
+  }
+
   // Strip HTML tags for meta description
   const plainDesc = product.description
     ? product.description.replace(/<[^>]*>/g, '').slice(0, 160)
@@ -262,10 +323,19 @@ function ProductsDetail() {
                 )}
                 <div className="absolute top-4 right-4 flex space-x-2">
                   <button
-                    onClick={() => setIsLiked(!isLiked)}
-                    className="p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300 group"
+                    onClick={handleToggleWishlist}
+                    disabled={wishlistLoading}
+                    className={`p-2 backdrop-blur-sm rounded-full shadow-lg transition-all duration-300 ${
+                      isInWishlist
+                        ? 'bg-pink-500 text-white scale-110 hover:bg-pink-600'
+                        : 'bg-white/80 hover:bg-white text-gray-600 hover:text-pink-500'
+                    }`}
+                    title={isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
                   >
-                    <Heart className={`h-5 w-5 transition-colors ${isLiked ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
+                    {wishlistLoading
+                      ? <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin block" />
+                      : <Heart className={`h-5 w-5 ${isInWishlist ? 'fill-white text-white' : ''}`} />
+                    }
                   </button>
                   <button className="p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300">
                     <Share2 className="h-5 w-5 text-gray-600" />
