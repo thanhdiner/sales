@@ -6,6 +6,7 @@ import {
   HomeOutlined,
   MessageOutlined,
   RadiusSettingOutlined,
+  StarOutlined,
   TeamOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
@@ -67,6 +68,7 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     ),
     permissions.includes('view_accounts') && getItem('Accounts', 'accounts', <TeamOutlined />),
     permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />),
+    getItem('Reviews', 'reviews', <StarOutlined />),
     getItem('Live Chat', 'chat', <MessageOutlined />)
   ]
 

@@ -67,6 +67,7 @@ import AdminBankInfoPage from '@/pages/AdminBankInfoPage'
 import WishlistPage from '@/pages/WishlistPage'
 import ComparePage from '@/pages/ComparePage'
 import AdminChatPage from '@/pages/AdminChatPage'
+import AdminReviewsPage from '@/pages/AdminReviewsPage'
 
 export const routes = [
   // Client
@@ -518,6 +519,14 @@ export const routes = [
         element: (
           <AdminRequireAuth>
             <AdminChatPage />
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'reviews',
+        element: (
+          <AdminRequireAuth>
+            <AdminReviewsPage />
           </AdminRequireAuth>
         )
       },
