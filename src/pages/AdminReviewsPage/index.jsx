@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { message, Modal } from 'antd'
 import { Star, Trash2, MessageSquare, Search, RefreshCw, ChevronLeft, ChevronRight, X, Send, ShieldCheck, ExternalLink } from 'lucide-react'
-import { apiFetch } from '@/utils/request'
+import { get, del } from '@/utils/request'
 import { adminReplyReview, adminDeleteReply } from '@/services/reviewService'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -263,14 +263,13 @@ export default function AdminReviewsPage() {
       const params = new URLSearchParams({ page: pg, limit: LIMIT })
       if (ratingFilter) params.set('rating', ratingFilter)
       if (search.trim()) params.set('search', search.trim())
-      const data = await apiFetch(`admin/reviews?${params}`)
+      const data = await get(`admin/reviews?${params}`)
       setReviews(data.reviews || [])
       setTotal(data.total || 0)
 
-      // compute stats from full data (first load only, or after re-fetch)
+      // compute stats from full data (first load only)
       if (pg === 1 && !ratingFilter && !search.trim()) {
-        // fetch all for summary
-        const all = await apiFetch('admin/reviews?limit=10000')
+        const all = await get('admin/reviews?limit=10000')
         const allRevs = all.reviews || []
         const dist = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
         let sum = 0
@@ -335,7 +334,7 @@ export default function AdminReviewsPage() {
       okText: 'Xoá', okType: 'danger', cancelText: 'Huỷ',
       onOk: async () => {
         try {
-          await apiFetch(`admin/reviews/${reviewId}`, { method: 'DELETE' })
+          await del(`admin/reviews/${reviewId}`)
           setReviews(prev => prev.filter(r => r._id !== reviewId))
           setTotal(t => t - 1)
           message.success('Đã xoá đánh giá')
