@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  ArrowRight,
   Search,
   UserPlus,
   CreditCard,
@@ -14,8 +13,7 @@ import {
   Mail,
   Clock3,
   ChevronRight,
-  Sparkles,
-  Package
+  Sparkles
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import SEO from '@/components/SEO'

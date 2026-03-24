@@ -1,4 +1,4 @@
-import { Heart, ShoppingCart, Trash2, ShoppingBag, ArrowRight, Star, Package, Truck, Shield, X, Eye } from 'lucide-react'
+import { Heart, ShoppingCart, ShoppingBag, ArrowRight, Star, Package, Truck, Shield, X, Eye } from 'lucide-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setWishlist, removeFromWishlistLocal, clearWishlistLocal } from '@/stores/wishlist'
 import { setCart } from '@/stores/cart'
