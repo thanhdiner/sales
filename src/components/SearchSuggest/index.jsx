@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from 'antd'
 import { SearchOutlined, FireFilled, StockOutlined } from '@ant-design/icons'
@@ -141,13 +141,42 @@ export default function SearchSuggest() {
 
       {showDropdown && (
         <div
-          className={`absolute top-[56px] left-0 right-0 bg-white border-none rounded-[20px] z-[1000] shadow-[0_8px_40px_rgba(0,0,0,0.12)] overflow-hidden backdrop-blur-[10px] animate-[slideUp_0.25s_cubic-bezier(0.4,0,0.2,1)] dark:bg-gray-800 dark:shadow-[0_8px_40px_rgba(0,0,0,0.2)]`}
+          className={`search-suggest-dropdown absolute top-[56px] left-0 right-0 bg-white border-none rounded-[20px] z-[1000] shadow-[0_8px_40px_rgba(0,0,0,0.12)] overflow-hidden backdrop-blur-[10px] animate-[slideUp_0.25s_cubic-bezier(0.4,0,0.2,1)] dark:bg-gray-800 dark:shadow-[0_8px_40px_rgba(0,0,0,0.2)]`}
         >
           <style>
             {`
               @keyframes slideUp {
                 from { opacity: 0; transform: translateY(8px) scale(0.96); }
                 to { opacity: 1; transform: translateY(0) scale(1); }
+              }
+
+              .search-suggest-dropdown {
+                max-height: min(62vh, 420px);
+                overflow-y: auto;
+                overscroll-behavior: contain;
+              }
+
+              @media (max-width: 768px) {
+                .search-suggest-dropdown {
+                  max-height: min(52vh, 360px);
+                }
+              }
+
+              .search-suggest-dropdown::-webkit-scrollbar {
+                width: 6px;
+              }
+
+              .search-suggest-dropdown::-webkit-scrollbar-track {
+                background: transparent;
+              }
+
+              .search-suggest-dropdown::-webkit-scrollbar-thumb {
+                background: rgba(148, 163, 184, 0.45);
+                border-radius: 9999px;
+              }
+
+              .search-suggest-dropdown:hover::-webkit-scrollbar-thumb {
+                background: rgba(148, 163, 184, 0.75);
               }
             `}
           </style>

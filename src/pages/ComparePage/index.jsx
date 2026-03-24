@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ShoppingBag, Star, X, Info, ShoppingCart, Zap, Trash2, Home, BarChart2 } from 'lucide-react';
+import { ShoppingBag, Star, X, ShoppingCart, Zap, Trash2, BarChart2 } from 'lucide-react';
 import { removeCompareLocal, clearCompareLocal } from '@/stores/compare';
-import { useNavigate, Link } from 'react-router-dom';
-import { message, Tooltip, Rate } from 'antd';
+import { Link } from 'react-router-dom';
+import { message, Rate } from 'antd';
 import SEO from '@/components/SEO';
 import { addToCart, getCart } from '@/services/cartsService';
 import { setCart } from '@/stores/cart';
@@ -11,7 +11,6 @@ import { setCart } from '@/stores/cart';
 export default function ComparePage() {
   const compareItems = useSelector(state => state.compare.items);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleAddToCart = async (item) => {
     try {
