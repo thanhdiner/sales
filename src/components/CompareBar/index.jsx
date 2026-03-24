@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { X, ArrowRight, BarChart2, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
+import { X, ArrowRight, BarChart2, ChevronUp, ChevronDown } from 'lucide-react';
 import { removeCompareLocal, clearCompareLocal } from '@/stores/compare';
 import { useNavigate } from 'react-router-dom';
 

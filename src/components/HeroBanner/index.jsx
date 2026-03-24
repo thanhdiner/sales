@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Slider from 'react-slick'
+import { motion } from 'framer-motion'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './HeroBanner.scss'
@@ -77,8 +78,18 @@ export default function HeroBanner() {
     return <div className="HeroBanner-root">Chưa có banner nào</div>
   }
 
+  const viewport = { once: true, amount: 0.2 }
+
   return (
-    <div className="HeroBanner-root group" role="region" aria-label="Banner nổi bật">
+    <motion.div
+      className="HeroBanner-root group"
+      role="region"
+      aria-label="Banner nổi bật"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      viewport={viewport}
+    >
       <Slider {...settings}>
         {banners.map((banner, index) => (
           <div
@@ -112,14 +123,20 @@ export default function HeroBanner() {
               style={{ userSelect: 'none', WebkitUserDrag: 'none' }}
             />
             <div className="HeroBanner-overlay" />
-            <div className="HeroBanner-title-wrap">
+            <motion.div
+              className="HeroBanner-title-wrap"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
+              viewport={viewport}
+            >
               <h3 className="HeroBanner-title" aria-label={banner.title}>
                 {banner.title}
               </h3>
-            </div>
+            </motion.div>
           </div>
         ))}
       </Slider>
-    </div>
+    </motion.div>
   )
 }

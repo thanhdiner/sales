@@ -124,8 +124,6 @@ function ReplyModal({ review, open, onClose, onSave }) {
 
 // ── Review Row ───────────────────────────────────────────────────────────────
 function ReviewRow({ review, onReply, onDeleteReply, onDelete }) {
-  const [imgOpen, setImgOpen] = useState(false)
-
   const allMedia = [
     ...(review.images || []).map(url => ({ url, isVideo: false })),
     ...(review.videos || []).map(url => ({ url, isVideo: true }))

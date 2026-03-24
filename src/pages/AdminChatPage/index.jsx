@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
   MessageCircle, Send, Bot, User, Circle, RefreshCw, Search,
-  CheckCircle, Clock, Inbox, UserCheck, AlertCircle, MoreHorizontal,
-  Edit3, Lock, ChevronDown, Phone, Mail, Globe, X
+  CheckCircle, Clock, Inbox, UserCheck, AlertCircle,
+  Lock, Globe
 } from 'lucide-react'
-import { getSocket, connectSocket } from '@/services/socketService'
+import { getSocket } from '@/services/socketService'
 import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -191,8 +191,6 @@ export default function AdminChatPage() {
 
       if (activeTab === 'mine') {
         list = list.filter(c => c.assignedAgent?.agentId === agentId)
-      } else if (activeTab === 'open') {
-        list = list // all open
       }
 
       setConversations(list)
