@@ -1,70 +1,228 @@
-# Getting Started with Create React App
+# SmartMall Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend cho hệ thống thương mại điện tử `SmartMall`, gồm giao diện khách hàng và khu vực quản trị. Dự án dùng `React 18`, `CRACO`, `Redux Toolkit`, `React Router 6`, `Ant Design`, `Tailwind CSS`, `Sass` và `Socket.IO`.
 
-## Available Scripts
+## Flash Sale Highlight
 
-In the project directory, you can run:
+> EXCLUSIVE EVENT  
+> FLASH SALE  
+> Deal giới hạn mỗi ngày
 
-### `npm start`
+Giảm giá sốc, số lượng có hạn. Người dùng có thể săn deal nhanh theo khung giờ, xem lịch hẹn, theo dõi số lượng đã bán và mua ngay trực tiếp từ trang flash sale.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- CTA chính: `Săn Deal Ngay`
+- CTA phụ: `Xem Lịch Hẹn`
+- Badge niềm tin: `License Verified`
+- Giá trị cốt lõi: sản phẩm chính hãng, giao key nhanh, hỗ trợ tận tâm
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Nội dung Flash Sale mẫu
 
-### `npm test`
+### Tổng quan sự kiện
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Đang diễn ra: `1`
+- Sắp bắt đầu: `0`
+- Mức giảm cao nhất: `-70%`
+- Bộ lọc danh mục: `Tất cả`, `Điện tử`, `Thời trang`, `Gia dụng`
 
-### `npm run build`
+### Sự kiện hiện tại
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`Flash Sale mùa hè 2026`  
+Thời gian: `28/03/2026 00:00 - 30/04/2026 00:00`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Trạng thái: `ĐANG DIỄN RA`
+- Mức giảm nổi bật: `-50%`
+- Tiến độ: `Đã bán 0/222`
+- Nhãn hiển thị: `Flash Sale Đang Diễn Ra`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Sản phẩm nổi bật
 
-### `npm run eject`
+- `AVG Ultimate 12 tháng 10 thiết bị`: `500.000 ₫` từ `1.000.000 ₫`, tiết kiệm `500.000 ₫`
+- `Avast Ultimate 24 tháng 10 thiết bị`: `1.000.000 ₫` từ `2.000.000 ₫`, tiết kiệm `1.000.000 ₫`
+- `Gologin Enterprise 37 ngày bảo hành full`: `250.000 ₫` từ `500.000 ₫`, tiết kiệm `250.000 ₫`, nhãn `Bán chạy`
+- `Tinder Platinum 6 tháng`: `600.000 ₫` từ `1.200.000 ₫`, tiết kiệm `600.000 ₫`
+- `NotebookLM Plus 12 tháng (Acc cấp không bảo hành)`: `250.000 ₫` từ `500.000 ₫`, tiết kiệm `250.000 ₫`
+- `Tinder Gold 6 tháng`: `500.000 ₫` từ `1.000.000 ₫`, tiết kiệm `500.000 ₫`
+- `Avast Ultimate 12 tháng 10 thiết bị`: `500.000 ₫` từ `1.000.000 ₫`, tiết kiệm `500.000 ₫`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Cam kết thương hiệu
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Cam kết bảo mật và bản quyền `100%`
+- Sản phẩm chính hãng, đầy đủ giấy phép sử dụng
+- Giao hàng tự động, nhận key nhanh sau thanh toán
+- Hỗ trợ kỹ thuật tận tâm khi có vấn đề phát sinh
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Social proof
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `10k+` khách hàng
+- `99%` hài lòng
+- `24/7` hỗ trợ
+- `0%` rủi ro
 
-## Learn More
+## Thông tin hỗ trợ
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Hotline: `+84 823 387 108`
+- Khung giờ hỗ trợ: `8h - 22h hàng ngày`
+- Email: `smartmall.business.official@gmail.com`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Trang thông tin liên quan
 
-### Code Splitting
+- Hướng dẫn mua hàng
+- Chính sách bảo mật
+- Chính sách đổi trả và hoàn tiền
+- Câu hỏi thường gặp
+- Giới thiệu chúng tôi
+- Điều khoản sử dụng
+- Liên hệ hợp tác
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Danh mục dịch vụ
 
-### Analyzing the Bundle Size
+- Tài khoản game
+- Nâng cấp bản quyền
+- Thẻ cào và voucher
+- Gói dịch vụ đặc biệt
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Phương thức thanh toán
 
-### Making a Progressive Web App
+- `Visa`
+- `Mastercard`n
+- `JCB`
+- `Momo`
+- `ZaloPay`
+- `ViettelMoney`
+- `VNPAY`
+- `Pay-In-Cash`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Kênh kết nối
 
-### Advanced Configuration
+- `Facebook`
+- `Youtube`
+- `Zalo`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Chức năng chính
 
-### Deployment
+- Giao diện client: trang chủ, danh sách sản phẩm, chi tiết sản phẩm, danh mục, flash sale, wishlist, compare, giỏ hàng, checkout, lịch sử đơn hàng.
+- Xác thực người dùng: đăng ký, đăng nhập, quên mật khẩu, OAuth callback.
+- Giao diện admin: dashboard, sản phẩm, danh mục, đơn hàng, tài khoản admin, vai trò, quyền, nhóm quyền, mã giảm giá, banner, widget, flash sale, đánh giá, cấu hình website, thông tin ngân hàng.
+- Realtime: chat hỗ trợ và kết nối Socket.IO cho khu vực quản trị.
+- SEO cơ bản với `react-helmet-async`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Công nghệ sử dụng
 
-### `npm run build` fails to minify
+- `React 18`
+- `Create React App` + `CRACO`
+- `Redux Toolkit` + `React Redux`
+- `React Router DOM`
+- `Ant Design`
+- `Tailwind CSS`
+- `Sass`
+- `Socket.IO Client`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Cấu trúc thư mục
+
+```text
+sales/
+|- public/               # static assets, favicon, images, icons
+|- src/
+|  |- components/        # UI components dùng lại
+|  |- pages/             # màn hình client và admin
+|  |- services/          # gọi API
+|  |- stores/            # Redux slices/store
+|  |- utils/             # helpers, auth, request wrappers
+|  |- Layout/            # layout client và admin
+|  |- routes/            # cấu hình route
+|  |- hooks/             # custom hooks
+|  |- helpers/           # formatter/helpers riêng
+|- craco.config.js       # alias @ -> src
+|- tailwind.config.js
+|- package.json
+```
+
+## Yêu cầu môi trường
+
+- `Node.js` 18 trở lên
+- `npm`
+- Backend `sale-api` đang chạy
+
+## Biến môi trường
+
+Tạo file `.env` trong thư mục `sales`:
+
+```env
+REACT_APP_API_URL=http://localhost:3001/api/v1
+REACT_APP_SOCKET_URL=http://localhost:3001
+REACT_APP_CLIENT_URL=http://localhost:3000
+```
+
+Lưu ý:
+
+- `REACT_APP_API_URL` phải bao gồm hậu tố `/api/v1`.
+- Nên khai báo đủ 3 biến, vì một số luồng OAuth đọc trực tiếp `process.env.REACT_APP_API_URL`.
+- Backend đang dùng `credentials: 'include'`, nên `CLIENT_URL` phía API phải khớp với domain frontend.
+
+## Cài đặt và chạy local
+
+### 1. Cài frontend
+
+```bash
+cd sales
+npm install
+```
+
+### 2. Chạy backend
+
+Frontend mặc định gọi API tại `http://localhost:3001/api/v1`, nên cần chạy `sale-api` trước.
+
+Ví dụ backend tối thiểu:
+
+```env
+PORT=3001
+CLIENT_URL=http://localhost:3000
+SERVER_URL=http://localhost:3001
+MONGO_URL=mongodb://localhost:27017/smartmall
+REDIS_URL=redis://localhost:6379
+ACCESS_SECRET=your_access_secret
+REFRESH_SECRET=your_refresh_secret
+```
+
+Nếu chạy backend bằng Docker:
+
+```bash
+cd ../sale-api
+docker compose up --build
+```
+
+Lưu ý `docker-compose.yml` hiện có API và Redis, nhưng bạn vẫn cần cung cấp `MONGO_URL` hợp lệ trong file `.env` của `sale-api`.
+
+### 3. Chạy frontend
+
+```bash
+cd sales
+npm start
+```
+
+Ứng dụng mặc định chạy tại `http://localhost:3000`.
+
+## Scripts
+
+- `npm start`: chạy môi trường development.
+- `npm run build`: build production vào thư mục `build/`.
+- `npm test`: chạy test bằng `craco test`.
+
+## Tích hợp với backend
+
+- Base API frontend: `REACT_APP_API_URL`
+- Base socket frontend: `REACT_APP_SOCKET_URL`
+- Swagger backend: `http://localhost:3001/api-docs` hoặc `http://localhost:3001/docs`
+- Health check backend: `http://localhost:3001/health`
+
+## Các route đáng chú ý
+
+- Client: `/`, `/products`, `/products/:slug`, `/flash-sale`, `/cart`, `/checkout`, `/orders`, `/wishlist`, `/compare`
+- Auth: `/user/login`, `/user/register`, `/user/forgot-password`, `/user/oauth-callback`
+- Admin: `/admin/dashboard`, `/admin/products`, `/admin/product-categories`, `/admin/orders`, `/admin/accounts`, `/admin/roles`, `/admin/permissions`, `/admin/promo-codes`, `/admin/banners`, `/admin/widgets`, `/admin/flash-sales`, `/admin/chat`
+
+## Ghi chú phát triển
+
+- Alias import `@` được map tới thư mục `src`.
+- Frontend đang kết hợp `Tailwind CSS`, `Sass` và `Ant Design`, nên khi thêm UI mới nên giữ đúng pattern đang có của từng khu vực.
+- Khu vực admin có cơ chế phân quyền theo permission, route protection và refresh token riêng.

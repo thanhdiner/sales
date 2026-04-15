@@ -16,6 +16,57 @@ const initialValues = {
   deliveryEstimateDays: 0
 }
 
+const summarizeCreateValues = values => ({
+  title: values.title,
+  slug: values.slug || '',
+  productCategory: values.productCategory,
+  price: values.price,
+  costPrice: values.costPrice,
+  discountPercentage: values.discountPercentage || 0,
+  stock: values.stock || 0,
+  status: values.status || 'active',
+  position: values.position,
+  isTopDeal: !!values.isTopDeal,
+  isFeatured: !!values.isFeatured,
+  deliveryEstimateDays: values.deliveryEstimateDays || 0,
+  featuresCount: values.features?.length || 0,
+  timeRange: values.timeRange?.map(item => item?.toISOString?.()) || [],
+  descriptionLength: values.description?.length || 0,
+  contentLength: values.content?.length || 0,
+  thumbnail: values.thumbnail?.[0]
+    ? {
+        name: values.thumbnail[0].name,
+        type: values.thumbnail[0].type,
+        size: values.thumbnail[0].size
+      }
+    : null
+})
+
+const logFormDataDebug = (values, formData) => {
+  const entries = []
+
+  for (const [key, value] of formData.entries()) {
+    if (value instanceof File) {
+      entries.push({
+        key,
+        value: {
+          name: value.name,
+          type: value.type,
+          size: value.size
+        }
+      })
+      continue
+    }
+
+    entries.push({ key, value })
+  }
+
+  console.groupCollapsed('[AdminProductCreate] Submit payload')
+  console.log('Values summary:', summarizeCreateValues(values))
+  console.table(entries)
+  console.groupEnd()
+}
+
 const CreateProductPage = () => {const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -25,8 +76,17 @@ const CreateProductPage = () => {const [form] = Form.useForm()
     const fetchTreeData = async () => {
       try {
         const response = await getAdminProductCategoryTree()
-        if (response) setTreeData(response)
+        if (response) {
+          console.debug('[AdminProductCreate] Category tree loaded', {
+            rootItems: response.length
+          })
+          setTreeData(response)
+        }
       } catch (error) {
+        console.error('[AdminProductCreate] Failed to load category tree', {
+          error: error?.message || String(error),
+          response: error?.response
+        })
         message.error('❌ Failed to load category tree data')
       }
     }
@@ -58,7 +118,9 @@ const CreateProductPage = () => {const [form] = Form.useForm()
       formData.append('stock', values.stock || 0)
       formData.append('description', values.description || '')
       formData.append('status', values.status || 'active')
-      formData.append('position', values?.position)
+      if (values.position !== undefined && values.position !== null && values.position !== '') {
+        formData.append('position', values.position)
+      }
       formData.append('slug', values.slug || '')
       formData.append('content', values.content || '')
       formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
@@ -69,17 +131,31 @@ const CreateProductPage = () => {const [form] = Form.useForm()
       if (timeStart) formData.append('timeStart', timeStart.toISOString())
       if (timeFinish) formData.append('timeFinish', timeFinish.toISOString())
 
-      await createProduct(formData)
+      logFormDataDebug(values, formData)
+
+      const response = await createProduct(formData)
+
+      console.info('[AdminProductCreate] Create success', response)
 
       message.success('🎉 Product created successfully!')
       navigate('/admin/products')
     } catch (err) {
       const response = err?.response || {}
+      console.error('[AdminProductCreate] Create failed', {
+        message: err?.message || String(err),
+        status: err?.status,
+        response,
+        values: summarizeCreateValues(values)
+      })
 
       if (response?.error === 'Slug already exists') {
         message.error(`❌ Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: ${response.suggestedSlug || ''}`)
         if (response.suggestedSlug) form.setFieldsValue({ slug: response.suggestedSlug })
-      } else message.error('❌ Failed to create product!')
+      } else if (response?.details?.length) {
+        message.error(`❌ ${response.details.join(' | ')}`)
+      } else {
+        message.error(`❌ ${response?.error || response?.message || 'Failed to create product!'}`)
+      }
     } finally {
       setLoading(false)
     }

@@ -84,7 +84,9 @@ function AdminProductsEdit() {const [loading, setLoading] = useState(false)
       formData.append('stock', values.stock || 0)
       formData.append('description', values.description || '')
       formData.append('status', values.status || 'active')
-      formData.append('position', values?.position)
+      if (values.position !== undefined && values.position !== null && values.position !== '') {
+        formData.append('position', values.position)
+      }
       formData.append('slug', values.slug || '')
       formData.append('content', values.content || '')
       formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
