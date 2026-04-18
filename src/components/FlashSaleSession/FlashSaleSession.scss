@@ -91,4 +91,125 @@
     pointer-events: none;
     overflow: hidden;
   }
+
+  // ===== Perspective Grid (2D Full Screen) =====
+  &__grid-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    
+    // Smooth fade out at the top
+    mask-image: linear-gradient(to top, black 40%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to top, black 40%, transparent 95%);
+  }
+
+  // Vertical Rays
+  &__rays {
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    transform: translateX(-50%);
+    background: repeating-conic-gradient(
+      from 0deg at 50% 100%,
+      rgba(255, 100, 30, 0.25) 0deg 0.05deg,
+      transparent 0.05deg 3.5deg
+    );
+  }
+
+  // Horizontal Curved Lines (Concentric Grid)
+  &__waves {
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    transform: translateX(-50%);
+    background: repeating-radial-gradient(
+      circle at 50% 100%,
+      transparent 0,
+      transparent 48px,
+      rgba(255, 100, 30, 0.25) 49px,
+      rgba(255, 100, 30, 0.25) 50px
+    );
+  }
+
+  // Animated Shooting Bursts
+  &__shooting {
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    transform: translateX(-50%);
+    
+    // Mask ensures bursts only show on the grid lines!
+    -webkit-mask-image: 
+      repeating-conic-gradient(from 0deg at 50% 100%, black 0deg 0.05deg, transparent 0.05deg 3.5deg),
+      repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 48px, black 49px, black 50px);
+    mask-image: 
+      repeating-conic-gradient(from 0deg at 50% 100%, black 0deg 0.05deg, transparent 0.05deg 3.5deg),
+      repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 48px, black 49px, black 50px);
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 100%;
+      background: radial-gradient(circle at 50% 100%, transparent 20%, rgba(255, 120, 50, 0.8) 40%, transparent 60%);
+      animation: flash-shoot 5s infinite cubic-bezier(0.1, 0.7, 0.3, 1);
+    }
+    
+    &::after {
+      animation-delay: 2.5s;
+    }
+  }
+
+  // ===== Dots =====
+  &__dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle, rgba(255, 100, 50, 0.18) 1px, transparent 1px),
+      radial-gradient(circle, rgba(255, 180, 0, 0.12) 1px, transparent 1px);
+    background-size: 100px 80px, 160px 130px;
+    background-position: 20px 10px, 70px 50px;
+  }
+
+  // ===== Glow =====
+  &__glow {
+    position: absolute;
+    bottom: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 70%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 140, 50, 0.12) 0%,
+      rgba(255, 100, 30, 0.05) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+@keyframes flash-shoot {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
 }

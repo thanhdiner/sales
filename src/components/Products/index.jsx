@@ -60,6 +60,7 @@ function Products() {
   const [searchInput, setSearchInput]   = useState('')
   const [searchParams, setSearchParams] = useSearchParams()
 
+
   // ─── Read params ─────────────────────────────────────────
   const sort      = searchParams.get('sort')     || 'newest'
   const filterType= searchParams.get('type')     || 'all'

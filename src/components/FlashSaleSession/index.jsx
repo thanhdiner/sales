@@ -14,6 +14,15 @@ function FlashSaleSession() {
       transition={{ duration: 0.55, ease: 'easeOut' }}
       viewport={viewport}
     >
+      {/* 2D Perspective Grid + Dots + Glow */}
+      <div className="home__flash-sale__grid-container">
+        <div className="home__flash-sale__rays"></div>
+        <div className="home__flash-sale__waves"></div>
+        <div className="home__flash-sale__shooting"></div>
+      </div>
+      <div className="home__flash-sale__dots"></div>
+      <div className="home__flash-sale__glow"></div>
+
       <motion.div
         className="home__flash-sale__header dark:bg-gray-800"
         initial={{ opacity: 0, y: 14 }}
@@ -28,7 +37,7 @@ function FlashSaleSession() {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           viewport={viewport}
         >
-          <div className="home__flash-sale__badge">⚡ FLASH SALE</div>
+          <div className="home__flash-sale__badge">FLASH SALE</div>
           <h2 className="home__heading2">
             <span className="home__heading2__gradient">Flash Sale</span>
             <span className="home__heading2__accent dark:text-gray-400">hàng ngày</span>

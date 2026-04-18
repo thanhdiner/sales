@@ -1,10 +1,17 @@
 .header {
   padding: 10px 0;
   background-color: var(--color-bg-base);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 999;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
   &__row {
     display: flex;
     align-items: center;
@@ -168,6 +175,8 @@
     top: 100px;
     left: 30px;
     background-color: var(--color-bg-container);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 
     &::-webkit-scrollbar {
       display: none;
@@ -188,7 +197,7 @@
     }
   }
   &__body {
-    padding-top: 30px;
+    padding-top: 100px; // offset for fixed header (~70px) + spacing
     background-color: var(--color-bg-container);
   }
   &__body--sub {
@@ -200,6 +209,11 @@
     padding: 0 60px;
     min-height: 100vh;
   }
+}
+
+/* Sider trồi lên khi header ẩn (cuộn xuống) */
+.header--hidden ~ .layout-default__body .layout-default__sider {
+  transform: translateY(-84px);
 }
 
 h1 {

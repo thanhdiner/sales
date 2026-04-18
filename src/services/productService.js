@@ -7,6 +7,14 @@ export const getProducts = async (params = {}) => {
   return await get(url)
 }
 
+export const trackProductView = async (slug) => {
+  try {
+    return await post(`products/${slug}/view`)
+  } catch {
+    // Lỗi view tracking không nên ảnh hưởng UX
+  }
+}
+
 export const getProductDetail = async slug => {
   return await get(`products/${slug}`)
 }
@@ -14,6 +22,11 @@ export const getProductDetail = async slug => {
 export const getProductSuggestions = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
   return await get(`products/suggest?${query}`)
+}
+
+export const getRecommendations = async (params = {}) => {
+  const query = new URLSearchParams(params).toString()
+  return await get(`products/recommendations?${query}`)
 }
 
 //# admin

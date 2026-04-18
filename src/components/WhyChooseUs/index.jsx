@@ -50,7 +50,7 @@ const WhyChooseUs = () => {
       transition={{ duration: 0.55, ease: 'easeOut' }}
       viewport={viewport}
     >
-      <div className="max-w-7xl mx-auto px-4 py-14 md:px-6 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 py-10 md:px-6 md:py-12">
         <motion.div
           className="text-center max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 16 }}
@@ -62,8 +62,8 @@ const WhyChooseUs = () => {
             Tại sao nên chọn chúng tôi
           </span>
 
-          <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-            Mua hàng nhanh, hỗ trợ rõ ràng, trải nghiệm yên tâm hơn
+          <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight text-balance">
+            Mua hàng nhanh, hỗ trợ rõ ràng, <br className="hidden md:block" /> trải nghiệm yên tâm hơn
           </h2>
 
           <p className="mt-4 text-base md:text-lg text-gray-600 leading-7">
@@ -82,7 +82,7 @@ const WhyChooseUs = () => {
               viewport={viewport}
             >
               <CardSpotlight
-                className="group transition-shadow duration-300 shadow-sm hover:shadow-lg"
+                className="group transition-shadow duration-300 shadow-sm hover:shadow-lg bg-gray-50/50 border border-gray-100"
                 color="rgba(79, 140, 255, 0.2)"
                 radius={330}
               >

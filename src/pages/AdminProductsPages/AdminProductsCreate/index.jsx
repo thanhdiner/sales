@@ -95,6 +95,8 @@ const CreateProductPage = () => {const [form] = Form.useForm()
   }, [])
 
   const handleSubmit = async values => {
+    console.group('🐛 [CreateProduct] handleSubmit')
+    console.log('📋 Raw form values:', JSON.parse(JSON.stringify(values)))
     setLoading(true)
 
     try {
@@ -158,6 +160,7 @@ const CreateProductPage = () => {const [form] = Form.useForm()
       }
     } finally {
       setLoading(false)
+      console.groupEnd()
     }
   }
 

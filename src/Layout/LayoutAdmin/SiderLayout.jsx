@@ -6,6 +6,7 @@ import {
   HomeOutlined,
   MessageOutlined,
   RadiusSettingOutlined,
+  RobotOutlined,
   StarOutlined,
   TeamOutlined
 } from '@ant-design/icons'
@@ -69,7 +70,8 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     permissions.includes('view_accounts') && getItem('Accounts', 'accounts', <TeamOutlined />),
     permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />),
     getItem('Reviews', 'reviews', <StarOutlined />),
-    getItem('Live Chat', 'chat', <MessageOutlined />)
+    getItem('Live Chat', 'chat', <MessageOutlined />),
+    getItem('AI Chatbot', 'chatbot-config', <RobotOutlined />)
   ]
 
   const getLevelKeys = items1 => {
@@ -120,7 +122,8 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     if (pathname.includes('/admin/widgets')) return 'widgets'
     if (pathname.includes('/admin/flash-sales')) return 'flash-sales'
     if (pathname.includes('/admin/bank-info')) return 'bank-info'
-    if (pathname.includes('/admin/chat')) return 'chat'
+    if (pathname.includes('/admin/chat') && !pathname.includes('chatbot')) return 'chat'
+    if (pathname.includes('/admin/chatbot-config')) return 'chatbot-config'
     return 'dashboard'
   }
 

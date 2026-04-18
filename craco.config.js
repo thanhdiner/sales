@@ -4,6 +4,20 @@ module.exports = {
   webpack: {
     alias: {
       '@': path.resolve(__dirname, 'src')
+    },
+    configure: (webpackConfig) => {
+      // Swiper v11+ is ESM-only — tell CRA's Babel to transpile it
+      const oneOfRule = webpackConfig.module.rules.find(rule => rule.oneOf)
+      if (oneOfRule) {
+        const babelLoader = oneOfRule.oneOf.find(
+          rule => rule.loader && rule.loader.includes('babel-loader') && rule.include
+        )
+        if (babelLoader) {
+          delete babelLoader.include
+          babelLoader.exclude = /node_modules\/(?!(swiper|ssr-window|dom7)\/).*/
+        }
+      }
+      return webpackConfig
     }
   },
   devServer: devServerConfig => {

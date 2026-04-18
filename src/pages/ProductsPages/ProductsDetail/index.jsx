@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Star, ShoppingCart, Zap, Heart, Share2, Minus, Plus, Shield, Truck, RotateCcw, Award, Eye, Clock, BarChart2 } from 'lucide-react'
 import { toggleCompareLocal } from '@/stores/compare'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { message, Spin } from 'antd'
-import { getProductDetail } from '@/services/productService'
+import { getProductDetail, trackProductView } from '@/services/productService'
 import { addToCart, getCart } from '@/services/cartsService'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCart } from '@/stores/cart'
@@ -123,6 +123,23 @@ function ProductsDetail() {
     }
     fetchProduct()
   }, [params.slug])
+
+  // ── View Tracking: ghi nhận 1 lượt xem hợp lệ sau 3 giây ──
+  const viewTrackedRef = useRef(false)
+  useEffect(() => {
+    viewTrackedRef.current = false
+  }, [params.slug])
+
+  useEffect(() => {
+    if (!product || viewTrackedRef.current) return
+    const timer = setTimeout(() => {
+      if (!viewTrackedRef.current) {
+        viewTrackedRef.current = true
+        trackProductView(product.slug)
+      }
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [product])
 
   if (loading) {
     return (

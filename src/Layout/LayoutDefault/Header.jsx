@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react'
 import { Badge, Col, Dropdown, Row, message, Grid, Button } from 'antd'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { ShoppingCartOutlined, UserOutlined, SettingOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
@@ -11,6 +12,29 @@ import SearchSuggest from '@/components/SearchSuggest'
 import HeaderSkeleton from '@/components/HeaderSkeleton'
 
 function Header({ onOpenMenu }) {
+  // ─── Smart auto-hide header ─────────────────────────────────────
+  const [headerHidden, setHeaderHidden] = useState(false)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const THRESHOLD = 10 // ignore tiny scroll jitter
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      if (currentY < 80) {
+        // Always show header near top of page
+        setHeaderHidden(false)
+      } else if (currentY - lastScrollY.current > THRESHOLD) {
+        // Scrolling DOWN
+        setHeaderHidden(true)
+      } else if (lastScrollY.current - currentY > THRESHOLD) {
+        // Scrolling UP
+        setHeaderHidden(false)
+      }
+      lastScrollY.current = currentY
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
@@ -76,7 +100,7 @@ function Header({ onOpenMenu }) {
   }
 
   return (
-    <header className="header dark:bg-gray-800 dark:text-white">
+    <header className={`header dark:bg-gray-800 dark:text-white${headerHidden ? ' header--hidden' : ''}`}>
       {/* Hàng trên: Logo + search/cart/account */}
       <Row style={{ width: '100%' }} align="middle" gutter={12}>
         <Col xs={12} sm={8} md={6} lg={6} className="flex items-center gap-2">

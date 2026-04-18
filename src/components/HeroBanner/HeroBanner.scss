@@ -1,74 +1,82 @@
-.custom-dots {
-  bottom: 20px !important;
+.swiper-pagination-custom {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
-.custom-dots li {
+
+.swiper-pagination-custom .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
   margin: 0 6px !important;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
-.custom-dots li button {
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.5) !important;
-  transition: all 0.3s ease !important;
+
+.swiper-pagination-custom .swiper-pagination-bullet-active {
+  background: white;
+  transform: scale(1.2);
 }
-.custom-dots li button:before {
-  display: none !important;
-}
-.custom-dots li.slick-active button {
-  background: white !important;
-  transform: scale(1.2) !important;
-}
-.custom-dots li button:hover {
-  background: rgba(255, 255, 255, 0.8) !important;
-}
-.slick-slide > div {
-  padding: 0;
+
+.swiper-pagination-custom .swiper-pagination-bullet:hover {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .HeroBanner-root {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
-  border: 2px solid #e4e4e4;
-  background: #fff;
   width: 100%;
-  .slick-slider,
-  .slick-list,
-  .slick-track,
-  .slick-slide > div {
-    border-radius: 18px;
-    height: 100%;
+
+  .swiper {
+    padding: 2px 0;
   }
-  .slick-slide > div {
-    min-height: unset;
-    height: 100%;
-    padding: 0 !important;
+
+  .swiper-slide {
+    height: auto;
+    padding: 0 0;
     display: flex;
+  }
+
+  .swiper-button-prev {
+    left: 16px !important;
+  }
+
+  .swiper-button-next {
+    right: 16px !important;
   }
 }
 
 .HeroBanner-banner {
-  aspect-ratio: 3/1;
+  aspect-ratio: 24/11;
   width: 100%;
   height: auto;
   position: relative;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eaeaea;
+  background: #fff;
+  transform: translateZ(0);
 }
 
 .HeroBanner-img {
   width: 100%;
   height: 100%;
-  aspect-ratio: 3/1;
+  aspect-ratio: 24/11;
   object-fit: cover;
-  border-radius: 18px;
   display: block;
   transition: transform 0.7s cubic-bezier(0.87, 0, 0.13, 1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   user-select: none;
   pointer-events: none;
 }
+
 .HeroBanner-banner:hover .HeroBanner-img {
   transform: scale(1.045);
 }
@@ -79,8 +87,8 @@
   background: linear-gradient(45deg, rgba(0, 0, 0, 0.48) 24%, rgba(0, 0, 0, 0.21) 70%, transparent 100%);
   z-index: 2;
   pointer-events: none;
-  border-radius: 18px;
 }
+
 .HeroBanner-title-wrap {
   position: absolute;
   bottom: 32px;
@@ -90,6 +98,7 @@
   flex-direction: column;
   gap: 8px;
 }
+
 .HeroBanner-title {
   color: #fff;
   font-size: 2.2rem;
@@ -102,25 +111,26 @@
   display: inline-block;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.11);
 }
+
 .skeleton-root {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
-  border: 2px solid #e4e4e4;
-  background: #f0f0f0;
   width: 100%;
-  aspect-ratio: 3 / 1;
+  display: flex;
+  gap: 16px;
   min-height: 200px;
 }
 
 .skeleton-banner {
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
+  flex: 1;
+  aspect-ratio: 24/11;
+  border-radius: 16px;
   background: linear-gradient(100deg, #ececec 30%, #f7f7f7 50%, #ececec 70%);
   background-size: 400% 100%;
   animation: shimmer 1.4s linear infinite;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eaeaea;
+  position: relative;
+  overflow: hidden;
 }
 
 @keyframes shimmer {
@@ -132,38 +142,93 @@
   }
 }
 
+.skeleton-content-wrap {
+  position: absolute;
+  bottom: 32px;
+  left: 42px;
+  z-index: 3;
+}
+
+.skeleton-title {
+  width: 280px;
+  max-width: 80vw;
+  height: 64px;
+  border-radius: 12px;
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 70%), rgba(255, 255, 255, 0.3);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 3;
+}
+
+.skeleton-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+}
+
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
   .HeroBanner-banner,
-  .HeroBanner-img {
-    aspect-ratio: 16/6;
+  .HeroBanner-img,
+  .skeleton-banner {
+    aspect-ratio: 21/10;
   }
+
   .HeroBanner-title {
     font-size: 1.8rem;
     padding: 10px 26px;
   }
-  .HeroBanner-title-wrap {
+
+  .HeroBanner-title-wrap,
+  .skeleton-content-wrap {
     bottom: 24px;
     left: 28px;
+  }
+
+  .skeleton-title {
+    height: 52px;
+    width: 240px;
   }
 }
 
 @media (max-width: 767.98px) {
   .HeroBanner-banner,
-  .HeroBanner-img {
-    aspect-ratio: 16/7;
+  .HeroBanner-img,
+  .skeleton-banner {
+    aspect-ratio: 2/1;
   }
+
   .HeroBanner-title {
     font-size: 1.55rem;
     padding: 10px 22px;
   }
-  .HeroBanner-title-wrap {
+
+  .HeroBanner-title-wrap,
+  .skeleton-content-wrap {
     bottom: 20px;
     left: 20px;
   }
+
+  .skeleton-title {
+    height: 48px;
+    width: 210px;
+  }
+
   .HeroBanner-overlay {
     background: linear-gradient(60deg, rgba(0, 0, 0, 0.55) 10%, rgba(0, 0, 0, 0.25) 55%, transparent 100%);
   }
+
   .custom-dots {
     bottom: 12px !important;
   }
@@ -171,25 +236,30 @@
 
 @media (max-width: 575.98px) {
   .HeroBanner-banner,
-  .HeroBanner-img {
-    aspect-ratio: 16/9;
+  .HeroBanner-img,
+  .skeleton-banner {
+    aspect-ratio: 21/9;
   }
+
   .HeroBanner-title {
     font-size: 1.3rem;
     padding: 8px 18px;
     border-width: 1px;
   }
-  .HeroBanner-title-wrap {
+
+  .HeroBanner-title-wrap,
+  .skeleton-content-wrap {
     bottom: 16px;
     left: 16px;
   }
-  .HeroBanner-root {
-    border-width: 1px;
-    border-radius: 14px;
+
+  .skeleton-title {
+    height: 40px;
+    width: 180px;
   }
-  .HeroBanner-banner,
-  .HeroBanner-img,
-  .HeroBanner-overlay {
-    border-radius: 14px;
+
+  .HeroBanner-banner {
+    border-width: 1px;
+    border-radius: 12px;
   }
 }

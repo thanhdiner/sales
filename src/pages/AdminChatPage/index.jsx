@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
   MessageCircle, Send, Bot, User, Circle, RefreshCw, Search,
   CheckCircle, Clock, Inbox, UserCheck, AlertCircle,
-  Lock, Globe
+  Lock, Globe, ArrowLeft
 } from 'lucide-react'
 import { getSocket } from '@/services/socketService'
 import { useSelector } from 'react-redux'
@@ -97,10 +97,10 @@ const AgentMessageBubble = ({ msg }) => {
 
   if (isNote) {
     return (
-      <div className="flex justify-end">
-        <div className="max-w-[70%] bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl px-3 py-2 text-sm text-amber-800 dark:text-amber-300">
+      <div className={`flex justify-end ${msg.isOptimistic ? 'opacity-60' : ''}`}>
+        <div className="max-w-[70%] bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl px-3 py-2 text-sm text-amber-800 dark:text-amber-300 whitespace-pre-wrap break-words">
           <div className="flex items-center gap-1 mb-1 text-[10px] text-amber-500 font-medium">
-            <Lock className="w-3 h-3" /> Ghi chú nội bộ · {time}
+            <Lock className="w-3 h-3" /> Ghi chú nội bộ {!msg.isOptimistic && `· ${time}`}
           </div>
           {msg.message}
         </div>
@@ -127,10 +127,12 @@ const AgentMessageBubble = ({ msg }) => {
 
   if (isAgent) {
     return (
-      <div className="flex items-end gap-2 justify-end group">
-        <span className="text-[10px] text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity self-end mb-0.5">{time}</span>
+      <div className={`flex items-end gap-2 justify-end group ${msg.isOptimistic ? 'opacity-60' : ''}`}>
+        {!msg.isOptimistic && (
+          <span className="text-[10px] text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity self-end mb-0.5">{time}</span>
+        )}
         <div className="max-w-[65%]">
-          <div className="bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm shadow-sm">
+          <div className="w-fit bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm shadow-sm whitespace-pre-wrap break-words">
             {msg.message}
           </div>
         </div>
@@ -247,6 +249,24 @@ export default function AdminChatPage() {
       loadCounts()
     }
 
+    const handleUpdateMessages = (msg) => {
+      // Thêm vào chat nếu đang xem session này
+      if (selectedSessionRef.current === msg.sessionId) {
+        setMessages(prev => {
+          if (prev.some(m => m._id === msg._id)) return prev
+          if (msg.sender === 'agent' || msg.type === 'note' || msg.isInternal) {
+            const index = prev.findIndex(m => m.isOptimistic && m.message === msg.message)
+            if (index !== -1) {
+              const clone = [...prev]
+              clone[index] = msg
+              return clone
+            }
+          }
+          return [...prev, msg]
+        })
+      }
+    }
+
     const onNewMsg = (msg) => {
       // Cập nhật lastMessage trong list
       setConversations(prev =>
@@ -255,16 +275,12 @@ export default function AdminChatPage() {
           : c
         ).sort((a, b) => new Date(b.lastMessageAt || b.createdAt) - new Date(a.lastMessageAt || a.createdAt))
       )
-      // Thêm vào chat nếu đang xem session này
-      if (selectedSessionRef.current === msg.sessionId) {
-        setMessages(prev => prev.some(m => m._id === msg._id) ? prev : [...prev, msg])
-      }
+      handleUpdateMessages(msg)
     }
 
     const onMessage = (msg) => {
-      if (selectedSessionRef.current === msg.sessionId) {
-        setMessages(prev => prev.some(m => m._id === msg._id) ? prev : [...prev, msg])
-      } else if (msg.sender === 'customer') {
+      handleUpdateMessages(msg)
+      if (selectedSessionRef.current !== msg.sessionId && msg.sender === 'customer') {
         // Cập nhật unread count trong list
         setConversations(prev =>
           prev.map(c => c.sessionId === msg.sessionId
@@ -352,6 +368,24 @@ export default function AdminChatPage() {
   const sendReply = () => {
     const text = input.trim()
     if (!text || !selectedSession) return
+    
+    // Optimistic UI for Agent
+    const tempId = `temp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+    const optimisticMsg = {
+      _id: tempId,
+      sessionId: selectedSession,
+      message: text,
+      sender: 'agent',
+      type: isNote ? 'note' : 'text',
+      isInternal: isNote,
+      agentId,
+      agentName,
+      agentAvatar,
+      createdAt: new Date().toISOString(),
+      isOptimistic: true
+    }
+    setMessages(prev => [...prev, optimisticMsg])
+    
     const socket = getSocket()
     socket.emit('chat:agent_reply', { sessionId: selectedSession, message: text, agentId, agentName, agentAvatar, isInternal: isNote })
     setInput('')
@@ -372,10 +406,10 @@ export default function AdminChatPage() {
   const isResolved = selectedConv?.status === 'resolved'
 
   return (
-    <div className="flex h-full bg-white dark:bg-gray-900 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+    <div className="flex h-full bg-white dark:bg-gray-900 overflow-hidden relative">
 
       {/* ── COL 1: Conversation List ──────────────────────────────────────────── */}
-      <div className="w-[280px] flex-shrink-0 flex flex-col border-r border-gray-100 dark:border-gray-800">
+      <div className={`${selectedSession ? 'hidden md:flex' : 'flex'} w-full md:w-[280px] lg:w-[320px] flex-shrink-0 flex flex-col border-r border-gray-100 dark:border-gray-800 absolute md:relative h-full z-10 bg-white dark:bg-gray-900`}>
         {/* Header */}
         <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800 flex-shrink-0">
           <div className="flex items-center justify-between mb-3">
@@ -436,11 +470,17 @@ export default function AdminChatPage() {
 
       {/* ── COL 2: Chat Content ───────────────────────────────────────────────── */}
       {selectedSession ? (
-        <div className="flex-1 flex flex-col min-w-0 border-r border-gray-100 dark:border-gray-800">
+        <div className="flex-1 flex flex-col min-w-0 border-r border-gray-100 dark:border-gray-800 h-full">
           {/* Chat Header */}
-          <div className="px-5 py-3.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white text-sm font-bold flex items-center justify-center flex-shrink-0">
+          <div className="px-3 md:px-5 py-3.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 flex-shrink-0">
+            <div className="flex items-center gap-2 md:gap-3">
+              <button 
+                onClick={() => setSelectedSession(null)} 
+                className="md:hidden p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white text-xs md:text-sm font-bold flex items-center justify-center flex-shrink-0">
                 {(selectedConv?.customer?.name || 'K')[0].toUpperCase()}
               </div>
               <div>
@@ -535,7 +575,7 @@ export default function AdminChatPage() {
           )}
         </div>
       ) : (
-        <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+        <div className="hidden md:flex flex-1 items-center justify-center bg-gray-50 dark:bg-gray-950">
           <div className="text-center">
             <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <MessageCircle className="w-10 h-10 text-blue-300" />
@@ -548,7 +588,7 @@ export default function AdminChatPage() {
 
       {/* ── COL 3: Customer Info ──────────────────────────────────────────────── */}
       {selectedConv && (
-        <div className="w-[260px] flex-shrink-0 overflow-y-auto bg-white dark:bg-gray-900 border-l border-gray-100 dark:border-gray-800">
+        <div className="hidden lg:block w-[260px] xl:w-[280px] flex-shrink-0 overflow-y-auto bg-white dark:bg-gray-900 h-full">
           {/* Customer Profile */}
           <div className="px-5 py-6 border-b border-gray-100 dark:border-gray-800 text-center">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white text-xl font-bold flex items-center justify-center mx-auto mb-3">

@@ -68,6 +68,7 @@ import WishlistPage from '@/pages/WishlistPage'
 import ComparePage from '@/pages/ComparePage'
 import AdminChatPage from '@/pages/AdminChatPage'
 import AdminReviewsPage from '@/pages/AdminReviewsPage'
+import AdminChatbotConfigPage from '@/pages/AdminChatbotConfigPage'
 
 export const routes = [
   // Client
@@ -527,6 +528,14 @@ export const routes = [
         element: (
           <AdminRequireAuth>
             <AdminReviewsPage />
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'chatbot-config',
+        element: (
+          <AdminRequireAuth>
+            <AdminChatbotConfigPage />
           </AdminRequireAuth>
         )
       },

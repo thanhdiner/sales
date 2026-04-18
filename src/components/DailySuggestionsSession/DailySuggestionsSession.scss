@@ -1,0 +1,323 @@
+.DailySuggestions-root {
+  margin: 32px 0;
+  background: transparent;
+
+  .Suggestions-header-block {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding-top: 16px;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1);
+  }
+  
+  .Suggestions-title {
+    padding: 0 16px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #27272a;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+  }
+
+  .Suggestions-tabs {
+    display: flex;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .Suggestions-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    width: 150px;
+    min-width: 120px;
+
+    .img-wrapper {
+      width: 48px;
+      height: 48px;
+      background: #f5f5fa;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      svg {
+        font-size: 24px;
+      }
+    }
+
+    span {
+      font-size: 0.95rem;
+      color: #808089;
+    }
+
+    &.active {
+      border-bottom-color: #0b74e5;
+      
+      .img-wrapper {
+        background: #f0f8ff;
+      }
+      span {
+        color: #0b74e5;
+        font-weight: 500;
+      }
+    }
+    
+    &:hover:not(.active) {
+      span { color: #0b74e5; }
+    }
+  }
+
+  .Suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    
+    > * {
+      min-width: 0;
+    }
+  }
+
+  .Suggestions-loading {
+    grid-column: 3 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+
+  .Suggestions-loadmore-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    padding-bottom: 12px;
+
+    .load-more-btn {
+      padding: 10px 40px;
+      background: #fff;
+      border: 1px solid #0b74e5;
+      color: #0b74e5;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 150px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover:not(:disabled) {
+        background: #f0f8ff;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.HeroBannerCard-wrapper {
+  grid-column: span 2;
+  position: relative;
+  height: 100%;
+  min-height: 380px;
+}
+
+.HeroBannerCard-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(100% 100% at 50% 0%, #f4f6fc 0%, #ffffff 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1), 0 2px 6px 2px rgba(60,64,67,0.05);
+
+  &:hover {
+    box-shadow: 0 4px 12px 0 rgba(60,64,67,0.15);
+  }
+
+  .brand-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    gap: 8px;
+    span {
+      font-size: 1.1rem;
+    }
+  }
+
+  .banner-image-container {
+    width: 100%;
+    position: relative;
+    padding: 0 16px;
+    flex: 1;
+    height: 0; /* Override intrinsic height of the image */
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      display: block;
+    }
+    .floating-elements {
+      position: absolute;
+      top: 10%;
+      right: 15%;
+      .awesome-text {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #1a1a1a;
+        background: linear-gradient(90deg, #ff00ff, #00ffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  
+  .banner-content {
+    padding: 16px;
+    text-align: left;
+    background: #fff;
+    margin-top: auto;
+    
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #27272a;
+    }
+    
+    p {
+      color: #3f3f46;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .banner-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .see-more-btn {
+      color: #0b74e5;
+      background: transparent;
+      border: 1px solid #0b74e5;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: #f0f8ff;
+      }
+    }
+
+    .signature {
+      img {
+        height: 20px;
+      }
+    }
+  }
+}
+
+// Responsive layout
+@media (max-width: 1200px) {
+  .DailySuggestions-root .Suggestions-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .DailySuggestions-root .Suggestions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Suggestions-tab {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .DailySuggestions-root {
+    margin: 16px 0;
+    padding: 0;
+  }
+  .DailySuggestions-root .Suggestions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 0 8px;
+  }
+  .HeroBannerCard-wrapper {
+    grid-column: span 2;
+    grid-row: span 1;
+    height: auto;
+  }
+  .HeroBannerCard-root {
+    position: relative;
+    flex-direction: row; 
+    
+    .banner-image-container {
+      width: 50%;
+      height: 100%;
+      padding: 8px;
+    }
+    .banner-content {
+      width: 50%;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h3 { font-size: 1rem; }
+      p { font-size: 0.8rem; }
+      .banner-footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .signature { display: none; }
+    }
+    .brand-header { display: none; } // hide to save space
+  }
+  .Suggestions-tab {
+    padding: 12px 16px;
+    span { font-size: 0.85rem; }
+    .img-wrapper {
+      width: 36px;
+      height: 36px;
+    }
+  }
+}

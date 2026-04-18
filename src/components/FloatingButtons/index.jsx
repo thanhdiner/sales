@@ -57,7 +57,7 @@ const FloatingButtons = () => {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 flex flex-col items-end gap-4 z-50 pointer-events-none">
+      <div className="fixed bottom-4 right-4 flex flex-col items-end gap-3 z-50 pointer-events-none scale-90 origin-bottom-right md:scale-100 md:bottom-6 md:right-6">
         {/* Contact buttons */}
         <div className="flex flex-col items-end gap-3">
           {contactButtons.map((button, index) => (

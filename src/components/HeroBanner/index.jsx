@@ -1,74 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react'
-import Slider from 'react-slick'
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { motion } from 'framer-motion'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 import './HeroBanner.scss'
-import { CustomNextArrow, CustomPrevArrow } from '../CustomArrow'
-import { getActiveBanners } from '@/services/bannersService'
-
-function BannerSkeleton() {
-  return (
-    <div className="HeroBanner-root skeleton-root">
-      <div className="skeleton-banner" />
-    </div>
-  )
-}
+import HeroBannerItem from './HeroBannerItem'
+import BannerSkeleton from './BannerSkeleton'
+import { useHeroBanners } from './useHeroBanners'
 
 export default function HeroBanner() {
-  const [banners, setBanners] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [dragging, setDragging] = useState(false)
-  const dragStartX = useRef(0)
-  const dragThreshold = 10
-
-  useEffect(() => {
-    async function fetchBanners() {
-      try {
-        const res = await getActiveBanners()
-        setBanners(res.data || [])
-      } catch (err) {
-        console.error('Failed to fetch banners', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchBanners()
-  }, [])
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    swipe: true,
-    draggable: true,
-    swipeToSlide: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    cssEase: 'cubic-bezier(0.87, 0, 0.13, 1)',
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
-    dotsClass: 'slick-dots custom-dots',
-    responsive: [
-      {
-        breakpoint: 992, // below lg
-        settings: {
-          arrows: false, // hide arrows for tablets & phones
-          speed: 600
-        }
-      },
-      {
-        breakpoint: 576, // phones
-        settings: {
-          arrows: false,
-          speed: 500,
-          autoplaySpeed: 4500
-        }
-      }
-    ]
-  }
+  const { banners, loading } = useHeroBanners()
 
   if (loading) {
     return <BannerSkeleton />
@@ -78,11 +21,12 @@ export default function HeroBanner() {
     return <div className="HeroBanner-root">Chưa có banner nào</div>
   }
 
+  const isMulti = banners.length > 1
   const viewport = { once: true, amount: 0.2 }
 
   return (
     <motion.div
-      className="HeroBanner-root group"
+      className="HeroBanner-root group swiper-custom-navigation"
       role="region"
       aria-label="Banner nổi bật"
       initial={{ opacity: 0, y: 18 }}
@@ -90,53 +34,36 @@ export default function HeroBanner() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       viewport={viewport}
     >
-      <Slider {...settings}>
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={16}
+        slidesPerView={2}
+        navigation={isMulti}
+        pagination={isMulti ? { clickable: true, el: '.swiper-pagination-custom' } : false}
+        loop={isMulti}
+        autoplay={isMulti ? { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
+        speed={800}
+        grabCursor
+        touchRatio={1}
+        touchReleaseOnEdges
+        cssMode={false}
+        breakpoints={{
+          0: { slidesPerView: 1, spaceBetween: 10, speed: 500, autoplay: { delay: 4500 } },
+          576: { slidesPerView: 2, spaceBetween: 12, speed: 600 },
+          992: { slidesPerView: 2, spaceBetween: 16 }
+        }}
+      >
         {banners.map((banner, index) => (
-          <div
-            key={banner._id || index}
-            className="HeroBanner-banner cursor-pointer"
-            style={{ cursor: 'pointer' }}
-            onMouseDown={e => {
-              setDragging(false)
-              dragStartX.current = e.clientX
-            }}
-            onMouseMove={e => {
-              if (Math.abs(e.clientX - dragStartX.current) > dragThreshold) {
-                setDragging(true)
-              }
-            }}
-            onMouseUp={e => {}}
-            onClick={e => {
-              if (dragging) {
-                e.preventDefault()
-                e.stopPropagation()
-                return
-              }
-              if (banner.link) window.open(banner.link, '_blank')
-            }}
-          >
-            <img
-              src={banner.img}
-              alt={banner.title}
-              className="HeroBanner-img"
-              draggable={false}
-              style={{ userSelect: 'none', WebkitUserDrag: 'none' }}
+          <SwiperSlide key={banner._id || index}>
+            <HeroBannerItem 
+              banner={banner} 
+              viewport={viewport} 
             />
-            <div className="HeroBanner-overlay" />
-            <motion.div
-              className="HeroBanner-title-wrap"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
-              viewport={viewport}
-            >
-              <h3 className="HeroBanner-title" aria-label={banner.title}>
-                {banner.title}
-              </h3>
-            </motion.div>
-          </div>
+          </SwiperSlide>
         ))}
-      </Slider>
+      </Swiper>
+      {/* Custom pagination container để dot đè lên hình ảnh giống design cũ */}
+      <div className="swiper-pagination-custom"></div>
     </motion.div>
   )
 }
