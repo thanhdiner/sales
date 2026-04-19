@@ -47,6 +47,7 @@
     column-gap: 7px;
     &__search,
     &__cart,
+    &__wishlist,
     &__account {
       &--btn,
       & ul,
@@ -61,12 +62,14 @@
     }
     &__search,
     &__cart,
+    &__wishlist,
     &__account {
       &--btn:hover,
       &--btn--clear:hover,
       &--btn:active,
       &--btn:focus-visible,
-      &--btn:hover .header__action__cart--icon {
+      &--btn:hover .header__action__cart--icon,
+      &--btn:hover .header__action__wishlist--icon {
         background: transparent !important;
         outline: none !important;
         outline-offset: 0 !important;
@@ -163,20 +166,19 @@
 
 .layout-default {
   &__sider {
-    height: 88vh;
     position: fixed;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    top: 100px;
+    bottom: 30px;
+    left: 30px;
+    border-radius: 8px;
     z-index: 999;
     overflow: auto;
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
     -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-    top: 100px;
-    left: 30px;
     background-color: var(--color-bg-container);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
+    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: top;
 
     &::-webkit-scrollbar {
       display: none;
@@ -213,7 +215,7 @@
 
 /* Sider trồi lên khi header ẩn (cuộn xuống) */
 .header--hidden ~ .layout-default__body .layout-default__sider {
-  transform: translateY(-84px);
+  top: 20px;
 }
 
 h1 {
@@ -296,6 +298,7 @@ h1 {
 }
 
 .header__action__cart--btn,
+.header__action__wishlist--btn,
 .header__action__account--btn {
   display: flex;
   align-items: center;
@@ -303,13 +306,15 @@ h1 {
   line-height: 1;
 }
 
-.header__action__cart .ant-badge {
+.header__action__cart .ant-badge,
+.header__action__wishlist .ant-badge {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.header__action__cart--icon {
+.header__action__cart--icon,
+.header__action__wishlist--icon {
   display: block;
   vertical-align: middle;
 }

@@ -156,13 +156,13 @@ function Header({ onOpenMenu }) {
             </div>
 
             {isLoggedIn && (
-              <div className="header__action__cart">
+              <div className="header__action__wishlist">
                 <Link to="/wishlist" title="Yêu thích">
-                  <button className="header__action__cart--btn">
+                  <button className="header__action__wishlist--btn">
                     <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={wishlistItems.length} overflowCount={99}
                       styles={{ indicator: { background: '#ec4899' } }}
                     >
-                      <Heart className="header__action__cart--icon" style={{ width: '20px', height: '20px', color: wishlistItems.length > 0 ? '#ec4899' : undefined, fill: wishlistItems.length > 0 ? '#ec4899' : 'none' }} />
+                      <Heart className="header__action__wishlist--icon" style={{ width: '20px', height: '20px', color: wishlistItems.length > 0 ? '#ec4899' : undefined, fill: wishlistItems.length > 0 ? '#ec4899' : 'none' }} />
                     </Badge>
                   </button>
                 </Link>

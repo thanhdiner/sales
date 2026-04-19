@@ -1,23 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { getActiveBanners } from '@/services/bannersService'
 
 export function useHeroBanners() {
-  const [banners, setBanners] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchBanners() {
-      try {
-        const res = await getActiveBanners()
-        setBanners(res.data || [])
-      } catch (err) {
-        console.error('Failed to fetch banners', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchBanners()
-  }, [])
+  const { data: banners = [], isLoading: loading } = useQuery({
+    queryKey: ['heroBanners'],
+    queryFn: async () => {
+      const res = await getActiveBanners()
+      return res.data || []
+    },
+    staleTime: 5 * 60 * 1000 // Cache 5 minutes
+  })
 
   return { banners, loading }
 }

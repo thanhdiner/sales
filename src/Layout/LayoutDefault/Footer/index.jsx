@@ -17,6 +17,18 @@ function Footer() {
   return (
     <>
       <footer className="footer dark:bg-gray-800 dark:text-white">
+        <div className="footer__easter-egg" title="Cố lên!">
+          <div className="smoke-container">
+            <span className="smoke-puff puff-1"></span>
+            <span className="smoke-puff puff-2"></span>
+            <span className="smoke-puff puff-3"></span>
+          </div>
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png" 
+            alt="Chibi Rider" 
+            className="scooter-icon chibi-scooter" 
+          />
+        </div>
         <Row style={styleFooterRow}>
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
             <h3 className="footer__heading">Hỗ trợ khách hàng</h3>

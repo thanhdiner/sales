@@ -8,6 +8,8 @@ import { toggleCompareLocal } from '../stores/compare'
 import { addToCart, getCart } from '@/services/cartsService'
 import { toggleWishlist } from '@/services/wishlistService'
 
+import { flyToCartAnimation } from '@/utils/animations'
+
 export function useProductActions(product) {
   const [addCartLoading, setAddCartLoading] = useState(false)
   const [wishlistLoading, setWishlistLoading] = useState(false)
@@ -22,7 +24,10 @@ export function useProductActions(product) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (e) => {
+    if (e && e.preventDefault) e.preventDefault()
+    if (e && e.stopPropagation) e.stopPropagation()
+    
     if (addCartLoading) return
     const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
     if (!isLoggedIn) {
@@ -60,6 +65,10 @@ export function useProductActions(product) {
       await addToCart(body)
       const updatedCart = await getCart()
       dispatch(setCart(updatedCart.items))
+      
+      // Trigger flying animation
+      flyToCartAnimation(e, product.thumbnail)
+      
       message.success('Đã thêm vào giỏ hàng!')
     } catch (err) {
       message.error('Thêm sản phẩm vào giỏ hàng thất bại!')

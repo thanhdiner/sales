@@ -1,0 +1,436 @@
+@property --wcu-spotlight-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes wcu-spotlight-spin {
+  0% { --wcu-spotlight-angle: 0deg; }
+  100% { --wcu-spotlight-angle: 360deg; }
+}
+
+@keyframes wcu-spotlight-pulse {
+  0%, 100% { opacity: 0; }
+  5%, 28% { opacity: 1; }
+  33.33% { opacity: 0; }
+}
+
+.why-choose-us {
+  position: relative;
+  overflow: hidden;
+  background: #fafbfc;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -30px;
+    width: 45%;
+    height: 55%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, transparent 20%, rgba(200, 205, 215, 0.35) 20%, rgba(200, 205, 215, 0.35) 22%, transparent 22%),
+      linear-gradient(135deg, transparent 28%, rgba(190, 195, 205, 0.25) 28%, rgba(190, 195, 205, 0.25) 29.5%, transparent 29.5%),
+      linear-gradient(135deg, transparent 34%, rgba(210, 215, 220, 0.3) 34%, rgba(210, 215, 220, 0.3) 37%, transparent 37%),
+      linear-gradient(135deg, transparent 42%, rgba(195, 200, 210, 0.2) 42%, rgba(195, 200, 210, 0.2) 43%, transparent 43%),
+      linear-gradient(135deg, transparent 50%, rgba(200, 205, 215, 0.28) 50%, rgba(200, 205, 215, 0.28) 52.5%, transparent 52.5%),
+      linear-gradient(135deg, transparent 56%, rgba(210, 215, 225, 0.18) 56%, rgba(210, 215, 225, 0.18) 57%, transparent 57%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -30px;
+    width: 40%;
+    height: 50%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, transparent 15%, rgba(210, 215, 220, 0.2) 15%, rgba(210, 215, 220, 0.2) 16%, transparent 16%,
+                       transparent 18%, rgba(210, 215, 220, 0.2) 18%, rgba(210, 215, 220, 0.2) 19%, transparent 19%),
+      linear-gradient(135deg, transparent 25%, rgba(200, 205, 215, 0.25) 25%, rgba(200, 205, 215, 0.25) 27%, transparent 27%),
+      linear-gradient(135deg, transparent 33%, rgba(195, 200, 210, 0.18) 33%, rgba(195, 200, 210, 0.18) 34%, transparent 34%),
+      linear-gradient(135deg, transparent 40%, rgba(205, 210, 220, 0.22) 40%, rgba(205, 210, 220, 0.22) 42.5%, transparent 42.5%);
+  }
+
+  > div {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// ─── Pill Spotlight ────────────────────────────────────────────────────────
+.wcu-pill-spotlight {
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: 9999px;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--wcu-spotlight-angle),
+      transparent 0%,
+      currentColor 30%,
+      transparent 60%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+    animation: wcu-spotlight-spin 3s linear infinite;
+  }
+}
+
+// ─── Hub-spoke layout ────────────────────────────────────────────────────────
+.wcu-hub {
+  position: relative;
+  height: 680px; // scaled down to fit viewport better
+
+  &__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  &__icons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    border: 2px dashed rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.06), 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  &__icon-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #10b981;
+
+    &:nth-child(1) { background: rgba(16, 185, 129, 0.08); }
+    &:nth-child(2) { background: #10b981; color: #fff; }
+    &:nth-child(3) { background: rgba(16, 185, 129, 0.12); }
+    &:nth-child(4) { background: rgba(16, 185, 129, 0.15); }
+  }
+
+  @keyframes wcu-line-flow {
+    0% { background-position: 0 0; }
+    100% { background-position: 10px 0; }
+  }
+
+  // ─── CSS connector lines (Bent Corners) ──────────────
+  &__line {
+    position: absolute;
+    height: 1.5px;
+    background-image: linear-gradient(90deg, #b0b8c4 60%, transparent 60%);
+    background-size: 10px 100%;
+    background-repeat: repeat-x;
+    transform-origin: 0% 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: wcu-line-flow 0.6s linear infinite;
+
+    // Pseudo-element for the bent segment
+    &::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 0;
+      height: 100%;
+      background-image: inherit;
+      background-size: inherit;
+      background-repeat: inherit;
+      transform-origin: 0% 50%;
+      display: none; // hidden by default
+      animation: inherit;
+    }
+
+    // All lines start exactly from center
+    &.line-top {
+      top: 50%; left: 50%; width: 190px; transform: rotate(-90deg);
+    }
+    &.line-bottom {
+      top: 50%; left: 50%; width: 190px; transform: rotate(90deg);
+    }
+    
+    // Corner lines: 150px diagonal + 50px horizontal
+    &.line-top-right {
+      top: 50%; left: 50%; width: 150px; transform: rotate(-36.87deg);
+      &::after { display: block; width: 50px; transform: rotate(36.87deg); }
+    }
+    &.line-bottom-right {
+      top: 50%; left: 50%; width: 150px; transform: rotate(36.87deg);
+      &::after { display: block; width: 50px; transform: rotate(-36.87deg); }
+    }
+    &.line-bottom-left {
+      top: 50%; left: 50%; width: 150px; transform: rotate(143.13deg);
+      &::after { display: block; width: 50px; transform: rotate(36.87deg); }
+    }
+    &.line-top-left {
+      top: 50%; left: 50%; width: 150px; transform: rotate(-143.13deg);
+      &::after { display: block; width: 50px; transform: rotate(-36.87deg); }
+    }
+  }
+}
+
+// ─── Card styles ─────────────────────────────────────────────────────────────
+.wcu-card {
+  --accent: #3b82f6;
+  position: absolute;
+  width: 250px;
+  background: #ffffff;
+  border: 1px solid #e8eaed;
+  border-radius: 14px;
+  padding: 22px 20px;
+  cursor: default;
+  z-index: 2;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    border-color: #d0d5dd;
+
+    &::after {
+      opacity: 1;
+      animation: wcu-spotlight-spin 3s linear infinite;
+    }
+  }
+
+  // The spotlight animated border
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: 15px;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--wcu-spotlight-angle),
+      transparent 0%,
+      var(--accent) 30%,
+      transparent 60%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+    animation: wcu-spotlight-spin 3s linear infinite, wcu-spotlight-pulse 9s linear infinite;
+  }
+
+  // Fix hover transform overriding the layout position
+  &.pos-top-right, &.pos-bottom-right, &.pos-top-left, &.pos-bottom-left {
+    &:hover { transform: translateY(-4px); }
+  }
+  &.pos-top, &.pos-bottom {
+    &:hover { transform: translateY(-4px); }
+  }
+
+  &__connector-icon {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid currentColor;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    z-index: 4;
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  &__desc {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #6b7280;
+
+    em {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+    }
+  }
+
+  // ─── 6 exact positions (Bent Layout X=170, Y=90, R=190) ──────
+
+  &.pos-top {
+    bottom: calc(50% + 190px);
+    left: 50%;
+    margin-left: -125px; // 250px / 2
+    &::after { animation-delay: 0s, 0s; }
+
+    .wcu-card__connector-icon {
+      bottom: -18px;
+      left: 50%;
+      margin-left: -18px; // 36px / 2
+    }
+  }
+
+  &.pos-bottom {
+    top: calc(50% + 190px);
+    left: 50%;
+    margin-left: -125px;
+    &::after { animation-delay: 0s, 0s; }
+
+    .wcu-card__connector-icon {
+      top: -18px;
+      left: 50%;
+      margin-left: -18px;
+    }
+  }
+
+  &.pos-top-right {
+    bottom: calc(50% + 90px);
+    left: calc(50% + 170px);
+    &::after { animation-delay: 0s, 3s; }
+
+    .wcu-card__connector-icon {
+      bottom: -18px;
+      left: -18px;
+    }
+  }
+
+  &.pos-bottom-right {
+    top: calc(50% + 90px);
+    left: calc(50% + 170px);
+    &::after { animation-delay: 0s, 6s; }
+
+    .wcu-card__connector-icon {
+      top: -18px;
+      left: -18px;
+    }
+  }
+
+  &.pos-top-left {
+    bottom: calc(50% + 90px);
+    right: calc(50% + 170px);
+    &::after { animation-delay: 0s, 6s; }
+
+    .wcu-card__connector-icon {
+      bottom: -18px;
+      right: -18px;
+    }
+  }
+
+  &.pos-bottom-left {
+    top: calc(50% + 90px);
+    right: calc(50% + 170px);
+    &::after { animation-delay: 0s, 3s; }
+
+    .wcu-card__connector-icon {
+      top: -18px;
+      right: -18px;
+    }
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+@media (max-width: 1024px) {
+  .wcu-hub {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+
+    &__center,
+    &__line {
+      display: none;
+    }
+  }
+
+  .wcu-card {
+    position: static;
+    width: auto;
+    transform: none !important;
+
+    &__connector-icon {
+      position: static;
+      transform: none !important;
+      margin-bottom: 14px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .wcu-hub {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Dark mode ───────────────────────────────────────────────────────────────
+:global(.dark) .why-choose-us {
+  background: #1f2937;
+
+  &::before {
+    background:
+      linear-gradient(135deg, transparent 20%, rgba(75, 85, 99, 0.3) 20%, rgba(75, 85, 99, 0.3) 22%, transparent 22%),
+      linear-gradient(135deg, transparent 28%, rgba(75, 85, 99, 0.2) 28%, rgba(75, 85, 99, 0.2) 29.5%, transparent 29.5%),
+      linear-gradient(135deg, transparent 34%, rgba(75, 85, 99, 0.25) 34%, rgba(75, 85, 99, 0.25) 37%, transparent 37%),
+      linear-gradient(135deg, transparent 42%, rgba(75, 85, 99, 0.15) 42%, rgba(75, 85, 99, 0.15) 43%, transparent 43%);
+  }
+
+  &::after {
+    background:
+      linear-gradient(135deg, transparent 15%, rgba(75, 85, 99, 0.15) 15%, rgba(75, 85, 99, 0.15) 16%, transparent 16%,
+                       transparent 18%, rgba(75, 85, 99, 0.15) 18%, rgba(75, 85, 99, 0.15) 19%, transparent 19%),
+      linear-gradient(135deg, transparent 25%, rgba(75, 85, 99, 0.2) 25%, rgba(75, 85, 99, 0.2) 27%, transparent 27%);
+  }
+}
+
+:global(.dark) .wcu-hub {
+  &__icons {
+    background: rgba(31, 41, 55, 0.95);
+    border-color: rgba(16, 185, 129, 0.25);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.04), 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  &__line {
+    background-image: linear-gradient(90deg, #4b5563 60%, transparent 60%);
+  }
+}
+
+:global(.dark) .wcu-card {
+  background: #1f2937;
+  border-color: #374151;
+
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    border-color: #4b5563;
+  }
+
+  &__title {
+    color: #f3f4f6;
+  }
+
+  &__desc {
+    color: #9ca3af;
+  }
+
+  &__connector-icon {
+    background: rgba(31, 41, 55, 0.95);
+  }
+}

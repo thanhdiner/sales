@@ -126,7 +126,7 @@ function ProductCard(props) {
 
   return (
     <Link to={`/products/${product.slug}`} className="block">
-      <div className="shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:outline dark:outline-gray-600 dark:outline-1 dark:bg-gray-800">
+      <div className="product-card shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:outline dark:outline-gray-600 dark:outline-1 dark:bg-gray-800">
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20"></div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10"></div>

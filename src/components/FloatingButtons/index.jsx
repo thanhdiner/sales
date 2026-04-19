@@ -32,25 +32,28 @@ const FloatingButtons = () => {
   const contactButtons = [
     {
       href: 'tel:0823387108',
-      icon: <FaPhoneAlt className="text-lg" />,
+      icon: <FaPhoneAlt size={16} />,
       label: 'Gọi ngay',
-      bgColor: 'bg-emerald-500',
-      shadowColor: 'shadow-emerald-500/40'
+      bgColor: 'bg-[#EA6A41]',
+      borderColor: 'border-[#EA6A41]',
+      shadowColor: 'shadow-[#EA6A41]/40'
     },
     {
       href: 'https://zalo.me/0823387108',
-      icon: <SiZalo size={18} />,
+      icon: <SiZalo size={16} />,
       label: 'Chat Zalo',
-      bgColor: 'bg-blue-500',
-      shadowColor: 'shadow-blue-500/40',
+      bgColor: 'bg-[#0068FF]',
+      borderColor: 'border-[#0068FF]',
+      shadowColor: 'shadow-[#0068FF]/40',
       target: '_blank'
     },
     {
       href: 'https://m.me/lunashop.business.official',
-      icon: <FaFacebookMessenger className="text-lg" />,
+      icon: <FaFacebookMessenger size={16} />,
       label: 'Messenger',
-      bgColor: 'bg-indigo-500',
-      shadowColor: 'shadow-indigo-500/40',
+      bgColor: 'bg-[#0084FF]',
+      borderColor: 'border-[#0084FF]',
+      shadowColor: 'shadow-[#0084FF]/40',
       target: '_blank'
     }
   ]
@@ -87,11 +90,10 @@ const FloatingButtons = () => {
                   href={button.href}
                   target={button.target}
                   rel={button.target ? 'noopener noreferrer' : undefined}
-                  className={`relative w-14 h-14 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-2xl ${button.shadowColor} transform transition-all duration-300 hover:scale-125 hover:-translate-y-2 active:scale-110 group pointer-events-auto`}
+                  className={`relative w-11 h-11 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
                 >
-                  <div className={`absolute inset-0 rounded-full ${button.bgColor} opacity-60 scale-100 animate-ping pointer-events-none`}></div>
-                  <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">{button.icon}</div>
-                  <div className="absolute inset-1 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                  <div className={`absolute inset-0 rounded-full border ${button.borderColor} opacity-60 animate-ping pointer-events-none`} style={{ animationDuration: '2s' }}></div>
+                  <div className="relative z-10 transform transition-transform duration-200">{button.icon}</div>
                 </a>
               </div>
             </div>
@@ -99,29 +101,19 @@ const FloatingButtons = () => {
         </div>
 
         <div className="relative group">
-          <div
-            className={`absolute -inset-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 opacity-60 transition-all duration-500 pointer-events-none ${
-              openContact ? 'animate-spin' : 'animate-pulse'
-            }`}
-          ></div>
-
           <button
             onClick={() => setOpenContact(!openContact)}
             className={`relative w-12 h-12 flex items-center justify-center rounded-full pointer-events-auto
-              bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-2xl shadow-purple-500/50
-              transform transition-all duration-500 hover:scale-110 active:scale-95
-              ${openContact ? 'bg-gradient-to-br from-red-500 to-orange-600' : ''}`}
+              text-white shadow-xl transition-all duration-300 hover:scale-110 active:scale-95
+              ${openContact ? 'bg-gray-800 shadow-gray-500/30' : 'bg-[#EA6A41] shadow-[#EA6A41]/40'}`}
             aria-label={openContact ? 'Đóng liên hệ' : 'Mở liên hệ'}
           >
-            <div className="relative z-10">{openContact ? <FaTimes size={18} /> : <FaComments size={18} />}</div>
-
-            <div className="absolute inset-2 rounded-full bg-white/30 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
+            <div className={`relative z-10 transform transition-transform duration-300 ${openContact ? 'rotate-90' : 'rotate-0'}`}>
+              {openContact ? <FaTimes size={18} /> : <FaComments size={18} />}
+            </div>
 
             {!openContact && (
-              <>
-                <div className="absolute -inset-3 rounded-full border-2 border-purple-400/30 animate-ping pointer-events-none"></div>
-                <div className="absolute -inset-6 rounded-full border border-purple-400/20 animate-ping animation-delay-300 pointer-events-none"></div>
-              </>
+              <div className="absolute inset-0 rounded-full border border-[#EA6A41] opacity-60 animate-ping pointer-events-none" style={{ animationDuration: '2s' }}></div>
             )}
           </button>
         </div>

@@ -5,6 +5,7 @@ import { Spin } from 'antd'
 import ProductItem from '../Products/ProductItem'
 import HeroBannerCard from './HeroBannerCard'
 import SuggestionTabs from './SuggestionTabs'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { getRecommendations } from '@/services/productService'
 import './DailySuggestionsSession.scss'
 
@@ -19,12 +20,6 @@ export default function DailySuggestionsSession() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = searchParams.get('suggestionTab') || 'foryou'
 
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [loadingMore, setLoadingMore] = useState(false)
-  const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(false)
-
   const websiteConfig = useSelector(state => state.websiteConfig?.data)
   const bannerConfig = websiteConfig?.dailySuggestionBanner || {}
 
@@ -32,38 +27,33 @@ export default function DailySuggestionsSession() {
     const params = new URLSearchParams(searchParams)
     params.set('suggestionTab', tabId)
     setSearchParams(params, { replace: true })
-    setPage(1)
   }
 
-  const fetchRecommendations = useCallback(async (tab, pageNum, isLoadMore = false) => {
-    if (isLoadMore) setLoadingMore(true)
-    else setLoading(true)
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isPending: loading,
+    isFetchingNextPage: loadingMore,
+  } = useInfiniteQuery({
+    queryKey: ['recommendations', activeTab],
+    queryFn: async ({ pageParam = 1 }) => {
+      const apiTab = TAB_MAP[activeTab] || 'for-you'
+      const res = await getRecommendations({ tab: apiTab, limit: 8, page: pageParam })
+      return res
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasMore ? allPages.length + 1 : undefined
+    },
+    staleTime: 5 * 60 * 1000 // Cache 5 phút
+  })
 
-    try {
-      const apiTab = TAB_MAP[tab] || 'for-you'
-      const res = await getRecommendations({ tab: apiTab, limit: 8, page: pageNum })
-      if (isLoadMore) {
-        setProducts(prev => [...prev, ...(res?.data || [])])
-      } else {
-        setProducts(res?.data || [])
-      }
-      setHasMore(!!res?.hasMore)
-    } catch (err) {
-      console.error('Failed to fetch recommendations:', err)
-      if (!isLoadMore) setProducts([])
-    } finally {
-      if (isLoadMore) setLoadingMore(false)
-      else setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    fetchRecommendations(activeTab, page, page > 1)
-  }, [activeTab, page, fetchRecommendations])
+  const products = data?.pages.flatMap(page => page.data || []) || []
+  const hasMore = !!hasNextPage
 
   const handleLoadMore = () => {
     if (!loadingMore && hasMore) {
-      setPage(p => p + 1)
+      fetchNextPage()
     }
   }
 
@@ -72,7 +62,7 @@ export default function DailySuggestionsSession() {
       <SuggestionTabs activeTab={activeTab} setActiveTab={handleTabChange} />
       <div className="Suggestions-grid">
         <HeroBannerCard config={bannerConfig} />
-        {loading && page === 1 ? (
+        {loading ? (
           Array.from({ length: 8 }).map((_, i) => (
             <div key={`skeleton-${i}`} className="product mt-1 flex flex-col h-full">
               <div className="rounded-2xl border border-gray-200 bg-white p-3 animate-pulse flex-1 flex flex-col h-full dark:bg-gray-800 dark:border-gray-700">

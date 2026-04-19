@@ -18,7 +18,7 @@ const PAGE_SIZE = 20
 function flattenCategories(tree, depth = 0) {
   const result = []
   for (const node of tree) {
-    result.push({ value: node._id, label: ('　'.repeat(depth)) + node.title })
+    result.push({ value: node.value, label: ('　'.repeat(depth)) + node.title })
     if (node.children?.length) {
       result.push(...flattenCategories(node.children, depth + 1))
     }
@@ -53,8 +53,12 @@ function Products() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [categories, setCategories] = useState([])          // flat list
   const [showFilter, setShowFilter] = useState(false)       // mobile toggle
-  const [filterExpanded, setFilterExpanded] = useState({    // desktop accordion
-    category: true, price: true, rating: true, type: false
+  const [filterExpanded, setFilterExpanded] = useState(() => {
+    const saved = localStorage.getItem('productsFilterExpanded')
+    if (saved) {
+      try { return JSON.parse(saved) } catch (e) {}
+    }
+    return { category: true, price: true, rating: true, type: false }
   })
 
   const [searchInput, setSearchInput]   = useState('')
@@ -76,7 +80,7 @@ function Products() {
   useEffect(() => {
     getProductCategoryTree()
       .then(res => {
-        const tree = res.categories || res || []
+        const tree = res.data || res.categories || []
         setCategories(flattenCategories(tree))
       })
       .catch(() => {})
@@ -194,7 +198,11 @@ function Products() {
   const hasMore = products.length < total
 
   // ─── Accordion helper ─────────────────────────────────────
-  const toggle = key => setFilterExpanded(p => ({ ...p, [key]: !p[key] }))
+  const toggle = key => setFilterExpanded(p => {
+    const newState = { ...p, [key]: !p[key] }
+    localStorage.setItem('productsFilterExpanded', JSON.stringify(newState))
+    return newState
+  })
 
   // ─── Active price preset ──────────────────────────────────
   const activePricePreset = PRICE_PRESETS.findIndex(
@@ -361,8 +369,8 @@ function Products() {
   return (
     <div className="flex gap-6 relative">
       {/* ── Desktop Sidebar ─────────────────────────── */}
-      <aside className="hidden lg:block w-60 flex-shrink-0">
-        <div className="sticky top-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+      <aside className="hidden lg:block w-60 flex-shrink-0 sticky top-[80px] self-start max-h-[calc(100vh-100px)] overflow-y-auto products-scrollbar">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
           <div className="flex items-center justify-between mb-4">
             <span className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-blue-500" />

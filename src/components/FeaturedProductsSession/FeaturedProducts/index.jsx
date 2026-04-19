@@ -4,23 +4,19 @@ import { Navigation, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import './FeaturedProducts.scss'
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import ProductItem from '../../Products/ProductItem'
 import { getProducts } from '@/services/productService'
 
 function FeaturedProducts() {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      setLoading(true)
+  const { data: products = [], isLoading: loading } = useQuery({
+    queryKey: ['products', { isFeatured: true }],
+    queryFn: async () => {
       const result = await getProducts({ isFeatured: true })
-      setProducts(result.data)
-      setLoading(false)
-    }
-    fetchApi()
-  }, [])
+      return result.data
+    },
+    staleTime: 5 * 60 * 1000 // Cache 5 phút
+  })
 
   const skeletonCards = Array(5).fill(0)
   if (loading)

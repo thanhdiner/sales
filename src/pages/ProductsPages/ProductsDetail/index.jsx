@@ -12,6 +12,7 @@ import { toggleWishlist } from '@/services/wishlistService'
 import Error404 from '@/pages/Error404'
 import SEO from '@/components/SEO'
 import ReviewSection from '@/components/ReviewSection'
+import { flyToCartAnimation } from '@/utils/animations'
 
 function ProductsDetail() {
   // SEO được render sau khi product load
@@ -161,7 +162,10 @@ function ProductsDetail() {
   }
   if (!product) return null
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (e) => {
+    if (e && e.preventDefault) e.preventDefault()
+    if (e && e.stopPropagation) e.stopPropagation()
+    
     if (addCartLoading) return
 
     const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
@@ -197,6 +201,10 @@ function ProductsDetail() {
       dispatch(setCart(cart.items))
       await updateMaxAvailable(product, setMaxAvailable, setQuantity)
       setQuantity('1')
+      
+      // Trigger flying animation
+      flyToCartAnimation(e, product.thumbnail)
+      
       message.success('Đã thêm vào giỏ hàng!')
     } catch (err) {
       message.error('Thêm sản phẩm vào giỏ hàng thất bại!')
