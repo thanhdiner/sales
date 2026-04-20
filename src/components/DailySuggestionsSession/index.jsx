@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import { Spin } from 'antd'
@@ -23,7 +23,7 @@ export default function DailySuggestionsSession() {
   const websiteConfig = useSelector(state => state.websiteConfig?.data)
   const bannerConfig = websiteConfig?.dailySuggestionBanner || {}
 
-  const handleTabChange = (tabId) => {
+  const handleTabChange = tabId => {
     const params = new URLSearchParams(searchParams)
     params.set('suggestionTab', tabId)
     setSearchParams(params, { replace: true })
@@ -34,7 +34,7 @@ export default function DailySuggestionsSession() {
     fetchNextPage,
     hasNextPage,
     isPending: loading,
-    isFetchingNextPage: loadingMore,
+    isFetchingNextPage: loadingMore
   } = useInfiniteQuery({
     queryKey: ['recommendations', activeTab],
     queryFn: async ({ pageParam = 1 }) => {
@@ -62,34 +62,26 @@ export default function DailySuggestionsSession() {
       <SuggestionTabs activeTab={activeTab} setActiveTab={handleTabChange} />
       <div className="Suggestions-grid">
         <HeroBannerCard config={bannerConfig} />
-        {loading ? (
-          Array.from({ length: 8 }).map((_, i) => (
-            <div key={`skeleton-${i}`} className="product mt-1 flex flex-col h-full">
-              <div className="rounded-2xl border border-gray-200 bg-white p-3 animate-pulse flex-1 flex flex-col h-full dark:bg-gray-800 dark:border-gray-700">
-                <div className="aspect-square rounded-xl bg-gray-200 dark:bg-gray-700" />
-                <div className="mt-3 space-y-2 flex-1">
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
+        {loading
+          ? Array.from({ length: 8 }).map((_, i) => (
+              <div key={`skeleton-${i}`} className="product mt-1 flex flex-col h-full">
+                <div className="rounded-2xl border border-gray-200 bg-white p-3 animate-pulse flex-1 flex flex-col h-full dark:bg-gray-800 dark:border-gray-700">
+                  <div className="aspect-square rounded-xl bg-gray-200 dark:bg-gray-700" />
+                  <div className="mt-3 space-y-2 flex-1">
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
+                  </div>
+                  <div className="mt-3 h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+                  <div className="mt-3 h-8 bg-gray-200 dark:bg-gray-700 rounded w-full" />
                 </div>
-                <div className="mt-3 h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
-                <div className="mt-3 h-8 bg-gray-200 dark:bg-gray-700 rounded w-full" />
               </div>
-            </div>
-          ))
-        ) : (
-          products.map((prod) => (
-            <ProductItem key={prod._id} product={prod} />
-          ))
-        )}
+            ))
+          : products.map(prod => <ProductItem key={prod._id} product={prod} />)}
       </div>
-      
+
       {hasMore && !loading && (
         <div className="Suggestions-loadmore-wrapper">
-          <button 
-            className="load-more-btn" 
-            onClick={handleLoadMore}
-            disabled={loadingMore}
-          >
+          <button className="load-more-btn" onClick={handleLoadMore} disabled={loadingMore}>
             {loadingMore ? <Spin size="small" /> : 'Xem thêm'}
           </button>
         </div>

@@ -8,6 +8,7 @@ import ChatHeader from './ChatHeader'
 import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 import ChatResolved from './ChatResolved'
+import OrderTrackingModal from './OrderTrackingModal'
 
 // Helpers & Hooks
 import { QUICK_ACTIONS } from '@/helpers/chatConstants'
@@ -25,6 +26,7 @@ export default function LiveChat() {
   // 1. Session State
   const { open, setOpen, view, setView, sessionId, startNewConversation } = useChatSession()
   const [unread, setUnread] = useState(0)
+  const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
 
   // 2. Data State & Handlers
   const { 
@@ -97,7 +99,15 @@ export default function LiveChat() {
               messages={messages}
               unread={unread}
               quickActions={QUICK_ACTIONS}
-              onQuickAction={(text) => { openChat(); setTimeout(() => sendMessage(text), 200) }}
+              onQuickAction={(qa) => { 
+                if (qa.type === 'modal' && qa.actionId === 'order-tracking') {
+                  setOpen(false)
+                  setIsOrderTrackingOpen(true)
+                } else {
+                  openChat(); 
+                  setTimeout(() => sendMessage(qa.text), 200) 
+                }
+              }}
             />
           )}
 
@@ -143,6 +153,12 @@ export default function LiveChat() {
           )}
         </div>
       )}
+
+      {/* ── Order Tracking Modal ────────────────────────────────────────── */}
+      <OrderTrackingModal 
+        isOpen={isOrderTrackingOpen} 
+        onClose={() => setIsOrderTrackingOpen(false)} 
+      />
     </>
   )
 }

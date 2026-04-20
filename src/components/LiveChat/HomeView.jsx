@@ -88,7 +88,7 @@ export default function HomeView({
                 return (
                   <button
                     key={i}
-                    onClick={() => onQuickAction(qa.text)}
+                    onClick={() => onQuickAction(qa)}
                     className="flex w-full items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-left text-sm text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:hover:bg-white/10"
                   >
                     {Icon && (
