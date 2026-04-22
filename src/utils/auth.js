@@ -27,3 +27,27 @@ export function getClientAccessTokenSession() {
 export function clearClientTokensSession() {
   sessionStorage.removeItem('clientAccessToken')
 }
+
+export function getStoredClientAccessToken() {
+  return getClientAccessToken() || getClientAccessTokenSession()
+}
+
+export function getClientTokenStorage() {
+  if (getClientAccessToken()) return 'local'
+  if (getClientAccessTokenSession()) return 'session'
+  return null
+}
+
+export function setClientAccessTokenByStorage(token, storage = 'local') {
+  if (storage === 'session') {
+    setClientAccessTokenSession(token)
+    return
+  }
+
+  setClientAccessToken(token)
+}
+
+export function clearAllClientTokens() {
+  clearClientTokens()
+  clearClientTokensSession()
+}

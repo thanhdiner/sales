@@ -1,14 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Form, Input, Button, Modal, message, Spin, Alert, Card, Divider, Typography, Badge } from 'antd'
-import {
-  EditOutlined,
-  UserOutlined,
-  MailOutlined,
-  SafetyOutlined,
-  CameraOutlined,
-  CloseCircleFilled,
-  CheckCircleOutlined
-} from '@ant-design/icons'
+import { Form, Input, Button, Modal, message, Spin, Card, Divider, Typography } from 'antd'
+import { CameraOutlined, CloseCircleFilled } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile as reduxUpdateProfile } from '@/stores/user'
 import EmailUpdateSection from '@/components/EmailUpdateSection'
@@ -18,8 +10,10 @@ import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
 
-function ProfilePage() {const dispatch = useDispatch()
+function ProfilePage() {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.clientUser.user)
+
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [avatarFile, setAvatarFile] = useState(null)
@@ -34,9 +28,10 @@ function ProfilePage() {const dispatch = useDispatch()
 
   useEffect(() => {
     setAvatarPreview(user?.avatarUrl || '')
+
     if (user?.email?.endsWith('@github.com') || user?.email?.endsWith('@facebook.com') || user?.email === '') {
       setEmailWarning(
-        'Email của bạn là email tạm thời (chưa xác thực). Vui lòng cập nhật email thật để đảm bảo bạn có thể lấy lại mật khẩu và nhận thông báo.'
+        'Email của bạn là email tạm thời. Vui lòng cập nhật email thật để có thể lấy lại mật khẩu và nhận thông báo.'
       )
     } else {
       setEmailWarning('')
@@ -49,25 +44,31 @@ function ProfilePage() {const dispatch = useDispatch()
     if (!file.type.startsWith('image/')) return message.error('Chỉ chấp nhận ảnh!')
     if (file.size > 2 * 1024 * 1024) return message.error('Ảnh phải nhỏ hơn 2MB!')
 
-    if (avatarPreview && avatarPreview.startsWith('blob:')) URL.revokeObjectURL(avatarPreview)
+    if (avatarPreview && avatarPreview.startsWith('blob:')) {
+      URL.revokeObjectURL(avatarPreview)
+    }
 
     setAvatarFile(file)
     setAvatarPreview(URL.createObjectURL(file))
+
     if (inputRef.current) inputRef.current.value = ''
   }
 
   const handleRemoveAvatar = () => {
     setAvatarFile(null)
     setAvatarPreview('')
+
     if (inputRef.current) inputRef.current.value = ''
   }
 
   const handleSave = async values => {
     setLoading(true)
+
     try {
       const formData = new FormData()
       formData.append('fullName', values.fullName)
-      formData.append('phone', values.phone)
+      formData.append('phone', values.phone || '')
+
       if (avatarFile) {
         formData.append('avatarUrl', avatarFile)
         if (user.avatarUrl) formData.append('oldImage', user.avatarUrl)
@@ -102,7 +103,9 @@ function ProfilePage() {const dispatch = useDispatch()
       message.error('Vui lòng nhập email hợp lệ!')
       return
     }
+
     setUpdatingEmail(true)
+
     try {
       const res = await requestEmailUpdate(newEmail)
       message.success(res.message || 'Mã xác thực đã gửi tới email mới!')
@@ -116,7 +119,9 @@ function ProfilePage() {const dispatch = useDispatch()
 
   const handleVerifyEmail = async () => {
     if (!verifyCode) return message.error('Nhập mã xác thực!')
+
     setUpdatingEmail(true)
+
     try {
       const res = await confirmEmailUpdate(newEmail, verifyCode)
       setShowEmailModal(false)
@@ -129,82 +134,80 @@ function ProfilePage() {const dispatch = useDispatch()
     }
   }
 
-  const getEmailStatus = () => {
-    if (user?.email?.endsWith('@github.com') || user?.email?.endsWith('@facebook.com')) {
-      return { status: 'error', text: 'Email tạm thời' }
-    }
-    return { status: 'success', text: 'Email đã xác thực' }
-  }
-
-  const getStatusColor = status => {
-    switch (status) {
-      case 'active':
-        return 'success'
-      case 'inactive':
-        return 'default'
-      case 'banned':
-        return 'error'
-      default:
-        return 'processing'
-    }
-  }
+  const isTemporaryEmail =
+    user?.email?.endsWith('@github.com') ||
+    user?.email?.endsWith('@facebook.com') ||
+    user?.email === ''
 
   if (!user) {
     return (
-      <div className="dark:bg-gray-800 rounded-xl flex items-center justify-center min-h-screen">
-      <SEO title="Hồ sơ của tôi" noIndex />
-              <Spin size="large" tip="Chờ chút đang tải thông tin...">
-          <div className="dark:text-white">Nội dung chờ load</div>
-        </Spin>
+      <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-900">
+        <SEO title="Hồ sơ của tôi" noIndex />
+        <Spin size="large" tip="Chờ chút đang tải thông tin..." />
       </div>
     )
   }
 
   return (
-    <div className="dark:from-gray-800 dark:to-gray-800 rounded-xl min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <Title level={2} className="dark:text-white !mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+    <div className="min-h-screen bg-white px-4 py-10 dark:bg-gray-900">
+      <SEO title="Hồ sơ của tôi" noIndex />
+
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-9 text-left">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
+            Hồ sơ
+          </p>
+
+          <Title
+            level={2}
+            className="!mb-2 !text-3xl !font-semibold !tracking-[-0.03em] !text-gray-900 dark:!text-white"
+          >
             Thông tin tài khoản
           </Title>
-          <Text type="secondary" className="dark:text-gray-300 text-base">
-            Quản lý thông tin cá nhân và cài đặt bảo mật của bạn
+
+          <Text className="block max-w-xl !text-base !leading-7 !text-gray-600 dark:!text-gray-300">
+            Quản lý thông tin cá nhân và cài đặt bảo mật của bạn.
           </Text>
         </div>
 
         {emailWarning && (
-          <Alert
-            type="warning"
-            message="⚠️ Cảnh báo bảo mật"
-            description={emailWarning}
-            showIcon
-            className="mb-6 rounded-lg shadow-sm border-l-4 border-l-orange-400"
-            action={
-              <Button size="small" type="primary" danger onClick={handleChangeEmail}>
-                Cập nhật ngay
-              </Button>
-            }
-          />
+          <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                Cập nhật email
+              </h3>
+              <p className="mt-2 mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                {emailWarning}
+              </p>
+            </div>
+
+            <Button
+              onClick={handleChangeEmail}
+              className="h-auto rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:!bg-gray-800 hover:!text-white dark:bg-gray-100 dark:text-gray-900 dark:hover:!bg-white"
+            >
+              Cập nhật ngay
+            </Button>
+          </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 dark:bg-gray-800">
+        <div className="grid grid-cols-1 gap-7 lg:grid-cols-12">
           <Card
-            className="lg:col-span-1 shadow-lg rounded-2xl border-0 overflow-hidden dark:bg-gray-800 dark:border-gray-600 dark:border-2"
-            styles={{ body: { padding: '32px 24px' } }}
+            className="rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800 lg:col-span-4"
+            styles={{ body: { padding: '28px' } }}
           >
             <div className="text-center">
-              <div className="relative inline-block mb-6">
-                <div className="relative w-32 h-32 mx-auto">
+              <div className="relative mb-6 inline-block">
+                <div className="relative mx-auto h-28 w-28">
                   {avatarPreview ? (
                     <img
                       src={avatarPreview}
                       alt="Avatar"
-                      className="w-32 h-32 object-cover rounded-full border-4 border-white shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
+                      className="h-28 w-28 cursor-pointer rounded-full border border-gray-200 object-cover shadow-sm dark:border-gray-700"
                       onClick={() => inputRef.current.click()}
                     />
                   ) : (
                     <div
-                      className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-4xl text-white cursor-pointer hover:shadow-xl transition-all duration-300 shadow-lg"
+                      className="flex h-28 w-28 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-100 text-3xl font-semibold text-gray-700 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200"
                       onClick={() => inputRef.current.click()}
                     >
                       {user.fullName?.trim()?.split(' ').pop()?.charAt(0)?.toUpperCase() ||
@@ -213,104 +216,110 @@ function ProfilePage() {const dispatch = useDispatch()
                     </div>
                   )}
 
-                  <div
-                    className="absolute inset-0 rounded-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+                  <button
+                    type="button"
                     onClick={() => inputRef.current.click()}
+                    className="absolute bottom-1 right-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                    aria-label="Đổi ảnh đại diện"
                   >
-                    <CameraOutlined className="text-white text-2xl" />
-                  </div>
+                    <CameraOutlined />
+                  </button>
 
                   {avatarPreview && (
                     <CloseCircleFilled
-                      className="absolute -top-2 -right-2 text-red-500 text-2xl bg-white rounded-full cursor-pointer hover:text-red-600 transition-colors shadow-lg"
+                      className="absolute -right-1 -top-1 cursor-pointer rounded-full bg-white text-xl text-gray-400 transition-colors hover:text-gray-700 dark:bg-gray-800 dark:hover:text-gray-200"
                       onClick={handleRemoveAvatar}
                       title="Xóa ảnh"
                     />
                   )}
                 </div>
-                <input ref={inputRef} type="file" accept="image/*" onChange={handleFileChange} className="!hidden" />
+
+                <input
+                  ref={inputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="!hidden"
+                />
               </div>
 
-              <Title level={4} className="!mb-2 dark:text-white">
+              <Title
+                level={4}
+                className="!mb-1 !text-lg !font-semibold !text-gray-900 dark:!text-white"
+              >
                 {user.fullName || user.username}
               </Title>
-              <Text type="secondary" className="block mb-4 dark:text-gray-300">
+
+              <Text className="block !text-sm !text-gray-500 dark:!text-gray-400">
                 @{user.username}
               </Text>
 
-              <Badge
-                status={getStatusColor(user.status)}
-                text={
-                  <span className="dark:text-gray-300 capitalize font-medium">{user.status === 'active' ? 'Hoạt động' : user.status}</span>
-                }
-                className="text-sm"
-              />
-              <Text className="block dark:text-gray-300">
-                Lần đăng nhập cuối: {user.lastLogin ? dayjs(user.lastLogin).format('HH:mm DD/MM/YYYY') : 'Chưa có'}
-              </Text>
+              <div className="mt-5 space-y-3">
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-900/30">
+                  <p className="mb-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    Trạng thái
+                  </p>
+                  <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                    {user.status === 'active' ? 'Hoạt động' : user.status}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-900/30">
+                  <p className="mb-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    Lần đăng nhập cuối
+                  </p>
+                  <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                    {user.lastLogin ? dayjs(user.lastLogin).format('HH:mm DD/MM/YYYY') : 'Chưa có'}
+                  </p>
+                </div>
+              </div>
             </div>
           </Card>
 
           <Card
-            className="lg:col-span-2 shadow-lg rounded-2xl border-0 dark:bg-gray-800 dark:border-gray-600 dark:border-2"
-            styles={{ body: { padding: '32px' } }}
+            className="rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800 lg:col-span-8"
+            styles={{ body: { padding: '28px' } }}
           >
             <Form form={form} layout="vertical" initialValues={user} onFinish={handleSave} size="large">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <Form.Item
-                  label={
-                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
-                      <UserOutlined className="text-blue-500" />
-                      Họ và tên
-                    </span>
-                  }
+                  label={<span className="font-medium text-gray-700 dark:text-gray-300">Họ và tên</span>}
                   name="fullName"
                   rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
-                  className="mb-6"
+                  className="mb-0"
                 >
                   <Input
                     placeholder="Nhập họ và tên của bạn"
-                    className="rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                    className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
                   />
                 </Form.Item>
 
                 <Form.Item
-                  label={
-                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
-                      <UserOutlined className="text-green-500" />
-                      Username
-                    </span>
-                  }
-                  className="mb-6"
+                  label={<span className="font-medium text-gray-700 dark:text-gray-300">Username</span>}
+                  className="mb-0"
                 >
                   <Input
                     value={user.username}
                     disabled
-                    className="rounded-lg bg-gray-50"
-                    suffix={<CheckCircleOutlined className="text-green-500" />}
+                    className="rounded-lg border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-300"
                   />
                 </Form.Item>
 
                 <Form.Item
-                  label={
-                    <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
-                      <SafetyOutlined className="text-orange-500" />
-                      Số điện thoại
-                    </span>
-                  }
+                  label={<span className="font-medium text-gray-700 dark:text-gray-300">Số điện thoại</span>}
                   name="phone"
                   rules={[
                     { required: false },
                     {
                       pattern: /^0\d{9,10}$/,
-                      message: 'Số điện thoại không hợp lệ!'
-                    }
+                      message: 'Số điện thoại không hợp lệ!',
+                    },
                   ]}
-                  className="mb-6"
+                  className="mb-0"
                 >
                   <Input
                     placeholder="Nhập số điện thoại"
-                    className="dark:bg-gray-700 rounded-lg border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                    className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
                     maxLength={11}
                   />
                 </Form.Item>
@@ -318,18 +327,14 @@ function ProfilePage() {const dispatch = useDispatch()
 
               <Form.Item
                 label={
-                  <span className="dark:text-gray-300 text-gray-700 font-medium flex items-center gap-2">
-                    <MailOutlined className="text-purple-500" />
-                    Email
-                    {getEmailStatus().status === 'success' && (
-                      <Badge status="success" text={<span className="dark:text-gray-300">Đã xác thực</span>} />
-                    )}
-                    {getEmailStatus().status === 'error' && (
-                      <Badge status="error" text={<span className="dark:text-gray-300">Chưa xác thực</span>} />
-                    )}
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Email{' '}
+                    <span className="ml-2 text-xs font-normal text-gray-500 dark:text-gray-400">
+                      {isTemporaryEmail ? 'Chưa xác thực' : 'Đã xác thực'}
+                    </span>
                   </span>
                 }
-                className="mb-6"
+                className="mt-5 mb-0"
               >
                 {user.email?.endsWith('@github.com') || user.email?.endsWith('@facebook.com') ? (
                   <EmailUpdateSection
@@ -340,20 +345,17 @@ function ProfilePage() {const dispatch = useDispatch()
                     }}
                   />
                 ) : (
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <Input
                       value={user.email}
                       disabled
-                      className="flex-1 rounded-lg bg-gray-50"
-                      prefix={<MailOutlined className="text-gray-400" />}
-                      suffix={<CheckCircleOutlined className="text-green-500" />}
+                      className="flex-1 rounded-lg border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-300"
                     />
+
                     <Button
-                      type="primary"
-                      icon={<EditOutlined />}
                       onClick={handleChangeEmail}
                       disabled={loading}
-                      className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 border-0 hover:from-blue-600 hover:to-purple-700 shadow-lg"
+                      className="h-auto rounded-lg border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 hover:!border-gray-300 hover:!text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                     >
                       Đổi email
                     </Button>
@@ -361,22 +363,22 @@ function ProfilePage() {const dispatch = useDispatch()
                 )}
               </Form.Item>
 
-              <Divider className="my-8" />
+              <Divider className="my-7" />
 
-              <div className="flex justify-end gap-4">
+              <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                 <Button
                   size="large"
-                  className="dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600! rounded-lg px-8 button-profile-cancel"
+                  className="h-auto rounded-lg border-gray-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-800 hover:!border-gray-300 hover:!text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                   onClick={() => form.resetFields()}
                 >
                   Hủy bỏ
                 </Button>
+
                 <Button
-                  type="primary"
                   htmlType="submit"
                   loading={loading}
                   size="large"
-                  className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 border-0 hover:from-blue-600 hover:to-purple-700 shadow-lg px-8"
+                  className="h-auto rounded-lg bg-gray-900 px-6 py-2.5 text-sm font-semibold text-white hover:!bg-gray-800 hover:!text-white dark:bg-gray-100 dark:text-gray-900 dark:hover:!bg-white"
                 >
                   {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
                 </Button>
@@ -386,28 +388,22 @@ function ProfilePage() {const dispatch = useDispatch()
         </div>
 
         <Modal
-          title={
-            <div className="flex items-center gap-2 text-lg dark:text-gray-300">
-              <MailOutlined className="text-blue-500" />
-              Cập nhật email mới
-            </div>
-          }
+          title="Cập nhật email mới"
           open={showEmailModal}
           onCancel={() => setShowEmailModal(false)}
           footer={null}
           destroyOnClose
-          className="rounded-2xl"
           width={500}
         >
           {emailStep === 0 && (
             <div className="py-4">
               <Form layout="vertical" onFinish={handleSendCode}>
                 <Form.Item
-                  label={<span className="dark:text-gray-300">Email mới</span>}
+                  label={<span className="font-medium text-gray-700 dark:text-gray-300">Email mới</span>}
                   name="email"
                   rules={[
                     { required: true, message: 'Vui lòng nhập email mới!' },
-                    { type: 'email', message: 'Email không hợp lệ!' }
+                    { type: 'email', message: 'Email không hợp lệ!' },
                   ]}
                 >
                   <Input
@@ -416,17 +412,16 @@ function ProfilePage() {const dispatch = useDispatch()
                     onChange={e => setNewEmail(e.target.value)}
                     disabled={updatingEmail}
                     size="large"
-                    prefix={<MailOutlined className="text-gray-400" />}
-                    className="rounded-lg dark:bg-gray-700"
+                    className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
                   />
                 </Form.Item>
+
                 <Button
-                  type="primary"
                   htmlType="submit"
                   loading={updatingEmail}
                   block
                   size="large"
-                  className="rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 border-0 hover:from-blue-600 hover:to-purple-700 shadow-lg mt-4"
+                  className="mt-3 h-auto rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:!bg-gray-800 hover:!text-white dark:bg-gray-100 dark:text-gray-900 dark:hover:!bg-white"
                 >
                   Gửi mã xác thực
                 </Button>
@@ -436,20 +431,23 @@ function ProfilePage() {const dispatch = useDispatch()
 
           {emailStep === 1 && (
             <div className="py-4">
-              <Alert
-                message="Kiểm tra email của bạn"
-                description={`Chúng tôi đã gửi mã xác thực 6 số tới ${newEmail}`}
-                type="info"
-                showIcon
-                className="mb-4 rounded-lg"
-              />
+              <div className="mb-5 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                  Kiểm tra email của bạn
+                </h3>
+
+                <p className="mt-2 mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  Chúng tôi đã gửi mã xác thực 6 số tới {newEmail}.
+                </p>
+              </div>
+
               <Form layout="vertical" onFinish={handleVerifyEmail}>
                 <Form.Item
-                  label="Mã xác thực (6 số)"
+                  label={<span className="font-medium text-gray-700 dark:text-gray-300">Mã xác thực</span>}
                   name="code"
                   rules={[
                     { required: true, message: 'Nhập mã xác thực!' },
-                    { len: 6, message: 'Mã xác thực gồm 6 số!' }
+                    { len: 6, message: 'Mã xác thực gồm 6 số!' },
                   ]}
                 >
                   <Input
@@ -459,17 +457,16 @@ function ProfilePage() {const dispatch = useDispatch()
                     maxLength={6}
                     disabled={updatingEmail}
                     size="large"
-                    prefix={<SafetyOutlined className="text-gray-400" />}
-                    className="rounded-lg text-center text-xl tracking-widest"
+                    className="rounded-lg border-gray-200 text-center text-xl tracking-widest dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
                   />
                 </Form.Item>
+
                 <Button
-                  type="primary"
                   htmlType="submit"
                   loading={updatingEmail}
                   block
                   size="large"
-                  className="rounded-lg bg-gradient-to-r from-green-500 to-blue-600 border-0 hover:from-green-600 hover:to-blue-700 shadow-lg"
+                  className="h-auto rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:!bg-gray-800 hover:!text-white dark:bg-gray-100 dark:text-gray-900 dark:hover:!bg-white"
                 >
                   Xác thực & cập nhật email
                 </Button>

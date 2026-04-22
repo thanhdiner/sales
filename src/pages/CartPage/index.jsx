@@ -1,7 +1,7 @@
-import { Trash2, Plus, Minus, ShoppingBag, Star, ArrowRight, Package, Truck, Shield } from 'lucide-react'
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag } from 'lucide-react'
+import { syncCartState } from '@/lib/clientCache'
 import { getCart, updateCartItem, removeCartItem } from '@/services/cartsService'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCart } from '@/stores/cart'
 import { message, Modal } from 'antd'
 import { useEffect, useState, useMemo } from 'react'
 import { validatePromoCode } from '@/services/promoCodesService'
@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import SEO from '@/components/SEO'
 
 const CartPage = () => {
-
   const dispatch = useDispatch()
   const rawCartItems = useSelector(state => state.cart.items)
   const cartItems = useMemo(() => rawCartItems || [], [rawCartItems])
@@ -19,21 +18,36 @@ const CartPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [editingQty, setEditingQty] = useState({})
   const [selectedItems, setSelectedItems] = useState(new Set())
-  const [cartLoaded, setCartLoaded] = useState(false) // <-- NEW
-
-  const availableIds = cartItems.filter(item => item.inStock).map(item => item.productId)
-  const allAvailableSelected = availableIds.length > 0 && availableIds.every(id => selectedItems.has(id))
+  const [cartLoaded, setCartLoaded] = useState(false)
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Tải giỏ hàng
+  const availableIds = cartItems.filter(item => item.inStock).map(item => item.productId)
+  const allAvailableSelected = availableIds.length > 0 && availableIds.every(id => selectedItems.has(id))
+
+  const selectedCartItems = cartItems.filter(item => item.inStock && selectedItems.has(item.productId))
+  const subtotal = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const discount = appliedPromo?.discount || 0
+  const shipping = appliedPromo?.freeShipping ? 0 : subtotal > 100000 ? 0 : 50000
+  const total = subtotal - discount + shipping
+
+  const formatPrice = price =>
+    new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price || 0)
+
+  const getSavings = (original, current) => {
+    if (!original || !current || original <= current) return 0
+    return Math.round(((original - current) / original) * 100)
+  }
+
   useEffect(() => {
     async function fetchCart() {
       try {
         const cart = await getCart()
-        const items = cart.items.map(item => ({ ...item, id: item.productId }))
-        dispatch(setCart(items))
+        const items = syncCartState(dispatch, cart.items || [])
 
         const buyNowProductId = location.state?.buyNowProductId
         if (buyNowProductId) {
@@ -45,108 +59,133 @@ const CartPage = () => {
       } catch (err) {
         message.error('Không lấy được giỏ hàng')
       } finally {
-        setCartLoaded(true) // <-- đánh dấu đã tải giỏ
+        setCartLoaded(true)
       }
     }
+
     fetchCart()
     // eslint-disable-next-line
   }, [])
 
-  // Auto-apply coupon khi đi từ trang Coupon (chờ cartLoaded để subtotal có giá trị)
   useEffect(() => {
     const codeFromState = location.state?.autoApplyCoupon
+
     if (cartLoaded && codeFromState) {
       setPromoCode(codeFromState)
-      handleApplyPromo(codeFromState) // truyền thẳng mã vào
-      // Xóa state để F5 không áp lại
+      handleApplyPromo(codeFromState)
       navigate(location.pathname, { replace: true, state: {} })
     }
+
     // eslint-disable-next-line
   }, [cartLoaded, location.state?.autoApplyCoupon])
 
-  // Cập nhật danh sách chọn sau khi giỏ đổi
   useEffect(() => {
     setSelectedItems(prev => {
       const newIds = cartItems.filter(item => item.inStock).map(item => item.productId)
+
       if (!prev.size || [...prev].filter(id => newIds.includes(id)).length === 0) {
         return new Set(newIds)
       }
+
       return new Set([...prev].filter(id => newIds.includes(id)))
     })
   }, [cartItems])
 
   const updateQuantity = async (id, newQuantity) => {
     const prevItems = cartItems
+
     if (newQuantity <= 0) {
       const updatedItems = cartItems.filter(item => item.productId !== id)
-      dispatch(setCart(updatedItems))
+      syncCartState(dispatch, updatedItems)
+
       setSelectedItems(prev => {
         const newSet = new Set(prev)
         newSet.delete(id)
         return newSet
       })
+
       try {
         await removeCartItem(id)
       } catch (err) {
-        dispatch(setCart(prevItems))
+        syncCartState(dispatch, prevItems)
         message.error('Xóa sản phẩm thất bại')
       }
+
       return
     }
-    const updatedItems = cartItems.map(item => (item.productId === id ? { ...item, quantity: newQuantity } : item))
-    dispatch(setCart(updatedItems))
+
+    const updatedItems = cartItems.map(item =>
+      item.productId === id ? { ...item, quantity: newQuantity } : item
+    )
+
+    syncCartState(dispatch, updatedItems)
+
     try {
       await updateCartItem({ productId: id, quantity: newQuantity })
     } catch (err) {
-      dispatch(setCart(prevItems))
+      syncCartState(dispatch, prevItems)
       message.error('Cập nhật số lượng thất bại')
     }
   }
 
   const handleQtyChange = (id, value) => {
-    if (/^\d*$/.test(value)) setEditingQty(prev => ({ ...prev, [id]: value }))
+    if (/^\d*$/.test(value)) {
+      setEditingQty(prev => ({ ...prev, [id]: value }))
+    }
   }
 
   const handleQtyBlur = (id, item) => {
     let valStr = editingQty[id]
+
     if (valStr === '' || valStr === undefined) {
       setEditingQty(prev => ({ ...prev, [id]: undefined }))
       return
     }
+
     let val = parseInt(valStr, 10)
+
     if (isNaN(val) || val < 1) {
       message.warning('Vui lòng nhập số lượng hợp lệ!')
       setEditingQty(prev => ({ ...prev, [id]: undefined }))
       return
     }
+
     if (item.stock && val > item.stock) {
       val = item.stock
       message.warning(`Chỉ còn tối đa ${item.stock} sản phẩm trong kho`)
     }
-    if (val !== item.quantity) updateQuantity(id, val)
+
+    if (val !== item.quantity) {
+      updateQuantity(id, val)
+    }
+
     setEditingQty(prev => ({ ...prev, [id]: undefined }))
   }
 
   const removeItem = async id => {
     Modal.confirm({
-      title: <span className="text-gray-800 dark:text-gray-100">Bạn chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</span>,
+      title: <span className="text-gray-900 dark:text-gray-100">Xóa sản phẩm khỏi giỏ hàng?</span>,
+      content: <span className="text-gray-500 dark:text-gray-400">Sản phẩm này sẽ được xóa khỏi danh sách giỏ hàng của bạn.</span>,
       okText: 'Xóa',
       cancelText: 'Hủy',
       okButtonProps: { danger: true },
       onOk: async () => {
         const prevItems = cartItems
         const updatedItems = cartItems.filter(item => item.productId !== id)
-        dispatch(setCart(updatedItems))
+
+        syncCartState(dispatch, updatedItems)
+
         setSelectedItems(prev => {
           const newSet = new Set(prev)
           newSet.delete(id)
           return newSet
         })
+
         try {
           await removeCartItem(id)
           message.success('Đã xóa sản phẩm khỏi giỏ hàng')
         } catch (err) {
-          dispatch(setCart(prevItems))
+          syncCartState(dispatch, prevItems)
           message.error('Xóa sản phẩm thất bại')
         }
       }
@@ -156,34 +195,52 @@ const CartPage = () => {
   const handleSelectItem = id => {
     setSelectedItems(prev => {
       const newSet = new Set(prev)
-      if (newSet.has(id)) newSet.delete(id)
-      else newSet.add(id)
+
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+
       return newSet
     })
   }
 
   const handleSelectAll = () => {
-    if (allAvailableSelected) setSelectedItems(new Set())
-    else setSelectedItems(new Set(availableIds))
+    if (allAvailableSelected) {
+      setSelectedItems(new Set())
+    } else {
+      setSelectedItems(new Set(availableIds))
+    }
   }
 
-  // Cho phép truyền code từ ngoài vào
   const handleApplyPromo = async customCode => {
     try {
       setIsLoading(true)
+
       const codeToApply = customCode || promoCode
+
+      if (!codeToApply?.trim()) {
+        message.warning('Vui lòng nhập mã giảm giá')
+        return
+      }
+
       const res = await validatePromoCode({ code: codeToApply, subtotal })
+
       if (res.valid) {
         setAppliedPromo({
           code: codeToApply,
           ...res,
           description: res.promoInfo
             ? res.promoInfo.discountType === 'percent'
-              ? `Giảm ${res.promoInfo.discountValue}% (tối đa ${formatPrice(res.promoInfo.maxDiscount)} nếu có)`
+              ? `Giảm ${res.promoInfo.discountValue}%${
+                  res.promoInfo.maxDiscount ? `, tối đa ${formatPrice(res.promoInfo.maxDiscount)}` : ''
+                }`
               : `Giảm ${formatPrice(res.promoInfo.discountValue)}`
             : res.message || ''
         })
-        setPromoCode(codeToApply) // giữ lại trong input
+
+        setPromoCode(codeToApply)
         message.success(res.message || 'Áp dụng mã thành công')
       } else {
         message.warning(res.message || 'Mã không hợp lệ')
@@ -196,36 +253,38 @@ const CartPage = () => {
   }
 
   const handleCheckout = () => {
-    navigate('/checkout', { state: { orderItems: selectedCartItems, promo: appliedPromo, __fromCart: true } })
-  }
-
-  const selectedCartItems = cartItems.filter(item => item.inStock && selectedItems.has(item.productId))
-  const subtotal = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const discount = appliedPromo?.discount || 0
-  const shipping = appliedPromo?.freeShipping ? 0 : subtotal > 100000 ? 0 : 50000
-  const total = subtotal - discount + shipping
-
-  const formatPrice = price => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
-  const getSavings = (original, current) => {
-    if (!original || !current || original <= current) return 0
-    return Math.round(((original - current) / original) * 100)
+    navigate('/checkout', {
+      state: {
+        orderItems: selectedCartItems,
+        promo: appliedPromo,
+        __fromCart: true
+      }
+    })
   }
 
   if (!cartItems || cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <SEO title="Giỏ hàng" noIndex />
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-3xl shadow-xl p-12 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-              <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-full flex items-center justify-center">
-                <ShoppingBag className="w-16 h-16 text-blue-600" />
+
+        <div className="border-t border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-950">
+          <div className="container mx-auto px-4 py-10">
+            <div className="mx-auto max-w-xl rounded-xl border border-gray-200 bg-white p-10 text-center shadow-sm dark:border-gray-800 dark:bg-gray-950">
+              <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40">
+                <ShoppingBag className="h-11 w-11 text-blue-600" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-4 dark:text-gray-100">Giỏ hàng trống</h2>
-              <p className="text-gray-600 mb-8 dark:text-gray-300">Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!</p>
+
+              <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Giỏ hàng trống
+              </h2>
+
+              <p className="mb-7 text-gray-500 dark:text-gray-400">
+                Bạn chưa có sản phẩm nào trong giỏ hàng.
+              </p>
+
               <button
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
                 onClick={() => navigate('/products')}
+                className="rounded-lg bg-blue-600 px-7 py-3 font-semibold text-white transition hover:bg-blue-700"
               >
                 Tiếp tục mua sắm
               </button>
@@ -237,293 +296,309 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       <SEO title="Giỏ hàng của bạn" noIndex />
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-            Giỏ hàng của bạn
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">Bạn có {cartItems.length} sản phẩm trong giỏ hàng</p>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
-            {/* Select All */}
-            <div className="bg-white rounded-2xl shadow-lg p-4 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={allAvailableSelected}
-                  onChange={handleSelectAll}
-                  className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
-                />
-                <span className="font-semibold text-gray-800 dark:text-gray-100">
-                  Chọn tất cả ({selectedItems.size}/{cartItems.length})
-                </span>
-              </label>
-            </div>
+      <div className="border-t border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-950">
+        <div className="container mx-auto px-4 py-6 lg:py-8">
+          <div className="mb-6 rounded-xl bg-white px-5 py-5 shadow-sm ring-1 ring-gray-200 dark:bg-gray-950 dark:ring-gray-800">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 lg:text-3xl">
+              Giỏ hàng
+            </h1>
 
-            {cartItems.map(item => (
-              <div
-                key={item.productId}
-                className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-                  selectedItems.has(item.productId) ? 'ring-2 ring-blue-500' : ''
-                } dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid`}
-              >
-                <div className="p-6">
-                  <div className="flex flex-col sm:flex-row gap-6">
-                    {/* Checkbox */}
-                    <div className="flex-shrink-0 flex items-start">
-                      <input
-                        type="checkbox"
-                        checked={selectedItems.has(item.productId)}
-                        onChange={() => handleSelectItem(item.productId)}
-                        className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 mt-2"
-                        disabled={!item.inStock}
-                      />
-                    </div>
-                    {/* Product Image */}
-                    <div className="relative flex-shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full sm:w-32 h-32 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {getSavings(item.originalPrice, item.price) > 0 && (
-                        <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          -{getSavings(item.originalPrice, item.price)}%
-                        </div>
-                      )}
-                    </div>
-                    {/* Product Details */}
-                    <div className="flex-1 space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full mb-2">
-                            {item.category}
-                          </span>
-                          <h3 className="text-xl font-bold text-gray-800 mb-1 dark:text-gray-100">{item.name}</h3>
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${i < Math.floor(item.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-600 dark:text-gray-400">({item.rating})</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => removeItem(item.productId)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </div>
-                      {/* Price and Quantity */}
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">{formatPrice(item.price)}</span>
-                            {item.originalPrice > item.price && (
-                              <span className="text-lg text-gray-400 line-through">{formatPrice(item.originalPrice)}</span>
-                            )}
-                          </div>
-                          {item.inStock ? (
-                            <span className="text-green-600 text-sm font-medium">✓ Còn hàng</span>
-                          ) : (
-                            <span className="text-red-600 text-sm font-medium">⚠ Hết hàng</span>
-                          )}
-                        </div>
-                        {/* Quantity Controls */}
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center bg-gray-100 rounded-xl overflow-hidden">
-                            <button
-                              onClick={() => {
-                                setEditingQty(prev => ({ ...prev, [item.productId]: undefined }))
-                                updateQuantity(item.productId, item.quantity - 1)
-                              }}
-                              className="p-3 hover:bg-gray-200 transition-colors duration-200"
-                            >
-                              <Minus className="w-4 h-4" />
-                            </button>
-                            <input
-                              type="number"
-                              min={1}
-                              className="qtyInput w-16 text-center bg-transparent border-none outline-none font-semibold px-2 py-3"
-                              value={editingQty[item.productId] !== undefined ? editingQty[item.productId] : item.quantity}
-                              onChange={e => handleQtyChange(item.productId, e.target.value)}
-                              onBlur={() => handleQtyBlur(item.productId, item)}
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') e.target.blur()
-                              }}
-                            />
-                            <button
-                              onClick={() => {
-                                setEditingQty(prev => ({ ...prev, [item.productId]: undefined }))
-                                updateQuantity(item.productId, item.quantity + 1)
-                              }}
-                              className={`p-3 transition-colors duration-200 ${
-                                item.quantity >= (item.stock || 1)
-                                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                  : 'hover:bg-gray-200 text-blue-600'
-                              }`}
-                              disabled={item.quantity >= (item.stock || 1)}
-                            >
-                              <Plus className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Có {cartItems.length} sản phẩm trong giỏ hàng của bạn
+            </p>
           </div>
 
-          {/* Order Summary */}
-          <div className="space-y-6">
-            {/* Promo Code */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 dark:text-gray-100">Mã giảm giá</h3>
-              <div className="space-y-3">
-                <div className="flex gap-2">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <div className="mb-3 rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                <label className="flex cursor-pointer items-center gap-3">
                   <input
-                    type="text"
-                    placeholder="Nhập mã giảm giá"
-                    value={promoCode}
-                    onChange={e => setPromoCode(e.target.value)}
-                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid dark:text-gray-100 dark:border-gray-700 dark:focus:ring-gray-500"
+                    type="checkbox"
+                    checked={allAvailableSelected}
+                    onChange={handleSelectAll}
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                  <button
-                    onClick={() => handleApplyPromo()}
-                    disabled={isLoading || !promoCode}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all duration-300 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? '...' : 'Áp dụng'}
-                  </button>
-                </div>
-                {appliedPromo && (
-                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl">
-                    <span className="text-green-800 font-medium">{appliedPromo.description}</span>
-                    <button
-                      onClick={() => {
-                        setAppliedPromo(null)
-                        setPromoCode('')
-                      }}
-                      className="text-green-600 hover:text-green-800"
+
+                  <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                    Chọn tất cả
+                  </span>
+
+                  <span className="text-sm text-gray-400">
+                    ({selectedItems.size}/{availableIds.length} sản phẩm khả dụng)
+                  </span>
+                </label>
+              </div>
+
+              <div className="space-y-3">
+                {cartItems.map(item => {
+                  const savingPercent = getSavings(item.originalPrice, item.price)
+                  const isSelected = selectedItems.has(item.productId)
+
+                  return (
+                    <div
+                      key={item.productId}
+                      className={`rounded-lg border bg-white p-4 shadow-sm transition dark:bg-gray-950 ${
+                        isSelected
+                          ? 'border-blue-300 dark:border-blue-900'
+                          : 'border-gray-200 dark:border-gray-800'
+                      } ${!item.inStock ? 'opacity-70' : ''}`}
                     >
-                      ✕
-                    </button>
-                  </div>
-                )}
+                      <div className="flex gap-3 sm:gap-4">
+                        <div className="pt-8 sm:pt-10">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleSelectItem(item.productId)}
+                            disabled={!item.inStock}
+                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+                          />
+                        </div>
+
+                        <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-50 sm:h-28 sm:w-28 dark:border-gray-800 dark:bg-gray-900">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-full w-full object-cover"
+                          />
+
+                          {savingPercent > 0 && (
+                            <div className="absolute left-2 top-2 rounded-md bg-red-500 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                              -{savingPercent}%
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex gap-3">
+                            <div className="min-w-0 flex-1">
+                              {item.category && (
+                                <p className="mb-1 text-xs font-medium text-gray-400">
+                                  {item.category}
+                                </p>
+                              )}
+
+                              <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-gray-900 dark:text-gray-100 sm:text-base">
+                                {item.name}
+                              </h3>
+
+                              <div className="mt-2">
+                                {item.inStock ? (
+                                  <span className="text-xs font-medium text-emerald-600">
+                                    Còn hàng
+                                  </span>
+                                ) : (
+                                  <span className="text-xs font-medium text-red-500">
+                                    Hết hàng
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <button
+                              onClick={() => removeItem(item.productId)}
+                              className="h-9 w-9 flex-shrink-0 rounded-md text-gray-400 transition hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
+                              title="Xóa"
+                            >
+                              <Trash2 className="mx-auto h-4 w-4" />
+                            </button>
+                          </div>
+
+                          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                            <div>
+                              <div className="flex flex-wrap items-baseline gap-2">
+                                <span className="text-lg font-bold text-blue-600">
+                                  {formatPrice(item.price)}
+                                </span>
+
+                                {item.originalPrice > item.price && (
+                                  <span className="text-sm text-gray-400 line-through">
+                                    {formatPrice(item.originalPrice)}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between gap-3 sm:justify-end">
+                              <div className="flex h-9 items-center overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-950">
+                                <button
+                                  onClick={() => {
+                                    setEditingQty(prev => ({ ...prev, [item.productId]: undefined }))
+                                    updateQuantity(item.productId, item.quantity - 1)
+                                  }}
+                                  className="flex h-9 w-9 items-center justify-center text-gray-600 transition hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900"
+                                >
+                                  <Minus className="h-3.5 w-3.5" />
+                                </button>
+
+                                <input
+                                  type="number"
+                                  min={1}
+                                  className="qtyInput h-9 w-11 border-x border-gray-200 bg-transparent text-center text-sm font-semibold text-gray-900 outline-none dark:border-gray-700 dark:text-gray-100"
+                                  value={
+                                    editingQty[item.productId] !== undefined
+                                      ? editingQty[item.productId]
+                                      : item.quantity
+                                  }
+                                  onChange={e => handleQtyChange(item.productId, e.target.value)}
+                                  onBlur={() => handleQtyBlur(item.productId, item)}
+                                  onKeyDown={e => {
+                                    if (e.key === 'Enter') e.target.blur()
+                                  }}
+                                />
+
+                                <button
+                                  onClick={() => {
+                                    setEditingQty(prev => ({ ...prev, [item.productId]: undefined }))
+                                    updateQuantity(item.productId, item.quantity + 1)
+                                  }}
+                                  disabled={item.quantity >= (item.stock || 1)}
+                                  className="flex h-9 w-9 items-center justify-center text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:text-gray-300 dark:text-gray-300 dark:hover:bg-gray-900 dark:disabled:text-gray-600"
+                                >
+                                  <Plus className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+
+                              <div className="hidden min-w-[110px] text-right sm:block">
+                                <p className="text-xs text-gray-400">Thành tiền</p>
+                                <p className="font-bold text-gray-900 dark:text-gray-100">
+                                  {formatPrice(item.price * item.quantity)}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="sm:hidden">
+                              <p className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                                Thành tiền: {formatPrice(item.price * item.quantity)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
 
-            {/* Summary */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-              <h3 className="text-lg font-bold text-gray-800 mb-6 dark:text-gray-100">Tóm tắt đơn hàng</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between text-gray-600">
-                  <span className="dark:text-gray-300">
-                    Tạm tính ({selectedCartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm đã chọn)
-                  </span>
-                  <span className="dark:text-gray-300">{formatPrice(subtotal)}</span>
-                </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-green-600">
-                    <span>Giảm giá</span>
-                    <span>-{formatPrice(discount)}</span>
+            <div className="lg:col-span-4">
+              <div className="sticky top-24 space-y-4">
+                <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                  <div className="mb-3 flex items-center gap-2">
+                    <Tag className="h-4 w-4 text-blue-600" />
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100">
+                      Mã giảm giá
+                    </h3>
                   </div>
-                )}
-                <div className="flex justify-between text-gray-600">
-                  <span className="dark:text-gray-300">Phí vận chuyển</span>
-                  <span className="dark:text-gray-300">{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
-                </div>
-                <div className="border-t pt-4">
-                  <div className="flex justify-between text-xl font-bold text-gray-800">
-                    <span className="dark:text-gray-300">Tổng cộng</span>
-                    <span className="text-blue-600">{formatPrice(total)}</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Benefits */}
-              <div className="mt-6 space-y-3">
-                <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <Shield className="w-4 h-4 text-green-500" />
-                  <span className="dark:text-gray-300">Bảo hành chính hãng</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <Truck className="w-4 h-4 text-blue-500" />
-                  <span className="dark:text-gray-300">Giao hàng nhanh 2-4h</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <Package className="w-4 h-4 text-purple-500" />
-                  <span className="dark:text-gray-300">Đóng gói cẩn thận</span>
-                </div>
-              </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Nhập mã"
+                      value={promoCode}
+                      onChange={e => setPromoCode(e.target.value)}
+                      className="min-w-0 flex-1 rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100 dark:focus:ring-blue-950"
+                    />
 
-              <button
-                disabled={selectedCartItems.length === 0}
-                className="w-full mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:transform-none"
-                onClick={handleCheckout}
-              >
-                <span>Thanh toán {selectedCartItems.length > 0 ? `(${selectedCartItems.length} sản phẩm)` : ''}</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
-
-              <div className="mt-4 flex items-center justify-center gap-4 text-sm text-gray-500">
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png"
-                  alt="Visa"
-                  className="h-6"
-                />
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png"
-                  alt="Mastercard"
-                  className="h-6"
-                />
-                <span>Thanh toán an toàn</span>
-
-                {/* Suggested Items */}
-                {/* <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Có thể bạn quan tâm</h3>
-              <div className="space-y-4">
-                {[
-                  {
-                    name: 'Ốp lưng iPhone 15 Pro',
-                    price: 590000,
-                    image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=100&h=100&fit=crop'
-                  },
-                  {
-                    name: 'Cáp sạc USB-C',
-                    price: 290000,
-                    image: 'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=100&h=100&fit=crop'
-                  }
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200 cursor-pointer"
-                  >
-                    <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-lg" />
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{item.name}</p>
-                      <p className="text-blue-600 font-semibold text-sm">{formatPrice(item.price)}</p>
-                    </div>
-                    <button className="text-blue-600 hover:bg-blue-50 p-2 rounded-lg">
-                      <Plus className="w-4 h-4" />
+                    <button
+                      onClick={() => handleApplyPromo()}
+                      disabled={isLoading || !promoCode}
+                      className="rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-300 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white dark:disabled:bg-gray-700 dark:disabled:text-gray-400"
+                    >
+                      {isLoading ? '...' : 'Áp dụng'}
                     </button>
                   </div>
-                ))}
-              </div>
-            </div> */}
+
+                  {appliedPromo && (
+                    <div className="mt-3 flex items-start justify-between gap-3 rounded-lg bg-emerald-50 px-3 py-2.5 dark:bg-emerald-950/30">
+                      <div>
+                        <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+                          {appliedPromo.code}
+                        </p>
+
+                        <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80">
+                          {appliedPromo.description}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setAppliedPromo(null)
+                          setPromoCode('')
+                        }}
+                        className="text-sm font-bold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                  <h3 className="mb-4 font-bold text-gray-900 dark:text-gray-100">
+                    Tóm tắt đơn hàng
+                  </h3>
+
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between gap-4 text-gray-500 dark:text-gray-400">
+                      <span>
+                        Tạm tính ({selectedCartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)
+                      </span>
+
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {formatPrice(subtotal)}
+                      </span>
+                    </div>
+
+                    {discount > 0 && (
+                      <div className="flex justify-between gap-4 text-emerald-600">
+                        <span>Giảm giá</span>
+                        <span className="font-medium">-{formatPrice(discount)}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between gap-4 text-gray-500 dark:text-gray-400">
+                      <span>Phí vận chuyển</span>
+
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="my-4 border-t border-gray-200 dark:border-gray-800" />
+
+                  <div className="flex items-end justify-between gap-4">
+                    <span className="font-bold text-gray-900 dark:text-gray-100">
+                      Tổng cộng
+                    </span>
+
+                    <span className="text-2xl font-bold text-blue-600">
+                      {formatPrice(total)}
+                    </span>
+                  </div>
+
+                  <button
+                    disabled={selectedCartItems.length === 0}
+                    onClick={handleCheckout}
+                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3.5 font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 dark:disabled:bg-gray-700 dark:disabled:text-gray-400"
+                  >
+                    <span>
+                      Thanh toán
+                      {selectedCartItems.length > 0 ? ` (${selectedCartItems.length})` : ''}
+                    </span>
+
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+
+                  {selectedCartItems.length === 0 && (
+                    <p className="mt-3 text-center text-xs text-gray-400">
+                      Vui lòng chọn sản phẩm để thanh toán
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>

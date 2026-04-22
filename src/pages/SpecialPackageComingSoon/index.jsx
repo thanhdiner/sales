@@ -1,20 +1,29 @@
 import SEO from '@/components/SEO'
-import { Sparkles, Clock } from 'lucide-react'
 
-export default function SpecialPackageComingSoon() {return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 dark:from-gray-800 dark:to-gray-800 rounded-xl">
+export default function SpecialPackageComingSoon() {
+  return (
+    <div className="min-h-[60vh] bg-white px-4 py-12 dark:bg-gray-900">
       <SEO title="Gói đặc biệt – Sắp ra mắt" noIndex />
-            <div className="bg-white rounded-2xl shadow p-8 flex flex-col items-center max-w-md w-full dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:text-white">
-        <Sparkles className="w-14 h-14 text-purple-500 mb-3" />
-        <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">Gói dịch vụ đặc biệt</h1>
-        <p className="text-gray-600 mb-4 text-center dark:text-gray-300">
-          Hiện tại chúng tôi chưa cung cấp các gói dịch vụ đặc biệt.
-          <br />
-          Hãy quay lại sau hoặc liên hệ với chúng tôi để được tư vấn thêm nếu bạn có nhu cầu riêng!
-        </p>
-        <div className="flex items-center gap-2 text-purple-600 text-sm">
-          <Clock className="w-4 h-4" />
-          Dịch vụ này sẽ ra mắt trong thời gian tới!
+
+      <div className="mx-auto flex min-h-[48vh] max-w-xl items-center justify-center">
+        <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-8">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
+            Sắp ra mắt
+          </p>
+
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
+            Gói dịch vụ đặc biệt
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-md text-base leading-7 text-gray-600 dark:text-gray-300">
+            Hiện tại chúng tôi chưa cung cấp các gói dịch vụ đặc biệt. Hãy quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.
+          </p>
+
+          <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+            <p className="mb-0 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              Dịch vụ này sẽ được cập nhật trong thời gian tới.
+            </p>
+          </div>
         </div>
       </div>
     </div>

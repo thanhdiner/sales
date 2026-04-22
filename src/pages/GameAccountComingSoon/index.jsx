@@ -1,21 +1,30 @@
 import React from 'react'
-import { Gamepad2, Clock } from 'lucide-react'
 import SEO from '@/components/SEO'
 
-export default function GameAccountComingSoon() {return (
-    <div className="dark:from-gray-800 dark:to-gray-800 rounded-xl min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4">
+export default function GameAccountComingSoon() {
+  return (
+    <div className="min-h-[60vh] bg-white px-4 py-12 dark:bg-gray-900">
       <SEO title="Tài khoản game – Sắp ra mắt" noIndex />
-            <div className="bg-white rounded-2xl shadow p-8 flex flex-col items-center max-w-md w-full dark:bg-gray-800 dark:border-gray-600 dark:border-2 dark:border-solid">
-        <Gamepad2 className="w-14 h-14 text-blue-500 mb-3" />
-        <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">Tài khoản game</h1>
-        <p className="dark:text-gray-400 text-gray-600 mb-4 text-center">
-          Hiện tại chúng tôi chưa mở bán tài khoản game.
-          <br />
-          Vui lòng quay lại sau, hoặc liên hệ nếu bạn có nhu cầu riêng!
-        </p>
-        <div className="flex items-center gap-2 text-blue-600 text-sm">
-          <Clock className="w-4 h-4" />
-          Dịch vụ sẽ ra mắt trong thời gian tới!
+
+      <div className="mx-auto flex min-h-[48vh] max-w-xl items-center justify-center">
+        <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-8">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
+            Sắp ra mắt
+          </p>
+
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
+            Tài khoản game
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-md text-base leading-7 text-gray-600 dark:text-gray-300">
+            Hiện tại chúng tôi chưa mở bán tài khoản game. Vui lòng quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.
+          </p>
+
+          <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+            <p className="mb-0 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              Dịch vụ sẽ được cập nhật trong thời gian tới.
+            </p>
+          </div>
         </div>
       </div>
     </div>

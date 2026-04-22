@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { normalizeWishlistItems } from '@/lib/normalizeWishlistItems'
 
 const wishlistSlice = createSlice({
   name: 'wishlist',
@@ -7,7 +8,7 @@ const wishlistSlice = createSlice({
   },
   reducers: {
     setWishlist: (state, action) => {
-      state.items = action.payload || []
+      state.items = normalizeWishlistItems(action.payload)
     },
     addToWishlistLocal: (state, action) => {
       const exists = state.items.some(i => i.productId === action.payload.productId)

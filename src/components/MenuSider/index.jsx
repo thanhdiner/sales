@@ -1,65 +1,63 @@
+import { useCallback, useEffect, useState } from 'react'
 import { Menu, Skeleton } from 'antd'
 import { Link, useLocation } from 'react-router-dom'
+import { useCategoriesQuery } from '@/hooks/queries/useSharedAppQueries'
 import './MenuSider.scss'
-import { useEffect, useState, useCallback } from 'react'
-import { getProductCategoryTree } from '@/services/productCategoryService'
 
 function MenuSider() {
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
+  const location = useLocation()
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
-  const location = useLocation()
+  const { data: categories = [], isLoading: loading } = useCategoriesQuery()
 
   const findOpenKeys = useCallback((list, path, parentKeys = []) => {
     for (const item of list) {
       const currentKey = item.slug || item.value
-      if (path.includes(currentKey)) return [...parentKeys, currentKey]
+
+      if (path.includes(currentKey)) {
+        return [...parentKeys, currentKey]
+      }
+
       if (item.children?.length) {
         const childKeys = findOpenKeys(item.children, path, [...parentKeys, currentKey])
-        if (childKeys.length) return childKeys
+
+        if (childKeys.length) {
+          return childKeys
+        }
       }
     }
+
     return []
   }, [])
 
   const findSelectedKey = useCallback((list, path) => {
     for (const item of list) {
       const currentKey = item.slug || item.value
-      if (path.includes(currentKey)) return [currentKey]
+
+      if (path.includes(currentKey)) {
+        return [currentKey]
+      }
+
       if (item.children?.length) {
         const childSelected = findSelectedKey(item.children, path)
-        if (childSelected.length) return childSelected
+
+        if (childSelected.length) {
+          return childSelected
+        }
       }
     }
+
     return []
   }, [])
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true)
-      try {
-        const res = await getProductCategoryTree()
-        setCategories(res.data)
-        const expandedKeys = findOpenKeys(res.data, location.pathname)
-        setOpenKeys(expandedKeys)
-      } catch (err) {
-        console.error('Failed to fetch categories', err)
-      }
-      setLoading(false)
+    if (!categories.length) {
+      return
     }
-    fetchCategories()
-  }, [findOpenKeys, location.pathname])
 
-  useEffect(() => {
-    if (categories.length > 0) {
-      const selected = findSelectedKey(categories, location.pathname)
-      const expandedKeys = findOpenKeys(categories, location.pathname)
-      setSelectedKeys(selected)
-      setOpenKeys(expandedKeys)
-    }
-  }, [location.pathname, categories, findOpenKeys, findSelectedKey])
-
+    setSelectedKeys(findSelectedKey(categories, location.pathname))
+    setOpenKeys(findOpenKeys(categories, location.pathname))
+  }, [categories, findOpenKeys, findSelectedKey, location.pathname])
 
   const renderCategoryItems = list =>
     list.map(category => {
@@ -75,7 +73,7 @@ function MenuSider() {
         ),
         label: (
           <Link className="menu-sider__label" to={`/product-categories/${category.slug}`}>
-            {<span className="dark:text-white">{category.title}</span>}
+            <span className="dark:text-white">{category.title}</span>
           </Link>
         ),
         children: hasChildren ? renderCategoryItems(category.children) : undefined
@@ -92,11 +90,15 @@ function MenuSider() {
     }
   ]
 
-  return loading ? (
-    <div style={{ padding: 24 }}>
-      <Skeleton active paragraph={{ rows: 7 }} title={false} />
-    </div>
-  ) : (
+  if (loading) {
+    return (
+      <div style={{ padding: 24 }}>
+        <Skeleton active paragraph={{ rows: 7 }} title={false} />
+      </div>
+    )
+  }
+
+  return (
     <Menu
       mode="inline"
       items={items}

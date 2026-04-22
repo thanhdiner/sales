@@ -313,8 +313,27 @@ h1 {
   justify-content: center;
 }
 
+.header__action__icon-slot {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .header__action__cart--icon,
 .header__action__wishlist--icon {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   vertical-align: middle;
+}
+
+.header__action__wishlist--icon {
+  font-size: 18px;
+}
+
+.header__action__cart--icon {
+  font-size: 20px;
 }

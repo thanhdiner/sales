@@ -2,35 +2,66 @@ import React, { useEffect, useState } from 'react'
 import './CountDown.scss'
 
 function Countdown({ endTime }) {
-  const [timeLeft, setTimeLeft] = useState('')
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: '00',
+    minutes: '00',
+    seconds: '00'
+  })
 
   useEffect(() => {
     if (!endTime) return
-    const interval = setInterval(() => {
+
+    const updateCountdown = () => {
       const now = new Date()
       const end = new Date(endTime)
       const diff = end - now
+
       if (diff <= 0) {
-        setTimeLeft('00:00:00')
-        clearInterval(interval)
+        setTimeLeft({
+          days: 0,
+          hours: '00',
+          minutes: '00',
+          seconds: '00'
+        })
         return
       }
-      const d = Math.floor(diff / (24 * 3600000))
-      const h = Math.floor((diff % (24 * 3600000)) / 3600000)
-      const m = Math.floor((diff % 3600000) / 60000)
-      const s = Math.floor((diff % 60000) / 1000)
-      let text = ''
-      if (d > 0) {
-        text = `${d} ngày ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-      } else {
-        text = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-      }
-      setTimeLeft(text)
-    }, 1000)
+
+      const days = Math.floor(diff / (24 * 3600000))
+      const hours = Math.floor((diff % (24 * 3600000)) / 3600000)
+      const minutes = Math.floor((diff % 3600000) / 60000)
+      const seconds = Math.floor((diff % 60000) / 1000)
+
+      setTimeLeft({
+        days,
+        hours: String(hours).padStart(2, '0'),
+        minutes: String(minutes).padStart(2, '0'),
+        seconds: String(seconds).padStart(2, '0')
+      })
+    }
+
+    updateCountdown()
+
+    const interval = setInterval(updateCountdown, 1000)
+
     return () => clearInterval(interval)
   }, [endTime])
 
-  return <span className="countdown-timer">{timeLeft}</span>
+  return (
+    <span className="countdown-timer">
+      {timeLeft.days > 0 && (
+        <>
+          <span className="countdown-timer__day">{timeLeft.days} ngày</span>
+        </>
+      )}
+
+      <span className="countdown-timer__box">{timeLeft.hours}</span>
+      <span className="countdown-timer__colon">:</span>
+      <span className="countdown-timer__box">{timeLeft.minutes}</span>
+      <span className="countdown-timer__colon">:</span>
+      <span className="countdown-timer__box">{timeLeft.seconds}</span>
+    </span>
+  )
 }
 
 export default Countdown

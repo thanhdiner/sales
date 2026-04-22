@@ -1,138 +1,23 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
 import { Rate } from 'antd'
-import { formatDeliveryDate } from '@/utils/formatDeliveryDate'
-import { useDispatch, useSelector } from 'react-redux'
-import { message } from 'antd'
-import { addToCart, getCart } from '@/services/cartsService'
-import { setCart } from '@/stores/cart'
-import { addToWishlistLocal, removeFromWishlistLocal } from '@/stores/wishlist'
-import { toggleWishlist } from '@/services/wishlistService'
 import { Heart, BarChart2 } from 'lucide-react'
-import { toggleCompareLocal } from '@/stores/compare'
+import { Link } from 'react-router-dom'
+import { formatDeliveryDate } from '@/utils/formatDeliveryDate'
+import { useProductActions } from '@/hooks/useProductActions'
 
-function ProductCard(props) {
-  const { product } = props
-  const [addCartLoading, setAddCartLoading] = useState(false)
-  const [wishlistLoading, setWishlistLoading] = useState(false)
-
+function ProductCard({ product }) {
   const priceNew = (product.price * (100 - product.discountPercentage)) / 100
   const price = product.price
   const deliveryText = formatDeliveryDate(product.deliveryEstimateDays || 0)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-
-  const wishlistItems = useSelector(state => state.wishlist.items)
-  const compareItems = useSelector(state => state.compare.items)
-  const isInWishlist = wishlistItems.some(i => i.productId === (product._id || product.id))
-  const isInCompare = compareItems.some(i => i.productId === (product._id || product.id))
-
-  const handleAddToCart = async e => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (addCartLoading) return
-
-    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
-    if (!isLoggedIn) {
-      message.info('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!')
-      navigate('/user/login')
-      return
-    }
-
-    setAddCartLoading(true)
-
-    try {
-      const cart = await getCart()
-      const cartItem = cart.items.find(item => item.productId === (product._id || product.id))
-      const currentQtyInCart = cartItem ? cartItem.quantity : 0
-      const available = Math.max(0, product.stock - currentQtyInCart)
-
-      if (available <= 0) {
-        message.warning('Bạn đã thêm hết số lượng sản phẩm này vào giỏ hàng!')
-        return
-      }
-
-      await addToCart({ productId: product._id || product.id, quantity: 1 })
-      const updatedCart = await getCart()
-      dispatch(setCart(updatedCart.items))
-      message.success(`Đã thêm sản phẩm ${product.title} vào giỏ hàng!`)
-    } catch (err) {
-      message.error('Thêm sản phẩm vào giỏ hàng thất bại!')
-    } finally {
-      setAddCartLoading(false)
-    }
-  }
-
-  const handleToggleWishlist = async e => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken'))
-    if (!isLoggedIn) {
-      message.info('Bạn cần đăng nhập để thêm vào danh sách yêu thích!')
-      navigate('/user/login')
-      return
-    }
-    if (wishlistLoading) return
-
-    // ✅ OPTIMISTIC UI: cập nhật Redux ngay lập tức
-    const productId = product._id || product.id
-    const wasInWishlist = isInWishlist
-    if (wasInWishlist) {
-      dispatch(removeFromWishlistLocal(productId))
-    } else {
-      dispatch(addToWishlistLocal({
-        productId,
-        name: product.title,
-        price: priceNew,
-        originalPrice: price,
-        discountPercentage: product.discountPercentage || 0,
-        image: product.thumbnail,
-        slug: product.slug,
-        stock: product.stock,
-        inStock: product.stock > 0,
-        rate: product.rate
-      }))
-    }
-
-    setWishlistLoading(true)
-    try {
-      await toggleWishlist(productId)
-      // Không cần dispatch lại — đã optimistic rồi
-    } catch {
-      // Revert nếu API lỗi
-      if (wasInWishlist) {
-        dispatch(addToWishlistLocal({
-          productId,
-          name: product.title,
-          price: priceNew,
-          originalPrice: price,
-          discountPercentage: product.discountPercentage || 0,
-          image: product.thumbnail,
-          slug: product.slug,
-          stock: product.stock,
-          inStock: product.stock > 0,
-          rate: product.rate
-        }))
-      } else {
-        dispatch(removeFromWishlistLocal(productId))
-      }
-      message.error('Có lỗi xảy ra, thử lại!')
-    } finally {
-      setWishlistLoading(false)
-    }
-  }
+  const actions = useProductActions(product)
 
   return (
     <Link to={`/products/${product.slug}`} className="block">
       <div className="product-card shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:outline dark:outline-gray-600 dark:outline-1 dark:bg-gray-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20"></div>
-
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10" />
 
         <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-white p-3 dark:from-gray-700 dark:to-gray-800">
-          {/* Badges top-left */}
           <div className="absolute top-2 left-2 flex flex-col gap-1 z-30">
             {product.isTopDeal && (
               <span className="bg-gradient-to-r from-orange-500 to-yellow-400 text-white text-[11px] font-bold px-2 py-[2px] rounded shadow badge-topdeal uppercase tracking-wide">
@@ -151,63 +36,47 @@ function ProductCard(props) {
             )}
           </div>
 
-          {/* ❤️ Wishlist & 📊 Compare buttons — top-right */}
           <div className="absolute top-2 right-2 flex flex-col gap-1.5 z-40">
             <button
-              onClick={handleToggleWishlist}
-              disabled={wishlistLoading}
-              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
-                ${isInWishlist
+              onClick={actions.handleToggleWishlist}
+              disabled={actions.wishlistLoading}
+              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 ${
+                actions.isInWishlist
                   ? 'bg-pink-500 text-white border-pink-500 scale-110'
                   : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100'
-                }`}
-              title={isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+              }`}
+              title={actions.isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
             >
-              {wishlistLoading
-                ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                : <Heart className={`w-4 h-4 transition-all duration-150 ${isInWishlist ? 'fill-white scale-110' : ''}`} />
-              }
+              {actions.wishlistLoading ? (
+                <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Heart className={`w-4 h-4 transition-all duration-150 ${actions.isInWishlist ? 'fill-white scale-110' : ''}`} />
+              )}
             </button>
 
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dispatch(toggleCompareLocal({
-                  productId: product._id || product.id,
-                  name: product.title,
-                  price: priceNew,
-                  originalPrice: price,
-                  discountPercentage: product.discountPercentage || 0,
-                  image: product.thumbnail,
-                  slug: product.slug,
-                  rate: product.rate,
-                  stock: product.stock,
-                  inStock: product.stock > 0
-                }));
-              }}
-              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200
-                ${isInCompare
+              onClick={actions.handleToggleCompare}
+              className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 ${
+                actions.isInCompare
                   ? 'bg-blue-500 text-white border-blue-500 scale-110'
                   : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-blue-50 hover:text-blue-500 hover:border-blue-300 opacity-0 group-hover:opacity-100'
-                }`}
+              }`}
               title="So sánh sản phẩm"
             >
               <BarChart2 className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Add to cart button — bottom-right */}
           <button
-            onClick={handleAddToCart}
+            onClick={actions.handleAddToCart}
             className="absolute bottom-2 right-2 w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-white/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-xl hover:scale-110 z-30"
             title="Thêm vào giỏ hàng"
-            disabled={addCartLoading || product.stock <= 0}
+            disabled={actions.addCartLoading || product.stock <= 0}
           >
-            {addCartLoading ? (
+            {actions.addCartLoading ? (
               <svg className="w-4 h-4 animate-spin text-blue-500 hover:text-white" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
               </svg>
             ) : (
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -239,6 +108,7 @@ function ProductCard(props) {
               <Rate disabled allowHalf value={product.rate} className="text-xs" style={{ fontSize: '16px' }} />
             </div>
           </div>
+
           <div className="space-y-1 h-[40px]">
             <div className="text-red-500 font-bold text-lg bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
               {priceNew.toLocaleString('vi-VN')} <span className="text-sm text-red-500">₫</span>

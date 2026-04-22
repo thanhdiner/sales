@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
   MessageCircle, Send, Bot, User, Circle, RefreshCw, Search,
   CheckCircle, Clock, Inbox, UserCheck, AlertCircle,
-  Lock, Globe, ArrowLeft
+  Lock, Globe, ArrowLeft, ImagePlus, Loader2, X
 } from 'lucide-react'
+import { message as antdMessage } from 'antd'
 import { getSocket } from '@/services/socketService'
+import { chatService } from '@/services/chatService'
+import { createClientTempId, hasChatImages, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
+import { renderTextWithLinks } from '@/utils/renderTextWithLinks'
 import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -18,6 +22,36 @@ const apiFetch = async (path, options = {}) => {
   const res = await fetch(`${API_BASE}/${path}`, { credentials: 'include', ...options })
   return res.json()
 }
+
+const revokePreviewUrl = (url) => {
+  if (typeof url === 'string' && url.startsWith('blob:')) {
+    URL.revokeObjectURL(url)
+  }
+}
+
+const getMessagePreview = (msg) => msg.type === 'image' || msg.imageUrl ? '[Ảnh]' : (msg.message || '')
+
+const ChatImage = ({ src, alt }) => (
+  <a href={src} target="_blank" rel="noreferrer" className="block">
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="block max-h-80 w-auto max-w-[260px] rounded-2xl object-cover shadow-sm ring-1 ring-black/5"
+    />
+  </a>
+)
+
+const ImageMessageContent = ({ msg, captionClassName }) => (
+  <div className="space-y-2">
+    <ChatImage src={msg.imageUrl} alt={msg.message || 'Ảnh chat'} />
+    {msg.message ? (
+      <div className={captionClassName}>
+        {renderTextWithLinks(msg.message, 'underline underline-offset-2 break-all')}
+      </div>
+    ) : null}
+  </div>
+)
 
 // ─── Status badge ────────────────────────────────────────────────────────────
 const StatusBadge = ({ status }) => {
@@ -82,6 +116,10 @@ const AgentMessageBubble = ({ msg }) => {
   const isCustomer = msg.sender === 'customer' || msg.sender === 'guest'
   const isSystem = msg.type === 'system' || msg.sender === 'system'
   const isNote = msg.type === 'note' || msg.isInternal
+  const isImage = msg.type === 'image' && hasChatImages(msg)
+  const noteLinkClassName = 'underline underline-offset-2 decoration-amber-400 break-all hover:text-amber-700 dark:hover:text-amber-200'
+  const customerLinkClassName = 'underline underline-offset-2 decoration-blue-300 break-all text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200'
+  const agentLinkClassName = 'underline underline-offset-2 decoration-white/70 break-all hover:text-blue-100'
 
   if (isSystem) {
     return (
@@ -102,7 +140,7 @@ const AgentMessageBubble = ({ msg }) => {
           <div className="flex items-center gap-1 mb-1 text-[10px] text-amber-500 font-medium">
             <Lock className="w-3 h-3" /> Ghi chú nội bộ {!msg.isOptimistic && `· ${time}`}
           </div>
-          {msg.message}
+          {renderTextWithLinks(msg.message, noteLinkClassName)}
         </div>
       </div>
     )
@@ -116,9 +154,16 @@ const AgentMessageBubble = ({ msg }) => {
         </div>
         <div className="max-w-[65%]">
           <p className="text-[10px] text-gray-400 mb-0.5 ml-1">{msg.senderName}</p>
-          <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm shadow-sm border border-gray-100 dark:border-gray-700">
-            {msg.message}
-          </div>
+          {isImage ? (
+            <ImageMessageContent
+              msg={msg}
+              captionClassName="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm shadow-sm border border-gray-100 dark:border-gray-700 whitespace-pre-wrap break-words"
+            />
+          ) : (
+            <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm shadow-sm border border-gray-100 dark:border-gray-700 whitespace-pre-wrap break-words">
+              {renderTextWithLinks(msg.message, customerLinkClassName)}
+            </div>
+          )}
         </div>
         <span className="text-[10px] text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity self-end mb-0.5">{time}</span>
       </div>
@@ -132,9 +177,16 @@ const AgentMessageBubble = ({ msg }) => {
           <span className="text-[10px] text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity self-end mb-0.5">{time}</span>
         )}
         <div className="max-w-[65%]">
-          <div className="w-fit bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm shadow-sm whitespace-pre-wrap break-words">
-            {msg.message}
-          </div>
+          {isImage ? (
+            <ImageMessageContent
+              msg={msg}
+              captionClassName="w-fit bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm shadow-sm whitespace-pre-wrap break-words"
+            />
+          ) : (
+            <div className="w-fit bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm shadow-sm whitespace-pre-wrap break-words">
+              {renderTextWithLinks(msg.message, agentLinkClassName)}
+            </div>
+          )}
         </div>
         <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mb-0.5">
           <Bot className="w-4 h-4" />
@@ -164,9 +216,13 @@ export default function AdminChatPage() {
   const [isNote, setIsNote] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [customerTyping, setCustomerTyping] = useState(false)
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+  const [pendingImage, setPendingImage] = useState(null)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
+  const imageInputRef = useRef(null)
   const typingTimerRef = useRef(null)
+  const pendingImageRef = useRef(null)
   // Refs để socket handlers có thể đọc giá trị mới nhất mà không cần re-register
   const selectedSessionRef = useRef(null)
   const activeTabRef = useRef('unassigned')
@@ -181,6 +237,8 @@ export default function AdminChatPage() {
   useEffect(() => { selectedSessionRef.current = selectedSession }, [selectedSession])
   useEffect(() => { activeTabRef.current = activeTab }, [activeTab])
   useEffect(() => { agentIdRef.current = agentId }, [agentId])
+  useEffect(() => { pendingImageRef.current = pendingImage }, [pendingImage])
+  useEffect(() => () => { revokePreviewUrl(pendingImageRef.current?.previewUrl) }, [])
 
   // ─── Load conversations ───────────────────────────────────────────────────
   const loadConversations = useCallback(async () => {
@@ -255,9 +313,18 @@ export default function AdminChatPage() {
         setMessages(prev => {
           if (prev.some(m => m._id === msg._id)) return prev
           if (msg.sender === 'agent' || msg.type === 'note' || msg.isInternal) {
-            const index = prev.findIndex(m => m.isOptimistic && m.message === msg.message)
+            const index = prev.findIndex(m =>
+              m.isOptimistic &&
+              (
+                (msg.clientTempId && m.clientTempId === msg.clientTempId) ||
+                (msg.type === 'image' && m.type === 'image' && m.imageUrl === msg.imageUrl) ||
+                (msg.type === 'image' && m.type === 'image' && isSameOptimisticImageMessage(m, msg)) ||
+                ((msg.type !== 'image' || !msg.imageUrl) && m.message === msg.message)
+              )
+            )
             if (index !== -1) {
               const clone = [...prev]
+              revokeChatImageUrls(clone[index])
               clone[index] = msg
               return clone
             }
@@ -271,7 +338,7 @@ export default function AdminChatPage() {
       // Cập nhật lastMessage trong list
       setConversations(prev =>
         prev.map(c => c.sessionId === msg.sessionId
-          ? { ...c, lastMessage: msg.message, lastMessageAt: msg.createdAt, lastMessageSender: msg.sender, unreadByAgent: selectedSessionRef.current === msg.sessionId ? 0 : (c.unreadByAgent || 0) + (msg.sender === 'customer' ? 1 : 0) }
+          ? { ...c, lastMessage: getMessagePreview(msg), lastMessageAt: msg.createdAt, lastMessageSender: msg.sender, unreadByAgent: selectedSessionRef.current === msg.sessionId ? 0 : (c.unreadByAgent || 0) + (msg.sender === 'customer' ? 1 : 0) }
           : c
         ).sort((a, b) => new Date(b.lastMessageAt || b.createdAt) - new Date(a.lastMessageAt || a.createdAt))
       )
@@ -280,6 +347,14 @@ export default function AdminChatPage() {
 
     const onMessage = (msg) => {
       handleUpdateMessages(msg)
+      if (msg.sender !== 'customer') {
+        setConversations(prev =>
+          prev.map(c => c.sessionId === msg.sessionId
+            ? { ...c, lastMessage: getMessagePreview(msg), lastMessageAt: msg.createdAt, lastMessageSender: msg.sender }
+            : c
+          ).sort((a, b) => new Date(b.lastMessageAt || b.createdAt) - new Date(a.lastMessageAt || a.createdAt))
+        )
+      }
       if (selectedSessionRef.current !== msg.sessionId && msg.sender === 'customer') {
         // Cập nhật unread count trong list
         setConversations(prev =>
@@ -339,6 +414,7 @@ export default function AdminChatPage() {
 
   // ─── Actions ──────────────────────────────────────────────────────────────
   const selectConversation = async (conv) => {
+    clearPendingImage()
     setSelectedSession(conv.sessionId)
     setSelectedConv(conv)
     setMessages([])
@@ -365,32 +441,132 @@ export default function AdminChatPage() {
     setSelectedConv(prev => prev ? { ...prev, status: 'resolved' } : prev)
   }
 
-  const sendReply = () => {
-    const text = input.trim()
-    if (!text || !selectedSession) return
-    
-    // Optimistic UI for Agent
-    const tempId = `temp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
-    const optimisticMsg = {
-      _id: tempId,
+  const clearPendingImage = useCallback(({ revoke = true } = {}) => {
+    setPendingImage(prev => {
+      if (revoke) revokePreviewUrl(prev?.previewUrl)
+      return null
+    })
+    if (imageInputRef.current) imageInputRef.current.value = ''
+  }, [])
+
+  const appendOptimisticAgentMessage = (payload) => {
+    const clientTempId = payload.clientTempId || createClientTempId()
+    const tempId = `temp_${clientTempId}`
+    setMessages(prev => [
+      ...prev,
+      {
+        _id: tempId,
+        clientTempId,
+        sessionId: selectedSession,
+        sender: 'agent',
+        agentId,
+        agentName,
+        agentAvatar,
+        createdAt: new Date().toISOString(),
+        isOptimistic: true,
+        ...payload
+      }
+    ])
+
+    return clientTempId
+  }
+
+  const removeOptimisticAgentMessage = useCallback((clientTempId) => {
+    if (!clientTempId) return
+
+    setMessages(prev => prev.filter(msg => {
+      const shouldRemove = msg.isOptimistic && msg.clientTempId === clientTempId
+      if (shouldRemove) revokeChatImageUrls(msg)
+      return !shouldRemove
+    }))
+  }, [])
+
+  const emitAgentReply = (payload) => {
+    const socket = getSocket()
+    socket.emit('chat:agent_reply', {
       sessionId: selectedSession,
-      message: text,
-      sender: 'agent',
-      type: isNote ? 'note' : 'text',
-      isInternal: isNote,
       agentId,
       agentName,
       agentAvatar,
-      createdAt: new Date().toISOString(),
-      isOptimistic: true
+      ...payload
+    })
+  }
+
+  const sendReply = async () => {
+    const text = input.trim()
+    if ((!text && !pendingImage) || !selectedSession || isUploadingImage) return
+
+    try {
+      if (pendingImage) {
+        const clientTempId = createClientTempId()
+
+        appendOptimisticAgentMessage({
+          clientTempId,
+          type: 'image',
+          imageUrl: pendingImage.previewUrl,
+          message: text,
+          isInternal: false
+        })
+
+        clearPendingImage({ revoke: false })
+        setInput('')
+        if (inputRef.current) inputRef.current.style.height = 'auto'
+        inputRef.current?.focus()
+        setIsUploadingImage(true)
+
+        try {
+          const imageUrl = await chatService.uploadImage(pendingImage.file)
+
+          emitAgentReply({
+            clientTempId,
+            type: 'image',
+            imageUrl,
+            message: text,
+            isInternal: false
+          })
+        } catch (err) {
+          removeOptimisticAgentMessage(clientTempId)
+          throw err
+        }
+      } else {
+        const clientTempId = appendOptimisticAgentMessage({
+          clientTempId: createClientTempId(),
+          message: text,
+          type: isNote ? 'note' : 'text',
+          isInternal: isNote
+        })
+
+        emitAgentReply({ clientTempId, message: text, type: 'text', isInternal: isNote })
+
+        setInput('')
+        if (inputRef.current) inputRef.current.style.height = 'auto'
+        inputRef.current?.focus()
+      }
+    } catch (err) {
+      antdMessage.error(err.message || 'Không thể tải ảnh lên')
+    } finally {
+      setIsUploadingImage(false)
     }
-    setMessages(prev => [...prev, optimisticMsg])
-    
-    const socket = getSocket()
-    socket.emit('chat:agent_reply', { sessionId: selectedSession, message: text, agentId, agentName, agentAvatar, isInternal: isNote })
-    setInput('')
-    if (inputRef.current) inputRef.current.style.height = 'auto'
-    inputRef.current?.focus()
+  }
+
+  const handleImageChange = (e) => {
+    const [file] = Array.from(e.target.files || [])
+    if (!file || isNote) return
+
+    setPendingImage(prev => {
+      revokePreviewUrl(prev?.previewUrl)
+      return {
+        file,
+        name: file.name,
+        previewUrl: URL.createObjectURL(file)
+      }
+    })
+
+    if (imageInputRef.current) imageInputRef.current.value = ''
+  }
+
+  const openImagePicker = () => {
+    if (!isNote && !isUploadingImage) imageInputRef.current?.click()
   }
 
   const handleKeyDown = (e) => {
@@ -404,6 +580,7 @@ export default function AdminChatPage() {
 
   const isAssignedToMe = selectedConv?.assignedAgent?.agentId === agentId
   const isResolved = selectedConv?.status === 'resolved'
+  const canSend = !!input.trim() || !!pendingImage
 
   return (
     <div className="flex h-full bg-white dark:bg-gray-900 overflow-hidden relative">
@@ -543,24 +720,65 @@ export default function AdminChatPage() {
                     ${!isNote ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
                   <Send className="w-3 h-3" /> Phản hồi
                 </button>
-                <button onClick={() => setIsNote(true)}
+                <button onClick={() => { clearPendingImage(); setIsNote(true) }}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors
                     ${isNote ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
                   <Lock className="w-3 h-3" /> Ghi chú nội bộ
                 </button>
               </div>
 
+              {pendingImage && !isNote && (
+                <div className="mb-3 flex items-center gap-3 rounded-xl border border-blue-100 bg-blue-50/70 p-2.5 dark:border-blue-900/40 dark:bg-blue-950/30">
+                  <div className="h-16 w-16 overflow-hidden rounded-lg ring-1 ring-black/5">
+                    <img src={pendingImage.previewUrl} alt={pendingImage.name} className="h-full w-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
+                      Ảnh đính kèm
+                    </p>
+                    <p className="truncate text-xs text-gray-600 dark:text-gray-300">{pendingImage.name}</p>
+                    <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+                      Ảnh sẽ được gửi khi bấm Send
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearPendingImage}
+                    className="rounded-lg p-1.5 text-gray-500 hover:bg-white hover:text-red-500 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-red-400 transition-colors"
+                    title="Xóa ảnh đính kèm"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
               <div className={`flex items-end gap-3 rounded-xl px-4 py-3 border transition-colors
                 ${isNote ? 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-700' : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 focus-within:border-blue-400'}`}
               >
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+                <button
+                  type="button"
+                  onClick={openImagePicker}
+                  disabled={isNote || isUploadingImage}
+                  title={isNote ? 'Chỉ gửi ảnh ở chế độ phản hồi' : (pendingImage ? 'Đổi ảnh đính kèm' : 'Đính kèm ảnh')}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-300 dark:hover:bg-blue-900/20 disabled:cursor-not-allowed disabled:text-gray-300 dark:disabled:text-gray-600 transition-colors"
+                >
+                  {isUploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+                </button>
                 <textarea ref={inputRef} rows={1} value={input}
                   onChange={e => { setInput(e.target.value); e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px' }}
                   onKeyDown={handleKeyDown}
-                  placeholder={isNote ? '📝 Ghi chú (chỉ agent thấy)...' : 'Nhập phản hồi... (Enter để gửi)'}
+                  placeholder={isNote ? '📝 Ghi chú (chỉ agent thấy)...' : (pendingImage ? 'Thêm lời nhắn cho ảnh... (Enter để gửi)' : 'Nhập phản hồi... (Enter để gửi)')}
                   className="flex-1 bg-transparent resize-none outline-none text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 leading-relaxed"
                   style={{ maxHeight: '100px', overflowY: 'auto' }}
                 />
-                <button onClick={sendReply} disabled={!input.trim()}
+                <button onClick={sendReply} disabled={!canSend || isUploadingImage}
                   className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all active:scale-95 disabled:cursor-not-allowed
                     ${isNote ? 'bg-amber-500 hover:bg-amber-600 disabled:bg-gray-200 dark:disabled:bg-gray-700 text-white' : 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 dark:disabled:bg-gray-700 text-white disabled:text-gray-400'}`}>
                   <Send className="w-3.5 h-3.5" />

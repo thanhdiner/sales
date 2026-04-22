@@ -5,7 +5,8 @@ import { User, Phone, Mail, FileText, Package, CreditCard, Truck, CheckCircle, C
 import { message as antdMessage, Select } from 'antd'
 import SEO from '@/components/SEO'
 
-export default function AdminOrderDetailPage() {const { id } = useParams()
+export default function AdminOrderDetailPage() {
+  const { id } = useParams()
   const navigate = useNavigate()
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -17,20 +18,25 @@ export default function AdminOrderDetailPage() {const { id } = useParams()
     async function fetchOrder() {
       setLoading(true)
       const res = await getOrderDetailAdmin(id)
+
       if (res.success) {
         setOrder(res.order)
         setStatus(res.order.status)
       }
+
       setLoading(false)
     }
+
     fetchOrder()
     // eslint-disable-next-line
   }, [id])
 
   const handleUpdateStatus = async () => {
     setUpdating(true)
+
     try {
       const res = await updateOrderStatus(id, { status })
+
       if (res.success) {
         setMsg('Cập nhật trạng thái thành công!')
         setOrder(prev => ({ ...prev, status }))
@@ -44,71 +50,129 @@ export default function AdminOrderDetailPage() {const { id } = useParams()
 
   const getStatusInfo = status => {
     const statusMap = {
-      pending: { label: 'Chờ xác nhận', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
-      confirmed: { label: 'Đã xác nhận', color: 'bg-blue-100 text-blue-800', icon: CheckCircle },
-      shipping: { label: 'Đang giao', color: 'bg-purple-100 text-purple-800', icon: Truck },
-      completed: { label: 'Hoàn thành', color: 'bg-green-100 text-green-800', icon: CheckCircle },
-      cancelled: { label: 'Đã hủy', color: 'bg-red-100 text-red-800', icon: XCircle }
+      pending: {
+        label: 'Chờ xác nhận',
+        color: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-900/60 dark:bg-yellow-900/20 dark:text-yellow-300',
+        icon: Clock
+      },
+      confirmed: {
+        label: 'Đã xác nhận',
+        color: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/60 dark:bg-blue-900/20 dark:text-blue-300',
+        icon: CheckCircle
+      },
+      shipping: {
+        label: 'Đang giao',
+        color:
+          'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-900/60 dark:bg-purple-900/20 dark:text-purple-300',
+        icon: Truck
+      },
+      completed: {
+        label: 'Hoàn thành',
+        color: 'border-green-200 bg-green-50 text-green-700 dark:border-green-900/60 dark:bg-green-900/20 dark:text-green-300',
+        icon: CheckCircle
+      },
+      cancelled: {
+        label: 'Đã hủy',
+        color: 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/60 dark:bg-red-900/20 dark:text-red-300',
+        icon: XCircle
+      }
     }
+
     return statusMap[status] || statusMap.pending
   }
 
-  if (loading)
+  const getOrderItemThumbnail = item => {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <SEO title="Admin – Chi tiết đơn" noIndex />
-              <div>
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-6"></div>
-          <p className="text-slate-600 font-medium text-lg text-center">Đang tải đơn hàng...</p>
-        </div>
-      </div>
+      item.image ||
+      item.thumbnail ||
+      item.product?.image ||
+      item.product?.thumbnail ||
+      item.productId?.image ||
+      item.productId?.thumbnail ||
+      ''
     )
+  }
 
-  if (!order)
+  const getOrderItemKey = item => {
+    return item.productId?._id || item.product?._id || item.productId || item._id || item.name
+  }
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="text-center">
-          <XCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <p className="text-red-600 text-xl">Không tìm thấy đơn hàng!</p>
+      <div className="flex min-h-screen items-center justify-center rounded-xl bg-slate-50 dark:bg-gray-900">
+        <SEO title="Admin – Chi tiết đơn" noIndex />
+
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-9 w-9 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900 dark:border-gray-700 dark:border-t-white" />
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Đang tải đơn hàng...</p>
         </div>
       </div>
     )
+  }
+
+  if (!order) {
+    return (
+      <div className="flex min-h-screen items-center justify-center rounded-xl bg-slate-50 dark:bg-gray-900">
+        <SEO title="Admin – Chi tiết đơn" noIndex />
+
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-red-200 bg-red-50 text-red-500 dark:border-red-900/60 dark:bg-red-900/20">
+            <XCircle className="h-6 w-6" />
+          </div>
+
+          <p className="text-base font-semibold text-gray-900 dark:text-white">Không tìm thấy đơn hàng</p>
+
+          <button
+            type="button"
+            onClick={() => navigate('/admin/orders')}
+            className="mt-4 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+          >
+            Quay lại danh sách
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   const statusInfo = getStatusInfo(order.status)
   const StatusIcon = statusInfo.icon
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-gray-800 dark:to-gray-800">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
+    <div className="min-h-screen bg-slate-50 p-6 dark:bg-gray-900">
+      <SEO title="Admin – Chi tiết đơn" noIndex />
+
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-5">
           <button
-            className="inline-flex items-center text-slate-600 hover:text-blue-600 transition-colors duration-200 mb-4 dark:text-gray-100"
+            type="button"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             onClick={() => navigate('/admin/orders')}
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4" />
             Quay lại danh sách đơn hàng
           </button>
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-slate-800 mb-2">Đơn hàng #{order._id.slice(-6).toUpperCase()}</h1>
-              <div className="flex items-center gap-3">
-                <div className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium ${statusInfo.color}`}>
-                  <StatusIcon className="h-4 w-4 mr-1.5" />
-                  {statusInfo.label}
-                </div>
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                Đơn hàng #{order._id.slice(-6).toUpperCase()}
+              </h1>
+
+              <div
+                className={`mt-3 inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium ${statusInfo.color}`}
+              >
+                <StatusIcon className="h-4 w-4" />
+                {statusInfo.label}
               </div>
             </div>
 
-            {/* Status Update */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Select
                   value={status}
                   onChange={value => setStatus(value)}
                   style={{ minWidth: 180, fontFamily: 'inherit' }}
-                  className="font-sans text-slate-700"
+                  className="font-sans text-gray-700"
                   options={[
                     { value: 'pending', label: 'Chờ xác nhận' },
                     { value: 'confirmed', label: 'Đã xác nhận' },
@@ -117,14 +181,16 @@ export default function AdminOrderDetailPage() {const { id } = useParams()
                     { value: 'cancelled', label: 'Đã hủy' }
                   ]}
                 />
+
                 <button
+                  type="button"
                   disabled={updating || status === order.status}
                   onClick={handleUpdateStatus}
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
                 >
                   {updating ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white dark:border-gray-300 dark:border-t-gray-900" />
                       Đang lưu...
                     </>
                   ) : (
@@ -134,132 +200,156 @@ export default function AdminOrderDetailPage() {const { id } = useParams()
               </div>
             </div>
           </div>
-          {/* Success Message */}
+
           {msg && (
-            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
-                <span className="text-green-800 font-medium">{msg}</span>
+            <div className="mt-4 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-900/60 dark:bg-green-900/20">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-300" />
+                <span className="text-sm font-medium text-green-700 dark:text-green-300">{msg}</span>
               </div>
             </div>
           )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Customer Info & Items */}
-          <div className="lg:col-span-2 space-y-6 ">
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center dark:text-gray-100">
-                <User className="h-5 w-5 mr-2 text-blue-600" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="space-y-6 lg:col-span-2">
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
+                <User className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 Thông tin khách hàng
               </h2>
-              <div className="space-y-4">
+
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <User className="h-5 w-5 text-slate-400 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-slate-800 dark:text-gray-100">
-                      {order.contact.firstName} {order.contact.lastName}
-                    </p>
-                  </div>
+                  <User className="mt-0.5 h-5 w-5 text-gray-400" />
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {order.contact.firstName} {order.contact.lastName}
+                  </p>
                 </div>
+
                 <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 text-slate-400 mt-0.5" />
-                  <div>
-                    <p className="text-slate-600 dark:text-gray-400">{order.contact.phone}</p>
-                  </div>
+                  <Phone className="mt-0.5 h-5 w-5 text-gray-400" />
+                  <p className="text-gray-600 dark:text-gray-400">{order.contact.phone}</p>
                 </div>
+
                 {order.contact.email && (
                   <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-slate-400 mt-0.5" />
-                    <div>
-                      <p className="text-slate-600">{order.contact.email}</p>
-                    </div>
+                    <Mail className="mt-0.5 h-5 w-5 text-gray-400" />
+                    <p className="text-gray-600 dark:text-gray-400">{order.contact.email}</p>
                   </div>
                 )}
+
                 {order.contact.notes && (
                   <div className="flex items-start gap-3">
-                    <FileText className="h-5 w-5 text-slate-400 mt-0.5" />
-                    <div>
-                      <p className="text-slate-600">{order.contact.notes}</p>
-                    </div>
+                    <FileText className="mt-0.5 h-5 w-5 text-gray-400" />
+                    <p className="text-gray-600 dark:text-gray-400">{order.contact.notes}</p>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Order Items */}
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center dark:text-gray-100">
-                <Package className="h-5 w-5 mr-2 text-blue-600" />
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
+                <Package className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 Sản phẩm đã đặt
               </h2>
-              <div className="space-y-4">
-                {order.orderItems.map((item, index) => (
-                  <div key={item.productId} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700 hover:!bg-blue-50 dark:hover:!bg-gray-700 cursor-pointer">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-slate-800 dark:text-gray-100">{item.name}</h3>
-                      <p className="text-sm text-slate-500 dark:text-gray-100">{item.category}</p>
+
+              <div className="space-y-3">
+                {order.orderItems.map(item => {
+                  const thumbnail = getOrderItemThumbnail(item)
+
+                  return (
+                    <div
+                      key={getOrderItemKey(item)}
+                      className="flex items-center justify-between gap-4 rounded-lg border border-gray-100 bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700"
+                    >
+                      <div className="flex min-w-0 flex-1 items-center gap-4">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+                          {thumbnail ? (
+                            <img src={thumbnail} alt={item.name} className="h-full w-full object-cover" />
+                          ) : (
+                            <Package className="h-6 w-6 text-gray-400" />
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h3 className="truncate text-sm font-medium text-gray-900 dark:text-white">{item.name}</h3>
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{item.category}</p>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0 text-right">
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-200">x{item.quantity}</p>
+                        <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
+                          {item.price?.toLocaleString('vi-VN')}₫
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-medium text-slate-800 dark:text-gray-200">x{item.quantity}</p>
-                      <p className="text-sm text-blue-600 font-semibold">{item.price?.toLocaleString('vi-VN')}₫</p>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
 
-          {/* Order Summary & Payment Info */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 dark:bg-gray-800 dark:outline dark:outline-2 dark:outline-gray-700">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4 dark:text-gray-100">Tổng quan đơn hàng</h2>
+            <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 text-base font-semibold text-gray-900 dark:text-white">Tổng quan đơn hàng</h2>
+
               <div className="space-y-3">
-                <div className="flex justify-between text-slate-600 dark:text-gray-400">
-                  <span>Tạm tính:</span>
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                  <span>Tạm tính</span>
                   <span>{order.subtotal?.toLocaleString('vi-VN')}₫</span>
                 </div>
+
                 {order.discount > 0 && (
-                  <div className="flex justify-between text-green-600">
-                    <span>Giảm giá:</span>
+                  <div className="flex justify-between text-sm text-green-600 dark:text-green-300">
+                    <span>Giảm giá</span>
                     <span>-{order.discount?.toLocaleString('vi-VN')}₫</span>
                   </div>
                 )}
-                <div className="flex justify-between text-slate-600 dark:text-gray-400">
-                  <span>Phí vận chuyển:</span>
+
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                  <span>Phí vận chuyển</span>
                   <span>{order.shipping === 0 ? 'Miễn phí' : `${order.shipping?.toLocaleString('vi-VN')}₫`}</span>
                 </div>
-                <div className="border-t pt-3">
-                  <div className="flex justify-between text-lg font-bold text-slate-800">
-                    <span>Tổng cộng:</span>
-                    <span className="text-blue-600">{order.total?.toLocaleString('vi-VN')}₫</span>
+
+                <div className="border-t border-gray-100 pt-3 dark:border-gray-700">
+                  <div className="flex justify-between text-base font-semibold text-gray-900 dark:text-white">
+                    <span>Tổng cộng</span>
+                    <span>{order.total?.toLocaleString('vi-VN')}₫</span>
                   </div>
                 </div>
               </div>
             </div>
-            {/* Payment Info */}
+
             {order.transferInfo?.bank && (
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
-                  <CreditCard className="h-5 w-5 mr-2 text-blue-600" />
+              <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
+                  <CreditCard className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   Thông tin chuyển khoản
                 </h2>
-                <div className="space-y-3">
+
+                <div className="space-y-4">
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Ngân hàng</p>
-                    <p className="font-medium text-slate-800">{order.transferInfo.bank}</p>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Ngân hàng</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{order.transferInfo.bank}</p>
                   </div>
+
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Số tài khoản</p>
-                    <p className="font-mono font-medium text-slate-800">{order.transferInfo.accountNumber}</p>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Số tài khoản</p>
+                    <p className="font-mono font-medium text-gray-900 dark:text-white">{order.transferInfo.accountNumber}</p>
                   </div>
+
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Chủ tài khoản</p>
-                    <p className="font-medium text-slate-800">{order.transferInfo.accountName}</p>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Chủ tài khoản</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{order.transferInfo.accountName}</p>
                   </div>
+
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Nội dung chuyển khoản</p>
-                    <p className="font-mono font-medium text-blue-600 bg-white px-3 py-2 rounded-lg">{order.transferInfo.content}</p>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Nội dung chuyển khoản</p>
+                    <p className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 font-mono text-sm font-medium text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+                      {order.transferInfo.content}
+                    </p>
                   </div>
                 </div>
               </div>

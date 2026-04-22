@@ -7,7 +7,8 @@ import AdminProductsHeaderActions from '@/components/AdminProductsHeaderActions'
 import AdminProductsHeader from '@/components/AdminProductsHeader'
 import SEO from '@/components/SEO'
 
-function AdminProductsPages() {const [columnsVisible, setColumnsVisible] = useState(() => {
+function AdminProductsPages() {
+  const [columnsVisible, setColumnsVisible] = useState(() => {
     const saved = localStorage.getItem('admin_product_columns')
     return saved
       ? JSON.parse(saved)
@@ -28,6 +29,7 @@ function AdminProductsPages() {const [columnsVisible, setColumnsVisible] = useS
           updateAt: false
         }
   })
+
   useEffect(() => {
     localStorage.setItem('admin_product_columns', JSON.stringify(columnsVisible))
   }, [columnsVisible])
@@ -55,6 +57,7 @@ function AdminProductsPages() {const [columnsVisible, setColumnsVisible] = useS
         sortOrder,
         ...filterValues
       })
+
       setProducts(result.products)
       setLimitItems(result.limitItems)
       setTotalProducts(result.total)
@@ -70,42 +73,67 @@ function AdminProductsPages() {const [columnsVisible, setColumnsVisible] = useS
   return (
     <>
       <SEO title="Admin – Sản phẩm" noIndex />
-            <AdminProductsHeader {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, products }} />
-      <AdminProductsHeaderActions
-        {...{
-          selectedRowKeys,
-          value,
-          setValue,
-          products,
-          setProducts,
-          setTotalProducts,
-          setSelectedRowKeys,
-          editedPositions,
-          totalProducts,
-          currentPage,
-          setCurrentPage,
-          fetchData
-        }}
-      />
-      <AdminProductsTable
-        {...{
-          isLoading,
-          products,
-          setEditedPositions,
-          setProducts,
-          sortField,
-          setSortField,
-          setSortOrder,
-          selectedRowKeys,
-          setSelectedRowKeys,
-          columnsVisible,
-          totalProducts,
-          currentPage,
-          setCurrentPage,
-          fetchData
-        }}
-      />
-      <AdminProductsPagination {...{ currentPage, totalProducts, limitItems, setCurrentPage, setSelectedRowKeys }} />
+
+      <main className="admin-products-page">
+        <div className="admin-products-page__inner">
+          <AdminProductsHeader
+            {...{
+              setCurrentPage,
+              setLimitItems,
+              setFilterValues,
+              columnsVisible,
+              setColumnsVisible,
+              products
+            }}
+          />
+
+          <AdminProductsHeaderActions
+            {...{
+              selectedRowKeys,
+              value,
+              setValue,
+              products,
+              setProducts,
+              setTotalProducts,
+              setSelectedRowKeys,
+              editedPositions,
+              totalProducts,
+              currentPage,
+              setCurrentPage,
+              fetchData
+            }}
+          />
+
+          <AdminProductsTable
+            {...{
+              isLoading,
+              products,
+              setEditedPositions,
+              setProducts,
+              sortField,
+              setSortField,
+              setSortOrder,
+              selectedRowKeys,
+              setSelectedRowKeys,
+              columnsVisible,
+              totalProducts,
+              currentPage,
+              setCurrentPage,
+              fetchData
+            }}
+          />
+
+          <AdminProductsPagination
+            {...{
+              currentPage,
+              totalProducts,
+              limitItems,
+              setCurrentPage,
+              setSelectedRowKeys
+            }}
+          />
+        </div>
+      </main>
     </>
   )
 }

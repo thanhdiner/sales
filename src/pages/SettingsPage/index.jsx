@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Lock, Settings, Moon, Sun, Eye, Shield } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { message as antdMessage } from 'antd'
 import { changePassword } from '@/services/userService'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,16 +10,17 @@ export default function SettingsPage() {
   const hasPassword = useSelector(state => state.user.user?.hasPassword)
   const darkMode = useSelector(state => state.darkMode.value)
   const dispatch = useDispatch()
+
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   })
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   })
 
   const validatePassword = password => {
@@ -27,11 +28,13 @@ export default function SettingsPage() {
     const hasUpper = /[A-Z]/.test(password)
     const hasLower = /[a-z]/.test(password)
     const hasNumber = /\d/.test(password)
+
     return { minLength, hasUpper, hasLower, hasNumber }
   }
 
   const handlePasswordChange = async e => {
     e.preventDefault()
+
     const { currentPassword, newPassword, confirmPassword } = formData
 
     if (hasPassword) {
@@ -39,11 +42,9 @@ export default function SettingsPage() {
         antdMessage.error('Vui lòng điền đầy đủ thông tin!')
         return
       }
-    } else {
-      if (!newPassword || !confirmPassword) {
-        antdMessage.error('Vui lòng điền đầy đủ thông tin!')
-        return
-      }
+    } else if (!newPassword || !confirmPassword) {
+      antdMessage.error('Vui lòng điền đầy đủ thông tin!')
+      return
     }
 
     if (newPassword !== confirmPassword) {
@@ -58,9 +59,13 @@ export default function SettingsPage() {
     }
 
     setLoading(true)
+
     try {
-      if (hasPassword) await changePassword({ currentPassword, newPassword })
-      else await changePassword({ newPassword })
+      if (hasPassword) {
+        await changePassword({ currentPassword, newPassword })
+      } else {
+        await changePassword({ newPassword })
+      }
 
       antdMessage.success('Đổi mật khẩu thành công!')
       setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })
@@ -81,250 +86,237 @@ export default function SettingsPage() {
 
   const passwordValidation = validatePassword(formData.newPassword)
 
+  const passwordRules = [
+    { label: 'Ít nhất 6 ký tự', valid: passwordValidation.minLength },
+    { label: 'Có chữ hoa', valid: passwordValidation.hasUpper },
+    { label: 'Có chữ thường', valid: passwordValidation.hasLower },
+    { label: 'Có số', valid: passwordValidation.hasNumber },
+  ]
+
+  const securityTips = [
+    'Sử dụng mật khẩu mạnh với ít nhất 8 ký tự.',
+    'Kết hợp chữ hoa, chữ thường, số và ký tự đặc biệt.',
+    'Không sử dụng thông tin cá nhân dễ đoán.',
+    'Thay đổi mật khẩu định kỳ để đảm bảo an toàn.',
+  ]
+
+  const inputClassName =
+    'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400'
+
   return (
-    <div
-      className={`
-        min-h-screen relative transition-colors duration-200
-        ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'}
-      rounded-xl`}
-    >
+    <div className="min-h-screen bg-white px-4 py-12 dark:bg-gray-900 md:px-8">
       <SEO title="Cài đặt tài khoản" noIndex />
-      {/* Pattern chấm mờ overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-10 -z-1">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, ${darkMode ? '#374151' : '#e5e7eb'} 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}
-        ></div>
-      </div>
 
-      <div className="relative z-10 p-4 md:p-8">
-        <div className="max-w-2xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-10">
-            <div
-              className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-5 ${
-                darkMode ? 'bg-gradient-to-r from-blue-700 to-purple-600 shadow' : 'bg-gradient-to-r from-blue-500 to-indigo-600 shadow'
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
+            Cài đặt
+          </p>
+
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
+            Cài đặt tài khoản
+          </h1>
+
+          <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-gray-600 dark:text-gray-300">
+            Quản lý giao diện và bảo mật tài khoản của bạn.
+          </p>
+        </div>
+
+        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+          <div className="flex items-center justify-between gap-5">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Giao diện
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                Chế độ hiện tại: {darkMode ? 'Tối' : 'Sáng'}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => dispatch(setDarkMode(!darkMode))}
+              className={`relative h-7 w-12 rounded-full transition-colors ${
+                darkMode ? 'bg-gray-900 dark:bg-gray-100' : 'bg-gray-300'
               }`}
+              aria-label="Chuyển chế độ giao diện"
             >
-              <Settings className="w-8 h-8 text-white" />
-            </div>
-            <h1 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Cài đặt tài khoản</h1>
-            <p className={`text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Quản lý cài đặt và bảo mật tài khoản của bạn</p>
+              <span
+                className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform dark:bg-gray-900 ${
+                  darkMode ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {hasPassword ? 'Đổi mật khẩu' : 'Thiết lập mật khẩu'}
+            </h2>
+
+            <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              {hasPassword
+                ? 'Cập nhật mật khẩu để bảo vệ tài khoản của bạn.'
+                : 'Thiết lập mật khẩu cho tài khoản đăng nhập bằng mạng xã hội.'}
+            </p>
           </div>
 
-          {/* Theme Toggle Card */}
-          <div className={`rounded-xl p-6 mb-7 border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-lg ${darkMode ? 'bg-gray-700 text-yellow-400' : 'bg-yellow-100 text-yellow-600'}`}>
-                  {darkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-                </div>
-                <div>
-                  <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Giao diện</h3>
-                  <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Chế độ {darkMode ? 'tối' : 'sáng'} - Bảo vệ mắt và tiết kiệm pin
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => dispatch(setDarkMode(!darkMode))}
-                className={`relative w-12 h-6 rounded-full focus:outline-none ${darkMode ? 'bg-blue-600' : 'bg-gray-300'}`}
-              >
-                <div
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
-                    darkMode ? 'translate-x-6' : ''
-                  }`}
-                >
-                  <div className="flex items-center justify-center h-full">
-                    {darkMode ? <Moon className="w-3 h-3 text-blue-600" /> : <Sun className="w-3 h-3 text-yellow-500" />}
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Password Change Card */}
-          <div className={`rounded-xl p-6 mb-7 border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-            <div className="flex items-center space-x-3 mb-6">
-              <div className={`p-2 rounded-lg ${darkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-600'}`}>
-                <Lock className="w-5 h-5" />
-              </div>
+          <form onSubmit={handlePasswordChange} className="space-y-5">
+            {hasPassword && (
               <div>
-                <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {hasPassword ? 'Đổi mật khẩu' : 'Thiết lập mật khẩu'}
-                </h3>
-                <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {hasPassword ? 'Cập nhật mật khẩu để bảo vệ tài khoản của bạn' : 'Thiết lập mật khẩu cho tài khoản social login'}
-                </p>
-              </div>
-            </div>
-
-            <form onSubmit={handlePasswordChange} className="space-y-5">
-              {/* Current Password (ẩn nếu chưa từng đặt pass) */}
-              {hasPassword && (
-                <div>
-                  <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Mật khẩu hiện tại
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPasswords.current ? 'text' : 'password'}
-                      value={formData.currentPassword}
-                      onChange={e => handleInputChange('currentPassword', e.target.value)}
-                      className={`w-full px-4 py-3 pr-10 rounded-lg border transition-colors focus:outline-none ${
-                        darkMode
-                          ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                          : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                      }`}
-                      placeholder="Nhập mật khẩu hiện tại"
-                      autoComplete="current-password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => togglePasswordVisibility('current')}
-                      className={`absolute right-3 top-1/2 -translate-y-1/2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
-                      tabIndex={-1}
-                    >
-                      <Eye className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* New Password */}
-              <div>
-                <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Mật khẩu mới</label>
-                <div className="relative">
-                  <input
-                    type={showPasswords.new ? 'text' : 'password'}
-                    value={formData.newPassword}
-                    onChange={e => handleInputChange('newPassword', e.target.value)}
-                    className={`w-full px-4 py-3 pr-10 rounded-lg border transition-colors focus:outline-none ${
-                      darkMode
-                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                    }`}
-                    placeholder="Nhập mật khẩu mới"
-                    autoComplete="new-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => togglePasswordVisibility('new')}
-                    className={`absolute right-3 top-1/2 -translate-y-1/2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
-                    tabIndex={-1}
-                  >
-                    <Eye className="w-5 h-5" />
-                  </button>
-                </div>
-                {/* Password Strength Indicator */}
-                {formData.newPassword && (
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                    <div className={`flex items-center space-x-1 ${passwordValidation.minLength ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className={`w-2 h-2 rounded-full ${passwordValidation.minLength ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                      <span>Ít nhất 6 ký tự</span>
-                    </div>
-                    <div className={`flex items-center space-x-1 ${passwordValidation.hasUpper ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className={`w-2 h-2 rounded-full ${passwordValidation.hasUpper ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                      <span>Chữ hoa</span>
-                    </div>
-                    <div className={`flex items-center space-x-1 ${passwordValidation.hasLower ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className={`w-2 h-2 rounded-full ${passwordValidation.hasLower ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                      <span>Chữ thường</span>
-                    </div>
-                    <div className={`flex items-center space-x-1 ${passwordValidation.hasNumber ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className={`w-2 h-2 rounded-full ${passwordValidation.hasNumber ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                      <span>Số</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Confirm Password */}
-              <div>
-                <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Xác nhận mật khẩu mới
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+                  Mật khẩu hiện tại
                 </label>
+
                 <div className="relative">
                   <input
-                    type={showPasswords.confirm ? 'text' : 'password'}
-                    value={formData.confirmPassword}
-                    onChange={e => handleInputChange('confirmPassword', e.target.value)}
-                    className={`w-full px-4 py-3 pr-10 rounded-lg border transition-colors focus:outline-none ${
-                      darkMode
-                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                        : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                    }`}
-                    placeholder="Xác nhận mật khẩu mới"
-                    autoComplete="new-password"
+                    type={showPasswords.current ? 'text' : 'password'}
+                    value={formData.currentPassword}
+                    onChange={e => handleInputChange('currentPassword', e.target.value)}
+                    className={inputClassName}
+                    placeholder="Nhập mật khẩu hiện tại"
+                    autoComplete="current-password"
                   />
+
                   <button
                     type="button"
-                    onClick={() => togglePasswordVisibility('confirm')}
-                    className={`absolute right-3 top-1/2 -translate-y-1/2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+                    onClick={() => togglePasswordVisibility('current')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                     tabIndex={-1}
+                    aria-label="Hiện hoặc ẩn mật khẩu hiện tại"
                   >
-                    <Eye className="w-5 h-5" />
+                    {showPasswords.current ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
-                {formData.confirmPassword && formData.newPassword !== formData.confirmPassword && (
-                  <p className="text-red-500 text-xs mt-1">Mật khẩu xác nhận không khớp</p>
-                )}
               </div>
+            )}
 
-              {/* Action Buttons */}
-              <div className="flex space-x-3 pt-3">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`flex-1 px-6 py-3 rounded-lg font-semibold text-white transition-colors ${
-                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                  }`}
-                >
-                  {loading ? <span>Đang xử lý...</span> : hasPassword ? 'Đổi mật khẩu' : 'Thiết lập mật khẩu'}
-                </button>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Mật khẩu mới
+              </label>
+
+              <div className="relative">
+                <input
+                  type={showPasswords.new ? 'text' : 'password'}
+                  value={formData.newPassword}
+                  onChange={e => handleInputChange('newPassword', e.target.value)}
+                  className={inputClassName}
+                  placeholder="Nhập mật khẩu mới"
+                  autoComplete="new-password"
+                />
+
                 <button
                   type="button"
-                  onClick={() => setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                    darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
+                  onClick={() => togglePasswordVisibility('new')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  tabIndex={-1}
+                  aria-label="Hiện hoặc ẩn mật khẩu mới"
                 >
-                  Hủy bỏ
+                  {showPasswords.new ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
-            </form>
+
+              {formData.newPassword && (
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {passwordRules.map(rule => (
+                    <div
+                      key={rule.label}
+                      className={`rounded-lg border px-3 py-2 text-xs ${
+                        rule.valid
+                          ? 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-300'
+                          : 'border-gray-200 bg-white text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500'
+                      }`}
+                    >
+                      {rule.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Xác nhận mật khẩu mới
+              </label>
+
+              <div className="relative">
+                <input
+                  type={showPasswords.confirm ? 'text' : 'password'}
+                  value={formData.confirmPassword}
+                  onChange={e => handleInputChange('confirmPassword', e.target.value)}
+                  className={inputClassName}
+                  placeholder="Xác nhận mật khẩu mới"
+                  autoComplete="new-password"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('confirm')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  tabIndex={-1}
+                  aria-label="Hiện hoặc ẩn mật khẩu xác nhận"
+                >
+                  {showPasswords.confirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+
+              {formData.confirmPassword && formData.newPassword !== formData.confirmPassword && (
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Mật khẩu xác nhận không khớp.
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
+              >
+                {loading ? 'Đang xử lý...' : hasPassword ? 'Đổi mật khẩu' : 'Thiết lập mật khẩu'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })}
+                className="rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+              >
+                Hủy bỏ
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Lưu ý bảo mật
+            </h2>
+
+            <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              Một số mẹo giúp bạn tạo mật khẩu mạnh và an toàn hơn.
+            </p>
           </div>
 
-          {/* Security Tips Card */}
-          <div className={`rounded-xl p-6 border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-            <div className="flex items-center space-x-3 mb-5">
-              <div className={`p-2 rounded-lg ${darkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-600'}`}>
-                <Shield className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Lưu ý bảo mật</h3>
-                <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Mẹo giúp bạn tạo mật khẩu mạnh và an toàn</p>
-              </div>
-            </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {securityTips.map((tip, index) => (
+              <div
+                key={tip}
+                className="flex gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30"
+              >
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                  {index + 1}
+                </span>
 
-            <div className="grid md:grid-cols-2 gap-3">
-              {[
-                '🔐 Sử dụng mật khẩu mạnh với ít nhất 8 ký tự',
-                '🔤 Kết hợp chữ hoa, chữ thường, số và ký tự đặc biệt',
-                '🚫 Không sử dụng thông tin cá nhân dễ đoán',
-                '🔄 Thay đổi mật khẩu định kỳ để đảm bảo an toàn'
-              ].map((tip, index) => (
-                <div
-                  key={index}
-                  className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50 hover:bg-gray-700/70' : 'bg-gray-50 hover:bg-gray-100'}`}
-                >
-                  <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{tip}</p>
-                </div>
-              ))}
-            </div>
+                <p className="mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  {tip}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

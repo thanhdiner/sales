@@ -1,72 +1,49 @@
-import React, { useState, useEffect } from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import { Layout, Drawer, Grid, notification } from 'antd'
-import MenuSider from '../../components/MenuSider'
-import { Outlet } from 'react-router-dom'
-import './LayoutDefault.scss'
-import { useDispatch, useSelector } from 'react-redux'
-import { setCart } from '@/stores/cart'
-import { getCart } from '@/services/cartsService'
-import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
-import FloatingButtons from '@/components/FloatingButtons'
-import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
+import React, { useEffect, useState } from 'react'
+import { Drawer, Grid, Layout, notification } from 'antd'
 import { Package } from 'lucide-react'
-import CompareBar from '@/components/CompareBar'
+import { useSelector } from 'react-redux'
+import FloatingButtons from '@/components/FloatingButtons'
 import LiveChat from '@/components/LiveChat'
+import CompareBar from '@/components/CompareBar'
+import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
+import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
+import MenuSider from '../../components/MenuSider'
+import Footer from './Footer'
+import Header from './Header'
+import './LayoutDefault.scss'
+import { Outlet } from 'react-router-dom'
 
-const { Content } = Layout
-
-const { Sider } = Layout
-
+const { Content, Sider } = Layout
 const { useBreakpoint } = Grid
 
 function LayoutDefault() {
-  const dispatch = useDispatch()
   const screens = useBreakpoint()
   const isDesktop = screens.lg
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const user = useSelector(state => state.user.user)
+  const user = useSelector(state => state.clientUser.user)
   const [notifApi, notifContextHolder] = notification.useNotification()
 
-  // ─── Load cart ────────────────────────────────────────────────────
-  useEffect(() => {
-    const fetchCart = async () => {
-      const token = getClientAccessToken() || getClientAccessTokenSession()
-      if (token) {
-        try {
-          const cart = await getCart()
-          dispatch(setCart(cart.items))
-        } catch {
-          dispatch(setCart([]))
-        }
-      } else {
-        dispatch(setCart([]))
-      }
-    }
-    fetchCart()
-    // eslint-disable-next-line
-  }, [dispatch])
-
-  // ─── Socket: kết nối khi đăng nhập, lắng nghe cập nhật đơn hàng ───────────────────
   useEffect(() => {
     const token = getClientAccessToken() || getClientAccessTokenSession()
-    if (!token || !user?._id) return
+
+    if (!token || !user?._id) {
+      return
+    }
 
     connectSocket({ role: 'user', userId: user._id })
     const socket = getSocket()
 
     const handleStatusUpdate = ({ _id, status }) => {
       const statusMap = {
-        confirmed: 'Đã xác nhận',
-        shipping: 'Đang giao hàng',
-        completed: 'Đã hoàn thành',
-        cancelled: 'Đã hủy'
+        confirmed: 'Da xac nhan',
+        shipping: 'Dang giao hang',
+        completed: 'Da hoan thanh',
+        cancelled: 'Da huy'
       }
-      const label = statusMap[status] || status
+
       notifApi.open({
-        message: 'Cập nhật đơn hàng 📦',
-        description: `Đơn hàng #${String(_id).slice(-6).toUpperCase()} → ${label}`,
+        message: 'Cap nhat don hang',
+        description: `Don hang #${String(_id).slice(-6).toUpperCase()} -> ${statusMap[status] || status}`,
         icon: <Package className="text-blue-500" />,
         placement: 'topRight',
         duration: 6
@@ -74,22 +51,25 @@ function LayoutDefault() {
     }
 
     socket.on('order_status_updated', handleStatusUpdate)
+
     return () => {
       socket.off('order_status_updated', handleStatusUpdate)
       disconnectSocket()
     }
-  }, [user?._id, notifApi])
+  }, [notifApi, user?._id])
 
   return (
     <Layout className="layout-default">
       {notifContextHolder}
       <Header onOpenMenu={() => setDrawerOpen(true)} />
+
       <Layout className="layout-default__body dark:bg-gray-700">
         {isDesktop && (
           <Sider width={250} className="layout-default__sider">
             <MenuSider className="layout-default__menu__sider" />
           </Sider>
         )}
+
         <Layout className="layout-default__body--sub dark:bg-gray-700">
           <Content className="layout-default__content dark:bg-gray-700">
             <Outlet />
@@ -100,10 +80,9 @@ function LayoutDefault() {
 
       <FloatingButtons />
 
-      {/* Mobile / Tablet Drawer */}
       {!isDesktop && (
         <Drawer
-          title={<span className="dark:text-white">Danh mục sản phẩm</span>}
+          title={<span className="dark:text-white">Danh muc san pham</span>}
           placement="left"
           width={250}
           open={drawerOpen}
@@ -116,6 +95,7 @@ function LayoutDefault() {
           </div>
         </Drawer>
       )}
+
       <LiveChat />
       <CompareBar />
     </Layout>

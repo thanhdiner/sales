@@ -1,4 +1,3 @@
-import { CheckCircle, ExternalLink } from 'lucide-react'
 import { createOrder } from '@/services/ordersService'
 import { createPendingOrder, redirectToPayment } from '@/services/paymentService'
 import { useState } from 'react'
@@ -18,7 +17,7 @@ export function ReviewOrder({
   shipping,
   total,
   promo,
-  onOrderSuccess
+  onOrderSuccess,
 }) {
   const [loading, setLoading] = useState(false)
   const [isOrdered, setIsOrdered] = useState(false)
@@ -27,7 +26,9 @@ export function ReviewOrder({
 
   const handleConfirm = async () => {
     if (loading) return
+
     setLoading(true)
+
     try {
       const itemsWithFlashSale = orderItems.map(item => {
         if (item.isFlashSale && item.flashSaleId && item.salePrice !== undefined) {
@@ -36,9 +37,10 @@ export function ReviewOrder({
             isFlashSale: true,
             flashSaleId: item.flashSaleId,
             salePrice: item.salePrice,
-            discountPercent: item.discountPercent || item.discountPercentage || 0
+            discountPercent: item.discountPercent || item.discountPercentage || 0,
           }
         }
+
         return item
       })
 
@@ -51,25 +53,22 @@ export function ReviewOrder({
         discount,
         shipping,
         total,
-        promo: promo?.code || promo || ''
+        promo: promo?.code || promo || '',
       }
 
-      // ─── Thanh toán trực tuyến (VNPay / MoMo / ZaloPay) ───────────────
       if (isOnlinePayment) {
-        // 1. Tạo đơn pending trước
         const pendingRes = await createPendingOrder(orderPayload)
         if (!pendingRes?.orderId) throw new Error('Không tạo được đơn hàng')
 
         setIsOrdered(true)
         message.loading('Đang chuyển đến cổng thanh toán…', 2)
 
-        // 2. Redirect sang cổng thanh toán (không return — tab sẽ chuyển trang)
         await redirectToPayment(paymentMethod, pendingRes.orderId)
         return
       }
 
-      // ─── Thanh toán thủ công (transfer / contact) ─────────────────────
       const res = await createOrder(orderPayload)
+
       if (res && res.success) {
         setIsOrdered(true)
         message.success('Đặt hàng thành công!')
@@ -84,60 +83,107 @@ export function ReviewOrder({
     }
   }
 
-  const selectedPayment = paymentMethods.find(m => m.id === paymentMethod)
-  const selectedDelivery = deliveryOptions.find(s => s.id === deliveryMethod)
+  const selectedPayment = paymentMethods.find(method => method.id === paymentMethod)
+  const selectedDelivery = deliveryOptions.find(option => option.id === deliveryMethod)
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 dark:text-gray-100">Xác nhận đơn hàng</h2>
-      <div className="space-y-4">
-        <div className="p-4 bg-blue-50 rounded-xl dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-          <h3 className="font-semibold text-blue-800 mb-2 dark:text-gray-100">👤 Thông tin liên hệ</h3>
-          <p className="text-blue-700 dark:text-gray-300">{formData.firstName} {formData.lastName}</p>
-          <p className="text-blue-700 dark:text-gray-300">📱 {formData.phone}</p>
-          {formData.email && <p className="text-blue-700 dark:text-gray-300">📧 {formData.email}</p>}
-          {formData.notes && <p className="text-blue-700 text-sm mt-2 dark:text-gray-300">📝 {formData.notes}</p>}
+    <div className="space-y-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          Xác nhận đơn hàng
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+          Kiểm tra lại thông tin trước khi gửi yêu cầu đặt hàng.
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Thông tin liên hệ
+          </h3>
+
+          <div className="mt-3 space-y-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            <p className="mb-0">
+              <span className="font-medium text-gray-900 dark:text-gray-100">Họ tên:</span>{' '}
+              {formData.firstName} {formData.lastName}
+            </p>
+
+            <p className="mb-0">
+              <span className="font-medium text-gray-900 dark:text-gray-100">Số điện thoại:</span>{' '}
+              {formData.phone}
+            </p>
+
+            {formData.email && (
+              <p className="mb-0">
+                <span className="font-medium text-gray-900 dark:text-gray-100">Email:</span>{' '}
+                {formData.email}
+              </p>
+            )}
+
+            {formData.notes && (
+              <p className="mb-0">
+                <span className="font-medium text-gray-900 dark:text-gray-100">Ghi chú:</span>{' '}
+                {formData.notes}
+              </p>
+            )}
+          </div>
         </div>
 
-        <div className="p-4 bg-green-50 rounded-xl dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-          <h3 className="font-semibold text-green-800 mb-2 dark:text-gray-100">💳 Phương thức thanh toán</h3>
-          <div className="flex items-center gap-2">
-            <span className="text-green-700 dark:text-gray-300">{selectedPayment?.name}</span>
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Phương thức thanh toán
+          </h3>
+
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-sm leading-6 text-gray-600 dark:text-gray-300">
+              {selectedPayment?.name}
+            </span>
+
             {isOnlinePayment && (
-              <span className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                <ExternalLink className="w-3 h-3" /> Tự động chuyển hướng
+              <span className="rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                Tự động chuyển hướng
               </span>
             )}
           </div>
         </div>
 
-        <div className="p-4 bg-purple-50 rounded-xl dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-          <h3 className="font-semibold text-purple-800 mb-2 dark:text-gray-100">📦 Cách thức nhận hàng</h3>
-          <p className="text-purple-700 dark:text-gray-300">
-            {selectedDelivery?.name}{selectedDelivery ? ` - ${selectedDelivery.time}` : ''}
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Cách thức nhận hàng
+          </h3>
+
+          <p className="mt-3 mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            {selectedDelivery?.name}
+            {selectedDelivery ? ` - ${selectedDelivery.time}` : ''}
           </p>
         </div>
       </div>
 
       {isOnlinePayment && (
-        <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
-          <ExternalLink className="w-4 h-4 mt-0.5 shrink-0" />
-          <span>Bạn sẽ được chuyển đến trang thanh toán <strong>{selectedPayment?.name}</strong> sau khi xác nhận. Vui lòng không đóng trình duyệt.</span>
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+          <p className="mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            Bạn sẽ được chuyển đến trang thanh toán {selectedPayment?.name} sau khi xác nhận.
+            Vui lòng không đóng trình duyệt trong quá trình thanh toán.
+          </p>
         </div>
       )}
 
       <button
+        type="button"
         onClick={handleConfirm}
-        className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        className="w-full rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
         disabled={loading || isOrdered}
       >
-        {isOnlinePayment ? <ExternalLink className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
         {loading
-          ? (isOnlinePayment ? 'Đang chuyển đến cổng thanh toán…' : 'Đang gửi...')
+          ? isOnlinePayment
+            ? 'Đang chuyển đến cổng thanh toán…'
+            : 'Đang gửi...'
           : isOnlinePayment
             ? `Thanh toán qua ${selectedPayment?.name}`
-            : deliveryMethod === 'contact' ? 'Gửi yêu cầu liên hệ' : 'Xác nhận đặt hàng'
-        }
+            : deliveryMethod === 'contact'
+              ? 'Gửi yêu cầu liên hệ'
+              : 'Xác nhận đặt hàng'}
       </button>
     </div>
   )

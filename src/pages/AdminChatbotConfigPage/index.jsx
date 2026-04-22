@@ -39,7 +39,8 @@ const { Title, Text } = Typography
 const PROVIDER_OPTIONS = [
   { value: 'openai', label: 'OpenAI', models: ['gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo', 'gpt-3.5-turbo'] },
   { value: 'deepseek', label: 'DeepSeek', models: ['deepseek-chat', 'deepseek-reasoner'] },
-  { value: 'groq', label: 'Groq', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it', 'mixtral-8x7b-32768'] }
+  { value: 'groq', label: 'Groq', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it', 'mixtral-8x7b-32768'] },
+  { value: '9router', label: '9Router', models: ['gemini-2.5-flash', 'gpt-4.1-mini', 'claude-3.5-sonnet'] }
 ]
 
 const AdminChatbotConfigPage = () => {
@@ -57,12 +58,16 @@ const AdminChatbotConfigPage = () => {
       setLoading(true)
       const res = await getChatbotConfig()
       if (res?.success && res.data) {
+        const savedProvider = res.data.aiProvider || 'openai'
+        const providerConfig = PROVIDER_OPTIONS.find(p => p.value === savedProvider)
+        const savedModel = res.data.model || providerConfig?.models?.[0] || 'gpt-4o-mini'
+
         setConfig(res.data)
-        setSelectedProvider(res.data.aiProvider || 'openai')
+        setSelectedProvider(savedProvider)
         form.setFieldsValue({
           isEnabled: res.data.isEnabled,
-          aiProvider: res.data.aiProvider || 'openai',
-          model: res.data.model || 'gpt-4o-mini',
+          aiProvider: savedProvider,
+          model: savedModel,
           maxTokens: res.data.maxTokens || 1000,
           temperature: res.data.temperature ?? 0.7,
           brandVoice: res.data.brandVoice || '',
@@ -106,7 +111,8 @@ const AdminChatbotConfigPage = () => {
     try {
       setTesting(true)
       setTestResult(null)
-      const res = await testChatbotConnection()
+      const values = form.getFieldsValue(['aiProvider', 'model'])
+      const res = await testChatbotConnection(values)
       setTestResult(res)
       if (res?.success) {
         message.success('Kết nối thành công!')
@@ -233,6 +239,19 @@ const AdminChatbotConfigPage = () => {
                 }
               />
             </Tooltip>
+            <Tooltip title="Đặt trong file .env: NINEROUTER_API_KEY (có thể không cần nếu 9Router local không bật auth)">
+              <Badge
+                status={config?.has9routerKey ? 'success' : 'error'}
+                text={
+                  <span className="dark:text-gray-300">
+                    9Router Key: {config?.has9routerKey
+                      ? <Tag color="green">Đã cấu hình</Tag>
+                      : <Tag color="red">Chưa có</Tag>
+                    }
+                  </span>
+                }
+              />
+            </Tooltip>
           </div>
 
           <Alert
@@ -244,6 +263,44 @@ const AdminChatbotConfigPage = () => {
             className="mb-4"
           />
 
+          <Alert
+            message="Runtime chatbot hiện ưu tiên cấu hình từ file .env"
+            description="Provider/model/base URL thực tế đang chạy được đọc từ biến môi trường. Form bên dưới chỉ lưu cấu hình trong database và không tự đổi provider runtime."
+            type="warning"
+            showIcon
+            className="mb-4"
+          />
+
+          <div className="mb-4 rounded-xl border border-blue-100 bg-blue-50 p-4 dark:border-blue-900/50 dark:bg-blue-900/10">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <Tag color={config?.runtimeEnabled ? 'green' : 'red'}>
+                Runtime: {config?.envEnabled ? 'Bật' : 'Tắt'}
+              </Tag>
+              <Tag color="blue">Provider runtime: {config?.runtimeProvider || 'openai'}</Tag>
+              <Tag color={config?.runtimeModel ? 'geekblue' : 'volcano'}>
+                Model env: {config?.envModel || 'Chưa cấu hình'}
+              </Tag>
+              <Tag color={config?.envBaseUrl ? 'cyan' : 'default'}>
+                Base URL env: {config?.envBaseUrl || 'Chưa cấu hình'}
+              </Tag>
+            </div>
+            <Text className="dark:text-gray-300">
+              Chatbot runtime hiện đang dùng provider <strong>{config?.envProvider || 'openai'}</strong>
+              {' '}và model <strong>{config?.envModel || 'chưa cấu hình'}</strong>
+              {' '}qua endpoint <strong>{config?.envBaseUrl || 'chưa cấu hình'}</strong>.
+            </Text>
+          </div>
+
+          {config?.envConfigError && (
+            <Alert
+              message="Cấu hình runtime env chưa hợp lệ"
+              description={config.envConfigError}
+              type="error"
+              showIcon
+              className="mb-4"
+            />
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Form.Item name="aiProvider" label="AI Provider">
               <Select
@@ -252,12 +309,30 @@ const AdminChatbotConfigPage = () => {
               />
             </Form.Item>
 
-            <Form.Item name="model" label="Model">
-              <Select
-                options={currentModels.map(m => ({ value: m, label: m }))}
-              />
-            </Form.Item>
+            {selectedProvider === '9router' ? (
+              <Form.Item
+                name="model"
+                label="Model"
+                extra="9Router dùng local gateway nên có thể nhập model custom hoặc giữ một model mẫu."
+              >
+                <Input list="ninerouter-models" placeholder="Ví dụ: gemini-2.5-flash" />
+              </Form.Item>
+            ) : (
+              <Form.Item name="model" label="Model">
+                <Select
+                  options={currentModels.map(m => ({ value: m, label: m }))}
+                />
+              </Form.Item>
+            )}
           </div>
+
+          {selectedProvider === '9router' && (
+            <datalist id="ninerouter-models">
+              {currentModels.map(model => (
+                <option key={model} value={model} />
+              ))}
+            </datalist>
+          )}
 
           {/* Test connection */}
           <Button

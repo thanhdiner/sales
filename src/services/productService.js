@@ -19,6 +19,11 @@ export const getProductDetail = async slug => {
   return await get(`products/${slug}`)
 }
 
+export const getExploreMoreProducts = async (productId, params = {}) => {
+  const query = new URLSearchParams(params).toString()
+  return await get(`products/${productId}/explore-more${query ? `?${query}` : ''}`)
+}
+
 export const getProductSuggestions = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
   return await get(`products/suggest?${query}`)

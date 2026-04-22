@@ -1,25 +1,31 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { syncCartFromServer } from '@/lib/clientCache';
 import { ShoppingBag, Star, X, ShoppingCart, Zap, Trash2, BarChart2 } from 'lucide-react';
 import { removeCompareLocal, clearCompareLocal } from '@/stores/compare';
 import { Link } from 'react-router-dom';
 import { message, Rate } from 'antd';
 import SEO from '@/components/SEO';
-import { addToCart, getCart } from '@/services/cartsService';
-import { setCart } from '@/stores/cart';
+import { addToCart } from '@/services/cartsService';
+import { getCartUniqueItemLimitMessage, hasReachedCartUniqueItemLimit } from '@/lib/cartLimits';
 
 export default function ComparePage() {
   const compareItems = useSelector(state => state.compare.items);
+  const cartItems = useSelector(state => state.cart.items) || [];
   const dispatch = useDispatch();
 
   const handleAddToCart = async (item) => {
+    if (hasReachedCartUniqueItemLimit(cartItems, item.productId)) {
+      message.warning(getCartUniqueItemLimitMessage());
+      return;
+    }
+
     try {
       await addToCart({ productId: item.productId, quantity: 1 });
-      const updatedCart = await getCart();
-      dispatch(setCart(updatedCart.items || []));
+      await syncCartFromServer(dispatch);
       message.success(`Đã thêm ${item.name} vào giỏ hàng!`);
-    } catch {
-      message.error('Thêm vào giỏ hàng thất bại!');
+    } catch (err) {
+      message.error(err.message || 'Thêm vào giỏ hàng thất bại!');
     }
   };
 

@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Badge, Col, Dropdown, Row, message, Grid, Button } from 'antd'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingCartOutlined, UserOutlined, SettingOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
+import {
+  ShoppingCartOutlined,
+  HeartOutlined,
+  UserOutlined,
+  SettingOutlined,
+  LogoutOutlined,
+  LoginOutlined,
+  UserAddOutlined,
+  MoonOutlined,
+  SunOutlined
+} from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
+import { clearClientSessionState } from '@/lib/clientCache'
+import { normalizeWishlistItems } from '@/lib/normalizeWishlistItems'
 import { userLogout } from '@/services/userService'
-import { logout } from '@/stores/user'
+import { setDarkMode } from '@/stores/darkModeSlice'
 import { clearClientTokens, clearClientTokensSession } from '@/utils/auth'
-import { Heart } from 'lucide-react'
 
 import SearchSuggest from '@/components/SearchSuggest'
 import HeaderSkeleton from '@/components/HeaderSkeleton'
@@ -14,50 +25,99 @@ import HeaderSkeleton from '@/components/HeaderSkeleton'
 function Header({ onOpenMenu }) {
   // ─── Smart auto-hide header ─────────────────────────────────────
   const [headerHidden, setHeaderHidden] = useState(false)
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const THRESHOLD = 10 // ignore tiny scroll jitter
+    const THRESHOLD = 10
+
     const handleScroll = () => {
       const currentY = window.scrollY
+
       if (currentY < 80) {
-        // Always show header near top of page
         setHeaderHidden(false)
       } else if (currentY - lastScrollY.current > THRESHOLD) {
-        // Scrolling DOWN
         setHeaderHidden(true)
       } else if (lastScrollY.current - currentY > THRESHOLD) {
-        // Scrolling UP
         setHeaderHidden(false)
       }
+
       lastScrollY.current = currentY
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const cartItems = useSelector(state => state.cart.items) || []
   const user = useSelector(state => state.clientUser.user)
-  const wishlistItems = useSelector(state => state.wishlist.items) || []
+  const wishlistItems = useSelector(state => normalizeWishlistItems(state.wishlist.items))
+  const darkMode = useSelector(state => !!state.darkMode?.value)
   const isLoggedIn = !!user
+
+  const wishlistActiveColor = '#ff424e'
+
+  const themeMenuItem = {
+    key: 'theme',
+    icon: darkMode ? <MoonOutlined /> : <SunOutlined />,
+    label: (
+      <div className="flex min-w-[170px] items-center justify-between gap-3">
+        <span>Dark Mode</span>
+        <span
+          aria-hidden="true"
+          className={`relative h-5 w-9 rounded-full transition-colors ${
+            darkMode ? 'bg-gray-900 dark:bg-gray-100' : 'bg-gray-300'
+          }`}
+        >
+          <span
+            className={`absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform dark:bg-gray-900 ${
+              darkMode ? 'translate-x-4' : ''
+            }`}
+          />
+        </span>
+      </div>
+    )
+  }
 
   const guestMenuItems = [
     { key: 'signin', label: 'Sign In', icon: <LoginOutlined /> },
-    { key: 'signup', label: 'Sign Up', icon: <UserAddOutlined /> }
+    { key: 'signup', label: 'Sign Up', icon: <UserAddOutlined /> },
+    { type: 'divider' },
+    themeMenuItem
   ]
 
   const userMenuItems = [
     { key: 'profile', label: 'Profile', icon: <UserOutlined /> },
     { key: 'orders', label: 'My Orders', icon: <ShoppingCartOutlined /> },
-    { key: 'wishlist', label: 'Wishlist', icon: <Heart size={14} className={wishlistItems.length > 0 ? 'text-pink-500' : ''} /> },
+    {
+      key: 'wishlist',
+      label: 'Wishlist',
+      icon: <HeartOutlined />
+    },
     { key: 'settings', label: 'Settings', icon: <SettingOutlined /> },
+    themeMenuItem,
     { type: 'divider' },
-    { key: 'logout', label: <span className="text-red-500">Logout</span>, icon: <LogoutOutlined className="text-red-500" />, danger: true }
+    {
+      key: 'logout',
+      label: <span className="text-red-500">Logout</span>,
+      icon: <LogoutOutlined className="text-red-500" />,
+      danger: true
+    }
   ]
 
   const handleMenuClick = async ({ key }) => {
+    if (key === 'theme') {
+      dispatch(setDarkMode(!darkMode))
+      setAccountMenuOpen(true)
+      return
+    }
+
+    setAccountMenuOpen(false)
+
     if (!isLoggedIn) {
       if (key === 'signin') navigate('/user/login')
       if (key === 'signup') navigate('/user/register')
@@ -66,6 +126,7 @@ function Header({ onOpenMenu }) {
       if (key === 'settings') navigate('/settings')
       if (key === 'orders') navigate('/orders')
       if (key === 'wishlist') navigate('/wishlist')
+
       if (key === 'logout') {
         try {
           await userLogout()
@@ -73,14 +134,23 @@ function Header({ onOpenMenu }) {
         } catch {
           message.warning('Có lỗi khi đăng xuất. Vẫn sẽ đăng xuất tài khoản!')
         }
+
         clearClientTokens()
         clearClientTokensSession()
         localStorage.removeItem('user')
         sessionStorage.removeItem('user')
-        dispatch(logout())
+        clearClientSessionState(dispatch)
         navigate('/')
       }
     }
+  }
+
+  const handleAccountMenuOpenChange = (nextOpen, info) => {
+    if (!nextOpen && info?.source === 'menu') {
+      return
+    }
+
+    setAccountMenuOpen(nextOpen)
   }
 
   const navItems = [
@@ -119,12 +189,14 @@ function Header({ onOpenMenu }) {
               }
             />
           )}
+
           <Link className="header__logo--wrap" to="/">
             <img
               src={websiteConfig?.logoUrl}
               alt={websiteConfig?.siteName || 'Logo'}
               className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-sm shadow-sm object-contain ml-2 md:ml-8"
             />
+
             {isDesktop && (
               <span className="l-2 text-xl md:text-2xl font-semibold text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out overflow-hidden inline-block">
                 {websiteConfig?.siteName}
@@ -159,10 +231,22 @@ function Header({ onOpenMenu }) {
               <div className="header__action__wishlist">
                 <Link to="/wishlist" title="Yêu thích">
                   <button className="header__action__wishlist--btn">
-                    <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={wishlistItems.length} overflowCount={99}
-                      styles={{ indicator: { background: '#ec4899' } }}
+                    <Badge
+                      style={{ transition: 'all 0.1s' }}
+                      offset={[5, -5]}
+                      size="small"
+                      count={wishlistItems.length}
+                      overflowCount={99}
+                      styles={{
+                        indicator: {
+                          background: wishlistActiveColor,
+                          boxShadow: '0 0 0 1px #ffffff'
+                        }
+                      }}
                     >
-                      <Heart className="header__action__wishlist--icon" style={{ width: '20px', height: '20px', color: wishlistItems.length > 0 ? '#ec4899' : undefined, fill: wishlistItems.length > 0 ? '#ec4899' : 'none' }} />
+                      <span className="header__action__icon-slot">
+                        <HeartOutlined className="header__action__wishlist--icon" />
+                      </span>
                     </Badge>
                   </button>
                 </Link>
@@ -173,8 +257,16 @@ function Header({ onOpenMenu }) {
               <div className="header__action__cart">
                 <Link to="/cart">
                   <button className="header__action__cart--btn">
-                    <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={cartItems.length} overflowCount={999}>
-                      <ShoppingCartOutlined className="header__action__cart--icon" style={{ fontSize: '20px' }} />
+                    <Badge
+                      style={{ transition: 'all 0.1s' }}
+                      offset={[5, -5]}
+                      size="small"
+                      count={cartItems.length}
+                      overflowCount={999}
+                    >
+                      <span className="header__action__icon-slot">
+                        <ShoppingCartOutlined className="header__action__cart--icon" />
+                      </span>
                     </Badge>
                   </button>
                 </Link>
@@ -183,7 +275,12 @@ function Header({ onOpenMenu }) {
 
             <div className="header__action__account">
               <Dropdown
-                menu={{ items: isLoggedIn ? userMenuItems : guestMenuItems, onClick: handleMenuClick }}
+                menu={{
+                  items: isLoggedIn ? userMenuItems : guestMenuItems,
+                  onClick: handleMenuClick
+                }}
+                open={accountMenuOpen}
+                onOpenChange={handleAccountMenuOpenChange}
                 placement="bottomRight"
                 arrow
                 trigger={['click']}

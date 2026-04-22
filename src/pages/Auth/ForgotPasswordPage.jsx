@@ -74,6 +74,7 @@ const ForgotPasswordPage = () => {
         code: verificationCode,
         newPassword: values.newPassword
       })
+
       if (res.status !== 200) throw new Error(res.message || 'Đặt lại mật khẩu thất bại!')
       setCurrentStep(3)
       message.success('Mật khẩu đã được đặt lại thành công! 🎉')
@@ -88,6 +89,7 @@ const ForgotPasswordPage = () => {
     if (!value || form.getFieldValue('newPassword') === value) {
       return Promise.resolve()
     }
+
     return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'))
   }
 
@@ -108,7 +110,13 @@ const ForgotPasswordPage = () => {
     switch (currentStep) {
       case 0:
         return (
-          <Form form={form} name="forgotPassword" onFinish={onEmailSubmit} layout="vertical" size="middle">
+          <Form
+            form={form}
+            name="forgotPassword"
+            onFinish={onEmailSubmit}
+            layout="vertical"
+            size="middle"
+          >
             <Form.Item
               label="Địa chỉ email"
               name="email"
@@ -118,7 +126,11 @@ const ForgotPasswordPage = () => {
               ]}
               style={{ marginBottom: '1rem' }}
             >
-              <Input prefix={<MailOutlined />} placeholder="Nhập địa chỉ email của bạn" autoComplete="email" />
+              <Input
+                prefix={<MailOutlined />}
+                placeholder="Nhập địa chỉ email của bạn"
+                autoComplete="email"
+              />
             </Form.Item>
 
             <Form.Item style={{ marginBottom: 0 }}>
@@ -137,9 +149,22 @@ const ForgotPasswordPage = () => {
 
       case 1:
         return (
-          <Form form={form} name="verifyCode" onFinish={onVerifySubmit} layout="vertical" size="middle">
-            <div style={{ marginBottom: '1rem', color: C.onSurfaceVariant, fontSize: '0.9rem' }}>
-              Chúng tôi đã gửi mã xác thực đến email <strong style={{ color: C.onSurface }}>{email}</strong>
+          <Form
+            form={form}
+            name="verifyCode"
+            onFinish={onVerifySubmit}
+            layout="vertical"
+            size="middle"
+          >
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: C.onSurfaceVariant,
+                fontSize: '0.9rem'
+              }}
+            >
+              Chúng tôi đã gửi mã xác thực đến email{' '}
+              <strong style={{ color: C.onSurface }}>{email}</strong>
             </div>
 
             <Form.Item
@@ -174,7 +199,12 @@ const ForgotPasswordPage = () => {
             <div style={{ textAlign: 'center' }}>
               <Text style={{ color: C.onSurfaceVariant }}>
                 Không nhận được mã?{' '}
-                <Button type="link" onClick={resendEmail} className="sovereign-forgot-link-btn" disabled={loading}>
+                <Button
+                  type="link"
+                  onClick={resendEmail}
+                  className="sovereign-forgot-link-btn"
+                  disabled={loading}
+                >
                   Gửi lại
                 </Button>
               </Text>
@@ -184,14 +214,23 @@ const ForgotPasswordPage = () => {
 
       case 2:
         return (
-          <Form form={form} name="resetPassword" onFinish={onResetSubmit} layout="vertical" size="middle">
+          <Form
+            form={form}
+            name="resetPassword"
+            onFinish={onResetSubmit}
+            layout="vertical"
+            size="middle"
+          >
             <Form.Item
               label="Mật khẩu mới"
               name="newPassword"
               rules={[
                 { required: true, message: 'Vui lòng nhập mật khẩu mới!' },
                 { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
-                { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!' }
+                {
+                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                  message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!'
+                }
               ]}
               style={{ marginBottom: '1rem' }}
             >
@@ -207,7 +246,10 @@ const ForgotPasswordPage = () => {
               label="Xác nhận mật khẩu mới"
               name="confirmNewPassword"
               dependencies={['newPassword']}
-              rules={[{ required: true, message: 'Vui lòng xác nhận mật khẩu mới!' }, { validator: validateConfirmPassword }]}
+              rules={[
+                { required: true, message: 'Vui lòng xác nhận mật khẩu mới!' },
+                { validator: validateConfirmPassword }
+              ]}
               style={{ marginBottom: '1rem' }}
             >
               <Input.Password
@@ -240,7 +282,9 @@ const ForgotPasswordPage = () => {
               <Title level={4} style={{ marginBottom: '0.5rem' }}>
                 Thành công!
               </Title>
-              <Text style={{ color: C.onSurfaceVariant }}>Mật khẩu của bạn đã được đặt lại thành công.</Text>
+              <Text style={{ color: C.onSurfaceVariant }}>
+                Mật khẩu của bạn đã được đặt lại thành công.
+              </Text>
             </div>
 
             <Link to="/user/login">
@@ -347,6 +391,7 @@ const ForgotPasswordPage = () => {
                 }}
               />
             ) : null}
+
             <span
               style={{
                 fontSize: '1.5rem',
@@ -361,6 +406,37 @@ const ForgotPasswordPage = () => {
           </Link>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <Link
+              to="/"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem',
+                color: C.onSurfaceVariant,
+                padding: '0.25rem 0.75rem',
+                borderRadius: '0.75rem',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                textDecoration: 'none',
+                transition: 'background 0.3s'
+              }}
+              onMouseEnter={e =>
+                (e.currentTarget.style.background = C.surfaceContainerLow)
+              }
+              onMouseLeave={e =>
+                (e.currentTarget.style.background = 'transparent')
+              }
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: '1rem' }}
+              >
+                home
+              </span>
+              <span>Trang chủ</span>
+            </Link>
+
             {['help', 'info'].map(icon => (
               <button
                 key={icon}
@@ -379,10 +455,17 @@ const ForgotPasswordPage = () => {
                   background: 'transparent',
                   transition: 'background 0.3s'
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = C.surfaceContainerLow)}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                onMouseEnter={e =>
+                  (e.currentTarget.style.background = C.surfaceContainerLow)
+                }
+                onMouseLeave={e =>
+                  (e.currentTarget.style.background = 'transparent')
+                }
               >
-                <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: '1rem' }}
+                >
                   {icon}
                 </span>
                 <span>{icon}</span>
@@ -412,7 +495,7 @@ const ForgotPasswordPage = () => {
             top: 0,
             overflow: 'hidden',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             background: C.primary
           }}
         >
@@ -420,13 +503,21 @@ const ForgotPasswordPage = () => {
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
               alt="Sovereign background"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, mixBlendMode: 'overlay' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 0.4,
+                mixBlendMode: 'overlay'
+              }}
             />
+
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
+                background:
+                  'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
               }}
             />
           </div>
@@ -435,7 +526,7 @@ const ForgotPasswordPage = () => {
             style={{
               position: 'relative',
               zIndex: 10,
-              padding: '3.5rem 3rem',
+              padding: '4.5rem 3rem 3.5rem',
               maxWidth: '32rem'
             }}
           >
@@ -465,7 +556,8 @@ const ForgotPasswordPage = () => {
                 maxWidth: '27rem'
               }}
             >
-              Thực hiện các bước xác minh để đặt lại mật khẩu và truy cập lại tài khoản của bạn một cách an toàn.
+              Thực hiện các bước xác minh để đặt lại mật khẩu và truy cập lại tài
+              khoản của bạn một cách an toàn.
             </p>
 
             <div
@@ -497,7 +589,8 @@ const ForgotPasswordPage = () => {
                   lineHeight: 1.7
                 }}
               >
-                "Bảo mật tốt bắt đầu từ việc xác minh đúng người dùng, đúng thời điểm, đúng quyền truy cập."
+                "Bảo mật tốt bắt đầu từ việc xác minh đúng người dùng, đúng thời
+                điểm, đúng quyền truy cập."
               </blockquote>
 
               <p
@@ -520,7 +613,7 @@ const ForgotPasswordPage = () => {
               position: 'absolute',
               left: '3rem',
               right: '3rem',
-              bottom: '2rem',
+              bottom: '3.5rem',
               zIndex: 10,
               display: 'flex',
               flexDirection: 'column',
@@ -537,8 +630,10 @@ const ForgotPasswordPage = () => {
             >
               {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar
             </span>
+
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar. All rights reserved.
+              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar.
+              All rights reserved.
             </span>
 
             <div
@@ -614,12 +709,25 @@ const ForgotPasswordPage = () => {
               >
                 {getStepTitle()}
               </h2>
-              <p style={{ color: C.onSurfaceVariant, fontSize: '0.9375rem', margin: 0 }}>{getStepDescription()}</p>
+
+              <p
+                style={{
+                  color: C.onSurfaceVariant,
+                  fontSize: '0.9375rem',
+                  margin: 0
+                }}
+              >
+                {getStepDescription()}
+              </p>
             </div>
 
             {currentStep < 3 && (
               <div style={{ marginBottom: '1.25rem' }}>
-                <Steps current={currentStep} size="small" className="sovereign-forgot-steps">
+                <Steps
+                  current={currentStep}
+                  size="small"
+                  className="sovereign-forgot-steps"
+                >
                   <Step />
                   <Step />
                   <Step />
@@ -631,7 +739,17 @@ const ForgotPasswordPage = () => {
 
             {currentStep < 3 && (
               <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
-                <Link to="/user/login" style={{ color: C.primary, fontWeight: 600, textDecoration: 'none', display: 'inline-flex', gap: '0.5rem', alignItems: 'center' }}>
+                <Link
+                  to="/user/login"
+                  style={{
+                    color: C.primary,
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    gap: '0.5rem',
+                    alignItems: 'center'
+                  }}
+                >
                   <ArrowLeftOutlined />
                   Quay lại đăng nhập
                 </Link>

@@ -1,215 +1,85 @@
 .home__flash-sale {
-  background: linear-gradient(90deg, #ffe3e3 0%, #fff7e0 100%);
-  border-radius: 18px;
-  margin-top: 40px;
-  border: 1px solid rgba(255, 107, 8, 0.1);
+  background: #ffffff;
+  border-radius: 8px;
+  margin-top: 24px;
+  padding: 18px 22px 16px;
   position: relative;
   overflow: hidden;
-  min-height: 330px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(234, 197, 102, 0.15);
-  }
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 32px 32px 0;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 18px;
     position: relative;
     z-index: 2;
   }
 
-  &__title-group {
-    flex: 1;
+  &__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  &__badge {
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    line-height: 1;
+  }
+
+  &__timer {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(90deg, #ff683a, #ffd600);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 8px 0 rgba(255, 107, 8, 0.08);
-    animation: pulse 2s infinite;
-  }
+    gap: 4px;
 
-  &__subtitle {
-    color: #fe531b;
-    font-size: 0.9rem;
-    margin: 8px 0 0;
-    opacity: 0.8;
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+      padding: 0 8px;
+      border-radius: 5px;
+      background: #ff3d57;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    b {
+      color: #ff3d57;
+      font-size: 1rem;
+      line-height: 1;
+    }
   }
 
   &__view-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: #fe531b;
-    padding: 12px 20px;
-    border-radius: 50px;
-    background: rgba(234, 181, 102, 0.1);
-    border: 1px solid rgba(234, 190, 102, 0.2);
-    transition: all 0.3s ease;
+    color: #0055ff;
+    font-size: 1rem;
+    font-weight: 500;
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: opacity 0.2s ease;
 
     &:hover {
-      background: #ff9600;
-      color: white;
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(234, 205, 102, 0.3);
-
-      svg {
-        transform: translateX(4px);
-      }
-    }
-
-    svg {
-      transition: transform 0.3s ease;
+      opacity: 0.75;
     }
   }
 
   &__content {
-    padding: 20px 32px 32px;
     position: relative;
+    padding: 0;
   }
 
-  &__decoration {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  // ===== Perspective Grid (2D Full Screen) =====
-  &__grid-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-    
-    // Smooth fade out at the top
-    mask-image: linear-gradient(to top, black 40%, transparent 95%);
-    -webkit-mask-image: linear-gradient(to top, black 40%, transparent 95%);
-  }
-
-  // Vertical Rays
-  &__rays {
-    position: absolute;
-    bottom: -15%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    transform: translateX(-50%);
-    background: repeating-conic-gradient(
-      from 0deg at 50% 100%,
-      rgba(255, 100, 30, 0.25) 0deg 0.05deg,
-      transparent 0.05deg 3.5deg
-    );
-  }
-
-  // Horizontal Curved Lines (Concentric Grid)
-  &__waves {
-    position: absolute;
-    bottom: -15%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    transform: translateX(-50%);
-    background: repeating-radial-gradient(
-      circle at 50% 100%,
-      transparent 0,
-      transparent 48px,
-      rgba(255, 100, 30, 0.25) 49px,
-      rgba(255, 100, 30, 0.25) 50px
-    );
-  }
-
-  // Animated Shooting Bursts
-  &__shooting {
-    position: absolute;
-    bottom: -15%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    transform: translateX(-50%);
-    
-    // Mask ensures bursts only show on the grid lines!
-    -webkit-mask-image: 
-      repeating-conic-gradient(from 0deg at 50% 100%, black 0deg 0.05deg, transparent 0.05deg 3.5deg),
-      repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 48px, black 49px, black 50px);
-    mask-image: 
-      repeating-conic-gradient(from 0deg at 50% 100%, black 0deg 0.05deg, transparent 0.05deg 3.5deg),
-      repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 48px, black 49px, black 50px);
-
-    &::before, &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      transform-origin: 50% 100%;
-      background: radial-gradient(circle at 50% 100%, transparent 20%, rgba(255, 120, 50, 0.8) 40%, transparent 60%);
-      animation: flash-shoot 5s infinite cubic-bezier(0.1, 0.7, 0.3, 1);
-    }
-    
-    &::after {
-      animation-delay: 2.5s;
-    }
-  }
-
-  // ===== Dots =====
-  &__dots {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image:
-      radial-gradient(circle, rgba(255, 100, 50, 0.18) 1px, transparent 1px),
-      radial-gradient(circle, rgba(255, 180, 0, 0.12) 1px, transparent 1px);
-    background-size: 100px 80px, 160px 130px;
-    background-position: 20px 10px, 70px 50px;
-  }
-
-  // ===== Glow =====
-  &__glow {
-    position: absolute;
-    bottom: -40%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 70%;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(255, 140, 50, 0.12) 0%,
-      rgba(255, 100, 30, 0.05) 40%,
-      transparent 70%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-}
-
-@keyframes flash-shoot {
-  0% {
-    transform: scale(0.1);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
+  &__decoration,
+  &__badge,
+  &__subtitle,
+  &__title-group {
+    display: none;
   }
 }

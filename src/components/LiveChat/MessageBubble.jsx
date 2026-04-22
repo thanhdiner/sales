@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Sparkles, Bot } from 'lucide-react'
 
-// ─── Sub-component: Typewriter effect for Bot ──────────────────────────────
-function TypewriterText({ text, speed = 15 }) {
+import { renderTextWithLinks } from '@/utils/renderTextWithLinks'
+import { getChatImageUrls, hasChatImages } from '@/utils/chatMessage'
+
+function TypewriterText({ text, speed = 15, linkClassName }) {
   const [displayed, setDisplayed] = useState('')
 
   useEffect(() => {
@@ -10,22 +12,73 @@ function TypewriterText({ text, speed = 15 }) {
     let i = 0
     const interval = setInterval(() => {
       setDisplayed(text.slice(0, i + 1))
-      i++
+      i += 1
       if (i >= text.length) clearInterval(interval)
     }, speed)
     return () => clearInterval(interval)
   }, [text, speed])
 
-  return <>{displayed}</>
+  return <>{renderTextWithLinks(displayed, linkClassName)}</>
 }
 
-// ─── Main Component: Message bubble UI ──────────────────────────────────────
+function ChatImage({ src, alt, multiple = false }) {
+  return (
+    <a href={src} target="_blank" rel="noreferrer" className="block">
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className={multiple
+          ? 'block h-24 w-full rounded-2xl object-cover shadow-sm ring-1 ring-black/5'
+          : 'block max-h-72 w-auto max-w-[240px] rounded-2xl object-cover shadow-sm ring-1 ring-black/5'}
+      />
+    </a>
+  )
+}
+
+function ChatImageGallery({ imageUrls, alt }) {
+  if (imageUrls.length === 1) {
+    return <ChatImage src={imageUrls[0]} alt={alt} />
+  }
+
+  return (
+    <div className="grid max-w-[240px] grid-cols-2 gap-2">
+      {imageUrls.map((src, index) => (
+        <ChatImage
+          key={`${src}_${index}`}
+          src={src}
+          alt={`${alt} ${index + 1}`}
+          multiple
+        />
+      ))}
+    </div>
+  )
+}
+
+function ImageMessageContent({ msg, captionClassName }) {
+  const imageUrls = getChatImageUrls(msg)
+
+  return (
+    <div className="space-y-2">
+      <ChatImageGallery imageUrls={imageUrls} alt={msg.message || 'Ảnh chat'} />
+      {msg.message ? (
+        <div className={captionClassName}>
+          {renderTextWithLinks(msg.message, 'underline underline-offset-2 break-all')}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export default function MessageBubble({ msg, showAvatar, onSuggestionClick }) {
   const isCustomer = msg.sender === 'customer' || msg.sender === 'guest'
   const isSystem = msg.type === 'system' || msg.sender === 'system'
   const isBot = msg.sender === 'bot'
+  const isImage = msg.type === 'image' && hasChatImages(msg)
+  const customerLinkClassName = 'underline underline-offset-2 decoration-white/70 break-all hover:text-blue-100'
+  const botLinkClassName = 'underline underline-offset-2 decoration-emerald-400 break-all text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200'
+  const agentLinkClassName = 'underline underline-offset-2 decoration-blue-300 break-all text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200'
 
-  // System message - centered
   if (isSystem) {
     return (
       <div className="flex justify-center my-2">
@@ -46,14 +99,22 @@ export default function MessageBubble({ msg, showAvatar, onSuggestionClick }) {
             {formatTime(msg.createdAt)}
           </span>
         )}
-        <div className="w-fit max-w-[75%] bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm leading-relaxed shadow-sm whitespace-pre-wrap break-words">
-          {msg.message}
-        </div>
+        {isImage ? (
+          <div className="w-fit max-w-[75%]">
+            <ImageMessageContent
+              msg={msg}
+              captionClassName="bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm leading-relaxed whitespace-pre-wrap break-words"
+            />
+          </div>
+        ) : (
+          <div className="w-fit max-w-[75%] bg-blue-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-sm text-sm leading-relaxed shadow-sm whitespace-pre-wrap break-words">
+            {renderTextWithLinks(msg.message, customerLinkClassName)}
+          </div>
+        )}
       </div>
     )
   }
 
-  // Bot message — distinct green/emerald gradient avatar + suggestions
   if (isBot) {
     const suggestions = msg.metadata?.suggestions || []
     return (
@@ -73,7 +134,9 @@ export default function MessageBubble({ msg, showAvatar, onSuggestionClick }) {
             </span>
           )}
           <div className="w-fit bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm leading-relaxed shadow-sm border border-emerald-100 dark:border-emerald-800/40 whitespace-pre-wrap break-words">
-            {msg.isNew ? <TypewriterText text={msg.message} /> : msg.message}
+            {msg.isNew
+              ? <TypewriterText text={msg.message} linkClassName={botLinkClassName} />
+              : renderTextWithLinks(msg.message, botLinkClassName)}
           </div>
           {suggestions.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-1.5 ml-1">
@@ -93,7 +156,6 @@ export default function MessageBubble({ msg, showAvatar, onSuggestionClick }) {
     )
   }
 
-  // Agent message
   return (
     <div className="flex justify-start items-end gap-2 group">
       {showAvatar ? (
@@ -110,9 +172,18 @@ export default function MessageBubble({ msg, showAvatar, onSuggestionClick }) {
         {showAvatar && (
           <span className="text-[10px] text-gray-400 ml-1">{msg.senderName}</span>
         )}
-        <div className="w-fit bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm leading-relaxed shadow-sm border border-gray-100 dark:border-gray-700 whitespace-pre-wrap break-words">
-          {msg.message}
-        </div>
+        {isImage ? (
+          <div className="w-fit">
+            <ImageMessageContent
+              msg={msg}
+              captionClassName="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm leading-relaxed shadow-sm border border-gray-100 dark:border-gray-700 whitespace-pre-wrap break-words"
+            />
+          </div>
+        ) : (
+          <div className="w-fit bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm leading-relaxed shadow-sm border border-gray-100 dark:border-gray-700 whitespace-pre-wrap break-words">
+            {renderTextWithLinks(msg.message, agentLinkClassName)}
+          </div>
+        )}
       </div>
       <span className="text-[10px] text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity self-end mb-1">
         {formatTime(msg.createdAt)}

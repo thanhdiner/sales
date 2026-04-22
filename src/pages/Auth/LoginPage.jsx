@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useNavigate } from "react-router-dom";
+import { clearClientSessionState } from "@/lib/clientCache";
 import { userLogin } from "@/services/userService";
 import { setUser } from "@/stores/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,26 +51,31 @@ const LoginPage = () => {
   const [form] = Form.useForm();
   const [isHoverForgot, setIsHoverForgot] = useState(false);
 
-
   const onFinish = async (values) => {
     setLoading(true);
     try {
       const { identity, password, remember } = values;
       const res = await userLogin({ identity, password, remember });
+
       if (res.error) {
         message.error(res.error);
       } else {
         message.success("Đăng nhập thành công! 🎉");
+
         clearClientTokens();
         clearClientTokensSession();
-        dispatch(setUser({ user: res.user, token: res.accessToken }));
+        clearClientSessionState(dispatch);
+
         if (remember) {
           localStorage.setItem("user", JSON.stringify(res.user));
-          setClientAccessToken(res.accessToken);
+          setClientAccessToken(res.clientAccessToken);
         } else {
           sessionStorage.setItem("user", JSON.stringify(res.user));
-          setClientAccessTokenSession(res.accessToken);
+          setClientAccessTokenSession(res.clientAccessToken);
         }
+
+        dispatch(setUser({ user: res.user, token: res.clientAccessToken }));
+
         navigate("/");
       }
     } catch {
@@ -146,6 +152,7 @@ const LoginPage = () => {
                 }}
               />
             ) : null}
+
             <span
               style={{
                 fontSize: "1.5rem",
@@ -155,13 +162,50 @@ const LoginPage = () => {
                 letterSpacing: "-0.04em",
               }}
             >
-              {websiteConfig?.siteName || process.env.REACT_APP_NAME_APP || "Sovereign"}
+              {websiteConfig?.siteName ||
+                process.env.REACT_APP_NAME_APP ||
+                "Sovereign"}
             </span>
           </Link>
 
           <div
-            style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.25rem",
+            }}
           >
+            <Link
+              to="/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.375rem",
+                color: C.onSurfaceVariant,
+                padding: "0.25rem 0.75rem",
+                borderRadius: "0.75rem",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                textDecoration: "none",
+                transition: "background 0.3s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = C.surfaceContainerLow)
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "transparent")
+              }
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: "1rem" }}
+              >
+                home
+              </span>
+              <span>Trang chủ</span>
+            </Link>
+
             {["help", "info"].map((icon) => (
               <button
                 key={icon}
@@ -221,7 +265,7 @@ const LoginPage = () => {
             top: 0,
             overflow: "hidden",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             background: C.primary,
           }}
         >
@@ -237,6 +281,7 @@ const LoginPage = () => {
                 mixBlendMode: "overlay",
               }}
             />
+
             <div
               style={{
                 position: "absolute",
@@ -251,7 +296,7 @@ const LoginPage = () => {
             style={{
               position: "relative",
               zIndex: 10,
-              padding: "3.5rem 3rem",
+              padding: "4.5rem 3rem 3.5rem",
               maxWidth: "32rem",
             }}
           >
@@ -338,7 +383,7 @@ const LoginPage = () => {
               position: "absolute",
               left: "3rem",
               right: "3rem",
-              bottom: "2rem",
+              bottom: "3.5rem",
               zIndex: 10,
               display: "flex",
               flexDirection: "column",
@@ -355,6 +400,7 @@ const LoginPage = () => {
             >
               {process.env.REACT_APP_NAME_APP || "Sovereign"} Registrar
             </span>
+
             <span style={{ fontSize: "0.8125rem", color: C.primaryFixed }}>
               © 2024 {process.env.REACT_APP_NAME_APP || "Sovereign"} Registrar.
               All rights reserved.
@@ -433,6 +479,7 @@ const LoginPage = () => {
               >
                 Đăng nhập tài khoản
               </h2>
+
               <p
                 style={{
                   color: C.onSurfaceVariant,
@@ -518,19 +565,19 @@ const LoginPage = () => {
                   </Form.Item>
 
                   <Link
-  to="/user/forgot-password"
-  onMouseEnter={() => setIsHoverForgot(true)}
-  onMouseLeave={() => setIsHoverForgot(false)}
-  style={{
-    fontSize: "0.875rem",
-    color: isHoverForgot ? C.primaryContainer : C.primary,
-    fontWeight: 600,
-    textDecoration: isHoverForgot ? "underline" : "none",
-    transition: "all 0.2s ease",
-  }}
->
-  Quên mật khẩu?
-</Link>
+                    to="/user/forgot-password"
+                    onMouseEnter={() => setIsHoverForgot(true)}
+                    onMouseLeave={() => setIsHoverForgot(false)}
+                    style={{
+                      fontSize: "0.875rem",
+                      color: isHoverForgot ? C.primaryContainer : C.primary,
+                      fontWeight: 600,
+                      textDecoration: isHoverForgot ? "underline" : "none",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    Quên mật khẩu?
+                  </Link>
                 </div>
 
                 <Form.Item style={{ marginBottom: "1rem" }}>
@@ -624,7 +671,6 @@ const LoginPage = () => {
           </div>
         </section>
       </main>
-
     </div>
   );
 };

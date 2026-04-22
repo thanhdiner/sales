@@ -50,6 +50,7 @@ const requestWithAuth = async (method, path, data) => {
 
   const options = {
     method,
+    cache: 'no-store',
     credentials: 'include',
     headers,
     ...(method !== 'GET' && { body: isFormData ? data : JSON.stringify(data) })

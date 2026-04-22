@@ -4,7 +4,6 @@ import { SaveOutlined, EyeOutlined, GlobalOutlined, PhoneOutlined, MailOutlined,
 import { editAdminWebsiteConfig } from '@/services/adminWebsiteConfigService'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWebsiteConfig } from '@/stores/websiteConfigSlice'
-import { useSearchParams } from 'react-router-dom'
 
 const { TextArea } = Input
 
@@ -35,9 +34,7 @@ export default function WebsiteConfigTab() {
     return {
       ...data,
       logo: urlToFileList(data.logoUrl, 'logo.png'),
-      favicon: urlToFileList(data.faviconUrl, 'favicon.png'),
-      dailySuggestionBannerImg: urlToFileList(data.dailySuggestionBanner?.imageUrl, 'banner.png'),
-      dailySuggestionBanner: data.dailySuggestionBanner || {}
+      favicon: urlToFileList(data.faviconUrl, 'favicon.png')
     }
   }
   useEffect(() => {
@@ -284,84 +281,6 @@ export default function WebsiteConfigTab() {
           </Col>
         </Row>
       )
-    },
-    {
-      label: (
-        <span className="dark:text-gray-400">
-          <SettingOutlined /> Ảnh Gợi Ý (Banner)
-        </span>
-      ),
-      key: '4',
-      children: (
-        <Row gutter={24}>
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Nội dung Banner</span>} className="mb-6 dark:bg-gray-800">
-              <Form.Item label={<span className="dark:text-gray-300">Chữ góc trái (Ví dụ: TIKI)</span>} name={['dailySuggestionBanner', 'leftText']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="TIKI"
-                  size="large"
-                />
-              </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Chữ góc phải (Ví dụ: SAMSUNG)</span>} name={['dailySuggestionBanner', 'rightText']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="SAMSUNG"
-                  size="large"
-                />
-              </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Tiêu đề chính</span>} name={['dailySuggestionBanner', 'title']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="Galaxy A57 | A37 5G"
-                  size="large"
-                />
-              </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Tiêu đề phụ</span>} name={['dailySuggestionBanner', 'subtitle']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="Bắt Vibe Awesome Cực Nét"
-                  size="large"
-                />
-              </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Đường dẫn liên kết (CTA)</span>} name={['dailySuggestionBanner', 'link']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="/product/galaxy-a57"
-                  size="large"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Ảnh Banner (Hiển thị góc phải dưới)</span>} className="dark:bg-gray-800">
-              <Form.Item
-                name="dailySuggestionBannerImg"
-                valuePropName="fileList"
-                getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-              >
-                <Upload
-                  listType="picture-card"
-                  maxCount={1}
-                  accept="image/*"
-                  beforeUpload={file => {
-                    const isImage = file.type.startsWith('image/')
-                    if (!isImage) message.error('Vui lòng chọn file ảnh hợp lệ!')
-                    return isImage ? false : Upload.LIST_IGNORE
-                  }}
-                >
-                  <div>
-                    <PlusOutlined />
-                    <div className="mt-2 dark:text-gray-300">Tải ảnh lên</div>
-                  </div>
-                </Upload>
-              </Form.Item>
-              <div className="text-gray-500 dark:text-gray-400 text-sm mt-2">Đề xuất tỉ lệ 2:1 hoặc tải ảnh mockup không nền.</div>
-            </Card>
-          </Col>
-        </Row>
-      )
     }
   ]
 
@@ -381,10 +300,6 @@ export default function WebsiteConfigTab() {
         oldImages.push(websiteConfig.faviconUrl)
         deleteImages.push(!!(values.favicon && values.favicon[0]?.originFileObj))
       }
-      if (websiteConfig?.dailySuggestionBanner?.imageUrl) {
-        oldImages.push(websiteConfig.dailySuggestionBanner.imageUrl)
-        deleteImages.push(!!(values.dailySuggestionBannerImg && values.dailySuggestionBannerImg[0]?.originFileObj))
-      }
       formData.append('oldImages', JSON.stringify(oldImages))
       formData.append('deleteImages', JSON.stringify(deleteImages))
       if (values.logo && values.logo[0]?.originFileObj) {
@@ -393,15 +308,11 @@ export default function WebsiteConfigTab() {
       if (values.favicon && values.favicon[0]?.originFileObj) {
         formData.append('favicon', values.favicon[0].originFileObj)
       }
-      if (values.dailySuggestionBannerImg && values.dailySuggestionBannerImg[0]?.originFileObj) {
-        formData.append('dailySuggestionBannerImg', values.dailySuggestionBannerImg[0].originFileObj)
-      }
       formData.append('siteName', values.siteName)
       formData.append('tagline', values.tagline)
       formData.append('description', values.description)
       formData.append('contactInfo', JSON.stringify(values.contactInfo || {}))
       formData.append('seoSettings', JSON.stringify(values.seoSettings || {}))
-      formData.append('dailySuggestionBanner', JSON.stringify(values.dailySuggestionBanner || {}))
 
       await editAdminWebsiteConfig(formData)
       message.success('Cấu hình đã được lưu thành công!')
@@ -415,15 +326,6 @@ export default function WebsiteConfigTab() {
   }
 
   const handlePreview = () => message.info('Preview feature coming soon!')
-  const [searchParams, setSearchParams] = useSearchParams()
-  const activeTabKey = searchParams.get('tab') || '1'
-  
-  const handleTabChange = (key) => {
-    const params = new URLSearchParams(searchParams)
-    params.set('tab', key)
-    setSearchParams(params, { replace: true })
-  }
-
   if (!websiteConfig) return <div className="p-8 text-center text-gray-500">Đang tải cấu hình...</div>
 
   return (
@@ -434,7 +336,7 @@ export default function WebsiteConfigTab() {
       </div>
 
       <Form form={form} layout="vertical" onFinish={handleSave} initialValues={getInitial(websiteConfig)} className="w-full">
-        <Tabs activeKey={activeTabKey} onChange={handleTabChange} className="w-full" items={tabItems} />
+        <Tabs defaultActiveKey="1" className="w-full" items={tabItems} />
         <Divider />
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Button

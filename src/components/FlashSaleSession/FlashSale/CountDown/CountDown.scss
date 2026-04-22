@@ -1,61 +1,43 @@
-.home__flash-sale__countdown {
-  color: #fff;
-  background: linear-gradient(90deg, #ff683a, #ffd600);
-  font-weight: 700;
-  font-size: 19px;
-  padding: 6px 20px 5px 20px;
-  border-radius: 14px;
-  letter-spacing: 1px;
-  box-shadow: 0 1px 8px 0 rgba(255, 107, 8, 0.12);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  margin-bottom: 16px;
-}
-
 .countdown-timer {
-  font-variant-numeric: tabular-nums;
-  font-weight: 900;
-  font-size: 21px;
-  color: #fff600;
-  letter-spacing: 1.3px;
-  margin-left: 5px;
-}
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
 
-/* Responsive */
-@media (max-width: 991.98px) {
-  .home__flash-sale__countdown {
-    font-size: 17px;
-    padding: 6px 18px;
+  &__day {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 5px;
+    background: #ff3d57;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
   }
-  .countdown-timer {
-    font-size: 19px;
+
+  &__box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 5px;
+    background: #ff3d57;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
   }
-}
-@media (max-width: 767.98px) {
-  .home__flash-sale__countdown {
-    font-size: 15px;
-    padding: 6px 16px;
-    border-radius: 12px;
-    gap: 6px;
+
+  &__colon {
+    color: #ff3d57;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
   }
-  .countdown-timer {
-    font-size: 18px;
-    letter-spacing: 1px;
-  }
-}
-@media (max-width: 575.98px) {
-  .home__flash-sale__countdown {
-    font-size: 13px;
-    padding: 5px 12px;
-    border-radius: 10px;
-  }
-  .countdown-timer {
-    font-size: 16px;
-    margin-left: 4px;
-  }
-  .home__flash-sale__countdown span:first-child {
-    display: none;
-  } /* ẩn label để tiết kiệm chỗ */
 }

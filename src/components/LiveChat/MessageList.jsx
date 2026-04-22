@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bot, Sparkles } from 'lucide-react'
+import { Bot, ChevronDown, Sparkles } from 'lucide-react'
 import MessageBubble from './MessageBubble'
 
 export default function MessageList({
@@ -10,90 +10,110 @@ export default function MessageList({
   groupedMessages,
   isTypingAgent,
   isBotTyping,
+  containerRef,
   bottomRef,
+  showScrollToBottom,
+  onScrollToBottom
 }) {
   return (
-    <div
-      className="
-        flex-1 min-h-0 space-y-2 overflow-y-auto bg-gray-50 px-4 py-4 dark:bg-gray-950
-        [scrollbar-width:thin]
-        [scrollbar-color:#e5e7eb_transparent]
-        [&::-webkit-scrollbar]:w-1
-        [&::-webkit-scrollbar-track]:bg-transparent
-        [&::-webkit-scrollbar-thumb]:rounded-full
-        [&::-webkit-scrollbar-thumb]:bg-gray-200/80
-        hover:[&::-webkit-scrollbar-thumb]:bg-gray-300
-        dark:[scrollbar-color:#3f3f46_transparent]
-        dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700/80
-        dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-600
-      "
-    >
-      {historyLoaded && messages.filter(m => m.type !== 'system').length === 0 && (
-        <div className="py-6 text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-            <Bot className="h-7 w-7 text-blue-500" />
-          </div>
-          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Bắt đầu cuộc trò chuyện
-          </p>
-          <p className="mt-1 text-xs text-gray-400">
-            Đội ngũ hỗ trợ sẽ phản hồi sớm nhất có thể
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            {quickActions.slice(0, 3).map((qa, i) => (
-              <button
-                key={i}
-                onClick={() => onSendMessage(qa.text)}
-                className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs text-blue-600 transition-colors hover:bg-blue-50 dark:border-blue-800 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-blue-900/30"
-              >
-                {qa.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {groupedMessages.map((msg, i) => (
-        <MessageBubble
-          key={msg._id || i}
-          msg={msg}
-          showAvatar={msg.showAvatar}
-          onSuggestionClick={onSendMessage}
-        />
-      ))}
-
-      {isTypingAgent && (
-        <div className="flex items-end gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600">
-            <Bot className="h-4 w-4 text-white" />
-          </div>
-          <div className="rounded-2xl rounded-bl-sm border border-gray-100 bg-white px-4 py-3 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <div className="flex h-4 items-center gap-1.5">
-              <span className="typing-dot" />
-              <span className="typing-dot" />
-              <span className="typing-dot" />
+    <div className="relative flex-1 min-h-0">
+      <div
+        ref={containerRef}
+        className="
+          h-full space-y-2 overflow-y-auto bg-gray-50 px-4 py-4 dark:bg-gray-950
+          [scrollbar-width:thin]
+          [scrollbar-color:#e5e7eb_transparent]
+          [&::-webkit-scrollbar]:w-1
+          [&::-webkit-scrollbar-track]:bg-transparent
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          [&::-webkit-scrollbar-thumb]:bg-gray-200/80
+          hover:[&::-webkit-scrollbar-thumb]:bg-gray-300
+          dark:[scrollbar-color:#3f3f46_transparent]
+          dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700/80
+          dark:hover:[&::-webkit-scrollbar-thumb]:bg-zinc-600
+        "
+      >
+        {historyLoaded && messages.filter(m => m.type !== 'system').length === 0 && (
+          <div className="py-6 text-center">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+              <Bot className="h-7 w-7 text-blue-500" />
+            </div>
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Bắt đầu cuộc trò chuyện
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              Đội ngũ hỗ trợ sẽ phản hồi sớm nhất có thể
+            </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              {quickActions.slice(0, 3).map((qa, i) => (
+                <button
+                  key={i}
+                  onClick={() => onSendMessage(qa.text)}
+                  className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs text-blue-600 transition-colors hover:bg-blue-50 dark:border-blue-800 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                >
+                  {qa.label}
+                </button>
+              ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {isBotTyping && !isTypingAgent && (
-        <div className="flex items-end gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-600">
-            <Sparkles className="h-3.5 w-3.5 text-white" />
-          </div>
-          <div className="rounded-2xl rounded-bl-sm border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 px-4 py-3 shadow-sm dark:border-emerald-800/40 dark:from-emerald-900/20 dark:to-teal-900/20">
-            <div className="flex h-4 items-center gap-1.5">
-              <span className="typing-dot" />
-              <span className="typing-dot" />
-              <span className="typing-dot" />
+        {groupedMessages.map((msg, i) => (
+          <MessageBubble
+            key={msg._id || i}
+            msg={msg}
+            showAvatar={msg.showAvatar}
+            onSuggestionClick={onSendMessage}
+          />
+        ))}
+
+        {isTypingAgent && (
+          <div className="flex items-end gap-2">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600">
+              <Bot className="h-4 w-4 text-white" />
+            </div>
+            <div className="rounded-2xl rounded-bl-sm border border-gray-100 bg-white px-4 py-3 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex h-4 items-center gap-1.5">
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+              </div>
             </div>
           </div>
-          <span className="mb-1 self-end text-[10px] text-emerald-500">Bot đang soạn...</span>
-        </div>
-      )}
+        )}
 
-      <div ref={bottomRef} />
+        {isBotTyping && !isTypingAgent && (
+          <div className="flex items-end gap-2">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-600">
+              <Sparkles className="h-3.5 w-3.5 text-white" />
+            </div>
+            <div className="rounded-2xl rounded-bl-sm border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 px-4 py-3 shadow-sm dark:border-emerald-800/40 dark:from-emerald-900/20 dark:to-teal-900/20">
+              <div className="flex h-4 items-center gap-1.5">
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+              </div>
+            </div>
+            <span className="mb-1 self-end text-[10px] text-emerald-500">Bot đang soạn...</span>
+          </div>
+        )}
+
+        <div ref={bottomRef} />
+      </div>
+
+      <button
+        type="button"
+        onClick={() => onScrollToBottom?.()}
+        aria-label="Scroll to bottom"
+        title="Xuống cuối"
+        className={`absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-gray-700 shadow-lg ring-1 ring-black/5 backdrop-blur transition-all duration-200 hover:bg-white hover:text-blue-600 dark:bg-gray-800/95 dark:text-gray-200 dark:ring-white/10 dark:hover:bg-gray-800 dark:hover:text-blue-300 ${
+          showScrollToBottom
+            ? 'translate-y-0 opacity-100 pointer-events-auto'
+            : 'translate-y-2 opacity-0 pointer-events-none'
+        }`}
+      >
+        <ChevronDown className="h-4 w-4" />
+      </button>
     </div>
   )
 }

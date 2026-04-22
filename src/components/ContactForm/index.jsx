@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { User, Mail, FileText, MessageCircle, Send, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { message, Select } from 'antd'
 import { sendContactForm } from '@/services/contactService'
 
@@ -8,7 +8,7 @@ const SUBJECT_OPTIONS = [
   { value: 'order', label: 'Đặt hàng' },
   { value: 'support', label: 'Hỗ trợ kỹ thuật' },
   { value: 'partnership', label: 'Hợp tác' },
-  { value: 'other', label: 'Khác' }
+  { value: 'other', label: 'Khác' },
 ]
 
 const ContactForm = () => {
@@ -16,7 +16,7 @@ const ContactForm = () => {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -31,11 +31,14 @@ const ContactForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+
     if (!formData.email || !formData.message || !formData.subject) {
       message.error('Vui lòng nhập đầy đủ Email, Chủ đề và Nội dung!')
       return
     }
+
     setIsSubmitting(true)
+
     try {
       await sendContactForm(formData)
       setSubmitted(true)
@@ -49,97 +52,97 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-white/50 dark:bg-gray-800 dark:border-gray-600 dark:border-1 dark:border-solid">
-      <h3 className="dark:text-gray-100 text-2xl font-bold text-gray-800 mb-6 flex items-center">
-        <Send className="w-6 h-6 mr-3 text-blue-600" />
-        Gửi tin nhắn cho shop
-      </h3>
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-7">
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          Gửi tin nhắn cho shop
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+          Điền thông tin bên dưới, shop sẽ phản hồi bạn sớm nhất có thể.
+        </p>
+      </div>
+
       {submitted ? (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="rounded-xl border border-gray-200 bg-gray-50 px-5 py-10 text-center dark:border-gray-700 dark:bg-gray-900/30">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600 shadow-sm dark:bg-gray-800">
+            <CheckCircle className="h-6 w-6" />
           </div>
-          <h4 className="text-xl font-bold text-gray-800 mb-2">Cảm ơn bạn!</h4>
-          <p className="text-gray-600">Tin nhắn đã được gửi thành công. Mình sẽ phản hồi sớm nhất có thể!</p>
+
+          <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Cảm ơn bạn!
+          </h4>
+          <p className="text-sm leading-6 text-gray-600 dark:text-gray-300">
+            Tin nhắn đã được gửi thành công. Mình sẽ phản hồi sớm nhất có thể!
+          </p>
         </div>
       ) : (
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="grid md:grid-cols-2 gap-4">
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
-                <User className="w-4 h-4 inline mr-2" />
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Tên của bạn
-              </div>
+              </label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
                 placeholder="Nhập tên của bạn"
               />
             </div>
+
             <div>
-              <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
-                <Mail className="w-4 h-4 inline mr-2" />
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Email
-              </div>
+              </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
                 placeholder="email@example.com"
               />
             </div>
           </div>
+
           <div>
-            <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
-              <FileText className="w-4 h-4 inline mr-2" />
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
               Chủ đề
-            </div>
+            </label>
             <Select
               name="subject"
-              value={formData.subject}
+              value={formData.subject || undefined}
               onChange={handleSubjectChange}
               placeholder="Chọn chủ đề"
-              className="w-full rounded-xl"
+              className="w-full"
               size="large"
               options={SUBJECT_OPTIONS}
               allowClear
             />
           </div>
+
           <div>
-            <div className="block text-gray-700 font-medium mb-2 dark:text-gray-200">
-              <MessageCircle className="w-4 h-4 inline mr-2" />
+            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
               Tin nhắn
-            </div>
+            </label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               rows="5"
-              className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 resize-none"
+              className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
               placeholder="Nhập tin nhắn của bạn..."
-            ></textarea>
+            />
           </div>
+
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-5 py-3.5 text-white shadow-[0_12px_28px_-14px_rgba(59,130,246,0.9)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_16px_30px_-14px_rgba(79,140,255,0.95)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
+            className="w-full rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
           >
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"
-            />
-
-            <span className="relative z-10 flex items-center justify-center gap-2 text-base font-semibold tracking-wide">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/30 backdrop-blur-sm">
-                <Send className="h-[18px] w-[18px]" />
-              </span>
-              {isSubmitting ? 'Đang gửi...' : 'Gửi tin nhắn'}
-            </span>
+            {isSubmitting ? 'Đang gửi...' : 'Gửi tin nhắn'}
           </button>
         </form>
       )}

@@ -8,6 +8,6 @@ export const updateChatbotConfig = async (data) => {
   return await patch('admin/chatbot-config', data)
 }
 
-export const testChatbotConnection = async () => {
-  return await post('admin/chatbot-config/test')
+export const testChatbotConnection = async (data) => {
+  return await post('admin/chatbot-config/test', data)
 }

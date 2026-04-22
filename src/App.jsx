@@ -1,32 +1,25 @@
-import AllRoute from './components/AllRoute'
-import LayoutDefault from './Layout/LayoutDefault'
-import ScrollToTop from './components/ScrollToTop'
 import { useEffect } from 'react'
-import { getAdminMe } from './services/adminMeService'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setUser, logout } from './stores/adminUser'
-import { clearTokens, getAccessToken, getClientAccessToken, getClientAccessTokenSession, setAccessToken } from './utils/auth'
-import { authAdminRefresh } from './services/adminAuth.service'
-import { fetchWebsiteConfig } from './stores/websiteConfigSlice'
 import FaviconUpdater from '@/components/FaviconUpdater'
-import { setUser as setClientUser } from './stores/user'
-import { getClientMe } from './services/userService'
-import { setWishlist } from './stores/wishlist'
-import { getWishlist } from './services/wishlistService'
+import { useClientBootstrap } from '@/hooks/useClientBootstrap'
+import LayoutDefault from './Layout/LayoutDefault'
+import AllRoute from './components/AllRoute'
+import ScrollToTop from './components/ScrollToTop'
+import { authAdminRefresh } from './services/adminAuth.service'
+import { getAdminMe } from './services/adminMeService'
+import { logout, setUser } from './stores/adminUser'
+import { clearTokens, getAccessToken, setAccessToken } from './utils/auth'
 
 function App() {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
+  useClientBootstrap()
 
-  // Client theme (Redux) — GIỮ như bạn đang có
   const clientDarkMode = useSelector(state => state.darkMode?.value)
-
-  // ✅ Chỉ App áp dụng html.dark dựa vào route
   const isAdmin = location.pathname.startsWith('/admin')
 
-  // Admin: đọc từ localStorage('darkMode') vì bạn không lưu redux cho admin
   const adminDarkMode = (() => {
     try {
       return localStorage.getItem('darkMode') === 'true'
@@ -44,92 +37,55 @@ function App() {
   }, [isDark])
 
   useEffect(() => {
-    dispatch(fetchWebsiteConfig())
-  }, [dispatch])
-
-  useEffect(() => {
-    if (!location.pathname.startsWith('/admin')) {
-      const fetchUser = async () => {
-        const token = getClientAccessToken() || getClientAccessTokenSession()
-        if (token) {
-          try {
-            const user = await getClientMe()
-            if (user) {
-              dispatch(setClientUser({ user: user, token }))
-              if (getClientAccessToken() === token) {
-                localStorage.setItem('user', JSON.stringify(user))
-              }
-              if (getClientAccessTokenSession() === token) {
-                sessionStorage.setItem('user', JSON.stringify(user))
-              }
-            } else {
-              dispatch(setClientUser({ user: null, token: null }))
-              localStorage.removeItem('user')
-              sessionStorage.removeItem('user')
-            }
-          } catch (err) {
-            dispatch(setClientUser({ user: null, token: null }))
-            localStorage.removeItem('user')
-            sessionStorage.removeItem('user')
-          }
-        } else {
-          dispatch(setClientUser({ user: null, token: null }))
-          localStorage.removeItem('user')
-          sessionStorage.removeItem('user')
-        }
-      }
-      fetchUser()
-    }
-  }, [dispatch, location])
-
-  // Load wishlist khi user đã đăng nhập
-  useEffect(() => {
-    if (!location.pathname.startsWith('/admin')) {
-      const token = localStorage.getItem('clientAccessToken') || sessionStorage.getItem('clientAccessToken')
-      if (token) {
-        getWishlist()
-          .then(res => dispatch(setWishlist(res.items || [])))
-          .catch(() => {})
-      } else {
-        dispatch(setWishlist([]))
-      }
-    }
-    // eslint-disable-next-line
-  }, [location, dispatch])
-
-  useEffect(() => {
     let isMounted = true
-    const initUser = async () => {
+
+    const initAdminUser = async () => {
       const token = getAccessToken()
-      if (token && location.pathname.startsWith('/admin')) {
+
+      if (!token || !location.pathname.startsWith('/admin')) {
+        return
+      }
+
+      try {
+        const user = await getAdminMe()
+        if (user && isMounted) {
+          dispatch(setUser({ user, token }))
+        }
+      } catch {
         try {
+          const refreshResult = await authAdminRefresh()
+
+          if (!refreshResult.accessToken) {
+            throw new Error('No new token')
+          }
+
+          setAccessToken(refreshResult.accessToken)
+
           const user = await getAdminMe()
-          if (user && isMounted) dispatch(setUser({ user, token }))
+          if (user && isMounted) {
+            dispatch(
+              setUser({
+                user,
+                token: refreshResult.accessToken
+              })
+            )
+          }
         } catch {
-          try {
-            const refreshRes = await authAdminRefresh()
-            if (refreshRes.accessToken) {
-              setAccessToken(refreshRes.accessToken)
-              const user = await getAdminMe()
-              if (user && isMounted) dispatch(setUser({ user, token: refreshRes.accessToken }))
-            } else {
-              throw new Error('No new token')
-            }
-          } catch {
-            if (isMounted) {
-              dispatch(logout())
-              clearTokens()
-              navigate('/admin/login', { replace: true })
-            }
+          if (isMounted) {
+            dispatch(logout())
+            clearTokens()
+            navigate('/admin/login', { replace: true })
           }
         }
       }
     }
-    initUser()
+
+    initAdminUser()
+
     return () => {
       isMounted = false
     }
-  }, [dispatch, navigate, location])
+  }, [dispatch, location.pathname, navigate])
 
   return (
     <>

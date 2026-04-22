@@ -1,26 +1,50 @@
-import { Package, Phone, Shield } from 'lucide-react'
-
 export function OrderSummary({ orderItems, subtotal, discount, shipping, total, formatPrice }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-4 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-      <h3 className="text-lg font-bold text-gray-800 mb-6 dark:text-gray-100">Đơn hàng của bạn</h3>
+    <div className="sticky top-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          Đơn hàng của bạn
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+          Kiểm tra lại sản phẩm và tổng tiền trước khi xác nhận.
+        </p>
+      </div>
 
-      <div className="space-y-4 mb-6">
+      <div className="mb-6 space-y-4">
         {orderItems.map(item => (
           <div key={item.id} className="flex gap-3">
-            <div className="relative">
-              <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
-              <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+            <div className="relative shrink-0">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="h-16 w-16 rounded-lg border border-gray-200 object-cover dark:border-gray-700"
+              />
+
+              <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-xs font-semibold text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
                 {item.quantity}
               </div>
             </div>
-            <div className="flex-1">
-              <h4 className="font-medium text-gray-800 text-sm dark:text-gray-100">{item.name}</h4>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{item.category}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="font-bold text-gray-800 dark:text-gray-100">{formatPrice(item.price)}</span>
+
+            <div className="min-w-0 flex-1">
+              <h4 className="line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                {item.name}
+              </h4>
+
+              {item.category && (
+                <p className="mt-1 mb-0 text-xs text-gray-500 dark:text-gray-400">
+                  {item.category}
+                </p>
+              )}
+
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  {formatPrice(item.price)}
+                </span>
+
                 {item.originalPrice > item.price && (
-                  <span className="text-xs text-gray-400 line-through dark:text-gray-400">{formatPrice(item.originalPrice)}</span>
+                  <span className="text-xs text-gray-400 line-through dark:text-gray-500">
+                    {formatPrice(item.originalPrice)}
+                  </span>
                 )}
               </div>
             </div>
@@ -28,39 +52,40 @@ export function OrderSummary({ orderItems, subtotal, discount, shipping, total, 
         ))}
       </div>
 
-      <div className="border-t pt-4 space-y-3">
-        <div className="flex justify-between text-gray-600">
-          <span className="dark:text-gray-300">Tạm tính</span>
-          <span className="dark:text-gray-300">{formatPrice(subtotal)}</span>
+      <div className="space-y-3 border-t border-gray-200 pt-4 dark:border-gray-700">
+        <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
+          <span>Tạm tính</span>
+          <span>{formatPrice(subtotal)}</span>
         </div>
-        <div className="flex justify-between text-green-600">
-          <span className="dark:text-gray-300">Giảm giá</span>
-          <span className="dark:text-gray-300">-{formatPrice(discount)}</span>
+
+        <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
+          <span>Giảm giá</span>
+          <span>-{formatPrice(discount)}</span>
         </div>
-        <div className="flex justify-between text-gray-600">
-          <span className="dark:text-gray-300">Phí vận chuyển</span>
-          <span className="dark:text-gray-300">{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
+
+        <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
+          <span>Phí vận chuyển</span>
+          <span>{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
         </div>
-        <div className="border-t pt-3">
-          <div className="flex justify-between text-xl font-bold text-gray-800">
-            <span className="dark:text-gray-300">Tổng cộng</span>
-            <span className="text-blue-600 dark:text-gray-300">{formatPrice(total)}</span>
+
+        <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+          <div className="flex justify-between gap-4">
+            <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
+              Tổng cộng
+            </span>
+
+            <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {formatPrice(total)}
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="mt-6 space-y-3">
-        <div className="flex items-center gap-3 text-sm text-gray-600">
-          <Shield className="w-4 h-4 text-green-500" />
-          <span className="dark:text-gray-300">Bảo hành chính hãng</span>
-        </div>
-        <div className="flex items-center gap-3 text-sm text-gray-600">
-          <Package className="w-4 h-4 text-blue-500" />
-          <span className="dark:text-gray-300">Nhận hàng tại cửa hàng</span>
-        </div>
-        <div className="flex items-center gap-3 text-sm text-gray-600">
-          <Phone className="w-4 h-4 text-green-500" />
-          <span className="dark:text-gray-300">Hỗ trợ 24/7</span>
+      <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+        <div className="space-y-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+          <p className="mb-0">Bảo hành chính hãng</p>
+          <p className="mb-0">Nhận hàng tại cửa hàng</p>
+          <p className="mb-0">Hỗ trợ khi cần</p>
         </div>
       </div>
     </div>

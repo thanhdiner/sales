@@ -1,4 +1,9 @@
-import { getClientAccessToken, setClientAccessToken, clearClientTokens } from './auth'
+import {
+  clearAllClientTokens,
+  getClientTokenStorage,
+  getStoredClientAccessToken,
+  setClientAccessTokenByStorage
+} from './auth'
 import { userRefreshToken } from '../services/userService'
 import { store } from '../stores'
 import { setUser } from '../stores/user'
@@ -8,22 +13,38 @@ const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v
 let refreshingPromise = null
 
 const getAuthHeaders = clientAccessToken => (clientAccessToken ? { Authorization: `Bearer ${clientAccessToken}` } : {})
+const hasStoredClientUserMarker = () => Boolean(
+  store.getState().clientUser.user ||
+  localStorage.getItem('user') ||
+  sessionStorage.getItem('user')
+)
 
 const refreshAccessToken = async () => {
+  const storage = getClientTokenStorage() || 'local'
+
   try {
     const res = await userRefreshToken()
-    if (res?.clientAccessToken) {
-      setClientAccessToken(res.clientAccessToken)
 
-      const currentUser = store.getState().clientUser.user
-      if (currentUser) {
-        store.dispatch(setUser({ user: currentUser, token: res.clientAccessToken }))
+    if (res?.clientAccessToken) {
+      setClientAccessTokenByStorage(res.clientAccessToken, storage)
+
+      const nextUser = res.user || store.getState().clientUser.user
+      if (nextUser) {
+        store.dispatch(setUser({ user: nextUser, token: res.clientAccessToken }))
+
+        if (storage === 'session') {
+          sessionStorage.setItem('user', JSON.stringify(nextUser))
+        } else {
+          localStorage.setItem('user', JSON.stringify(nextUser))
+        }
       }
+
       return res.clientAccessToken
     }
+
     throw new Error('No new token')
   } catch (err) {
-    clearClientTokens()
+    clearAllClientTokens()
     throw err
   } finally {
     refreshingPromise = null
@@ -34,9 +55,23 @@ const getFreshAccessToken = async () => {
   if (refreshingPromise) {
     try {
       await refreshingPromise
-    } catch {}
+    } catch {
+      // ignore here and let caller handle it
+    }
   }
-  return getClientAccessToken()
+
+  let token = getStoredClientAccessToken()
+
+  if (!token && hasStoredClientUserMarker()) {
+    try {
+      if (!refreshingPromise) refreshingPromise = refreshAccessToken()
+      token = await refreshingPromise
+    } catch {
+      token = null
+    }
+  }
+
+  return token
 }
 
 const requestWithAuth = async (method, path, data) => {
@@ -50,6 +85,7 @@ const requestWithAuth = async (method, path, data) => {
 
   const options = {
     method,
+    cache: 'no-store',
     credentials: 'include',
     headers,
     ...(method !== 'GET' && { body: isFormData ? data : JSON.stringify(data) })
@@ -57,32 +93,36 @@ const requestWithAuth = async (method, path, data) => {
 
   let res = await fetch(`${API_DOMAIN}/${path}`, options)
   let json
+
   try {
     json = await res.json()
   } catch {
     json = null
   }
 
-  const authPaths = ['user/login', 'user/register', 'user/forgot-password', 'user/reset-password', 'user/auth/refresh', 'user/auth/verify']
+  const authPaths = ['user/login', 'user/register', 'user/forgot-password', 'user/reset-password', 'user/refresh-token', 'user/auth/verify']
   const isAuthPath = authPaths.some(authPath => path.startsWith(authPath))
 
   if ((res.status === 401 || res.status === 403) && !isAuthPath) {
     try {
       if (!refreshingPromise) refreshingPromise = refreshAccessToken()
       const newToken = await refreshingPromise
+
       headers = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         Authorization: `Bearer ${newToken}`
       }
+
       options.headers = headers
       res = await fetch(`${API_DOMAIN}/${path}`, options)
+
       try {
         json = await res.json()
       } catch {
         json = null
       }
     } catch (err) {
-      clearClientTokens()
+      clearAllClientTokens()
       throw new Error('Vui lòng đăng nhập lại')
     }
   }

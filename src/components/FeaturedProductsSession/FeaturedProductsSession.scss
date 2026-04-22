@@ -1,148 +1,64 @@
 .home__featured-products {
-  margin-top: 40px;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-top: 24px;
+  padding: 18px 22px 20px;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
-
-  // ─── Mint/Teal gradient wave background ────────────────────────────
-  background:
-    radial-gradient(ellipse 80% 60% at 90% 20%, rgba(102, 234, 182, 0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 70% 10%, rgba(0, 210, 180, 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(102, 234, 148, 0.08) 0%, transparent 50%),
-    linear-gradient(160deg, #ffffff 30%, rgba(200, 255, 235, 0.3) 60%, rgba(102, 234, 182, 0.12) 100%);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -30%;
-    right: -10%;
-    width: 70%;
-    height: 120%;
-    background: radial-gradient(ellipse at center, rgba(102, 234, 182, 0.2) 0%, transparent 70%);
-    filter: blur(40px);
-    pointer-events: none;
-    z-index: 0;
-    animation: featuredWaveDrift 8s ease-in-out infinite alternate;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    right: 5%;
-    width: 50%;
-    height: 80%;
-    background: radial-gradient(ellipse at center, rgba(0, 210, 180, 0.12) 0%, transparent 70%);
-    filter: blur(50px);
-    pointer-events: none;
-    z-index: 0;
-    animation: featuredWaveDrift 10s ease-in-out infinite alternate-reverse;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(102, 234, 182, 0.15);
-  }
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 32px 32px 0;
-    z-index: 2;
-    position: relative;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 18px;
   }
 
-  &__title-group {
+  &__title-wrap {
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    align-items: center;
+    gap: 9px;
   }
 
-  &__badge {
-    width: fit-content;
-    font-size: 0.875rem;
-    color: white;
-    background: linear-gradient(135deg, #00d4aa, #00b894);
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-weight: bold;
-    display: inline-block;
-    box-shadow: 0 2px 8px rgba(0, 210, 170, 0.3);
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0b74e5;
   }
 
-  &__subtitle {
-    font-size: 0.95rem;
-    color: #555;
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.01em;
   }
 
   &__view-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: #00b894;
-    padding: 12px 20px;
-    border-radius: 50px;
-    background: rgba(0, 210, 170, 0.08);
-    border: 1px solid rgba(0, 210, 170, 0.2);
-    transition: all 0.3s ease;
+    color: #0055ff;
+    font-size: 1rem;
+    font-weight: 500;
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: opacity 0.2s ease;
 
     &:hover {
-      background: linear-gradient(135deg, #00d4aa, #00b894);
-      color: white;
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3);
-
-      svg {
-        transform: translateX(4px);
-      }
-    }
-
-    svg {
-      transition: transform 0.3s ease;
+      opacity: 0.75;
     }
   }
 
   &__content {
-    padding: 20px 32px 32px;
     position: relative;
-    z-index: 1;
+    padding: 0;
   }
 
+  &__badge,
+  &__subtitle,
+  &__title-group,
   &__decoration {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 0;
-  }
-}
-
-// ─── Wave drift animation ────────────────────────────────────────────────────
-@keyframes featuredWaveDrift {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(-20px, 10px) scale(1.05);
-  }
-}
-
-// ─── Dark mode ───────────────────────────────────────────────────────────────
-:global(.dark) .home__featured-products {
-  background:
-    radial-gradient(ellipse 80% 60% at 90% 20%, rgba(0, 210, 170, 0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 70% 10%, rgba(0, 180, 148, 0.08) 0%, transparent 60%),
-    linear-gradient(160deg, #1f2937 30%, rgba(0, 210, 170, 0.05) 100%);
-
-  &::before {
-    background: radial-gradient(ellipse at center, rgba(0, 210, 170, 0.08) 0%, transparent 70%);
-  }
-
-  &::after {
-    background: radial-gradient(ellipse at center, rgba(0, 180, 148, 0.05) 0%, transparent 70%);
+    display: none;
   }
 }

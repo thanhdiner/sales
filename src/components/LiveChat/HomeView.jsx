@@ -1,5 +1,6 @@
 import React from 'react'
 import { X, Bot, MessageCircle } from 'lucide-react'
+import { getChatMessagePreview } from '@/utils/chatMessage'
 
 export default function HomeView({
   onClose,
@@ -10,14 +11,7 @@ export default function HomeView({
   onQuickAction,
   quickActions = [],
 }) {
-  const rawLastMessage =
-    messages.length > 0 ? messages[messages.length - 1].message : 'Bắt đầu cuộc trò chuyện...'
-
-  const lastMessage =
-    typeof rawLastMessage === 'string'
-      ? rawLastMessage.replace(/[\u{1F300}-\u{1FAFF}]/gu, '').trim()
-      : 'Bắt đầu cuộc trò chuyện...'
-
+  const lastMessage = getChatMessagePreview(messages[messages.length - 1])
   const agentName = assignedAgent?.agentName || 'SmartMall Support'
 
   return (
@@ -64,7 +58,7 @@ export default function HomeView({
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-gray-900 dark:text-white">{agentName}</p>
             <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-              {lastMessage || 'Bắt đầu cuộc trò chuyện...'}
+              {lastMessage}
             </p>
           </div>
 

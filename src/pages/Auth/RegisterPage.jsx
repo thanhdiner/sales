@@ -70,6 +70,7 @@ const RegisterPage = () => {
     if (!value || form.getFieldValue('password') === value) {
       return Promise.resolve()
     }
+
     return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'))
   }
 
@@ -130,6 +131,7 @@ const RegisterPage = () => {
                 }}
               />
             ) : null}
+
             <span
               style={{
                 fontSize: '1.5rem',
@@ -139,11 +141,50 @@ const RegisterPage = () => {
                 letterSpacing: '-0.04em'
               }}
             >
-              {websiteConfig?.siteName || process.env.REACT_APP_NAME_APP || 'Sovereign'}
+              {websiteConfig?.siteName ||
+                process.env.REACT_APP_NAME_APP ||
+                'Sovereign'}
             </span>
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem'
+            }}
+          >
+            <Link
+              to="/"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.375rem',
+                color: C.onSurfaceVariant,
+                padding: '0.25rem 0.75rem',
+                borderRadius: '0.75rem',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                textDecoration: 'none',
+                transition: 'background 0.3s'
+              }}
+              onMouseEnter={e =>
+                (e.currentTarget.style.background = C.surfaceContainerLow)
+              }
+              onMouseLeave={e =>
+                (e.currentTarget.style.background = 'transparent')
+              }
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{ fontSize: '1rem' }}
+              >
+                home
+              </span>
+              <span>Trang chủ</span>
+            </Link>
+
             {['help', 'info'].map(icon => (
               <button
                 key={icon}
@@ -162,10 +203,17 @@ const RegisterPage = () => {
                   background: 'transparent',
                   transition: 'background 0.3s'
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = C.surfaceContainerLow)}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                onMouseEnter={e =>
+                  (e.currentTarget.style.background = C.surfaceContainerLow)
+                }
+                onMouseLeave={e =>
+                  (e.currentTarget.style.background = 'transparent')
+                }
               >
-                <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: '1rem' }}
+                >
                   {icon}
                 </span>
                 <span>{icon}</span>
@@ -195,7 +243,7 @@ const RegisterPage = () => {
             top: 0,
             overflow: 'hidden',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             background: C.primary
           }}
         >
@@ -211,11 +259,13 @@ const RegisterPage = () => {
                 mixBlendMode: 'overlay'
               }}
             />
+
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
+                background:
+                  'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
               }}
             />
           </div>
@@ -224,7 +274,7 @@ const RegisterPage = () => {
             style={{
               position: 'relative',
               zIndex: 10,
-              padding: '3.5rem 3rem',
+              padding: '4.5rem 3rem 3.5rem',
               maxWidth: '32rem'
             }}
           >
@@ -252,7 +302,8 @@ const RegisterPage = () => {
                 maxWidth: '28rem'
               }}
             >
-              Đăng ký để bắt đầu hành trình của bạn trong không gian quản trị danh tính số tối cao.
+              Đăng ký để bắt đầu hành trình của bạn trong không gian quản trị
+              danh tính số tối cao.
             </p>
 
             <div
@@ -284,7 +335,8 @@ const RegisterPage = () => {
                   lineHeight: 1.7
                 }}
               >
-                "Kiến trúc an toàn không chỉ là những bức tường lửa, mà là sự minh bạch và chủ quyền đối với từng bit dữ liệu cá nhân."
+                "Kiến trúc an toàn không chỉ là những bức tường lửa, mà là sự
+                minh bạch và chủ quyền đối với từng bit dữ liệu cá nhân."
               </blockquote>
 
               <p
@@ -307,7 +359,7 @@ const RegisterPage = () => {
               position: 'absolute',
               left: '3rem',
               right: '3rem',
-              bottom: '2rem',
+              bottom: '3.5rem',
               zIndex: 10,
               display: 'flex',
               flexDirection: 'column',
@@ -324,8 +376,10 @@ const RegisterPage = () => {
             >
               {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar
             </span>
+
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar. All rights reserved.
+              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar.
+              All rights reserved.
             </span>
 
             <div
@@ -401,6 +455,7 @@ const RegisterPage = () => {
               >
                 Bắt đầu ngay hôm nay
               </h2>
+
               <p
                 style={{
                   color: C.onSurfaceVariant,
@@ -412,218 +467,315 @@ const RegisterPage = () => {
               </p>
             </div>
 
-            <div className="sovereign-register-input" style={{ margin: '0 0.25rem' }}>
-              <Form form={form} name="register" onFinish={onFinish} layout="vertical" size="middle">
-            <Form.Item
-              name="fullName"
-              label="Họ và tên"
-              rules={[
-                { required: true, message: 'Vui lòng nhập họ và tên!' },
-                { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự!' }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Input
-                prefix={<ContactsOutlined />}
-                placeholder="Nguyễn Văn A"
-                autoComplete="name"
-              />
-            </Form.Item>
-            <Form.Item
-              name="username"
-              label="Tên đăng nhập"
-              rules={[
-                { required: true, message: 'Vui lòng nhập tên đăng nhập!' },
-                { min: 4, message: 'Tên đăng nhập phải có ít nhất 4 ký tự!' },
-                { max: 32, message: 'Tên đăng nhập tối đa 32 ký tự!' },
-                { pattern: /^[a-zA-Z0-9_]+$/, message: 'Tên đăng nhập chỉ được chứa chữ, số, gạch dưới!' }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Input prefix={<UserOutlined />} placeholder="nguyenvana123" autoComplete="username" />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="Địa chỉ email"
-              rules={[
-                { required: true, message: 'Vui lòng nhập email!' },
-                { type: 'email', message: 'Email không hợp lệ!' }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Input prefix={<MailOutlined />} placeholder="email@example.com" autoComplete="email" />
-            </Form.Item>
-
-            <Form.Item
-              name="phone"
-              label="Số điện thoại"
-              rules={[
-                { required: true, message: 'Vui lòng nhập số điện thoại!' },
-                { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ!' }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Input prefix={<PhoneOutlined />} placeholder="0901 234 567" autoComplete="tel" />
-            </Form.Item>
-
-            <Form.Item
-              name="password"
-              label="Mật khẩu"
-              rules={[
-                { required: true, message: 'Vui lòng nhập mật khẩu!' },
-                { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
-                { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!' }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="••••••••"
-                iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                autoComplete="new-password"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="confirmPassword"
-              label="Xác nhận mật khẩu"
-              dependencies={['password']}
-              rules={[{ required: true, message: 'Vui lòng xác nhận mật khẩu!' }, { validator: validateConfirmPassword }]}
-              style={{ marginBottom: '0.75rem' }}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="••••••••"
-                iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                autoComplete="new-password"
-              />
-            </Form.Item>
-
-            <div style={{ marginBottom: '0.75rem' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: C.onSurfaceVariant,
-                  fontSize: '0.75rem',
-                  marginBottom: '0.35rem'
-                }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '0.875rem', color: '#6c3400' }}>
-                  info
-                </span>
-                <span>Mật khẩu phải có ít nhất 8 ký tự!</span>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: C.onSurfaceVariant,
-                  fontSize: '0.75rem'
-                }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '0.875rem', color: '#6c3400' }}>
-                  info
-                </span>
-                <span>Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!</span>
-              </div>
-            </div>
-
-            <Form.Item
-              name="agreement"
-              valuePropName="checked"
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Vui lòng đồng ý với điều khoản sử dụng!'))
-                }
-              ]}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Checkbox>
-                <span style={{ color: C.onSurfaceVariant, fontSize: '0.875rem' }}>
-                  Tôi đồng ý với{' '}
-                  <Link to="/terms-of-service" style={{ color: C.primary, fontWeight: 600, textDecoration: 'none' }}>
-                    Điều khoản sử dụng
-                  </Link>{' '}
-                  và{' '}
-                  <Link to="/privacy-policy" style={{ color: C.primary, fontWeight: 600, textDecoration: 'none' }}>
-                    Chính sách bảo mật
-                  </Link>
-                </span>
-              </Checkbox>
-            </Form.Item>
-
-            <Form.Item style={{ marginBottom: '1rem' }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                className="sovereign-register-btn-primary"
-                style={{ width: '100%', height: '3.25rem', color: '#fff' }}
-              >
-                {loading ? 'Đang đăng ký...' : 'Đăng ký'}
-              </Button>
-            </Form.Item>
-
-            <Divider style={{ margin: '0.5rem 0 1rem' }}>HOẶC ĐĂNG KÝ BẰNG</Divider>
-
             <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
-                gap: '0.75rem',
-                marginBottom: '1.5rem'
-              }}
+              className="sovereign-register-input"
+              style={{ margin: '0 0.25rem' }}
             >
-              {[
-                {
-                  key: 'Google',
-                  img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png'
-                },
-                {
-                  key: 'GitHub',
-                  img: 'https://cdn-icons-png.flaticon.com/512/25/25231.png'
-                },
-                {
-                  key: 'Facebook',
-                  img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/960px-2023_Facebook_icon.svg.png'
-                }
-              ].map(({ key, img }) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => handleSocialRegister(key)}
-                  className="sovereign-register-btn-social"
-                  style={{ cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+              <Form
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                layout="vertical"
+                size="middle"
+              >
+                <Form.Item
+                  name="fullName"
+                  label="Họ và tên"
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập họ và tên!' },
+                    { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự!' }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
                 >
-                  <img src={img} alt={key} style={{ width: '1.25rem', height: '1.25rem', objectFit: 'contain' }} />
-                  <span>{key}</span>
-                </button>
-              ))}
-            </div>
+                  <Input
+                    prefix={<ContactsOutlined />}
+                    placeholder="Nguyễn Văn A"
+                    autoComplete="name"
+                  />
+                </Form.Item>
 
-            <p
-              style={{
-                textAlign: 'center',
-                fontSize: '0.875rem',
-                color: C.onSurfaceVariant,
-                margin: 0
-              }}
-            >
-              Đã có tài khoản?{' '}
-              <Link to="/user/login" style={{ color: C.primary, fontWeight: 700, textDecoration: 'none' }}>
-                Đăng nhập ngay
-              </Link>
-            </p>
-          </Form>
-        </div>
-      </div>
+                <Form.Item
+                  name="username"
+                  label="Tên đăng nhập"
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập tên đăng nhập!' },
+                    { min: 4, message: 'Tên đăng nhập phải có ít nhất 4 ký tự!' },
+                    { max: 32, message: 'Tên đăng nhập tối đa 32 ký tự!' },
+                    {
+                      pattern: /^[a-zA-Z0-9_]+$/,
+                      message: 'Tên đăng nhập chỉ được chứa chữ, số, gạch dưới!'
+                    }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  <Input
+                    prefix={<UserOutlined />}
+                    placeholder="nguyenvana123"
+                    autoComplete="username"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="email"
+                  label="Địa chỉ email"
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập email!' },
+                    { type: 'email', message: 'Email không hợp lệ!' }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  <Input
+                    prefix={<MailOutlined />}
+                    placeholder="email@example.com"
+                    autoComplete="email"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="phone"
+                  label="Số điện thoại"
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập số điện thoại!' },
+                    {
+                      pattern: /^[0-9]{10,11}$/,
+                      message: 'Số điện thoại không hợp lệ!'
+                    }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  <Input
+                    prefix={<PhoneOutlined />}
+                    placeholder="0901 234 567"
+                    autoComplete="tel"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="password"
+                  label="Mật khẩu"
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                    { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
+                    {
+                      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                      message:
+                        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!'
+                    }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder="••••••••"
+                    iconRender={visible =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                    autoComplete="new-password"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="confirmPassword"
+                  label="Xác nhận mật khẩu"
+                  dependencies={['password']}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui lòng xác nhận mật khẩu!'
+                    },
+                    { validator: validateConfirmPassword }
+                  ]}
+                  style={{ marginBottom: '0.75rem' }}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder="••••••••"
+                    iconRender={visible =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                    autoComplete="new-password"
+                  />
+                </Form.Item>
+
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      color: C.onSurfaceVariant,
+                      fontSize: '0.75rem',
+                      marginBottom: '0.35rem'
+                    }}
+                  >
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ fontSize: '0.875rem', color: '#6c3400' }}
+                    >
+                      info
+                    </span>
+                    <span>Mật khẩu phải có ít nhất 8 ký tự!</span>
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      color: C.onSurfaceVariant,
+                      fontSize: '0.75rem'
+                    }}
+                  >
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ fontSize: '0.875rem', color: '#6c3400' }}
+                    >
+                      info
+                    </span>
+                    <span>
+                      Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1
+                      số!
+                    </span>
+                  </div>
+                </div>
+
+                <Form.Item
+                  name="agreement"
+                  valuePropName="checked"
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        value
+                          ? Promise.resolve()
+                          : Promise.reject(
+                              new Error(
+                                'Vui lòng đồng ý với điều khoản sử dụng!'
+                              )
+                            )
+                    }
+                  ]}
+                  style={{ marginBottom: '1rem' }}
+                >
+                  <Checkbox>
+                    <span
+                      style={{
+                        color: C.onSurfaceVariant,
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      Tôi đồng ý với{' '}
+                      <Link
+                        to="/terms-of-service"
+                        style={{
+                          color: C.primary,
+                          fontWeight: 600,
+                          textDecoration: 'none'
+                        }}
+                      >
+                        Điều khoản sử dụng
+                      </Link>{' '}
+                      và{' '}
+                      <Link
+                        to="/privacy-policy"
+                        style={{
+                          color: C.primary,
+                          fontWeight: 600,
+                          textDecoration: 'none'
+                        }}
+                      >
+                        Chính sách bảo mật
+                      </Link>
+                    </span>
+                  </Checkbox>
+                </Form.Item>
+
+                <Form.Item style={{ marginBottom: '1rem' }}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading}
+                    className="sovereign-register-btn-primary"
+                    style={{ width: '100%', height: '3.25rem', color: '#fff' }}
+                  >
+                    {loading ? 'Đang đăng ký...' : 'Đăng ký'}
+                  </Button>
+                </Form.Item>
+
+                <Divider style={{ margin: '0.5rem 0 1rem' }}>
+                  HOẶC ĐĂNG KÝ BẰNG
+                </Divider>
+
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr',
+                    gap: '0.75rem',
+                    marginBottom: '1.5rem'
+                  }}
+                >
+                  {[
+                    {
+                      key: 'Google',
+                      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png'
+                    },
+                    {
+                      key: 'GitHub',
+                      img: 'https://cdn-icons-png.flaticon.com/512/25/25231.png'
+                    },
+                    {
+                      key: 'Facebook',
+                      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/960px-2023_Facebook_icon.svg.png'
+                    }
+                  ].map(({ key, img }) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => handleSocialRegister(key)}
+                      className="sovereign-register-btn-social"
+                      style={{
+                        cursor: 'pointer',
+                        fontFamily: 'Inter, sans-serif'
+                      }}
+                    >
+                      <img
+                        src={img}
+                        alt={key}
+                        style={{
+                          width: '1.25rem',
+                          height: '1.25rem',
+                          objectFit: 'contain'
+                        }}
+                      />
+                      <span>{key}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <p
+                  style={{
+                    textAlign: 'center',
+                    fontSize: '0.875rem',
+                    color: C.onSurfaceVariant,
+                    margin: 0
+                  }}
+                >
+                  Đã có tài khoản?{' '}
+                  <Link
+                    to="/user/login"
+                    style={{
+                      color: C.primary,
+                      fontWeight: 700,
+                      textDecoration: 'none'
+                    }}
+                  >
+                    Đăng nhập ngay
+                  </Link>
+                </p>
+              </Form>
+            </div>
+          </div>
         </section>
       </main>
-
     </div>
   )
 }

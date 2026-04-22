@@ -1,40 +1,18 @@
 import { useEffect, useState } from 'react'
 import { message } from 'antd'
-import { Lock, ExternalLink } from 'lucide-react'
 import { getActiveBankInfo } from '@/services/bankInfo.service'
 
-const ONLINE_METHODS = ['vnpay', 'momo', 'zalopay']
-
-const GATEWAY_INFO = {
-  vnpay: {
-    name: 'VNPay',
-    logo: 'https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png',
-    desc: 'Bạn sẽ được chuyển sang cổng thanh toán VNPay sau khi xác nhận đơn hàng.',
-    supports: ['ATM nội địa', 'Visa / Mastercard', 'Quét mã QR VNPay']
-  },
-  momo: {
-    name: 'Ví MoMo',
-    logo: 'https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png',
-    desc: 'Bạn sẽ được chuyển sang ứng dụng MoMo để xác nhận thanh toán.',
-    supports: ['Ví MoMo', 'Quét mã QR MoMo', 'ATM liên kết MoMo']
-  },
-  zalopay: {
-    name: 'ZaloPay',
-    logo: 'https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png',
-    desc: 'Bạn sẽ được chuyển sang ứng dụng ZaloPay để hoàn tất thanh toán.',
-    supports: ['Ví ZaloPay', 'Quét mã QR ZaloPay', 'ATM liên kết ZaloPay']
-  }
-}
-
-export function PaymentForm({ paymentMethod, setPaymentMethod, paymentMethods }) {
+export function PaymentForm({ paymentMethod, setPaymentMethod, paymentMethods, formData, handleInputChange }) {
   const [bankInfo, setBankInfo] = useState(null)
   const [loadingBank, setLoadingBank] = useState(false)
-  const [copied, setCopied] = useState({ acc: false })
+  const [copied, setCopied] = useState({ acc: false, note: false })
 
   useEffect(() => {
     if (paymentMethod !== 'transfer') return
+
     ;(async () => {
       setLoadingBank(true)
+
       try {
         const res = await getActiveBankInfo()
         setBankInfo(res?.bankInfo || res?.data || null)
@@ -57,116 +35,239 @@ export function PaymentForm({ paymentMethod, setPaymentMethod, paymentMethods })
     }
   }
 
-  const gateway = GATEWAY_INFO[paymentMethod]
+  const inputClassName =
+    'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400'
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 dark:text-gray-100">Phương thức thanh toán</h2>
-
-      <div className="space-y-3">
-        {paymentMethods.map(method => (
-          <label
-            key={method.id}
-            className={`flex items-start gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
-              paymentMethod === method.id
-                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                : 'border-gray-200 hover:border-gray-300 dark:border-gray-600'
-            } dark:bg-gray-800`}
-          >
-            <input
-              type="radio"
-              name="payment"
-              value={method.id}
-              checked={paymentMethod === method.id}
-              onChange={e => setPaymentMethod(e.target.value)}
-              className="w-5 h-5 text-blue-600 mt-1 shrink-0"
-            />
-            <div className="text-blue-600 mt-1 shrink-0">{method.icon}</div>
-            <div className="flex-1">
-              <div className="font-semibold text-gray-800 dark:text-gray-100">{method.name}</div>
-              <div className="text-sm text-gray-500 mt-1 dark:text-gray-400">{method.description}</div>
-            </div>
-            {ONLINE_METHODS.includes(method.id) && (
-              <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium self-center shrink-0">
-                Tự động
-              </span>
-            )}
-          </label>
-        ))}
+    <div className="space-y-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          Phương thức thanh toán
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+          Chọn cách thanh toán phù hợp để hoàn tất đơn hàng.
+        </p>
       </div>
 
-      {/* Bank Transfer */}
+      <div className="space-y-3">
+        {paymentMethods.map(method => {
+          const isSelected = paymentMethod === method.id
+
+          return (
+            <label
+              key={method.id}
+              className={`flex cursor-pointer items-start gap-4 rounded-xl border p-4 transition-colors ${
+                isSelected
+                  ? 'border-gray-900 bg-gray-50 dark:border-gray-200 dark:bg-gray-900/30'
+                  : 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
+              }`}
+            >
+              <input
+                type="radio"
+                name="payment"
+                value={method.id}
+                checked={isSelected}
+                onChange={e => setPaymentMethod(e.target.value)}
+                className="mt-1 h-4 w-4 accent-gray-900 dark:accent-gray-100"
+              />
+
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold text-gray-900 dark:text-gray-100">
+                  {method.name}
+                </div>
+
+                <div className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  {method.description}
+                </div>
+              </div>
+            </label>
+          )
+        })}
+      </div>
+
       {paymentMethod === 'transfer' && (
-        <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl dark:from-gray-700 dark:to-gray-700 space-y-3">
-          <h3 className="font-semibold text-green-800 dark:text-gray-100">💳 Thông tin chuyển khoản</h3>
+        <div className="mt-6 space-y-4 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+              Thông tin chuyển khoản
+            </h3>
+            <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              Vui lòng chuyển khoản theo thông tin bên dưới để shop xác nhận đơn hàng.
+            </p>
+          </div>
+
           {loadingBank ? (
-            <div className="text-green-700 dark:text-gray-300">Đang tải…</div>
+            <div className="text-sm text-gray-600 dark:text-gray-300">
+              Đang tải thông tin ngân hàng...
+            </div>
           ) : bankInfo ? (
             <>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="text-green-700 space-y-2 dark:text-gray-300">
-                  <p><strong>Ngân hàng:</strong> {bankInfo.bankName}</p>
-                  <p className="flex items-center gap-2">
-                    <strong>Số TK:</strong> {bankInfo.accountNumber}
-                    <button type="button" onClick={() => copy(bankInfo.accountNumber, 'acc')}
-                      className="px-2 py-1 text-xs rounded-md border border-green-300 hover:bg-green-100">
-                      {copied.acc ? 'Đã copy' : 'Copy'}
-                    </button>
-                  </p>
-                  <p><strong>Chủ TK:</strong> {bankInfo.accountHolder}</p>
-                  <p><strong>Nội dung:</strong> {bankInfo.noteTemplate}</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-3">
+                  <div>
+                    <p className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Ngân hàng
+                    </p>
+                    <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                      {bankInfo.bankName}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Số tài khoản
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                        {bankInfo.accountNumber}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() => copy(bankInfo.accountNumber, 'acc')}
+                        className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                      >
+                        {copied.acc ? 'Đã copy' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Chủ tài khoản
+                    </p>
+                    <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                      {bankInfo.accountHolder}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="mb-1 text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Nội dung chuyển khoản
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="mb-0 text-sm text-gray-600 dark:text-gray-300">
+                        {bankInfo.noteTemplate}
+                      </p>
+
+                      {bankInfo.noteTemplate && (
+                        <button
+                          type="button"
+                          onClick={() => copy(bankInfo.noteTemplate, 'note')}
+                          className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                        >
+                          {copied.note ? 'Đã copy' : 'Copy'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
+
                 {bankInfo.qrCode && (
-                  <div className="flex flex-col items-center gap-2">
-                    <img src={bankInfo.qrCode} alt="QR chuyển khoản"
-                      className="w-36 h-36 rounded-lg border border-green-200 object-cover" loading="lazy" />
-                    <a href={bankInfo.qrCode} target="_blank" rel="noreferrer" className="text-xs underline text-green-700">
+                  <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+                    <img
+                      src={bankInfo.qrCode}
+                      alt="QR chuyển khoản"
+                      className="h-44 w-44 rounded-lg border border-gray-200 object-cover dark:border-gray-700"
+                      loading="lazy"
+                    />
+
+                    <a
+                      href={bankInfo.qrCode}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                    >
                       Mở ảnh QR
                     </a>
                   </div>
                 )}
               </div>
-              <div className="text-sm text-green-700 bg-green-100 p-3 rounded-lg">
-                Chuyển khoản xong ấn tiếp tục — chúng tôi sẽ liên hệ xác nhận qua số điện thoại.
+
+              <div className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+                <p className="mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  Sau khi chuyển khoản, bạn có thể tiếp tục đặt hàng. Shop sẽ liên hệ qua số điện thoại đã đăng ký để xác nhận thanh toán.
+                </p>
               </div>
             </>
           ) : (
-            <div className="text-green-700 dark:text-gray-300">Chưa có thông tin chuyển khoản.</div>
+            <div className="text-sm text-gray-600 dark:text-gray-300">
+              Chưa có thông tin chuyển khoản.
+            </div>
           )}
         </div>
       )}
 
-      {/* Online payment gateways */}
-      {gateway && (
-        <div className="mt-4 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl dark:from-gray-700 dark:to-gray-700 space-y-4">
-          <div className="flex items-center gap-3">
-            <img src={gateway.logo} alt={gateway.name} className="w-10 h-10 object-contain rounded-lg shadow" />
+      {paymentMethod === 'card' && (
+        <div className="mt-6 space-y-4 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Thông tin thẻ
+          </h3>
+
+          <div className="grid grid-cols-1 gap-4">
             <div>
-              <h3 className="font-bold text-gray-800 dark:text-gray-100 text-base">Thanh toán qua {gateway.name}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">{gateway.desc}</p>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Số thẻ
+              </label>
+              <input
+                type="text"
+                value={formData.cardNumber}
+                onChange={e => handleInputChange('cardNumber', e.target.value)}
+                className={inputClassName}
+                placeholder="1234 5678 9012 3456"
+              />
             </div>
-          </div>
 
-          <div className="flex flex-wrap gap-2">
-            {gateway.supports.map(s => (
-              <span key={s} className="text-xs bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-full shadow-sm">
-                {s}
-              </span>
-            ))}
-          </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Tên trên thẻ
+              </label>
+              <input
+                type="text"
+                value={formData.cardName}
+                onChange={e => handleInputChange('cardName', e.target.value)}
+                className={inputClassName}
+                placeholder="NGUYEN VAN A"
+              />
+            </div>
 
-          <div className="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-sm text-amber-700 dark:text-amber-300">
-            <ExternalLink className="w-4 h-4 mt-0.5 shrink-0" />
-            <span>
-              Sau khi ấn <strong>"Xác nhận đặt hàng"</strong>, bạn sẽ được chuyển đến trang {gateway.name} để hoàn tất thanh toán an toàn.
-            </span>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Ngày hết hạn
+                </label>
+                <input
+                  type="text"
+                  value={formData.expiryDate}
+                  onChange={e => handleInputChange('expiryDate', e.target.value)}
+                  className={inputClassName}
+                  placeholder="MM/YY"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  CVV
+                </label>
+                <input
+                  type="text"
+                  value={formData.cvv}
+                  onChange={e => handleInputChange('cvv', e.target.value)}
+                  className={inputClassName}
+                  placeholder="123"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl dark:bg-gray-800 dark:outline dark:outline-white dark:outline-1 dark:outline-solid">
-        <Lock className="w-5 h-5 text-green-600 dark:text-gray-300" />
-        <span className="text-green-800 font-medium dark:text-gray-100">Thanh toán được bảo mật bằng SSL 256-bit</span>
+      <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+        <p className="mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+          Thanh toán được xử lý qua kết nối bảo mật để bảo vệ thông tin của bạn.
+        </p>
       </div>
     </div>
   )

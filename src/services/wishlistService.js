@@ -1,6 +1,8 @@
 import { get, post } from '@/utils/clientRequest'
 
-export const getWishlist = () => get('wishlist')
+export const getWishlist = ({ page = 1, limit = 12 } = {}) => {
+  return get(`wishlist?page=${page}&limit=${limit}`)
+}
 
 export const addToWishlist = productId => post('wishlist/add', { productId })
 

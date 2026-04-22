@@ -5,7 +5,7 @@ export default function Launcher({ onClick, unread }) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-8 left-6 z-[1000] w-32 h-32 flex items-center justify-center transition-transform active:scale-95 hover:scale-110"
+      className="fixed bottom-4 left-4 z-[1050] flex h-32 w-32 items-center justify-center transition-transform active:scale-95 hover:scale-110 md:bottom-5 md:left-5 lg:bottom-6 lg:left-6"
     >
       <DotLottieReact
         src="https://lottie.host/4f1d90a4-3284-4e6d-91c3-0a57489bf727/xTh9PrgXQy.lottie"

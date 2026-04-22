@@ -13,8 +13,15 @@ const initialValues = {
   status: 'active',
   discountPercentage: 0,
   stock: 0,
-  deliveryEstimateDays: 0
+  deliveryEstimateDays: 0,
+  images: []
 }
+
+const summarizeFile = file => ({
+  name: file?.name,
+  type: file?.type,
+  size: file?.size
+})
 
 const summarizeCreateValues = values => ({
   title: values.title,
@@ -33,13 +40,8 @@ const summarizeCreateValues = values => ({
   timeRange: values.timeRange?.map(item => item?.toISOString?.()) || [],
   descriptionLength: values.description?.length || 0,
   contentLength: values.content?.length || 0,
-  thumbnail: values.thumbnail?.[0]
-    ? {
-        name: values.thumbnail[0].name,
-        type: values.thumbnail[0].type,
-        size: values.thumbnail[0].size
-      }
-    : null
+  thumbnail: values.thumbnail?.[0]?.originFileObj ? summarizeFile(values.thumbnail[0].originFileObj) : null,
+  images: values.images?.map(item => summarizeFile(item.originFileObj)).filter(Boolean) || []
 })
 
 const logFormDataDebug = (values, formData) => {
@@ -67,19 +69,39 @@ const logFormDataDebug = (values, formData) => {
   console.groupEnd()
 }
 
-const CreateProductPage = () => {const [form] = Form.useForm()
+const getFileListFromEvent = e => {
+  if (Array.isArray(e)) return e
+  return e?.fileList || []
+}
+
+const beforeUploadImage = file => {
+  const isImage = file.type.startsWith('image/')
+
+  if (!isImage) {
+    message.error('Chỉ được upload file ảnh!')
+    return Upload.LIST_IGNORE
+  }
+
+  return false
+}
+
+const CreateProductPage = () => {
+  const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
   const [treeData, setTreeData] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchTreeData = async () => {
       try {
         const response = await getAdminProductCategoryTree()
+
         if (response) {
           console.debug('[AdminProductCreate] Category tree loaded', {
             rootItems: response.length
           })
+
           setTreeData(response)
         }
       } catch (error) {
@@ -87,7 +109,8 @@ const CreateProductPage = () => {const [form] = Form.useForm()
           error: error?.message || String(error),
           response: error?.response
         })
-        message.error('❌ Failed to load category tree data')
+
+        message.error('Không thể tải danh mục sản phẩm')
       }
     }
 
@@ -97,22 +120,34 @@ const CreateProductPage = () => {const [form] = Form.useForm()
   const handleSubmit = async values => {
     console.group('🐛 [CreateProduct] handleSubmit')
     console.log('📋 Raw form values:', JSON.parse(JSON.stringify(values)))
+
     setLoading(true)
 
     try {
       const formData = new FormData()
-      const file = values.thumbnail?.[0]?.originFileObj
-      if (file) {
-        formData.append('thumbnail', file)
+
+      const thumbnailFile = values.thumbnail?.[0]?.originFileObj
+      if (thumbnailFile) {
+        formData.append('thumbnail', thumbnailFile)
       }
 
+      const imageFiles = values.images || []
+      imageFiles.forEach(fileItem => {
+        const file = fileItem.originFileObj
+
+        if (file) {
+          formData.append('images', file)
+        }
+      })
+
       if (values.features && values.features.length > 0) {
-        values.features.forEach(f => formData.append('features', f))
+        values.features.forEach(feature => {
+          formData.append('features', feature)
+        })
       }
 
       formData.append('title', values.title)
-      const titleNoAccent = removeVietnameseTones(values.title)
-      formData.append('titleNoAccent', titleNoAccent)
+      formData.append('titleNoAccent', removeVietnameseTones(values.title))
       formData.append('productCategory', values.productCategory)
       formData.append('price', values.price)
       formData.append('costPrice', values.costPrice)
@@ -120,14 +155,15 @@ const CreateProductPage = () => {const [form] = Form.useForm()
       formData.append('stock', values.stock || 0)
       formData.append('description', values.description || '')
       formData.append('status', values.status || 'active')
-      if (values.position !== undefined && values.position !== null && values.position !== '') {
-        formData.append('position', values.position)
-      }
       formData.append('slug', values.slug || '')
       formData.append('content', values.content || '')
       formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
       formData.append('isFeatured', values.isFeatured ? 'true' : 'false')
       formData.append('deliveryEstimateDays', values.deliveryEstimateDays || 0)
+
+      if (values.position !== undefined && values.position !== null && values.position !== '') {
+        formData.append('position', values.position)
+      }
 
       const [timeStart, timeFinish] = values.timeRange || []
       if (timeStart) formData.append('timeStart', timeStart.toISOString())
@@ -139,10 +175,11 @@ const CreateProductPage = () => {const [form] = Form.useForm()
 
       console.info('[AdminProductCreate] Create success', response)
 
-      message.success('🎉 Product created successfully!')
+      message.success('Tạo sản phẩm thành công!')
       navigate('/admin/products')
     } catch (err) {
       const response = err?.response || {}
+
       console.error('[AdminProductCreate] Create failed', {
         message: err?.message || String(err),
         status: err?.status,
@@ -151,12 +188,15 @@ const CreateProductPage = () => {const [form] = Form.useForm()
       })
 
       if (response?.error === 'Slug already exists') {
-        message.error(`❌ Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: ${response.suggestedSlug || ''}`)
-        if (response.suggestedSlug) form.setFieldsValue({ slug: response.suggestedSlug })
+        message.error(`Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: ${response.suggestedSlug || ''}`)
+
+        if (response.suggestedSlug) {
+          form.setFieldsValue({ slug: response.suggestedSlug })
+        }
       } else if (response?.details?.length) {
-        message.error(`❌ ${response.details.join(' | ')}`)
+        message.error(response.details.join(' | '))
       } else {
-        message.error(`❌ ${response?.error || response?.message || 'Failed to create product!'}`)
+        message.error(response?.error || response?.message || 'Tạo sản phẩm thất bại!')
       }
     } finally {
       setLoading(false)
@@ -166,183 +206,213 @@ const CreateProductPage = () => {const [form] = Form.useForm()
 
   return (
     <Form form={form} layout="vertical" initialValues={initialValues} onFinish={handleSubmit}>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item name="title" label={<span className="dark:text-gray-300">Product Name</span>} rules={[{ required: true }]}>
-            <Input
-              className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-              placeholder="Nhập tên sản phẩm"
-            />
-          </Form.Item>
-          <Form.Item name="productCategory" label={<span className="dark:text-gray-300">Category</span>} rules={[{ required: true }]}>
-            <TreeSelect
-              style={{ width: '100%' }}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              treeData={treeData}
-              placeholder="Chọn danh mục sản phẩm"
-              treeDefaultExpandAll
-              allowClear
-              showSearch
-              filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
-            />
-          </Form.Item>
-          <Form.Item name="price" label={<span className="dark:text-gray-300">Price (VNĐ)</span>} rules={[{ required: true }]}>
-            <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
-          </Form.Item>
-          <Form.Item
-            name="costPrice"
-            label={<span className="dark:text-gray-300">Cost Price (VNĐ)</span>}
-            rules={[{ required: true, message: 'Vui lòng nhập giá gốc (costPrice)!' }]}
-          >
-            <InputNumber placeholder="Nhập giá nhập hàng" style={{ width: '100%' }} min={0} />
-          </Form.Item>
-          <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount Percentage (%)</span>}>
-            <InputNumber style={{ width: '100%' }} min={0} max={100} />
-          </Form.Item>
-          <Form.Item name="stock" label={<span className="dark:text-gray-300">Stock</span>}>
-            <InputNumber style={{ width: '100%' }} min={0} />
-          </Form.Item>
-          <Form.Item
-            name="deliveryEstimateDays"
-            label={<span className="dark:text-gray-300">Dự kiến giao sau (ngày)</span>}
-            rules={[{ required: true, message: 'Vui lòng chọn số ngày giao dự kiến!' }]}
-          >
-            <Select style={{ width: '100%' }}>
-              {[0, 1, 2, 3, 4, 5, 6, 7].map(day => (
-                <Select.Option value={day} key={day}>
-                  {day} ngày
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
-            <Select
-              options={[
-                { label: 'Active', value: 'active' },
-                { label: 'Inactive', value: 'inactive' }
-              ]}
-            />
-          </Form.Item>
-          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
-            <InputNumber placeholder="Nhập vị trí hoặc bỏ trống để tự động tạo" style={{ width: '100%' }} min={0} />
-          </Form.Item>
-          <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
-            <Input
-              className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-              placeholder="Tự động tạo từ Product Name hoặc bạn có thể sửa"
-            />
-          </Form.Item>
-          <Form.Item name="timeRange" label={<span className="dark:text-gray-300">Promotion Time Range</span>}>
-            <RangePicker
-              className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
-              style={{ width: '100%' }}
-              format="YYYY-MM-DD"
-              showTime
-            />
-          </Form.Item>
-          <Form.Item label={<span className="dark:text-gray-300">Options</span>}>
-            <Row gutter={16}>
-              <Col>
-                <Form.Item name="isTopDeal" valuePropName="checked" noStyle style={{ marginBottom: 0, paddingTop: 2 }}>
-                  <Checkbox className="dark:text-gray-300 !p-[4px_2px]">Top Deal</Checkbox>
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item name="isFeatured" valuePropName="checked" noStyle style={{ marginBottom: 0, paddingTop: 2 }}>
-                  <Checkbox className="dark:text-gray-300 !p-[4px_2px]">Sản phẩm nổi bật</Checkbox>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form.Item>
-        </Col>
-      </Row>
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+        <Row gutter={16}>
+          <Col xs={24} lg={12}>
+            <Form.Item name="title" label={<span className="dark:text-gray-300">Tên sản phẩm</span>} rules={[{ required: true }]}>
+              <Input
+                className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                placeholder="Nhập tên sản phẩm"
+              />
+            </Form.Item>
 
-      <Row gutter={16}>
-        <Col span={24}>
-          <Form.Item label={<span className="dark:text-gray-300">Tính năng nổi bật</span>}>
-            <Form.List name="features">
-              {(fields, { add, remove }) => (
-                <div>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <div key={key} className="flex items-center mb-2">
-                      <Form.Item
-                        {...restField}
-                        name={name}
-                        rules={[{ required: true, message: 'Nhập tính năng!' }]}
-                        style={{ flex: 1, marginBottom: 0 }}
-                      >
-                        <Input
-                          placeholder={`Tính năng #${name + 1}`}
-                          className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                        />
-                      </Form.Item>
-                      <Button danger type="text" onClick={() => remove(name)}>
-                        Xóa
-                      </Button>
-                    </div>
-                  ))}
-                  <Button
-                    type="dashed"
-                    className="dark:bg-gray-800 dark:text-gray-100 dark:hover:!bg-gray-700"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    Thêm tính năng
-                  </Button>
-                </div>
-              )}
-            </Form.List>
-          </Form.Item>
-        </Col>
+            <Form.Item name="productCategory" label={<span className="dark:text-gray-300">Danh mục</span>} rules={[{ required: true }]}>
+              <TreeSelect
+                style={{ width: '100%' }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={treeData}
+                placeholder="Chọn danh mục sản phẩm"
+                treeDefaultExpandAll
+                allowClear
+                showSearch
+                filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
+              />
+            </Form.Item>
 
-        <Col span={24}>
-          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
-            <TiptapEditor />
-          </Form.Item>
-        </Col>
-        <Col span={24}>
-          <Form.Item name="content" label={<span className="dark:text-gray-300">Content</span>}>
-            <TiptapEditor />
-          </Form.Item>
-        </Col>
-        <Col span={24}>
-          <Form.Item
-            name="thumbnail"
-            label={<span className="dark:text-gray-300">Thumbnail</span>}
-            valuePropName="fileList"
-            getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-            rules={[{ required: true, message: 'Please upload an image!' }]}
-          >
-            <Upload
-              listType="picture-card"
-              maxCount={1}
-              accept="image/*"
-              beforeUpload={file => {
-                const isImage = file.type.startsWith('image/')
-                if (!isImage) message.error('You can only upload image files!')
-                return isImage ? false : Upload.LIST_IGNORE
-              }}
+            <Form.Item name="price" label={<span className="dark:text-gray-300">Giá bán (VNĐ)</span>} rules={[{ required: true }]}>
+              <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
+            </Form.Item>
+
+            <Form.Item
+              name="costPrice"
+              label={<span className="dark:text-gray-300">Giá nhập (VNĐ)</span>}
+              rules={[{ required: true, message: 'Vui lòng nhập giá nhập hàng!' }]}
             >
-              <div>
-                <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Image</div>
-              </div>
-            </Upload>
-          </Form.Item>
-        </Col>
-      </Row>
+              <InputNumber placeholder="Nhập giá nhập hàng" style={{ width: '100%' }} min={0} />
+            </Form.Item>
 
-      <Form.Item style={{ textAlign: 'right' }}>
-        <Button onClick={() => navigate('/admin/products')} disabled={loading} style={{ marginRight: 8 }}>
-          Cancel
-        </Button>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 120 }}>
-          {loading ? 'Creating...' : 'Create Product'}
-        </Button>
-      </Form.Item>
+            <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Giảm giá (%)</span>}>
+              <InputNumber style={{ width: '100%' }} min={0} max={100} />
+            </Form.Item>
+
+            <Form.Item name="stock" label={<span className="dark:text-gray-300">Tồn kho</span>}>
+              <InputNumber style={{ width: '100%' }} min={0} />
+            </Form.Item>
+
+            <Form.Item
+              name="deliveryEstimateDays"
+              label={<span className="dark:text-gray-300">Dự kiến giao sau</span>}
+              rules={[{ required: true, message: 'Vui lòng chọn số ngày giao dự kiến!' }]}
+            >
+              <Select style={{ width: '100%' }}>
+                {[0, 1, 2, 3, 4, 5, 6, 7].map(day => (
+                  <Select.Option value={day} key={day}>
+                    {day} ngày
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col xs={24} lg={12}>
+            <Form.Item name="status" label={<span className="dark:text-gray-300">Trạng thái</span>}>
+              <Select
+                options={[
+                  { label: 'Active', value: 'active' },
+                  { label: 'Inactive', value: 'inactive' }
+                ]}
+              />
+            </Form.Item>
+
+            <Form.Item name="position" label={<span className="dark:text-gray-300">Vị trí</span>}>
+              <InputNumber placeholder="Nhập vị trí hoặc bỏ trống để tự động tạo" style={{ width: '100%' }} min={0} />
+            </Form.Item>
+
+            <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
+              <Input
+                className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                placeholder="Tự động tạo từ tên sản phẩm hoặc tự nhập"
+              />
+            </Form.Item>
+
+            <Form.Item name="timeRange" label={<span className="dark:text-gray-300">Thời gian khuyến mãi</span>}>
+              <RangePicker
+                className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                style={{ width: '100%' }}
+                format="YYYY-MM-DD"
+                showTime
+              />
+            </Form.Item>
+
+            <Form.Item label={<span className="dark:text-gray-300">Tuỳ chọn</span>}>
+              <Row gutter={16}>
+                <Col>
+                  <Form.Item name="isTopDeal" valuePropName="checked" noStyle>
+                    <Checkbox className="dark:text-gray-300">Top Deal</Checkbox>
+                  </Form.Item>
+                </Col>
+
+                <Col>
+                  <Form.Item name="isFeatured" valuePropName="checked" noStyle>
+                    <Checkbox className="dark:text-gray-300">Sản phẩm nổi bật</Checkbox>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form.Item>
+
+            <Form.Item
+              name="thumbnail"
+              label={<span className="dark:text-gray-300">Ảnh đại diện</span>}
+              valuePropName="fileList"
+              getValueFromEvent={getFileListFromEvent}
+              rules={[{ required: true, message: 'Vui lòng upload ảnh đại diện!' }]}
+              extra={<span className="text-xs text-gray-400">Ảnh chính hiển thị ở card sản phẩm.</span>}
+            >
+              <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeUploadImage}>
+                <div>
+                  <PlusOutlined />
+                  <div className="mt-2 dark:text-gray-300">Thêm ảnh</div>
+                </div>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item
+              name="images"
+              label={<span className="dark:text-gray-300">Ảnh mẫu sản phẩm</span>}
+              valuePropName="fileList"
+              getValueFromEvent={getFileListFromEvent}
+              extra={<span className="text-xs text-gray-400">Có thể upload nhiều ảnh để hiển thị trong trang chi tiết.</span>}
+            >
+              <Upload
+                listType="picture-card"
+                multiple
+                maxCount={12}
+                accept="image/*"
+                beforeUpload={beforeUploadImage}
+              >
+                <div>
+                  <PlusOutlined />
+                  <div className="mt-2 dark:text-gray-300">Thêm ảnh</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={24}>
+            <Form.Item label={<span className="dark:text-gray-300">Tính năng nổi bật</span>}>
+              <Form.List name="features">
+                {(fields, { add, remove }) => (
+                  <div>
+                    {fields.map(({ key, name, ...restField }) => (
+                      <div key={key} className="mb-2 flex items-center gap-2">
+                        <Form.Item
+                          {...restField}
+                          name={name}
+                          rules={[{ required: true, message: 'Nhập tính năng!' }]}
+                          style={{ flex: 1, marginBottom: 0 }}
+                        >
+                          <Input
+                            placeholder={`Tính năng #${name + 1}`}
+                            className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                          />
+                        </Form.Item>
+
+                        <Button danger type="text" onClick={() => remove(name)}>
+                          Xoá
+                        </Button>
+                      </div>
+                    ))}
+
+                    <Button
+                      type="dashed"
+                      className="dark:bg-gray-900 dark:text-gray-100 dark:hover:!bg-gray-800"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      Thêm tính năng
+                    </Button>
+                  </div>
+                )}
+              </Form.List>
+            </Form.Item>
+          </Col>
+
+          <Col span={24}>
+            <Form.Item name="description" label={<span className="dark:text-gray-300">Mô tả ngắn</span>}>
+              <TiptapEditor />
+            </Form.Item>
+          </Col>
+
+          <Col span={24}>
+            <Form.Item name="content" label={<span className="dark:text-gray-300">Nội dung chi tiết</span>}>
+              <TiptapEditor />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+          <Button onClick={() => navigate('/admin/products')} disabled={loading} style={{ marginRight: 8 }}>
+            Huỷ
+          </Button>
+
+          <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 130 }}>
+            {loading ? 'Đang tạo...' : 'Tạo sản phẩm'}
+          </Button>
+        </Form.Item>
+      </div>
     </Form>
   )
 }

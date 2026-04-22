@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { getSocket } from '@/services/socketService'
+import { hasChatImages, isSameImagePayload, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
 
 export function useChatSocket({
   sessionId,
@@ -25,9 +26,18 @@ export function useChatSocket({
       setMessages(prev => {
         if (prev.some(m => m._id?.toString() === msg._id?.toString())) return prev
         if (msg.sender === 'customer' || msg.sender === 'guest') {
-          const optimisticIndex = prev.findIndex(m => m.isOptimistic && m.message === msg.message)
+          const optimisticIndex = prev.findIndex(m =>
+            m.isOptimistic &&
+            (
+              (msg.clientTempId && m.clientTempId === msg.clientTempId) ||
+              (msg.type === 'image' && m.type === 'image' && isSameImagePayload(m, msg)) ||
+              (msg.type === 'image' && m.type === 'image' && isSameOptimisticImageMessage(m, msg)) ||
+              (!hasChatImages(msg) && m.message === msg.message)
+            )
+          )
           if (optimisticIndex !== -1) {
             const newMsgs = [...prev]
+            revokeChatImageUrls(newMsgs[optimisticIndex])
             newMsgs[optimisticIndex] = msg
             return newMsgs
           }
@@ -75,13 +85,28 @@ export function useChatSocket({
   }, [sessionId, open, setMessages, setUnread, setIsBotTyping, setConversation, setIsTypingAgent, setIsResolved])
 
   const requestHumanAgent = () => {
-    getSocket().emit('chat:request_agent', { sessionId, reason: 'Khách yêu cầu chuyển nhân viên' })
+    setConversation(prev => ({
+      ...(prev || { sessionId }),
+      botStats: {
+        ...(prev?.botStats || {}),
+        escalated: true
+      }
+    }))
+    getSocket().emit('chat:request_agent', { sessionId, reason: 'Khach yeu cau chuyen nhan vien' })
   }
 
   const switchToBot = () => {
+    setConversation(prev => ({
+      ...(prev || { sessionId }),
+      status: 'unassigned',
+      assignedAgent: null,
+      botStats: {
+        ...(prev?.botStats || {}),
+        escalated: false
+      }
+    }))
     getSocket().emit('chat:switch_to_bot', { sessionId })
   }
 
   return { requestHumanAgent, switchToBot }
 }
-
