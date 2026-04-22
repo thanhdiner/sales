@@ -270,7 +270,7 @@ function ProductsDetail() {
           <ReviewSection productId={productId} />
         </div>
 
-        <ExploreMoreSection productId={productId} />
+        <ExploreMoreSection productId={productId} product={product} />
       </div>
     </div>
   )

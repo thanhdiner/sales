@@ -1,10 +1,62 @@
 import { useEffect, useState } from 'react'
-import ProductCard from '@/components/Products/ProductList/ProductCard'
-import { getExploreMoreProducts } from '@/services/productService'
+import '@/components/DailySuggestionsSession/DailySuggestionsSession.scss'
+import HeroBannerCard from '@/components/DailySuggestionsSession/HeroBannerCard'
+import ProductItem from '@/components/Products/ProductItem'
+import { getExploreMoreProducts, getRecommendations } from '@/services/productService'
+import './ExploreMoreSection.scss'
 
-function ExploreMoreSection({ productId }) {
+function normalizeProductsResponse(data) {
+  if (Array.isArray(data)) {
+    return data
+  }
+
+  const candidates = [
+    data?.products,
+    data?.data,
+    data?.data?.products,
+    data?.items,
+    data?.data?.items
+  ]
+
+  return candidates.find(Array.isArray) || []
+}
+
+function getPlainText(value = '') {
+  return String(value)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+async function getFallbackProducts(productId) {
+  const fallbackData = await getRecommendations({ tab: 'for-you', limit: 8 })
+
+  return normalizeProductsResponse(fallbackData)
+    .filter(item => item && String(item._id || item.id || '') !== String(productId))
+    .slice(0, 8)
+}
+
+function getHeroBannerConfig(product) {
+  const categoryTitle = product?.productCategory?.title || 'Khám phá'
+  const categorySlug = product?.productCategory?.slug
+  const subtitle =
+    getPlainText(product?.description).slice(0, 72) ||
+    `Thêm nhiều lựa chọn nổi bật trong danh mục ${categoryTitle.toLowerCase()}.`
+
+  return {
+    leftText: 'SMARTMALL',
+    rightText: categoryTitle.toUpperCase(),
+    title: product?.title || 'Khám phá thêm',
+    subtitle,
+    imageUrl: product?.thumbnail,
+    link: categorySlug ? `/product-categories/${categorySlug}` : '/products'
+  }
+}
+
+function ExploreMoreSection({ productId, product }) {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
+  const heroBannerConfig = getHeroBannerConfig(product)
 
   useEffect(() => {
     if (!productId) {
@@ -20,13 +72,30 @@ function ExploreMoreSection({ productId }) {
 
       try {
         const data = await getExploreMoreProducts(productId, { limit: 8 })
+        let nextProducts = normalizeProductsResponse(data)
+
+        if (nextProducts.length === 0) {
+          nextProducts = await getFallbackProducts(productId)
+        }
+
+        const filteredProducts = nextProducts
+          .filter(item => item && String(item._id || item.id || '') !== String(productId))
+          .slice(0, 8)
 
         if (!isCancelled) {
-          setProducts(Array.isArray(data?.products) ? data.products : [])
+          setProducts(filteredProducts)
         }
       } catch {
-        if (!isCancelled) {
-          setProducts([])
+        try {
+          const fallbackProducts = await getFallbackProducts(productId)
+
+          if (!isCancelled) {
+            setProducts(fallbackProducts)
+          }
+        } catch {
+          if (!isCancelled) {
+            setProducts([])
+          }
         }
       } finally {
         if (!isCancelled) {
@@ -43,45 +112,55 @@ function ExploreMoreSection({ productId }) {
   }, [productId])
 
   if (!productId) return null
-  if (!loading && products.length === 0) return null
 
   return (
-    <section className="mt-12 space-y-5">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          Khám phá thêm
-        </h2>
+    <section className="DailySuggestions-root ExploreMoreSection-root">
+      <div className="Suggestions-header-block">
+        <div className="Suggestions-title">Khám phá thêm</div>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Sản phẩm tương tự và nổi bật dành cho bạn
-        </p>
+        <div className="ExploreMoreSection-highlights">
+          <div className="ExploreMoreSection-chip ExploreMoreSection-chip--primary">Cùng danh mục</div>
+          <div className="ExploreMoreSection-chip">Gợi ý dành cho bạn</div>
+          <div className="ExploreMoreSection-chip">
+            {loading ? 'Đang tải sản phẩm' : `${products.length} sản phẩm nổi bật`}
+          </div>
+        </div>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-3 animate-pulse dark:border-gray-700 dark:bg-gray-900"
-            >
-              <div className="aspect-square rounded-xl bg-gray-200 dark:bg-gray-800" />
-              <div className="mt-3 space-y-2">
-                <div className="h-4 rounded bg-gray-200 dark:bg-gray-800" />
-                <div className="h-4 w-2/3 rounded bg-gray-200 dark:bg-gray-800" />
+      <div className="Suggestions-grid">
+        <HeroBannerCard config={heroBannerConfig} />
+
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="ExploreMoreSection-skeleton">
+              <div className="ExploreMoreSection-skeleton__image" />
+
+              <div className="ExploreMoreSection-skeleton__body">
+                <div className="ExploreMoreSection-skeleton__line" />
+                <div className="ExploreMoreSection-skeleton__line ExploreMoreSection-skeleton__line--short" />
               </div>
-              <div className="mt-4 h-5 w-1/2 rounded bg-gray-200 dark:bg-gray-800" />
+
+              <div className="ExploreMoreSection-skeleton__line ExploreMoreSection-skeleton__line--price" />
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-          {products.map((item, index) => (
+          ))
+        ) : products.length > 0 ? (
+          products.map((item, index) => (
             <div key={item._id || item.id || `explore-more-${index}`}>
-              <ProductCard product={item} />
+              <ProductItem product={item} />
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <div className="ExploreMoreSection-empty">
+            <div className="ExploreMoreSection-empty__title">
+              Chưa có thêm sản phẩm gợi ý ở thời điểm này.
+            </div>
+
+            <p className="ExploreMoreSection-empty__description">
+              Bạn có thể bấm vào thẻ bên trái để khám phá thêm sản phẩm cùng danh mục.
+            </p>
+          </div>
+        )}
+      </div>
     </section>
   )
 }
