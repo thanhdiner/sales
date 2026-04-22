@@ -155,6 +155,18 @@ function ProductCategoryPage() {
           </div>
         </header>
 
+        {category.thumbnail && (
+          <section className="mb-6 rounded-[28px] border border-gray-200 bg-[#f4f4f7] p-3 shadow-sm dark:border-gray-700 dark:bg-gray-800/70 md:p-4">
+            <div className="overflow-hidden rounded-[22px] bg-white dark:bg-gray-900">
+              <img
+                src={category.thumbnail}
+                alt={`Banner danh mục ${category.title}`}
+                className="h-[180px] w-full object-cover md:h-[240px] lg:h-[300px]"
+              />
+            </div>
+          </section>
+        )}
+
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-800 md:p-4">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <input

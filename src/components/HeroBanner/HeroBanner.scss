@@ -1,6 +1,6 @@
 .swiper-pagination-custom {
   position: absolute;
-  bottom: 20px;
+  bottom: 12px;
   left: 0;
   width: 100%;
   display: flex;
@@ -10,31 +10,37 @@
 }
 
 .swiper-pagination-custom .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  margin: 0 6px !important;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  width: 26px;
+  height: 4px;
+  margin: 0 4px !important;
+  border-radius: 999px;
+  background: #d4d9e3;
   opacity: 1;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .swiper-pagination-custom .swiper-pagination-bullet-active {
-  background: white;
-  transform: scale(1.2);
+  width: 50px;
+  background: #2563eb;
 }
 
 .swiper-pagination-custom .swiper-pagination-bullet:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: #b8c0cf;
 }
 
 .HeroBanner-root {
   position: relative;
   width: 100%;
+  padding: 14px 14px 34px;
+  border: 1px solid #e8eaef;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
 
   .swiper {
-    padding: 2px 0;
+    padding: 0;
   }
 
   .swiper-slide {
@@ -50,6 +56,24 @@
   .swiper-button-next {
     right: 16px !important;
   }
+}
+
+.dark .HeroBanner-root {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.dark .swiper-pagination-custom .swiper-pagination-bullet {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+.dark .swiper-pagination-custom .swiper-pagination-bullet-active {
+  background: #60a5fa;
+}
+
+.dark .swiper-pagination-custom .swiper-pagination-bullet:hover {
+  background: rgba(148, 163, 184, 0.7);
 }
 
 .HeroBanner-banner {
@@ -203,6 +227,11 @@
 }
 
 @media (max-width: 767.98px) {
+  .HeroBanner-root {
+    padding: 12px 12px 28px;
+    border-radius: 22px;
+  }
+
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
@@ -235,6 +264,23 @@
 }
 
 @media (max-width: 575.98px) {
+  .HeroBanner-root {
+    padding: 10px 10px 24px;
+    border-radius: 18px;
+  }
+
+  .swiper-pagination-custom {
+    bottom: 10px;
+  }
+
+  .swiper-pagination-custom .swiper-pagination-bullet {
+    width: 18px;
+  }
+
+  .swiper-pagination-custom .swiper-pagination-bullet-active {
+    width: 34px;
+  }
+
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
