@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Table, Button, Modal, Form, Input, Select, message, Popconfirm, Typography, Avatar, Upload } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { getAdminRoles } from '@/services/rolesService'
+import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import SEO from '@/components/SEO'
 
 const {
@@ -25,6 +26,7 @@ function AdminAccountsPage() {const [data, setData] = useState([])
   const [avatarToDelete, setAvatarToDelete] = useState('')
   const [isRemoveAvatar, setIsRemoveAvatar] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
+  const { bodyStyle, contentRef } = useModalBodyScroll(modalOpen)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -254,110 +256,114 @@ function AdminAccountsPage() {const [data, setData] = useState([])
         okButtonProps={{ disabled: submitLoading }}
         cancelButtonProps={{ disabled: submitLoading }}
         style={{ maxWidth: '95%' }}
+        centered
+        styles={{ body: bodyStyle }}
       >
-        <Form form={form} layout="vertical" initialValues={{ status: 'active' }}>
-          <Form.Item
-            name="username"
-            label={<span className="dark:text-gray-300">Username</span>}
-            rules={[
-              { required: true, min: 4 },
-              { pattern: /^[a-zA-Z0-9_]+$/, message: 'Chỉ nhập chữ cái, số, hoặc dấu _; không dùng ký tự đặc biệt!' }
-            ]}
-          >
-            <Input
-              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-              autoFocus
-              disabled={!!editing}
-              placeholder="Nhập tên người dùng"
-            />
-          </Form.Item>
-          <Form.Item name="email" label={<span className="dark:text-gray-300">Email</span>} rules={[{ required: true, type: 'email' }]}>
-            <Input
-              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-              placeholder="Nhập email"
-            />
-          </Form.Item>
-          {editing && (
+        <div ref={contentRef}>
+          <Form form={form} layout="vertical" initialValues={{ status: 'active' }}>
             <Form.Item
-              name="newPassword"
-              label={<span className="dark:text-gray-300">New Password</span>}
-              rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+              name="username"
+              label={<span className="dark:text-gray-300">Username</span>}
+              rules={[
+                { required: true, min: 4 },
+                { pattern: /^[a-zA-Z0-9_]+$/, message: 'Chỉ nhập chữ cái, số, hoặc dấu _; không dùng ký tự đặc biệt!' }
+              ]}
             >
-              <Input.Password
+              <Input
                 className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-                placeholder="Nhập mật khẩu mới (không bắt buộc)"
-                autoComplete="new-password"
+                autoFocus
+                disabled={!!editing}
+                placeholder="Nhập tên người dùng"
               />
             </Form.Item>
-          )}
-          {!editing && (
-            <Form.Item
-              name="password"
-              label={<span className="dark:text-gray-300">Password</span>}
-              rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
-            >
-              <Input.Password
+            <Form.Item name="email" label={<span className="dark:text-gray-300">Email</span>} rules={[{ required: true, type: 'email' }]}>
+              <Input
                 className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-                placeholder="Nhập mật khẩu"
+                placeholder="Nhập email"
               />
             </Form.Item>
-          )}
-          <Form.Item
-            name="fullName"
-            label={<span className="dark:text-gray-300">Full Name</span>}
-            rules={[{ required: true, message: 'Tên đầy đủ là bắt buộc!' }]}
-          >
-            <Input
-              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-              placeholder="Nhập tên đầy đủ"
-            />
-          </Form.Item>
-          <Form.Item name="role_id" label={<span className="dark:text-gray-300">Role</span>} rules={[{ required: true }]}>
-            <Select getPopupContainer={trigger => trigger.parentElement}>
-              {roles.map(role => (
-                <Option key={role._id} value={role._id}>
-                  {role.label || role.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>} rules={[{ required: true }]}>
-            <Select getPopupContainer={trigger => trigger.parentElement}>
-              <Option value="active">Active</Option>
-              <Option value="inactive">Inactive</Option>
-              <Option value="banned">Banned</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="avatarUrl"
-            label={<span className="dark:text-gray-300">Avatar Image</span>}
-            valuePropName="fileList"
-            getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-          >
-            <Upload
-              listType="picture-card"
-              maxCount={1}
-              accept="image/*"
-              beforeUpload={file => {
-                setIsRemoveAvatar(false)
-                const isImage = file.type.startsWith('image/')
-                if (!isImage) message.error('You can only upload avatar image files!')
-                return isImage ? false : Upload.LIST_IGNORE
-              }}
-              onRemove={file => {
-                setAvatarToDelete(oldAvatar)
-                setOldAvatar('')
-                setIsRemoveAvatar(true)
-                return true
-              }}
+            {editing && (
+              <Form.Item
+                name="newPassword"
+                label={<span className="dark:text-gray-300">New Password</span>}
+                rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+              >
+                <Input.Password
+                  className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                  placeholder="Nhập mật khẩu mới (không bắt buộc)"
+                  autoComplete="new-password"
+                />
+              </Form.Item>
+            )}
+            {!editing && (
+              <Form.Item
+                name="password"
+                label={<span className="dark:text-gray-300">Password</span>}
+                rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+              >
+                <Input.Password
+                  className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                  placeholder="Nhập mật khẩu"
+                />
+              </Form.Item>
+            )}
+            <Form.Item
+              name="fullName"
+              label={<span className="dark:text-gray-300">Full Name</span>}
+              rules={[{ required: true, message: 'Tên đầy đủ là bắt buộc!' }]}
             >
-              <div>
-                <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Avatar</div>
-              </div>
-            </Upload>
-          </Form.Item>
-        </Form>
+              <Input
+                className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                placeholder="Nhập tên đầy đủ"
+              />
+            </Form.Item>
+            <Form.Item name="role_id" label={<span className="dark:text-gray-300">Role</span>} rules={[{ required: true }]}>
+              <Select getPopupContainer={trigger => trigger.parentElement}>
+                {roles.map(role => (
+                  <Option key={role._id} value={role._id}>
+                    {role.label || role.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>} rules={[{ required: true }]}>
+              <Select getPopupContainer={trigger => trigger.parentElement}>
+                <Option value="active">Active</Option>
+                <Option value="inactive">Inactive</Option>
+                <Option value="banned">Banned</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="avatarUrl"
+              label={<span className="dark:text-gray-300">Avatar Image</span>}
+              valuePropName="fileList"
+              getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
+            >
+              <Upload
+                listType="picture-card"
+                maxCount={1}
+                accept="image/*"
+                beforeUpload={file => {
+                  setIsRemoveAvatar(false)
+                  const isImage = file.type.startsWith('image/')
+                  if (!isImage) message.error('You can only upload avatar image files!')
+                  return isImage ? false : Upload.LIST_IGNORE
+                }}
+                onRemove={file => {
+                  setAvatarToDelete(oldAvatar)
+                  setOldAvatar('')
+                  setIsRemoveAvatar(true)
+                  return true
+                }}
+              >
+                <div>
+                  <PlusOutlined />
+                  <div className="mt-2 dark:text-gray-300">Add Avatar</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Form>
+        </div>
       </Modal>
     </>
   )

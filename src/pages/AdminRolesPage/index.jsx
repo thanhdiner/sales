@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { getAdminPermissions } from '@/services/permissionService'
 import { createAdminRole, deleteAdminRole, getAdminRoles, toggleStatusAdminRole, updateAdminRoleById } from '@/services/rolesService'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
+import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import SEO from '@/components/SEO'
 
 const { Title } = Typography
@@ -14,6 +15,7 @@ export default function AdminRolesPage() {const [roles, setRoles] = useState([]
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
   const [updatingId, setUpdatingId] = useState(null)
+  const { bodyStyle, contentRef } = useModalBodyScroll(modal.visible)
 
   const hasPermissions = useAdminPermissions()
 
@@ -222,43 +224,50 @@ export default function AdminRolesPage() {const [roles, setRoles] = useState([]
           destroyOnClose
           confirmLoading={loading}
           className="custom-modal"
+          centered
+          styles={{ body: bodyStyle }}
         >
-          <Form
-            form={form}
-            layout="vertical"
-            autoComplete="off"
-            initialValues={{ label: '', description: '', permissions: [], isActive: true }}
-          >
-            <Form.Item
-              label={<span className="dark:text-gray-300">Name</span>}
-              name="label"
-              rules={[{ required: true, message: 'Name is required' }]}
+          <div ref={contentRef}>
+            <Form
+              form={form}
+              layout="vertical"
+              autoComplete="off"
+              initialValues={{ label: '', description: '', permissions: [], isActive: true }}
             >
-              <Input
-                placeholder="Nhập tên vai trò"
-                className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-              />
-            </Form.Item>
-            <Form.Item label={<span className="dark:text-gray-300">Description</span>} name="description">
-              <Input.TextArea
-                rows={2}
-                placeholder="Mô tả ngắn gọn"
-                className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
-              />
-            </Form.Item>
-            <Form.Item label={<span className="dark:text-gray-300">Permissions</span>} name="permissions">
-              <Select
-                mode="multiple"
-                allowClear
-                options={permissions.map(p => ({ label: p.title, value: p.name }))}
-                placeholder="Chọn quyền cho vai trò này"
-                className="rounded-lg"
-              />
-            </Form.Item>
-            <Form.Item label={<span className="dark:text-gray-300">Status</span>} name="isActive" valuePropName="checked">
-              <Switch checkedChildren="active" unCheckedChildren="inactive" />
-            </Form.Item>
-          </Form>
+              <Form.Item
+                label={<span className="dark:text-gray-300">Name</span>}
+                name="label"
+                rules={[{ required: true, message: 'Name is required' }]}
+              >
+                <Input
+                  placeholder="Nhập tên vai trò"
+                  className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                />
+              </Form.Item>
+              <Form.Item label={<span className="dark:text-gray-300">Description</span>} name="description">
+                <Input.TextArea
+                  rows={2}
+                  placeholder="Mô tả ngắn gọn"
+                  className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                />
+              </Form.Item>
+              <Form.Item label={<span className="dark:text-gray-300">Permissions</span>} name="permissions">
+                <Select
+                  mode="multiple"
+                  allowClear
+                  options={permissions.map(p => ({ label: p.title, value: p.name }))}
+                  placeholder="Chọn quyền cho vai trò này"
+                  className="rounded-lg"
+                  maxTagCount="responsive"
+                  listHeight={256}
+                  getPopupContainer={trigger => trigger.parentElement}
+                />
+              </Form.Item>
+              <Form.Item label={<span className="dark:text-gray-300">Status</span>} name="isActive" valuePropName="checked">
+                <Switch checkedChildren="active" unCheckedChildren="inactive" />
+              </Form.Item>
+            </Form>
+          </div>
         </Modal>
       </div>
     </div>

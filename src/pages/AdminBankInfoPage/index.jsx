@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, Space, Typography, Tag, Popconfirm, 
 import { PlusOutlined, EditOutlined, DeleteOutlined, BankOutlined, QrcodeOutlined, EyeOutlined } from '@ant-design/icons'
 
 import { getBankInfos, createBankInfo, updateBankInfo, deleteBankInfo, activateBankInfo } from '@/services/adminBankInfoService'
+import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
@@ -18,6 +19,7 @@ export default function AdminBankInfoPage() {
   const [qrToDelete, setQrToDelete] = useState('')
   const [isRemoveQR, setIsRemoveQR] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
+  const { bodyStyle, contentRef } = useModalBodyScroll(open)
 
   const load = async () => {
     setLoading(true)
@@ -265,80 +267,84 @@ export default function AdminBankInfoPage() {
         confirmLoading={submitLoading}
         okButtonProps={{ disabled: submitLoading }}
         cancelButtonProps={{ disabled: submitLoading }}
+        centered
+        styles={{ body: bodyStyle }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{
-            bankName: '',
-            accountNumber: '',
-            accountHolder: '',
-            noteTemplate: '',
-            qrCode: []
-          }}
-        >
-          <Form.Item
-            name="bankName"
-            label={<span className="dark:text-gray-200">Ngân hàng</span>}
-            rules={[{ required: true, message: 'Nhập tên ngân hàng' }]}
+        <div ref={contentRef}>
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={{
+              bankName: '',
+              accountNumber: '',
+              accountHolder: '',
+              noteTemplate: '',
+              qrCode: []
+            }}
           >
-            <Input placeholder="Vietcombank" className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700" />
-          </Form.Item>
-          <Form.Item
-            name="accountNumber"
-            label={<span className="dark:text-gray-200">Số tài khoản</span>}
-            rules={[{ required: true, message: 'Nhập số tài khoản' }]}
-          >
-            <Input placeholder="1234567890" className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700" />
-          </Form.Item>
-          <Form.Item
-            name="accountHolder"
-            label={<span className="dark:text-gray-200">Chủ tài khoản</span>}
-            rules={[{ required: true, message: 'Nhập chủ tài khoản' }]}
-          >
-            <Input placeholder="NGUYEN VAN A" className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700" />
-          </Form.Item>
-          <Form.Item
-            name="noteTemplate"
-            label={<span className="dark:text-gray-200">Nội dung chuyển khoản (mẫu)</span>}
-            rules={[{ required: true, message: 'Nhập mẫu nội dung' }]}
-          >
-            <Input placeholder="[Ten KH] - [So dien thoai]" className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700" />
-          </Form.Item>
-
-          <Form.Item
-            name="qrCode"
-            label={<span className="dark:text-gray-200">Ảnh QR Code</span>}
-            valuePropName="fileList"
-            getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-          >
-            <Upload
-              listType="picture-card"
-              maxCount={1}
-              accept="image/*"
-              beforeUpload={file => {
-                setIsRemoveQR(false)
-                const isImage = file.type?.startsWith('image/')
-                const isLt5M = file.size / 1024 / 1024 < 5
-                if (!isImage) message.error('Chỉ được upload file ảnh!')
-                if (!isLt5M) message.error('Ảnh phải nhỏ hơn 5MB!')
-                // trả false để không upload tự động; ta tự submit qua FormData
-                return isImage && isLt5M ? false : Upload.LIST_IGNORE
-              }}
-              onRemove={() => {
-                setQrToDelete(oldQR)
-                setOldQR('')
-                setIsRemoveQR(true)
-                return true
-              }}
+            <Form.Item
+              name="bankName"
+              label={<span className="dark:text-gray-200">Ngân hàng</span>}
+              rules={[{ required: true, message: 'Nhập tên ngân hàng' }]}
             >
-              <div>
-                <QrcodeOutlined />
-                <div className="mt-2 dark:text-gray-200">Thêm QR</div>
-              </div>
-            </Upload>
-          </Form.Item>
-        </Form>
+              <Input placeholder="Vietcombank" className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700" />
+            </Form.Item>
+            <Form.Item
+              name="accountNumber"
+              label={<span className="dark:text-gray-200">Số tài khoản</span>}
+              rules={[{ required: true, message: 'Nhập số tài khoản' }]}
+            >
+              <Input placeholder="1234567890" className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700" />
+            </Form.Item>
+            <Form.Item
+              name="accountHolder"
+              label={<span className="dark:text-gray-200">Chủ tài khoản</span>}
+              rules={[{ required: true, message: 'Nhập chủ tài khoản' }]}
+            >
+              <Input placeholder="NGUYEN VAN A" className="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700" />
+            </Form.Item>
+            <Form.Item
+              name="noteTemplate"
+              label={<span className="dark:text-gray-200">Nội dung chuyển khoản (mẫu)</span>}
+              rules={[{ required: true, message: 'Nhập mẫu nội dung' }]}
+            >
+              <Input placeholder="[Ten KH] - [So dien thoai]" className="dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700" />
+            </Form.Item>
+
+            <Form.Item
+              name="qrCode"
+              label={<span className="dark:text-gray-200">Ảnh QR Code</span>}
+              valuePropName="fileList"
+              getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
+            >
+              <Upload
+                listType="picture-card"
+                maxCount={1}
+                accept="image/*"
+                beforeUpload={file => {
+                  setIsRemoveQR(false)
+                  const isImage = file.type?.startsWith('image/')
+                  const isLt5M = file.size / 1024 / 1024 < 5
+                  if (!isImage) message.error('Chỉ được upload file ảnh!')
+                  if (!isLt5M) message.error('Ảnh phải nhỏ hơn 5MB!')
+                  // trả false để không upload tự động; ta tự submit qua FormData
+                  return isImage && isLt5M ? false : Upload.LIST_IGNORE
+                }}
+                onRemove={() => {
+                  setQrToDelete(oldQR)
+                  setOldQR('')
+                  setIsRemoveQR(true)
+                  return true
+                }}
+              >
+                <div>
+                  <QrcodeOutlined />
+                  <div className="mt-2 dark:text-gray-200">Thêm QR</div>
+                </div>
+              </Upload>
+            </Form.Item>
+          </Form>
+        </div>
       </Modal>
     </div>
   )
