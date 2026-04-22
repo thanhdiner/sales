@@ -1,0 +1,86 @@
+.admin-layout-shell {
+  position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+    radial-gradient(circle at left bottom, rgba(14, 165, 233, 0.12), transparent 26%),
+    linear-gradient(180deg, #f6f8fc 0%, #edf2f8 100%);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    border-radius: 999px;
+    filter: blur(8px);
+    opacity: 0.8;
+  }
+
+  &::before {
+    top: 84px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    background: rgba(96, 165, 250, 0.18);
+  }
+
+  &::after {
+    bottom: -70px;
+    left: -90px;
+    width: 300px;
+    height: 300px;
+    background: rgba(125, 211, 252, 0.14);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.admin-layout-breadcrumb {
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(10px);
+}
+
+.admin-layout-content {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.46)),
+    linear-gradient(135deg, rgba(219, 234, 254, 0.26), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 10px 28px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+html.dark .admin-layout-shell {
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 22%),
+    radial-gradient(circle at left bottom, rgba(14, 165, 233, 0.1), transparent 24%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+}
+
+html.dark .admin-layout-shell::before {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+html.dark .admin-layout-shell::after {
+  background: rgba(34, 211, 238, 0.08);
+}
+
+html.dark .admin-layout-breadcrumb {
+  background: rgba(15, 23, 42, 0.42);
+}
+
+html.dark .admin-layout-content {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.46)),
+    linear-gradient(135deg, rgba(30, 41, 59, 0.26), rgba(15, 23, 42, 0.1));
+  border-color: rgba(71, 85, 105, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 32px rgba(2, 6, 23, 0.28);
+}

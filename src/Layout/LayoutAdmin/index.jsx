@@ -1,3 +1,4 @@
+import './LayoutAdmin.scss'
 import { Breadcrumb, Layout } from 'antd'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
@@ -49,10 +50,10 @@ function LayoutAdmin() {
           <div onClick={() => setCollapsed(true)} className="fixed inset-0 bg-black/40 backdrop-blur-[1px] z-20 md:hidden animate-fadeIn" />
         )}
         <SiderLayout {...{ collapsed, setCollapsed, location }} />
-        <Layout className="flex flex-col overflow-hidden bg-gray-100 dark:bg-gray-700 transition-colors">
+        <Layout className="admin-layout-shell flex flex-col overflow-hidden transition-colors">
           <Header {...{ collapsed, setCollapsed, onNewOrder }} />
-          <Breadcrumb className="mt-2.5 mx-2 md:mx-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
-          <Content className="flex-1 min-h-0 overflow-y-auto mt-3 mx-2 md:mx-4 mb-4 p-3 sm:p-4 md:p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm transition-all">
+          <Breadcrumb className="admin-layout-breadcrumb mt-2.5 mx-2 md:mx-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
+          <Content className="admin-layout-content flex-1 min-h-0 overflow-y-auto mt-3 mx-2 md:mx-4 mb-4 p-3 sm:p-4 md:p-6 transition-all">
             <Outlet />
           </Content>
         </Layout>
