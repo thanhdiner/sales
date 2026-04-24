@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Clock, Tag, Zap, Star, Flame, Heart, BarChart2, Bell, ShieldCheck } from 'lucide-react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
+import { Clock, Tag, Zap, Star, Flame, Heart, BarChart2, Bell, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react'
 import { normalizeWishlistItems } from '@/lib/normalizeWishlistItems'
 import { syncCartFromServer } from '@/lib/clientCache'
 import { toggleCompareLocal } from '@/stores/compare'
 import { getClientFlashSales } from '@/services/flashSaleService'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { message } from 'antd'
 import { addToCart } from '@/services/cartsService'
 import { getCartUniqueItemLimitMessage, hasReachedCartUniqueItemLimit } from '@/lib/cartLimits'
@@ -18,8 +18,8 @@ import { getStoredClientAccessToken } from '@/utils/auth'
 
 const FlashSale = () => {
   const [flashSales, setFlashSales] = useState([])
+  const [loading, setLoading] = useState(true)
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [selectedCategory, setSelectedCategory] = useState('all')
   const [buyNowLoading, setBuyNowLoading] = useState({})
   const [wishlistLoading, setWishlistLoading] = useState({})
 
@@ -29,11 +29,21 @@ const FlashSale = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const tabsRef = useRef(null)
+  const dragStateRef = useRef({ active: false, startX: 0, scrollLeft: 0, dragged: false })
+  const [isDraggingTabs, setIsDraggingTabs] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const selectedCategory = searchParams.get('category') || 'all'
 
   useEffect(() => {
     const fetchFlashSales = async () => {
-      const res = await getClientFlashSales({ status: 'all', limit: 10 })
-      setFlashSales(res.flashSales || [])
+      try {
+        setLoading(true)
+        const res = await getClientFlashSales({ status: 'all', limit: 10 })
+        setFlashSales(res.flashSales || [])
+      } finally {
+        setLoading(false)
+      }
     }
 
     fetchFlashSales()
@@ -199,22 +209,169 @@ const FlashSale = () => {
     }
   }
 
-  const categories = [
-    { key: 'all', label: 'Tất cả', icon: Tag },
-    { key: 'electronics', label: 'Điện tử', icon: Zap },
-    { key: 'fashion', label: 'Thời trang', icon: Star },
-    { key: 'home', label: 'Gia dụng', icon: Clock }
-  ]
+  const categories = useMemo(() => {
+    const categoryMap = new Map()
 
-  const filteredFlashSales = flashSales.filter(sale => {
-    if (selectedCategory === 'all') return true
-    return sale.products?.some(product => product.category === selectedCategory)
-  })
+    flashSales.forEach(sale => {
+      sale.products?.forEach(product => {
+        const category = product.productCategory
+        const key = category?.slug || category?._id
+
+        if (key && !categoryMap.has(key)) {
+          categoryMap.set(key, {
+            key,
+            label: category.title || 'Chưa phân loại',
+            icon: Tag
+          })
+        }
+      })
+    })
+
+    return [
+      { key: 'all', label: 'Tất cả', icon: Tag },
+      ...categoryMap.values()
+    ]
+  }, [flashSales])
+
+  useEffect(() => {
+    if (loading || selectedCategory === 'all') return
+    if (!categories.some(category => category.key === selectedCategory)) {
+      setSearchParams(prev => {
+        const next = new URLSearchParams(prev)
+        next.delete('category')
+        return next
+      }, { replace: true })
+    }
+  }, [categories, loading, selectedCategory, setSearchParams])
+
+  const handleCategoryChange = categoryKey => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+
+      if (categoryKey === 'all') {
+        next.delete('category')
+      } else {
+        next.set('category', categoryKey)
+      }
+
+      return next
+    })
+  }
+
+  const handleScrollTabs = direction => {
+    tabsRef.current?.scrollBy({
+      left: direction === 'prev' ? -260 : 260,
+      behavior: 'smooth'
+    })
+  }
+
+  const handleTabsPointerDown = e => {
+    if (!tabsRef.current) return
+
+    dragStateRef.current = {
+      active: true,
+      startX: e.clientX,
+      scrollLeft: tabsRef.current.scrollLeft,
+      dragged: false
+    }
+    setIsDraggingTabs(true)
+  }
+
+  const handleTabsPointerMove = e => {
+    const dragState = dragStateRef.current
+    if (!dragState.active || !tabsRef.current) return
+
+    const distance = e.clientX - dragState.startX
+    if (Math.abs(distance) <= 8) return
+
+    e.preventDefault()
+    dragState.dragged = true
+    tabsRef.current.scrollLeft = dragState.scrollLeft - distance
+  }
+
+  const handleTabsPointerUp = () => {
+    dragStateRef.current.active = false
+    setIsDraggingTabs(false)
+  }
+
+  const handleTabsClickCapture = e => {
+    if (!dragStateRef.current.dragged) return
+
+    e.preventDefault()
+    e.stopPropagation()
+    dragStateRef.current.dragged = false
+  }
+
+  const handleTabClick = categoryKey => {
+    handleCategoryChange(categoryKey)
+  }
+
+  const filteredFlashSales = flashSales
+    .map(sale => {
+      if (selectedCategory === 'all') return sale
+
+      const products = sale.products?.filter(product => {
+        const category = product.productCategory
+        return category?.slug === selectedCategory || category?._id === selectedCategory
+      }) || []
+
+      return { ...sale, products }
+    })
+    .filter(sale => selectedCategory === 'all' || sale.products.length > 0)
 
   const activeFlashSales = filteredFlashSales.filter(sale => sale.status === 'active')
   const upcomingFlashSales = filteredFlashSales.filter(sale => sale.status === 'scheduled')
 
   const viewport = { once: true, amount: 0.16 }
+
+  const SaleHeaderSkeleton = ({ upcoming = false }) => (
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className={`border-b p-4 sm:p-5 ${upcoming ? 'border-slate-200 bg-amber-50 dark:border-slate-800 dark:bg-amber-500/10' : 'border-red-100 bg-gradient-to-r from-red-50 to-orange-50 dark:border-red-500/20 dark:from-red-500/10 dark:to-orange-500/10'}`}>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex-1">
+            <div className="mb-2 flex items-center gap-2">
+              <div className="h-6 w-24 rounded-md bg-slate-200 dark:bg-slate-700" />
+              <div className="h-6 w-20 rounded-md bg-slate-200 dark:bg-slate-700" />
+            </div>
+            <div className="h-8 w-full max-w-[320px] rounded-lg bg-slate-200 dark:bg-slate-700" />
+            <div className="mt-2 h-4 w-full max-w-[280px] rounded bg-slate-200 dark:bg-slate-700" />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {[...Array(upcoming ? 3 : 4)].map((_, i) => (
+              <div key={i} className="h-[58px] w-[54px] rounded-lg bg-slate-200 dark:bg-slate-700" />
+            ))}
+          </div>
+        </div>
+
+        {!upcoming && (
+          <div className="mt-4">
+            <div className="mb-1.5 h-4 w-40 rounded bg-slate-200 dark:bg-slate-700" />
+            <div className="h-2 rounded-full bg-white dark:bg-slate-800" />
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 sm:p-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <div className="h-6 w-48 rounded bg-slate-200 dark:bg-slate-700" />
+          <div className="h-4 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+        </div>
+
+        <div className="grid auto-rows-fr grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {[...Array(5)].map((_, idx) => (
+            <div key={idx} className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
+              <div className="aspect-square rounded-lg bg-slate-200 dark:bg-slate-700" />
+              <div className="mt-3 h-4 rounded bg-slate-200 dark:bg-slate-700" />
+              <div className="mt-2 h-4 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
+              <div className="mt-3 h-5 w-1/2 rounded bg-slate-200 dark:bg-slate-700" />
+              <div className="mt-3 h-9 rounded-lg bg-slate-200 dark:bg-slate-700" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 
   const TimeBox = ({ value, label }) => (
     <div className="min-w-[54px] rounded-lg bg-slate-900 px-2.5 py-2 text-center text-white shadow-sm dark:bg-white dark:text-slate-950">
@@ -435,30 +592,68 @@ const FlashSale = () => {
       <main>
         <section className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="sticky top-0 z-30 -mx-4 border-b border-slate-200 bg-slate-50/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-            <div className="flex gap-2 overflow-x-auto">
-              {categories.map(category => {
-                const Icon = category.icon
-                const active = selectedCategory === category.key
+            <div className="flex h-12 items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleScrollTabs('prev')}
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
+                aria-label="Xem danh mục trước"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
 
-                return (
-                  <button
-                    key={category.key}
-                    onClick={() => setSelectedCategory(category.key)}
-                    className={`inline-flex shrink-0 items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-bold transition-all ${
-                      active
-                        ? 'border-red-600 bg-red-600 text-white shadow-sm'
-                        : 'border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {category.label}
-                  </button>
-                )
-              })}
+              <div
+                ref={tabsRef}
+                onPointerDown={handleTabsPointerDown}
+                onPointerMove={handleTabsPointerMove}
+                onPointerUp={handleTabsPointerUp}
+                onPointerCancel={handleTabsPointerUp}
+                onClickCapture={handleTabsClickCapture}
+                className={`flex h-12 flex-1 touch-pan-y items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+                  isDraggingTabs ? 'cursor-grabbing select-none' : 'cursor-grab'
+                }`}
+              >
+                {categories.map(category => {
+                  const Icon = category.icon
+                  const active = selectedCategory === category.key
+
+                  return (
+                    <button
+                      key={category.key}
+                      type="button"
+                      onClick={() => handleTabClick(category.key)}
+                      className={`inline-flex h-12 shrink-0 items-center gap-2 rounded-lg border px-3.5 text-sm font-bold transition-all ${
+                        active
+                          ? 'border-red-600 bg-red-600 text-white shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {category.label}
+                    </button>
+                  )
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleScrollTabs('next')}
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
+                aria-label="Xem danh mục tiếp theo"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
           </div>
 
-          {activeFlashSales.length > 0 && (
+          {loading && (
+            <section className="mt-6 space-y-8 animate-pulse">
+              <SaleHeaderSkeleton />
+              <SaleHeaderSkeleton upcoming />
+            </section>
+          )}
+
+          {!loading && activeFlashSales.length > 0 && (
             <section id="active-sale-section" className="mt-6 space-y-8">
               {activeFlashSales.map((sale, saleIndex) => {
                 const timeLeft = calculateTimeLeft(sale.endAt)
@@ -545,7 +740,7 @@ const FlashSale = () => {
             </section>
           )}
 
-          {upcomingFlashSales.length > 0 && (
+          {!loading && upcomingFlashSales.length > 0 && (
             <section id="upcoming-sale-section" className="mt-10">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <h2 className="flex items-center gap-2 text-xl font-black text-slate-950 dark:text-white">
@@ -612,7 +807,7 @@ const FlashSale = () => {
             </section>
           )}
 
-          {filteredFlashSales.length === 0 && (
+          {!loading && filteredFlashSales.length === 0 && (
             <motion.div
               className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900"
               initial={{ opacity: 0, y: 14 }}
