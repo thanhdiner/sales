@@ -1,95 +1,23 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Col, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
-import { getProductCategoryById, getAdminProductCategoryTree, updateProductCategoryById } from '@/services/productCategoryService'
 import { PlusOutlined } from '@ant-design/icons'
+import { Button, Col, Form, Input, InputNumber, Row, Select, TreeSelect, Upload } from 'antd'
 import TiptapEditor from '@/components/TiptapEditor'
-import { removeNodeFromTree } from '@/utils/removeNodeFromTree'
+import { useAdminProductCategoryEdit } from '../hooks/useAdminProductCategoryEdit'
 
-function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(false)
-  const [oldThumbnail, setOldThumbnail] = useState('')
-  const [form] = Form.useForm()
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [treeData, setTreeData] = useState([])
+function AdminProductCategoriesEdit() {
+  const { form, loading, treeData, handleSubmit, beforeUploadImage, getFileListFromEvent, navigate, pathNavigate } =
+    useAdminProductCategoryEdit()
 
-  const pathNavigate = '/admin/product-categories'
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { productCategory } = await getProductCategoryById(id)
-        if (!productCategory) throw new Error('Not found')
-
-        if (productCategory.thumbnail) setOldThumbnail(productCategory.thumbnail)
-
-        form.setFieldsValue({
-          ...productCategory,
-          parent_id: productCategory?.parent_id?._id,
-          thumbnail: [
-            {
-              uid: '-1',
-              name: 'current-image.jpg',
-              status: 'done',
-              url: productCategory.thumbnail
-            }
-          ]
-        })
-      } catch (err) {
-        message.error('❌ Failed to load product category')
-        navigate(pathNavigate)
-      }
-    }
-
-    const fetchTreeData = async () => {
-      try {
-        const response = await getAdminProductCategoryTree()
-        if (response) setTreeData(removeNodeFromTree(response, id))
-      } catch (error) {
-        message.error('❌ Failed to load category tree data')
-      }
-    }
-
-    fetchProduct()
-    fetchTreeData()
-  }, [id, form, navigate])
-
-  const handleSubmit = async values => {
-    setLoading(true)
-    try {
-      const formData = new FormData()
-      const file = values.thumbnail?.[0]?.originFileObj
-
-      if (file) {
-        formData.append('thumbnail', file)
-        formData.append('oldImage', oldThumbnail)
-      } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
-
-      formData.append('title', values.title)
-      formData.append('parent_id', values.parent_id || '')
-      formData.append('description', values.description || '')
-      formData.append('status', values.status || 'active')
-      formData.append('position', values?.position)
-      formData.append('slug', values.slug || '')
-
-      await updateProductCategoryById(id, formData)
-      message.success('✅ Product updated successfully!')
-      navigate(pathNavigate)
-    } catch (err) {
-      console.error(err)
-      message.error('❌ Failed to update product category!')
-    } finally {
-      setLoading(false)
-    }
-  }
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item name="title" label={<span className="dark:text-gray-300">Category Name</span>} rules={[{ required: true }]}>
-            <Input className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600" />
+          <Form.Item name="title" label={<span className="dark:text-gray-300">Tên danh mục</span>} rules={[{ required: true }]}>
+            <Input
+              className="dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500 dark:border-gray-700"
+              placeholder="Nhập tên danh mục"
+            />
           </Form.Item>
-          <Form.Item name="parent_id" label={<span className="dark:text-gray-300">Parent Category</span>}>
+          <Form.Item name="parent_id" label={<span className="dark:text-gray-300">Danh mục cha</span>}>
             <TreeSelect
               style={{ width: '100%' }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -102,12 +30,15 @@ function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(f
             />
           </Form.Item>
           <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
-            <Input className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600" />
+            <Input
+              className="dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500 dark:border-gray-700"
+              placeholder="Tự động tạo từ tên danh mục hoặc bạn có thể sửa"
+            />
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
+          <Form.Item name="status" label={<span className="dark:text-gray-300">Trạng thái</span>}>
             <Select
               options={[
                 { label: 'Active', value: 'active' },
@@ -115,15 +46,15 @@ function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(f
               ]}
             />
           </Form.Item>
-          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
-            <InputNumber style={{ width: '100%' }} min={0} />
+          <Form.Item name="position" label={<span className="dark:text-gray-300">Vị trí</span>}>
+            <InputNumber placeholder="Nhập vị trí" style={{ width: '100%' }} min={0} />
           </Form.Item>
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
+          <Form.Item name="description" label={<span className="dark:text-gray-300">Mô tả ngắn</span>}>
             <TiptapEditor value={form.getFieldValue('description')} onChange={value => form.setFieldsValue({ description: value })} />
           </Form.Item>
         </Col>
@@ -131,27 +62,15 @@ function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(f
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label={<span className="dark:text-gray-300">Thumbnail</span>}
+            label={<span className="dark:text-gray-300">Ảnh đại diện</span>}
             valuePropName="fileList"
-            getValueFromEvent={e => {
-              if (Array.isArray(e)) return e
-              return e?.fileList || []
-            }}
-            rules={[{ required: true, message: 'Please upload an image!' }]}
+            getValueFromEvent={getFileListFromEvent}
+            rules={[{ required: true, message: 'Vui lòng upload ảnh đại diện!' }]}
           >
-            <Upload
-              listType="picture-card"
-              maxCount={1}
-              accept="image/*"
-              beforeUpload={file => {
-                const isImage = file.type.startsWith('image/')
-                if (!isImage) message.error('You can only upload image files!')
-                return isImage ? false : Upload.LIST_IGNORE
-              }}
-            >
+            <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeUploadImage}>
               <div>
                 <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Image</div>
+                <div className="mt-2 dark:text-gray-300">Thêm ảnh</div>
               </div>
             </Upload>
           </Form.Item>
@@ -160,10 +79,10 @@ function AdminProductCategoriesEdit() {const [loading, setLoading] = useState(f
 
       <Form.Item style={{ textAlign: 'right' }}>
         <Button onClick={() => navigate(pathNavigate)} disabled={loading} style={{ marginRight: 8 }}>
-          Cancel
+          Huỷ
         </Button>
-        <Button type="primary" htmlType="submit" loading={loading} style={{ width: 140 }}>
-          {loading ? 'Saving...' : 'Save Changes'}
+        <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 130 }}>
+          {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
         </Button>
       </Form.Item>
     </Form>

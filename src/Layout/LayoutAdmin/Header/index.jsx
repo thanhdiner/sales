@@ -2,7 +2,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, MoonOutlined, SunOutlined } from 
 import { Button } from 'antd'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import NotificationBell from '@/components/NotificationBell'
+import NotificationBell from './components/NotificationBell'
 import UserMenu from './UserMenu'
 
 function Header({ collapsed, setCollapsed, onNewOrder }) {

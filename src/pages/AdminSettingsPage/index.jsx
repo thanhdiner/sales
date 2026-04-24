@@ -1,7 +1,7 @@
 import { Tabs } from 'antd'
 import { useSearchParams } from 'react-router-dom'
-import AdminSecurityTab from '@/components/AdminSecurityTab'
-import AdminWebsiteConfigTab from '@/components/AdminWebsiteConfigTab'
+import AdminSecurityTab from './components/AdminSecurityTab'
+import AdminWebsiteConfigTab from './components/AdminWebsiteConfigTab'
 
 const AdminSettingsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

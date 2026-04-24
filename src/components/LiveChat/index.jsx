@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 // Component imports
-import Launcher from './Launcher'
+import FloatingButtons from '@/components/FloatingButtons'
 import HomeView from './HomeView'
 import ChatHeader from './ChatHeader'
 import MessageList from './MessageList'
@@ -132,9 +132,9 @@ export default function LiveChat() {
     <>
       {/* ── Chat Launcher (Floating Button) ────────────────────────────────── */}
       {!open && (
-        <Launcher 
-          onClick={handleOpenLauncher}
-          unread={unread} 
+        <FloatingButtons
+          onOpenSupport={handleOpenLauncher}
+          supportUnread={unread}
         />
       )}
 
@@ -146,8 +146,8 @@ export default function LiveChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            style={{ transformOrigin: 'bottom left' }}
-            className="fixed bottom-4 left-4 z-[1050] flex h-[530px] w-[360px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_40px_rgba(0,0,0,0.18)] dark:border-gray-800 dark:bg-gray-900 md:bottom-5 md:left-5 lg:bottom-6 lg:left-6"
+            style={{ transformOrigin: 'bottom right' }}
+            className="fixed bottom-4 right-4 z-[1050] flex h-[530px] w-[360px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_40px_rgba(0,0,0,0.18)] dark:border-gray-800 dark:bg-gray-900 md:bottom-5 md:right-5 lg:bottom-6 lg:right-6"
           >
             {/* ── HOME VIEW ─────────────────────────────────────────────── */}
             {view === 'home' && (

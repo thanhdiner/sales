@@ -1,11 +1,78 @@
+import { Select } from 'antd'
 import { useSelector } from 'react-redux'
+import useVietnamAddress from '@/hooks/useVietnamAddress'
+import {
+  getDistrictOptions,
+  getProvinceOptions,
+  getWardOptions,
+  hasCompleteStructuredVietnamAddress
+} from '@/lib/vietnamAddress'
 
-export function ContactForm({ formData, handleInputChange, deliveryMethod, setDeliveryMethod, deliveryOptions }) {
+const toSelectOptions = items =>
+  items.map(item => ({
+    value: item.code,
+    label: item.name
+  }))
+
+const sharedSelectProps = {
+  allowClear: true,
+  showSearch: true,
+  optionFilterProp: 'label',
+  size: 'large'
+}
+
+export function ContactForm({
+  formData,
+  handleInputChange,
+  handleAddressChange,
+  deliveryMethod,
+  setDeliveryMethod,
+  deliveryOptions
+}) {
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const contactInfo = websiteConfig?.contactInfo
+  const { tree, loading, error } = useVietnamAddress()
+
+  const provinceOptions = getProvinceOptions(tree)
+  const districtOptions = getDistrictOptions(tree, formData.provinceCode)
+  const wardOptions = getWardOptions(tree, formData.provinceCode, formData.districtCode)
+  const structuredAddressReady = hasCompleteStructuredVietnamAddress(formData)
 
   const inputClassName =
     'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400'
+
+  const handleProvinceSelect = value => {
+    const nextProvince = provinceOptions.find(option => option.code === value)
+
+    handleAddressChange({
+      provinceCode: value || '',
+      provinceName: nextProvince?.name || '',
+      districtCode: '',
+      districtName: '',
+      wardCode: '',
+      wardName: ''
+    })
+  }
+
+  const handleDistrictSelect = value => {
+    const nextDistrict = districtOptions.find(option => option.code === value)
+
+    handleAddressChange({
+      districtCode: value || '',
+      districtName: nextDistrict?.name || '',
+      wardCode: '',
+      wardName: ''
+    })
+  }
+
+  const handleWardSelect = value => {
+    const nextWard = wardOptions.find(option => option.code === value)
+
+    handleAddressChange({
+      wardCode: value || '',
+      wardName: nextWard?.name || ''
+    })
+  }
 
   return (
     <div className="space-y-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
@@ -29,7 +96,7 @@ export function ContactForm({ formData, handleInputChange, deliveryMethod, setDe
             required
             onChange={e => handleInputChange('firstName', e.target.value)}
             className={inputClassName}
-            placeholder="Nguyễn"
+            placeholder="Nguyen"
           />
         </div>
 
@@ -43,7 +110,7 @@ export function ContactForm({ formData, handleInputChange, deliveryMethod, setDe
             value={formData.lastName}
             onChange={e => handleInputChange('lastName', e.target.value)}
             className={inputClassName}
-            placeholder="Văn A"
+            placeholder="Van A"
           />
         </div>
       </div>
@@ -75,6 +142,112 @@ export function ContactForm({ formData, handleInputChange, deliveryMethod, setDe
             placeholder="your@email.com"
           />
         </div>
+      </div>
+
+      <div className="space-y-4 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+        <div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Địa chỉ nhận hàng
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+            Chọn theo từng cấp để hạn chế nhập sai địa chỉ. Nếu đơn của bạn không cần giao vật lý, có thể để trống phần này.
+          </p>
+        </div>
+
+        {error ? (
+          <div className="space-y-3">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+              Không tải được danh sách địa chỉ Việt Nam. Bạn có thể nhập tạm địa chỉ thủ công.
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Địa chỉ / thông tin nhận hàng
+              </label>
+              <textarea
+                value={formData.address}
+                onChange={e => handleInputChange('address', e.target.value)}
+                rows={3}
+                className={`${inputClassName} resize-none`}
+                placeholder="Ví dụ: số nhà, đường, phường/xã, quận/huyện, tỉnh/thành..."
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Tỉnh / Thành phố
+                </label>
+                <Select
+                  {...sharedSelectProps}
+                  loading={loading}
+                  value={formData.provinceCode || undefined}
+                  onChange={handleProvinceSelect}
+                  options={toSelectOptions(provinceOptions)}
+                  placeholder="Chọn Tỉnh / Thành phố"
+                  className="w-full"
+                  getPopupContainer={node => node.parentElement}
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Quận / Huyện
+                </label>
+                <Select
+                  {...sharedSelectProps}
+                  loading={loading}
+                  disabled={!formData.provinceCode}
+                  value={formData.districtCode || undefined}
+                  onChange={handleDistrictSelect}
+                  options={toSelectOptions(districtOptions)}
+                  placeholder={formData.provinceCode ? 'Chọn Quận / Huyện' : 'Chọn Tỉnh / Thành phố trước'}
+                  className="w-full"
+                  getPopupContainer={node => node.parentElement}
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Phường / Xã
+                </label>
+                <Select
+                  {...sharedSelectProps}
+                  loading={loading}
+                  disabled={!formData.districtCode}
+                  value={formData.wardCode || undefined}
+                  onChange={handleWardSelect}
+                  options={toSelectOptions(wardOptions)}
+                  placeholder={formData.districtCode ? 'Chọn Phường / Xã' : 'Chọn Quận / Huyện trước'}
+                  className="w-full"
+                  getPopupContainer={node => node.parentElement}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Địa chỉ chi tiết
+              </label>
+              <input
+                type="text"
+                value={formData.addressLine1}
+                onChange={e => handleAddressChange({ addressLine1: e.target.value })}
+                className={inputClassName}
+                placeholder="Số nhà, tên đường, tòa nhà, hẻm..."
+              />
+            </div>
+
+            {structuredAddressReady && formData.address && (
+              <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm leading-6 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                <span className="font-medium text-gray-900 dark:text-gray-100">Địa chỉ đầy đủ:</span>{' '}
+                {formData.address}
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       <div>

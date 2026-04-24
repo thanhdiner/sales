@@ -7,7 +7,7 @@ import { setDarkMode } from '@/stores/darkModeSlice'
 import SEO from '@/components/SEO'
 
 export default function SettingsPage() {
-  const hasPassword = useSelector(state => state.user.user?.hasPassword)
+  const hasPassword = useSelector(state => state.clientUser.user?.hasPassword)
   const darkMode = useSelector(state => state.darkMode.value)
   const dispatch = useDispatch()
 

@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { getAdminWebsiteConfig } from '@/services/adminWebsiteConfigService'
 import { getCart } from '@/services/cartsService'
-import { getProductCategoryTree } from '@/services/productCategoryService'
+import { getProductCategoryTree } from '@/services/clientProductCategoryService'
 import { getClientMe } from '@/services/userService'
 import { getWishlist } from '@/services/wishlistService'
 import { normalizeCartItems } from '@/lib/clientCache'

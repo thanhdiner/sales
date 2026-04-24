@@ -1,5 +1,6 @@
 import { createOrder } from '@/services/ordersService'
 import { createPendingOrder, redirectToPayment } from '@/services/paymentService'
+import { formatVietnamAddress } from '@/lib/vietnamAddress'
 import { useState } from 'react'
 import { message } from 'antd'
 
@@ -17,12 +18,13 @@ export function ReviewOrder({
   shipping,
   total,
   promo,
-  onOrderSuccess,
+  onOrderSuccess
 }) {
   const [loading, setLoading] = useState(false)
   const [isOrdered, setIsOrdered] = useState(false)
 
   const isOnlinePayment = ONLINE_METHODS.includes(paymentMethod)
+  const fullAddress = formData.address || formatVietnamAddress(formData)
 
   const handleConfirm = async () => {
     if (loading) return
@@ -37,7 +39,7 @@ export function ReviewOrder({
             isFlashSale: true,
             flashSaleId: item.flashSaleId,
             salePrice: item.salePrice,
-            discountPercent: item.discountPercent || item.discountPercentage || 0,
+            discountPercent: item.discountPercent || item.discountPercentage || 0
           }
         }
 
@@ -53,7 +55,7 @@ export function ReviewOrder({
         discount,
         shipping,
         total,
-        promo: promo?.code || promo || '',
+        promo: promo?.code || promo || ''
       }
 
       if (isOnlinePayment) {
@@ -61,7 +63,7 @@ export function ReviewOrder({
         if (!pendingRes?.orderId) throw new Error('Không tạo được đơn hàng')
 
         setIsOrdered(true)
-        message.loading('Đang chuyển đến cổng thanh toán…', 2)
+        message.loading('Đang chuyển đến cổng thanh toán...', 2)
 
         await redirectToPayment(paymentMethod, pendingRes.orderId)
         return
@@ -121,6 +123,13 @@ export function ReviewOrder({
               </p>
             )}
 
+            {fullAddress && (
+              <p className="mb-0">
+                <span className="font-medium text-gray-900 dark:text-gray-100">Địa chỉ:</span>{' '}
+                {fullAddress}
+              </p>
+            )}
+
             {formData.notes && (
               <p className="mb-0">
                 <span className="font-medium text-gray-900 dark:text-gray-100">Ghi chú:</span>{' '}
@@ -177,7 +186,7 @@ export function ReviewOrder({
       >
         {loading
           ? isOnlinePayment
-            ? 'Đang chuyển đến cổng thanh toán…'
+            ? 'Đang chuyển đến cổng thanh toán...'
             : 'Đang gửi...'
           : isOnlinePayment
             ? `Thanh toán qua ${selectedPayment?.name}`

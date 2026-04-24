@@ -63,19 +63,333 @@
     &__search,
     &__cart,
     &__wishlist,
-    &__account {
+    &__account,
+    &__notification {
       &--btn:hover,
       &--btn--clear:hover,
       &--btn:active,
-      &--btn:focus-visible,
-      &--btn:hover .header__action__cart--icon,
-      &--btn:hover .header__action__wishlist--icon {
+      &--btn:focus-visible {
         background: transparent !important;
         outline: none !important;
         outline-offset: 0 !important;
         cursor: pointer;
-        color: var(--color-text-primary);
-        transition: color 0.1s;
+      }
+    }
+
+    &__cart:hover .header__action__cart--icon,
+    &__cart .header__action__cart--btn:hover .header__action__cart--icon,
+    &__wishlist:hover .header__action__wishlist--icon,
+    &__wishlist .header__action__wishlist--btn:hover .header__action__wishlist--icon,
+    &__notification:hover .header__action__notification--icon,
+    &__notification .header__action__notification--btn:hover .header__action__notification--icon {
+      color: #4f46e5;
+      transition: color 0.15s ease;
+    }
+
+    .dark &__cart:hover .header__action__cart--icon,
+    .dark &__cart .header__action__cart--btn:hover .header__action__cart--icon,
+    .dark &__wishlist:hover .header__action__wishlist--icon,
+    .dark &__wishlist .header__action__wishlist--btn:hover .header__action__wishlist--icon,
+    .dark &__notification:hover .header__action__notification--icon,
+    .dark &__notification .header__action__notification--btn:hover .header__action__notification--icon {
+      color: #818cf8;
+    }
+
+    &__cart--icon,
+    &__wishlist--icon,
+    &__notification--icon {
+      transition: color 0.15s ease;
+    }
+
+    &__cart--btn:hover,
+    &__wishlist--btn:hover,
+    &__notification--btn:hover {
+      color: inherit;
+    }
+
+    &__cart a:hover,
+    &__wishlist a:hover {
+      color: inherit;
+    }
+
+    &__cart a,
+    &__wishlist a {
+      color: inherit;
+    }
+
+    &__cart .ant-badge,
+    &__wishlist .ant-badge {
+      color: inherit;
+    }
+
+    &__cart .ant-badge .anticon,
+    &__wishlist .ant-badge .anticon {
+      color: inherit;
+    }
+
+    &__notification--btn {
+      color: inherit;
+    }
+
+    .dark &__notification--btn {
+      color: inherit;
+    }
+
+    &__cart--icon,
+    &__wishlist--icon {
+      color: #1f2937;
+    }
+
+    .dark &__cart--icon,
+    .dark &__wishlist--icon {
+      color: #e5e7eb;
+    }
+
+    &__notification--icon {
+      color: currentColor;
+    }
+
+    .dark &__notification--icon {
+      color: currentColor;
+    }
+
+    &__cart--btn,
+    &__wishlist--btn,
+    &__notification--btn {
+      color: #1f2937;
+    }
+
+    .dark &__cart--btn,
+    .dark &__wishlist--btn,
+    .dark &__notification--btn {
+      color: #e5e7eb;
+    }
+
+    &__cart:hover .header__action__cart--btn,
+    &__wishlist:hover .header__action__wishlist--btn,
+    &__notification:hover .header__action__notification--btn {
+      color: #4f46e5;
+    }
+
+    .dark &__cart:hover .header__action__cart--btn,
+    .dark &__wishlist:hover .header__action__wishlist--btn,
+    .dark &__notification:hover .header__action__notification--btn {
+      color: #818cf8;
+    }
+
+    &__cart .header__action__cart--btn:hover,
+    &__wishlist .header__action__wishlist--btn:hover,
+    &__notification .header__action__notification--btn:hover {
+      color: #4f46e5;
+    }
+
+    .dark &__cart .header__action__cart--btn:hover,
+    .dark &__wishlist .header__action__wishlist--btn:hover,
+    .dark &__notification .header__action__notification--btn:hover {
+      color: #818cf8;
+    }
+
+    &__cart .header__action__cart--btn:hover .header__action__cart--icon,
+    &__wishlist .header__action__wishlist--btn:hover .header__action__wishlist--icon,
+    &__notification .header__action__notification--btn:hover .header__action__notification--icon {
+      color: currentColor;
+    }
+
+    .dark &__cart .header__action__cart--btn:hover .header__action__cart--icon,
+    .dark &__wishlist .header__action__wishlist--btn:hover .header__action__wishlist--icon,
+    .dark &__notification .header__action__notification--btn:hover .header__action__notification--icon {
+      color: currentColor;
+    }
+
+    &__cart:hover .header__action__cart--icon,
+    &__wishlist:hover .header__action__wishlist--icon,
+    &__notification:hover .header__action__notification--icon {
+      color: currentColor;
+    }
+
+    .dark &__cart:hover .header__action__cart--icon,
+    .dark &__wishlist:hover .header__action__wishlist--icon,
+    .dark &__notification:hover .header__action__notification--icon {
+      color: currentColor;
+    }
+
+    &__notification {
+      color: #1f2937;
+    }
+
+    .dark &__notification {
+      color: #e5e7eb;
+    }
+
+    &__cart,
+    &__wishlist {
+      color: #1f2937;
+    }
+
+    .dark &__cart,
+    .dark &__wishlist {
+      color: #e5e7eb;
+    }
+
+    &__cart:hover,
+    &__wishlist:hover,
+    &__notification:hover {
+      color: #4f46e5;
+    }
+
+    .dark &__cart:hover,
+    .dark &__wishlist:hover,
+    .dark &__notification:hover {
+      color: #818cf8;
+    }
+
+    &__cart:hover .ant-badge,
+    &__wishlist:hover .ant-badge,
+    &__cart:hover .anticon,
+    &__wishlist:hover .anticon {
+      color: currentColor;
+    }
+
+    .dark &__cart:hover .ant-badge,
+    .dark &__wishlist:hover .ant-badge,
+    .dark &__cart:hover .anticon,
+    .dark &__wishlist:hover .anticon {
+      color: currentColor;
+    }
+
+    &__cart .ant-badge .ant-scroll-number,
+    &__wishlist .ant-badge .ant-scroll-number {
+      color: initial;
+    }
+
+    .dark &__cart .ant-badge .ant-scroll-number,
+    .dark &__wishlist .ant-badge .ant-scroll-number {
+      color: initial;
+    }
+
+    &__cart .ant-badge-count,
+    &__wishlist .ant-badge-count {
+      color: #fff;
+    }
+
+    .dark &__cart .ant-badge-count,
+    .dark &__wishlist .ant-badge-count {
+      color: inherit;
+    }
+
+    &__wishlist .ant-badge-count {
+      color: #fff;
+    }
+
+    .dark &__wishlist .ant-badge-count {
+      color: #fff;
+    }
+
+    &__cart .ant-badge-count,
+    .dark &__cart .ant-badge-count {
+      color: #fff;
+    }
+
+    &__cart .ant-badge-count,
+    &__wishlist .ant-badge-count {
+      transition: none;
+    }
+
+    &__notification .absolute {
+      color: inherit;
+    }
+
+    .dark &__notification .absolute {
+      color: inherit;
+    }
+
+    &__notification:hover .absolute,
+    .dark &__notification:hover .absolute {
+      color: inherit;
+    }
+
+    &__notification .header__action__notification--btn:hover .absolute,
+    .dark &__notification .header__action__notification--btn:hover .absolute {
+      color: inherit;
+    }
+
+    &__cart .ant-badge-count,
+    &__wishlist .ant-badge-count,
+    &__notification .absolute {
+      transition: none;
+    }
+
+    &__cart .ant-badge,
+    &__wishlist .ant-badge,
+    &__notification {
+      transition: color 0.15s ease;
+    }
+
+    &__cart .ant-badge .header__action__icon-slot,
+    &__wishlist .ant-badge .header__action__icon-slot,
+    &__notification .header__action__icon-slot {
+      color: inherit;
+    }
+
+    &__cart .ant-badge .header__action__icon-slot .header__action__cart--icon,
+    &__wishlist .ant-badge .header__action__icon-slot .header__action__wishlist--icon,
+    &__notification .header__action__icon-slot .header__action__notification--icon {
+      color: inherit;
+    }
+
+    &__cart:hover .header__action__icon-slot,
+    &__wishlist:hover .header__action__icon-slot,
+    &__notification:hover .header__action__icon-slot {
+      color: inherit;
+    }
+
+    .dark &__cart:hover .header__action__icon-slot,
+    .dark &__wishlist:hover .header__action__icon-slot,
+    .dark &__notification:hover .header__action__icon-slot {
+      color: inherit;
+    }
+
+    &__cart .header__action__cart--btn:hover .header__action__icon-slot,
+    &__wishlist .header__action__wishlist--btn:hover .header__action__icon-slot,
+    &__notification .header__action__notification--btn:hover .header__action__icon-slot {
+      color: inherit;
+    }
+
+    .dark &__cart .header__action__cart--btn:hover .header__action__icon-slot,
+    .dark &__wishlist .header__action__wishlist--btn:hover .header__action__icon-slot,
+    .dark &__notification .header__action__notification--btn:hover .header__action__icon-slot {
+      color: inherit;
+    }
+
+    &__cart .header__action__icon-slot,
+    &__wishlist .header__action__icon-slot,
+    &__notification .header__action__icon-slot {
+      transition: color 0.15s ease;
+    }
+
+    &__cart:hover .header__action__cart--icon,
+    &__wishlist:hover .header__action__wishlist--icon,
+    &__notification:hover .header__action__notification--icon {
+      color: inherit;
+    }
+
+    .dark &__cart:hover .header__action__cart--icon,
+    .dark &__wishlist:hover .header__action__wishlist--icon,
+    .dark &__notification:hover .header__action__notification--icon {
+      color: inherit;
+    }
+
+    &__cart .header__action__cart--btn:hover .header__action__cart--icon,
+    &__wishlist .header__action__wishlist--btn:hover .header__action__wishlist--icon,
+    &__notification .header__action__notification--btn:hover .header__action__notification--icon {
+      color: inherit;
+    }
+
+    &__notification {
+      &--btn {
+        background: transparent;
+        border: 0;
+        padding: 0;
       }
     }
     &__search {
@@ -297,6 +611,16 @@ h1 {
   border-color: transparent;
 }
 
+.header__action__cart,
+.header__action__wishlist,
+.header__action__notification {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+}
+
 .header__action__cart--btn,
 .header__action__wishlist--btn,
 .header__action__account--btn {
@@ -313,6 +637,12 @@ h1 {
   justify-content: center;
 }
 
+.header__action__notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .header__action__icon-slot {
   width: 20px;
   height: 20px;
@@ -322,7 +652,8 @@ h1 {
 }
 
 .header__action__cart--icon,
-.header__action__wishlist--icon {
+.header__action__wishlist--icon,
+.header__action__notification--icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -334,6 +665,43 @@ h1 {
   font-size: 18px;
 }
 
-.header__action__cart--icon {
+.header__action__cart--icon,
+.header__action__notification--icon {
   font-size: 20px;
+}
+
+.header__action__notification--icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  transform: translateY(1px);
+}
+
+.header-account-dropdown {
+  .ant-dropdown-menu-item.header-account-dropdown__logout {
+    color: #dc2626;
+
+    .ant-dropdown-menu-title-content,
+    .anticon {
+      color: inherit;
+    }
+
+    &:hover,
+    &.ant-dropdown-menu-item-active {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+  }
+}
+
+html.dark .header-account-dropdown {
+  .ant-dropdown-menu-item.header-account-dropdown__logout {
+    color: #f87171;
+
+    &:hover,
+    &.ant-dropdown-menu-item-active {
+      background: rgba(239, 68, 68, 0.14);
+      color: #fca5a5;
+    }
+  }
 }

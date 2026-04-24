@@ -1,191 +1,26 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload, message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
+import { Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeSelect, Upload } from 'antd'
 import TiptapEditor from '@/components/TiptapEditor'
-import { getAdminProductCategoryTree } from '@/services/productCategoryService'
-import { getProductById, updateProductById } from '@/services/productService'
+import { useAdminProductEdit } from '../hooks/useAdminProductEdit'
 
 const { RangePicker } = DatePicker
 
-const getFileListFromEvent = e => {
-  if (Array.isArray(e)) return e
-  return e?.fileList || []
-}
-
-const toUploadFileList = (urls = [], prefix = 'image') =>
-  (Array.isArray(urls) ? urls : [])
-    .filter(Boolean)
-    .map((url, index) => ({
-      uid: `existing-${prefix}-${index}`,
-      name: `${prefix}-${index + 1}.jpg`,
-      status: 'done',
-      url
-    }))
-
-const getExistingImageUrl = file => {
-  if (!file || file.originFileObj) return ''
-  return file.url || file.thumbUrl || ''
-}
-
-const beforeUploadImage = file => {
-  const isImage = file?.type?.startsWith('image/')
-
-  if (!isImage) {
-    message.error('You can only upload image files!')
-    return Upload.LIST_IGNORE
-  }
-
-  return false
-}
-
 function AdminProductsEdit() {
-  const [loading, setLoading] = useState(false)
-  const [oldThumbnail, setOldThumbnail] = useState('')
-  const [oldImages, setOldImages] = useState([])
-  const [treeData, setTreeData] = useState([])
-  const [form] = Form.useForm()
-  const { id } = useParams()
-  const navigate = useNavigate()
-
-  const pathNavigate = '/admin/products'
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { product } = await getProductById(id)
-
-        if (!product) throw new Error('Not found')
-
-        if (product.thumbnail) {
-          setOldThumbnail(product.thumbnail)
-        }
-
-        setOldImages(Array.isArray(product.images) ? product.images : [])
-
-        form.setFieldsValue({
-          ...product,
-          thumbnail: toUploadFileList(product.thumbnail ? [product.thumbnail] : [], 'thumbnail'),
-          images: toUploadFileList(product.images || [], 'image'),
-          timeRange: product.timeStart && product.timeFinish ? [dayjs(product.timeStart), dayjs(product.timeFinish)] : []
-        })
-      } catch (err) {
-        message.error('Failed to load product')
-        navigate(pathNavigate)
-      }
-    }
-
-    const fetchTreeData = async () => {
-      try {
-        const response = await getAdminProductCategoryTree()
-
-        if (response) {
-          setTreeData(response)
-        }
-      } catch (error) {
-        message.error('Failed to load category tree data')
-      }
-    }
-
-    fetchProduct()
-    fetchTreeData()
-  }, [form, id, navigate])
-
-  const handleSubmit = async values => {
-    setLoading(true)
-
-    try {
-      const formData = new FormData()
-      const file = values.thumbnail?.[0]?.originFileObj
-
-      if (file) {
-        formData.append('thumbnail', file)
-        formData.append('oldImage', oldThumbnail)
-      } else if (typeof values.thumbnail === 'string') {
-        formData.append('thumbnail', values.thumbnail)
-      }
-
-      const imageFileList = values.images || []
-      const existingImages = imageFileList.map(getExistingImageUrl).filter(Boolean)
-      const deletedImages = oldImages.map(url => !existingImages.includes(url))
-
-      imageFileList.forEach(fileItem => {
-        const imageFile = fileItem.originFileObj
-
-        if (imageFile) {
-          formData.append('images', imageFile)
-        }
-      })
-
-      formData.append('existingImages', JSON.stringify(existingImages))
-      formData.append('oldImages', JSON.stringify(oldImages))
-      formData.append('deleteImages', JSON.stringify(deletedImages))
-
-      if (values.features) {
-        if (values.features.length > 0) {
-          values.features.forEach(feature => formData.append('features', feature))
-        } else {
-          formData.append('features', '')
-        }
-      }
-
-      formData.append('title', values.title)
-      formData.append('productCategory', values.productCategory)
-      formData.append('price', values.price)
-      formData.append('costPrice', values.costPrice)
-      formData.append('discountPercentage', values.discountPercentage || 0)
-      formData.append('stock', values.stock || 0)
-      formData.append('description', values.description || '')
-      formData.append('status', values.status || 'active')
-      formData.append('slug', values.slug || '')
-      formData.append('content', values.content || '')
-      formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
-      formData.append('isFeatured', values.isFeatured ? 'true' : 'false')
-
-      if (values.position !== undefined && values.position !== null && values.position !== '') {
-        formData.append('position', values.position)
-      }
-
-      const [timeStart, timeFinish] = values.timeRange || []
-
-      if (timeStart) formData.append('timeStart', timeStart.toISOString())
-      if (timeFinish) formData.append('timeFinish', timeFinish.toISOString())
-
-      await updateProductById(id, formData)
-
-      message.success('Product updated successfully!')
-      navigate(pathNavigate)
-    } catch (err) {
-      const response = err?.response || {}
-
-      console.error(err)
-
-      if (response?.error === 'Slug already exists') {
-        message.error(`Slug already exists, please choose another one. Suggested: ${response.suggestedSlug || ''}`)
-
-        if (response.suggestedSlug) {
-          form.setFieldsValue({ slug: response.suggestedSlug })
-        }
-      } else if (response?.details?.length) {
-        message.error(response.details.join(' | '))
-      } else {
-        message.error(response?.error || response?.message || 'Failed to update product')
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { form, loading, treeData, handleSubmit, getFileListFromEvent, beforeUploadImage, navigate, pathNavigate } =
+    useAdminProductEdit()
 
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item name="title" label={<span className="dark:text-gray-300">Product Name</span>} rules={[{ required: true }]}>
-            <Input className="dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300" />
+          <Form.Item name="title" label={<span className="dark:text-gray-300">Tên sản phẩm</span>} rules={[{ required: true }]}>
+            <Input
+              className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+              placeholder="Nhập tên sản phẩm"
+            />
           </Form.Item>
 
-          <Form.Item name="productCategory" label={<span className="dark:text-gray-300">Category</span>} rules={[{ required: true }]}>
+          <Form.Item name="productCategory" label={<span className="dark:text-gray-300">Danh mục</span>} rules={[{ required: true }]}>
             <TreeSelect
               style={{ width: '100%' }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -198,15 +33,15 @@ function AdminProductsEdit() {
             />
           </Form.Item>
 
-          <Form.Item name="price" label={<span className="dark:text-gray-300">Price (VNĐ)</span>} rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} min={0} />
+          <Form.Item name="price" label={<span className="dark:text-gray-300">Giá bán (VNĐ)</span>} rules={[{ required: true }]}>
+            <InputNumber placeholder="Nhập giá bán" style={{ width: '100%' }} min={0} />
           </Form.Item>
 
           <Form.Item
             name="costPrice"
-            label={<span className="dark:text-gray-300">Cost Price (VNĐ)</span>}
+            label={<span className="dark:text-gray-300">Giá nhập (VNĐ)</span>}
             rules={[
-              { required: true, message: 'Vui lòng nhập giá gốc (costPrice)!' },
+              { required: true, message: 'Vui lòng nhập giá nhập hàng!' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (value === undefined || value < 0) return Promise.reject('Giá gốc phải lớn hơn hoặc bằng 0!')
@@ -221,17 +56,17 @@ function AdminProductsEdit() {
             <InputNumber placeholder="Nhập giá nhập hàng" style={{ width: '100%' }} min={0} />
           </Form.Item>
 
-          <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount Percentage (%)</span>}>
+          <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Giảm giá (%)</span>}>
             <InputNumber style={{ width: '100%' }} min={0} max={100} />
           </Form.Item>
 
-          <Form.Item name="stock" label={<span className="dark:text-gray-300">Stock</span>}>
+          <Form.Item name="stock" label={<span className="dark:text-gray-300">Tồn kho</span>}>
             <InputNumber style={{ width: '100%' }} min={0} />
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
+          <Form.Item name="status" label={<span className="dark:text-gray-300">Trạng thái</span>}>
             <Select
               options={[
                 { label: 'Active', value: 'active' },
@@ -240,23 +75,31 @@ function AdminProductsEdit() {
             />
           </Form.Item>
 
-          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
-            <InputNumber style={{ width: '100%' }} min={0} />
+          <Form.Item name="position" label={<span className="dark:text-gray-300">Vị trí</span>}>
+            <InputNumber placeholder="Nhập vị trí hoặc bỏ trống để tự động tạo" style={{ width: '100%' }} min={0} />
           </Form.Item>
 
           <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
-            <Input className="dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300" />
+            <Input
+              className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+              placeholder="Tự động tạo từ tên sản phẩm hoặc tự nhập"
+            />
           </Form.Item>
 
-          <Form.Item name="timeRange" label={<span className="dark:text-gray-300">Promotion Time Range</span>}>
-            <RangePicker className="w-full dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300" format="YYYY-MM-DD" showTime />
+          <Form.Item name="timeRange" label={<span className="dark:text-gray-300">Thời gian khuyến mãi</span>}>
+            <RangePicker
+              className="dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+              style={{ width: '100%' }}
+              format="YYYY-MM-DD"
+              showTime
+            />
           </Form.Item>
 
-          <Form.Item label={<span className="dark:text-gray-300">Options</span>}>
+          <Form.Item label={<span className="dark:text-gray-300">Tuỳ chọn</span>}>
             <Row gutter={16}>
               <Col>
                 <Form.Item name="isTopDeal" valuePropName="checked" noStyle>
-                  <Checkbox className="dark:text-gray-300 !p-[4px_2px]">Top Deal</Checkbox>
+                  <Checkbox className="dark:text-gray-300">Top Deal</Checkbox>
                 </Form.Item>
               </Col>
 
@@ -298,13 +141,13 @@ function AdminProductsEdit() {
         </Col>
 
         <Col span={24}>
-          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
+          <Form.Item name="description" label={<span className="dark:text-gray-300">Mô tả ngắn</span>}>
             <TiptapEditor value={form.getFieldValue('description')} onChange={value => form.setFieldsValue({ description: value })} />
           </Form.Item>
         </Col>
 
         <Col span={24}>
-          <Form.Item name="content" label={<span className="dark:text-gray-300">Content</span>}>
+          <Form.Item name="content" label={<span className="dark:text-gray-300">Nội dung chi tiết</span>}>
             <TiptapEditor value={form.getFieldValue('content')} onChange={value => form.setFieldsValue({ content: value })} />
           </Form.Item>
         </Col>
@@ -312,15 +155,16 @@ function AdminProductsEdit() {
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label={<span className="dark:text-gray-300">Thumbnail</span>}
+            label={<span className="dark:text-gray-300">Ảnh đại diện</span>}
             valuePropName="fileList"
             getValueFromEvent={getFileListFromEvent}
-            rules={[{ required: true, message: 'Please upload an image!' }]}
+            rules={[{ required: true, message: 'Vui lòng upload ảnh đại diện!' }]}
+            extra={<span className="text-xs text-gray-400">Ảnh chính hiển thị ở card sản phẩm.</span>}
           >
             <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeUploadImage}>
               <div>
                 <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Image</div>
+                <div className="mt-2 dark:text-gray-300">Thêm ảnh</div>
               </div>
             </Upload>
           </Form.Item>
@@ -332,11 +176,12 @@ function AdminProductsEdit() {
             label={<span className="dark:text-gray-300">Ảnh mẫu sản phẩm</span>}
             valuePropName="fileList"
             getValueFromEvent={getFileListFromEvent}
+            extra={<span className="text-xs text-gray-400">Có thể upload nhiều ảnh để hiển thị trong trang chi tiết.</span>}
           >
             <Upload listType="picture-card" multiple maxCount={12} accept="image/*" beforeUpload={beforeUploadImage}>
               <div>
                 <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Image</div>
+                <div className="mt-2 dark:text-gray-300">Thêm ảnh</div>
               </div>
             </Upload>
           </Form.Item>
@@ -345,11 +190,11 @@ function AdminProductsEdit() {
 
       <Form.Item style={{ textAlign: 'right' }}>
         <Button onClick={() => navigate(pathNavigate)} disabled={loading} style={{ marginRight: 8 }}>
-          Cancel
+          Huỷ
         </Button>
 
-        <Button type="primary" htmlType="submit" loading={loading} style={{ width: 140 }}>
-          {loading ? 'Saving...' : 'Save Changes'}
+        <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 130 }}>
+          {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
         </Button>
       </Form.Item>
     </Form>

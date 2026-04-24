@@ -42,6 +42,32 @@ export const clientUpdateProfile = async formData => {
   return await patch('user/update-profile', formData)
 }
 
+export const updateClientCheckoutProfile = async profile => {
+  const candidatePaths = ['user/checkout-profile', 'user/update-checkout-profile']
+  let lastError = null
+
+  for (const path of candidatePaths) {
+    try {
+      return await patch(path, profile)
+    } catch (error) {
+      const message = `${error?.message || error?.response?.message || ''}`.toLowerCase()
+      const isMissingRoute = error?.status === 404 && (
+        message.includes('route không tồn tại') ||
+        message.includes('route khong ton tai') ||
+        message.includes('route not found')
+      )
+
+      if (!isMissingRoute) {
+        throw error
+      }
+
+      lastError = error
+    }
+  }
+
+  throw lastError || new Error('Không tìm thấy endpoint lưu thông tin đặt hàng')
+}
+
 export const requestEmailUpdate = async email => {
   return await post('user/request-email-update', { email })
 }

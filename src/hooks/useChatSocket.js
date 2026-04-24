@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { syncClientStateFromBotTools } from '@/lib/clientCache'
 import { getSocket } from '@/services/socketService'
 import { hasChatImages, isSameImagePayload, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
 
@@ -12,7 +14,9 @@ export function useChatSocket({
   setIsTypingAgent,
   setIsResolved
 }) {
+  const dispatch = useDispatch()
   const typingTimer = useRef(null)
+  const botToolSyncQueue = useRef(Promise.resolve())
 
   useEffect(() => {
     const socket = getSocket()
@@ -23,33 +27,40 @@ export function useChatSocket({
     socket.on('connect', joinRoom)
 
     const onMessage = (msg) => {
+      const isBotMessage = msg.sender === 'bot'
+      const toolsUsed = isBotMessage ? msg.metadata?.toolsUsed : []
+      const nextMsg = isBotMessage ? { ...msg, isNew: true } : msg
+
       setMessages(prev => {
-        if (prev.some(m => m._id?.toString() === msg._id?.toString())) return prev
-        if (msg.sender === 'customer' || msg.sender === 'guest') {
+        if (prev.some(m => m._id?.toString() === nextMsg._id?.toString())) return prev
+        if (nextMsg.sender === 'customer' || nextMsg.sender === 'guest') {
           const optimisticIndex = prev.findIndex(m =>
             m.isOptimistic &&
             (
-              (msg.clientTempId && m.clientTempId === msg.clientTempId) ||
-              (msg.type === 'image' && m.type === 'image' && isSameImagePayload(m, msg)) ||
-              (msg.type === 'image' && m.type === 'image' && isSameOptimisticImageMessage(m, msg)) ||
-              (!hasChatImages(msg) && m.message === msg.message)
+              (nextMsg.clientTempId && m.clientTempId === nextMsg.clientTempId) ||
+              (nextMsg.type === 'image' && m.type === 'image' && isSameImagePayload(m, nextMsg)) ||
+              (nextMsg.type === 'image' && m.type === 'image' && isSameOptimisticImageMessage(m, nextMsg)) ||
+              (!hasChatImages(nextMsg) && m.message === nextMsg.message)
             )
           )
           if (optimisticIndex !== -1) {
             const newMsgs = [...prev]
             revokeChatImageUrls(newMsgs[optimisticIndex])
-            newMsgs[optimisticIndex] = msg
+            newMsgs[optimisticIndex] = nextMsg
             return newMsgs
           }
         }
-        if (msg.sender === 'bot') {
-          msg.isNew = true
-        }
-        return [...prev, msg]
+        return [...prev, nextMsg]
       })
-      if ((msg.sender === 'agent' || msg.sender === 'bot') && !open) setUnread(u => u + 1)
-      if (msg.sender === 'bot') setIsBotTyping(false)
-      if (msg.type === 'system') setConversation(prev => prev ? { ...prev } : prev)
+      if (Array.isArray(toolsUsed) && toolsUsed.length > 0) {
+        botToolSyncQueue.current = botToolSyncQueue.current
+          .catch(() => undefined)
+          .then(() => syncClientStateFromBotTools(dispatch, toolsUsed))
+          .catch(() => undefined)
+      }
+      if ((nextMsg.sender === 'agent' || nextMsg.sender === 'bot') && !open) setUnread(u => u + 1)
+      if (nextMsg.sender === 'bot') setIsBotTyping(false)
+      if (nextMsg.type === 'system') setConversation(prev => prev ? { ...prev } : prev)
     }
 
     const onTyping = ({ isTyping }) => {
@@ -82,7 +93,7 @@ export function useChatSocket({
       socket.off('chat:resolved', onResolved)
       socket.off('chat:conversation_updated', onConvUpdated)
     }
-  }, [sessionId, open, setMessages, setUnread, setIsBotTyping, setConversation, setIsTypingAgent, setIsResolved])
+  }, [dispatch, sessionId, open, setMessages, setUnread, setIsBotTyping, setConversation, setIsTypingAgent, setIsResolved])
 
   const requestHumanAgent = () => {
     setConversation(prev => ({

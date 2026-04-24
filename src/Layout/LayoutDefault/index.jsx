@@ -2,12 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Drawer, Grid, Layout, notification } from 'antd'
 import { Package } from 'lucide-react'
 import { useSelector } from 'react-redux'
-import FloatingButtons from '@/components/FloatingButtons'
 import LiveChat from '@/components/LiveChat'
 import CompareBar from '@/components/CompareBar'
 import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
 import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
-import MenuSider from '../../components/MenuSider'
+import MenuSider from './components/MenuSider'
+import {
+  clearStoredNotifications,
+  createOrderStatusNotification,
+  getDesktopNotificationBody,
+  loadStoredNotifications,
+  prependNotification,
+  saveStoredNotifications
+} from './components/NotificationBell/notificationUtils'
 import Footer from './Footer'
 import Header from './Header'
 import './LayoutDefault.scss'
@@ -21,12 +28,22 @@ function LayoutDefault() {
   const isDesktop = screens.lg
   const [drawerOpen, setDrawerOpen] = useState(false)
   const user = useSelector(state => state.clientUser.user)
+  const [notifications, setNotifications] = useState(() => loadStoredNotifications())
   const [notifApi, notifContextHolder] = notification.useNotification()
+
+  useEffect(() => {
+    if (user?._id) {
+      saveStoredNotifications(notifications)
+    } else {
+      clearStoredNotifications()
+    }
+  }, [notifications, user?._id])
 
   useEffect(() => {
     const token = getClientAccessToken() || getClientAccessTokenSession()
 
     if (!token || !user?._id) {
+      setNotifications([])
       return
     }
 
@@ -34,16 +51,14 @@ function LayoutDefault() {
     const socket = getSocket()
 
     const handleStatusUpdate = ({ _id, status }) => {
-      const statusMap = {
-        confirmed: 'Da xac nhan',
-        shipping: 'Dang giao hang',
-        completed: 'Da hoan thanh',
-        cancelled: 'Da huy'
-      }
+      const orderUpdate = { _id, status }
+      const notificationItem = createOrderStatusNotification(orderUpdate)
+
+      setNotifications(prev => prependNotification(prev, notificationItem))
 
       notifApi.open({
-        message: 'Cap nhat don hang',
-        description: `Don hang #${String(_id).slice(-6).toUpperCase()} -> ${statusMap[status] || status}`,
+        message: 'Cập nhật đơn hàng',
+        description: getDesktopNotificationBody(orderUpdate),
         icon: <Package className="text-blue-500" />,
         placement: 'topRight',
         duration: 6
@@ -61,7 +76,7 @@ function LayoutDefault() {
   return (
     <Layout className="layout-default">
       {notifContextHolder}
-      <Header onOpenMenu={() => setDrawerOpen(true)} />
+      <Header onOpenMenu={() => setDrawerOpen(true)} notifications={notifications} setNotifications={setNotifications} />
 
       <Layout className="layout-default__body dark:bg-gray-700">
         {isDesktop && (
@@ -77,9 +92,6 @@ function LayoutDefault() {
           <Footer />
         </Layout>
       </Layout>
-
-      <FloatingButtons />
-
       {!isDesktop && (
         <Drawer
           title={<span className="dark:text-white">Danh muc san pham</span>}

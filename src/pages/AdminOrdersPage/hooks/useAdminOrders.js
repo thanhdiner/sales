@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAllOrders } from '@/services/adminOrdersService'
+import { useAsyncListData } from '@/hooks/useAsyncListData'
+import { stringFilter, useListSearchParams } from '@/hooks/useListSearchParams'
 import {
   ADMIN_ORDERS_PAGE_LIMIT,
   ADMIN_ORDERS_SEARCH_DEBOUNCE_MS,
@@ -7,33 +9,39 @@ import {
 } from '../utils'
 
 export function useAdminOrders() {
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [keyword, setKeyword] = useState('')
-  const [debouncedKeyword, setDebouncedKeyword] = useState('')
-  const [status, setStatus] = useState('')
-  const [page, setPage] = useState(1)
-  const [total, setTotal] = useState(0)
-  const latestRequestRef = useRef(0)
-
-  const totalPages = Math.max(1, Math.ceil(total / ADMIN_ORDERS_PAGE_LIMIT))
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebouncedKeyword(keyword.trim())
-    }, ADMIN_ORDERS_SEARCH_DEBOUNCE_MS)
-
-    return () => clearTimeout(timeoutId)
-  }, [keyword])
+  const { page, setPage, filters, setFilters } = useListSearchParams({
+    defaultPage: 1,
+    filterParsers: {
+      keyword: stringFilter,
+      status: stringFilter
+    }
+  })
+  const [keyword, setKeyword] = useState(filters.keyword || '')
+  const [debouncedKeyword, setDebouncedKeyword] = useState(filters.keyword || '')
+  const [status, setStatus] = useState(filters.status || '')
 
   useEffect(() => {
-    let isMounted = true
-    const requestId = latestRequestRef.current + 1
-    latestRequestRef.current = requestId
+    const nextKeyword = filters.keyword || ''
+    const nextStatus = filters.status || ''
 
-    const fetchOrders = async () => {
-      setLoading(true)
+    if (nextKeyword !== keyword) setKeyword(nextKeyword)
+    if (nextKeyword !== debouncedKeyword) setDebouncedKeyword(nextKeyword)
+    if (nextStatus !== status) setStatus(nextStatus)
+  }, [filters, keyword, debouncedKeyword, status])
 
+  const updateFilters = useCallback(
+    nextFilters => {
+      setFilters(nextFilters)
+    },
+    [setFilters]
+  )
+
+  const {
+    items: orders,
+    total,
+    loading
+  } = useAsyncListData(
+    async () => {
       try {
         const response = await getAllOrders(
           getAdminOrdersQueryParams({
@@ -44,51 +52,50 @@ export function useAdminOrders() {
           })
         )
 
-        if (!isMounted || requestId !== latestRequestRef.current) return
-
         if (response?.success) {
-          setOrders(Array.isArray(response.orders) ? response.orders : [])
-          setTotal(Number(response.total) || 0)
-          return
+          return {
+            items: response.orders,
+            total: response.total
+          }
         }
-
-        setOrders([])
-        setTotal(0)
       } catch (error) {
-        if (isMounted && requestId === latestRequestRef.current) {
-          console.error('Lỗi lấy danh sách đơn hàng:', error)
-          setOrders([])
-          setTotal(0)
-        }
-      } finally {
-        if (isMounted && requestId === latestRequestRef.current) {
-          setLoading(false)
-        }
+        console.error('Lỗi lấy danh sách đơn hàng:', error)
       }
-    }
 
-    fetchOrders()
+      return {
+        items: [],
+        total: 0
+      }
+    },
+    [debouncedKeyword, status, page]
+  )
 
-    return () => {
-      isMounted = false
-    }
-  }, [debouncedKeyword, status, page])
+  const totalPages = Math.max(1, Math.ceil(total / ADMIN_ORDERS_PAGE_LIMIT))
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const trimmedKeyword = keyword.trim()
+      setDebouncedKeyword(trimmedKeyword)
+      updateFilters({ keyword: trimmedKeyword, status })
+    }, ADMIN_ORDERS_SEARCH_DEBOUNCE_MS)
+
+    return () => clearTimeout(timeoutId)
+  }, [keyword, status, updateFilters])
 
   useEffect(() => {
     if (page > totalPages) {
       setPage(totalPages)
     }
-  }, [page, totalPages])
+  }, [page, totalPages, setPage])
 
   const handleKeywordChange = keyword => {
     setKeyword(keyword)
-    setPage(1)
   }
 
-  const handleStatusChange = status => {
-    setStatus(status)
+  const handleStatusChange = nextStatus => {
+    setStatus(nextStatus)
     setDebouncedKeyword(keyword.trim())
-    setPage(1)
+    updateFilters({ keyword: keyword.trim(), status: nextStatus })
   }
 
   const handlePageChange = nextPage => {

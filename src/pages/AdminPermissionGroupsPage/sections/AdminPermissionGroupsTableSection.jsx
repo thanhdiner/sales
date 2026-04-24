@@ -3,9 +3,14 @@ import { Button, Popconfirm, Space, Switch, Table } from 'antd'
 
 export default function AdminPermissionGroupsTableSection({
   groups,
+  total,
+  currentPage,
+  pageSize,
   loading,
   updatingId,
   permissions,
+  onPageChange,
+  onPageSizeChange,
   onEditGroup,
   onDeleteGroup,
   onToggleGroupActive
@@ -81,7 +86,16 @@ export default function AdminPermissionGroupsTableSection({
         columns={columns}
         rowKey="_id"
         loading={loading}
-        pagination={false}
+        pagination={{
+          current: currentPage,
+          pageSize,
+          total,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} nhóm quyền`,
+          onChange: onPageChange,
+          onShowSizeChange: onPageSizeChange
+        }}
         className="min-w-[680px]"
       />
     </div>

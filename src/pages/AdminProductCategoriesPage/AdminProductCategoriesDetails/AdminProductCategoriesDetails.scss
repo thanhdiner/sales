@@ -1,111 +1,74 @@
-$font-main: 'system-ui', sans-serif;
-$grey-light: #f9f9f9;
-$border: 1px solid #eee;
-
-.admin-product-category {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: $font-main;
-
-  &__title {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-  }
-
-  &__layout {
-    display: flex;
-    gap: 2rem;
-  }
-
-  &__info {
-    flex: 2;
-  }
-
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-
-    td:first-child {
-      width: 200px;
-      background: $grey-light;
-      font-weight: 500;
-    }
-
-    tr {
-      border-bottom: $border;
-    }
-
-    td {
-      padding: 0.75rem 1rem;
-    }
-  }
-
-  &__thumb {
-    flex: 1;
-    text-align: center;
-
-    img {
-      max-width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-bottom: 0.5rem;
-    }
-
-    strong {
-      font-size: 0.9rem;
-      color: #555;
-    }
-  }
-
-  &__empty {
-    text-align: center;
-    color: #999;
-  }
-}
-
-.admin-product-category__table td:last-child {
+.admin-product-category-richtext {
   .ProseMirror,
   div,
   p {
-    line-height: 1.6;
     font-size: 14px;
+    line-height: 1.8;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: inherit;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 1rem 0 0.5rem;
   }
 
   h1 {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0.5rem 0;
   }
 
   h2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin: 0.4rem 0;
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
   }
 
   ul,
   ol {
     display: block !important;
     list-style-position: outside !important;
-    margin: 0.5em 0;
-    padding-left: 1.25em;
+    margin: 0.75rem 0;
+    padding-left: 1.4rem;
   }
 
   ul {
     list-style-type: disc !important;
   }
+
   ol {
     list-style-type: decimal !important;
   }
+
   li {
     display: list-item !important;
     list-style-type: inherit !important;
     color: inherit;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.35rem;
+
     &::marker {
-      color: #888;
+      color: #94a3b8;
     }
+  }
+
+  a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+    border-radius: 16px;
+    margin: 0.75rem 0;
+  }
+}
+
+.dark .admin-product-category-richtext {
+  a {
+    color: #60a5fa;
   }
 }

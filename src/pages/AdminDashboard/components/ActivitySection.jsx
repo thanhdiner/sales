@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar, Card, Col, Row, Space, Table, Tag, Typography } from 'antd'
-import TopCustomers from '@/components/TopCustomers'
+import TopCustomers from './TopCustomers'
 import OrdersTableSkeleton from './OrdersTableSkeleton'
 import { formatCurrency } from '../utils/dashboardTransforms'
 

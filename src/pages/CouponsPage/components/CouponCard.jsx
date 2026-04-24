@@ -10,7 +10,7 @@ const CouponCard = ({ coupon, isCopied, remainingTime, onCopyCoupon, onUseCoupon
     <Card
       className="h-full rounded-xl border-0 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-gray-700"
       cover={
-        <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-4 text-center text-white">
+        <div className="bg-sky-500 p-4 text-center text-white">
           <div className="mb-2 text-4xl">{getCouponCategoryIcon(coupon.category)}</div>
           <div className={`text-3xl font-bold ${getCouponDiscountColorClass(coupon.discountType)}`}>
             {coupon.discountType === 'percent'

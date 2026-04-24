@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
-import { getAdminProducts } from '@/services/productService'
+import { getAdminProducts } from '@/services/adminProductService'
 import {
   EMPTY_FLASH_SALE_FORM,
   mapFlashSaleToFormData,

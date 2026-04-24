@@ -6,7 +6,7 @@ import ProductItem from '../Products/ProductItem'
 import HeroBannerCard from './HeroBannerCard'
 import SuggestionTabs from './SuggestionTabs'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { getRecommendations } from '@/services/productService'
+import { getRecommendations } from '@/services/clientProductService'
 import './DailySuggestionsSession.scss'
 
 // Map FE tab id -> API tab param

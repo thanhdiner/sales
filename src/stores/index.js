@@ -10,7 +10,7 @@ import compareReducer from './compare'
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
-    user: adminUserReducer,
+    adminUser: adminUserReducer,
     websiteConfig: websiteConfigReducer,
     clientUser: userReducer,
     darkMode: darkModeReducer,

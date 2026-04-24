@@ -12,7 +12,7 @@ const { Content } = Layout
 function LayoutAdmin() {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
-  const user = useSelector(state => state.user.user)
+  const user = useSelector(state => state.adminUser.user)
   const newOrderHandlerRef = useRef(null)
 
   // Khởi động socket khi admin vào layout — KHÔNG disconnect khi unmount vì socket phải persistent

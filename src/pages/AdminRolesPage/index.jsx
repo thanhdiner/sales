@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Table, Button, Modal, Form, Input, message, Space, Typography, Popconfirm, Switch, Select } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { Table, Button, Modal, Form, Input, message, Space, Typography, Popconfirm, Switch, Select, Tag } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { getAdminPermissions } from '@/services/permissionService'
 import { createAdminRole, deleteAdminRole, getAdminRoles, toggleStatusAdminRole, updateAdminRoleById } from '@/services/rolesService'
@@ -7,15 +7,24 @@ import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import SEO from '@/components/SEO'
 
-const { Title } = Typography
+const { Title, Text } = Typography
+const DEFAULT_PAGE_SIZE = 10
 
-export default function AdminRolesPage() {const [roles, setRoles] = useState([])
+export default function AdminRolesPage() {
+  const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState({ visible: false, editing: null })
   const [form] = Form.useForm()
   const [updatingId, setUpdatingId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
   const { bodyStyle, contentRef } = useModalBodyScroll(modal.visible)
+
+  const paginatedRoles = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize
+    return roles.slice(startIndex, startIndex + pageSize)
+  }, [currentPage, pageSize, roles])
 
   const hasPermissions = useAdminPermissions()
 
@@ -24,208 +33,247 @@ export default function AdminRolesPage() {const [roles, setRoles] = useState([]
     fetchPermissions()
   }, [])
 
+  useEffect(() => {
+    if (modal.visible) {
+      if (modal.editing) {
+        form.setFieldsValue(modal.editing)
+      } else {
+        form.resetFields()
+        form.setFieldsValue({ label: '', description: '', permissions: [], isActive: true })
+      }
+    }
+  }, [modal.visible, modal.editing, form])
+
   const fetchData = async () => {
     setLoading(true)
+
     try {
       const res = await getAdminRoles()
-      setRoles(res.data)
+      setRoles(res.data || [])
     } catch {
       setRoles([])
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const fetchPermissions = async () => {
     try {
       const res = await getAdminPermissions()
-      setPermissions(res.data.filter(p => !p.deleted))
+      setPermissions((res.data || []).filter(permission => !permission.deleted))
     } catch {
       setPermissions([])
     }
   }
 
-  useEffect(() => {
-    if (modal.visible) {
-      if (modal.editing) form.setFieldsValue(modal.editing)
-      else form.resetFields()
-    }
-  }, [modal.visible, modal.editing, form])
-
   const handleCreate = () => setModal({ visible: true, editing: null })
+
   const handleEdit = role => setModal({ visible: true, editing: role })
 
   const handleDelete = async role => {
     setLoading(true)
+
     try {
       await deleteAdminRole(role._id)
-      message.success('Role deleted!')
+      message.success('Đã xóa vai trò')
       fetchData()
-    } catch (e) {
-      message.error(e?.response?.data?.message || 'Failed to delete role')
+    } catch (error) {
+      message.error(error?.response?.data?.message || 'Không thể xóa vai trò')
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleToggleActive = async role => {
     setUpdatingId(role._id)
+
     try {
       await toggleStatusAdminRole(role._id)
-      message.success(!role.isActive ? 'Đã kích hoạt role!' : 'Đã ẩn role!')
+      message.success(!role.isActive ? 'Đã kích hoạt vai trò' : 'Đã tạm dừng vai trò')
       fetchData()
     } catch {
-      message.error('Lỗi khi thay đổi trạng thái')
+      message.error('Không thể thay đổi trạng thái')
+    } finally {
+      setUpdatingId(null)
     }
-    setUpdatingId(null)
   }
 
   const handleOk = async () => {
     try {
       const data = await form.validateFields()
       setLoading(true)
+
       if (modal.editing) {
         await updateAdminRoleById(modal.editing._id, data)
-        message.success('Role updated!')
+        message.success('Đã cập nhật vai trò')
       } else {
         await createAdminRole(data)
-        message.success('Role created!')
+        message.success('Đã tạo vai trò')
       }
+
       setModal({ visible: false, editing: null })
       fetchData()
-    } catch (e) {
-      if (e?.status === 400 && e?.response?.data?.message) message.error(e.response.data.message)
-      else message.error('Failed to save role')
+    } catch (error) {
+      if (error?.status === 400 && error?.response?.data?.message) {
+        message.error(error.response.data.message)
+      } else if (error?.errorFields) {
+        return
+      } else {
+        message.error('Không thể lưu vai trò')
+      }
+
+      setLoading(false)
     }
-    setLoading(false)
+  }
+
+  const getPermissionTitle = permissionName => {
+    return permissions.find(permission => permission.name === permissionName)?.title || permissionName
   }
 
   const columns = [
     {
-      title: 'Name',
+      title: 'Vai trò',
       dataIndex: 'label',
-      key: 'label'
+      key: 'label',
+      render: label => <span className="font-medium text-gray-900 dark:text-gray-100">{label}</span>
     },
     {
-      title: 'Description',
+      title: 'Mô tả',
       dataIndex: 'description',
-      key: 'description'
+      key: 'description',
+      render: description => <span className="text-gray-600 dark:text-gray-400">{description || 'Không có mô tả'}</span>
     },
     {
-      title: 'Permissions',
+      title: 'Quyền',
       dataIndex: 'permissions',
       key: 'permissions',
-      render: perms =>
-        perms?.length ? (
-          perms.map(p => (
-            <span key={p} className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs inline-block mr-1">
-              {permissions.find(_p => _p.name === p)?.title || p}
-            </span>
-          ))
+      render: rolePermissions =>
+        rolePermissions?.length ? (
+          <div className="flex flex-wrap gap-1.5">
+            {rolePermissions.map(permission => (
+              <Tag key={permission} className="m-0 rounded-full border-gray-200 bg-gray-50 px-2 py-0.5 text-xs text-gray-700">
+                {getPermissionTitle(permission)}
+              </Tag>
+            ))}
+          </div>
         ) : (
-          <i className="text-gray-400 text-xs">None</i>
+          <span className="text-xs text-gray-400">Chưa có quyền</span>
         )
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'isActive',
       key: 'isActive',
+      width: 150,
       render: (isActive, record) => (
         <Switch
           checked={isActive}
-          checkedChildren="active"
-          unCheckedChildren="inactive"
+          checkedChildren="Bật"
+          unCheckedChildren="Tắt"
           loading={updatingId === record._id}
           onChange={() => handleToggleActive(record)}
           disabled={!hasPermissions.includes('edit_role')}
         />
-      ),
-      width: 120
+      )
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
+      width: 130,
       render: (_, record) => (
-        <Space>
+        <Space size="small">
           {hasPermissions.includes('edit_role') && (
-            <Button
-              icon={<EditOutlined className="dark:text-gray-300" />}
-              onClick={() => handleEdit(record)}
-              className="text-blue-500 hover:bg-blue-100 dark:bg-gray-500  dark:hover:!bg-gray-400"
-            />
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} className="rounded-lg" />
           )}
+
           {hasPermissions.includes('delete_role') && (
             <Popconfirm
-              title="Xoá role này? (Không thể xoá nếu còn user liên kết)"
+              title="Xóa vai trò này?"
+              description="Không thể xóa nếu vai trò vẫn đang được gán cho người dùng."
               onConfirm={() => handleDelete(record)}
-              okText="Yes"
-              cancelText="No"
+              okText="Xóa"
+              cancelText="Hủy"
             >
-              <Button
-                icon={<DeleteOutlined className="dark:text-gray-300" />}
-                danger
-                className="hover:bg-red-100 dark:bg-red-500 dark:hover:!bg-red-400"
-              />
+              <Button icon={<DeleteOutlined />} danger className="rounded-lg" />
             </Popconfirm>
           )}
         </Space>
-      ),
-      width: 100
+      )
     }
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-800 p-6">
+    <div className="min-h-screen rounded-xl bg-slate-50 p-6 dark:bg-gray-900">
       <SEO title="Admin – Vai trò" noIndex />
-            <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center space-x-3 flex-1">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <PlusOutlined className="text-white text-xl" />
-            </div>
+
+      <div className="mx-auto max-w-7xl">
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <Title level={3} className="text-gray-900 dark:text-gray-200">
-                Roles
+              <Title level={2} className="!mb-1 !text-2xl !font-semibold !text-gray-900 dark:!text-white">
+                Vai trò
               </Title>
-              <p className="text-gray-500 text-sm">Manage your roles here</p>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">
+                Quản lý vai trò và phân quyền truy cập cho tài khoản quản trị.
+              </Text>
             </div>
+
+            {hasPermissions.includes('create_role') && (
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={handleCreate}
+                className="h-10 rounded-lg bg-gray-900 px-4 font-medium shadow-none hover:!bg-gray-800 sm:w-auto"
+              >
+                Thêm vai trò
+              </Button>
+            )}
           </div>
-          {hasPermissions.includes('create_role') && (
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={handleCreate}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg px-6 py-3 w-full sm:w-auto"
-            >
-              New Role
-            </Button>
-          )}
+
+          <div className="overflow-x-auto">
+            <Table
+              dataSource={paginatedRoles}
+              columns={columns}
+              rowKey="_id"
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                pageSize,
+                total: roles.length,
+                showSizeChanger: true,
+                showQuickJumper: true,
+                showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} vai trò`,
+                onChange: page => setCurrentPage(page),
+                onShowSizeChange: (page, size) => {
+                  setCurrentPage(page)
+                  setPageSize(size)
+                }
+              }}
+              className="min-w-[720px]"
+            />
+          </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto custom-scrollbar mb-6">
-          <Table
-            dataSource={roles}
-            columns={columns}
-            rowKey="_id"
-            bordered
-            loading={loading}
-            pagination={false}
-            style={{ minWidth: 720 }}
-          />
-        </div>
-
-        {/* Modal */}
         <Modal
-          title={<span className="dark:text-gray-300">{modal.editing ? 'Edit Role' : 'Create Role'}</span>}
+          title={
+            <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
+              {modal.editing ? 'Chỉnh sửa vai trò' : 'Thêm vai trò'}
+            </span>
+          }
           open={modal.visible}
           onOk={handleOk}
           onCancel={() => setModal({ visible: false, editing: null })}
-          okText={modal.editing ? 'Save' : 'Create'}
+          okText={modal.editing ? 'Lưu' : 'Tạo'}
+          cancelText="Hủy"
           destroyOnClose
           confirmLoading={loading}
-          className="custom-modal"
           centered
           styles={{ body: bodyStyle }}
+          okButtonProps={{
+            className: 'rounded-lg bg-gray-900 font-medium hover:!bg-gray-800'
+          }}
+          cancelButtonProps={{
+            className: 'rounded-lg'
+          }}
         >
           <div ref={contentRef}>
             <Form
@@ -233,29 +281,28 @@ export default function AdminRolesPage() {const [roles, setRoles] = useState([]
               layout="vertical"
               autoComplete="off"
               initialValues={{ label: '', description: '', permissions: [], isActive: true }}
+              className="mt-4"
             >
-              <Form.Item
-                label={<span className="dark:text-gray-300">Name</span>}
-                name="label"
-                rules={[{ required: true, message: 'Name is required' }]}
-              >
+              <Form.Item label="Tên vai trò" name="label" rules={[{ required: true, message: 'Vui lòng nhập tên vai trò' }]}>
                 <Input
-                  placeholder="Nhập tên vai trò"
-                  className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                  placeholder="Ví dụ: Quản trị sản phẩm"
+                  className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
                 />
               </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Description</span>} name="description">
+
+              <Form.Item label="Mô tả" name="description">
                 <Input.TextArea
-                  rows={2}
-                  placeholder="Mô tả ngắn gọn"
-                  className="rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+                  rows={3}
+                  placeholder="Mô tả ngắn về vai trò"
+                  className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
                 />
               </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Permissions</span>} name="permissions">
+
+              <Form.Item label="Quyền hạn" name="permissions">
                 <Select
                   mode="multiple"
                   allowClear
-                  options={permissions.map(p => ({ label: p.title, value: p.name }))}
+                  options={permissions.map(permission => ({ label: permission.title, value: permission.name }))}
                   placeholder="Chọn quyền cho vai trò này"
                   className="rounded-lg"
                   maxTagCount="responsive"
@@ -263,8 +310,9 @@ export default function AdminRolesPage() {const [roles, setRoles] = useState([]
                   getPopupContainer={trigger => trigger.parentElement}
                 />
               </Form.Item>
-              <Form.Item label={<span className="dark:text-gray-300">Status</span>} name="isActive" valuePropName="checked">
-                <Switch checkedChildren="active" unCheckedChildren="inactive" />
+
+              <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
+                <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
               </Form.Item>
             </Form>
           </div>

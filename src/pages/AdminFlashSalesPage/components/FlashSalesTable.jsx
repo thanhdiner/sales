@@ -1,5 +1,5 @@
 import { Edit2, Trash2 } from 'lucide-react'
-import { Button } from 'antd'
+import { Button, Pagination } from 'antd'
 import dayjs from 'dayjs'
 import {
   formatCurrency,
@@ -7,7 +7,17 @@ import {
   getFlashSaleStatusMeta
 } from '../utils/flashSaleHelpers'
 
-export default function FlashSalesTable({ flashSales, tableLoading, onEdit, onDelete }) {
+export default function FlashSalesTable({
+  flashSales,
+  total,
+  currentPage,
+  pageSize,
+  tableLoading,
+  onPageChange,
+  onPageSizeChange,
+  onEdit,
+  onDelete
+}) {
   return (
     <div className="overflow-hidden rounded-lg border bg-white shadow-sm dark:bg-gray-800">
       <div className="-mx-2 overflow-x-auto sm:mx-0">
@@ -110,6 +120,19 @@ export default function FlashSalesTable({ flashSales, tableLoading, onEdit, onDe
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex justify-end border-t border-gray-200 px-4 py-4 dark:border-gray-700 sm:px-6">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={total}
+          showSizeChanger
+          showQuickJumper
+          showTotal={(count, range) => `${range[0]}-${range[1]} của ${count} flash sale`}
+          onChange={onPageChange}
+          onShowSizeChange={onPageSizeChange}
+        />
       </div>
     </div>
   )

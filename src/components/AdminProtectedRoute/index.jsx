@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 function AdminProtectedRoute({ permission, children }) {
-  const user = useSelector(state => state.user.user)
+  const user = useSelector(state => state.adminUser.user)
 
   if (!user) return null
 

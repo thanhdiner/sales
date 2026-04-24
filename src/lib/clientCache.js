@@ -8,6 +8,20 @@ import { setUser as setClientUser } from '@/stores/user'
 import { setWishlist } from '@/stores/wishlist'
 import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 
+const CART_MUTATION_TOOLS = new Set([
+  'addToCart',
+  'updateCartQuantity',
+  'removeFromCart',
+  'clearCart'
+])
+
+const WISHLIST_MUTATION_TOOLS = new Set([
+  'addToWishlist',
+  'removeFromWishlist',
+  'toggleWishlist',
+  'clearWishlist'
+])
+
 export const hasClientToken = () => Boolean(getClientAccessToken() || getClientAccessTokenSession())
 
 export const getClientToken = () => getClientAccessToken() || getClientAccessTokenSession()
@@ -79,6 +93,48 @@ export const syncCartFromServer = async dispatch => {
 export const syncWishlistFromServer = async dispatch => {
   const wishlist = await getWishlist()
   return syncWishlistState(dispatch, wishlist)
+}
+
+export const getClientSyncTargetsFromTools = toolsUsed => {
+  const normalizedTools = Array.isArray(toolsUsed)
+    ? [...new Set(
+        toolsUsed
+          .filter(tool => typeof tool === 'string')
+          .map(tool => tool.trim())
+          .filter(Boolean)
+      )]
+    : []
+
+  return {
+    cart: normalizedTools.some(tool => CART_MUTATION_TOOLS.has(tool)),
+    wishlist: normalizedTools.some(tool => WISHLIST_MUTATION_TOOLS.has(tool))
+  }
+}
+
+export const syncClientStateFromBotTools = async (dispatch, toolsUsed) => {
+  if (!hasClientToken()) return
+
+  const syncTargets = getClientSyncTargetsFromTools(toolsUsed)
+  const syncTasks = []
+
+  if (syncTargets.cart) {
+    syncTasks.push(syncCartFromServer(dispatch))
+  }
+
+  if (syncTargets.wishlist) {
+    syncTasks.push(syncWishlistFromServer(dispatch))
+  }
+
+  if (syncTasks.length === 0) return
+
+  await Promise.all(syncTasks)
+
+  if (syncTargets.wishlist) {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['client-wishlist', AUTHENTICATED_QUERY_SCOPE] }),
+      queryClient.invalidateQueries({ queryKey: ['client-wishlist-infinite', AUTHENTICATED_QUERY_SCOPE] })
+    ])
+  }
 }
 
 export const clearClientSessionState = dispatch => {

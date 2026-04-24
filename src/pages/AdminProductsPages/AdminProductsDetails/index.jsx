@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getProductById } from '@/services/productService'
+import { getProductById } from '@/services/adminProductService'
 import { Spin } from 'antd'
 import renderRow from '@/utils/renderRow'
 import { adminProductRows } from '@/helpers/adminProductRows'
-import AdminProductThumbnail from '@/components/AdminProductCategoriesTable/AdminProductCategoryThumbnail'
+import AdminProductThumbnail from './components/AdminProductCategoryThumbnail'
 import './AdminProductsDetails.scss'
 import SEO from '@/components/SEO'
 
-function AdminProductsDetails() {const { id } = useParams()
+function AdminProductsDetails() {
+  const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +31,7 @@ function AdminProductsDetails() {const { id } = useParams()
   return (
     <div className="admin-product">
       <SEO title="Admin – Chi tiết sản phẩm" noIndex />
-            <h1 className="admin-product__title dark:text-gray-200">Product Details</h1>
+      <h1 className="admin-product__title dark:text-gray-200">Product Details</h1>
 
       <Spin spinning={isLoading} tip="Loading product...">
         {!isLoading && product ? (

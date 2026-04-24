@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { message } from 'antd'
 import {
   createPromoCode,
@@ -7,51 +7,69 @@ import {
   getPromoCodes,
   updatePromoCode
 } from '@/services/adminPromoCodesService'
+import { useListSearchParams } from '@/hooks/useListSearchParams'
 import {
   DEFAULT_PROMO_CODE_PAGINATION,
   normalizePromoCodeFormValues
 } from '../utils/promoCodeHelpers'
 
 export function useAdminPromoCodesData() {
+  const { page, setPage, pageSize, setPageSize } = useListSearchParams({
+    defaultPage: DEFAULT_PROMO_CODE_PAGINATION.current,
+    defaultPageSize: DEFAULT_PROMO_CODE_PAGINATION.pageSize
+  })
+
   const [promoCodes, setPromoCodes] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedCode, setSelectedCode] = useState(null)
   const [detailModalVisible, setDetailModalVisible] = useState(false)
-  const [pagination, setPagination] = useState(DEFAULT_PROMO_CODE_PAGINATION)
+  const [total, setTotal] = useState(DEFAULT_PROMO_CODE_PAGINATION.total)
 
-  const fetchPromoCodes = useCallback(async (page = 1, pageSize = 10) => {
+  const pagination = useMemo(
+    () => ({
+      ...DEFAULT_PROMO_CODE_PAGINATION,
+      current: page,
+      pageSize,
+      total
+    }),
+    [page, pageSize, total]
+  )
+
+  const fetchPromoCodes = useCallback(async (nextPage = page, nextPageSize = pageSize) => {
     setLoading(true)
 
     try {
-      const res = await getPromoCodes({ page, limit: pageSize })
+      const res = await getPromoCodes({ page: nextPage, limit: nextPageSize })
 
       setPromoCodes(res?.promoCodes || [])
-      setPagination(prev => ({
-        ...prev,
-        current: page,
-        pageSize,
-        total: res?.total || 0
-      }))
+      setTotal(res?.total || 0)
     } catch (err) {
       message.error('Lỗi khi lấy danh sách mã giảm giá')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [page, pageSize])
 
   useEffect(() => {
-    fetchPromoCodes()
-  }, [fetchPromoCodes])
+    fetchPromoCodes(page, pageSize)
+  }, [fetchPromoCodes, page, pageSize])
 
   const refreshCurrentPage = useCallback(() => {
-    return fetchPromoCodes(pagination.current, pagination.pageSize)
-  }, [fetchPromoCodes, pagination.current, pagination.pageSize])
+    return fetchPromoCodes(page, pageSize)
+  }, [fetchPromoCodes, page, pageSize])
 
   const handleTableChange = useCallback(
     tablePagination => {
-      fetchPromoCodes(tablePagination.current, tablePagination.pageSize)
+      const nextPage = tablePagination.current || DEFAULT_PROMO_CODE_PAGINATION.current
+      const nextPageSize = tablePagination.pageSize || DEFAULT_PROMO_CODE_PAGINATION.pageSize
+
+      if (nextPageSize !== pageSize) {
+        setPageSize(nextPageSize)
+      }
+
+      setPage(nextPage)
     },
-    [fetchPromoCodes]
+    [pageSize, setPage, setPageSize]
   )
 
   const handleDelete = useCallback(

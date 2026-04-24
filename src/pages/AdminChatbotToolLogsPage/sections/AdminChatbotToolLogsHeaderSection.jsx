@@ -1,0 +1,45 @@
+import { Link } from 'react-router-dom'
+import { Button, Space, Typography } from 'antd'
+import {
+  FileSearchOutlined,
+  MessageOutlined,
+  ReloadOutlined
+} from '@ant-design/icons'
+
+const { Title, Text } = Typography
+
+export default function AdminChatbotToolLogsHeaderSection({ logsLoading, onReload }) {
+  return (
+    <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex items-center gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600">
+          <FileSearchOutlined style={{ fontSize: 22, color: '#fff' }} />
+        </div>
+
+        <div>
+          <Title level={4} className="!mb-0 dark:text-white">
+            Tool Call Logs
+          </Title>
+
+          <Text type="secondary" className="dark:text-gray-400">
+            Theo dõi agent đã gọi tool nào, với input gì và kết quả trả về ra sao.
+          </Text>
+        </div>
+      </div>
+
+      <Space wrap>
+        <Link to="/admin/chat">
+          <Button icon={<MessageOutlined />}>Live Chat</Button>
+        </Link>
+
+        <Button
+          icon={<ReloadOutlined />}
+          loading={logsLoading}
+          onClick={onReload}
+        >
+          Làm mới logs
+        </Button>
+      </Space>
+    </div>
+  )
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import '@/components/DailySuggestionsSession/DailySuggestionsSession.scss'
 import HeroBannerCard from '@/components/DailySuggestionsSession/HeroBannerCard'
 import ProductItem from '@/components/Products/ProductItem'
-import { getExploreMoreProducts, getRecommendations } from '@/services/productService'
+import { getExploreMoreProducts, getRecommendations } from '@/services/clientProductService'
 import './ExploreMoreSection.scss'
 
 function normalizeProductsResponse(data) {

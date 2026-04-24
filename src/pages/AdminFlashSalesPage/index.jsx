@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { Button, Modal, message } from 'antd'
 import SEO from '@/components/SEO'
@@ -8,8 +9,17 @@ import { useAdminFlashSalesData } from './hooks/useAdminFlashSalesData'
 import { useFlashSaleForm } from './hooks/useFlashSaleForm'
 import { validateFlashSaleForm } from './utils/flashSaleHelpers'
 
+const DEFAULT_PAGE_SIZE = 10
+
 const FlashSaleAdmin = () => {
   const { flashSales, tableLoading, submitLoading, submitFlashSale, deleteFlashSaleItem } = useAdminFlashSalesData()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+
+  const paginatedFlashSales = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize
+    return flashSales.slice(startIndex, startIndex + pageSize)
+  }, [currentPage, flashSales, pageSize])
   const {
     showModal,
     editingItem,
@@ -77,8 +87,16 @@ const FlashSaleAdmin = () => {
         </div>
 
         <FlashSalesTable
-          flashSales={flashSales}
+          flashSales={paginatedFlashSales}
+          total={flashSales.length}
+          currentPage={currentPage}
+          pageSize={pageSize}
           tableLoading={tableLoading}
+          onPageChange={page => setCurrentPage(page)}
+          onPageSizeChange={(page, size) => {
+            setCurrentPage(page)
+            setPageSize(size)
+          }}
           onEdit={openEdit}
           onDelete={handleDelete}
         />

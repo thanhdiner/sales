@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatVietnamAddress } from '@/lib/vietnamAddress'
 
 const InfoCard = ({ label, value, fullWidth = false, breakAll = false }) => {
   return (
@@ -14,6 +15,8 @@ const InfoCard = ({ label, value, fullWidth = false, breakAll = false }) => {
 }
 
 const OrderDeliveryInfoSection = ({ contact = {} }) => {
+  const fullAddress = contact.address || formatVietnamAddress(contact)
+
   return (
     <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
       <div className="mb-5">
@@ -28,6 +31,7 @@ const OrderDeliveryInfoSection = ({ contact = {} }) => {
         <InfoCard label="Số điện thoại" value={contact.phone} />
 
         {contact.email && <InfoCard label="Email" value={contact.email} breakAll />}
+        {fullAddress && <InfoCard label="Địa chỉ" value={fullAddress} fullWidth />}
 
         {contact.notes && <InfoCard label="Ghi chú" value={contact.notes} fullWidth />}
       </div>

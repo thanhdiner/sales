@@ -1,13 +1,18 @@
 import {
+  ApiOutlined,
   AppstoreOutlined,
   BankOutlined,
   CodeSandboxOutlined,
+  FileSearchOutlined,
+  FileTextOutlined,
   ForkOutlined,
   HomeOutlined,
   MessageOutlined,
   RadiusSettingOutlined,
   RobotOutlined,
+  SettingOutlined,
   StarOutlined,
+  ToolOutlined,
   TeamOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
@@ -71,7 +76,15 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     permissions.includes('view_bank_info') && getItem('Bank Info', 'bank-info', <BankOutlined />),
     getItem('Reviews', 'reviews', <StarOutlined />),
     getItem('Live Chat', 'chat', <MessageOutlined />),
-    getItem('AI Chatbot', 'chatbot-config', <RobotOutlined />)
+    filterMenuChildren(
+      getItem('AI', 'ai-agent', <RobotOutlined />, [
+        getItem('Agent Settings', 'chatbot-config', <SettingOutlined />),
+        getItem('Runtime & Provider', 'chatbot-runtime', <ApiOutlined />),
+        getItem('Agent Rules', 'chatbot-rules', <FileTextOutlined />),
+        getItem('Agent Tools', 'chatbot-tools', <ToolOutlined />),
+        getItem('Tool Call Logs', 'chatbot-tool-logs', <FileSearchOutlined />)
+      ])
+    )
   ]
 
   const getLevelKeys = items1 => {
@@ -123,6 +136,10 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     if (pathname.includes('/admin/flash-sales')) return 'flash-sales'
     if (pathname.includes('/admin/bank-info')) return 'bank-info'
     if (pathname.includes('/admin/chat') && !pathname.includes('chatbot')) return 'chat'
+    if (pathname.includes('/admin/chatbot-tool-logs')) return 'chatbot-tool-logs'
+    if (pathname.includes('/admin/chatbot-tools')) return 'chatbot-tools'
+    if (pathname.includes('/admin/chatbot-rules')) return 'chatbot-rules'
+    if (pathname.includes('/admin/chatbot-runtime')) return 'chatbot-runtime'
     if (pathname.includes('/admin/chatbot-config')) return 'chatbot-config'
     return 'dashboard'
   }
@@ -176,7 +193,7 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
         </Link>
       </div>
 
-      <div className="flex-1 overflow-y-auto h-[calc(100vh-60px)] pb-4 bg-white dark:bg-gray-800">
+      <div className="admin-sider-scroll flex-1 overflow-y-auto h-[calc(100vh-60px)] pb-4 bg-white dark:bg-gray-800">
         <Menu
           onClick={({ key }) => navigate(`/admin/${key}`)}
           mode="inline"

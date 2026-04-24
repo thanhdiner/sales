@@ -24,6 +24,7 @@ export default function HeaderSkeleton() {
             <Skeleton.Input style={{ width: 120 }} size="small" active />
             <Skeleton.Avatar size="small" shape="circle" active />
             <Skeleton.Avatar size="small" shape="circle" active />
+            <Skeleton.Avatar size="small" shape="circle" active />
           </div>
         </Col>
       </Row>

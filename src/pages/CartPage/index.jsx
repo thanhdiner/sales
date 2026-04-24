@@ -253,7 +253,7 @@ const CartPage = () => {
   }
 
   const handleCheckout = () => {
-    navigate('/checkout', {
+    navigate('/checkout?step=1', {
       state: {
         orderItems: selectedCartItems,
         promo: appliedPromo,

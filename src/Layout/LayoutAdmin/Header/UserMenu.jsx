@@ -5,7 +5,7 @@ import { clearTokens } from '../../../utils/auth'
 import { useSelector } from 'react-redux'
 
 function UserMenu() {
-  const user = useSelector(state => state.user?.user)
+  const user = useSelector(state => state.adminUser.user)
   const avatarUrl = user?.avatarUrl
   const fullName = user?.fullName
   const navigate = useNavigate()

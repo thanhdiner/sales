@@ -19,10 +19,11 @@ import { userLogout } from '@/services/userService'
 import { setDarkMode } from '@/stores/darkModeSlice'
 import { clearClientTokens, clearClientTokensSession } from '@/utils/auth'
 
-import SearchSuggest from '@/components/SearchSuggest'
+import NotificationBell from './components/NotificationBell'
+import SearchSuggest from './components/SearchSuggest'
 import HeaderSkeleton from '@/components/HeaderSkeleton'
 
-function Header({ onOpenMenu }) {
+function Header({ onOpenMenu, notifications, setNotifications }) {
   // ─── Smart auto-hide header ─────────────────────────────────────
   const [headerHidden, setHeaderHidden] = useState(false)
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
@@ -103,9 +104,9 @@ function Header({ onOpenMenu }) {
     { type: 'divider' },
     {
       key: 'logout',
-      label: <span className="text-red-500">Logout</span>,
-      icon: <LogoutOutlined className="text-red-500" />,
-      danger: true
+      label: 'Logout',
+      icon: <LogoutOutlined />,
+      className: 'header-account-dropdown__logout'
     }
   ]
 
@@ -255,8 +256,8 @@ function Header({ onOpenMenu }) {
 
             {isLoggedIn && (
               <div className="header__action__cart">
-                <Link to="/cart">
-                  <button className="header__action__cart--btn">
+                <Link to="/cart" title="Giỏ hàng" aria-label="Giỏ hàng">
+                  <button className="header__action__cart--btn" title="Giỏ hàng" aria-label="Giỏ hàng">
                     <Badge
                       style={{ transition: 'all 0.1s' }}
                       offset={[5, -5]}
@@ -273,12 +274,15 @@ function Header({ onOpenMenu }) {
               </div>
             )}
 
+            {isLoggedIn && <NotificationBell notifications={notifications} setNotifications={setNotifications} />}
+
             <div className="header__action__account">
               <Dropdown
                 menu={{
                   items: isLoggedIn ? userMenuItems : guestMenuItems,
                   onClick: handleMenuClick
                 }}
+                overlayClassName="header-account-dropdown"
                 open={accountMenuOpen}
                 onOpenChange={handleAccountMenuOpenChange}
                 placement="bottomRight"

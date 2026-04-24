@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FaFacebookMessenger, FaPhoneAlt, FaComments, FaTimes, FaArrowUp } from 'react-icons/fa'
 import { SiZalo } from 'react-icons/si'
 
-const FloatingButtons = () => {
+const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
   const [showScroll, setShowScroll] = useState(false)
   const [openContact, setOpenContact] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -28,6 +28,16 @@ const FloatingButtons = () => {
   }
 
   const contactButtons = [
+    ...(onOpenSupport
+      ? [{
+          onClick: onOpenSupport,
+          icon: <FaComments className="text-lg" />,
+          label: 'SmartMall Support',
+          bgColor: 'bg-violet-600',
+          shadowColor: 'shadow-violet-500/30',
+          badge: supportUnread
+        }]
+      : []),
     {
       href: 'tel:0823387108',
       icon: <FaPhoneAlt className="text-lg" />,
@@ -86,16 +96,41 @@ const FloatingButtons = () => {
                   <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rotate-45 border-r border-b border-gray-100"></div>
                 </div>
 
-                <a
-                  href={button.href}
-                  target={button.target}
-                  rel={button.target ? 'noopener noreferrer' : undefined}
-                  className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
-                >
-                  <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
-                    {button.icon}
-                  </div>
-                </a>
+                {button.href ? (
+                  <a
+                    href={button.href}
+                    target={button.target}
+                    rel={button.target ? 'noopener noreferrer' : undefined}
+                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
+                  >
+                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
+                      {button.icon}
+                    </div>
+                    {button.badge > 0 && (
+                      <span className="absolute -right-1 -top-1 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
+                        {button.badge > 9 ? '9+' : button.badge}
+                      </span>
+                    )}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenContact(false)
+                      button.onClick?.()
+                    }}
+                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
+                  >
+                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
+                      {button.icon}
+                    </div>
+                    {button.badge > 0 && (
+                      <span className="absolute -right-1 -top-1 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
+                        {button.badge > 9 ? '9+' : button.badge}
+                      </span>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -116,6 +151,11 @@ const FloatingButtons = () => {
 
               {!openContact && (
                 <span className="absolute -inset-1 rounded-full border border-[#0b74e5]/30 animate-ping pointer-events-none" />
+              )}
+              {!openContact && supportUnread > 0 && (
+                <span className="absolute -right-1 -top-1 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
+                  {supportUnread > 9 ? '9+' : supportUnread}
+                </span>
               )}
             </button>
           </div>

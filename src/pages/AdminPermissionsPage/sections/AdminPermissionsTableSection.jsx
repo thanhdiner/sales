@@ -4,9 +4,14 @@ import { getPermissionGroupLabel } from '../utils'
 
 export default function AdminPermissionsTableSection({
   permissionList,
+  total,
+  currentPage,
+  pageSize,
   permissionGroups,
   loading,
   grantedPermissions,
+  onPageChange,
+  onPageSizeChange,
   onEditPermission,
   onDeletePermission
 }) {
@@ -77,7 +82,16 @@ export default function AdminPermissionsTableSection({
         columns={columns}
         rowKey="_id"
         loading={loading}
-        pagination={false}
+        pagination={{
+          current: currentPage,
+          pageSize,
+          total,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} quyền`,
+          onChange: onPageChange,
+          onShowSizeChange: onPageSizeChange
+        }}
         className="min-w-[720px]"
       />
     </div>

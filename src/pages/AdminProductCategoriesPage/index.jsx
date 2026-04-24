@@ -1,73 +1,45 @@
 import './AdminProductCategoriesPage.scss'
-import { useCallback, useEffect, useState } from 'react'
-import { getAdminProductCategories } from '@/services/productCategoryService'
-import AdminProductCategoriesTable from '@/components/AdminProductCategoriesTable'
-import AdminProductCategoriesPagination from '@/components/AdminProductCategoriesPagination'
-import AdminProductCategoriesHeaderActions from '@/components/AdminProductCategoriesHeaderActions'
-import AdminProductCategoriesHeader from '@/components/AdminProductCategoriesHeader'
+import AdminProductCategoriesTable from './components/AdminProductCategoriesTable'
+import AdminProductCategoriesPagination from './components/AdminProductCategoriesPagination'
+import AdminProductCategoriesHeaderActions from './components/AdminProductCategoriesHeaderActions'
+import AdminProductCategoriesHeader from './components/AdminProductCategoriesHeader'
 import SEO from '@/components/SEO'
+import { useAdminProductCategoriesPage } from './hooks/useAdminProductCategoriesPage'
 
-function AdminProductCategoriesPage() {const [columnsVisible, setColumnsVisible] = useState(() => {
-    const saved = localStorage.getItem('admin_productCategory_columns')
-    return saved
-      ? JSON.parse(saved)
-      : {
-          _id: true,
-          title: true,
-          position: true,
-          status: true,
-          thumbnail: true,
-          actions: true,
-          createdAt: false,
-          createdBy: false,
-          updateAt: false,
-          updateBy: false
-        }
-  })
-  useEffect(() => {
-    localStorage.setItem('admin_productCategory_columns', JSON.stringify(columnsVisible))
-  }, [columnsVisible])
-
-  //# state
-  const [currentPage, setCurrentPage] = useState(1)
-  const [limitItems, setLimitItems] = useState(10)
-  const [totalProductCategories, setTotalProductCategories] = useState(0)
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [productCategories, setProductCategories] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [value, setValue] = useState()
-  const [editedPositions, setEditedPositions] = useState({})
-  const [sortOrder, setSortOrder] = useState(null)
-  const [sortField, setSortField] = useState(null)
-  const [filterValues, setFilterValues] = useState({})
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true)
-    try {
-      const result = await getAdminProductCategories({
-        page: currentPage,
-        limit: limitItems,
-        sortField,
-        sortOrder,
-        ...filterValues
-      })
-      setProductCategories(result.productCategories)
-      setLimitItems(result.limitItems)
-      setTotalProductCategories(result.total)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [currentPage, limitItems, sortField, sortOrder, filterValues])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+function AdminProductCategoriesPage() {
+  const {
+    columnsVisible,
+    setColumnsVisible,
+    currentPage,
+    setCurrentPage,
+    limitItems,
+    setLimitItems,
+    totalProductCategories,
+    setTotalProductCategories,
+    selectedRowKeys,
+    setSelectedRowKeys,
+    productCategories,
+    setProductCategories,
+    isLoading,
+    value,
+    setValue,
+    editedPositions,
+    setEditedPositions,
+    sortOrder,
+    setSortOrder,
+    sortField,
+    setSortField,
+    filterValues,
+    setFilterValues,
+    filterInitialValues,
+    fetchData
+  } = useAdminProductCategoriesPage()
 
   return (
     <>
       <SEO title="Admin – Danh mục" noIndex />
             <AdminProductCategoriesHeader
-        {...{ setCurrentPage, setLimitItems, setFilterValues, columnsVisible, setColumnsVisible, productCategories }}
+        {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories }}
       />
       <AdminProductCategoriesHeaderActions
         {...{

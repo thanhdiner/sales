@@ -6,7 +6,7 @@ import 'swiper/css/navigation'
 import './TopDeal.scss'
 import { useQuery } from '@tanstack/react-query'
 import ProductItem from '../../Products/ProductItem'
-import { getProducts } from '@/services/productService'
+import { getProducts } from '@/services/clientProductService'
 
 function TopDeal() {
   const { data: products = [], isLoading: loading } = useQuery({

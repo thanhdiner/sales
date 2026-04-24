@@ -1,21 +1,58 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Form, Input, Button, Modal, message, Spin, Card, Divider, Typography } from 'antd'
+import { Form, Input, Button, Modal, message, Spin, Card, Divider, Typography, Select } from 'antd'
 import { CameraOutlined, CloseCircleFilled } from '@ant-design/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile as reduxUpdateProfile } from '@/stores/user'
-import EmailUpdateSection from '@/components/EmailUpdateSection'
+import EmailUpdateSection from './components/EmailUpdateSection'
 import dayjs from 'dayjs'
-import { clientUpdateProfile, requestEmailUpdate, confirmEmailUpdate, getClientMe } from '@/services/userService'
+import {
+  clientUpdateProfile,
+  requestEmailUpdate,
+  confirmEmailUpdate,
+  getClientMe,
+  updateClientCheckoutProfile
+} from '@/services/userService'
+import { buildCheckoutFormDefaults, normalizeCheckoutProfile } from '@/lib/checkoutProfile'
+import useVietnamAddress from '@/hooks/useVietnamAddress'
+import {
+  getDistrictOptions,
+  getProvinceOptions,
+  getWardOptions,
+  hasAnyStructuredVietnamAddressInput,
+  hasCompleteStructuredVietnamAddress,
+  inferVietnamAddressFromText,
+  normalizeVietnamAddress
+} from '@/lib/vietnamAddress'
 import SEO from '@/components/SEO'
 
 const { Title, Text } = Typography
+
+const mapLocationOption = item => ({
+  value: item.code,
+  label: item.name
+})
+
+const CHECKOUT_DELIVERY_OPTIONS = [
+  { value: 'pickup', label: 'Nhận tại website' },
+  { value: 'contact', label: 'Liên hệ riêng' }
+]
+
+const CHECKOUT_PAYMENT_OPTIONS = [
+  { value: 'transfer', label: 'Chuyển khoản' },
+  { value: 'contact', label: 'Thỏa thuận khi liên hệ' },
+  { value: 'vnpay', label: 'VNPay' },
+  { value: 'momo', label: 'MoMo' },
+  { value: 'zalopay', label: 'ZaloPay' }
+]
 
 function ProfilePage() {
   const dispatch = useDispatch()
   const user = useSelector(state => state.clientUser.user)
 
   const [form] = Form.useForm()
+  const [checkoutForm] = Form.useForm()
   const [loading, setLoading] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [avatarFile, setAvatarFile] = useState(null)
   const [avatarPreview, setAvatarPreview] = useState(user?.avatarUrl || '')
   const [showEmailModal, setShowEmailModal] = useState(false)
@@ -25,8 +62,46 @@ function ProfilePage() {
   const [updatingEmail, setUpdatingEmail] = useState(false)
   const [emailWarning, setEmailWarning] = useState('')
   const inputRef = useRef()
+  const checkoutAddressAutofillAttemptedRef = useRef(false)
+  const { tree: addressTree, loading: addressLoading, error: addressError } = useVietnamAddress()
+
+  const checkoutProvinceCode = Form.useWatch('provinceCode', checkoutForm)
+  const checkoutDistrictCode = Form.useWatch('districtCode', checkoutForm)
+  const checkoutAddressLine1 = Form.useWatch('addressLine1', checkoutForm)
+  const checkoutProvinceName = Form.useWatch('provinceName', checkoutForm)
+  const checkoutDistrictName = Form.useWatch('districtName', checkoutForm)
+  const checkoutWardName = Form.useWatch('wardName', checkoutForm)
+  const checkoutLegacyAddress = Form.useWatch('address', checkoutForm)
+
+  const provinceOptions = getProvinceOptions(addressTree).map(mapLocationOption)
+  const districtOptions = getDistrictOptions(addressTree, checkoutProvinceCode).map(mapLocationOption)
+  const wardOptions = getWardOptions(addressTree, checkoutProvinceCode, checkoutDistrictCode).map(mapLocationOption)
+  const checkoutAddressPreview = normalizeVietnamAddress({
+    addressLine1: checkoutAddressLine1,
+    provinceCode: checkoutProvinceCode,
+    provinceName: checkoutProvinceName,
+    districtCode: checkoutDistrictCode,
+    districtName: checkoutDistrictName,
+    wardName: checkoutWardName,
+    address: checkoutLegacyAddress
+  }).address
+
+  const syncCheckoutAddressFields = patch => {
+    const nextValues = normalizeVietnamAddress({
+      ...checkoutForm.getFieldsValue(true),
+      ...patch
+    })
+
+    checkoutForm.setFieldsValue(nextValues)
+  }
 
   useEffect(() => {
+    form.setFieldsValue({
+      fullName: user?.fullName || '',
+      phone: user?.phone || ''
+    })
+    checkoutForm.setFieldsValue(buildCheckoutFormDefaults(user))
+    checkoutAddressAutofillAttemptedRef.current = false
     setAvatarPreview(user?.avatarUrl || '')
 
     if (user?.email?.endsWith('@github.com') || user?.email?.endsWith('@facebook.com') || user?.email === '') {
@@ -36,7 +111,32 @@ function ProfilePage() {
     } else {
       setEmailWarning('')
     }
-  }, [user])
+  }, [checkoutForm, form, user])
+
+  useEffect(() => {
+    if (!addressTree.length || checkoutAddressAutofillAttemptedRef.current === true) return
+
+    const currentValues = normalizeCheckoutProfile(checkoutForm.getFieldsValue(true))
+    checkoutAddressAutofillAttemptedRef.current = true
+
+    if (hasCompleteStructuredVietnamAddress(currentValues)) {
+      return
+    }
+
+    const inferredAddress = inferVietnamAddressFromText(
+      addressTree,
+      currentValues.address || currentValues.addressLine1
+    )
+
+    if (!inferredAddress) {
+      return
+    }
+
+    checkoutForm.setFieldsValue({
+      ...currentValues,
+      ...inferredAddress
+    })
+  }, [addressTree, checkoutForm])
 
   const handleFileChange = async e => {
     const file = e.target.files[0]
@@ -88,6 +188,31 @@ function ProfilePage() {
       message.error(err?.response?.data?.message || 'Cập nhật thất bại!')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSaveCheckoutProfile = async values => {
+    const payload = normalizeCheckoutProfile(values)
+
+    if (
+      hasAnyStructuredVietnamAddressInput(payload) &&
+      !hasCompleteStructuredVietnamAddress(payload)
+    ) {
+      message.error('Vui lòng chọn đầy đủ Tỉnh/Thành, Quận/Huyện, Phường/Xã và nhập địa chỉ chi tiết!')
+      return
+    }
+
+    setCheckoutLoading(true)
+
+    try {
+      const res = await updateClientCheckoutProfile(payload)
+      dispatch(reduxUpdateProfile(res.data))
+      checkoutForm.setFieldsValue(buildCheckoutFormDefaults(res.data))
+      message.success(res.message || 'Đã lưu thông tin đặt hàng mặc định!')
+    } catch (err) {
+      message.error(err?.message || 'Lưu thông tin đặt hàng thất bại!')
+    } finally {
+      setCheckoutLoading(false)
     }
   }
 
@@ -386,6 +511,292 @@ function ProfilePage() {
             </Form>
           </Card>
         </div>
+
+        <Card
+          className="mt-7 rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+          styles={{ body: { padding: '28px' } }}
+        >
+          <div className="mb-6">
+            <Title
+              level={4}
+              className="!mb-2 !text-xl !font-semibold !text-gray-900 dark:!text-white"
+            >
+              Thông tin đặt hàng mặc định
+            </Title>
+
+            <Text className="block max-w-3xl !text-sm !leading-7 !text-gray-600 dark:!text-gray-300">
+              Thông tin ở đây sẽ được tự động điền khi bạn vào trang thanh toán, giúp không phải nhập lại mỗi lần mua hàng.
+            </Text>
+          </div>
+
+          <Form
+            form={checkoutForm}
+            layout="vertical"
+            onFinish={handleSaveCheckoutProfile}
+            size="large"
+          >
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Họ mặc định</span>}
+                name="firstName"
+                className="mb-0"
+              >
+                <Input
+                  placeholder="Nguyễn"
+                  className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Tên mặc định</span>}
+                name="lastName"
+                className="mb-0"
+              >
+                <Input
+                  placeholder="Văn A"
+                  className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Số điện thoại mặc định</span>}
+                name="phone"
+                rules={[
+                  {
+                    pattern: /^$|^[0-9]{9,15}$/,
+                    message: 'Số điện thoại không hợp lệ!'
+                  }
+                ]}
+                className="mb-0"
+              >
+                <Input
+                  placeholder="0123456789"
+                  maxLength={15}
+                  className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Email mặc định</span>}
+                name="email"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'Email không hợp lệ!'
+                  }
+                ]}
+                className="mb-0"
+              >
+                <Input
+                  placeholder="your@email.com"
+                  className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Cách nhận hàng ưa thích</span>}
+                name="deliveryMethod"
+                className="mb-0"
+              >
+                <Select
+                  options={CHECKOUT_DELIVERY_OPTIONS}
+                  className="rounded-lg"
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={<span className="font-medium text-gray-700 dark:text-gray-300">Thanh toán ưa thích</span>}
+                name="paymentMethod"
+                className="mb-0"
+              >
+                <Select
+                  options={CHECKOUT_PAYMENT_OPTIONS}
+                  className="rounded-lg"
+                />
+              </Form.Item>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-900/30">
+              <div className="mb-4">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                  Địa chỉ nhận hàng mặc định
+                </h3>
+                <p className="mt-2 mb-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  Chọn theo từng cấp để giảm nhập sai địa chỉ. Nếu đơn của bạn không cần giao vật lý, bạn có thể để trống phần này.
+                </p>
+              </div>
+
+              {addressError ? (
+                <div className="space-y-4">
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+                    Không tải được danh sách địa chỉ Việt Nam. Bạn có thể nhập tạm địa chỉ thủ công.
+                  </div>
+
+                  <Form.Item
+                    label={<span className="font-medium text-gray-700 dark:text-gray-300">Địa chỉ / thông tin nhận hàng</span>}
+                    name="address"
+                    className="mb-0"
+                  >
+                    <Input.TextArea
+                      rows={3}
+                      placeholder="Ví dụ: số nhà, đường, phường/xã, quận/huyện, tỉnh/thành..."
+                      className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                    />
+                  </Form.Item>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                    <Form.Item
+                      label={<span className="font-medium text-gray-700 dark:text-gray-300">Tỉnh / Thành phố</span>}
+                      name="provinceCode"
+                      className="mb-0"
+                    >
+                      <Select
+                        showSearch
+                        allowClear
+                        loading={addressLoading}
+                        options={provinceOptions}
+                        placeholder="Chọn Tỉnh / Thành phố"
+                        optionFilterProp="label"
+                        className="rounded-lg"
+                        onChange={value => {
+                          const nextProvince = provinceOptions.find(option => option.value === value)
+                          syncCheckoutAddressFields({
+                            provinceCode: value || '',
+                            provinceName: nextProvince?.label || '',
+                            districtCode: '',
+                            districtName: '',
+                            wardCode: '',
+                            wardName: ''
+                          })
+                        }}
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label={<span className="font-medium text-gray-700 dark:text-gray-300">Quận / Huyện</span>}
+                      name="districtCode"
+                      className="mb-0"
+                    >
+                      <Select
+                        showSearch
+                        allowClear
+                        loading={addressLoading}
+                        disabled={!checkoutProvinceCode}
+                        options={districtOptions}
+                        placeholder={checkoutProvinceCode ? 'Chọn Quận / Huyện' : 'Chọn Tỉnh / Thành phố trước'}
+                        optionFilterProp="label"
+                        className="rounded-lg"
+                        onChange={value => {
+                          const nextDistrict = districtOptions.find(option => option.value === value)
+                          syncCheckoutAddressFields({
+                            districtCode: value || '',
+                            districtName: nextDistrict?.label || '',
+                            wardCode: '',
+                            wardName: ''
+                          })
+                        }}
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label={<span className="font-medium text-gray-700 dark:text-gray-300">Phường / Xã</span>}
+                      name="wardCode"
+                      className="mb-0"
+                    >
+                      <Select
+                        showSearch
+                        allowClear
+                        loading={addressLoading}
+                        disabled={!checkoutDistrictCode}
+                        options={wardOptions}
+                        placeholder={checkoutDistrictCode ? 'Chọn Phường / Xã' : 'Chọn Quận / Huyện trước'}
+                        optionFilterProp="label"
+                        className="rounded-lg"
+                        onChange={value => {
+                          const nextWard = wardOptions.find(option => option.value === value)
+                          syncCheckoutAddressFields({
+                            wardCode: value || '',
+                            wardName: nextWard?.label || ''
+                          })
+                        }}
+                      />
+                    </Form.Item>
+                  </div>
+
+                  <Form.Item
+                    label={<span className="font-medium text-gray-700 dark:text-gray-300">Địa chỉ chi tiết</span>}
+                    name="addressLine1"
+                    className="mt-5 mb-0"
+                  >
+                    <Input
+                      placeholder="Số nhà, tên đường, tòa nhà, hẻm..."
+                      className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                      onChange={e => syncCheckoutAddressFields({ addressLine1: e.target.value })}
+                    />
+                  </Form.Item>
+
+                  {checkoutAddressPreview && (
+                    <div className="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm leading-6 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                      <span className="font-medium text-gray-900 dark:text-gray-100">Địa chỉ đầy đủ:</span>{' '}
+                      {checkoutAddressPreview}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            <Form.Item name="provinceName" hidden>
+              <Input />
+            </Form.Item>
+
+            <Form.Item name="districtName" hidden>
+              <Input />
+            </Form.Item>
+
+            <Form.Item name="wardName" hidden>
+              <Input />
+            </Form.Item>
+
+            <Form.Item name="address" hidden>
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label={<span className="font-medium text-gray-700 dark:text-gray-300">Ghi chú mặc định</span>}
+              name="notes"
+              className="mt-5 mb-0"
+            >
+              <Input.TextArea
+                rows={3}
+                placeholder="Các lưu ý mà bạn thường dùng khi đặt hàng"
+                className="rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+              />
+            </Form.Item>
+
+            <Divider className="my-7" />
+
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <Button
+                size="large"
+                className="h-auto rounded-lg border-gray-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-800 hover:!border-gray-300 hover:!text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                onClick={() => checkoutForm.setFieldsValue(buildCheckoutFormDefaults(user))}
+              >
+                Khôi phục
+              </Button>
+
+              <Button
+                htmlType="submit"
+                loading={checkoutLoading}
+                size="large"
+                className="h-auto rounded-lg bg-gray-900 px-6 py-2.5 text-sm font-semibold text-white hover:!bg-gray-800 hover:!text-white dark:bg-gray-100 dark:text-gray-900 dark:hover:!bg-white"
+              >
+                {checkoutLoading ? 'Đang lưu...' : 'Lưu thông tin đặt hàng'}
+              </Button>
+            </div>
+          </Form>
+        </Card>
 
         <Modal
           title="Cập nhật email mới"
