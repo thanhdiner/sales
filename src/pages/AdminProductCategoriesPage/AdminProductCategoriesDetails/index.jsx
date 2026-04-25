@@ -9,47 +9,46 @@ import { capitalize } from '@/utils/capitalize'
 import AdminProductCategoryThumbnail from './components/AdminProductCategoryThumbnail'
 import './AdminProductCategoriesDetails.scss'
 
-const getStatusClasses = status => {
-  if (status === 'active') {
-    return 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300'
-  }
+const DASH = '—'
 
-  return 'border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300'
-}
+const getStatusClassName = status =>
+  status === 'active'
+    ? 'admin-product-category-details__status-chip admin-product-category-details__status-chip--active'
+    : 'admin-product-category-details__status-chip admin-product-category-details__status-chip--inactive'
 
 const getOverviewCards = category => [
   {
     label: 'Trạng thái',
     value: capitalize(category.status || 'inactive'),
     icon: <TagOutlined />,
-    tone: 'from-emerald-500/15 via-white to-white dark:from-emerald-500/10 dark:via-gray-900 dark:to-gray-900'
+    tone: 'admin-product-category-details__overview-card--status'
   },
   {
     label: 'Vị trí hiển thị',
-    value: category.position ?? '—',
+    value: category.position ?? DASH,
     icon: <FolderOpenOutlined />,
-    tone: 'from-sky-500/15 via-white to-white dark:from-sky-500/10 dark:via-gray-900 dark:to-gray-900'
+    tone: 'admin-product-category-details__overview-card--position'
   },
   {
     label: 'Ngày tạo',
     value: formatDate(category.createdAt),
     icon: <HistoryOutlined />,
-    tone: 'from-violet-500/15 via-white to-white dark:from-violet-500/10 dark:via-gray-900 dark:to-gray-900'
+    tone: 'admin-product-category-details__overview-card--created'
   },
   {
     label: 'Cập nhật gần nhất',
-    value: category.updatedAt ? formatDate(category.updatedAt) : '—',
+    value: category.updatedAt ? formatDate(category.updatedAt) : DASH,
     icon: <HistoryOutlined />,
-    tone: 'from-amber-500/15 via-white to-white dark:from-amber-500/10 dark:via-gray-900 dark:to-gray-900'
+    tone: 'admin-product-category-details__overview-card--updated'
   }
 ]
 
 function DetailBlock({ title, subtitle, children }) {
   return (
-    <section className="rounded-[28px] border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
-        {subtitle && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>}
+    <section className="admin-product-category-details__panel">
+      <div className="admin-product-category-details__panel-head">
+        <h2 className="admin-product-category-details__panel-title">{title}</h2>
+        {subtitle ? <p className="admin-product-category-details__panel-subtitle">{subtitle}</p> : null}
       </div>
       {children}
     </section>
@@ -58,9 +57,9 @@ function DetailBlock({ title, subtitle, children }) {
 
 function MetaItem({ label, value }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-900/60">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">{label}</p>
-      <p className="mt-1 text-sm font-medium text-gray-700 dark:text-gray-200">{value || '—'}</p>
+    <div className="admin-product-category-details__meta-item">
+      <p className="admin-product-category-details__meta-label">{label}</p>
+      <p className="admin-product-category-details__meta-value">{value || DASH}</p>
     </div>
   )
 }
@@ -73,9 +72,11 @@ function AdminProductCategoriesDetails() {
 
   useEffect(() => {
     if (!id) return
+
     ;(async () => {
       setIsLoading(true)
       setHasError(false)
+
       try {
         const { productCategory } = await getProductCategoryById(id)
         setProductCategory(productCategory)
@@ -94,43 +95,46 @@ function AdminProductCategoriesDetails() {
 
     return productCategory.updateBy.map((item, index) => ({
       id: `${item.account_id || 'unknown'}-${item.updatedAt || index}`,
-      accountId: item.account_id || '—',
-      updatedAt: item.updatedAt ? formatDate(item.updatedAt) : '—'
+      accountId: item.account_id || DASH,
+      updatedAt: item.updatedAt ? formatDate(item.updatedAt) : DASH
     }))
   }, [productCategory])
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 dark:bg-gray-900 md:p-6">
-      <SEO title="Admin – Chi tiết danh mục" noIndex />
+    <div className="admin-product-category-details-page">
+      <SEO title="Admin - Chi tiết danh mục" noIndex />
 
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="admin-product-category-details-page__inner">
         {isLoading ? (
           <>
-            <div className="rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-8">
+            <div className="admin-product-category-details__skeleton-card">
               <Skeleton active paragraph={{ rows: 3 }} title={{ width: '36%' }} />
             </div>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+
+            <div className="admin-product-category-details__skeleton-overview-grid">
               {Array.from({ length: 4 }).map((_, index) => (
                 <Skeleton.Button key={index} active block style={{ height: 140, borderRadius: 24 }} />
               ))}
             </div>
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1.65fr)_360px]">
-              <Skeleton active paragraph={{ rows: 10 }} className="rounded-[28px] border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800" />
-              <Skeleton active paragraph={{ rows: 8 }} className="rounded-[28px] border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800" />
+
+            <div className="admin-product-category-details__skeleton-panel-grid">
+              <Skeleton active paragraph={{ rows: 10 }} className="admin-product-category-details__skeleton-panel" />
+              <Skeleton active paragraph={{ rows: 8 }} className="admin-product-category-details__skeleton-panel" />
             </div>
           </>
         ) : !productCategory ? (
-          <div className="rounded-[32px] border border-dashed border-gray-300 bg-white px-6 py-16 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">Danh mục sản phẩm</p>
-            <h1 className="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">
+          <div className="admin-product-category-details__empty-state">
+            <p className="admin-product-category-details__empty-label">Danh mục sản phẩm</p>
+            <h1 className="admin-product-category-details__empty-title">
               {hasError ? 'Không thể tải dữ liệu danh mục' : 'Không tìm thấy danh mục'}
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-400">
+            <p className="admin-product-category-details__empty-description">
               Kiểm tra lại đường dẫn hoặc quay về trang quản lý danh mục để chọn một bản ghi khác.
             </p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+
+            <div className="admin-product-category-details__empty-actions">
               <Link to="/admin/product-categories">
-                <Button size="large" className="h-11 rounded-xl px-5">
+                <Button size="large" className="admin-product-category-details-btn admin-product-category-details-btn--default">
                   Quay lại danh sách
                 </Button>
               </Link>
@@ -138,153 +142,137 @@ function AdminProductCategoriesDetails() {
           </div>
         ) : (
           <>
-            <header className="overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-7 text-white md:px-8 md:py-9">
-                <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-                  <div className="max-w-4xl">
-                    <Link
-                      to="/admin/product-categories"
-                      className="inline-flex items-center gap-2 text-sm font-medium text-slate-200 transition hover:text-white"
+            <header className="admin-product-category-details__hero">
+              <div className="admin-product-category-details__hero-head">
+                <div className="admin-product-category-details__hero-main">
+                  <Link to="/admin/product-categories" className="admin-product-category-details__back-link">
+                    <ArrowLeftOutlined />
+                    Quay lại danh sách danh mục
+                  </Link>
+
+                  <p className="admin-product-category-details__hero-eyebrow">Tổng quan danh mục sản phẩm</p>
+                  <h1 className="admin-product-category-details__hero-title">{productCategory.title}</h1>
+
+                  <div className="admin-product-category-details__chip-list">
+                    <span className={getStatusClassName(productCategory.status)}>{capitalize(productCategory.status || 'inactive')}</span>
+                    <span className="admin-product-category-details__meta-chip">Slug: {productCategory.slug || DASH}</span>
+                    <span className="admin-product-category-details__meta-chip">
+                      Danh mục cha: {productCategory?.parent_id?.title || 'Không có'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="admin-product-category-details__hero-actions">
+                  <Link to="/admin/product-categories">
+                    <Button size="large" className="admin-product-category-details-btn admin-product-category-details-btn--ghost">
+                      Danh sách danh mục
+                    </Button>
+                  </Link>
+
+                  <Link to={`/admin/product-categories/edit/${productCategory._id}`}>
+                    <Button
+                      type="primary"
+                      icon={<EditOutlined />}
+                      size="large"
+                      className="admin-product-category-details-btn admin-product-category-details-btn--primary"
                     >
-                      <ArrowLeftOutlined />
-                      Quay lại danh sách danh mục
-                    </Link>
-
-                    <p className="mt-5 text-sm font-semibold uppercase tracking-[0.24em] text-slate-300">
-                      Product category overview
-                    </p>
-                    <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl">
-                      {productCategory.title}
-                    </h1>
-
-                    <div className="mt-5 flex flex-wrap gap-3">
-                      <span
-                        className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${getStatusClasses(productCategory.status)}`}
-                      >
-                        {capitalize(productCategory.status || 'inactive')}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm font-medium text-slate-100">
-                        Slug: {productCategory.slug || '—'}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm font-medium text-slate-100">
-                        Danh mục cha: {productCategory?.parent_id?.title || 'Không có'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-3 sm:flex-row">
-                    <Link to="/admin/product-categories">
-                      <Button size="large" className="h-11 rounded-xl border-white/20 bg-white/10 px-5 text-white hover:!border-white hover:!bg-white/20 hover:!text-white">
-                        Danh sách danh mục
-                      </Button>
-                    </Link>
-                    <Link to={`/admin/product-categories/edit/${productCategory._id}`}>
-                      <Button
-                        type="primary"
-                        icon={<EditOutlined />}
-                        size="large"
-                        className="h-11 rounded-xl bg-white px-5 font-medium !text-slate-900 shadow-none hover:!bg-slate-100"
-                      >
-                        Chỉnh sửa danh mục
-                      </Button>
-                    </Link>
-                  </div>
+                      Chỉnh sửa danh mục
+                    </Button>
+                  </Link>
                 </div>
               </div>
 
-              <div className="grid gap-4 bg-white p-4 dark:bg-gray-800 md:grid-cols-2 xl:grid-cols-4 md:p-6">
+              <div className="admin-product-category-details__overview-grid">
                 {getOverviewCards(productCategory).map(card => (
-                  <div
-                    key={card.label}
-                    className={`rounded-[24px] border border-gray-200 bg-gradient-to-br ${card.tone} p-5 dark:border-gray-700`}
-                  >
-                    <div className="flex items-center justify-between gap-3">
+                  <div key={card.label} className={`admin-product-category-details__overview-card ${card.tone}`}>
+                    <div className="admin-product-category-details__overview-content">
                       <div>
-                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{card.label}</p>
-                        <p className="mt-3 text-lg font-semibold text-gray-900 dark:text-white">{card.value}</p>
+                        <p className="admin-product-category-details__overview-label">{card.label}</p>
+                        <p className="admin-product-category-details__overview-value">{card.value}</p>
                       </div>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-base text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-200">
-                        {card.icon}
-                      </div>
+                      <div className="admin-product-category-details__overview-icon">{card.icon}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </header>
 
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1.65fr)_360px]">
-              <div className="space-y-6">
+            <div className="admin-product-category-details__content-grid">
+              <div className="admin-product-category-details__main-column">
                 <DetailBlock title="Tổng quan" subtitle="Các thông tin định danh và trạng thái hiển thị của danh mục.">
-                  <div className="grid gap-4 md:grid-cols-2">
+                  <div className="admin-product-category-details__meta-grid">
                     <MetaItem label="Tên danh mục" value={productCategory.title} />
                     <MetaItem label="Slug" value={productCategory.slug} />
                     <MetaItem label="Danh mục cha" value={productCategory?.parent_id?.title || 'Không có'} />
-                    <MetaItem label="Vị trí" value={productCategory.position ?? '—'} />
+                    <MetaItem label="Vị trí" value={productCategory.position ?? DASH} />
                   </div>
                 </DetailBlock>
 
                 <DetailBlock title="Mô tả" subtitle="Nội dung giới thiệu hiển thị cho danh mục sản phẩm này.">
                   {productCategory.description ? (
-                    <div className="admin-product-category-richtext text-sm leading-7 text-gray-600 dark:text-gray-300">
+                    <div className="admin-product-category-richtext">
                       <div dangerouslySetInnerHTML={{ __html: productCategory.description }} />
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Danh mục này chưa có mô tả ngắn.</p>
+                    <p className="admin-product-category-details__empty-text">Danh mục này chưa có mô tả ngắn.</p>
                   )}
                 </DetailBlock>
 
                 <DetailBlock title="Nội dung chi tiết" subtitle="Phần nội dung mở rộng nếu danh mục có cấu hình thêm.">
                   {productCategory.content ? (
-                    <div className="admin-product-category-richtext text-sm leading-7 text-gray-600 dark:text-gray-300">
+                    <div className="admin-product-category-richtext">
                       <div dangerouslySetInnerHTML={{ __html: productCategory.content }} />
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Danh mục này chưa có nội dung chi tiết.</p>
+                    <p className="admin-product-category-details__empty-text">Danh mục này chưa có nội dung chi tiết.</p>
                   )}
                 </DetailBlock>
 
                 <DetailBlock title="Lịch sử cập nhật" subtitle="Theo dõi các lần chỉnh sửa gần đây của danh mục.">
                   {updateHistory.length ? (
-                    <div className="space-y-3">
+                    <div className="admin-product-category-details__history-list">
                       {updateHistory.map(item => (
-                        <div
-                          key={item.id}
-                          className="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-900/60 md:flex-row md:items-center md:justify-between"
-                        >
+                        <div key={item.id} className="admin-product-category-details__history-item">
                           <div>
-                            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{item.accountId}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Tài khoản thực hiện cập nhật</p>
+                            <p className="admin-product-category-details__history-user">{item.accountId}</p>
+                            <p className="admin-product-category-details__history-note">Tài khoản thực hiện cập nhật</p>
                           </div>
-                          <p className="text-sm font-medium text-gray-500 dark:text-gray-300">{item.updatedAt}</p>
+                          <p className="admin-product-category-details__history-time">{item.updatedAt}</p>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Chưa có lịch sử cập nhật được ghi nhận.</p>
+                    <p className="admin-product-category-details__empty-text">Chưa có lịch sử cập nhật được ghi nhận.</p>
                   )}
                 </DetailBlock>
               </div>
 
-              <aside className="space-y-6">
+              <aside className="admin-product-category-details__side-column">
                 <AdminProductCategoryThumbnail thumbnail={productCategory.thumbnail} title={productCategory.title} />
 
                 <DetailBlock title="Thông tin quản trị" subtitle="Metadata nội bộ để theo dõi bản ghi này.">
-                  <div className="space-y-3">
-                    <MetaItem label="Người tạo" value={productCategory.createdBy?.account_id || '—'} />
+                  <div className="admin-product-category-details__meta-list">
+                    <MetaItem label="Người tạo" value={productCategory.createdBy?.account_id || DASH} />
                     <MetaItem label="Ngày tạo" value={formatDate(productCategory.createdAt)} />
-                    <MetaItem label="Cập nhật gần nhất" value={productCategory.updatedAt ? formatDate(productCategory.updatedAt) : '—'} />
+                    <MetaItem label="Cập nhật gần nhất" value={productCategory.updatedAt ? formatDate(productCategory.updatedAt) : DASH} />
                   </div>
                 </DetailBlock>
 
                 <DetailBlock title="Thao tác nhanh" subtitle="Điều hướng nhanh tới các trang quản trị liên quan.">
-                  <div className="space-y-3">
-                    <Link to="/admin/product-categories" className="block">
-                      <Button size="large" className="h-11 w-full rounded-xl">
+                  <div className="admin-product-category-details__quick-actions">
+                    <Link to="/admin/product-categories" className="admin-product-category-details__quick-action-link">
+                      <Button size="large" className="admin-product-category-details-btn admin-product-category-details-btn--default">
                         Quay lại danh sách
                       </Button>
                     </Link>
-                    <Link to={`/admin/product-categories/edit/${productCategory._id}`} className="block">
-                      <Button type="primary" size="large" icon={<EditOutlined />} className="h-11 w-full rounded-xl bg-gray-900 shadow-none hover:!bg-gray-800">
+
+                    <Link to={`/admin/product-categories/edit/${productCategory._id}`} className="admin-product-category-details__quick-action-link">
+                      <Button
+                        type="primary"
+                        size="large"
+                        icon={<EditOutlined />}
+                        className="admin-product-category-details-btn admin-product-category-details-btn--primary"
+                      >
                         Chỉnh sửa ngay
                       </Button>
                     </Link>

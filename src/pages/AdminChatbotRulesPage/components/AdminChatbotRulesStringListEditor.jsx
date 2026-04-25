@@ -17,12 +17,12 @@ export default function AdminChatbotRulesStringListEditor({
 }) {
   return (
     <div>
-      <Text strong>{title}</Text>
+      <Text strong className="admin-chatbot-primary-text">{title}</Text>
 
       <div className="mt-2 min-h-[36px]">
         <Space size={[8, 8]} wrap>
           {items.map(item => (
-            <Tag key={item} closable color={tagColor} onClose={() => onRemove(item)}>
+            <Tag key={item} closable color={tagColor} onClose={() => onRemove(item)} className="admin-chatbot-string-tag">
               {item}
             </Tag>
           ))}
@@ -40,7 +40,11 @@ export default function AdminChatbotRulesStringListEditor({
           placeholder={placeholder}
         />
 
-        <Button onClick={onAdd} type={buttonType} className={buttonType === 'primary' ? 'bg-blue-600' : ''}>
+        <Button
+          onClick={onAdd}
+          type={buttonType}
+          className={buttonType === 'primary' ? 'admin-chatbot-primary-btn' : 'admin-chatbot-action-btn'}
+        >
           {buttonLabel}
         </Button>
       </Space.Compact>

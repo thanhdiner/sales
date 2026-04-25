@@ -1,0 +1,174 @@
+.about-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.about-page__surface,
+.about-page__surface-soft,
+.about-page__mini-card,
+.about-page__image-frame,
+.about-page__image-canvas,
+.about-page__timeline-card,
+.about-page__cta,
+.about-page__secondary-button,
+.about-page__milestone {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+html.dark body:not(.admin-layout-active) .about-page {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 180px),
+    var(--client-dark-bg) !important;
+  color: var(--client-dark-text);
+}
+
+html.dark body:not(.admin-layout-active) .about-page__glow {
+  filter: blur(64px);
+  opacity: 0.9;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__glow--primary {
+  background: var(--client-dark-primary-soft) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__glow--secondary {
+  background: var(--client-dark-purple-soft) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__surface,
+html.dark body:not(.admin-layout-active) .about-page__timeline-card,
+html.dark body:not(.admin-layout-active) .about-page__cta {
+  border-color: var(--client-dark-border) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
+    var(--client-dark-surface) !important;
+  color: var(--client-dark-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__surface-soft,
+html.dark body:not(.admin-layout-active) .about-page__mini-card,
+html.dark body:not(.admin-layout-active) .about-page__image-frame,
+html.dark body:not(.admin-layout-active) .about-page__image-canvas,
+html.dark body:not(.admin-layout-active) .about-page__milestone {
+  border-color: var(--client-dark-border) !important;
+  background: var(--client-dark-surface-2) !important;
+  color: var(--client-dark-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__image-canvas,
+html.dark body:not(.admin-layout-active) .about-page__owner-media {
+  background: var(--client-dark-surface) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__title,
+html.dark body:not(.admin-layout-active) .about-page__section-title,
+html.dark body:not(.admin-layout-active) .about-page__item-title,
+html.dark body:not(.admin-layout-active) .about-page__hero-title,
+html.dark body:not(.admin-layout-active) .about-page__rating-value,
+html.dark body:not(.admin-layout-active) .about-page [class*='text-[#3d434d]'] {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__lead,
+html.dark body:not(.admin-layout-active) .about-page__muted,
+html.dark body:not(.admin-layout-active) .about-page__timeline-copy,
+html.dark body:not(.admin-layout-active) .about-page__owner-copy {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__subtle,
+html.dark body:not(.admin-layout-active) .about-page__ghost-number {
+  color: var(--client-dark-subtle) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__eyebrow,
+html.dark body:not(.admin-layout-active) .about-page__accent,
+html.dark body:not(.admin-layout-active) .about-page__ring-icon,
+html.dark body:not(.admin-layout-active) .about-page__stat-label,
+html.dark body:not(.admin-layout-active) .about-page [class*='text-blue-600'] {
+  color: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__icon-pill {
+  background: var(--client-dark-primary-soft) !important;
+  color: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__feature-path path,
+html.dark body:not(.admin-layout-active) .about-page__stat-ring circle {
+  stroke: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__feature-path {
+  filter: drop-shadow(0 16px 16px rgba(34, 197, 94, 0.15)) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__milestone > div {
+  background: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__primary-button {
+  background: var(--client-dark-primary) !important;
+  color: #06110a !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__primary-button:hover {
+  background: #16a34a !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__secondary-button {
+  border-color: var(--client-dark-border) !important;
+  background: var(--client-dark-surface-2) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__secondary-button:hover {
+  border-color: var(--client-dark-border-strong) !important;
+  background: var(--client-dark-surface-3) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__soft-orbit,
+html.dark body:not(.admin-layout-active) .about-page__cta-decor {
+  background: var(--client-dark-surface-3) !important;
+  border-color: var(--client-dark-surface-3) !important;
+  opacity: 0.55;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__timeline-inner,
+html.dark body:not(.admin-layout-active) .about-page__timeline-icon-cell {
+  border-color: var(--client-dark-border) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__timeline-line {
+  background: var(--client-dark-border-strong) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__timeline-dot {
+  border-color: var(--client-dark-surface) !important;
+  box-shadow: 0 0 0 1px var(--client-dark-border);
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-rail {
+  background: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-ribbon {
+  background:
+    linear-gradient(90deg, rgba(34, 197, 94, 0.9), rgba(59, 130, 246, 0.86)) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__skeleton {
+  background:
+    linear-gradient(90deg, #171a1d 25%, #23272c 37%, #171a1d 63%) !important;
+  background-size: 400% 100% !important;
+}

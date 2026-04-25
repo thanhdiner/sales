@@ -60,20 +60,20 @@
 
 .dark .HeroBanner-root {
   border-color: rgba(255, 255, 255, 0.08);
-  background: linear-gradient(180deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+  background: #101213;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
 }
 
 .dark .swiper-pagination-custom .swiper-pagination-bullet {
-  background: rgba(148, 163, 184, 0.45);
+  background: #3a4047;
 }
 
 .dark .swiper-pagination-custom .swiper-pagination-bullet-active {
-  background: #60a5fa;
+  background: #22c55e;
 }
 
 .dark .swiper-pagination-custom .swiper-pagination-bullet:hover {
-  background: rgba(148, 163, 184, 0.7);
+  background: #707983;
 }
 
 .HeroBanner-banner {
@@ -87,6 +87,12 @@
   border: 1px solid #eaeaea;
   background: #fff;
   transform: translateZ(0);
+}
+
+.dark .HeroBanner-banner {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: #101213;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
 .HeroBanner-img {
@@ -139,9 +145,12 @@
 .skeleton-root {
   position: relative;
   width: 100%;
+}
+
+.skeleton-track {
   display: flex;
   gap: 16px;
-  min-height: 200px;
+  width: 100%;
 }
 
 .skeleton-banner {
@@ -195,10 +204,44 @@
 }
 
 .skeleton-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  width: 26px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d4d9e3;
+
+  &:first-child {
+    width: 50px;
+    background: #2563eb;
+  }
+}
+
+html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
+  background: #101213;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+
+  .skeleton-banner {
+    background: linear-gradient(100deg, #151719 30%, #202327 50%, #151719 70%);
+    background-size: 400% 100%;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  }
+
+  .skeleton-title {
+    background:
+      linear-gradient(100deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0) 70%),
+      rgba(255, 255, 255, 0.06);
+    background-size: 400% 100%;
+  }
+
+  .skeleton-dot {
+    background: #3a4047;
+
+    &:first-child {
+      width: 50px;
+      background: #22c55e;
+    }
+  }
 }
 
 /* Responsive adjustments */
@@ -207,6 +250,10 @@
   .HeroBanner-img,
   .skeleton-banner {
     aspect-ratio: 21/10;
+  }
+
+  .skeleton-track {
+    gap: 12px;
   }
 
   .HeroBanner-title {
@@ -279,6 +326,22 @@
 
   .swiper-pagination-custom .swiper-pagination-bullet-active {
     width: 34px;
+  }
+
+  .skeleton-track {
+    gap: 0;
+  }
+
+  .skeleton-banner--desktop {
+    display: none;
+  }
+
+  .skeleton-dot {
+    width: 18px;
+
+    &:first-child {
+      width: 34px;
+    }
   }
 
   .HeroBanner-banner,

@@ -1,9 +1,10 @@
 import React from 'react'
-import { X, Bot, MessageCircle } from 'lucide-react'
+import { Bot, MessageCircle, Minus, X } from 'lucide-react'
 import { getChatMessagePreview } from '@/utils/chatMessage'
 
 export default function HomeView({
   onClose,
+  onMinimize,
   onOpenChat,
   assignedAgent,
   messages = [],
@@ -24,12 +25,27 @@ export default function HomeView({
           </p>
         </div>
 
-        <button
-          onClick={onClose}
-          className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
-        >
-          <X className="h-5 w-5" />
-        </button>
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            onClick={onMinimize}
+            aria-label="Thu gọn chat"
+            title="Thu gọn chat"
+            className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
+          >
+            <Minus className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Đóng chat"
+            title="Đóng chat"
+            className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       <div

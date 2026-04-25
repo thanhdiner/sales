@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { chatService } from '@/services/chatService'
+import { clearResolvedSessionMarker, markSessionResolved } from '@/hooks/useChatSession'
 
 export function useChatData(sessionId, open, view, setUnread) {
   const [messages, setMessages] = useState([])
@@ -22,7 +23,10 @@ export function useChatData(sessionId, open, view, setUnread) {
       const data = await chatService.getConversation(sessionId)
       if (data) {
         setConversation(data)
-        setIsResolved(data.status === 'resolved')
+        const resolved = data.status === 'resolved'
+        setIsResolved(resolved)
+        if (resolved) markSessionResolved(sessionId)
+        else clearResolvedSessionMarker(sessionId)
       }
     } catch { /* skip */ }
   }, [sessionId])

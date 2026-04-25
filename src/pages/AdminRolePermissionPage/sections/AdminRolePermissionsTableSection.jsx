@@ -15,10 +15,12 @@ export default function AdminRolePermissionsTableSection({
     mapping[role._id] = role
     return mapping
   }, {})
+
   const permissionLookup = permissions.reduce((mapping, permission) => {
     mapping[permission.name] = permission
     return mapping
   }, {})
+
   const groupLookup = permissionGroups.reduce((mapping, group) => {
     mapping[group.value] = group
     return mapping
@@ -26,33 +28,32 @@ export default function AdminRolePermissionsTableSection({
 
   const columns = [
     {
-      title: 'Permissions',
+      title: 'Quyền',
       dataIndex: 'title',
       key: 'title',
       fixed: 'left',
-      width: 140,
+      width: 220,
       render: (title, row) => {
         if (row.isSelectAll) {
-          return <span className="text-base font-semibold">Select all</span>
+          return <span className="admin-role-permission-table__title admin-role-permission-table__title--all">Chọn tất cả</span>
         }
 
         if (row.isGroupSelectAll) {
-          return <span className="font-medium text-[#008cff]">{title}</span>
+          return <span className="admin-role-permission-table__title admin-role-permission-table__title--group">{title}</span>
         }
 
         return (
-          <span>
-            <b>{title}</b>
-            <br />
-            {row.name && <span className="text-xs text-[#888]">{row.name}</span>}
+          <span className="admin-role-permission-table__title">
+            <strong>{title}</strong>
+            {row.name ? <span className="admin-role-permission-table__subtitle">{row.name}</span> : null}
           </span>
         )
       }
     },
     ...roles.map(role => ({
-      title: <b>{role.label}</b>,
+      title: <span className="admin-role-permission-table__role-label">{role.label}</span>,
       dataIndex: role._id,
-      width: 120,
+      width: 140,
       align: 'center',
       render: (_, row) => {
         const currentRole = roleLookup[role._id]
@@ -65,6 +66,7 @@ export default function AdminRolePermissionsTableSection({
         if (row.isSelectAll) {
           return (
             <Checkbox
+              className="admin-role-permission-checkbox admin-role-permission-checkbox--role"
               checked={isRoleSelectAll(rolePerm[role._id], permissions)}
               onChange={event => onRoleSelectAll(role._id, event.target.checked)}
               disabled={isRoleInactive}
@@ -75,7 +77,7 @@ export default function AdminRolePermissionsTableSection({
         if (row.isGroupSelectAll) {
           return (
             <Checkbox
-              className="checkbox-orange"
+              className="admin-role-permission-checkbox admin-role-permission-checkbox--group"
               checked={isGroupSelectAll(rolePerm[role._id], permissions, row.groupValue)}
               onChange={event => onGroupSelectAll(role._id, row.groupValue, event.target.checked)}
               disabled={isRoleInactive || isGroupInactive}
@@ -85,6 +87,7 @@ export default function AdminRolePermissionsTableSection({
 
         return (
           <Checkbox
+            className="admin-role-permission-checkbox"
             checked={rolePerm[role._id]?.includes(row.name)}
             onChange={event => onPermissionToggle(role._id, row.name, event.target.checked)}
             disabled={isRoleInactive || isGroupInactive || isPermissionInactive}
@@ -97,16 +100,27 @@ export default function AdminRolePermissionsTableSection({
   const dataSource = buildRolePermissionDataSource(permissionGroups, permissions)
 
   return (
-    <div className="overflow-x-auto custom-scrollbar">
+    <div className="admin-role-permission-table-wrap">
       <Table
-        scroll={{ x: 1000, y: 500 }}
+        className="admin-role-permission-table min-w-[900px]"
+        scroll={{ x: 1000, y: 520 }}
         columns={columns}
         dataSource={dataSource}
         rowKey="key"
         bordered
         pagination={false}
         loading={loading}
-        style={{ minWidth: 900 }}
+        rowClassName={record => {
+          if (record.isSelectAll) {
+            return 'admin-role-permission-row--all'
+          }
+
+          if (record.isGroupSelectAll) {
+            return 'admin-role-permission-row--group'
+          }
+
+          return ''
+        }}
       />
     </div>
   )

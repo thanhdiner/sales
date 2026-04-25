@@ -81,13 +81,13 @@ export default function AdminChatbotRuntimeFormSection({
         </div>
       </Form>
 
-      <Button icon={<ThunderboltOutlined />} onClick={onTest} loading={testing}>
+      <Button icon={<ThunderboltOutlined />} onClick={onTest} loading={testing} className="admin-chatbot-action-btn">
         Test kết nối
       </Button>
 
       {testResult && (
         <Alert
-          className="mt-4"
+          className="admin-chatbot-alert mt-4"
           type={testResult.success ? 'success' : 'error'}
           showIcon
           closable
@@ -105,7 +105,7 @@ export default function AdminChatbotRuntimeFormSection({
                 <p className="mt-2">
                   <strong>Bot trả lời:</strong>
                 </p>
-                <div className="mt-1 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-900">
+                <div className="admin-chatbot-runtime-response mt-1 rounded-lg p-3 text-sm">
                   {testResult.data?.response}
                 </div>
               </div>

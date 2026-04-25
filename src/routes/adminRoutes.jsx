@@ -1,39 +1,54 @@
+import { lazy, Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 import LayoutAdmin from '../Layout/LayoutAdmin'
 import Error404 from '@/pages/Error404'
-import AdminDashboard from '@/pages/AdminDashboard'
-import AdminProductsPages from '@/pages/AdminProductsPages'
-import AdminProductsDetails from '@/pages/AdminProductsPages/AdminProductsDetails'
-import AdminProductsCreate from '@/pages/AdminProductsPages/AdminProductsCreate'
-import AdminProductsEdit from '@/pages/AdminProductsPages/AdminProductsEdit'
-import AdminProductCategoriesPage from '@/pages/AdminProductCategoriesPage'
-import AdminProductCategoriesCreate from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesCreate'
-import AdminProductCategoriesEdit from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesEdit'
-import AdminProductCategoriesDetails from '@/pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'
-import AdminRolesPage from '@/pages/AdminRolesPage'
-import AdminPermissionsPage from '@/pages/AdminPermissionsPage'
-import AdminPermissionGroupsPage from '@/pages/AdminPermissionGroupsPage'
-import AdminRolePermissionPage from '@/pages/AdminRolePermissionPage'
-import AdminAccountsPage from '@/pages/AdminAccountsPage'
-import AdminProfilePage from '@/pages/AdminProfilePage'
-import AdminBankInfoPage from '@/pages/AdminBankInfoPage'
-import AdminSettingsPage from '@/pages/AdminSettingsPage'
-import AdminPromoCodesPage from '@/pages/AdminPromoCodesPage'
-import AdminOrdersPage from '@/pages/AdminOrdersPage'
-import AdminOrderDetailPage from '@/pages/AdminOrderDetailPage'
-import AdminWidgetsPage from '@/pages/AdminWidgetsPage'
-import AdminBannersPage from '@/pages/AdminBannersPage'
-import AdminFlashSalesPage from '@/pages/AdminFlashSalesPage'
-import AdminChatPage from '@/pages/AdminChatPage'
-import AdminReviewsPage from '@/pages/AdminReviewsPage'
-import AdminChatbotConfigPage from '@/pages/AdminChatbotConfigPage'
-import AdminChatbotRuntimePage from '@/pages/AdminChatbotRuntimePage'
-import AdminChatbotRulesPage from '@/pages/AdminChatbotRulesPage'
-import AdminChatbotToolsPage from '@/pages/AdminChatbotToolsPage'
-import AdminChatbotToolLogsPage from '@/pages/AdminChatbotToolLogsPage'
 import AdminRequireAuth from '@/components/AdminRequireAuth'
 import AdminProtectedRoute from '@/components/AdminProtectedRoute'
 import AccessDenied from '@/components/AccessDenied'
+
+const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'))
+const AdminProductsPages = lazy(() => import('@/pages/AdminProductsPages'))
+const AdminProductsDetails = lazy(() => import('@/pages/AdminProductsPages/AdminProductsDetails'))
+const AdminProductsCreate = lazy(() => import('@/pages/AdminProductsPages/AdminProductsCreate'))
+const AdminProductsEdit = lazy(() => import('@/pages/AdminProductsPages/AdminProductsEdit'))
+const AdminProductCategoriesPage = lazy(() => import('@/pages/AdminProductCategoriesPage'))
+const AdminProductCategoriesCreate = lazy(() => import('@/pages/AdminProductCategoriesPage/AdminProductCategoriesCreate'))
+const AdminProductCategoriesEdit = lazy(() => import('@/pages/AdminProductCategoriesPage/AdminProductCategoriesEdit'))
+const AdminProductCategoriesDetails = lazy(() => import('@/pages/AdminProductCategoriesPage/AdminProductCategoriesDetails'))
+const AdminRolesPage = lazy(() => import('@/pages/AdminRolesPage'))
+const AdminPermissionsPage = lazy(() => import('@/pages/AdminPermissionsPage'))
+const AdminPermissionGroupsPage = lazy(() => import('@/pages/AdminPermissionGroupsPage'))
+const AdminRolePermissionPage = lazy(() => import('@/pages/AdminRolePermissionPage'))
+const AdminAccountsPage = lazy(() => import('@/pages/AdminAccountsPage'))
+const AdminProfilePage = lazy(() => import('@/pages/AdminProfilePage'))
+const AdminBankInfoPage = lazy(() => import('@/pages/AdminBankInfoPage'))
+const AdminSettingsPage = lazy(() => import('@/pages/AdminSettingsPage'))
+const AdminPromoCodesPage = lazy(() => import('@/pages/AdminPromoCodesPage'))
+const AdminOrdersPage = lazy(() => import('@/pages/AdminOrdersPage'))
+const AdminOrderDetailPage = lazy(() => import('@/pages/AdminOrderDetailPage'))
+const AdminPurchaseReceiptsPage = lazy(() => import('@/pages/AdminPurchaseReceiptsPage'))
+const AdminWidgetsPage = lazy(() => import('@/pages/AdminWidgetsPage'))
+const AdminBannersPage = lazy(() => import('@/pages/AdminBannersPage'))
+const AdminFlashSalesPage = lazy(() => import('@/pages/AdminFlashSalesPage'))
+const AdminChatPage = lazy(() => import('@/pages/AdminChatPage'))
+const AdminReviewsPage = lazy(() => import('@/pages/AdminReviewsPage'))
+const AdminChatbotConfigPage = lazy(() => import('@/pages/AdminChatbotConfigPage'))
+const AdminChatbotRuntimePage = lazy(() => import('@/pages/AdminChatbotRuntimePage'))
+const AdminChatbotRulesPage = lazy(() => import('@/pages/AdminChatbotRulesPage'))
+const AdminChatbotToolsPage = lazy(() => import('@/pages/AdminChatbotToolsPage'))
+const AdminChatbotToolLogsPage = lazy(() => import('@/pages/AdminChatbotToolLogsPage'))
+
+const AdminRouteFallback = () => (
+  <div className="flex min-h-[240px] items-center justify-center text-sm text-gray-500 dark:text-gray-300">
+    Loading...
+  </div>
+)
+
+const lazyElement = Component => (
+  <Suspense fallback={<AdminRouteFallback />}>
+    <Component />
+  </Suspense>
+)
 
 export const adminRoutes = [
   {
@@ -49,7 +64,7 @@ export const adminRoutes = [
         path: 'dashboard',
         element: (
           <AdminRequireAuth>
-            <AdminDashboard />
+            {lazyElement(AdminDashboard)}
           </AdminRequireAuth>
         )
       },
@@ -58,7 +73,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_products">
             <AdminRequireAuth>
-              <AdminProductsPages />
+              {lazyElement(AdminProductsPages)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -68,7 +83,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_products">
             <AdminRequireAuth>
-              <AdminProductsDetails />
+              {lazyElement(AdminProductsDetails)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -78,7 +93,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="create_product">
             <AdminRequireAuth>
-              <AdminProductsCreate />
+              {lazyElement(AdminProductsCreate)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -88,7 +103,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="edit_product">
             <AdminRequireAuth>
-              <AdminProductsEdit />
+              {lazyElement(AdminProductsEdit)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -98,7 +113,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_product_categories">
             <AdminRequireAuth>
-              <AdminProductCategoriesPage />
+              {lazyElement(AdminProductCategoriesPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -108,7 +123,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_product_categories">
             <AdminRequireAuth>
-              <AdminProductCategoriesDetails />
+              {lazyElement(AdminProductCategoriesDetails)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -118,7 +133,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="create_product_category">
             <AdminRequireAuth>
-              <AdminProductCategoriesCreate />
+              {lazyElement(AdminProductCategoriesCreate)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -128,7 +143,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="edit_product_category">
             <AdminRequireAuth>
-              <AdminProductCategoriesEdit />
+              {lazyElement(AdminProductCategoriesEdit)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -138,7 +153,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_roles">
             <AdminRequireAuth>
-              <AdminRolesPage />
+              {lazyElement(AdminRolesPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -148,7 +163,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_permissions">
             <AdminRequireAuth>
-              <AdminPermissionsPage />
+              {lazyElement(AdminPermissionsPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -158,7 +173,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_permission_groups">
             <AdminRequireAuth>
-              <AdminPermissionGroupsPage />
+              {lazyElement(AdminPermissionGroupsPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -168,7 +183,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_role_permission">
             <AdminRequireAuth>
-              <AdminRolePermissionPage />
+              {lazyElement(AdminRolePermissionPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -178,7 +193,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_accounts">
             <AdminRequireAuth>
-              <AdminAccountsPage />
+              {lazyElement(AdminAccountsPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -187,7 +202,7 @@ export const adminRoutes = [
         path: 'profile',
         element: (
           <AdminRequireAuth>
-            <AdminProfilePage />
+            {lazyElement(AdminProfilePage)}
           </AdminRequireAuth>
         )
       },
@@ -195,7 +210,7 @@ export const adminRoutes = [
         path: 'bank-info',
         element: (
           <AdminRequireAuth>
-            <AdminBankInfoPage />
+            {lazyElement(AdminBankInfoPage)}
           </AdminRequireAuth>
         )
       },
@@ -203,7 +218,7 @@ export const adminRoutes = [
         path: 'settings',
         element: (
           <AdminRequireAuth>
-            <AdminSettingsPage />
+            {lazyElement(AdminSettingsPage)}
           </AdminRequireAuth>
         )
       },
@@ -212,7 +227,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_promo_codes">
             <AdminRequireAuth>
-              <AdminPromoCodesPage />
+              {lazyElement(AdminPromoCodesPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -222,7 +237,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_orders">
             <AdminRequireAuth>
-              <AdminOrdersPage />
+              {lazyElement(AdminOrdersPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -232,7 +247,17 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_orders">
             <AdminRequireAuth>
-              <AdminOrderDetailPage />
+              {lazyElement(AdminOrderDetailPage)}
+            </AdminRequireAuth>
+          </AdminProtectedRoute>
+        )
+      },
+      {
+        path: 'purchase-receipts',
+        element: (
+          <AdminProtectedRoute permission="edit_product">
+            <AdminRequireAuth>
+              {lazyElement(AdminPurchaseReceiptsPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -242,7 +267,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_widgets">
             <AdminRequireAuth>
-              <AdminWidgetsPage />
+              {lazyElement(AdminWidgetsPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -252,7 +277,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_banners">
             <AdminRequireAuth>
-              <AdminBannersPage />
+              {lazyElement(AdminBannersPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -262,7 +287,7 @@ export const adminRoutes = [
         element: (
           <AdminProtectedRoute permission="view_flashsales">
             <AdminRequireAuth>
-              <AdminFlashSalesPage />
+              {lazyElement(AdminFlashSalesPage)}
             </AdminRequireAuth>
           </AdminProtectedRoute>
         )
@@ -271,7 +296,7 @@ export const adminRoutes = [
         path: 'chat',
         element: (
           <AdminRequireAuth>
-            <AdminChatPage />
+            {lazyElement(AdminChatPage)}
           </AdminRequireAuth>
         )
       },
@@ -279,7 +304,7 @@ export const adminRoutes = [
         path: 'reviews',
         element: (
           <AdminRequireAuth>
-            <AdminReviewsPage />
+            {lazyElement(AdminReviewsPage)}
           </AdminRequireAuth>
         )
       },
@@ -287,7 +312,7 @@ export const adminRoutes = [
         path: 'chatbot-config',
         element: (
           <AdminRequireAuth>
-            <AdminChatbotConfigPage />
+            {lazyElement(AdminChatbotConfigPage)}
           </AdminRequireAuth>
         )
       },
@@ -295,7 +320,7 @@ export const adminRoutes = [
         path: 'chatbot-runtime',
         element: (
           <AdminRequireAuth>
-            <AdminChatbotRuntimePage />
+            {lazyElement(AdminChatbotRuntimePage)}
           </AdminRequireAuth>
         )
       },
@@ -303,7 +328,7 @@ export const adminRoutes = [
         path: 'chatbot-rules',
         element: (
           <AdminRequireAuth>
-            <AdminChatbotRulesPage />
+            {lazyElement(AdminChatbotRulesPage)}
           </AdminRequireAuth>
         )
       },
@@ -311,7 +336,7 @@ export const adminRoutes = [
         path: 'chatbot-tools',
         element: (
           <AdminRequireAuth>
-            <AdminChatbotToolsPage />
+            {lazyElement(AdminChatbotToolsPage)}
           </AdminRequireAuth>
         )
       },
@@ -319,7 +344,7 @@ export const adminRoutes = [
         path: 'chatbot-tool-logs',
         element: (
           <AdminRequireAuth>
-            <AdminChatbotToolLogsPage />
+            {lazyElement(AdminChatbotToolLogsPage)}
           </AdminRequireAuth>
         )
       },

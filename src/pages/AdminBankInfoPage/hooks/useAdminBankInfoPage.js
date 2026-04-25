@@ -23,6 +23,7 @@ export default function useAdminBankInfoPage() {
   const [qrToDelete, setQrToDelete] = useState('')
   const [isRemoveQR, setIsRemoveQR] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
+  const [activateLoadingId, setActivateLoadingId] = useState(null)
   const [form] = Form.useForm()
   const { bodyStyle, contentRef } = useModalBodyScroll(open)
 
@@ -33,7 +34,7 @@ export default function useAdminBankInfoPage() {
       const response = await getBankInfos({ page: 1, limit: 100 })
       setData(response?.bankInfos || [])
     } catch (error) {
-      message.error(error?.message || 'Lỗi tải danh sách bank info')
+      message.error(error?.message || 'Lỗi tải danh sách thông tin ngân hàng')
     } finally {
       setLoading(false)
     }
@@ -92,10 +93,10 @@ export default function useAdminBankInfoPage() {
 
       if (editing) {
         await updateBankInfo(editing._id, formData)
-        message.success('Đã cập nhật')
+        message.success('Đã cập nhật thông tin ngân hàng')
       } else {
         await createBankInfo(formData)
-        message.success('Đã tạo mới')
+        message.success('Đã tạo tài khoản ngân hàng')
       }
 
       resetModalState()
@@ -112,29 +113,33 @@ export default function useAdminBankInfoPage() {
   const handleDelete = async id => {
     try {
       await deleteBankInfo(id)
-      message.success('Đã xoá')
+      message.success('Đã xóa tài khoản ngân hàng')
       await load()
     } catch (error) {
-      message.error(error?.message || 'Xoá thất bại')
+      message.error(error?.message || 'Xóa tài khoản thất bại')
     }
   }
 
   const handleActivate = async (record, checked) => {
-    try {
-      if (!checked) {
-        const otherActiveCount = data.filter(item => item.isActive && item._id !== record._id).length
+    if (!checked) {
+      const otherActiveCount = data.filter(item => item.isActive && item._id !== record._id).length
 
-        if (otherActiveCount === 0) {
-          message.info('Cần ít nhất 1 bản ghi đang dùng. Hãy kích hoạt bản ghi khác trước.')
-          return
-        }
+      if (otherActiveCount === 0) {
+        message.info('Cần ít nhất 1 tài khoản đang dùng. Hãy kích hoạt tài khoản khác trước.')
+        return
       }
+    }
 
+    setActivateLoadingId(record._id)
+
+    try {
       await activateBankInfo(record._id, { active: checked })
-      message.success(checked ? 'Đã đặt làm bản ghi đang dùng' : 'Đã tắt kích hoạt')
+      message.success(checked ? 'Đã đặt làm tài khoản đang dùng' : 'Đã tắt kích hoạt')
       await load()
     } catch (error) {
-      message.error(error?.message || 'Kích hoạt thất bại')
+      message.error(error?.message || 'Cập nhật trạng thái thất bại')
+    } finally {
+      setActivateLoadingId(null)
     }
   }
 
@@ -145,11 +150,11 @@ export default function useAdminBankInfoPage() {
     const isLt5M = file.size / 1024 / 1024 < 5
 
     if (!isImage) {
-      message.error('Chỉ được upload file ảnh!')
+      message.error('Chỉ được upload file ảnh')
     }
 
     if (!isLt5M) {
-      message.error('Ảnh phải nhỏ hơn 5MB!')
+      message.error('Ảnh phải nhỏ hơn 5MB')
     }
 
     return isImage && isLt5M ? false : Upload.LIST_IGNORE
@@ -171,6 +176,7 @@ export default function useAdminBankInfoPage() {
     bodyStyle,
     contentRef,
     submitLoading,
+    activateLoadingId,
     handleCreate,
     handleEdit,
     handleClose,

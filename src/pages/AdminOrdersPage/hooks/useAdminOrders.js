@@ -8,13 +8,15 @@ import {
   getAdminOrdersQueryParams
 } from '../utils'
 
+const ORDER_FILTER_PARSERS = {
+  keyword: stringFilter,
+  status: stringFilter
+}
+
 export function useAdminOrders() {
   const { page, setPage, filters, setFilters } = useListSearchParams({
     defaultPage: 1,
-    filterParsers: {
-      keyword: stringFilter,
-      status: stringFilter
-    }
+    filterParsers: ORDER_FILTER_PARSERS
   })
   const [keyword, setKeyword] = useState(filters.keyword || '')
   const [debouncedKeyword, setDebouncedKeyword] = useState(filters.keyword || '')
@@ -24,10 +26,10 @@ export function useAdminOrders() {
     const nextKeyword = filters.keyword || ''
     const nextStatus = filters.status || ''
 
-    if (nextKeyword !== keyword) setKeyword(nextKeyword)
-    if (nextKeyword !== debouncedKeyword) setDebouncedKeyword(nextKeyword)
-    if (nextStatus !== status) setStatus(nextStatus)
-  }, [filters, keyword, debouncedKeyword, status])
+    setKeyword(prev => (prev === nextKeyword ? prev : nextKeyword))
+    setDebouncedKeyword(prev => (prev === nextKeyword ? prev : nextKeyword))
+    setStatus(prev => (prev === nextStatus ? prev : nextStatus))
+  }, [filters.keyword, filters.status])
 
   const updateFilters = useCallback(
     nextFilters => {
@@ -90,10 +92,12 @@ export function useAdminOrders() {
 
   const handleKeywordChange = keyword => {
     setKeyword(keyword)
+    setPage(1)
   }
 
   const handleStatusChange = nextStatus => {
     setStatus(nextStatus)
+    setPage(1)
     setDebouncedKeyword(keyword.trim())
     updateFilters({ keyword: keyword.trim(), status: nextStatus })
   }

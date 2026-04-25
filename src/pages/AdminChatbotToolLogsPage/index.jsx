@@ -3,6 +3,7 @@ import AdminChatbotToolLogsFiltersSection from './sections/AdminChatbotToolLogsF
 import AdminChatbotToolLogsHeaderSection from './sections/AdminChatbotToolLogsHeaderSection'
 import AdminChatbotToolLogsLoadingState from './sections/AdminChatbotToolLogsLoadingState'
 import AdminChatbotToolLogsTableSection from './sections/AdminChatbotToolLogsTableSection'
+import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 export default function AdminChatbotToolLogsPage() {
   const {
@@ -53,7 +54,7 @@ export default function AdminChatbotToolLogsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="admin-chatbot-page mx-auto max-w-7xl">
       <AdminChatbotToolLogsHeaderSection
         logsLoading={logsLoading}
         onReload={handleReload}

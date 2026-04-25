@@ -5,6 +5,7 @@ import AdminReviewsListSection from './sections/AdminReviewsListSection'
 import AdminReviewsOverviewSection from './sections/AdminReviewsOverviewSection'
 import AdminReviewsPaginationSection from './sections/AdminReviewsPaginationSection'
 import AdminReviewsReplyModal from './sections/AdminReviewsReplyModal'
+import './AdminReviewsPage.scss'
 
 export default function AdminReviewsPage() {
   const {
@@ -32,7 +33,7 @@ export default function AdminReviewsPage() {
   } = useAdminReviewsPage()
 
   return (
-    <div className="space-y-6">
+    <div className="admin-reviews-page min-h-screen space-y-6 rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-6">
       <AdminReviewsHeaderSection onRefresh={handleRefresh} />
 
       <AdminReviewsOverviewSection

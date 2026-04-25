@@ -19,7 +19,7 @@ function ProductCategoryDiscoverySection({ categories, activeSlug }) {
             to={`/product-categories/${category.slug}`}
             className="group flex flex-col items-center gap-2 text-center text-sm font-medium text-gray-950 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-300"
           >
-            <span className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gray-100 transition-transform duration-300 group-hover:-translate-y-1 dark:bg-gray-800">
+            <span className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 transition-transform duration-300 group-hover:-translate-y-1 dark:bg-gray-800">
               {category.thumbnail ? (
                 <img src={category.thumbnail} alt={category.title} className="h-full w-full object-cover" />
               ) : (

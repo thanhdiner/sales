@@ -24,6 +24,18 @@
   }
 }
 
+html.dark body:not(.admin-layout-active) .widgets-skeleton {
+  background: #101213;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
+
+  .widgets__icon--wrap-skeleton.skeleton-animate,
+  .widgets__title-skeleton.skeleton-animate {
+    background: linear-gradient(90deg, #151719 25%, #202327 50%, #151719 75%);
+    background-size: 200% 100%;
+  }
+}
+
 .widgets__list-skeleton {
   display: flex;
   flex-wrap: nowrap;

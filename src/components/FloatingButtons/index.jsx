@@ -83,7 +83,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
             >
               <div className="group relative flex items-center">
                 <div
-                  className={`mr-3 px-4 py-2 rounded-full bg-white text-gray-700 text-sm font-medium whitespace-nowrap shadow-md border border-gray-100 transform transition-all duration-300 ${
+                  className={`mr-3 px-4 py-2 rounded-full bg-white text-gray-700 text-sm font-medium whitespace-nowrap shadow-md border border-gray-100 transform transition-all duration-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/40 ${
                     openContact
                       ? 'opacity-100 translate-x-0 scale-100'
                       : 'opacity-0 translate-x-6 scale-75'
@@ -93,7 +93,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                   }}
                 >
                   {button.label}
-                  <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rotate-45 border-r border-b border-gray-100"></div>
+                  <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rotate-45 border-r border-b border-gray-100 dark:border-gray-700 dark:bg-gray-900"></div>
                 </div>
 
                 {button.href ? (
@@ -101,7 +101,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                     href={button.href}
                     target={button.target}
                     rel={button.target ? 'noopener noreferrer' : undefined}
-                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
+                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto dark:ring-1 dark:ring-white/10`}
                   >
                     <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
                       {button.icon}
@@ -119,7 +119,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                       setOpenContact(false)
                       button.onClick?.()
                     }}
-                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto`}
+                    className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto dark:ring-1 dark:ring-white/10`}
                   >
                     <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
                       {button.icon}
@@ -138,7 +138,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
           <div className="relative mt-3 group">
             <button
               onClick={() => setOpenContact(!openContact)}
-              className={`relative w-12 h-12 flex items-center justify-center rounded-full pointer-events-auto text-white shadow-xl transform transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`relative w-12 h-12 flex items-center justify-center rounded-full pointer-events-auto text-white shadow-xl transform transition-all duration-300 hover:scale-110 active:scale-95 dark:ring-1 dark:ring-white/10 ${
                 openContact
                   ? 'bg-[#ff424e] shadow-red-500/30'
                   : 'bg-[#0b74e5] shadow-blue-500/30'
@@ -185,13 +185,13 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
               <span
                 className="absolute inset-0 rounded-full"
                 style={{
-                  background: `conic-gradient(#0b74e5 ${progress}%, #e5e7eb 0%)`
+                  background: `conic-gradient(var(--client-dark-info, #0b74e5) ${progress}%, var(--client-dark-surface-3, #e5e7eb) 0%)`
                 }}
               />
 
-              <span className="absolute inset-[3px] rounded-full bg-white shadow-lg" />
+              <span className="absolute inset-[3px] rounded-full border border-gray-100 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:shadow-black/40" />
 
-              <FaArrowUp className="relative z-10 text-[#0b74e5]" />
+              <FaArrowUp className="relative z-10 text-[#0b74e5] dark:text-blue-300" />
             </button>
           </div>
         </div>

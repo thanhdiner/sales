@@ -8,7 +8,7 @@ function AdminProductsPagination({ currentPage, totalProducts, limitItems, setCu
 
   return (
     <div className="products-pagination">
-      <span className="mr-2 dark:text-gray-300">
+      <span className="admin-products-pagination-summary mr-2">
         Total <span style={{ fontWeight: 'bold' }}>{totalProducts}</span> products, Page {currentPage} of{' '}
         {Math.ceil(totalProducts / limitItems)}
       </span>

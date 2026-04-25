@@ -1,13 +1,10 @@
-import { Button, Avatar, Space, Table, Tag, Tooltip, Typography } from 'antd'
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  LinkOutlined
-} from '@ant-design/icons'
+import { Avatar, Button, Space, Table, Tag, Tooltip, Typography } from 'antd'
+import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
+
+const getStatusTagClass = isActive =>
+  isActive ? 'admin-widgets-status-tag admin-widgets-status-tag--active' : 'admin-widgets-status-tag admin-widgets-status-tag--inactive'
 
 export default function AdminWidgetsTableSection({ widgets, loading, onEditWidget, onDeleteWidget }) {
   const columns = [
@@ -24,12 +21,12 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
         }
       }),
       render: (title, record) => (
-        <div className="flex items-center gap-3">
-          <Avatar src={record.iconUrl} size={40} className="border border-gray-200 bg-gray-50" />
+        <div className="admin-widgets-widget-cell">
+          <Avatar src={record.iconUrl} size={40} className="admin-widgets-widget-avatar" />
 
-          <div className="min-w-0">
-            <div className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">{title}</div>
-            <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">Thứ tự: {record.order}</div>
+          <div className="admin-widgets-widget-info">
+            <div className="admin-widgets-widget-title">{title}</div>
+            <div className="admin-widgets-widget-order">Thứ tự: {record.order}</div>
           </div>
         </div>
       )
@@ -47,12 +44,12 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
       render: link =>
         link ? (
           <Tooltip title={link}>
-            <a href={link} target="_blank" rel="noreferrer" className="text-gray-700 hover:text-gray-900 dark:text-gray-300">
+            <a href={link} target="_blank" rel="noreferrer" className="admin-widgets-link">
               {link.length > 36 ? `${link.substring(0, 36)}...` : link}
             </a>
           </Tooltip>
         ) : (
-          <Text type="secondary">Không có liên kết</Text>
+          <Text className="admin-widgets-empty-link">Không có liên kết</Text>
         )
     },
     {
@@ -61,11 +58,7 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
       key: 'isActive',
       width: 160,
       render: value => (
-        <Tag
-          icon={value ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-          color={value ? 'success' : 'default'}
-          className="rounded-full px-2 py-1 font-medium"
-        >
+        <Tag icon={value ? <EyeOutlined /> : <EyeInvisibleOutlined />} className={getStatusTagClass(value)}>
           {value ? 'Đang hoạt động' : 'Tạm dừng'}
         </Tag>
       ),
@@ -82,13 +75,18 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
       render: (_, record) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa widget">
-            <Button icon={<EditOutlined />} onClick={() => onEditWidget(record)} className="rounded-lg">
+            <Button icon={<EditOutlined />} onClick={() => onEditWidget(record)} className="admin-widgets-btn admin-widgets-btn--table">
               Sửa
             </Button>
           </Tooltip>
 
           <Tooltip title="Xóa widget">
-            <Button danger icon={<DeleteOutlined />} onClick={() => onDeleteWidget(record._id)} className="rounded-lg">
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => onDeleteWidget(record._id)}
+              className="admin-widgets-btn admin-widgets-btn--table admin-widgets-btn--danger"
+            >
               Xóa
             </Button>
           </Tooltip>
@@ -98,7 +96,7 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
   ]
 
   return (
-    <div className="overflow-x-auto">
+    <div className="admin-widgets-table-wrapper">
       <Table
         rowKey="_id"
         dataSource={widgets}
@@ -111,7 +109,7 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
           showQuickJumper: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} widgets`
         }}
-        className="min-w-[720px] text-[13.5px] [&_.ant-table-tbody_td]:align-top"
+        className="admin-widgets-table min-w-[720px] text-[13.5px] [&_.ant-table-tbody_td]:align-top"
       />
     </div>
   )

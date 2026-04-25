@@ -10,8 +10,8 @@ export default function ProductImageSection({
   handleToggleCompare
 }) {
   return (
-    <div className="relative aspect-square overflow-hidden rounded-b-[16px] bg-[radial-gradient(circle_at_top,_rgba(219,234,254,0.95),_rgba(248,250,252,0.95)_55%,_rgba(255,255,255,0.98)_100%)] p-3 dark:bg-[radial-gradient(circle_at_top,_rgba(30,41,59,0.95),_rgba(15,23,42,0.98)_58%,_rgba(15,23,42,1)_100%)]">
-      <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[12px] border border-white/80 bg-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:border-white/10 dark:bg-slate-900/60">
+    <div className="relative aspect-square overflow-hidden rounded-b-[16px] bg-[radial-gradient(circle_at_top,_rgba(219,234,254,0.95),_rgba(248,250,252,0.95)_55%,_rgba(255,255,255,0.98)_100%)] p-3 dark:bg-[radial-gradient(circle_at_top,_rgba(32,35,39,0.95),_rgba(21,23,25,0.98)_58%,_rgba(16,18,19,1)_100%)]">
+      <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[12px] border border-white/80 bg-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:border-transparent dark:bg-[#101213]/80 dark:shadow-none">
         <img
           src={product.thumbnail}
           alt={product.title}

@@ -15,11 +15,10 @@ export default function AdminWidgetFormModal({
 }) {
   return (
     <Modal
-      title={
-        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
-          {editingWidget ? 'Chỉnh sửa Widget' : 'Thêm Widget mới'}
-        </span>
-      }
+      className="admin-widgets-modal"
+      rootClassName="admin-widgets-modal"
+      wrapClassName="admin-widgets-modal"
+      title={<span className="admin-widgets-modal__title">{editingWidget ? 'Chỉnh sửa Widget' : 'Thêm Widget mới'}</span>}
       open={modalVisible}
       onCancel={closeModal}
       onOk={() => form.submit()}
@@ -29,24 +28,20 @@ export default function AdminWidgetFormModal({
       style={{ top: 50, maxWidth: '95%' }}
       okButtonProps={{
         size: 'large',
-        className: 'rounded-lg bg-gray-900 font-medium hover:!bg-gray-800'
+        className: 'admin-widgets-btn admin-widgets-btn--primary'
       }}
       cancelButtonProps={{
         size: 'large',
-        className: 'rounded-lg'
+        className: 'admin-widgets-btn admin-widgets-btn--default'
       }}
       confirmLoading={submitLoading}
       destroyOnClose
     >
-      <Divider className="my-4" />
+      <Divider className="admin-widgets-modal__divider" />
 
-      <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true, order: 0, iconUrl: [] }}>
+      <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true, order: 0, iconUrl: [] }} className="admin-widgets-form">
         <Form.Item label="Tiêu đề widget" name="title" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
-          <Input
-            placeholder="Nhập tiêu đề cho widget"
-            size="large"
-            className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-          />
+          <Input placeholder="Nhập tiêu đề cho widget" size="large" className="admin-widgets-input" />
         </Form.Item>
 
         <Form.Item
@@ -64,31 +59,28 @@ export default function AdminWidgetFormModal({
             onRemove={handleRemoveUpload}
             onChange={handleUploadChange}
             fileList={fileList}
+            className="admin-widgets-upload"
           >
             {fileList.length < 1 && (
-              <div>
+              <div className="admin-widgets-upload__trigger">
                 <PlusOutlined />
-                <div className="mt-2">Upload</div>
+                <div className="admin-widgets-upload__label">Upload</div>
               </div>
             )}
           </Upload>
         </Form.Item>
 
         <Form.Item label="Liên kết" name="link">
-          <Input
-            placeholder="https://example.com"
-            size="large"
-            className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-          />
+          <Input placeholder="https://example.com" size="large" className="admin-widgets-input" />
         </Form.Item>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="admin-widgets-form__grid">
           <Form.Item label="Thứ tự hiển thị" name="order" rules={[{ type: 'number', min: 0 }]}>
-            <InputNumber min={0} placeholder="0" size="large" className="w-full rounded-lg" />
+            <InputNumber min={0} placeholder="0" size="large" className="admin-widgets-input admin-widgets-input-number" />
           </Form.Item>
 
           <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
-            <Switch />
+            <Switch className="admin-widgets-switch" />
           </Form.Item>
         </div>
       </Form>

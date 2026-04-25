@@ -1,0 +1,330 @@
+body.admin-layout-active {
+  --product-edit-surface: var(--admin-surface, #ffffff);
+  --product-edit-surface-2: var(--admin-surface-2, #f8fafc);
+  --product-edit-surface-3: var(--admin-surface-3, #eef2f7);
+  --product-edit-border: var(--admin-border, rgba(15, 23, 42, 0.08));
+  --product-edit-border-strong: var(--admin-border-strong, rgba(15, 23, 42, 0.14));
+  --product-edit-text: var(--admin-text, #111827);
+  --product-edit-text-muted: var(--admin-text-muted, #4b5563);
+  --product-edit-text-subtle: var(--admin-text-subtle, #6b7280);
+  --product-edit-accent: var(--admin-accent, #5e6ad2);
+  --product-edit-accent-soft: var(--admin-accent-soft, rgba(94, 106, 210, 0.12));
+}
+
+.admin-product-edit {
+  color: var(--product-edit-text);
+}
+
+.admin-product-edit__card {
+  border: 1px solid var(--product-edit-border);
+  border-radius: 14px;
+  background: var(--product-edit-surface);
+  padding: 20px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-product-edit__label {
+  color: var(--product-edit-text-muted);
+  font-weight: 600;
+}
+
+.admin-product-edit .ant-form-item-label > label {
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit__hint {
+  color: var(--product-edit-text-subtle);
+  font-size: 12px;
+}
+
+.admin-product-edit__select,
+.admin-product-edit__picker,
+.admin-product-edit__textarea {
+  width: 100%;
+}
+
+.admin-product-edit__input,
+.admin-product-edit__input-number,
+.admin-product-edit__select .ant-select-selector,
+.admin-product-edit__picker,
+.admin-product-edit .ant-input,
+.admin-product-edit .ant-input-number,
+.admin-product-edit .ant-picker {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit .ant-input::placeholder,
+.admin-product-edit .ant-input-number-input::placeholder,
+.admin-product-edit .ant-select-selection-placeholder,
+.admin-product-edit .ant-picker-input > input::placeholder {
+  color: var(--product-edit-text-subtle) !important;
+}
+
+.admin-product-edit .ant-input:hover,
+.admin-product-edit .ant-input:focus,
+.admin-product-edit .ant-input-number:hover,
+.admin-product-edit .ant-input-number-focused,
+.admin-product-edit .ant-select-focused .ant-select-selector,
+.admin-product-edit .ant-select-selector:hover,
+.admin-product-edit .ant-picker:hover,
+.admin-product-edit .ant-picker-focused {
+  border-color: var(--product-edit-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-product-edit .ant-input-number,
+.admin-product-edit .ant-input-number-group-wrapper,
+.admin-product-edit .ant-picker,
+.admin-product-edit__input-number {
+  width: 100%;
+}
+
+.admin-product-edit .ant-input-number-input,
+.admin-product-edit .ant-input-number-input-wrap input,
+.admin-product-edit .ant-picker input {
+  color: var(--product-edit-text) !important;
+  background: transparent !important;
+}
+
+.admin-product-edit .ant-input-number-group-addon,
+.admin-product-edit .ant-input-number .ant-input-number-handler-wrap {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit .ant-input-number .ant-input-number-handler {
+  border-color: var(--product-edit-border) !important;
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit .ant-input-number .ant-input-number-handler:hover {
+  background: var(--product-edit-surface-3) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit .ant-select-arrow,
+.admin-product-edit .ant-select-clear,
+.admin-product-edit .ant-picker-suffix,
+.admin-product-edit .ant-picker-clear {
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit .ant-checkbox-wrapper {
+  color: var(--product-edit-text-muted);
+}
+
+.admin-product-edit .ant-checkbox-inner {
+  border-color: var(--product-edit-border-strong);
+  background: var(--product-edit-surface);
+}
+
+.admin-product-edit .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: var(--product-edit-accent);
+  background: var(--product-edit-accent);
+}
+
+.admin-product-edit__upload .ant-upload-select {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+}
+
+.admin-product-edit__upload .ant-upload-list-item-container .ant-upload-list-item {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+}
+
+.admin-product-edit__upload-trigger {
+  color: var(--product-edit-text-muted);
+}
+
+.admin-product-edit__upload-text {
+  margin-top: 8px;
+  color: var(--product-edit-text-muted);
+}
+
+.admin-product-edit__features {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-product-edit__feature-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-product-edit__remove-feature-btn.ant-btn.ant-btn-text {
+  color: #f87171 !important;
+}
+
+.admin-product-edit__remove-feature-btn.ant-btn.ant-btn-text:hover {
+  background: rgba(248, 81, 73, 0.12) !important;
+}
+
+.admin-product-edit__add-feature-btn.ant-btn.ant-btn-dashed,
+.admin-product-edit__add-feature-btn.ant-btn.ant-btn-variant-dashed {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit__add-feature-btn.ant-btn.ant-btn-dashed:hover,
+.admin-product-edit__add-feature-btn.ant-btn.ant-btn-variant-dashed:hover {
+  border-color: var(--product-edit-border-strong) !important;
+  color: var(--product-edit-text) !important;
+  background: var(--product-edit-surface-3) !important;
+}
+
+.admin-product-edit__editor .tiptap-editor {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface) !important;
+}
+
+.admin-product-edit__editor .tiptap-editor .ProseMirror {
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit__editor .toolbar {
+  border-bottom-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+}
+
+.admin-product-edit__editor .toolbar-btn,
+.admin-product-edit__editor select {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface) !important;
+}
+
+.admin-product-edit__editor .toolbar-btn svg,
+.admin-product-edit__editor select svg {
+  stroke: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit__editor .toolbar-btn:hover,
+.admin-product-edit__editor select:hover {
+  border-color: var(--product-edit-accent) !important;
+  background: var(--product-edit-accent-soft) !important;
+}
+
+.admin-product-edit__editor .toolbar-btn:hover svg,
+.admin-product-edit__editor select:hover svg {
+  stroke: var(--product-edit-accent) !important;
+}
+
+.admin-product-edit__editor .toolbar-btn.active {
+  border-color: var(--product-edit-accent) !important;
+  outline: 0 !important;
+  background: var(--product-edit-accent-soft) !important;
+}
+
+.admin-product-edit__editor .highlight-options,
+.admin-product-edit__editor .color-options {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+}
+
+.admin-product-edit__actions.ant-form-item {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.admin-layout-content .admin-product-edit__btn.ant-btn {
+  height: 40px;
+  border-radius: 8px;
+  padding-inline: 16px;
+  font-weight: 600;
+}
+
+.admin-layout-content .admin-product-edit__btn--cancel.ant-btn,
+.admin-layout-content .admin-product-edit__btn--cancel.ant-btn.ant-btn-default {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text-muted) !important;
+  margin-right: 8px;
+}
+
+.admin-layout-content .admin-product-edit__btn--cancel.ant-btn:hover,
+.admin-layout-content .admin-product-edit__btn--cancel.ant-btn.ant-btn-default:hover {
+  border-color: var(--product-edit-border-strong) !important;
+  color: var(--product-edit-text) !important;
+  background: var(--product-edit-surface-3) !important;
+}
+
+.admin-layout-content .admin-product-edit__btn--submit.ant-btn.ant-btn-primary {
+  min-width: 130px;
+  border-color: var(--product-edit-accent) !important;
+  background: var(--product-edit-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-layout-content .admin-product-edit__btn--submit.ant-btn.ant-btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.admin-layout-content .admin-product-edit__btn--submit.ant-btn.ant-btn-primary:disabled,
+.admin-layout-content .admin-product-edit__btn--submit.ant-btn.ant-btn-primary[disabled] {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text-subtle) !important;
+}
+
+.admin-product-edit-popup.ant-select-dropdown {
+  border: 1px solid var(--product-edit-border) !important;
+  border-radius: 10px !important;
+  background: var(--product-edit-surface-2) !important;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28) !important;
+}
+
+.admin-product-edit-popup .ant-select-item,
+.admin-product-edit-popup .ant-select-tree-title {
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit-popup .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.admin-product-edit-popup .ant-select-tree-node-content-wrapper:hover {
+  background: var(--product-edit-surface-3) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit-popup .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+.admin-product-edit-popup .ant-select-tree-node-selected {
+  background: var(--product-edit-accent-soft) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit-popup .ant-select-tree {
+  background: transparent !important;
+}
+
+.admin-product-edit-picker-popup .ant-picker-panel-container {
+  border: 1px solid var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit-picker-popup .ant-picker-cell-in-view {
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit-picker-popup .ant-picker-cell:hover .ant-picker-cell-inner {
+  background: var(--product-edit-surface-3) !important;
+}
+
+.admin-product-edit-picker-popup .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: var(--product-edit-accent) !important;
+}
+
+.admin-product-edit-picker-popup .ant-picker-header,
+.admin-product-edit-picker-popup .ant-picker-content th,
+.admin-product-edit-picker-popup .ant-picker-time-panel-column > li {
+  color: var(--product-edit-text-muted) !important;
+}
+
+@media (max-width: 992px) {
+  .admin-product-edit__card {
+    padding: 16px;
+  }
+}

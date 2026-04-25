@@ -1,7 +1,10 @@
 import SEO from '@/components/SEO'
 import useAdminBankInfoPage from './hooks/useAdminBankInfoPage'
 import AdminBankInfoFormModalSection from './sections/AdminBankInfoFormModalSection'
+import AdminBankInfoHeaderSection from './sections/AdminBankInfoHeaderSection'
+import AdminBankInfoStatsSection from './sections/AdminBankInfoStatsSection'
 import AdminBankInfoTableSection from './sections/AdminBankInfoTableSection'
+import './AdminBankInfoPage.scss'
 
 export default function AdminBankInfoPage() {
   const {
@@ -13,6 +16,7 @@ export default function AdminBankInfoPage() {
     bodyStyle,
     contentRef,
     submitLoading,
+    activateLoadingId,
     handleCreate,
     handleEdit,
     handleClose,
@@ -24,17 +28,23 @@ export default function AdminBankInfoPage() {
   } = useAdminBankInfoPage()
 
   return (
-    <div className="rounded-xl p-4 dark:bg-gray-800">
+    <div className="admin-bank-info-page min-h-screen rounded-xl p-6">
       <SEO title="Admin - Ngân hàng" noIndex />
 
-      <AdminBankInfoTableSection
-        data={data}
-        loading={loading}
-        onCreate={handleCreate}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onActivate={handleActivate}
-      />
+      <div className="admin-bank-info-page__inner mx-auto max-w-7xl space-y-5">
+        <AdminBankInfoHeaderSection onCreate={handleCreate} />
+
+        <AdminBankInfoStatsSection bankInfos={data} />
+
+        <AdminBankInfoTableSection
+          data={data}
+          loading={loading}
+          activateLoadingId={activateLoadingId}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onActivate={handleActivate}
+        />
+      </div>
 
       <AdminBankInfoFormModalSection
         open={open}
@@ -51,3 +61,4 @@ export default function AdminBankInfoPage() {
     </div>
   )
 }
+

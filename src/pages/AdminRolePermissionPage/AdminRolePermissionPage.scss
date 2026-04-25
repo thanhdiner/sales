@@ -1,36 +1,243 @@
-.checkbox-orange .ant-checkbox-inner {
-  border-color: orange !important;
-}
-.checkbox-orange .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: orange !important;
-  border-color: orange !important;
+body.admin-layout-active .admin-role-permission-page {
+  --rp-surface: var(--admin-surface, #ffffff);
+  --rp-surface-2: var(--admin-surface-2, #f8fafc);
+  --rp-surface-3: var(--admin-surface-3, #eef2f7);
+  --rp-border: var(--admin-border, rgba(15, 23, 42, 0.08));
+  --rp-border-strong: var(--admin-border-strong, rgba(15, 23, 42, 0.14));
+  --rp-text: var(--admin-text, #111827);
+  --rp-text-muted: var(--admin-text-muted, #4b5563);
+  --rp-text-subtle: var(--admin-text-subtle, #6b7280);
+  --rp-accent: var(--admin-accent, #5e6ad2);
+  --rp-accent-soft: var(--admin-accent-soft, rgba(94, 106, 210, 0.12));
+  --rp-shadow: var(--admin-shadow, 0 14px 32px rgba(15, 23, 42, 0.08));
 }
 
-.admin-role-permission-header h3 {
-  margin-bottom: 0;
+.admin-role-permission-page {
+  min-height: 100%;
+  border-radius: 12px;
+  background: var(--admin-bg-soft);
+  color: var(--rp-text);
+  padding: 24px;
+}
+
+.admin-role-permission-page__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.admin-role-permission-card {
+  border: 1px solid var(--rp-border);
+  border-radius: 14px;
+  background: var(--rp-surface);
+  box-shadow: var(--rp-shadow);
+  padding: 20px;
 }
 
 .admin-role-permission-header {
+  margin-bottom: 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.ant-table-body {
-  scrollbar-color: auto;
+.admin-role-permission-header__title.ant-typography {
+  margin: 0 !important;
+  color: var(--rp-text) !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
 }
 
-.ant-table-body::-webkit-scrollbar {
+.admin-role-permission-header__description.ant-typography {
+  margin-top: 6px;
+  color: var(--rp-text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.admin-role-permission-btn.ant-btn {
+  border-radius: 8px;
+  border: 1px solid var(--rp-border) !important;
+  background: var(--rp-surface-2) !important;
+  color: var(--rp-text-muted) !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.admin-role-permission-btn.ant-btn .anticon {
+  color: inherit;
+}
+
+.admin-role-permission-btn.ant-btn:hover {
+  border-color: var(--rp-border-strong) !important;
+  background: var(--rp-surface-3) !important;
+  color: var(--rp-text) !important;
+}
+
+.admin-role-permission-btn--primary.ant-btn,
+.admin-role-permission-btn--primary.ant-btn.ant-btn-primary {
+  border-color: var(--rp-accent) !important;
+  background: var(--rp-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-role-permission-btn--primary.ant-btn:hover,
+.admin-role-permission-btn--primary.ant-btn.ant-btn-primary:hover {
+  border-color: var(--rp-accent) !important;
+  filter: brightness(1.06);
+  color: #f4f5f8 !important;
+}
+
+.admin-role-permission-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--rp-border);
+  border-radius: 12px;
+  background: var(--rp-surface);
+}
+
+.admin-role-permission-table-wrap .ant-table-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 113, 122, 0.55) transparent;
+}
+
+.admin-role-permission-table-wrap .ant-table-body::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-.ant-table-body::-webkit-scrollbar-track {
-  background-color: #f8f8f8;
+.admin-role-permission-table-wrap .ant-table-body::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.ant-table-body::-webkit-scrollbar-thumb {
+.admin-role-permission-table-wrap .ant-table-body::-webkit-scrollbar-thumb {
   border-radius: 6px;
-  background-color: #eeeeee;
+  background: rgba(113, 113, 122, 0.55);
+}
+
+.admin-role-permission-table-wrap .ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.75);
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table,
+.admin-role-permission-table.ant-table-wrapper .ant-table-container,
+.admin-role-permission-table.ant-table-wrapper .ant-table-content,
+.admin-role-permission-table.ant-table-wrapper .ant-table-header {
+  background: var(--rp-surface) !important;
+  color: var(--rp-text) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th {
+  border-color: var(--rp-border) !important;
+  background: var(--rp-surface-2) !important;
+  color: var(--rp-text-muted) !important;
+  font-weight: 700;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: var(--rp-border) !important;
+  background: var(--rp-surface) !important;
+  color: var(--rp-text) !important;
+  vertical-align: middle;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: var(--rp-surface-2) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-cell-fix-left,
+.admin-role-permission-table.ant-table-wrapper .ant-table-cell-fix-left-last {
+  background: var(--rp-surface) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-fix-left,
+.admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-fix-left-last {
+  background: var(--rp-surface-2) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr:hover > td.ant-table-cell-fix-left,
+.admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr:hover > td.ant-table-cell-fix-left-last {
+  background: var(--rp-surface-2) !important;
+}
+
+.admin-role-permission-row--all > td,
+.admin-role-permission-row--all > td.ant-table-cell-fix-left,
+.admin-role-permission-row--all > td.ant-table-cell-fix-left-last {
+  background: color-mix(in srgb, var(--rp-accent-soft) 72%, var(--rp-surface)) !important;
+}
+
+.admin-role-permission-row--group > td,
+.admin-role-permission-row--group > td.ant-table-cell-fix-left,
+.admin-role-permission-row--group > td.ant-table-cell-fix-left-last {
+  background: var(--rp-surface-2) !important;
+}
+
+.admin-role-permission-table__role-label {
+  color: var(--rp-text);
+  font-weight: 700;
+}
+
+.admin-role-permission-table__title {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--rp-text);
+}
+
+.admin-role-permission-table__title--all {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.admin-role-permission-table__title--group {
+  color: var(--rp-accent);
+  font-weight: 700;
+}
+
+.admin-role-permission-table__subtitle {
+  color: var(--rp-text-subtle);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.admin-role-permission-checkbox .ant-checkbox-inner {
+  border-color: var(--rp-border-strong);
+  background: var(--rp-surface-2);
+}
+
+.admin-role-permission-checkbox .ant-checkbox-checked .ant-checkbox-inner,
+.admin-role-permission-checkbox.ant-checkbox-wrapper-checked .ant-checkbox-inner {
+  border-color: var(--rp-accent);
+  background: var(--rp-accent);
+}
+
+.admin-role-permission-checkbox .ant-checkbox-disabled .ant-checkbox-inner {
+  border-color: var(--rp-border) !important;
+  background: var(--rp-surface-3) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-empty-description {
+  color: var(--rp-text-subtle) !important;
+}
+
+@media (min-width: 992px) {
+  .admin-role-permission-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-role-permission-page {
+    padding: 14px;
+  }
+
+  .admin-role-permission-card {
+    padding: 14px;
+  }
+
+  .admin-role-permission-header__title.ant-typography {
+    font-size: 24px !important;
+  }
 }

@@ -1,65 +1,70 @@
 import React from 'react'
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
-import { Card } from 'antd'
+import { ArrowDown, ArrowUp } from 'lucide-react'
 import { formatCurrency } from '../utils/dashboardTransforms'
 
-export default function StatCard({ title, value, change, trend, icon, color, subInfo = [], isCurrency }) {
+const sparklinePoints = '0,44 14,28 27,32 41,16 55,14 69,35 83,27 97,8 111,31 125,21 139,2'
+
+export default function StatCard({
+  title,
+  value,
+  change,
+  trend,
+  icon,
+  color = '#34d399',
+  subInfo = [],
+  isCurrency,
+  sparkline,
+  caption
+}) {
   const displayValue = isCurrency ? formatCurrency(value) : (Number(value) || 0).toLocaleString('vi-VN')
+  const TrendIcon = trend === 'down' ? ArrowDown : ArrowUp
+  const normalizedTrend = trend === 'down' ? 'down' : 'up'
+  const sparkId = `spark-${title.replace(/[^\w-]+/g, '-')}`
 
   return (
-    <Card className="stat-card dark:bg-gray-900 dark:text-gray-100 shadow-md rounded-2xl border-0" hoverable>
-      <div className="stat-content" style={{ display: 'flex', gap: 16 }}>
-        <div
-          className="stat-icon"
-          style={{
-            background: `${color}1A`,
-            borderRadius: 12,
-            width: 48,
-            height: 48,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          {React.cloneElement(icon, { style: { color, fontSize: 28 } })}
+    <article className={`stat-card ${isCurrency ? 'stat-card--currency' : ''}`} style={{ '--stat-color': color }}>
+      <div className="stat-card-head">
+        <div className="stat-icon" aria-hidden="true">
+          {React.cloneElement(icon, { size: 30, strokeWidth: 1.8 })}
         </div>
 
-        <div className="stat-info" style={{ flex: 1 }}>
-          <div className="stat-title" style={{ color: '#64748b', fontWeight: 500, fontSize: 16 }}>
-            {title}
-          </div>
+        <span className="stat-title" title={title}>
+          {title}
+        </span>
+      </div>
 
-          <div style={{ fontSize: 28, fontWeight: 700, color: '#1f2937', marginTop: 4 }} className="stat-value">
-            {displayValue}
-          </div>
+      <div className="stat-value-row">
+        <div className="stat-value">{displayValue}</div>
+        <span className={`stat-change ${normalizedTrend}`}>
+          <TrendIcon size={13} />
+          {Number(change) || 0}%
+        </span>
+      </div>
 
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              backgroundColor: trend === 'up' ? '#d1fae5' : '#fee2e2',
-              color: trend === 'up' ? '#059669' : '#ef4444',
-              fontSize: 13,
-              padding: '2px 6px',
-              borderRadius: 8,
-              marginTop: 4
-            }}
-          >
-            {trend === 'up' ? (
-              <ArrowUpOutlined style={{ fontSize: 12, marginRight: 4 }} />
-            ) : (
-              <ArrowDownOutlined style={{ fontSize: 12, marginRight: 4 }} />
-            )}
-            {change}%
-          </div>
-
+      {sparkline ? (
+        <div className="stat-sparkline-wrap">
+          {caption && <span className="stat-caption">{caption}</span>}
+          <svg className="stat-sparkline" viewBox="0 0 139 52" role="img" aria-label={`${title} trend`}>
+            <defs>
+              <linearGradient id={sparkId} x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="var(--dashboard-success)" stopOpacity="0.42" />
+                <stop offset="100%" stopColor="var(--dashboard-success)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <polyline points={`0,52 ${sparklinePoints} 139,52`} fill={`url(#${sparkId})`} stroke="none" />
+            <polyline points={sparklinePoints} fill="none" stroke="var(--dashboard-success)" strokeLinecap="round" strokeWidth="2.5" />
+          </svg>
+        </div>
+      ) : (
+        <div className="stat-sub-list">
           {subInfo.map((item, index) => (
-            <div key={`${item.label}-${index}`} style={{ fontSize: 13, color: '#64748b', marginTop: 2 }}>
-              • {item.label}: <strong>{(Number(item.value) || 0).toLocaleString('vi-VN')}</strong>
+            <div key={`${item.label}-${index}`} className="stat-sub-info">
+              <span>{item.label}:</span>
+              <strong>{(Number(item.value) || 0).toLocaleString('vi-VN')}</strong>
             </div>
           ))}
         </div>
-      </div>
-    </Card>
+      )}
+    </article>
   )
 }

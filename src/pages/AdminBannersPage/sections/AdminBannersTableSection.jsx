@@ -18,6 +18,8 @@ import {
 const { Text } = Typography
 
 export default function AdminBannersTableSection({ banners, loading, onEditBanner, onDeleteBanner }) {
+  const getTablePopupContainer = trigger => trigger?.closest('.admin-banners-page') || trigger?.parentElement || document.body
+
   const columns = [
     {
       title: 'Ảnh Banner',
@@ -26,18 +28,18 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
       width: 170,
       render: img =>
         img ? (
-          <div className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+          <div className="admin-banners-image-wrap overflow-hidden rounded-lg">
             <Image width={140} height={72} src={img} alt="Banner" className="object-cover" />
           </div>
         ) : (
-          <Text type="secondary">Chưa có ảnh</Text>
+          <Text className="!text-[var(--admin-text-subtle)]">Chưa có ảnh</Text>
         )
     },
     {
       title: 'Tiêu đề',
       dataIndex: 'title',
       key: 'title',
-      render: title => <span className="font-medium text-gray-900 dark:text-gray-100">{title}</span>
+      render: title => <span className="font-medium text-[var(--admin-text)]">{title}</span>
     },
     {
       title: (
@@ -51,12 +53,17 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
       render: link =>
         link ? (
           <Tooltip title={link}>
-            <a href={link} target="_blank" rel="noreferrer" className="text-gray-700 hover:text-gray-900 dark:text-gray-300">
+            <a
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
+            >
               {link.length > 34 ? `${link.substring(0, 34)}...` : link}
             </a>
           </Tooltip>
         ) : (
-          <Text type="secondary">Không có</Text>
+          <Text className="!text-[var(--admin-text-subtle)]">Không có</Text>
         )
     },
     {
@@ -86,13 +93,13 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
       render: (_, record) => (
         <Space size="small">
           <Tooltip title="Chỉnh sửa banner">
-            <Button icon={<EditOutlined />} onClick={() => onEditBanner(record)} className="rounded-lg">
+            <Button icon={<EditOutlined />} onClick={() => onEditBanner(record)} className="admin-banners-action-btn rounded-lg">
               Sửa
             </Button>
           </Tooltip>
 
           <Tooltip title="Xóa banner">
-            <Button danger icon={<DeleteOutlined />} onClick={() => onDeleteBanner(record._id)} className="rounded-lg">
+            <Button danger icon={<DeleteOutlined />} onClick={() => onDeleteBanner(record._id)} className="admin-banners-action-btn admin-banners-action-btn--danger rounded-lg">
               Xóa
             </Button>
           </Tooltip>
@@ -102,19 +109,20 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
   ]
 
   return (
-    <div className="overflow-x-auto">
+    <div className="admin-banners-table-wrap overflow-x-auto">
       <Table
         rowKey="_id"
         dataSource={banners}
         columns={columns}
         loading={loading}
+        getPopupContainer={getTablePopupContainer}
         pagination={{
           pageSize: 10,
           showSizeChanger: true,
           showQuickJumper: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} banners`
         }}
-        className="min-w-[720px]"
+        className="admin-banners-table min-w-[720px]"
       />
     </div>
   )

@@ -17,26 +17,28 @@ export default function AdminPermissionsTableSection({
 }) {
   const canEditPermission = grantedPermissions.includes('edit_permission')
   const canDeletePermission = grantedPermissions.includes('delete_permission')
+  const actionButtonClass =
+    'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-3)] hover:!text-[var(--admin-text)]'
 
   const columns = [
     {
       title: 'Mã quyền',
       dataIndex: 'name',
       key: 'name',
-      render: name => <span className="font-mono text-sm font-medium text-gray-800 dark:text-gray-200">{name}</span>
+      render: name => <span className="font-mono text-sm font-medium text-[var(--admin-text-muted)]">{name}</span>
     },
     {
       title: 'Tên quyền',
       dataIndex: 'title',
       key: 'title',
-      render: title => <span className="font-medium text-gray-900 dark:text-gray-100">{title}</span>
+      render: title => <span className="font-medium text-[var(--admin-text)]">{title}</span>
     },
     {
       title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
       render: description => (
-        <span className="text-gray-600 dark:text-gray-400">{description || 'Không có mô tả'}</span>
+        <span className="text-[var(--admin-text-muted)]">{description || 'Không có mô tả'}</span>
       )
     },
     {
@@ -44,7 +46,7 @@ export default function AdminPermissionsTableSection({
       dataIndex: 'group',
       key: 'group',
       render: group => (
-        <span className="text-gray-700 dark:text-gray-300">
+        <span className="text-[var(--admin-text-muted)]">
           {getPermissionGroupLabel(permissionGroups, group)}
         </span>
       )
@@ -56,7 +58,7 @@ export default function AdminPermissionsTableSection({
       render: (_, record) => (
         <Space size="small">
           {canEditPermission && (
-            <Button icon={<EditOutlined />} onClick={() => onEditPermission(record)} className="rounded-lg" />
+            <Button icon={<EditOutlined />} onClick={() => onEditPermission(record)} className={actionButtonClass} />
           )}
 
           {canDeletePermission && (
@@ -66,8 +68,13 @@ export default function AdminPermissionsTableSection({
               onConfirm={() => onDeletePermission(record._id)}
               okText="Xóa"
               cancelText="Hủy"
+              overlayClassName="admin-permissions-popconfirm"
             >
-              <Button icon={<DeleteOutlined />} danger className="rounded-lg" />
+              <Button
+                icon={<DeleteOutlined />}
+                danger
+                className="admin-permissions-delete-btn rounded-lg"
+              />
             </Popconfirm>
           )}
         </Space>
@@ -88,11 +95,13 @@ export default function AdminPermissionsTableSection({
           total,
           showSizeChanger: true,
           showQuickJumper: true,
-          showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} quyền`,
+          showTotal: (count, range) => (
+            <span className="text-[var(--admin-text-muted)]">{`${range[0]}-${range[1]} của ${count} quyền`}</span>
+          ),
           onChange: onPageChange,
           onShowSizeChange: onPageSizeChange
         }}
-        className="min-w-[720px]"
+        className="admin-permissions-table min-w-[720px]"
       />
     </div>
   )

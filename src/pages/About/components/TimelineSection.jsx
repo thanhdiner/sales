@@ -53,20 +53,20 @@ const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
       viewport={viewport}
     >
       <div className={`flex ${isLeft ? 'justify-end' : 'justify-start'}`}>
-        <div className="relative w-full max-w-[540px] border border-[#dddddd] bg-white shadow-sm">
+        <div className="about-page__timeline-card relative w-full max-w-[540px] border border-[#dddddd] bg-white shadow-sm">
           <div className={`grid min-h-[120px] ${isLeft ? 'grid-cols-[72px_1fr_28px]' : 'grid-cols-[28px_1fr_72px]'}`}>
             {isLeft ? (
               <>
-                <div className="flex items-center justify-center">
+                <div className="about-page__timeline-icon-cell flex items-center justify-center">
                   <Icon size={28} style={{ color: item.color }} strokeWidth={1.8} />
                 </div>
 
-                <div className="flex items-center border-l border-r border-[#e8e8e8] px-6 py-5">
+                <div className="about-page__timeline-inner flex items-center border-l border-r border-[#e8e8e8] px-6 py-5">
                   <div>
                     <h3 className="mb-2 text-[18px] font-bold" style={{ color: item.color }}>
                       {item.title}
                     </h3>
-                    <p className="text-[15px] leading-8 text-[#666]">{item.description}</p>
+                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">{item.description}</p>
                   </div>
                 </div>
 
@@ -98,16 +98,16 @@ const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
                   />
                 </div>
 
-                <div className="flex items-center border-l border-r border-[#e8e8e8] px-6 py-5">
+                <div className="about-page__timeline-inner flex items-center border-l border-r border-[#e8e8e8] px-6 py-5">
                   <div>
                     <h3 className="mb-2 text-[18px] font-bold" style={{ color: item.color }}>
                       {item.title}
                     </h3>
-                    <p className="text-[15px] leading-8 text-[#666]">{item.description}</p>
+                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">{item.description}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center">
+                <div className="about-page__timeline-icon-cell flex items-center justify-center">
                   <Icon size={28} style={{ color: item.color }} strokeWidth={1.8} />
                 </div>
               </>
@@ -131,11 +131,11 @@ const MobileTimelineCard = ({ item, index, viewport }) => {
       viewport={viewport}
     >
       <div
-        className="absolute left-[7px] top-8 z-10 h-5 w-5 rounded-full border-[3px] border-white shadow"
+        className="about-page__timeline-dot absolute left-[7px] top-8 z-10 h-5 w-5 rounded-full border-[3px] border-white shadow"
         style={{ backgroundColor: item.color }}
       />
 
-      <div className="overflow-hidden border border-[#d9d9d9] bg-white shadow-sm">
+      <div className="about-page__timeline-card overflow-hidden border border-[#d9d9d9] bg-white shadow-sm">
         <div className="grid grid-cols-[14px_1fr_56px]">
           <div style={{ backgroundColor: item.color }} />
 
@@ -143,10 +143,10 @@ const MobileTimelineCard = ({ item, index, viewport }) => {
             <h3 className="mb-1 text-[15px] font-bold" style={{ color: item.color }}>
               {item.title}
             </h3>
-            <p className="text-[13px] leading-5 text-[#666]">{item.description}</p>
+            <p className="about-page__timeline-copy text-[13px] leading-5 text-[#666]">{item.description}</p>
           </div>
 
-          <div className="flex items-center justify-center border-l border-[#e8e8e8]">
+          <div className="about-page__timeline-icon-cell flex items-center justify-center border-l border-[#e8e8e8]">
             <Icon size={22} style={{ color: item.color }} strokeWidth={1.8} />
           </div>
         </div>
@@ -160,7 +160,7 @@ const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
     <section className="px-4 py-10 md:px-6 md:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="relative hidden md:block">
-          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[#cfcfcf]" />
+          <div className="about-page__timeline-line absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[#cfcfcf]" />
 
           <div className="space-y-10">
             {timeline.map((item, index) => {
@@ -171,7 +171,7 @@ const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
                   <DesktopTimelineCard item={item} index={index} isLeft={isLeft} viewport={viewport} />
 
                   <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-                    <div className="h-7 w-7 rounded-full border-4 border-white shadow-sm" style={{ backgroundColor: item.color }} />
+                    <div className="about-page__timeline-dot h-7 w-7 rounded-full border-4 border-white shadow-sm" style={{ backgroundColor: item.color }} />
                   </div>
                 </div>
               )
@@ -180,7 +180,7 @@ const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
         </div>
 
         <div className="relative space-y-5 md:hidden">
-          <div className="absolute left-4 top-0 h-full w-px bg-[#cfcfcf]" />
+          <div className="about-page__timeline-line absolute left-4 top-0 h-full w-px bg-[#cfcfcf]" />
           {timeline.map((item, index) => (
             <MobileTimelineCard key={index} item={item} index={index} viewport={viewport} />
           ))}

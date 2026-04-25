@@ -44,16 +44,21 @@ export default function SearchSuggest() {
   }
 
   const handleSelect = keyword => {
+    const trimmedKeyword = keyword.trim()
+    if (!trimmedKeyword) return
+
     setInput('')
     setShowDropdown(false)
     setHoveredIdx(-1)
-    navigate(`/products?search=${encodeURIComponent(keyword)}`)
+    navigate(`/products?search=${encodeURIComponent(trimmedKeyword)}`)
   }
+
+  const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
   // Highlight match
   const highlightMatch = (text, query) => {
     if (!query) return text
-    const regex = new RegExp(`(${query})`, 'gi')
+    const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi')
     const parts = text.split(regex)
     return parts.map((part, index) =>
       regex.test(part) ? (
@@ -113,7 +118,7 @@ export default function SearchSuggest() {
   }
 
   return (
-    <div ref={ref} style={{ position: 'relative', width: 320, maxWidth: '95vw', margin: '0 auto' }}>
+    <div ref={ref} style={{ position: 'relative', width: '100%', maxWidth: 480, margin: '0 auto' }}>
       <Input
         value={input}
         onChange={handleChange}
@@ -124,19 +129,11 @@ export default function SearchSuggest() {
         onBlur={() => setIsFocused(false)}
         onKeyDown={handleKeyDown}
         placeholder="Tìm kiếm sản phẩm..."
-        prefix={<SearchOutlined style={{ color: isFocused ? '#1890ff' : '#bfbfbf' }} />}
+        prefix={<SearchOutlined />}
         allowClear
-        size="large"
-        className={`dark:bg-gray-800 dark:border-gray-600 dark:text-white rounded-[26px] ${
-          isFocused
-            ? 'bg-white border-2 border-solid border-[#1890ff] shadow-[0_4px_16px_rgba(24,144,255,0.15)]'
-            : 'bg-[#f8f9fa] border-2 border-solid border-transparent shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
-        }
-    transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-    text-[15px]
-    h-[48px]
-    focus:outline-none
-  `}
+        size="middle"
+        variant="filled"
+        className={`header-search-input ${isFocused ? 'header-search-input--focused' : ''}`}
       />
 
       {showDropdown && (
@@ -182,7 +179,7 @@ export default function SearchSuggest() {
           </style>
           {input && suggestions.length === 0 ? (
             <div style={{ padding: '32px 24px', textAlign: 'center', color: '#8c8c8c', fontSize: '14px' }}>
-              <SearchOutlined style={{ fontSize: '32px', marginBottom: 12, opacity: 0.4, display: 'block' }} />
+              <div style={{ fontSize: '32px', marginBottom: 12, opacity: 0.4, lineHeight: 1 }}>⌕</div>
               <div style={{ fontWeight: '500' }}>Không tìm thấy kết quả</div>
               <div style={{ fontSize: '12px', marginTop: 4 }}>Thử tìm với từ khóa khác</div>
             </div>

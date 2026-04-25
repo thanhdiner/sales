@@ -17,25 +17,27 @@ export default function AdminPermissionGroupsTableSection({
 }) {
   const canEditGroup = permissions.includes('edit_permission_group')
   const canDeleteGroup = permissions.includes('delete_permission_group')
+  const textActionButtonClass =
+    '!text-[var(--admin-text-muted)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
 
   const columns = [
     {
       title: 'Tên nhóm',
       dataIndex: 'label',
       key: 'label',
-      render: text => <span className="font-medium text-gray-900 dark:text-gray-100">{text}</span>
+      render: text => <span className="font-medium text-[var(--admin-text)]">{text}</span>
     },
     {
       title: 'Mã nhóm',
       dataIndex: 'value',
       key: 'value',
-      render: text => <span className="font-mono text-sm text-gray-700 dark:text-gray-300">{text}</span>
+      render: text => <span className="font-mono text-sm text-[var(--admin-text-muted)]">{text}</span>
     },
     {
       title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
-      render: text => <span className="text-gray-600 dark:text-gray-400">{text || 'Không có mô tả'}</span>
+      render: text => <span className="text-[var(--admin-text-muted)]">{text || 'Không có mô tả'}</span>
     },
     {
       title: 'Trạng thái',
@@ -60,7 +62,11 @@ export default function AdminPermissionGroupsTableSection({
       render: (_, record) => (
         <Space size="small">
           {canEditGroup && (
-            <Button icon={<EditOutlined />} onClick={() => onEditGroup(record)} className="rounded-lg" />
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => onEditGroup(record)}
+              className={`rounded-lg ${textActionButtonClass}`}
+            />
           )}
 
           {canDeleteGroup && (
@@ -70,8 +76,14 @@ export default function AdminPermissionGroupsTableSection({
               onConfirm={() => onDeleteGroup(record._id)}
               okText="Xóa"
               cancelText="Hủy"
+              overlayClassName="admin-permission-groups-popconfirm"
             >
-              <Button icon={<DeleteOutlined />} danger className="rounded-lg" />
+              <Button
+                type="text"
+                icon={<DeleteOutlined />}
+                danger
+                className="admin-permission-groups-delete-btn rounded-lg hover:!bg-[var(--admin-surface-2)]"
+              />
             </Popconfirm>
           )}
         </Space>
@@ -92,11 +104,13 @@ export default function AdminPermissionGroupsTableSection({
           total,
           showSizeChanger: true,
           showQuickJumper: true,
-          showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} nhóm quyền`,
+          showTotal: (count, range) => (
+            <span className="text-[var(--admin-text-muted)]">{`${range[0]}-${range[1]} của ${count} nhóm quyền`}</span>
+          ),
           onChange: onPageChange,
           onShowSizeChange: onPageSizeChange
         }}
-        className="min-w-[680px]"
+        className="admin-permission-groups-table min-w-[680px]"
       />
     </div>
   )

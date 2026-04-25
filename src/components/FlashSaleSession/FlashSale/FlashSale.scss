@@ -91,3 +91,18 @@
   animation: none !important;
   transition: none !important;
 }
+
+html.dark body:not(.admin-layout-active) {
+  .flash-sale-skeleton-card {
+    background: #101213;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
+  }
+
+  .flash-sale-skeleton-card .skeleton-img,
+  .flash-sale-skeleton-card .skeleton-line,
+  .skeleton-timer {
+    background: linear-gradient(90deg, #151719 25%, #202327 50%, #151719 75%);
+    background-size: 200% 100%;
+  }
+}

@@ -1,23 +1,30 @@
-import { Button, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { Button, Typography } from 'antd'
 
-const { Title } = Typography
+const { Title, Text } = Typography
 
 export default function AdminBankInfoHeaderSection({ onCreate }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <Title level={4} className="!mb-0">
-        Quản lý thông tin chuyển khoản
-      </Title>
+    <div className="admin-bank-info-header">
+      <div>
+        <Title level={2} className="admin-bank-info-header__title">
+          Quản lý thông tin ngân hàng
+        </Title>
+
+        <Text className="admin-bank-info-header__desc">
+          Cấu hình tài khoản nhận chuyển khoản hiển thị trong bước thanh toán.
+        </Text>
+      </div>
 
       <Button
         type="primary"
         icon={<PlusOutlined />}
         onClick={onCreate}
-        className="w-full rounded-lg sm:w-auto"
+        className="admin-bank-info-btn admin-bank-info-btn--primary admin-bank-info-header__create-btn"
       >
         Thêm tài khoản
       </Button>
     </div>
   )
 }
+

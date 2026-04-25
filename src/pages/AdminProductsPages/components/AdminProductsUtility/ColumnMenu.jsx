@@ -3,8 +3,8 @@ import { Checkbox } from 'antd'
 function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
   return (
     <>
-      <div className="p-3 min-w-[240px] bg-white rounded-[8px] dark:bg-gray-800 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
-        <div className="font-semibold text-base mb-1 border-b border-solid border-[#eee] pb-2 dark:text-gray-200">Toggle Columns</div>
+      <div className="admin-products-column-menu p-3 min-w-[240px] rounded-[8px]">
+        <div className="admin-products-column-menu__title mb-1 border-b pb-2 text-base font-semibold">Toggle Columns</div>
 
         <Checkbox.Group
           value={Object.keys(columnsVisible).filter(key => columnsVisible[key])}
@@ -17,10 +17,10 @@ function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
           }}
         >
           <div className="grid grid-cols-2 gap-x-3">
-            {allColumns.map((col, index) => (
+            {allColumns.map(col => (
               <div key={col.value} className="pt-0.5 pb-0.5">
                 <label
-                  className={`flex items-center gap-2 dark:text-gray-200 ${
+                  className={`admin-products-column-menu__item flex items-center gap-2 ${
                     col.required ? 'cursor-not-allowed opacity-60' : 'cursor-pointer opacity-100'
                   }`}
                 >
@@ -31,7 +31,7 @@ function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
             ))}
           </div>
         </Checkbox.Group>
-        <p className="mt-1 text-[12px] text-[#888] border-t border-solid border-[#eee] pt-2">
+        <p className="admin-products-column-menu__note mt-1 border-t pt-2 text-[12px]">
           * These columns are required and cannot be hidden.
         </p>
       </div>

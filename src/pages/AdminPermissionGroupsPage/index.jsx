@@ -6,6 +6,7 @@ import { useAdminPermissionGroupsData } from './hooks/useAdminPermissionGroupsDa
 import AdminPermissionGroupFormModal from './sections/AdminPermissionGroupFormModal'
 import AdminPermissionGroupsHeaderSection from './sections/AdminPermissionGroupsHeaderSection'
 import AdminPermissionGroupsTableSection from './sections/AdminPermissionGroupsTableSection'
+import './AdminPermissionGroupsPage.scss'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -23,11 +24,11 @@ export default function AdminPermissionGroupsPage() {
   }, [currentPage, groups, pageSize])
 
   return (
-    <div className="min-h-screen rounded-xl bg-slate-50 p-6 dark:bg-gray-900">
+    <div className="admin-permission-groups-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
       <SEO title="Admin – Nhóm quyền" noIndex />
 
       <div className="mx-auto max-w-7xl">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
           <AdminPermissionGroupsHeaderSection
             canCreateGroup={permissions.includes('create_permission_group')}
             onCreateGroup={() => groupForm.openModal()}

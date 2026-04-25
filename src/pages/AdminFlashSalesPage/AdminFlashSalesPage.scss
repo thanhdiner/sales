@@ -1,0 +1,217 @@
+.admin-flash-sales-page {
+  color: var(--admin-text);
+}
+
+.admin-flash-sales-page .ant-pagination-item,
+.admin-flash-sales-page .ant-pagination-prev .ant-pagination-item-link,
+.admin-flash-sales-page .ant-pagination-next .ant-pagination-item-link,
+.admin-flash-sales-page .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-flash-sales-page .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-flash-sales-page .ant-pagination-item a {
+  color: inherit !important;
+}
+
+.admin-flash-sales-page .ant-pagination-item:hover,
+.admin-flash-sales-page .ant-pagination-prev:hover .ant-pagination-item-link,
+.admin-flash-sales-page .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-flash-sales-page .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent-soft) !important;
+}
+
+.admin-flash-sales-page .ant-pagination-item-active a {
+  color: var(--admin-accent) !important;
+  font-weight: 600;
+}
+
+.admin-flash-sales-page .ant-pagination-total-text,
+.admin-flash-sales-page .ant-pagination-options-quick-jumper {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-flash-sales-page .ant-pagination-options-quick-jumper input {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-flash-sales-page .ant-pagination-options .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-content,
+.ant-modal.admin-flash-sales-modal .ant-modal-content,
+.admin-flash-sales-modal .ant-modal-content {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-header,
+.ant-modal.admin-flash-sales-modal .ant-modal-header,
+.admin-flash-sales-modal .ant-modal-header {
+  border-bottom: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  margin-bottom: 0 !important;
+  padding: 18px 24px 14px !important;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-title,
+.ant-modal.admin-flash-sales-modal .ant-modal-title,
+.admin-flash-sales-modal .ant-modal-title {
+  color: var(--admin-text) !important;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-body,
+.ant-modal.admin-flash-sales-modal .ant-modal-body,
+.admin-flash-sales-modal .ant-modal-body {
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+  padding: 16px 24px 12px !important;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-footer,
+.ant-modal.admin-flash-sales-modal .ant-modal-footer,
+.admin-flash-sales-modal .ant-modal-footer {
+  border-top: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  margin-top: 0 !important;
+  padding: 14px 24px 18px !important;
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-footer .ant-btn,
+.ant-modal.admin-flash-sales-modal .ant-modal-footer .ant-btn,
+.admin-flash-sales-modal .ant-modal-footer .ant-btn {
+  min-width: 92px;
+  height: 40px;
+  border-radius: 10px;
+  padding-inline: 18px;
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-close,
+.ant-modal.admin-flash-sales-modal .ant-modal-close,
+.admin-flash-sales-modal .ant-modal-close {
+  color: var(--admin-text-subtle);
+}
+
+.ant-modal-wrap.admin-flash-sales-modal .ant-modal-close:hover,
+.ant-modal.admin-flash-sales-modal .ant-modal-close:hover,
+.admin-flash-sales-modal .ant-modal-close:hover {
+  color: var(--admin-text);
+}
+
+.ant-modal-wrap.admin-flash-sales-confirm-modal .ant-modal-content,
+.ant-modal.admin-flash-sales-confirm-modal .ant-modal-content,
+.admin-flash-sales-confirm-modal .ant-modal-content {
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 14px !important;
+  background: var(--admin-surface) !important;
+  background: color-mix(in srgb, var(--admin-surface) 84%, var(--admin-accent-soft)) !important;
+  box-shadow: var(--admin-shadow, 0 20px 40px rgba(0, 0, 0, 0.42)) !important;
+  padding: 20px 22px !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-body-wrapper,
+.admin-flash-sales-confirm-modal .ant-modal-confirm-body,
+.admin-flash-sales-confirm-modal .ant-modal-confirm-paragraph {
+  color: var(--admin-text) !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-title,
+.admin-flash-sales-confirm-modal .ant-modal-confirm-content {
+  color: var(--admin-text) !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-content {
+  margin-top: 10px !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-icon {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-icon .anticon {
+  color: inherit !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-modal-confirm-btns {
+  margin-top: 18px !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-flash-sales-confirm-modal .ant-btn:not(.ant-btn-primary) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-btn-primary {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-btn:not(.ant-btn-primary):hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-flash-sales-confirm-modal .ant-btn-primary:hover {
+  border-color: var(--admin-accent) !important;
+  filter: brightness(1.06);
+}
+
+.admin-flash-sales-confirm-modal .ant-btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+@media (max-width: 640px) {
+  .ant-modal-wrap.admin-flash-sales-modal .ant-modal-header,
+  .ant-modal.admin-flash-sales-modal .ant-modal-header,
+  .admin-flash-sales-modal .ant-modal-header {
+    padding: 14px 16px 12px !important;
+  }
+
+  .ant-modal-wrap.admin-flash-sales-modal .ant-modal-body,
+  .ant-modal.admin-flash-sales-modal .ant-modal-body,
+  .admin-flash-sales-modal .ant-modal-body {
+    padding: 14px 16px 10px !important;
+  }
+
+  .ant-modal-wrap.admin-flash-sales-modal .ant-modal-footer,
+  .ant-modal.admin-flash-sales-modal .ant-modal-footer,
+  .admin-flash-sales-modal .ant-modal-footer {
+    padding: 12px 16px 14px !important;
+  }
+
+  .ant-modal-wrap.admin-flash-sales-modal .ant-modal-footer .ant-btn,
+  .ant-modal.admin-flash-sales-modal .ant-modal-footer .ant-btn,
+  .admin-flash-sales-modal .ant-modal-footer .ant-btn {
+    min-width: 84px;
+    height: 38px;
+    padding-inline: 14px;
+  }
+}

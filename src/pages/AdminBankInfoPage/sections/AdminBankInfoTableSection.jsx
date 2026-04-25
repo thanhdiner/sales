@@ -1,21 +1,5 @@
-import {
-  BankOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined
-} from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Image,
-  Popconfirm,
-  Space,
-  Switch,
-  Table,
-  Tag,
-  Typography
-} from 'antd'
-import AdminBankInfoHeaderSection from './AdminBankInfoHeaderSection'
+import { BankOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
+import { Button, Empty, Image, Popconfirm, Space, Switch, Table, Tag, Tooltip, Typography } from 'antd'
 import { ADMIN_BANK_INFO_TABLE_PAGE_SIZE } from '../utils'
 
 const { Text } = Typography
@@ -23,7 +7,7 @@ const { Text } = Typography
 export default function AdminBankInfoTableSection({
   data,
   loading,
-  onCreate,
+  activateLoadingId,
   onEdit,
   onDelete,
   onActivate
@@ -33,90 +17,117 @@ export default function AdminBankInfoTableSection({
       title: 'Ngân hàng',
       dataIndex: 'bankName',
       key: 'bankName',
-      width: 180,
-      render: value => (
-        <Space>
-          <BankOutlined style={{ color: '#1890ff' }} />
-          <span className="break-words whitespace-normal font-medium">{value}</span>
-        </Space>
+      width: 260,
+      render: (value, record) => (
+        <div className="admin-bank-info-bank-cell">
+          <div className="admin-bank-info-bank-icon">
+            <BankOutlined />
+          </div>
+
+          <div className="min-w-0">
+            <div className="admin-bank-info-bank-name">{value}</div>
+            <div className="admin-bank-info-bank-sub">
+              {record.isActive ? 'Đang hiển thị khi thanh toán' : 'Chưa hiển thị cho khách'}
+            </div>
+          </div>
+        </div>
       )
     },
     {
       title: 'Số tài khoản',
       dataIndex: 'accountNumber',
       key: 'accountNumber',
-      width: 160
+      width: 170,
+      render: value => (
+        <Text copyable className="admin-bank-info-account-number">
+          {value}
+        </Text>
+      )
     },
     {
       title: 'Chủ tài khoản',
       dataIndex: 'accountHolder',
       key: 'accountHolder',
-      width: 180
+      width: 190,
+      render: value => <span className="admin-bank-info-account-holder">{value}</span>
     },
     {
       title: 'Nội dung mẫu',
       dataIndex: 'noteTemplate',
       key: 'noteTemplate',
-      width: 240,
+      width: 260,
       render: value => (
-        <span className="break-words whitespace-normal text-gray-700 dark:text-gray-300">
-          {value}
-        </span>
+        <Tooltip title={value || 'Chưa cấu hình'}>
+          <span className="admin-bank-info-note">{value || 'Chưa cấu hình'}</span>
+        </Tooltip>
       )
     },
     {
       title: 'QR Code',
       dataIndex: 'qrCode',
       key: 'qrCode',
-      width: 110,
+      width: 120,
       render: url =>
         url ? (
           <Image
             src={url}
-            width={60}
-            height={60}
-            style={{ objectFit: 'cover', borderRadius: 6 }}
+            width={56}
+            height={56}
+            className="admin-bank-info-qr-image"
             preview={{ mask: <EyeOutlined /> }}
           />
         ) : (
-          <Tag>Chưa có</Tag>
+          <Tag className="admin-bank-info-qr-empty">Chưa có</Tag>
         )
     },
     {
       title: 'Trạng thái',
       dataIndex: 'isActive',
       key: 'isActive',
-      width: 120,
-      render: value => (value ? <Tag color="green">Đang dùng</Tag> : <Tag>Nháp</Tag>)
+      width: 150,
+      render: value => (
+        <Tag className={`admin-bank-info-status-tag ${value ? 'admin-bank-info-status-tag--active' : 'admin-bank-info-status-tag--inactive'}`}>
+          {value ? 'Đang dùng' : 'Tạm tắt'}
+        </Tag>
+      )
     },
     {
       title: 'Kích hoạt',
       key: 'activate',
-      width: 110,
+      width: 130,
       render: (_, record) => (
-        <Switch checked={record.isActive} onChange={checked => onActivate(record, checked)} />
+        <Switch
+          className="admin-bank-info-switch"
+          checked={record.isActive}
+          loading={activateLoadingId === record._id}
+          checkedChildren="Bật"
+          unCheckedChildren="Tắt"
+          onChange={checked => onActivate(record, checked)}
+        />
       )
     },
     {
-      title: 'Thao tác',
+      title: 'Hành động',
       key: 'actions',
       fixed: 'right',
-      width: 140,
+      width: 120,
       render: (_, record) => (
-        <Space size="small" wrap>
-          <Button size="small" icon={<EditOutlined />} onClick={() => onEdit(record)}>
-            Sửa
-          </Button>
+        <Space size="small">
+          <Tooltip title="Sửa thông tin">
+            <Button icon={<EditOutlined />} onClick={() => onEdit(record)} className="admin-bank-info-action-btn" />
+          </Tooltip>
 
           <Popconfirm
-            title="Xoá bản ghi?"
-            okText="Xoá"
-            cancelText="Huỷ"
+            overlayClassName="admin-bank-info-popconfirm"
+            title="Xóa tài khoản này?"
+            description="Tài khoản đã xóa sẽ không còn hiển thị ở trang thanh toán."
+            okText="Xóa"
+            cancelText="Hủy"
             onConfirm={() => onDelete(record._id)}
           >
-            <Button size="small" icon={<DeleteOutlined />} danger ghost>
-              Xoá
-            </Button>
+            <Tooltip title="Xóa tài khoản">
+              <Button icon={<DeleteOutlined />} danger className="admin-bank-info-action-btn admin-bank-info-action-btn--danger" />
+            </Tooltip>
           </Popconfirm>
         </Space>
       )
@@ -124,26 +135,33 @@ export default function AdminBankInfoTableSection({
   ]
 
   return (
-    <Card
-      className="rounded-xl shadow-lg dark:bg-gray-800"
-      title={<AdminBankInfoHeaderSection onCreate={onCreate} />}
-    >
-      <Text className="mb-3 block text-gray-500">
-        Bản ghi <b>Đang dùng</b> sẽ hiển thị cho khách hàng ở trang thanh toán.
-      </Text>
+    <div className="admin-bank-info-table-card">
+      <div className="admin-bank-info-table-card__head">
+        <h2 className="admin-bank-info-table-card__title">Danh sách tài khoản nhận tiền</h2>
+        <p className="admin-bank-info-table-card__desc">
+          Bản ghi đang dùng sẽ được lấy làm thông tin chuyển khoản cho khách ở trang thanh toán.
+        </p>
+      </div>
 
-      <div className="custom-scrollbar overflow-x-auto">
+      <div className="admin-bank-info-table-card__wrap">
         <Table
           rowKey="_id"
           loading={loading}
           dataSource={data}
           columns={columns}
-          pagination={{ pageSize: ADMIN_BANK_INFO_TABLE_PAGE_SIZE }}
-          className="rounded-lg"
+          pagination={{
+            pageSize: ADMIN_BANK_INFO_TABLE_PAGE_SIZE,
+            showSizeChanger: true,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} tài khoản`
+          }}
+          locale={{
+            emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có tài khoản ngân hàng" />
+          }}
+          className="admin-bank-info-table"
           scroll={{ x: 1100 }}
-          style={{ minWidth: 950 }}
         />
       </div>
-    </Card>
+    </div>
   )
 }
+

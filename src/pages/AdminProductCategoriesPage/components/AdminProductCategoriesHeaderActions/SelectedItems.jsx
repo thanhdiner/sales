@@ -1,6 +1,6 @@
 function SelectedItems({ selectedRowKeys }) {
   return (
-    <span className="ml-2 dark:text-gray-200">
+    <span className="admin-product-categories-selected-count">
       Selected <span className="font-bold">{selectedRowKeys.length}</span> items
     </span>
   )

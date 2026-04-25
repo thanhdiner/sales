@@ -7,19 +7,16 @@ export default function ProductInfo({ product, pricing }) {
 
   return (
     <div className="flex flex-1 flex-col space-y-3 px-4 pb-4 pt-3">
-      <h3
-        className="text-sm font-semibold leading-6 text-slate-900 transition-colors duration-200 group-hover:text-blue-600 dark:text-slate-100 dark:group-hover:text-blue-300"
-        style={{ minHeight: '48px' }}
-      >
+      <h3 className="text-sm font-semibold leading-6 text-slate-900 transition-colors duration-200 group-hover:text-blue-600 dark:text-[#f4f6f8] dark:group-hover:text-green-300">
         <span className="line-clamp-2">{product.title}</span>
       </h3>
 
       <ProductRating rate={product.rate} />
 
-      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-        <span className="rounded-full bg-slate-100 px-2.5 py-1 dark:bg-slate-800/90">
+      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-[#a8b0ba]">
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 dark:bg-[#202327]">
           Còn lại{' '}
-          <span className={product.stock === 0 ? 'font-semibold text-red-500' : 'font-semibold text-blue-600 dark:text-blue-300'}>
+          <span className={product.stock === 0 ? 'font-semibold text-red-500' : 'font-semibold text-blue-600 dark:text-green-300'}>
             {product.stock}
           </span>
         </span>

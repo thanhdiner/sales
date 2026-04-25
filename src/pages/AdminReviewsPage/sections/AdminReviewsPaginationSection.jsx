@@ -13,7 +13,7 @@ export default function AdminReviewsPaginationSection({ page, totalPages, onPage
         type="button"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        className="rounded-xl border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
+        className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-2 text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-40"
       >
         <ChevronLeft size={16} strokeWidth={1.8} />
       </button>
@@ -25,8 +25,8 @@ export default function AdminReviewsPaginationSection({ page, totalPages, onPage
           onClick={() => onPageChange(pageNumber)}
           className={`h-9 w-9 rounded-xl border text-sm font-medium transition-colors ${
             pageNumber === page
-              ? 'border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-900'
-              : 'border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800'
+              ? 'border-[var(--admin-accent)] bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
+              : 'border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]'
           }`}
         >
           {pageNumber}
@@ -37,7 +37,7 @@ export default function AdminReviewsPaginationSection({ page, totalPages, onPage
         type="button"
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        className="rounded-xl border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
+        className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-2 text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-40"
       >
         <ChevronRight size={16} strokeWidth={1.8} />
       </button>

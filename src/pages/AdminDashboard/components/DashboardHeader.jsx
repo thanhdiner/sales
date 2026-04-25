@@ -1,47 +1,40 @@
 import React from 'react'
-import { Select, Typography } from 'antd'
+import { Select } from 'antd'
+import { CalendarDays, Circle } from 'lucide-react'
 import { DATE_RANGE_OPTIONS } from '../utils/dashboardTransforms'
 
-const { Title, Text } = Typography
+const formatToday = () =>
+  new Intl.DateTimeFormat('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(new Date())
 
 export default function DashboardHeader({ dateRange, loading, onDateRangeChange }) {
   return (
-    <div className="dashboard-header rounded-2xl border border-gray-200 bg-white px-5 py-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-      <div className="header-content flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="dashboard-header">
+      <div className="header-content">
         <div className="title-section min-w-0">
-          <Title
-            level={1}
-            className="dashboard-title"
-            style={{
-              margin: 0,
-              color: '#111827',
-              fontSize: 28,
-              fontWeight: 600,
-              lineHeight: 1.2
-            }}
-          >
-            Dashboard
-          </Title>
-
-          <Text
-            className="dashboard-subtitle"
-            style={{
-              display: 'block',
-              marginTop: 6,
-              color: '#6b7280',
-              fontSize: 14,
-              lineHeight: 1.6
-            }}
-          >
-            Tổng quan hoạt động hệ thống trong khoảng thời gian đã chọn.
-          </Text>
+          <div className="dashboard-title-row">
+            <h1 className="dashboard-title">Trung tâm điều khiển</h1>
+            <span className="dashboard-live-pill">
+              <Circle size={8} fill="currentColor" strokeWidth={0} />
+              Trực tuyến
+            </span>
+          </div>
         </div>
 
-        <div className="header-actions flex shrink-0 items-center">
+        <div className="header-actions">
+          <div className="dashboard-today">
+            <CalendarDays size={17} />
+            <span>Hôm nay: {formatToday()}</span>
+          </div>
+
           <Select
             value={dateRange}
             onChange={onDateRangeChange}
             className="date-select"
+            popupClassName="dashboard-date-dropdown"
             disabled={loading}
             options={DATE_RANGE_OPTIONS}
             style={{ minWidth: 150 }}

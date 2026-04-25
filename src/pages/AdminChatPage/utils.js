@@ -18,13 +18,13 @@ export const apiFetch = async (path, options = {}) => {
   return response.json()
 }
 
-export const revokePreviewUrl = (url) => {
+export const revokePreviewUrl = url => {
   if (typeof url === 'string' && url.startsWith('blob:')) {
     URL.revokeObjectURL(url)
   }
 }
 
-export const getMessagePreview = (message) => {
+export const getMessagePreview = message => {
   if (message?.type === 'image' || message?.imageUrl) {
     return '[Ảnh]'
   }

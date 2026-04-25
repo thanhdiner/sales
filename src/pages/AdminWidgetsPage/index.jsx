@@ -6,28 +6,31 @@ import AdminWidgetFormModal from './sections/AdminWidgetFormModal'
 import AdminWidgetsHeaderSection from './sections/AdminWidgetsHeaderSection'
 import AdminWidgetsStatsSection from './sections/AdminWidgetsStatsSection'
 import AdminWidgetsTableSection from './sections/AdminWidgetsTableSection'
+import './AdminWidgetsPage.scss'
 
 export default function AdminWidgetsPage() {
   const { widgets, loading, fetchWidgets, handleDeleteWidget } = useAdminWidgetsData()
   const widgetForm = useAdminWidgetForm({ onSaved: fetchWidgets })
 
   return (
-    <div className="min-h-screen rounded-xl bg-slate-50 p-6 dark:bg-gray-900">
+    <div className="admin-widgets-page">
       <SEO title="Admin - Widgets" noIndex />
 
-      <Card className="rounded-xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <AdminWidgetsHeaderSection onCreateWidget={() => widgetForm.openModal()} />
-        <AdminWidgetsStatsSection widgets={widgets} />
+      <div className="admin-widgets-page__inner">
+        <Card className="admin-widgets-page__card">
+          <AdminWidgetsHeaderSection onCreateWidget={() => widgetForm.openModal()} />
+          <AdminWidgetsStatsSection widgets={widgets} />
 
-        <AdminWidgetsTableSection
-          widgets={widgets}
-          loading={loading}
-          onEditWidget={widgetForm.openModal}
-          onDeleteWidget={handleDeleteWidget}
-        />
-      </Card>
+          <AdminWidgetsTableSection
+            widgets={widgets}
+            loading={loading}
+            onEditWidget={widgetForm.openModal}
+            onDeleteWidget={handleDeleteWidget}
+          />
+        </Card>
 
-      <AdminWidgetFormModal {...widgetForm} />
+        <AdminWidgetFormModal {...widgetForm} />
+      </div>
     </div>
   )
 }

@@ -1,83 +1,87 @@
-.ant-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
+.admin-twofa-steps.ant-steps {
+  .ant-steps-item-title {
+    color: var(--admin-text) !important;
+  }
 
-.ant-steps-item-finish {
+  .ant-steps-item-description {
+    color: var(--admin-text-muted) !important;
+  }
+
   .ant-steps-item-icon {
-    background-color: #52c41a;
-    border-color: #52c41a;
+    border-color: var(--admin-border) !important;
+    background: var(--admin-surface) !important;
+  }
+
+  .ant-steps-icon {
+    color: var(--admin-text-subtle) !important;
+  }
+
+  .ant-steps-item-tail::after {
+    background: var(--admin-border) !important;
+  }
+
+  .ant-steps-item-process .ant-steps-item-icon {
+    border-color: var(--admin-accent) !important;
+    background: var(--admin-accent) !important;
+  }
+
+  .ant-steps-item-process .ant-steps-icon {
+    color: #ffffff !important;
+  }
+
+  .ant-steps-item-finish .ant-steps-item-icon {
+    border-color: var(--admin-accent) !important;
+    background: var(--admin-accent-soft) !important;
+  }
+
+  .ant-steps-item-finish .ant-steps-icon {
+    color: var(--admin-accent) !important;
+  }
+
+  .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background: var(--admin-accent) !important;
   }
 }
 
-.ant-list-item {
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #fafafa;
+.admin-twofa-modal.ant-modal {
+  .ant-modal-content {
+    border: 1px solid var(--admin-border);
+    background: var(--admin-surface);
+    box-shadow: var(--admin-shadow);
   }
-}
 
-.ant-tag {
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.ant-switch {
-  &.ant-switch-checked {
-    background-color: #52c41a;
-  }
-}
-
-.ant-modal {
   .ant-modal-header {
-    border-bottom: 1px solid #f0f0f0;
-    padding: 16px 24px;
+    border-bottom: 1px solid var(--admin-border);
+    background: var(--admin-surface);
   }
 
-  .ant-modal-body {
-    padding: 24px;
+  .ant-modal-title {
+    color: var(--admin-text);
   }
 
   .ant-modal-footer {
-    border-top: 1px solid #f0f0f0;
-    padding: 16px 24px;
+    border-top: 1px solid var(--admin-border);
+    background: var(--admin-surface);
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.admin-twofa-code-input.ant-input,
+.admin-twofa-code-input.ant-input:focus,
+.admin-twofa-code-input.ant-input-focused {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  .backup-codes-container {
-    background-color: #f0f5fd;
-    color: #ffffff;
-  }
-
-  .ant-list-item {
-    &:hover {
-      background-color: #f0f5fd;
-    }
-  }
+.admin-twofa-code-input.ant-input:hover {
+  border-color: var(--admin-border-strong) !important;
 }
 
-html.dark :where(.css-dev-only-do-not-override-apn68).ant-modal .ant-modal-content {
-  background-color: oklch(27.9% 0.041 260.031);
+.admin-twofa-code-input.ant-input:focus {
+  border-color: var(--admin-accent) !important;
 }
 
-html.dark :where(.css-dev-only-do-not-override-apn68).ant-modal .ant-modal-header {
-  background-color: oklch(27.9% 0.041 260.031);
-}
-
-html.dark :where(.css-dev-only-do-not-override-apn68).ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
-  background: oklch(70.4% 0.04 256.788);
+.admin-twofa-code-input.ant-input::placeholder {
+  color: var(--admin-text-subtle) !important;
 }

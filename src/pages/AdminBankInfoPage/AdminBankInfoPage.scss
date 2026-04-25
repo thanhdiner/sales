@@ -1,0 +1,597 @@
+body.admin-layout-active {
+  --bank-info-bg-soft: var(--admin-bg-soft, #eef2f7);
+  --bank-info-surface: var(--admin-surface, #ffffff);
+  --bank-info-surface-2: var(--admin-surface-2, #f8fafc);
+  --bank-info-surface-3: var(--admin-surface-3, #eef2f7);
+  --bank-info-border: var(--admin-border, rgba(15, 23, 42, 0.08));
+  --bank-info-border-strong: var(--admin-border-strong, rgba(15, 23, 42, 0.14));
+  --bank-info-text: var(--admin-text, #111827);
+  --bank-info-text-muted: var(--admin-text-muted, #4b5563);
+  --bank-info-text-subtle: var(--admin-text-subtle, #6b7280);
+  --bank-info-accent: var(--admin-accent, #5e6ad2);
+  --bank-info-accent-soft: var(--admin-accent-soft, rgba(94, 106, 210, 0.12));
+}
+
+.admin-bank-info-page {
+  background: var(--bank-info-bg-soft);
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-page__inner {
+  color: inherit;
+}
+
+.admin-bank-info-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .admin-bank-info-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.admin-bank-info-header__title.ant-typography {
+  margin-bottom: 4px !important;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-header__desc.ant-typography {
+  font-size: 14px;
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-btn.ant-btn {
+  height: 40px;
+  border-radius: 10px !important;
+  padding-inline: 14px;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.admin-bank-info-btn--primary.ant-btn.ant-btn-primary {
+  border-color: var(--bank-info-accent) !important;
+  background: var(--bank-info-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-bank-info-btn--primary.ant-btn.ant-btn-primary:hover {
+  border-color: var(--bank-info-accent) !important;
+  filter: brightness(1.06);
+}
+
+.admin-bank-info-btn--primary.ant-btn.ant-btn-primary:disabled,
+.admin-bank-info-btn--primary.ant-btn.ant-btn-primary[disabled] {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface-2) !important;
+  color: var(--bank-info-text-subtle) !important;
+}
+
+.admin-bank-info-btn--secondary.ant-btn {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface-2) !important;
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-btn--secondary.ant-btn:hover {
+  border-color: var(--bank-info-border-strong) !important;
+  background: var(--bank-info-surface-3) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-stats {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .admin-bank-info-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .admin-bank-info-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.admin-bank-info-stat-card {
+  border: 1px solid var(--bank-info-border);
+  border-radius: 12px;
+  background: var(--bank-info-surface);
+  padding: 12px 16px;
+}
+
+.admin-bank-info-stat-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-bank-info-stat-card__label {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--bank-info-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.admin-bank-info-stat-card__value {
+  margin: 4px 0 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-stat-card__icon {
+  display: flex;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bank-info-border);
+  border-radius: 12px;
+  background: var(--bank-info-surface-2);
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-table-card {
+  border: 1px solid var(--bank-info-border);
+  border-radius: 12px;
+  background: var(--bank-info-surface);
+  padding: 20px;
+}
+
+.admin-bank-info-table-card__head {
+  margin-bottom: 16px;
+}
+
+.admin-bank-info-table-card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-table-card__desc {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-table-card__wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-bank-info-bank-cell {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-bank-info-bank-icon {
+  display: flex;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid var(--bank-info-border);
+  background: var(--bank-info-surface-2);
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-bank-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-bank-sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-account-number.ant-typography {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-account-number .ant-typography-copy,
+.admin-bank-info-account-number .ant-typography-copy-success {
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-account-holder {
+  font-weight: 600;
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-note {
+  display: block;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-qr-image {
+  border: 1px solid var(--bank-info-border) !important;
+  border-radius: 10px !important;
+  background: var(--bank-info-surface-2);
+  object-fit: cover;
+}
+
+.admin-bank-info-qr-empty.ant-tag {
+  margin-inline-end: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bank-info-border);
+  background: var(--bank-info-surface-2);
+  color: var(--bank-info-text-subtle);
+}
+
+.admin-bank-info-status-tag.ant-tag {
+  margin-inline-end: 0;
+  border-radius: 999px;
+  border: 0;
+  padding-inline: 10px;
+  font-weight: 600;
+}
+
+.admin-bank-info-status-tag--active.ant-tag {
+  background: rgba(38, 162, 105, 0.16);
+  color: #26a269;
+}
+
+.admin-bank-info-status-tag--inactive.ant-tag {
+  background: rgba(113, 113, 122, 0.2);
+  color: var(--bank-info-text-subtle);
+}
+
+.admin-bank-info-switch.ant-switch {
+  border: 1px solid var(--bank-info-border);
+  background: var(--bank-info-surface-3) !important;
+}
+
+.admin-bank-info-switch.ant-switch .ant-switch-inner {
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-switch.ant-switch.ant-switch-checked {
+  border-color: var(--bank-info-accent);
+  background: var(--bank-info-accent) !important;
+}
+
+.admin-bank-info-switch.ant-switch.ant-switch-checked .ant-switch-inner {
+  color: #f4f5f8 !important;
+}
+
+.admin-bank-info-action-btn.ant-btn {
+  border: 1px solid var(--bank-info-border) !important;
+  border-radius: 8px !important;
+  background: var(--bank-info-surface-2) !important;
+  color: var(--bank-info-text-muted) !important;
+  box-shadow: none !important;
+}
+
+.admin-bank-info-action-btn.ant-btn:hover {
+  border-color: var(--bank-info-border-strong) !important;
+  background: var(--bank-info-surface-3) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-action-btn--danger.ant-btn {
+  border-color: rgba(248, 81, 73, 0.35) !important;
+  color: #f87171 !important;
+}
+
+.admin-bank-info-action-btn--danger.ant-btn:hover {
+  border-color: rgba(248, 81, 73, 0.55) !important;
+  background: rgba(248, 81, 73, 0.08) !important;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-table,
+.admin-bank-info-table.ant-table-wrapper .ant-table-container,
+.admin-bank-info-table.ant-table-wrapper .ant-table-content {
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container {
+  border-top: 1px solid var(--bank-info-border) !important;
+  border-inline-start: 1px solid var(--bank-info-border) !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-table-thead > tr > th {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface-2) !important;
+  color: var(--bank-info-text-muted) !important;
+  font-weight: 600;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text) !important;
+  vertical-align: top !important;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: var(--bank-info-surface-2) !important;
+}
+
+.admin-bank-info-table.ant-table-wrapper .ant-empty-description {
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-page .ant-pagination-item,
+.admin-bank-info-page .ant-pagination-prev .ant-pagination-item-link,
+.admin-bank-info-page .ant-pagination-next .ant-pagination-item-link,
+.admin-bank-info-page .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-bank-info-page .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-page .ant-pagination-item a {
+  color: inherit !important;
+}
+
+.admin-bank-info-page .ant-pagination-item-active {
+  border-color: var(--bank-info-accent) !important;
+  background: var(--bank-info-accent-soft) !important;
+}
+
+.admin-bank-info-page .ant-pagination-item-active a {
+  color: var(--bank-info-accent) !important;
+  font-weight: 600;
+}
+
+.admin-bank-info-page .ant-pagination-options-quick-jumper {
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-page .ant-pagination-options-quick-jumper input {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-popconfirm.ant-popover .ant-popover-inner {
+  border: 1px solid var(--bank-info-border) !important;
+  border-radius: 12px;
+  background: var(--bank-info-surface-2) !important;
+  box-shadow: var(--admin-shadow, 0 20px 40px rgba(0, 0, 0, 0.42));
+}
+
+.admin-bank-info-popconfirm .ant-popconfirm-title,
+.admin-bank-info-popconfirm .ant-popconfirm-description {
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-popconfirm .ant-popconfirm-description {
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-popconfirm .ant-btn {
+  border-radius: 8px;
+}
+
+.admin-bank-info-popconfirm .ant-btn-default {
+  border-color: var(--bank-info-border) !important;
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text-muted) !important;
+}
+
+.admin-bank-info-popconfirm .ant-btn-default:hover {
+  border-color: var(--bank-info-border-strong) !important;
+  background: var(--bank-info-surface-3) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-popconfirm .ant-btn-primary {
+  border-color: rgba(248, 81, 73, 0.5) !important;
+  background: rgba(248, 81, 73, 0.14) !important;
+  color: #f87171 !important;
+}
+
+.admin-bank-info-popconfirm .ant-btn-primary:hover {
+  border-color: rgba(248, 81, 73, 0.6) !important;
+  background: rgba(248, 81, 73, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+.admin-bank-info-modal .ant-modal-content {
+  border: 1px solid var(--bank-info-border) !important;
+  border-radius: 14px !important;
+  background: var(--bank-info-surface) !important;
+  box-shadow: var(--admin-shadow, 0 20px 40px rgba(0, 0, 0, 0.42)) !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-bank-info-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-bank-info-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-modal-content {
+  background: var(--admin-surface) !important;
+  border-color: var(--admin-border) !important;
+}
+
+.admin-bank-info-modal .ant-modal-header {
+  border-bottom: 1px solid var(--bank-info-border) !important;
+  background: var(--bank-info-surface) !important;
+  margin-bottom: 0 !important;
+}
+
+.admin-bank-info-modal .ant-modal-title {
+  color: var(--bank-info-text) !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-bank-info-modal .ant-modal-header,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-bank-info-modal .ant-modal-header,
+html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-modal-header {
+  background: var(--admin-surface) !important;
+  border-bottom-color: var(--admin-border) !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-bank-info-modal .ant-modal-title,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-bank-info-modal .ant-modal-title,
+html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-modal-title {
+  color: var(--admin-text) !important;
+}
+
+.admin-bank-info-modal .ant-modal-body {
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-modal .ant-modal-footer {
+  border-top: 1px solid var(--bank-info-border) !important;
+  margin-top: 16px !important;
+  padding-top: 16px !important;
+}
+
+.admin-bank-info-modal .ant-modal-close {
+  color: var(--bank-info-text-subtle);
+}
+
+.admin-bank-info-modal .ant-modal-close:hover {
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-modal__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.admin-bank-info-modal__title-icon {
+  display: flex;
+  height: 36px;
+  width: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid var(--bank-info-border);
+  background: var(--bank-info-surface-2);
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-modal__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bank-info-text);
+}
+
+.admin-bank-info-modal__subtitle {
+  font-size: 12px;
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-modal__form {
+  padding-top: 4px;
+}
+
+.admin-bank-info-modal__grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .admin-bank-info-modal__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.admin-bank-info-modal .ant-form-item-label > label {
+  color: var(--bank-info-text-muted) !important;
+  font-weight: 600;
+}
+
+.admin-bank-info-input.ant-input,
+.admin-bank-info-input.ant-input-affix-wrapper,
+.admin-bank-info-input.ant-input-textarea textarea {
+  border-color: var(--bank-info-border) !important;
+  border-radius: 10px !important;
+  background: var(--bank-info-surface) !important;
+  color: var(--bank-info-text) !important;
+}
+
+.admin-bank-info-input.ant-input::placeholder,
+.admin-bank-info-input.ant-input-textarea textarea::placeholder {
+  color: var(--bank-info-text-subtle) !important;
+}
+
+.admin-bank-info-input.ant-input:hover,
+.admin-bank-info-input.ant-input:focus,
+.admin-bank-info-input.ant-input-textarea textarea:hover,
+.admin-bank-info-input.ant-input-textarea textarea:focus {
+  border-color: var(--bank-info-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-bank-info-input--mono.ant-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.admin-bank-info-upload .ant-upload.ant-upload-select {
+  border-color: var(--bank-info-border) !important;
+  border-radius: 10px !important;
+  background: var(--bank-info-surface-2) !important;
+}
+
+.admin-bank-info-upload .ant-upload-list-item-container .ant-upload-list-item {
+  border-color: var(--bank-info-border) !important;
+  border-radius: 10px !important;
+  background: var(--bank-info-surface-2) !important;
+}
+
+.admin-bank-info-upload__trigger {
+  color: var(--bank-info-text-muted);
+}
+
+.admin-bank-info-upload__text {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-bank-info-modal__hint.ant-typography {
+  display: block;
+  font-size: 12px;
+  color: var(--bank-info-text-subtle) !important;
+}
+
+@media (max-width: 768px) {
+  .admin-bank-info-page {
+    padding: 14px !important;
+  }
+
+  .admin-bank-info-table-card {
+    padding: 14px;
+  }
+}

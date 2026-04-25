@@ -8,6 +8,7 @@ export function useAdminOrderDetail(id) {
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
   const [status, setStatus] = useState('')
+  const [paymentStatus, setPaymentStatus] = useState('')
   const [updating, setUpdating] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const successTimeoutRef = useRef(null)
@@ -28,14 +29,17 @@ export function useAdminOrderDetail(id) {
       if (response?.success && response?.order) {
         setOrder(response.order)
         setStatus(response.order.status || '')
+        setPaymentStatus(response.order.paymentStatus || '')
         return
       }
 
       setOrder(null)
       setStatus('')
+      setPaymentStatus('')
     } catch {
       setOrder(null)
       setStatus('')
+      setPaymentStatus('')
     } finally {
       setLoading(false)
     }
@@ -53,14 +57,21 @@ export function useAdminOrderDetail(id) {
     setStatus(value)
   }
 
+  const handlePaymentStatusChange = value => {
+    setPaymentStatus(value)
+  }
+
   const handleUpdateStatus = async () => {
     setUpdating(true)
 
     try {
-      const response = await updateOrderStatus(id, { status })
+      const response = await updateOrderStatus(id, { status, paymentStatus })
 
       if (response?.success) {
-        setOrder(prev => (prev ? { ...prev, status } : prev))
+        const nextOrder = response.order || (order ? { ...order, status, paymentStatus } : null)
+        setOrder(nextOrder)
+        setStatus(nextOrder?.status || status)
+        setPaymentStatus(nextOrder?.paymentStatus || paymentStatus)
         setSuccessMessage('Cập nhật trạng thái thành công!')
         antdMessage.success('Cập nhật trạng thái thành công!')
 
@@ -70,6 +81,8 @@ export function useAdminOrderDetail(id) {
           successTimeoutRef.current = null
         }, SUCCESS_MESSAGE_DURATION_MS)
       }
+    } catch (error) {
+      antdMessage.error(error?.response?.error || error?.response?.message || error?.message || 'Không thể cập nhật đơn hàng.')
     } finally {
       setUpdating(false)
     }
@@ -79,9 +92,11 @@ export function useAdminOrderDetail(id) {
     order,
     loading,
     status,
+    paymentStatus,
     updating,
     successMessage,
     handleStatusChange,
+    handlePaymentStatusChange,
     handleUpdateStatus
   }
 }

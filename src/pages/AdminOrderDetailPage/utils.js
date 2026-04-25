@@ -8,30 +8,36 @@ export const ADMIN_ORDER_DETAIL_STATUS_OPTIONS = [
   { value: 'cancelled', label: 'Đã hủy' }
 ]
 
+export const ADMIN_ORDER_PAYMENT_STATUS_OPTIONS = [
+  { value: 'pending', label: 'Chưa thanh toán' },
+  { value: 'paid', label: 'Đã thanh toán' },
+  { value: 'failed', label: 'Thanh toán thất bại' }
+]
+
 const ORDER_STATUS_INFO = {
   pending: {
     label: 'Chờ xác nhận',
-    color: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-900/60 dark:bg-yellow-900/20 dark:text-yellow-300',
+    color: 'border border-[color-mix(in_srgb,#f59e0b_36%,var(--admin-border))] bg-[color-mix(in_srgb,#f59e0b_16%,var(--admin-surface-2))] text-[#b45309] dark:text-[#fbbf24]',
     icon: Clock
   },
   confirmed: {
     label: 'Đã xác nhận',
-    color: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/60 dark:bg-blue-900/20 dark:text-blue-300',
+    color: 'border border-[color-mix(in_srgb,#3b82f6_32%,var(--admin-border))] bg-[color-mix(in_srgb,#3b82f6_16%,var(--admin-surface-2))] text-[#1d4ed8] dark:text-[#93c5fd]',
     icon: CheckCircle
   },
   shipping: {
     label: 'Đang giao',
-    color: 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-900/60 dark:bg-purple-900/20 dark:text-purple-300',
+    color: 'border border-[color-mix(in_srgb,#8b5cf6_34%,var(--admin-border))] bg-[color-mix(in_srgb,#8b5cf6_16%,var(--admin-surface-2))] text-[#6d28d9] dark:text-[#c4b5fd]',
     icon: Truck
   },
   completed: {
     label: 'Hoàn thành',
-    color: 'border-green-200 bg-green-50 text-green-700 dark:border-green-900/60 dark:bg-green-900/20 dark:text-green-300',
+    color: 'border border-[color-mix(in_srgb,#22c55e_32%,var(--admin-border))] bg-[color-mix(in_srgb,#22c55e_16%,var(--admin-surface-2))] text-[#15803d] dark:text-[#4ade80]',
     icon: CheckCircle
   },
   cancelled: {
     label: 'Đã hủy',
-    color: 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/60 dark:bg-red-900/20 dark:text-red-300',
+    color: 'border border-[color-mix(in_srgb,#ef4444_30%,var(--admin-border))] bg-[color-mix(in_srgb,#ef4444_14%,var(--admin-surface-2))] text-[#b91c1c] dark:text-[#fca5a5]',
     icon: XCircle
   }
 }

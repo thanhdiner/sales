@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import { Badge } from 'antd'
 import { Bell } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import NotificationPanel from './NotificationPanel'
 import {
   getClientOrderRoute,
   getNotificationAriaLabel,
-  getNotificationBadgeText,
   getNotificationBellClassName,
   getNotificationButtonTitle,
   getNotificationNewDotClassName,
@@ -15,8 +15,7 @@ import {
   markNotificationReadIfNeeded,
   requestDesktopNotificationPermission,
   shouldClosePanelAfterClick,
-  shouldClosePanelAfterMarkAll,
-  shouldShowUnreadBadge
+  shouldClosePanelAfterMarkAll
 } from './notificationUtils'
 
 export default function NotificationBell({ notifications = [], setNotifications }) {
@@ -70,15 +69,11 @@ export default function NotificationBell({ notifications = [], setNotifications 
         title={getNotificationButtonTitle()}
         aria-label={getNotificationAriaLabel(unreadCount)}
       >
-        <span className="header__action__icon-slot">
-          <Bell className="header__action__notification--icon" />
-        </span>
-
-        {shouldShowUnreadBadge(unreadCount) && (
-          <span className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gray-900 px-1 text-[10px] font-semibold text-white ring-2 ring-white dark:bg-gray-100 dark:text-gray-900 dark:ring-gray-800">
-            {getNotificationBadgeText(unreadCount)}
+        <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={unreadCount} overflowCount={99}>
+          <span className="header__action__icon-slot">
+            <Bell className="header__action__notification--icon" />
           </span>
-        )}
+        </Badge>
 
         {showNewDot && <span className={getNotificationNewDotClassName()} />}
       </button>

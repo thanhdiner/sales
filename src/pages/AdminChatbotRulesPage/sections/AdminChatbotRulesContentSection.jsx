@@ -19,7 +19,7 @@ export default function AdminChatbotRulesContentSection({
   return (
     <>
       <Alert
-        className="mb-4"
+        className="admin-chatbot-alert mb-4"
         type="info"
         showIcon
         message="Rules nên chỉ chứa chính sách hành vi và guardrail"
@@ -27,7 +27,7 @@ export default function AdminChatbotRulesContentSection({
       />
 
       <Form form={form} layout="vertical">
-        <Card title="Prompt, rules và fallback" className="dark:border-gray-700 dark:bg-gray-800">
+        <Card title="Prompt, rules và fallback" className="admin-chatbot-card">
           <Form.Item
             name="brandVoice"
             label="Brand voice"

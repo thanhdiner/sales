@@ -28,7 +28,7 @@ function AdminProductCategoriesHeader({
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="admin-product-categories-wrap flex items-center justify-between">
         <AdminTitle icon={<UnorderedListOutlined className="text-base" />} title="Product Categories Manager" />
         <AdminProductCategoriesUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories }} />
       </div>

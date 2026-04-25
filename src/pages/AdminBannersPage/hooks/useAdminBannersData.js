@@ -31,6 +31,8 @@ export function useAdminBannersData() {
 
   const handleDeleteBanner = bannerId => {
     Modal.confirm({
+      className: 'admin-banners-confirm-modal',
+      rootClassName: 'admin-banners-confirm-modal',
       title: 'Xác nhận xóa banner',
       content: 'Bạn có chắc chắn muốn xóa banner này không?',
       okText: 'Xóa',

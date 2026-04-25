@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { Clock, Tag, Zap, Star, Flame, Heart, BarChart2, Bell, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Clock, Tag, Zap, Star, Flame, Heart, BarChart2, Bell, ShieldCheck, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { normalizeWishlistItems } from '@/lib/normalizeWishlistItems'
 import { syncCartFromServer } from '@/lib/clientCache'
 import { toggleCompareLocal } from '@/stores/compare'
@@ -16,9 +16,15 @@ import SEO from '@/components/SEO'
 import { motion } from 'framer-motion'
 import { getStoredClientAccessToken } from '@/utils/auth'
 
+const FLASH_SALE_PAGE_LIMIT = 10
+
 const FlashSale = () => {
-  const [flashSales, setFlashSales] = useState([])
+  const [flashSaleItems, setFlashSaleItems] = useState([])
+  const [flashSaleCategories, setFlashSaleCategories] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalFlashSaleItems, setTotalFlashSaleItems] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [buyNowLoading, setBuyNowLoading] = useState({})
   const [wishlistLoading, setWishlistLoading] = useState({})
@@ -35,12 +41,74 @@ const FlashSale = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategory = searchParams.get('category') || 'all'
 
+  const normalizeFlashSaleResponse = res => {
+    if (Array.isArray(res.items)) {
+      return {
+        items: res.items,
+        categories: res.categories || [],
+        total: res.total || 0,
+        currentPage: res.currentPage || 1
+      }
+    }
+
+    const categoryMap = new Map()
+    const items = []
+
+    ;(res.flashSales || []).forEach(sale => {
+      ;(sale.products || []).forEach(product => {
+        const category = product.productCategory
+        const categoryKey = category?.slug || category?._id
+
+        if (categoryKey && !categoryMap.has(categoryKey)) {
+          categoryMap.set(categoryKey, {
+            key: categoryKey,
+            label: category.title || 'Chưa phân loại'
+          })
+        }
+
+        const isCategoryMatched = selectedCategory === 'all' || category?.slug === selectedCategory || category?._id === selectedCategory
+        if (!isCategoryMatched) return
+
+        items.push({
+          product,
+          saleMeta: {
+            flashSaleId: sale._id,
+            name: sale.name,
+            status: sale.status,
+            discountPercent: sale.discountPercent,
+            startAt: sale.startAt,
+            endAt: sale.endAt,
+            soldQuantity: sale.soldQuantity,
+            maxQuantity: sale.maxQuantity
+          }
+        })
+      })
+    })
+
+    return {
+      items,
+      categories: Array.from(categoryMap.values()),
+      total: items.length,
+      currentPage: res.currentPage || 1
+    }
+  }
+
   useEffect(() => {
     const fetchFlashSales = async () => {
       try {
         setLoading(true)
-        const res = await getClientFlashSales({ status: 'all', limit: 10 })
-        setFlashSales(res.flashSales || [])
+        const res = await getClientFlashSales({
+          mode: 'product',
+          status: 'all',
+          category: selectedCategory,
+          page: 1,
+          limit: FLASH_SALE_PAGE_LIMIT
+        })
+        const normalized = normalizeFlashSaleResponse(res)
+        setFlashSaleItems(normalized.items)
+        setFlashSaleCategories(normalized.categories)
+        setCurrentPage(normalized.currentPage)
+        setTotalFlashSaleItems(normalized.total)
       } finally {
         setLoading(false)
       }
@@ -53,7 +121,7 @@ const FlashSale = () => {
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [selectedCategory])
 
   const formatCurrency = amount => {
     return new Intl.NumberFormat('vi-VN', {
@@ -209,29 +277,14 @@ const FlashSale = () => {
     }
   }
 
-  const categories = useMemo(() => {
-    const categoryMap = new Map()
-
-    flashSales.forEach(sale => {
-      sale.products?.forEach(product => {
-        const category = product.productCategory
-        const key = category?.slug || category?._id
-
-        if (key && !categoryMap.has(key)) {
-          categoryMap.set(key, {
-            key,
-            label: category.title || 'Chưa phân loại',
-            icon: Tag
-          })
-        }
-      })
-    })
-
-    return [
-      { key: 'all', label: 'Tất cả', icon: Tag },
-      ...categoryMap.values()
-    ]
-  }, [flashSales])
+  const categories = useMemo(() => [
+    { key: 'all', label: 'Tất cả', icon: Tag },
+    ...flashSaleCategories.map(category => ({
+      key: category.key,
+      label: category.label,
+      icon: Tag
+    }))
+  ], [flashSaleCategories])
 
   useEffect(() => {
     if (loading || selectedCategory === 'all') return
@@ -306,19 +359,57 @@ const FlashSale = () => {
     handleCategoryChange(categoryKey)
   }
 
-  const filteredFlashSales = flashSales
-    .map(sale => {
-      if (selectedCategory === 'all') return sale
+  const handleLoadMore = async () => {
+    if (loadingMore || flashSaleItems.length >= totalFlashSaleItems) return
 
-      const products = sale.products?.filter(product => {
-        const category = product.productCategory
-        return category?.slug === selectedCategory || category?._id === selectedCategory
-      }) || []
+    const nextPage = currentPage + 1
+    setLoadingMore(true)
 
-      return { ...sale, products }
+    try {
+      const res = await getClientFlashSales({
+        mode: 'product',
+        status: 'all',
+        category: selectedCategory,
+        page: nextPage,
+        limit: FLASH_SALE_PAGE_LIMIT
+      })
+      const normalized = normalizeFlashSaleResponse(res)
+      setFlashSaleItems(prev => [...prev, ...normalized.items])
+      setCurrentPage(normalized.currentPage || nextPage)
+      setTotalFlashSaleItems(normalized.total)
+    } finally {
+      setLoadingMore(false)
+    }
+  }
+
+  const filteredFlashSales = useMemo(() => {
+    const saleMap = new Map()
+
+    flashSaleItems.forEach(item => {
+      const saleMeta = item.saleMeta || {}
+      const saleId = saleMeta.flashSaleId || 'flash-sale'
+
+      if (!saleMap.has(saleId)) {
+        saleMap.set(saleId, {
+          _id: saleId,
+          name: saleMeta.name || 'Flash Sale',
+          status: saleMeta.status || 'active',
+          discountPercent: saleMeta.discountPercent || 0,
+          startAt: saleMeta.startAt,
+          endAt: saleMeta.endAt,
+          soldQuantity: saleMeta.soldQuantity || 0,
+          maxQuantity: saleMeta.maxQuantity || 0,
+          products: []
+        })
+      }
+
+      saleMap.get(saleId).products.push(item.product)
     })
-    .filter(sale => selectedCategory === 'all' || sale.products.length > 0)
 
+    return Array.from(saleMap.values())
+  }, [flashSaleItems])
+
+  const hasMoreFlashSales = flashSaleItems.length < totalFlashSaleItems
   const activeFlashSales = filteredFlashSales.filter(sale => sale.status === 'active')
   const upcomingFlashSales = filteredFlashSales.filter(sale => sale.status === 'scheduled')
 
@@ -825,6 +916,20 @@ const FlashSale = () => {
                 Hãy quay lại sau để không bỏ lỡ các chương trình khuyến mãi hấp dẫn.
               </p>
             </motion.div>
+          )}
+
+          {!loading && hasMoreFlashSales && (
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={handleLoadMore}
+                disabled={loadingMore}
+                className="inline-flex min-w-[150px] items-center justify-center gap-2 rounded-lg border border-red-200 bg-white px-5 py-2.5 text-sm font-black text-red-600 shadow-sm transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-500/20 dark:bg-slate-900 dark:text-red-300 dark:hover:bg-red-500/10"
+              >
+                {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
+                {loadingMore ? 'Đang tải...' : 'Xem thêm'}
+              </button>
+            </div>
           )}
 
           <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">

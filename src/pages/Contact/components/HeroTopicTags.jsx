@@ -45,7 +45,7 @@ const HeroTopicTags = () => {
             className="pointer-events-none absolute inset-0 rounded-full opacity-70 blur-md transition-opacity duration-300 group-hover:opacity-100"
             style={{ backgroundImage: topic.glow }}
           />
-          <span className="relative rounded-full bg-white px-3 py-1 text-gray-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] dark:bg-gray-800 dark:text-gray-300">
+          <span className="contact-topic-tag relative rounded-full bg-white px-3 py-1 text-gray-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] dark:bg-gray-800 dark:text-gray-300">
             {topic.label}
           </span>
         </span>

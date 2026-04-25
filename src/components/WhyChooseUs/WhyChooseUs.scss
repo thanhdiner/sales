@@ -382,55 +382,72 @@
 }
 
 // ─── Dark mode ───────────────────────────────────────────────────────────────
-:global(.dark) .why-choose-us {
-  background: #1f2937;
+html.dark body:not(.admin-layout-active) .why-choose-us {
+  background: #101213;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
 
   &::before {
     background:
-      linear-gradient(135deg, transparent 20%, rgba(75, 85, 99, 0.3) 20%, rgba(75, 85, 99, 0.3) 22%, transparent 22%),
-      linear-gradient(135deg, transparent 28%, rgba(75, 85, 99, 0.2) 28%, rgba(75, 85, 99, 0.2) 29.5%, transparent 29.5%),
-      linear-gradient(135deg, transparent 34%, rgba(75, 85, 99, 0.25) 34%, rgba(75, 85, 99, 0.25) 37%, transparent 37%),
-      linear-gradient(135deg, transparent 42%, rgba(75, 85, 99, 0.15) 42%, rgba(75, 85, 99, 0.15) 43%, transparent 43%);
+      linear-gradient(135deg, transparent 20%, rgba(255, 255, 255, 0.06) 20%, rgba(255, 255, 255, 0.06) 22%, transparent 22%),
+      linear-gradient(135deg, transparent 28%, rgba(255, 255, 255, 0.04) 28%, rgba(255, 255, 255, 0.04) 29.5%, transparent 29.5%),
+      linear-gradient(135deg, transparent 34%, rgba(34, 197, 94, 0.08) 34%, rgba(34, 197, 94, 0.08) 37%, transparent 37%),
+      linear-gradient(135deg, transparent 42%, rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0.03) 43%, transparent 43%);
   }
 
   &::after {
     background:
-      linear-gradient(135deg, transparent 15%, rgba(75, 85, 99, 0.15) 15%, rgba(75, 85, 99, 0.15) 16%, transparent 16%,
-                       transparent 18%, rgba(75, 85, 99, 0.15) 18%, rgba(75, 85, 99, 0.15) 19%, transparent 19%),
-      linear-gradient(135deg, transparent 25%, rgba(75, 85, 99, 0.2) 25%, rgba(75, 85, 99, 0.2) 27%, transparent 27%);
+      linear-gradient(135deg, transparent 15%, rgba(255, 255, 255, 0.04) 15%, rgba(255, 255, 255, 0.04) 16%, transparent 16%,
+                       transparent 18%, rgba(255, 255, 255, 0.04) 18%, rgba(255, 255, 255, 0.04) 19%, transparent 19%),
+      linear-gradient(135deg, transparent 25%, rgba(34, 197, 94, 0.07) 25%, rgba(34, 197, 94, 0.07) 27%, transparent 27%);
+  }
+
+  .wcu-pill-spotlight {
+    background: rgba(34, 197, 94, 0.13) !important;
+    color: #22c55e !important;
+  }
+
+  h2 {
+    color: #f4f6f8 !important;
+  }
+
+  p {
+    color: #a8b0ba !important;
   }
 }
 
-:global(.dark) .wcu-hub {
+html.dark body:not(.admin-layout-active) .wcu-hub {
   &__icons {
-    background: rgba(31, 41, 55, 0.95);
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.04), 0 8px 24px rgba(0, 0, 0, 0.2);
+    background: #151719;
+    border-color: rgba(34, 197, 94, 0.28);
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.05), 0 18px 36px rgba(0, 0, 0, 0.3);
   }
 
   &__line {
-    background-image: linear-gradient(90deg, #4b5563 60%, transparent 60%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.14) 60%, transparent 60%);
   }
 }
 
-:global(.dark) .wcu-card {
-  background: #1f2937;
-  border-color: #374151;
+html.dark body:not(.admin-layout-active) .wcu-card {
+  background: #151719;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
 
   &:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-    border-color: #4b5563;
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.34);
+    border-color: rgba(255, 255, 255, 0.14);
   }
 
   &__title {
-    color: #f3f4f6;
+    color: #f4f6f8;
   }
 
   &__desc {
-    color: #9ca3af;
+    color: #a8b0ba;
   }
 
   &__connector-icon {
-    background: rgba(31, 41, 55, 0.95);
+    background: #202327;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.26);
   }
 }

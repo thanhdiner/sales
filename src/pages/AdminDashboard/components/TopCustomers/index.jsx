@@ -1,5 +1,5 @@
-// TopCustomers.jsx
-import { Card, List, Avatar, Typography, Tag, Skeleton } from 'antd'
+import { Avatar, Card, List, Skeleton, Tag, Typography } from 'antd'
+
 const { Text } = Typography
 
 export default function TopCustomers({ customers = [], loading }) {
@@ -22,23 +22,23 @@ export default function TopCustomers({ customers = [], loading }) {
       ) : (
         <List
           itemLayout="horizontal"
-          dataSource={customers.filter(u => u && typeof u.total === 'number')}
-          renderItem={(user, idx) => (
-            <List.Item className="dark:hover:!bg-gray-600 rounded-xl">
+          dataSource={customers.filter(user => user && typeof user.total === 'number')}
+          renderItem={(user, index) => (
+            <List.Item className="dashboard-customer-item rounded-xl">
               <List.Item.Meta
                 avatar={<Avatar src={user.avatar} size={40} />}
                 title={
                   <Text strong>
-                    <span className="text-gray-800 dark:text-gray-100">
-                      {idx + 1}. {user.name}
+                    <span className="dashboard-customer-name">
+                      {index + 1}. {user.name}
                     </span>
                   </Text>
                 }
                 description={
                   <Text type="secondary">
-                    <span className="text-gray-800 dark:text-gray-100">Tổng chi: </span>
+                    <span className="dashboard-customer-meta">Tổng chi: </span>
                     <Tag color="success" style={{ fontWeight: 600 }}>
-                      {user.total.toLocaleString('vi-VN')} ₫
+                      {user.total.toLocaleString('vi-VN')} đ
                     </Tag>
                   </Text>
                 }

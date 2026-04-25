@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop'
 import { authAdminRefresh } from './services/adminAuth.service'
 import { getAdminMe } from './services/adminMeService'
 import { logout, setUser } from './stores/adminUser'
+import { applyDocumentTheme } from './utils/themeMode'
 import { clearTokens, getAccessToken, setAccessToken } from './utils/auth'
 
 function App() {
@@ -17,23 +18,10 @@ function App() {
   const navigate = useNavigate()
   useClientBootstrap()
 
-  const clientDarkMode = useSelector(state => state.darkMode?.value)
-  const isAdmin = location.pathname.startsWith('/admin')
-
-  const adminDarkMode = (() => {
-    try {
-      return localStorage.getItem('darkMode') === 'true'
-    } catch {
-      return false
-    }
-  })()
-
-  const isDark = isAdmin ? adminDarkMode : !!clientDarkMode
+  const isDark = useSelector(state => !!state.darkMode?.value)
 
   useEffect(() => {
-    const root = document.documentElement
-    root.classList.toggle('dark', isDark)
-    root.style.colorScheme = isDark ? 'dark' : 'light'
+    applyDocumentTheme(isDark)
   }, [isDark])
 
   useEffect(() => {

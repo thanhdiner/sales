@@ -29,9 +29,9 @@ export default function HeroBanner() {
       className="HeroBanner-root group swiper-custom-navigation"
       role="region"
       aria-label="Banner nổi bật"
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
       viewport={viewport}
     >
       <Swiper

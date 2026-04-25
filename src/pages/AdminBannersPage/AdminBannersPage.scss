@@ -1,0 +1,353 @@
+body.admin-layout-active {
+  --banners-surface: var(--admin-surface, #ffffff);
+  --banners-surface-2: var(--admin-surface-2, #f8fafc);
+  --banners-surface-3: var(--admin-surface-3, #eef2f7);
+  --banners-border: var(--admin-border, rgba(15, 23, 42, 0.08));
+  --banners-border-strong: var(--admin-border-strong, rgba(15, 23, 42, 0.14));
+  --banners-text: var(--admin-text, #111827);
+  --banners-text-muted: var(--admin-text-muted, #4b5563);
+  --banners-text-subtle: var(--admin-text-subtle, #6b7280);
+  --banners-accent: var(--admin-accent, #5e6ad2);
+  --banners-accent-soft: var(--admin-accent-soft, rgba(94, 106, 210, 0.12));
+}
+
+.admin-banners-page {
+  color: var(--banners-text);
+}
+
+.admin-banners-card.ant-card {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-banners-card .ant-card-body {
+  background: var(--banners-surface) !important;
+}
+
+.admin-banners-image-wrap {
+  border: 1px solid var(--banners-border);
+  background: var(--banners-surface-2);
+}
+
+.admin-banners-table-wrap {
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table,
+.admin-banners-table.ant-table-wrapper .ant-table-container,
+.admin-banners-table.ant-table-wrapper .ant-table-content {
+  background: var(--banners-surface) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-thead > tr > th {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+  color: var(--banners-text-muted) !important;
+  font-weight: 600;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: var(--banners-surface-2) !important;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-filter-trigger {
+  color: var(--banners-text-subtle) !important;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-filter-trigger:hover {
+  color: var(--banners-text) !important;
+  background: var(--banners-surface-3) !important;
+}
+
+.admin-banners-table.ant-table-wrapper .ant-table-filter-trigger.active {
+  color: var(--banners-accent) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown {
+  border: 1px solid var(--banners-border) !important;
+  border-radius: 10px !important;
+  background: var(--banners-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu {
+  border: 0 !important;
+  border-radius: 10px 10px 0 0 !important;
+  background: var(--banners-surface) !important;
+  box-shadow: none !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu-item,
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu-submenu-title {
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu-item:hover,
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu-item-active,
+.admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu-submenu-title:hover {
+  background: var(--banners-surface-2) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-checkbox-inner {
+  border-color: var(--banners-border-strong) !important;
+  background: var(--banners-surface-2) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: var(--banners-accent) !important;
+  background: var(--banners-accent) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-table-filter-dropdown-btns {
+  border-top: 1px solid var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-table-filter-dropdown-btns .ant-btn {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  color: var(--banners-text-muted) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-table-filter-dropdown-btns .ant-btn:hover {
+  border-color: var(--banners-border-strong) !important;
+  background: var(--banners-surface-3) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-table-filter-dropdown-btns .ant-btn-primary {
+  border-color: var(--banners-accent) !important;
+  background: var(--banners-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-banners-page .ant-table-filter-dropdown .ant-table-filter-dropdown-btns .ant-btn-primary:hover {
+  border-color: var(--banners-accent) !important;
+  filter: brightness(1.06);
+}
+
+.admin-banners-action-btn.ant-btn {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+  color: var(--banners-text-muted) !important;
+}
+
+.admin-banners-action-btn.ant-btn:hover {
+  border-color: var(--banners-border-strong) !important;
+  background: var(--banners-surface-3) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-action-btn--danger.ant-btn {
+  border-color: rgba(248, 81, 73, 0.35) !important;
+  color: #f87171 !important;
+}
+
+.admin-banners-action-btn--danger.ant-btn:hover {
+  border-color: rgba(248, 81, 73, 0.55) !important;
+  background: rgba(248, 81, 73, 0.08) !important;
+}
+
+.admin-banners-page .ant-pagination-item,
+.admin-banners-page .ant-pagination-prev .ant-pagination-item-link,
+.admin-banners-page .ant-pagination-next .ant-pagination-item-link,
+.admin-banners-page .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-banners-page .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  color: var(--banners-text-muted) !important;
+}
+
+.admin-banners-page .ant-pagination-item a {
+  color: inherit !important;
+}
+
+.admin-banners-page .ant-pagination-item-active {
+  border-color: var(--banners-accent) !important;
+  background: var(--banners-accent-soft) !important;
+}
+
+.admin-banners-page .ant-pagination-item-active a {
+  color: var(--banners-accent) !important;
+  font-weight: 600;
+}
+
+.admin-banners-page .ant-pagination-options-quick-jumper {
+  color: var(--banners-text-muted) !important;
+}
+
+.admin-banners-page .ant-pagination-options-quick-jumper input {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-modal .ant-modal-content {
+  border: 1px solid var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-banners-modal .ant-modal-header {
+  border-bottom: 1px solid var(--banners-border) !important;
+  background: var(--banners-surface) !important;
+}
+
+.admin-banners-modal .ant-modal-title {
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-modal .ant-modal-body {
+  color: var(--banners-text);
+}
+
+.admin-banners-modal .ant-modal-footer {
+  border-top: 1px solid var(--banners-border) !important;
+}
+
+.admin-banners-modal .ant-modal-close {
+  color: var(--banners-text-subtle);
+}
+
+.admin-banners-modal .ant-modal-close:hover {
+  color: var(--banners-text);
+}
+
+.admin-banners-modal .ant-form-item-label > label {
+  color: var(--banners-text-muted) !important;
+}
+
+html.dark body.admin-layout-active .admin-banners-modal .ant-modal-content,
+html.dark body.admin-layout-active .admin-banners-modal .ant-modal-header,
+html.dark body.admin-layout-active .admin-banners-modal .ant-modal-body,
+html.dark body.admin-layout-active .admin-banners-modal .ant-modal-footer {
+  background: var(--admin-surface) !important;
+}
+
+.admin-banners-modal .ant-input,
+.admin-banners-modal .ant-input-affix-wrapper,
+.admin-banners-modal .ant-select-selector {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-modal .ant-input::placeholder,
+.admin-banners-modal .ant-select-selection-placeholder {
+  color: var(--banners-text-subtle) !important;
+}
+
+.admin-banners-modal .ant-input:hover,
+.admin-banners-modal .ant-input:focus,
+.admin-banners-modal .ant-input-affix-wrapper:hover,
+.admin-banners-modal .ant-input-affix-wrapper-focused,
+.admin-banners-modal .ant-select-focused .ant-select-selector,
+.admin-banners-modal .ant-select-selector:hover {
+  border-color: var(--banners-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-banners-modal .ant-upload-wrapper .ant-upload.ant-upload-select,
+.admin-banners-modal .ant-upload-wrapper .ant-upload-list-item-container .ant-upload-list-item {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+}
+
+.admin-banners-modal .ant-upload-wrapper .ant-upload.ant-upload-select {
+  color: var(--banners-text-muted) !important;
+}
+
+.admin-banners-modal .ant-upload-wrapper .ant-upload.ant-upload-select:hover {
+  border-color: var(--banners-border-strong) !important;
+  background: var(--banners-surface-3) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-content {
+  border: 1px solid var(--banners-border) !important;
+  border-radius: 14px !important;
+  background: var(--banners-surface) !important;
+  box-shadow: var(--admin-shadow, 0 20px 40px rgba(0, 0, 0, 0.42)) !important;
+  padding: 20px 22px !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-banners-confirm-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-banners-confirm-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal .ant-modal-content {
+  background: var(--admin-surface) !important;
+  border-color: var(--admin-border) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-body-wrapper,
+.admin-banners-confirm-modal .ant-modal-confirm-body,
+.admin-banners-confirm-modal .ant-modal-confirm-paragraph {
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-title {
+  color: var(--banners-text) !important;
+  font-weight: 700;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-content {
+  margin-top: 10px !important;
+  color: var(--banners-text-muted) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-icon {
+  color: var(--banners-text-subtle) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns {
+  margin-top: 18px !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn {
+  border-color: var(--banners-border) !important;
+  background: var(--banners-surface-2) !important;
+  color: var(--banners-text-muted) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn:hover {
+  border-color: var(--banners-border-strong) !important;
+  background: var(--banners-surface-3) !important;
+  color: var(--banners-text) !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-dangerous,
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-primary.ant-btn-dangerous,
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-color-dangerous {
+  border-color: rgba(248, 81, 73, 0.45) !important;
+  background: rgba(248, 81, 73, 0.14) !important;
+  color: #f87171 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-dangerous:hover,
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-primary.ant-btn-dangerous:hover,
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn.ant-btn-color-dangerous:hover {
+  border-color: rgba(248, 81, 73, 0.58) !important;
+  background: rgba(248, 81, 73, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+.admin-banners-confirm-modal .ant-modal-confirm-btns .ant-btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}

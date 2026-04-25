@@ -18,7 +18,7 @@ function AdminProductCategoriesFilter({ onFilter, initialValues }) {
   }
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 w-full mt-2.5">
+    <div className="product-categories-filter products-filter">
       <Form
         form={form}
         initialValues={{
@@ -28,42 +28,44 @@ function AdminProductCategoriesFilter({ onFilter, initialValues }) {
         }}
         onFinish={handleSubmit}
         layout="vertical"
-        className="flex flex-wrap gap-x-[15px] p-[15px_20px_0]"
+        className="product-categories-filter-form products-filter-form admin-product-categories-filter-form"
       >
-        <Form.Item name="categoryName" label={<span className="dark:text-gray-300">Category Name</span>}>
-          <Input
-            className="dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:placeholder:text-gray-400"
-            placeholder="Category Name"
-          />
+        <Form.Item name="categoryName" label={<span className="admin-product-categories-filter-label">Category Name</span>}>
+          <Input className="admin-product-categories-input" placeholder="Category Name" />
         </Form.Item>
-        <Form.Item className="w-[100px]" name="status" label={<span className="dark:text-gray-300">Status</span>}>
-          <Select>
+        <Form.Item className="w-[100px]" name="status" label={<span className="admin-product-categories-filter-label">Status</span>}>
+          <Select
+            className="admin-product-categories-input"
+            popupClassName="admin-product-categories-popup"
+            getPopupContainer={trigger => trigger?.parentElement || document.body}
+          >
             <Option value="all">All</Option>
             <Option value="active">Active</Option>
             <Option value="inactive">Inactive</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="show" label={<span className="dark:text-gray-300">Show</span>}>
-          <Select>
+        <Form.Item name="show" label={<span className="admin-product-categories-filter-label">Show</span>}>
+          <Select
+            className="admin-product-categories-input"
+            popupClassName="admin-product-categories-popup"
+            getPopupContainer={trigger => trigger?.parentElement || document.body}
+          >
             <Option value="10">10 per page</Option>
             <Option value="20">20 per page</Option>
             <Option value="50">50 per page</Option>
             <Option value="100">100 per page</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
-          <InputNumber
-            className="dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:placeholder:text-gray-400"
-            placeholder="Position"
-          />
+        <Form.Item name="position" label={<span className="admin-product-categories-filter-label">Position</span>}>
+          <InputNumber className="admin-product-categories-input" placeholder="Position" />
         </Form.Item>
-        <Form.Item>
-          <div className="flex justify-end gap-x-2.5">
-            <Button type="primary" htmlType="submit">
+        <Form.Item className="product-categories-filter-actions-item">
+          <div className="product-categories-filter-actions">
+            <Button type="primary" htmlType="submit" className="admin-product-categories-btn admin-product-categories-btn--apply">
               <SearchOutlined />
               Filter
             </Button>
-            <Button className="dark:bg-transparent dark:text-red-400" danger onClick={handleClear}>
+            <Button className="admin-product-categories-btn admin-product-categories-btn--clear" danger onClick={handleClear}>
               <CloseOutlined />
               Clear
             </Button>

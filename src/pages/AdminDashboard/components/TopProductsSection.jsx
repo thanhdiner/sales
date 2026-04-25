@@ -1,128 +1,115 @@
 import React from 'react'
-import { FallOutlined, RiseOutlined } from '@ant-design/icons'
-import { Card, Col, Empty, Row, Skeleton, Typography } from 'antd'
+import { Empty, Skeleton } from 'antd'
+import { Link } from 'react-router-dom'
+import { Folder, Package, TrendingDown, TrendingUp } from 'lucide-react'
 import { formatCurrency } from '../utils/dashboardTransforms'
 
-const { Text } = Typography
+const formatNumber = value => (Number(value) || 0).toLocaleString('vi-VN')
 
-export default function TopProductsSection({ loading, topProducts }) {
+function ProductThumb({ product }) {
+  if (product.image) {
+    return <img src={product.image} alt={product.name} className="dashboard-product-thumb" />
+  }
+
   return (
-    <Row gutter={[16, 16]} className="products-row">
-      <Col span={24}>
-        <Card
-          title="Sản phẩm bán chạy"
-          className="products-card rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900"
-        >
-          {loading ? (
-            <Row gutter={[16, 16]}>
-              {Array.from({ length: 8 }).map((_, idx) => (
-                <Col xs={24} sm={12} lg={8} xl={6} xxl={4} key={idx}>
-                  <div className="product-item rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-                    <div className="product-img-wrapper" style={{ marginBottom: 12 }}>
-                      <Skeleton.Avatar shape="square" size={64} active style={{ borderRadius: 12 }} />
-                    </div>
+    <span className="dashboard-product-thumb dashboard-product-thumb--empty">
+      <Package size={20} />
+    </span>
+  )
+}
 
-                    <div className="product-rank">
-                      <Skeleton.Input style={{ width: 32, height: 18, borderRadius: 6 }} active size="small" />
-                    </div>
+function ProductList({ loading, topProducts }) {
+  if (loading) {
+    return (
+      <div className="dashboard-list">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Skeleton.Input key={index} active block className="dashboard-row-skeleton" />
+        ))}
+      </div>
+    )
+  }
 
-                    <div className="product-info" style={{ paddingRight: 12 }}>
-                      <Skeleton.Input
-                        style={{
-                          width: 128,
-                          height: 20,
-                          borderRadius: 6,
-                          marginBottom: 12
-                        }}
-                        active
-                        size="small"
-                      />
+  if (!topProducts?.length) {
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có dữ liệu sản phẩm nổi bật" />
+  }
 
-                      <div className="product-stats" style={{ marginBottom: 12 }}>
-                        <div className="stat" style={{ marginBottom: 6 }}>
-                          <Skeleton.Input
-                            style={{
-                              width: 56,
-                              height: 16,
-                              borderRadius: 5,
-                              marginRight: 6
-                            }}
-                            active
-                            size="small"
-                          />
-                          <Skeleton.Input style={{ width: 28, height: 16, borderRadius: 5 }} active size="small" />
-                        </div>
+  return (
+    <div className="dashboard-list">
+      {topProducts.slice(0, 5).map((product, index) => {
+        const trendState = product.trend === 'down' ? 'down' : product.trend === 'equal' ? 'equal' : 'up'
+        const TrendIcon = trendState === 'down' ? TrendingDown : TrendingUp
+        const trendClass = trendState === 'down' ? 'danger' : trendState === 'equal' ? 'neutral' : 'success'
+        const trendLabel = trendState === 'down' ? 'Giảm' : trendState === 'equal' ? 'Ổn định' : 'Tăng'
 
-                        <div className="stat">
-                          <Skeleton.Input
-                            style={{
-                              width: 64,
-                              height: 16,
-                              borderRadius: 5,
-                              marginRight: 6
-                            }}
-                            active
-                            size="small"
-                          />
-                          <Skeleton.Input style={{ width: 48, height: 16, borderRadius: 5 }} active size="small" />
-                        </div>
-                      </div>
+        return (
+          <div className="dashboard-list-row dashboard-product-row" key={product._id || `${product.name}-${index}`}>
+            <ProductThumb product={product} />
+            <div className="dashboard-row-copy">
+              <strong>{product.name}</strong>
+              <span>Đã bán: {formatNumber(product.sales)} - {formatCurrency(product.revenue)}</span>
+            </div>
+            <span className={`dashboard-status-badge ${trendClass}`}>
+              <TrendIcon size={13} />
+              {trendLabel}
+            </span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
-                      <Skeleton.Button style={{ width: 56, height: 20, borderRadius: 999 }} active size="small" />
-                    </div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          ) : topProducts?.length > 0 ? (
-            <Row gutter={[16, 16]}>
-              {topProducts.map((product, index) => (
-                <Col xs={24} sm={12} lg={8} xl={6} xxl={4} key={product._id || `${product.name}-${index}`}>
-                  <div className="product-item rounded-2xl border border-gray-200 bg-white p-4 transition-colors hover:border-gray-300 dark:border-gray-700 dark:bg-gray-900">
-                    <div className="product-img-wrapper">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        style={{
-                          borderRadius: 12,
-                          objectFit: 'cover'
-                        }}
-                      />
-                    </div>
+function CategoryList({ categoryData, loading }) {
+  if (loading) {
+    return (
+      <div className="dashboard-list">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Skeleton.Input key={index} active block className="dashboard-row-skeleton" />
+        ))}
+      </div>
+    )
+  }
 
-                    <div className="product-rank">#{index + 1}</div>
+  if (!categoryData?.length) {
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có dữ liệu danh mục" />
+  }
 
-                    <div className="product-info">
-                      <Text strong className="product-name">
-                        {product.name}
-                      </Text>
+  return (
+    <div className="dashboard-list">
+      {categoryData.slice(0, 5).map((category, index) => (
+        <div className="dashboard-list-row dashboard-category-row" key={`${category.name}-${index}`}>
+          <span className="dashboard-square-icon">
+            <Folder size={17} />
+          </span>
+          <div className="dashboard-row-copy">
+            <strong>{category.name || `Danh mục ${index + 1}`}</strong>
+            <span>Sản phẩm: {formatNumber(category.value)}</span>
+          </div>
+          <span className="dashboard-status-badge success">Hiển thị</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
-                      <div className="product-stats">
-                        <div className="stat">
-                          <Text type="secondary">Đã bán: </Text>
-                          <Text strong>{product.sales}</Text>
-                        </div>
+export default function TopProductsSection({ categoryData, categoryLoading, loading, topProducts }) {
+  return (
+    <section className="dashboard-bottom-grid dashboard-bottom-grid--half">
+      <div className="dashboard-panel">
+        <div className="dashboard-panel-header dashboard-panel-header--action">
+          <h2>Sản phẩm nổi bật</h2>
+          <Link to="/admin/products">Xem tất cả</Link>
+        </div>
+        <ProductList loading={loading} topProducts={topProducts} />
+      </div>
 
-                        <div className="stat">
-                          <Text type="secondary">Doanh thu: </Text>
-                          <Text strong>{formatCurrency(product.revenue)}</Text>
-                        </div>
-                      </div>
-
-                      <div className={`product-trend ${product.trend}`}>
-                        {product.trend === 'up' ? <RiseOutlined /> : <FallOutlined />}
-                        <Text>{product.trend === 'up' ? 'Tăng' : 'Giảm'}</Text>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          ) : (
-            <Empty description="Chưa có dữ liệu sản phẩm bán chạy" />
-          )}
-        </Card>
-      </Col>
-    </Row>
+      <div className="dashboard-panel">
+        <div className="dashboard-panel-header dashboard-panel-header--action">
+          <h2>Phân bổ danh mục</h2>
+          <Link to="/admin/product-categories">Xem tất cả</Link>
+        </div>
+        <CategoryList categoryData={categoryData} loading={categoryLoading} />
+      </div>
+    </section>
   )
 }

@@ -9,6 +9,11 @@ import FieldStatus from './FieldStatus'
 import FieldAction from './FieldAction'
 import AdminFieldUserInfo from '@/components/AdminFieldUserInfo'
 
+const ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE = {
+  background: 'rgba(8, 10, 14, 0.72)',
+  backdropFilter: 'blur(2px)'
+}
+
 function AdminProductCategoriesTable({
   isLoading,
   productCategories,
@@ -16,6 +21,7 @@ function AdminProductCategoriesTable({
   setProductCategories,
   sortField,
   setSortField,
+  sortOrder,
   setSortOrder,
   selectedRowKeys,
   setSelectedRowKeys,
@@ -28,7 +34,7 @@ function AdminProductCategoriesTable({
   const sortableTitle = (label, field) => (
     <div onClick={() => handleSort(field)} className="ant-table-column-sorters sortable" style={{ cursor: 'pointer' }}>
       {label}
-      <FontAwesomeIcon color="#aaa" icon={faSort} />
+      <FontAwesomeIcon className="admin-product-categories-sort-icon" icon={faSort} />
     </div>
   )
 
@@ -130,12 +136,8 @@ function AdminProductCategoriesTable({
       return
     }
 
-    let nextSortOrder = null
-
-    setSortOrder(currentSortOrder => {
-      nextSortOrder = currentSortOrder === 'ascend' ? 'descend' : currentSortOrder === 'descend' ? null : 'ascend'
-      return nextSortOrder
-    })
+    const nextSortOrder = sortOrder === 'ascend' ? 'descend' : sortOrder === 'descend' ? null : 'ascend'
+    setSortOrder(nextSortOrder)
 
     if (!nextSortOrder) {
       setSortField(null)
@@ -144,8 +146,10 @@ function AdminProductCategoriesTable({
 
   const handleDelete = record => {
     Modal.confirm({
-      title: <span className="dark:text-gray-300">Confirm Delete</span>,
-      content: <span className="dark:text-gray-300">Are you sure you want to delete product category "{record.title}"?</span>,
+      title: 'Confirm Delete',
+      content: `Are you sure you want to delete product category "${record.title}"?`,
+      className: 'admin-product-categories-confirm-modal',
+      maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'Cancel',
@@ -172,7 +176,7 @@ function AdminProductCategoriesTable({
   //# End handler
 
   return (
-    <div className="mt-2.5 admin-product-categories-table-wrapper overflow-x-auto">
+    <div className="admin-product-categories-table-wrapper overflow-x-auto">
       <Table
         loading={{
           spinning: isLoading,
@@ -185,7 +189,7 @@ function AdminProductCategoriesTable({
         pagination={false}
         bordered
         scroll={{ x: 1000 }}
-        className="min-w-[820px]"
+        className="admin-product-categories-table min-w-[820px]"
       />
     </div>
   )

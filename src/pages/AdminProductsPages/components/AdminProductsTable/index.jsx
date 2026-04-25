@@ -10,6 +10,11 @@ import FieldAction from './FieldAction'
 import FieldCategory from './FieldCategory'
 import AdminFieldUserInfo from '@/components/AdminFieldUserInfo'
 
+const ADMIN_PRODUCTS_CONFIRM_MASK_STYLE = {
+  background: 'rgba(8, 10, 14, 0.72)',
+  backdropFilter: 'blur(2px)'
+}
+
 function AdminProductsTable({
   isLoading,
   products,
@@ -29,7 +34,7 @@ function AdminProductsTable({
   const sortableTitle = (label, field) => (
     <div onClick={() => handleSort(field)} className="ant-table-column-sorters sortable" style={{ cursor: 'pointer' }}>
       {label}
-      <FontAwesomeIcon color="#aaa" icon={faSort} />
+      <FontAwesomeIcon className="admin-products-sort-icon" icon={faSort} />
     </div>
   )
 
@@ -173,8 +178,10 @@ function AdminProductsTable({
 
   const handleDelete = record => {
     Modal.confirm({
-      title: <span className="dark:text-gray-300">Confirm Delete</span>,
-      content: <span className="dark:text-gray-300">Are you sure you want to delete product "{record.title}"?</span>,
+      className: 'admin-products-confirm-modal',
+      maskStyle: ADMIN_PRODUCTS_CONFIRM_MASK_STYLE,
+      title: <span>Confirm Delete</span>,
+      content: <span>Are you sure you want to delete product "{record.title}"?</span>,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'Cancel',
@@ -214,7 +221,7 @@ function AdminProductsTable({
         pagination={false}
         bordered
         scroll={{ x: 1200 }}
-        className="min-w-[900px]"
+        className="admin-products-table min-w-[900px]"
       />
     </div>
   )

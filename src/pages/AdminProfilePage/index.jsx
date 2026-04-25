@@ -28,7 +28,7 @@ export default function AdminProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-[1200px] rounded-lg bg-white p-8 shadow-[0_2px_16px_rgba(0,_0,_0,_0.01)] dark:bg-gray-800">
+    <div className="mx-auto max-w-[1200px] rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-8 shadow-[var(--admin-shadow)]">
       <SEO title="Admin – Hồ sơ" noIndex />
 
       <AdminProfileHeaderSection />

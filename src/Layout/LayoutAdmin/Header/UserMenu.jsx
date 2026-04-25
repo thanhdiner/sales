@@ -1,8 +1,8 @@
 import { Button, Dropdown, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { authAdminLogout } from '../../../services/adminAuth.service'
 import { clearTokens } from '../../../utils/auth'
-import { useSelector } from 'react-redux'
 
 function UserMenu() {
   const user = useSelector(state => state.adminUser.user)
@@ -17,12 +17,18 @@ function UserMenu() {
         clearTokens()
         message.success('Đăng xuất thành công!')
         navigate('/admin/auth/login')
-      } catch (err) {
+      } catch {
         message.error('Đăng xuất thất bại!')
       }
-    } else if (e.key === 'profile') {
+      return
+    }
+
+    if (e.key === 'profile') {
       navigate('/admin/profile')
-    } else if (e.key === 'settings') {
+      return
+    }
+
+    if (e.key === 'settings') {
       navigate('/admin/settings')
     }
   }
@@ -30,15 +36,22 @@ function UserMenu() {
   const items = [
     { key: 'profile', label: <span>Personal information</span> },
     { key: 'settings', label: <span>Settings</span> },
-    { key: 'logout', label: <span className="text-[red]">Sign out</span> }
+    { key: 'logout', label: <span className="admin-user-menu-logout">Sign out</span> }
   ]
+
   return (
-    <Dropdown menu={{ items, onClick: handleMenuClick }} placement="bottomRight" trigger={['click']}>
-      <Button type="text" className="p-0 w-10 h-10 rounded-full overflow-hidden inline-flex items-center justify-center">
+    <Dropdown
+      menu={{ items, onClick: handleMenuClick }}
+      placement="bottomRight"
+      trigger={['click']}
+      overlayClassName="admin-user-menu-dropdown"
+      overlayStyle={{ padding: 0, background: 'transparent', border: 0, boxShadow: 'none' }}
+    >
+      <Button type="text" className="admin-user-menu-trigger inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full p-0">
         {avatarUrl ? (
-          <img src={avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover border-2 border-solid border-[#eee]" />
+          <img src={avatarUrl} alt="Avatar" className="admin-user-avatar h-10 w-10 rounded-full object-cover" />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 font-bold text-[22px] flex items-center justify-center">
+          <div className="admin-user-avatar-fallback flex h-10 w-10 items-center justify-center rounded-full text-[22px] font-bold">
             {fullName?.trim()?.split(' ').pop()?.charAt(0)?.toUpperCase() || 'U'}
           </div>
         )}

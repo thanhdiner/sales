@@ -1,0 +1,188 @@
+.admin-login-page,
+.admin-login-trust-modal {
+  --admin-login-bg: #ffffff;
+  --admin-login-surface: #ffffff;
+  --admin-login-surface-2: #f1f5f9;
+  --admin-login-border: rgba(15, 23, 42, 0.1);
+  --admin-login-border-strong: rgba(15, 23, 42, 0.18);
+  --admin-login-text: #111827;
+  --admin-login-text-muted: #4b5563;
+  --admin-login-text-subtle: #6b7280;
+  --admin-login-accent: #5e6ad2;
+  --admin-login-accent-hover: #4f5bc5;
+  --admin-login-accent-active: #454fab;
+  --admin-login-accent-ring: rgba(94, 106, 210, 0.2);
+  --admin-login-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+}
+
+html.dark .admin-login-page,
+html.dark .admin-login-trust-modal {
+  --admin-login-bg: #08090a;
+  --admin-login-surface: #111214;
+  --admin-login-surface-2: #17181b;
+  --admin-login-border: rgba(255, 255, 255, 0.08);
+  --admin-login-border-strong: rgba(255, 255, 255, 0.14);
+  --admin-login-text: #f4f5f8;
+  --admin-login-text-muted: #a1a1aa;
+  --admin-login-text-subtle: #71717a;
+  --admin-login-accent: #5e6ad2;
+  --admin-login-accent-hover: #6d78da;
+  --admin-login-accent-active: #4f5bc5;
+  --admin-login-accent-ring: rgba(94, 106, 210, 0.3);
+  --admin-login-shadow: 0 28px 56px rgba(0, 0, 0, 0.42);
+}
+
+.admin-login-page {
+  color: var(--admin-login-text);
+  background: var(--admin-login-bg);
+}
+
+html.dark .admin-login-page {
+  background: var(--admin-login-bg);
+}
+
+.admin-login-card.ant-card {
+  border-radius: 20px;
+  border: 1px solid var(--admin-login-border);
+  background: var(--admin-login-surface);
+  box-shadow: var(--admin-login-shadow);
+  color: var(--admin-login-text);
+  backdrop-filter: blur(2px);
+}
+
+.admin-login-content {
+  position: relative;
+}
+
+.admin-login-title.ant-typography {
+  margin-bottom: 16px !important;
+  text-align: center;
+  font-size: clamp(1.4rem, 4vw, 1.9rem) !important;
+  color: var(--admin-login-text) !important;
+}
+
+.admin-login-label {
+  color: var(--admin-login-text-muted);
+  font-weight: 500;
+}
+
+.admin-login-input.ant-input,
+.admin-login-input.ant-input-affix-wrapper {
+  background: var(--admin-login-surface-2) !important;
+  border: 1px solid var(--admin-login-border) !important;
+  color: var(--admin-login-text) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.admin-login-input.ant-input-affix-wrapper .ant-input {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+.admin-login-input.ant-input::placeholder,
+.admin-login-input.ant-input-affix-wrapper .ant-input::placeholder {
+  color: var(--admin-login-text-subtle) !important;
+}
+
+.admin-login-input.ant-input:hover,
+.admin-login-input.ant-input-affix-wrapper:hover {
+  border-color: var(--admin-login-border-strong) !important;
+}
+
+.admin-login-input.ant-input:focus,
+.admin-login-input.ant-input-affix-wrapper-focused,
+.admin-login-input.ant-input-affix-wrapper:focus-within {
+  border-color: var(--admin-login-accent) !important;
+  box-shadow: 0 0 0 4px var(--admin-login-accent-ring) !important;
+}
+
+.admin-login-input .ant-input-password-icon,
+.admin-login-input .ant-input-prefix {
+  color: var(--admin-login-text-subtle);
+}
+
+.admin-login-input.ant-input-affix-wrapper-focused .ant-input-password-icon,
+.admin-login-input.ant-input-affix-wrapper:focus-within .ant-input-password-icon {
+  color: var(--admin-login-accent);
+}
+
+.admin-login-2fa-hint {
+  margin-bottom: 8px;
+  color: var(--admin-login-text-muted);
+  font-weight: 500;
+}
+
+.admin-login-otp-input {
+  font-weight: 600;
+}
+
+.admin-login-btn.ant-btn-primary,
+.admin-login-modal-trust.ant-btn-primary {
+  background: var(--admin-login-accent) !important;
+  border-color: var(--admin-login-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-login-btn.ant-btn-primary:hover,
+.admin-login-modal-trust.ant-btn-primary:hover {
+  background: var(--admin-login-accent-hover) !important;
+  border-color: var(--admin-login-accent-hover) !important;
+}
+
+.admin-login-btn.ant-btn-primary:active,
+.admin-login-modal-trust.ant-btn-primary:active {
+  background: var(--admin-login-accent-active) !important;
+  border-color: var(--admin-login-accent-active) !important;
+}
+
+.admin-login-link.ant-btn-link {
+  color: var(--admin-login-accent);
+}
+
+.admin-login-link.ant-btn-link:hover {
+  color: var(--admin-login-accent-hover) !important;
+}
+
+.admin-login-text-btn.ant-btn-text {
+  color: var(--admin-login-text-muted);
+}
+
+.admin-login-text-btn.ant-btn-text:hover {
+  color: var(--admin-login-text) !important;
+  background: color-mix(in srgb, var(--admin-login-accent) 10%, transparent) !important;
+}
+
+.admin-login-trust-modal .ant-modal-content {
+  border: 1px solid var(--admin-login-border);
+  background: var(--admin-login-surface);
+  box-shadow: var(--admin-login-shadow);
+}
+
+.admin-login-trust-modal .ant-modal-header {
+  background: transparent;
+  border-bottom: 1px solid var(--admin-login-border);
+}
+
+.admin-login-modal-title.ant-typography {
+  margin-bottom: 0 !important;
+  color: var(--admin-login-text) !important;
+}
+
+.admin-login-modal-description {
+  color: var(--admin-login-text-muted);
+  line-height: 1.6;
+}
+
+.admin-login-modal-skip.ant-btn-default {
+  border-color: var(--admin-login-border);
+  background: var(--admin-login-surface-2);
+  color: var(--admin-login-text-muted);
+}
+
+.admin-login-modal-skip.ant-btn-default:hover {
+  border-color: var(--admin-login-border-strong) !important;
+  background: var(--admin-login-surface-2) !important;
+  color: var(--admin-login-text) !important;
+}

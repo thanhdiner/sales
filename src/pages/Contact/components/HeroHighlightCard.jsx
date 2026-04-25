@@ -16,9 +16,8 @@ const HeroHighlightCard = ({ item, index }) => {
       viewport={viewport}
     >
       <h3
-        className="text-center uppercase"
+        className="contact-metric-value text-center uppercase text-[#1E1E1E]"
         style={{
-          color: '#1E1E1E',
           fontFamily: '"Sharp Sans No1", Arial, sans-serif',
           fontSize: '24px',
           fontStyle: 'normal',
@@ -30,9 +29,8 @@ const HeroHighlightCard = ({ item, index }) => {
       </h3>
 
       <p
-        className="mt-5 max-w-[280px] text-center"
+        className="contact-metric-label mt-5 max-w-[280px] text-center text-[#757575]"
         style={{
-          color: '#757575',
           fontFamily: '"Sharp Sans No1", Arial, sans-serif',
           fontSize: '16px',
           fontStyle: 'normal',

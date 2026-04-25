@@ -1,17 +1,21 @@
 export default function BannerSkeleton() {
   return (
-    <div className="HeroBanner-root skeleton-root">
-      <div className="skeleton-banner">
-        <div className="skeleton-content-wrap">
-          <div className="skeleton-title" />
+    <div className="HeroBanner-root skeleton-root" aria-busy="true" aria-label="Dang tai banner">
+      <div className="skeleton-track">
+        <div className="skeleton-banner">
+          <div className="skeleton-content-wrap">
+            <div className="skeleton-title" />
+          </div>
+        </div>
+
+        <div className="skeleton-banner skeleton-banner--desktop">
+          <div className="skeleton-content-wrap">
+            <div className="skeleton-title" />
+          </div>
         </div>
       </div>
-      <div className="skeleton-banner hidden md:block" style={{ display: window.innerWidth <= 576 ? 'none' : 'block' }}>
-        <div className="skeleton-content-wrap">
-          <div className="skeleton-title" />
-        </div>
-      </div>
-      <div className="skeleton-dots flex">
+
+      <div className="skeleton-dots">
         <div className="skeleton-dot" />
         <div className="skeleton-dot" />
         <div className="skeleton-dot" />

@@ -20,7 +20,7 @@ function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues, f
 
   return (
     <>
-      <div className="products-wrap dark:text-gray-200 text-base">
+      <div className="products-wrap admin-products-title-wrap text-base">
         <AdminTitle icon={<UnorderedListOutlined />} title="Product Manager" />
         <AdminProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products }} />
       </div>

@@ -12,17 +12,17 @@ const SectionHeader = ({ eyebrow, title, description, eyebrowClassName = 'text-g
       viewport={viewport}
     >
       {eyebrow && (
-        <p className={`mb-3 text-xs font-semibold uppercase tracking-[0.16em] ${eyebrowClassName}`}>
+        <p className={`contact-section-eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.16em] ${eyebrowClassName}`}>
           {eyebrow}
         </p>
       )}
 
-      <h2 className="mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-gray-900 dark:text-white md:text-4xl">
+      <h2 className="contact-title mx-auto max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-gray-900 dark:text-white md:text-4xl">
         {title}
       </h2>
 
       {description && (
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500 dark:text-gray-400">
+        <p className="contact-description mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-500 dark:text-gray-400">
           {description}
         </p>
       )}

@@ -17,7 +17,7 @@ export default function AdminPermissionFormModal({
   return (
     <Modal
       title={
-        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <span className="text-base font-semibold text-[var(--admin-text)]">
           {editingPermission ? 'Chỉnh sửa quyền' : 'Thêm quyền'}
         </span>
       }
@@ -30,11 +30,13 @@ export default function AdminPermissionFormModal({
       confirmLoading={submitLoading}
       centered
       styles={{ body: bodyStyle }}
+      className="admin-permission-modal"
       okButtonProps={{
-        className: 'rounded-lg bg-gray-900 font-medium hover:!bg-gray-800'
+        className: 'rounded-lg !border-none !bg-[var(--admin-accent)] font-medium !text-white hover:!opacity-90'
       }}
       cancelButtonProps={{
-        className: 'rounded-lg'
+        className:
+          'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
       }}
     >
       <div ref={contentRef}>
@@ -44,6 +46,7 @@ export default function AdminPermissionFormModal({
           autoComplete="off"
           initialValues={adminPermissionInitialValues}
           onFinish={handleSubmit}
+          className="[&_.ant-form-item-label>label]:text-[var(--admin-text-muted)]"
         >
           <Form.Item
             label="Tên quyền"
@@ -55,7 +58,7 @@ export default function AdminPermissionFormModal({
           >
             <Input
               placeholder="Ví dụ: Xem sản phẩm"
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
+              className="admin-permission-input rounded-lg"
               onChange={handleTitleChange}
             />
           </Form.Item>
@@ -72,7 +75,7 @@ export default function AdminPermissionFormModal({
             <Input
               placeholder="Ví dụ: view_products"
               disabled={!!editingPermission}
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
+              className="admin-permission-input rounded-lg"
             />
           </Form.Item>
 
@@ -80,7 +83,7 @@ export default function AdminPermissionFormModal({
             <Input.TextArea
               rows={3}
               placeholder="Mô tả ngắn về quyền"
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
+              className="admin-permission-input rounded-lg"
             />
           </Form.Item>
 

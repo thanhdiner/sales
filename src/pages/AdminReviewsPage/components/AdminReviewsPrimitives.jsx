@@ -11,7 +11,7 @@ export function AdminReviewsStarDisplay({ value, size = 14 }) {
           className={
             star <= Math.round(Number(value) || 0)
               ? 'fill-amber-400 text-amber-400'
-              : 'text-gray-200 dark:text-gray-600'
+              : 'text-[var(--admin-border-strong)]'
           }
         />
       ))}
@@ -33,13 +33,13 @@ export function AdminReviewsAvatar({ user }) {
       <img
         src={user.avatarUrl}
         alt={name}
-        className="h-9 w-9 flex-shrink-0 rounded-full border border-gray-200 object-cover dark:border-gray-700"
+        className="h-9 w-9 flex-shrink-0 rounded-full border border-[var(--admin-border)] object-cover"
       />
     )
   }
 
   return (
-    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--admin-surface-2)] text-xs font-semibold text-[var(--admin-text)]">
       {initials}
     </div>
   )
@@ -47,7 +47,7 @@ export function AdminReviewsAvatar({ user }) {
 
 export function AdminReviewsRatingBadge({ rating }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white px-2 py-0.5 text-xs font-semibold text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
+    <span className="inline-flex items-center gap-1 rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface)] px-2 py-0.5 text-xs font-semibold text-[var(--admin-text)]">
       <Star size={10} strokeWidth={1.8} className="fill-amber-400 text-amber-400" />
       {rating}
     </span>

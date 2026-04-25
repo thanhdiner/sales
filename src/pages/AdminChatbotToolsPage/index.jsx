@@ -4,6 +4,7 @@ import AdminChatbotToolsHeaderSection from './sections/AdminChatbotToolsHeaderSe
 import AdminChatbotToolsStatsSection from './sections/AdminChatbotToolsStatsSection'
 import AdminChatbotToolsTableSection from './sections/AdminChatbotToolsTableSection'
 import useAdminChatbotToolsPage from './hooks/useAdminChatbotToolsPage'
+import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -31,7 +32,7 @@ export default function AdminChatbotToolsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="admin-chatbot-page mx-auto max-w-7xl">
       <AdminChatbotToolsHeaderSection
         saving={saving}
         onReload={handleReload}

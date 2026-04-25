@@ -6,6 +6,7 @@ import { useAdminPermissionsData } from './hooks/useAdminPermissionsData'
 import AdminPermissionFormModal from './sections/AdminPermissionFormModal'
 import AdminPermissionsHeaderSection from './sections/AdminPermissionsHeaderSection'
 import AdminPermissionsTableSection from './sections/AdminPermissionsTableSection'
+import './AdminPermissionsPage.scss'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -22,11 +23,11 @@ export default function AdminPermissionsPage() {
   }, [currentPage, pageSize, permissionList])
 
   return (
-    <div className="min-h-screen rounded-xl bg-slate-50 p-6 dark:bg-gray-900">
+    <div className="admin-permissions-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
       <SEO title="Admin – Quyền hạn" noIndex />
 
       <div className="mx-auto max-w-7xl">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
           <AdminPermissionsHeaderSection
             canCreatePermission={grantedPermissions.includes('create_permission')}
             onCreatePermission={() => permissionForm.openModal()}

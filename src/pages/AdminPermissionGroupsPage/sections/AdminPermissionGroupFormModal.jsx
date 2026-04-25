@@ -1,8 +1,12 @@
 import { Form, Input, Modal, Switch } from 'antd'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
-import {
-  adminPermissionGroupInitialValues
-} from '../utils'
+import { adminPermissionGroupInitialValues } from '../utils'
+
+const inputClass =
+  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
+const primaryButtonClass = '!border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90'
+const secondaryButtonClass =
+  '!border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
 
 export default function AdminPermissionGroupFormModal({
   form,
@@ -18,7 +22,7 @@ export default function AdminPermissionGroupFormModal({
   return (
     <Modal
       title={
-        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <span className="text-base font-semibold text-[var(--admin-text)]">
           {editingGroup ? 'Chỉnh sửa nhóm quyền' : 'Thêm nhóm quyền'}
         </span>
       }
@@ -31,11 +35,12 @@ export default function AdminPermissionGroupFormModal({
       confirmLoading={submitLoading}
       centered
       styles={{ body: bodyStyle }}
+      className="admin-permission-group-modal"
       okButtonProps={{
-        className: 'rounded-lg bg-gray-900 font-medium hover:!bg-gray-800'
+        className: `rounded-lg font-medium ${primaryButtonClass}`
       }}
       cancelButtonProps={{
-        className: 'rounded-lg'
+        className: `rounded-lg ${secondaryButtonClass}`
       }}
     >
       <div ref={contentRef}>
@@ -45,6 +50,7 @@ export default function AdminPermissionGroupFormModal({
           autoComplete="off"
           initialValues={adminPermissionGroupInitialValues}
           onFinish={handleSubmit}
+          className="[&_.ant-form-item-label>label]:text-[var(--admin-text-muted)]"
         >
           <Form.Item
             label="Tên nhóm"
@@ -54,11 +60,7 @@ export default function AdminPermissionGroupFormModal({
               { min: 3, message: 'Tên nhóm phải có ít nhất 3 ký tự' }
             ]}
           >
-            <Input
-              placeholder="Ví dụ: Quản lý sản phẩm"
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
-              onChange={handleLabelChange}
-            />
+            <Input placeholder="Ví dụ: Quản lý sản phẩm" className={inputClass} onChange={handleLabelChange} />
           </Form.Item>
 
           <Form.Item
@@ -69,19 +71,11 @@ export default function AdminPermissionGroupFormModal({
               { pattern: /^[a-z0-9_]+$/, message: 'Chỉ dùng a-z, 0-9 và dấu _' }
             ]}
           >
-            <Input
-              placeholder="Ví dụ: product"
-              disabled={!!editingGroup}
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
-            />
+            <Input placeholder="Ví dụ: product" disabled={!!editingGroup} className={inputClass} />
           </Form.Item>
 
           <Form.Item label="Mô tả" name="description" rules={[{ max: 300, message: 'Mô tả tối đa 300 ký tự' }]}>
-            <Input.TextArea
-              rows={3}
-              placeholder="Mô tả ngắn về nhóm quyền"
-              className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
-            />
+            <Input.TextArea rows={3} placeholder="Mô tả ngắn về nhóm quyền" className={inputClass} />
           </Form.Item>
 
           <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">

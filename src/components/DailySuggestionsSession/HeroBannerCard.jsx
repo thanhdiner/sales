@@ -17,8 +17,8 @@ export default function HeroBannerCard({ config }) {
       <Link to={link || '#'} className="HeroBannerCard-root">
         <div className="brand-header">
           <span className="tiki-logo" style={{ color: '#1A94FF', fontWeight: 900 }}>{leftText}</span>
-          <span style={{ color: '#888', margin: '0 4px' }}>|</span>
-          <span style={{ fontWeight: 800, color: '#27272a' }}>{rightText}</span>
+          <span className="brand-separator">|</span>
+          <span className="brand-name">{rightText}</span>
         </div>
         
         <div className="banner-image-container">
@@ -41,7 +41,7 @@ export default function HeroBannerCard({ config }) {
             </button>
             
             <div className="signature">
-              <span style={{ fontFamily: 'cursive', fontWeight: 'bold' }}>{rightText}</span>
+              <span>{rightText}</span>
             </div>
           </div>
         </div>

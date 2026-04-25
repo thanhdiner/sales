@@ -20,25 +20,29 @@ export default function AdminRolePermissionsPage() {
   } = useAdminRolePermissionsData()
 
   return (
-    <>
-      <SEO title="Admin – Phân quyền" noIndex />
+    <div className="admin-role-permission-page">
+      <SEO title="Admin - Phân quyền" noIndex />
 
-      <AdminRolePermissionsHeaderSection
-        canEditRolePermission={grantedPermissions.includes('edit_role_permission')}
-        loading={loading}
-        onSave={handleUpdate}
-      />
+      <div className="admin-role-permission-page__inner">
+        <section className="admin-role-permission-card">
+          <AdminRolePermissionsHeaderSection
+            canEditRolePermission={grantedPermissions.includes('edit_role_permission')}
+            loading={loading}
+            onSave={handleUpdate}
+          />
 
-      <AdminRolePermissionsTableSection
-        roles={roles}
-        permissions={permissions}
-        permissionGroups={permissionGroups}
-        loading={loading}
-        rolePerm={rolePerm}
-        onRoleSelectAll={handleRoleSelectAll}
-        onGroupSelectAll={handleGroupSelectAll}
-        onPermissionToggle={handleCheckbox}
-      />
-    </>
+          <AdminRolePermissionsTableSection
+            roles={roles}
+            permissions={permissions}
+            permissionGroups={permissionGroups}
+            loading={loading}
+            rolePerm={rolePerm}
+            onRoleSelectAll={handleRoleSelectAll}
+            onGroupSelectAll={handleGroupSelectAll}
+            onPermissionToggle={handleCheckbox}
+          />
+        </section>
+      </div>
+    </div>
   )
 }

@@ -31,6 +31,11 @@ const OrderItemsSection = ({ items = [] }) => {
               <h3 className="line-clamp-2 text-sm font-semibold text-gray-900 dark:text-gray-100">{item.name}</h3>
 
               {item.category && <p className="mb-0 mt-1 text-xs text-gray-500 dark:text-gray-400">{item.category}</p>}
+              {item.digitalDeliveries?.length > 0 && (
+                <p className="mb-0 mt-1 text-xs font-semibold text-emerald-600 dark:text-emerald-300">
+                  Đã bàn giao {item.digitalDeliveries.length} tài khoản/license
+                </p>
+              )}
             </div>
 
             <div className="shrink-0 text-right">

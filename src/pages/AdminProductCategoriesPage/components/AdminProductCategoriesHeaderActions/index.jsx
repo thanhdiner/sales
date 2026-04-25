@@ -47,9 +47,9 @@ function AdminProductCategoriesHeaderActions({
   ].filter(Boolean)
 
   return (
-    <div className="mt-[15px] flex justify-between items-center">
+    <div className="product-categories-header">
       <SelectedItems {...{ selectedRowKeys }} />
-      <div className="flex items-center gap-x-2.5">
+      <div className="product-categories-header-right">
         {permissions.includes('create_product_category') && <AddButton />}
         <SelectList {...{ value, treeData, setValue }} />
         <ApplyButton

@@ -34,7 +34,7 @@ function AdminProductsFilter({ onFilter, initialValues }) {
   }
 
   return (
-    <div className="products-filter dark:bg-gray-700">
+    <div className="products-filter">
       <Form
         form={form}
         initialValues={{
@@ -44,51 +44,56 @@ function AdminProductsFilter({ onFilter, initialValues }) {
         }}
         onFinish={handleSubmit}
         layout="vertical"
-        className="products-filter-form"
+        className="products-filter-form admin-products-filter-form"
       >
-        <Form.Item name="productName" label={<span className="dark:text-gray-300">Product Name</span>}>
-          <Input
-            placeholder="Product Name"
-            className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
+        <Form.Item name="productName" label={<span className="admin-products-filter-label">Product Name</span>}>
+          <Input placeholder="Product Name" className="admin-products-input" />
+        </Form.Item>
+        <Form.Item name="price" label={<span className="admin-products-filter-label">Price</span>}>
+          <InputNumber min={0} step={1000} className="admin-products-input w-full" placeholder="Price" />
+        </Form.Item>
+        <Form.Item name="product_category" label={<span className="admin-products-filter-label">Product Category</span>}>
+          <TreeSelect
+            className="admin-products-select"
+            popupClassName="admin-products-popup"
+            dropdownClassName="admin-products-popup"
+            treeData={treeData}
+            placeholder="Select category"
+            allowClear
+            treeDefaultExpandAll
           />
         </Form.Item>
-        <Form.Item name="price" label={<span className="dark:text-gray-300">Price</span>}>
-          <InputNumber min={0} step={1000} className="w-full dark:bg-gray-800 dark:border-gray-600" placeholder="Price" />
+        <Form.Item name="stock" label={<span className="admin-products-filter-label">Stock</span>}>
+          <InputNumber min={0} className="admin-products-input w-full" placeholder="Stock" />
         </Form.Item>
-        <Form.Item name="product_category" label={<span className="dark:text-gray-300">Product Category</span>}>
-          <TreeSelect treeData={treeData} placeholder="Select category" allowClear treeDefaultExpandAll />
-        </Form.Item>
-        <Form.Item name="stock" label={<span className="dark:text-gray-300">Stock</span>}>
-          <InputNumber min={0} className="w-full dark:bg-gray-800 dark:border-gray-600" placeholder="Stock" />
-        </Form.Item>
-        <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
-          <Select>
+        <Form.Item name="status" label={<span className="admin-products-filter-label">Status</span>}>
+          <Select className="admin-products-select" popupClassName="admin-products-popup">
             <Option value="all">All</Option>
             <Option value="active">Active</Option>
             <Option value="inactive">Inactive</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="show" label={<span className="dark:text-gray-300">Show</span>}>
-          <Select>
+        <Form.Item name="show" label={<span className="admin-products-filter-label">Show</span>}>
+          <Select className="admin-products-select" popupClassName="admin-products-popup">
             <Option value="10">10 per page</Option>
             <Option value="20">20 per page</Option>
             <Option value="50">50 per page</Option>
             <Option value="100">100 per page</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
-          <InputNumber placeholder="Position" className="w-full dark:bg-gray-800 dark:border-gray-600" />
+        <Form.Item name="position" label={<span className="admin-products-filter-label">Position</span>}>
+          <InputNumber placeholder="Position" className="admin-products-input w-full" />
         </Form.Item>
-        <Form.Item name="discountPercentage" label={<span className="dark:text-gray-300">Discount (%)</span>}>
-          <InputNumber className="w-full dark:bg-gray-800 dark:border-gray-600" min={0} max={100} placeholder="Discount %" />
+        <Form.Item name="discountPercentage" label={<span className="admin-products-filter-label">Discount (%)</span>}>
+          <InputNumber className="admin-products-input w-full" min={0} max={100} placeholder="Discount %" />
         </Form.Item>
         <Form.Item>
           <div className="product-filter">
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="admin-products-btn admin-products-btn--apply">
               <SearchOutlined />
               Filter
             </Button>
-            <Button danger onClick={handleClear}>
+            <Button danger onClick={handleClear} className="admin-products-btn admin-products-btn--clear">
               <CloseOutlined />
               Clear
             </Button>

@@ -1,43 +1,112 @@
-import { Card, Switch, Typography, Button, Steps, Input, Space, List, Tag, Modal, message, Alert, Form, Spin } from 'antd'
-import { useState, useEffect } from 'react'
+import { Alert, Button, Empty, Form, Input, List, Modal, Spin, Steps, Switch, Tag, message } from 'antd'
 import {
-  MobileOutlined,
-  SafetyOutlined,
-  KeyOutlined,
-  DeleteOutlined,
-  CopyOutlined,
-  DownloadOutlined,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-  ReloadOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined
-} from '@ant-design/icons'
-import './TwoFactorAuthPanel.scss'
+  AlertTriangle,
+  CheckCircle2,
+  Copy,
+  Download,
+  Eye,
+  EyeOff,
+  KeyRound,
+  MonitorSmartphone,
+  QrCode,
+  RefreshCw,
+  ShieldCheck,
+  Smartphone,
+  Trash2
+} from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import {
+  disable2FA,
   generate2FASecret,
   get2FAStatus,
-  disable2FA,
-  verify2FACode,
   getBackupCodes,
   getTrustedDevices,
-  removeTrustedDevice
+  removeTrustedDevice,
+  verify2FACode
 } from '@/services/adminAccountsService'
+import './TwoFactorAuthPanel.scss'
 
-const { Title, Paragraph, Text } = Typography
+const panelClass =
+  'rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5'
+const softPanelClass = 'rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-4'
+const iconBoxClass =
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
+const primaryButtonClass =
+  'rounded-lg !border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90 disabled:!bg-[color-mix(in_srgb,var(--admin-accent)_45%,var(--admin-surface-2))] disabled:!text-white/80 disabled:!opacity-100'
+const secondaryButtonClass =
+  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+const ghostButtonClass =
+  'rounded-lg !border-[var(--admin-accent)] !bg-transparent !text-[var(--admin-accent)] hover:!bg-[var(--admin-accent-soft)]'
+const textButtonClass =
+  'rounded-lg !text-[var(--admin-text-muted)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+const verifyCodeInputClass =
+  'admin-twofa-code-input h-12 max-w-[220px] rounded-lg border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-center text-lg font-semibold tracking-[0.3em] text-[var(--admin-text)]'
+const infoAlertClass =
+  'mb-4 !border-[var(--admin-border)] !bg-[var(--admin-surface)] [&_.ant-alert-message]:!text-[var(--admin-text)] [&_.ant-alert-description]:!text-[var(--admin-text-muted)] [&_.ant-alert-icon]:!text-[var(--admin-accent)]'
+const warningAlertClass =
+  'mb-4 !border-[color-mix(in_srgb,#f59e0b_30%,var(--admin-border))] !bg-[color-mix(in_srgb,#f59e0b_12%,var(--admin-surface-2))] [&_.ant-alert-message]:!text-[#d97706] [&_.ant-alert-description]:!text-[var(--admin-text-muted)] [&_.ant-alert-icon]:!text-[#d97706]'
+const TWO_FACTOR_STEP_BY_PARAM = {
+  app: 1,
+  qr: 2,
+  verify: 3
+}
+const TWO_FACTOR_PARAM_BY_STEP = {
+  1: 'app',
+  2: 'qr',
+  3: 'verify'
+}
 
-const TwoFactorAuthPage = () => {
+function getSetupStepFromParams(searchParams) {
+  if (searchParams.get('twofa') !== 'setup') {
+    return 0
+  }
+
+  return TWO_FACTOR_STEP_BY_PARAM[searchParams.get('twofaStep')] || 1
+}
+
+const TwoFactorAuthPanel = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [enabled, setEnabled] = useState(false)
-  const [setupStep, setSetupStep] = useState(0)
+  const [setupStep, setSetupStep] = useState(() => getSetupStepFromParams(searchParams))
   const [verificationCode, setVerificationCode] = useState('')
   const [backupCodes, setBackupCodes] = useState([])
   const [showBackupModal, setShowBackupModal] = useState(false)
   const [showBackupCodes, setShowBackupCodes] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [statusLoaded, setStatusLoaded] = useState(false)
   const [qrSecret, setQrSecret] = useState('')
   const [qrUrl, setQrUrl] = useState('')
   const [trustedDevices, setTrustedDevices] = useState([])
   const [form] = Form.useForm()
+
+  const updateSetupParams = useCallback((nextStep) => {
+    setSearchParams(prevParams => {
+      const nextParams = new URLSearchParams(prevParams)
+
+      if (nextStep > 0) {
+        nextParams.set('setting', 'security')
+        nextParams.set('twofa', 'setup')
+        nextParams.set('twofaStep', TWO_FACTOR_PARAM_BY_STEP[nextStep] || TWO_FACTOR_PARAM_BY_STEP[1])
+      } else {
+        nextParams.delete('twofa')
+        nextParams.delete('twofaStep')
+      }
+
+      return nextParams
+    }, { replace: true })
+  }, [setSearchParams])
+
+  const setSetupStepWithParams = useCallback((nextStep) => {
+    setSetupStep(nextStep)
+    updateSetupParams(nextStep)
+  }, [updateSetupParams])
+
+  useEffect(() => {
+    const nextStep = getSetupStepFromParams(searchParams)
+    setSetupStep(currentStep => (currentStep === nextStep ? currentStep : nextStep))
+  }, [searchParams])
 
   useEffect(() => {
     const check2FAStatus = async () => {
@@ -46,61 +115,82 @@ const TwoFactorAuthPage = () => {
         const data = await get2FAStatus()
         setEnabled(data.enabled)
         setBackupCodes(data.backupCodes || [])
+
+        if (data.enabled) {
+          updateSetupParams(0)
+        }
+
         const devicesRes = await getTrustedDevices()
         const deviceId = localStorage.getItem('trusted_device_id')
-        const devices = (devicesRes.devices || []).map(d => ({
-          ...d,
-          current: d.deviceId === deviceId
+        const devices = (devicesRes.devices || []).map(device => ({
+          ...device,
+          current: device.deviceId === deviceId
         }))
         setTrustedDevices(devices)
       } catch (err) {
         message.error('Không thể lấy trạng thái 2FA')
+      } finally {
+        setLoading(false)
+        setStatusLoaded(true)
       }
-      setLoading(false)
     }
-    check2FAStatus()
-  }, [])
 
-  const generateSecret = async () => {
+    check2FAStatus()
+  }, [updateSetupParams])
+
+  const generateSecret = useCallback(async () => {
     setLoading(true)
     try {
       const data = await generate2FASecret()
       setQrSecret(data.secret)
       setQrUrl(data.qrUrl)
+      return true
     } catch (err) {
       message.error('Không thể tạo mã xác thực')
+      return false
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
-  }
+  }, [])
+
+  useEffect(() => {
+    if (!statusLoaded || setupStep <= 0 || enabled || qrSecret || loading) {
+      return
+    }
+
+    void generateSecret()
+  }, [enabled, generateSecret, loading, qrSecret, setupStep, statusLoaded])
 
   const handleToggle2FA = async checked => {
     if (checked) {
-      await generateSecret()
-      setSetupStep(1)
-    } else {
-      Modal.confirm({
-        title: <span className="dark:text-gray-300">Tắt xác thực 2 bước</span>,
-        content: (
-          <span className="dark:text-gray-400">Bạn có chắc chắn muốn tắt xác thực 2 bước? Điều này sẽ làm giảm bảo mật tài khoản.</span>
-        ),
-        okText: 'Tắt',
-        cancelText: 'Hủy',
-        okType: 'danger',
-        onOk: async () => {
-          setLoading(true)
-          try {
-            await disable2FA()
-            setEnabled(false)
-            setSetupStep(0)
-            setBackupCodes([])
-            message.success('Đã tắt xác thực 2 bước')
-          } catch (err) {
-            message.error('Không thể tắt xác thực 2FA')
-          }
+      const generated = await generateSecret()
+      if (generated) setSetupStepWithParams(1)
+      return
+    }
+
+    Modal.confirm({
+      title: 'Tắt xác thực 2 bước',
+      content: 'Bạn có chắc chắn muốn tắt 2FA? Điều này sẽ làm giảm mức bảo mật của tài khoản quản trị.',
+      okText: 'Tắt 2FA',
+      cancelText: 'Hủy',
+      okType: 'danger',
+      onOk: async () => {
+        setLoading(true)
+        try {
+          await disable2FA()
+          setEnabled(false)
+          setSetupStepWithParams(0)
+          setBackupCodes([])
+          setQrSecret('')
+          setQrUrl('')
+          message.success('Đã tắt xác thực 2 bước')
+        } catch (err) {
+          message.error('Không thể tắt xác thực 2FA')
+        } finally {
           setLoading(false)
         }
-      })
-    }
+      }
+    })
   }
 
   const handleVerifyCode = async () => {
@@ -108,29 +198,33 @@ const TwoFactorAuthPage = () => {
       message.error('Vui lòng nhập đầy đủ 6 chữ số')
       return
     }
+
     setLoading(true)
     try {
       const data = await verify2FACode(verificationCode)
-      console.log(data)
       if (data.success) {
         setEnabled(true)
-        setSetupStep(0)
+        setSetupStepWithParams(0)
         setShowBackupModal(true)
         setBackupCodes(data.backupCodes || [])
-        message.success('Xác thực 2 bước đã được thiết lập thành công!')
+        setVerificationCode('')
+        setQrSecret('')
+        setQrUrl('')
+        message.success('Xác thực 2 bước đã được thiết lập thành công')
       } else {
         message.error(data.message || 'Mã xác thực không hợp lệ')
       }
     } catch (err) {
       message.error('Không thể xác thực 2FA')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const regenerateBackupCodes = () => {
     Modal.confirm({
-      title: <span className="dark:text-gray-300">Tạo mã dự phòng mới</span>,
-      content: <span className="dark:text-gray-400">Các mã cũ sẽ không còn hiệu lực. Bạn có chắc chắn muốn tạo mã mới?</span>,
+      title: 'Tạo mã dự phòng mới',
+      content: 'Các mã cũ sẽ không còn hiệu lực. Bạn có chắc chắn muốn tạo bộ mã mới?',
       okText: 'Tạo mới',
       cancelText: 'Hủy',
       onOk: async () => {
@@ -142,8 +236,9 @@ const TwoFactorAuthPage = () => {
           message.success('Đã tạo mã dự phòng mới')
         } catch (err) {
           message.error('Không thể tạo mã dự phòng mới')
+        } finally {
+          setLoading(false)
         }
-        setLoading(false)
       }
     })
   }
@@ -162,15 +257,15 @@ const TwoFactorAuthPage = () => {
       message.success('Đã sao chép vào clipboard')
     }
   }
+
   const copyBackupCodes = () => {
-    const codesText = backupCodes.join('\n')
-    copyToClipboard(codesText)
+    copyToClipboard(backupCodes.join('\n'))
   }
 
   const downloadBackupCodes = () => {
-    const content = `Mã dự phòng xác thực 2 bước - MySecureApp\nTạo ngày: ${new Date().toLocaleDateString('vi-VN')}\n\n${backupCodes.join(
+    const content = `Mã dự phòng xác thực 2 bước - SmartMall Admin\nTạo ngày: ${new Date().toLocaleDateString('vi-VN')}\n\n${backupCodes.join(
       '\n'
-    )}\n\nLưu ý: Mỗi mã chỉ sử dụng được một lần. Hãy giữ an toàn!`
+    )}\n\nLưu ý: Mỗi mã chỉ sử dụng được một lần. Hãy lưu ở nơi an toàn.`
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -185,8 +280,8 @@ const TwoFactorAuthPage = () => {
 
   const removeDevice = deviceId => {
     Modal.confirm({
-      title: <span className="dark:text-gray-300">Xóa thiết bị tin cậy</span>,
-      content: <span className="dark:text-gray-400">Thiết bị này sẽ cần xác thực lại khi đăng nhập lần tiếp theo.</span>,
+      title: 'Xóa thiết bị tin cậy',
+      content: 'Thiết bị này sẽ cần xác thực lại khi đăng nhập lần tiếp theo.',
       okText: 'Xóa',
       cancelText: 'Hủy',
       okType: 'danger',
@@ -198,408 +293,414 @@ const TwoFactorAuthPage = () => {
           message.success('Đã xóa thiết bị khỏi danh sách tin cậy')
         } catch (err) {
           message.error('Không thể xóa thiết bị')
+        } finally {
+          setLoading(false)
         }
-        setLoading(false)
       }
     })
   }
 
   const setupSteps = [
     {
-      title: <span className="dark:text-gray-300">Tải ứng dụng</span>,
-      description: <span className="dark:text-gray-400">Tải Google Authenticator hoặc ứng dụng 2FA khác</span>
+      title: 'Tải ứng dụng',
+      description: 'Cài Google Authenticator hoặc ứng dụng 2FA tương thích.'
     },
     {
-      title: <span className="dark:text-gray-300">Quét mã QR</span>,
-      description: <span className="dark:text-gray-400">Quét mã QR bằng ứng dụng authenticator</span>
+      title: 'Quét mã QR',
+      description: 'Thêm tài khoản quản trị vào ứng dụng xác thực.'
     },
     {
-      title: <span className="dark:text-gray-300">Xác thực</span>,
-      description: <span className="dark:text-gray-400">Nhập mã 6 chữ số từ ứng dụng</span>
+      title: 'Xác thực',
+      description: 'Nhập mã 6 chữ số để hoàn tất.'
     }
   ]
 
   if (setupStep > 0) {
     return (
-      <div className="max-w-[600px] mx-auto p-6">
-        <Card className="dark:bg-gray-800">
-          <Title level={3} className="dark:text-gray-300">
-            Thiết lập xác thực 2 bước
-          </Title>
-          <Steps current={setupStep - 1} className="mb-6">
-            {setupSteps.map((step, index) => (
-              <Steps.Step key={index} title={step.title} description={step.description} />
-            ))}
-          </Steps>
+      <section className={panelClass}>
+        <div className="mb-5 flex items-start gap-3">
+          <div className={iconBoxClass}>
+            <QrCode className="h-4 w-4" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-[var(--admin-text)]">Thiết lập xác thực 2 bước</h2>
+            <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
+              Hoàn tất các bước bên dưới để bật 2FA cho tài khoản quản trị.
+            </p>
+          </div>
+        </div>
 
-          {setupStep === 1 && (
-            <div className="text-center py-6">
-              <Alert
-                type="info"
-                message={<span className="dark:text-gray-300">Bước 1: Tải ứng dụng Authenticator</span>}
-                description={
-                  <span className="dark:text-gray-300">
-                    Bạn cần một ứng dụng authenticator để tạo mã xác thực. Chọn một trong các ứng dụng được khuyến nghị bên dưới.
-                  </span>
-                }
-                className="step-alert dark:bg-slate-500"
+        <Steps current={setupStep - 1} items={setupSteps} responsive className="admin-twofa-steps mb-6" />
+
+        {setupStep === 1 && (
+          <div className={softPanelClass}>
+            <Alert
+              type="info"
+              showIcon
+              message="Bước 1: Tải ứng dụng Authenticator"
+              description="Bạn cần một ứng dụng xác thực để tạo mã đăng nhập. Chọn một ứng dụng bên dưới hoặc dùng ứng dụng 2FA bạn đang có."
+              className={infoAlertClass}
+            />
+
+            <div className="grid gap-2 sm:grid-cols-3">
+              <Button
+                type="primary"
+                icon={<Smartphone className="h-4 w-4" />}
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2', '_blank')}
+                className={`h-10 ${primaryButtonClass}`}
+              >
+                Google
+              </Button>
+              <Button
+                icon={<Smartphone className="h-4 w-4" />}
+                onClick={() => window.open('https://www.microsoft.com/en-us/security/mobile-authenticator-app', '_blank')}
+                className={`h-10 ${secondaryButtonClass}`}
+              >
+                Microsoft
+              </Button>
+              <Button
+                icon={<Smartphone className="h-4 w-4" />}
+                onClick={() => window.open('https://authy.com/', '_blank')}
+                className={`h-10 ${secondaryButtonClass}`}
+              >
+                Authy
+              </Button>
+            </div>
+
+            <div className="mt-5 flex justify-end">
+              <Button type="primary" onClick={() => setSetupStepWithParams(2)} className={primaryButtonClass}>
+                Tiếp tục
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {setupStep === 2 && (
+          <div className={softPanelClass}>
+            <Alert
+              type="info"
+              showIcon
+              message="Bước 2: Quét mã QR"
+              description="Mở ứng dụng authenticator và quét mã QR để thêm tài khoản."
+              className={infoAlertClass}
+            />
+
+            <div className="grid gap-5 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center">
+              <div className="flex justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4">
+                {qrUrl ? <img src={qrUrl} alt="QR Code" className="h-[180px] w-[180px]" /> : <Spin />}
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[var(--admin-text)]">Không quét được mã?</p>
+                <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
+                  Nhập thủ công secret key bên dưới vào ứng dụng xác thực.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(qrSecret)}
+                  className="mt-3 block w-full rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-left font-mono text-xs text-[var(--admin-text)] transition hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-accent-soft)]"
+                >
+                  {qrSecret || 'Đang tạo secret key...'}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-end gap-2">
+              <Button onClick={() => setSetupStepWithParams(1)} className={secondaryButtonClass}>
+                Quay lại
+              </Button>
+              <Button type="primary" onClick={() => setSetupStepWithParams(3)} className={primaryButtonClass}>
+                Đã quét xong
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {setupStep === 3 && (
+          <div className={softPanelClass}>
+            <Alert
+              type="info"
+              showIcon
+              message="Bước 3: Xác thực"
+              description="Nhập mã 6 chữ số đang hiển thị trong ứng dụng authenticator."
+              className={infoAlertClass}
+            />
+
+            <Form form={form} onFinish={handleVerifyCode}>
+              <Input
+                value={verificationCode}
+                onChange={e => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                placeholder="000000"
+                maxLength={6}
+                className={verifyCodeInputClass}
+                size="large"
+                autoComplete="off"
               />
-              <Paragraph className="dark:text-gray-300">Tải một trong các ứng dụng authenticator sau:</Paragraph>
-              <Space direction="vertical" size="middle" className="app-buttons">
+
+              <div className="mt-5 flex justify-end gap-2">
+                <Button onClick={() => setSetupStepWithParams(2)} disabled={loading} className={secondaryButtonClass}>
+                  Quay lại
+                </Button>
                 <Button
                   type="primary"
-                  icon={<MobileOutlined />}
-                  size="large"
-                  onClick={() =>
-                    window.open('https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2', '_blank')
-                  }
+                  htmlType="submit"
+                  disabled={verificationCode.length !== 6}
+                  loading={loading}
+                  className={primaryButtonClass}
                 >
-                  Google Authenticator
-                </Button>
-                <Button
-                  className="dark:bg-slate-500 dark:hover:!bg-slate-400 dark:text-gray-300 dark:hover:!text-gray-200"
-                  icon={<MobileOutlined />}
-                  size="large"
-                  onClick={() => window.open('https://www.microsoft.com/en-us/security/mobile-authenticator-app', '_blank')}
-                >
-                  Microsoft Authenticator
-                </Button>
-                <Button
-                  className="dark:bg-slate-500 dark:hover:!bg-slate-400 dark:text-gray-300 dark:hover:!text-gray-200"
-                  icon={<MobileOutlined />}
-                  size="large"
-                  onClick={() => window.open('https://authy.com/', '_blank')}
-                >
-                  Authy
-                </Button>
-              </Space>
-              <div className="mt-6">
-                <Button type="primary" onClick={() => setSetupStep(2)}>
-                  Đã tải xong, tiếp tục
+                  Hoàn tất thiết lập
                 </Button>
               </div>
-            </div>
-          )}
-
-          {setupStep === 2 && (
-            <div className="setup-content">
-              <Alert
-                type="info"
-                message={<span className="dark:text-gray-300">Bước 2: Quét mã QR</span>}
-                description={
-                  <span className="dark:text-gray-300">Mở ứng dụng authenticator và quét mã QR bên dưới để thêm tài khoản của bạn.</span>
-                }
-                className="step-alert dark:bg-slate-500"
-              />
-              <Paragraph className="dark:text-gray-300">Quét mã QR này bằng ứng dụng authenticator của bạn:</Paragraph>
-              <div className="my-6 flex justify-center">
-                <img src={qrUrl} alt="QR Code" width={200} height={200} />
-              </div>
-              <Paragraph type="secondary" className="mt-4 dark:text-gray-300">
-                Hoặc nhập mã thủ công:
-                <br />
-                <Text className="dark:text-gray-300" code copyable={{ text: qrSecret }}>
-                  {qrSecret}
-                </Text>
-              </Paragraph>
-              <div className="mt-6">
-                <Space>
-                  <Button
-                    className="dark:text-gray-300 dark:bg-slate-500 dark:hover:!bg-slate-400 dark:hover:!text-gray-200"
-                    onClick={() => setSetupStep(1)}
-                  >
-                    Quay lại
-                  </Button>
-                  <Button type="primary" onClick={() => setSetupStep(3)}>
-                    Đã quét xong, tiếp tục
-                  </Button>
-                </Space>
-              </div>
-            </div>
-          )}
-
-          {setupStep === 3 && (
-            <div className="setup-content">
-              <Alert
-                type="info"
-                message={<span className="dark:text-gray-300">Bước 3: Xác thực</span>}
-                description={
-                  <span className="dark:text-gray-300">Nhập mã 6 chữ số hiển thị trong ứng dụng authenticator để hoàn tất thiết lập.</span>
-                }
-                className="step-alert dark:bg-slate-500"
-              />
-              <Form form={form} onFinish={handleVerifyCode}>
-                <Paragraph className="dark:text-gray-300">Nhập mã 6 chữ số từ ứng dụng authenticator:</Paragraph>
-                <div className="my-6">
-                  <Input
-                    value={verificationCode}
-                    onChange={e => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="000000"
-                    maxLength={6}
-                    className="w-50 text-center text-lg font-semibold tracking-[4px] dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400"
-                    size="large"
-                    autoComplete="off"
-                  />
-                </div>
-                <Space className="mt-6">
-                  <Button
-                    className="dark:bg-slate-500 dark:text-gray-300 dark:hover:!bg-slate-400 dark:hover:!text-gray-200"
-                    onClick={() => setSetupStep(2)}
-                    disabled={loading}
-                  >
-                    Quay lại
-                  </Button>
-                  <Button type="primary" htmlType="submit" disabled={verificationCode.length !== 6} loading={loading}>
-                    Hoàn tất thiết lập
-                  </Button>
-                </Space>
-              </Form>
-            </div>
-          )}
-
-          <div className="mt-6 text-center">
-            <Button
-              className="dark:text-gray-300 dark:hover:!text-gray-200 dark:hover:!bg-slate-500"
-              type="text"
-              onClick={() => setSetupStep(0)}
-              disabled={loading}
-            >
-              Hủy thiết lập
-            </Button>
+            </Form>
           </div>
-        </Card>
-      </div>
+        )}
+
+        <div className="mt-4 flex justify-center">
+          <Button
+            type="text"
+            onClick={() => {
+              setSetupStepWithParams(0)
+              setQrSecret('')
+              setQrUrl('')
+              setVerificationCode('')
+            }}
+            disabled={loading}
+            className={textButtonClass}
+          >
+            Hủy thiết lập
+          </Button>
+        </div>
+      </section>
     )
   }
 
   if (loading && setupStep === 0) {
     return (
-      <div className="loading-container">
+      <section className={`${panelClass} flex min-h-[240px] flex-col items-center justify-center text-center`}>
         <Spin size="large" />
-        <Paragraph>Đang kiểm tra trạng thái bảo mật...</Paragraph>
-      </div>
+        <p className="mt-3 text-sm text-[var(--admin-text-muted)]">Đang kiểm tra trạng thái bảo mật...</p>
+      </section>
     )
   }
 
   return (
-    <div className="max-w-[1000px] mx-auto px-6 pb-6">
-      <Card
-        title={
-          <Space className="text-black dark:text-gray-200">
-            <SafetyOutlined />
-            <span>Xác thực 2 bước (2FA)</span>
-          </Space>
-        }
-        className="mb-6 dark:bg-gray-800"
-      >
-        <div className="flex justify-between items-center">
-          <div className="flex-1">
-            <Paragraph type="secondary" className="mb-2 dark:text-gray-200">
-              Bật 2FA để tăng cường bảo mật cho tài khoản của bạn. Mỗi lần đăng nhập sẽ cần thêm mã xác thực từ điện thoại.
-            </Paragraph>
-            <Text type={enabled ? 'success' : 'secondary'} className="flex items-center gap-2">
-              {enabled ? (
-                <Space>
-                  <CheckCircleOutlined />
-                  Đã bật - Tài khoản được bảo vệ
-                </Space>
-              ) : (
-                <Space className="text-red-500">
-                  <ExclamationCircleOutlined />
-                  Đang tắt - Khuyến nghị bật để bảo mật
-                </Space>
-              )}
-            </Text>
+    <section className="space-y-5">
+      <div className={panelClass}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex gap-3">
+            <div className={iconBoxClass}>
+              <ShieldCheck className="h-4 w-4" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold text-[var(--admin-text)]">Xác thực 2 bước</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--admin-text-muted)]">
+                Bật 2FA để yêu cầu mã xác thực từ điện thoại khi đăng nhập vào khu vực quản trị.
+              </p>
+
+              <div className={`mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+                enabled
+                  ? 'bg-[color-mix(in_srgb,#22c55e_16%,var(--admin-surface-2))] text-[#22c55e]'
+                  : 'bg-[color-mix(in_srgb,#ef4444_16%,var(--admin-surface-2))] text-[#ef4444]'
+              }`}
+              >
+                {enabled ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertTriangle className="h-3.5 w-3.5" />}
+                {enabled ? 'Đang bật' : 'Đang tắt'}
+              </div>
+            </div>
           </div>
-          <Switch checked={enabled} onChange={handleToggle2FA} size="large" loading={loading} />
+
+          <Switch checked={enabled} onChange={handleToggle2FA} loading={loading} />
         </div>
-      </Card>
+      </div>
 
       {enabled && (
-        <div>
-          <Card
-            className="mb-6 dark:bg-gray-800"
-            title={
-              <Space className="text-black dark:text-gray-200">
-                <KeyOutlined />
-                Mã dự phòng
-              </Space>
-            }
-            extra={
-              <Button icon={<ReloadOutlined />} onClick={regenerateBackupCodes} type="text" className="text-black dark:text-gray-200">
-                Tạo mã mới
-              </Button>
-            }
-          >
-            <Paragraph type="secondary" className="dark:text-gray-200">
-              Mã dự phòng giúp bạn truy cập tài khoản khi không có thiết bị authenticator. Mỗi mã chỉ sử dụng được một lần.
-            </Paragraph>
-            <div>
-              <Text className="dark:text-gray-200">
-                Có{' '}
-                <Text strong className="dark:text-gray-200">
-                  {backupCodes.length}
-                </Text>{' '}
-                mã dự phòng có sẵn
-              </Text>
-              <Button
-                type="link"
-                icon={showBackupCodes ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-                onClick={() => setShowBackupCodes(!showBackupCodes)}
-              >
-                {showBackupCodes ? 'Ẩn mã' : 'Hiện mã'}
-              </Button>
-            </div>
-            {showBackupCodes && backupCodes.length > 0 && (
-              <div>
-                {backupCodes.slice(0, 3).map((code, index) => (
-                  <Text className="dark:bg-gray-500 dark:text-gray-300" key={index} code>
-                    {code}
-                  </Text>
-                ))}
-                {backupCodes.length > 3 && <Text type="secondary">... và {backupCodes.length - 3} mã khác</Text>}
-              </div>
-            )}
-            <Space className="flex flex-col w-full">
-              <Button
-                className="dark:bg-blue-500 dark:text-gray-200"
-                icon={<CopyOutlined />}
-                onClick={copyBackupCodes}
-                disabled={backupCodes.length === 0}
-              >
-                Sao chép tất cả
-              </Button>
-              <Button
-                className="dark:bg-blue-500 dark:text-gray-200"
-                icon={<DownloadOutlined />}
-                onClick={downloadBackupCodes}
-                disabled={backupCodes.length === 0}
-              >
-                Tải xuống
-              </Button>
-              <Button type="primary" ghost onClick={() => setShowBackupModal(true)} disabled={backupCodes.length === 0}>
-                Xem chi tiết
-              </Button>
-            </Space>
-          </Card>
-
-          <Card
-            className="dark:bg-gray-800"
-            title={
-              <Space className="text-black dark:text-gray-200">
-                <MobileOutlined />
-                Thiết bị tin cậy ({trustedDevices.length})
-              </Space>
-            }
-          >
-            <Paragraph className="dark:text-gray-200" type="secondary">
-              Các thiết bị đã được xác thực và tin cậy. Bạn có thể xóa thiết bị không còn sử dụng.
-            </Paragraph>
-            <List
-              dataSource={trustedDevices}
-              renderItem={device => (
-                <List.Item
-                  className="py-3 border-b border-solid border-[#f0f0f0] hover:bg-gray-100 dark:hover:bg-gray-700"
-                  actions={[
-                    !device.current && (
-                      <Button type="text" danger icon={<DeleteOutlined />} onClick={() => removeDevice(device.deviceId)}>
-                        Xóa
-                      </Button>
-                    )
-                  ].filter(Boolean)}
+        <>
+          <div className="grid gap-5 lg:grid-cols-2">
+            <div className={panelClass}>
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div className="flex gap-3">
+                  <div className={iconBoxClass}>
+                    <KeyRound className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-[var(--admin-text)]">Mã dự phòng</h3>
+                    <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
+                      Dùng khi bạn không còn thiết bị authenticator.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  type="text"
+                  icon={<RefreshCw className="h-4 w-4" />}
+                  onClick={regenerateBackupCodes}
+                  className={textButtonClass}
                 >
-                  <List.Item.Meta
-                    title={
-                      <Space>
-                        <Text className="dark:text-gray-200" strong>
-                          {device.name}
-                        </Text>
-                        {device.current && <Tag color="green">Thiết bị hiện tại</Tag>}
-                      </Space>
-                    }
-                    description={
-                      <div>
-                        <div className="dark:text-gray-300">
-                          {device.browser} • {device.location}
-                        </div>
-                        <Text className="dark:text-gray-200" type="secondary">
-                          Sử dụng lần cuối: {device.lastUsed ? new Date(device.lastUsed).toLocaleString('vi-VN') : ''}
-                        </Text>
-                      </div>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </Card>
+                  Tạo mới
+                </Button>
+              </div>
 
-          <Card
-            title={<span className="dark:text-gray-200">Lời khuyên bảo mật</span>}
-            className="mt-6 py-3 border-b border-solid border-[#f0f0f0] dark:bg-gray-800"
-          >
+              <div className={softPanelClass}>
+                <p className="text-sm text-[var(--admin-text-muted)]">
+                  Còn <span className="font-semibold text-[var(--admin-text)]">{backupCodes.length}</span> mã dự phòng khả dụng.
+                </p>
+
+                {showBackupCodes && backupCodes.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {backupCodes.slice(0, 3).map(code => (
+                      <code
+                        key={code}
+                        className="rounded-md bg-[var(--admin-surface)] px-2 py-1 text-xs text-[var(--admin-text)] ring-1 ring-[var(--admin-border)]"
+                      >
+                        {code}
+                      </code>
+                    ))}
+                    {backupCodes.length > 3 && (
+                      <span className="text-xs text-[var(--admin-text-subtle)]">+{backupCodes.length - 3} mã khác</span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                <Button
+                  icon={showBackupCodes ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  onClick={() => setShowBackupCodes(value => !value)}
+                  disabled={backupCodes.length === 0}
+                  className={secondaryButtonClass}
+                >
+                  {showBackupCodes ? 'Ẩn' : 'Hiện'}
+                </Button>
+                <Button
+                  icon={<Copy className="h-4 w-4" />}
+                  onClick={copyBackupCodes}
+                  disabled={backupCodes.length === 0}
+                  className={secondaryButtonClass}
+                >
+                  Sao chép
+                </Button>
+                <Button
+                  type="primary"
+                  ghost
+                  onClick={() => setShowBackupModal(true)}
+                  disabled={backupCodes.length === 0}
+                  className={ghostButtonClass}
+                >
+                  Chi tiết
+                </Button>
+              </div>
+            </div>
+
+            <div className={panelClass}>
+              <div className="mb-4 flex items-start gap-3">
+                <div className={iconBoxClass}>
+                  <MonitorSmartphone className="h-4 w-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-[var(--admin-text)]">Thiết bị tin cậy</h3>
+                  <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
+                    {trustedDevices.length} thiết bị đã được ghi nhớ sau khi xác thực.
+                  </p>
+                </div>
+              </div>
+
+              <List
+                dataSource={trustedDevices}
+                locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có thiết bị tin cậy" /> }}
+                renderItem={device => (
+                  <List.Item
+                    className="rounded-lg px-2 transition hover:bg-[var(--admin-surface-2)]"
+                    actions={[
+                      !device.current && (
+                        <Button
+                          key="remove"
+                          type="text"
+                          danger
+                          icon={<Trash2 className="h-4 w-4" />}
+                          onClick={() => removeDevice(device.deviceId)}
+                          className="rounded-lg"
+                        >
+                          Xóa
+                        </Button>
+                      )
+                    ].filter(Boolean)}
+                  >
+                    <List.Item.Meta
+                      title={
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-medium text-[var(--admin-text)]">{device.name || 'Thiết bị'}</span>
+                          {device.current && <Tag color="green">Hiện tại</Tag>}
+                        </div>
+                      }
+                      description={
+                        <div className="space-y-1 text-xs text-[var(--admin-text-muted)]">
+                          <div className="line-clamp-1">{device.browser || 'Không rõ trình duyệt'}</div>
+                          <div>Lần cuối: {device.lastUsed ? new Date(device.lastUsed).toLocaleString('vi-VN') : 'Chưa có dữ liệu'}</div>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className={panelClass}>
             <Alert
-              className="dark:bg-slate-700"
               type="info"
-              message={<span className="dark:text-gray-200">Mẹo bảo mật quan trọng</span>}
+              showIcon
+              message="Lời khuyên bảo mật"
               description={
-                <ul className="mt-2 ml-4 dark:text-gray-300">
-                  <li className='class="mb-1'>Lưu mã dự phòng ở nơi an toàn, tách biệt với thiết bị chính</li>
-                  <li className='class="mb-1'>Không bao giờ chia sẻ mã xác thực với bất kỳ ai</li>
-                  <li className='class="mb-1'>Định kỳ kiểm tra và xóa các thiết bị không còn sử dụng</li>
-                  <li className='class="mb-1'>Chỉ sử dụng ứng dụng authenticator chính thức từ nhà phát triển đáng tin cậy</li>
-                  <li className='class="mb-1'>Kích hoạt thông báo đăng nhập để theo dõi hoạt động tài khoản</li>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
+                  <li>Lưu mã dự phòng ở nơi an toàn, tách biệt với thiết bị chính.</li>
+                  <li>Không chia sẻ mã xác thực hoặc mã dự phòng với bất kỳ ai.</li>
+                  <li>Định kỳ kiểm tra và xóa các thiết bị không còn sử dụng.</li>
                 </ul>
               }
+              className={infoAlertClass}
             />
-          </Card>
-        </div>
+          </div>
+        </>
       )}
 
       <Modal
-        title={<span className="dark:text-gray-200">Mã dự phòng xác thực 2 bước</span>}
+        className="admin-twofa-modal"
+        title="Mã dự phòng xác thực 2 bước"
         open={showBackupModal}
         onCancel={() => setShowBackupModal(false)}
-        width={600}
+        width={620}
         footer={[
-          <Button key="copy" icon={<CopyOutlined />} onClick={copyBackupCodes}>
+          <Button key="copy" icon={<Copy className="h-4 w-4" />} onClick={copyBackupCodes} className={secondaryButtonClass}>
             Sao chép tất cả
           </Button>,
-          <Button key="download" icon={<DownloadOutlined />} onClick={downloadBackupCodes}>
+          <Button key="download" icon={<Download className="h-4 w-4" />} onClick={downloadBackupCodes} className={secondaryButtonClass}>
             Tải xuống file
           </Button>,
-          <Button key="close" type="primary" onClick={() => setShowBackupModal(false)}>
+          <Button key="close" type="primary" onClick={() => setShowBackupModal(false)} className={primaryButtonClass}>
             Đã lưu an toàn
           </Button>
         ]}
       >
         <Alert
           type="warning"
-          message="⚠️ Lưu ý quan trọng"
-          description="Hãy lưu những mã này ở nơi an toàn (như password manager hoặc két sắt). Mỗi mã chỉ có thể sử dụng một lần và là cách duy nhất để truy cập tài khoản khi mất thiết bị authenticator."
-          className="mb-4"
+          showIcon
+          message="Lưu ý quan trọng"
+          description="Hãy lưu những mã này ở nơi an toàn. Mỗi mã chỉ có thể sử dụng một lần."
+          className={warningAlertClass}
         />
-        <div className="bg-[#f5f5f5] dark:bg-gray-800 p-4 rounded-[6px] text-center">
-          {backupCodes.map((code, index) => (
-            <div key={index} className="dark:bg-gray-700 font-mono text-base font-semibold py-1 tracking-[2px]">
-              <Text code copyable={{ text: code }} className="dark:text-gray-200">
-                {code}
-              </Text>
-            </div>
+        <div className="grid grid-cols-2 gap-2 rounded-xl bg-[var(--admin-surface-2)] p-4 sm:grid-cols-3">
+          {backupCodes.map(code => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => copyToClipboard(code)}
+              className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 font-mono text-sm font-semibold tracking-[0.12em] text-[var(--admin-text)] transition hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-accent-soft)]"
+            >
+              {code}
+            </button>
           ))}
         </div>
-        <div>
-          <Title className="dark:text-gray-200" level={5}>
-            Cách sử dụng mã dự phòng:
-          </Title>
-          <ol className="dark:text-gray-200">
-            <li>Khi đăng nhập, chọn "Sử dụng mã dự phòng" thay vì nhập mã từ app</li>
-            <li>Nhập một trong các mã trên</li>
-            <li>Mã đã sử dụng sẽ không thể dùng lại</li>
-          </ol>
-        </div>
       </Modal>
-    </div>
+    </section>
   )
 }
 
-export default TwoFactorAuthPage
+export default TwoFactorAuthPanel

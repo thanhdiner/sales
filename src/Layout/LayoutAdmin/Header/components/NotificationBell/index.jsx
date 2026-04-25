@@ -21,7 +21,7 @@ export default function NotificationBell({ onNewOrder }) {
       setHasNew(true)
 
       if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('SmartMall — Đơn hàng mới 🛒', {
+        new Notification('SmartMall - Đơn hàng mới', {
           body: notif.body,
           icon: '/favicon.ico'
         })
@@ -76,20 +76,18 @@ export default function NotificationBell({ onNewOrder }) {
           setOpen(o => !o)
           setHasNew(false)
         }}
-        className="relative flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        className="admin-notification-btn relative flex h-10 w-10 items-center justify-center rounded-lg"
         title="Thông báo"
       >
         <Bell className="h-5 w-5" />
 
         {unreadCount > 0 && (
-          <span className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gray-900 px-1 text-[10px] font-semibold text-white ring-2 ring-white dark:bg-gray-100 dark:text-gray-900 dark:ring-gray-900">
+          <span className="admin-notification-badge absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10px] font-semibold">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
 
-        {hasNew && unreadCount === 0 && (
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-gray-900 ring-2 ring-white dark:bg-gray-100 dark:ring-gray-900" />
-        )}
+        {hasNew && unreadCount === 0 && <span className="admin-notification-dot absolute right-1.5 top-1.5 h-2 w-2 rounded-full" />}
       </button>
 
       {open && (

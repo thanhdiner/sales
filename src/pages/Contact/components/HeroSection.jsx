@@ -16,7 +16,7 @@ const HeroSection = ({ isVisible }) => {
       viewport={viewport}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 rounded-3xl bg-[#f7f8fa] p-5 md:p-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-10 dark:bg-gray-900">
+        <div className="contact-panel grid gap-6 rounded-3xl bg-[#f7f8fa] p-5 md:p-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-10 dark:bg-gray-900">
           <HeroContentBlock />
           <HeroVisualCard />
         </div>

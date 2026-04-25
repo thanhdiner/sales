@@ -7,15 +7,15 @@ function AdminReviewsLoadingState() {
       {[1, 2, 3].map(item => (
         <div
           key={item}
-          className="animate-pulse rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+          className="animate-pulse rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]"
         >
           <div className="flex gap-3">
-            <div className="h-9 w-9 flex-shrink-0 rounded-full bg-gray-200 dark:bg-gray-700" />
+            <div className="h-9 w-9 flex-shrink-0 rounded-full bg-[var(--admin-surface-3)]" />
 
             <div className="flex-1 space-y-2">
-              <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-700" />
-              <div className="h-3 w-full rounded bg-gray-200 dark:bg-gray-700" />
-              <div className="h-3 w-3/4 rounded bg-gray-200 dark:bg-gray-700" />
+              <div className="h-4 w-32 rounded bg-[var(--admin-surface-3)]" />
+              <div className="h-3 w-full rounded bg-[var(--admin-surface-3)]" />
+              <div className="h-3 w-3/4 rounded bg-[var(--admin-surface-3)]" />
             </div>
           </div>
         </div>
@@ -26,9 +26,9 @@ function AdminReviewsLoadingState() {
 
 function AdminReviewsEmptyState() {
   return (
-    <div className="rounded-2xl border border-dashed border-gray-200 bg-white py-20 text-center dark:border-gray-700 dark:bg-gray-900">
-      <Star size={44} strokeWidth={1.5} className="mx-auto mb-3 text-gray-300 dark:text-gray-700" />
-      <p className="font-medium text-gray-400 dark:text-gray-500">Không có đánh giá nào</p>
+    <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] py-20 text-center">
+      <Star size={44} strokeWidth={1.5} className="mx-auto mb-3 text-[var(--admin-text-subtle)]" />
+      <p className="font-medium text-[var(--admin-text-muted)]">Không có đánh giá nào</p>
     </div>
   )
 }

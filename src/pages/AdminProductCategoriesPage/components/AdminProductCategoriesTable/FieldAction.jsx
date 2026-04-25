@@ -10,15 +10,15 @@ function FieldAction({ record, handleDelete }) {
     <Space size="middle">
       {permissions.includes('edit_product_category') && (
         <Link to={`/admin/product-categories/edit/${record._id}`}>
-          <Button className="dark:bg-gray-500  dark:hover:!bg-gray-400" icon={<EditOutlined className="dark:text-gray-300" />} />
+          <Button className="admin-product-categories-action-btn" icon={<EditOutlined />} />
         </Link>
       )}
       {permissions.includes('delete_product_category') && (
         <Button
-          className="dark:bg-red-500 dark:hover:!bg-red-400"
+          className="admin-product-categories-action-btn admin-product-categories-action-btn--delete"
           color="danger"
           variant="outlined"
-          icon={<DeleteOutlined className="dark:text-gray-300" />}
+          icon={<DeleteOutlined />}
           onClick={() => handleDelete(record)}
         />
       )}

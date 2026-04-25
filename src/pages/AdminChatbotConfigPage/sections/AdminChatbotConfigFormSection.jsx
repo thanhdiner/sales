@@ -12,7 +12,7 @@ export default function AdminChatbotConfigFormSection({ form }) {
             <RobotOutlined /> Hồ sơ agent
           </span>
         )}
-        className="dark:border-gray-700 dark:bg-gray-800"
+        className="admin-chatbot-card"
       >
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Form.Item name="agentName" label="Tên agent">

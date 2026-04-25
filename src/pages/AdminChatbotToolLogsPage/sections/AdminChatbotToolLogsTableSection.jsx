@@ -21,7 +21,7 @@ const logColumns = [
     width: 180,
     render: (_, log) => (
       <div>
-        <div className="font-medium text-gray-900 dark:text-white">
+        <div className="admin-chatbot-primary-text font-medium">
           {log.toolLabel || log.toolName}
         </div>
         <Text type="secondary" className="text-xs">
@@ -104,10 +104,10 @@ export default function AdminChatbotToolLogsTableSection({
   } = paginationMeta
 
   return (
-    <Card className="dark:border-gray-700 dark:bg-gray-800">
+    <Card className="admin-chatbot-card">
       {pageLoadError && (
         <Alert
-          className="mb-4"
+          className="admin-chatbot-alert mb-4"
           type="warning"
           showIcon
           message="Backend hiện chưa hỗ trợ phân trang log đầy đủ"
@@ -116,6 +116,7 @@ export default function AdminChatbotToolLogsTableSection({
       )}
 
       <Table
+        className="admin-chatbot-table"
         rowKey="_id"
         columns={logColumns}
         dataSource={toolLogs}
@@ -127,8 +128,8 @@ export default function AdminChatbotToolLogsTableSection({
         }}
       />
 
-      <div className="mt-4 flex flex-col gap-3 border-t border-gray-200 pt-4 dark:border-gray-700 md:flex-row md:items-center md:justify-between">
-        <Text type="secondary" className="text-sm dark:text-gray-400">
+      <div className="admin-chatbot-logs-footer mt-4 flex flex-col gap-3 pt-4 md:flex-row md:items-center md:justify-between">
+        <Text type="secondary" className="text-sm">
           Hiển thị {toolLogs.length} logs • page {lastLoadedPage}/{totalPages} • limit {lastLoadedLimit} • tổng {toolLogsMeta.total || totalLogs}
         </Text>
 

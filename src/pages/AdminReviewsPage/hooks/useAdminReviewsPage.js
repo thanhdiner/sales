@@ -43,9 +43,9 @@ export default function useAdminReviewsPage() {
     const nextSearch = filters.search || ''
     const nextRating = filters.rating || ''
 
-    if (nextSearch !== search) setSearch(nextSearch)
-    if (nextRating !== ratingFilter) setRatingFilter(nextRating)
-  }, [filters, search, ratingFilter])
+    setSearch(prevSearch => (prevSearch === nextSearch ? prevSearch : nextSearch))
+    setRatingFilter(prevRating => (prevRating === nextRating ? prevRating : nextRating))
+  }, [filters.rating, filters.search])
 
   const normalizedSearch = search.trim()
 
@@ -178,17 +178,24 @@ export default function useAdminReviewsPage() {
         setReplySubmitting(false)
       }
     },
-    [refreshStats, replyTarget]
+    [refreshStats, replyTarget, setReviews]
   )
 
   const handleDeleteReply = useCallback(
     reviewId => {
       Modal.confirm({
+        className: 'admin-reviews-confirm-modal',
         title: 'Xoá phản hồi',
         content: 'Bạn có chắc muốn xoá phản hồi của Shop không?',
         okText: 'Xoá',
         okType: 'danger',
         cancelText: 'Huỷ',
+        okButtonProps: {
+          className: 'admin-reviews-confirm-ok admin-reviews-confirm-ok--danger'
+        },
+        cancelButtonProps: {
+          className: 'admin-reviews-confirm-cancel'
+        },
         onOk: async () => {
           try {
             await adminDeleteReply(reviewId)
@@ -229,16 +236,23 @@ export default function useAdminReviewsPage() {
         }
       })
     },
-    [refreshStats, replyTarget?._id]
+    [refreshStats, replyTarget?._id, setReviews]
   )
 
   const handleHide = useCallback(reviewId => {
     Modal.confirm({
+      className: 'admin-reviews-confirm-modal',
       title: 'Ẩn đánh giá',
       content:
         'Ẩn review này khỏi trang sản phẩm? Người dùng vẫn thấy review của họ nhưng khách khác sẽ không thấy.',
       okText: 'Ẩn',
       cancelText: 'Huỷ',
+      okButtonProps: {
+        className: 'admin-reviews-confirm-ok'
+      },
+      cancelButtonProps: {
+        className: 'admin-reviews-confirm-cancel'
+      },
       onOk: async () => {
         try {
           await adminHideReview(reviewId)
@@ -261,16 +275,23 @@ export default function useAdminReviewsPage() {
         }
       }
     })
-  }, [])
+  }, [setReviews])
 
   const handleDelete = useCallback(
     reviewId => {
       Modal.confirm({
+        className: 'admin-reviews-confirm-modal',
         title: 'Xoá đánh giá',
         content: 'Xoá vĩnh viễn đánh giá này? Hành động không thể hoàn tác.',
         okText: 'Xoá',
         okType: 'danger',
         cancelText: 'Huỷ',
+        okButtonProps: {
+          className: 'admin-reviews-confirm-ok admin-reviews-confirm-ok--danger'
+        },
+        cancelButtonProps: {
+          className: 'admin-reviews-confirm-cancel'
+        },
         onOk: async () => {
           try {
             await del(`admin/reviews/${reviewId}`)
@@ -289,7 +310,7 @@ export default function useAdminReviewsPage() {
         }
       })
     },
-    [refreshStats]
+    [refreshStats, setReviews, setTotal]
   )
 
   return {

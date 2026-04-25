@@ -37,20 +37,20 @@ export default function FlashSaleStats({ flashSales }) {
         return (
           <div
             key={card.key}
-            className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+            className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-[var(--admin-text-muted)]">
                   {card.title}
                 </p>
 
-                <p className="mt-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                <p className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">
                   {card.formatValue ? card.formatValue(value) : value}
                 </p>
               </div>
 
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--admin-surface-2)] text-[var(--admin-text-muted)]">
                 <Icon className="h-5 w-5" strokeWidth={1.8} />
               </div>
             </div>

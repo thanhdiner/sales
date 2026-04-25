@@ -6,6 +6,7 @@ import FeaturesSection from './components/FeaturesSection'
 import AboutOwnerSection from './components/AboutOwnerSection'
 import TimelineSection from './components/TimelineSection'
 import CTASection from './components/CTASection'
+import './AboutPage.scss'
 
 const AboutPage = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -17,7 +18,7 @@ const AboutPage = () => {
   const viewport = { once: true, amount: 0.2 }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
+    <main className="about-page min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
       <SEO
         title="Về SmartMall"
         description="SmartMall – Shop nhỏ chuyên bán tài khoản game và phần mềm bản quyền. Uy tín, rõ ràng, giá hợp lý, hỗ trợ tận tâm."
@@ -25,8 +26,8 @@ const AboutPage = () => {
       />
 
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 right-0 h-72 w-72 rounded-full bg-blue-200/25 blur-3xl dark:bg-blue-500/10" />
-        <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-violet-200/20 blur-3xl dark:bg-violet-500/10" />
+        <div className="about-page__glow about-page__glow--primary absolute -top-32 right-0 h-72 w-72 rounded-full bg-blue-200/25 blur-3xl dark:bg-blue-500/10" />
+        <div className="about-page__glow about-page__glow--secondary absolute bottom-0 left-0 h-80 w-80 rounded-full bg-violet-200/20 blur-3xl dark:bg-violet-500/10" />
       </div>
 
       <div className="relative z-10">

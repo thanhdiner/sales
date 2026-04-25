@@ -23,13 +23,13 @@ export default function AdminOrdersPage() {
   } = useAdminOrders()
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 dark:bg-gray-900">
+    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6 text-[var(--admin-text)]">
       <SEO title="Admin - Đơn hàng" noIndex />
 
       <div className="mx-auto max-w-7xl space-y-5">
         <AdminOrdersHeaderSection />
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
           <AdminOrdersFiltersSection
             keyword={keyword}
             status={status}

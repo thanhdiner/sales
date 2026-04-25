@@ -52,26 +52,26 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-7">
+    <div className="contact-form-card rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-7">
       <div className="mb-6">
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="contact-card-title text-xl font-semibold text-gray-900 dark:text-gray-100">
           Gửi tin nhắn cho shop
         </h3>
-        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
+        <p className="contact-form-help mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
           Điền thông tin bên dưới, shop sẽ phản hồi bạn sớm nhất có thể.
         </p>
       </div>
 
       {submitted ? (
-        <div className="rounded-xl border border-gray-200 bg-gray-50 px-5 py-10 text-center dark:border-gray-700 dark:bg-gray-900/30">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600 shadow-sm dark:bg-gray-800">
+        <div className="contact-form-success rounded-xl border border-gray-200 bg-gray-50 px-5 py-10 text-center dark:border-gray-700 dark:bg-gray-900/30">
+          <div className="contact-success-icon mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600 shadow-sm dark:bg-gray-800">
             <CheckCircle className="h-6 w-6" />
           </div>
 
-          <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h4 className="contact-card-title mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Cảm ơn bạn!
           </h4>
-          <p className="text-sm leading-6 text-gray-600 dark:text-gray-300">
+          <p className="contact-form-help text-sm leading-6 text-gray-600 dark:text-gray-300">
             Tin nhắn đã được gửi thành công. Mình sẽ phản hồi sớm nhất có thể!
           </p>
         </div>
@@ -79,7 +79,7 @@ const ContactForm = () => {
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              <label className="contact-form-label mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Tên của bạn
               </label>
               <input
@@ -87,13 +87,13 @@ const ContactForm = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
+                className="contact-input w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
                 placeholder="Nhập tên của bạn"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+              <label className="contact-form-label mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Email
               </label>
               <input
@@ -101,14 +101,14 @@ const ContactForm = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
+                className="contact-input w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
                 placeholder="email@example.com"
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+            <label className="contact-form-label mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
               Chủ đề
             </label>
             <Select
@@ -116,7 +116,8 @@ const ContactForm = () => {
               value={formData.subject || undefined}
               onChange={handleSubjectChange}
               placeholder="Chọn chủ đề"
-              className="w-full"
+              className="contact-subject-select w-full"
+              popupClassName="contact-subject-select-dropdown"
               size="large"
               options={SUBJECT_OPTIONS}
               allowClear
@@ -124,7 +125,7 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
+            <label className="contact-form-label mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">
               Tin nhắn
             </label>
             <textarea
@@ -132,7 +133,7 @@ const ContactForm = () => {
               value={formData.message}
               onChange={handleChange}
               rows="5"
-              className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
+              className="contact-input w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400"
               placeholder="Nhập tin nhắn của bạn..."
             />
           </div>
@@ -140,7 +141,7 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
+            className="contact-submit-button w-full rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
           >
             {isSubmitting ? 'Đang gửi...' : 'Gửi tin nhắn'}
           </button>

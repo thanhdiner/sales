@@ -2,6 +2,7 @@ import useAdminChatbotRuntimePage from './hooks/useAdminChatbotRuntimePage'
 import AdminChatbotRuntimeContentSection from './sections/AdminChatbotRuntimeContentSection'
 import AdminChatbotRuntimeHeaderSection from './sections/AdminChatbotRuntimeHeaderSection'
 import AdminChatbotRuntimeLoadingState from './sections/AdminChatbotRuntimeLoadingState'
+import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 export default function AdminChatbotRuntimePage() {
   const {
@@ -25,7 +26,7 @@ export default function AdminChatbotRuntimePage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="admin-chatbot-page mx-auto max-w-7xl">
       <AdminChatbotRuntimeHeaderSection
         saving={saving}
         onReload={handleReload}

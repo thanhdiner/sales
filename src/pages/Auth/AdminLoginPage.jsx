@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@/stores/adminUser'
 import { trustDevice } from '@/services/adminAccountsService'
 import SEO from '@/components/SEO'
+import './AdminLoginPage.scss'
 
 const { Title } = Typography
 
-function AdminLoginPage() {const [loading, setLoading] = useState(false)
+function AdminLoginPage() {
+  const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
   const [pending2FA, setPending2FA] = useState(null)
   const [twoFACode, setTwoFACode] = useState('')
@@ -115,38 +117,36 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
   const is2FACodeValid = useBackup ? twoFACode.length >= 7 : /^\d{6}$/.test(twoFACode)
 
   return (
-    <div className="admin-login-page dark:from-gray-500 dark:to-gray-800 flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] to-[#f7f8fa] px-4 py-8">
+    <div className="admin-login-page flex min-h-screen items-center justify-center px-4 py-8">
       <SEO title="Admin – Đăng nhập" noIndex />
-            <Card
+      <Card
         style={{
           width: '100%',
           maxWidth: 420,
-          borderRadius: 20,
-          boxShadow: '0 8px 36px -4px rgba(0,0,0,0.12)',
           padding: 0
         }}
         styles={{ body: { padding: 0 } }}
-        className="dark:bg-gray-800 w-full"
+        className="admin-login-card w-full"
       >
-        <div className="p-8 sm:p-10">
-          <Title level={3} style={{ marginBottom: 16, textAlign: 'center', fontSize: 'clamp(1.4rem, 4vw, 1.9rem)' }}>
+        <div className="admin-login-content p-8 sm:p-10">
+          <Title level={3} className="admin-login-title">
             Admin Login
           </Title>
           {!pending2FA ? (
             <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ username: '', password: '' }}>
               <Form.Item
                 name="username"
-                label={<span className="dark:text-gray-100">Username</span>}
+                label={<span className="admin-login-label">Username</span>}
                 rules={[{ required: true, message: 'Nhập username!' }]}
               >
-                <Input placeholder="Tài khoản" autoFocus autoComplete="username" className="dark:bg-gray-800 dark:text-gray-200" />
+                <Input placeholder="Tài khoản" autoFocus autoComplete="username" className="admin-login-input" />
               </Form.Item>
               <Form.Item
                 name="password"
-                label={<span className="dark:text-gray-100">Password</span>}
+                label={<span className="admin-login-label">Password</span>}
                 rules={[{ required: true, message: 'Nhập mật khẩu!' }]}
               >
-                <Input.Password placeholder="Mật khẩu" autoComplete="current-password" className="dark:bg-gray-800 dark:text-gray-200" />
+                <Input.Password placeholder="Mật khẩu" autoComplete="current-password" className="admin-login-input" />
               </Form.Item>
               <Button
                 type="primary"
@@ -154,14 +154,14 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
                 loading={loading}
                 block
                 style={{ marginTop: 8 }}
-                className="h-11 text-[15px] font-semibold"
+                className="admin-login-btn h-11 text-[15px] font-semibold"
               >
                 Đăng nhập
               </Button>
             </Form>
           ) : (
             <>
-              <div style={{ marginBottom: 8, fontWeight: 500 }}>
+              <div className="admin-login-2fa-hint">
                 {useBackup ? 'Nhập mã dự phòng đã lưu:' : 'Vui lòng nhập mã xác thực 2FA:'}
               </div>
               <Input
@@ -181,6 +181,7 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
                 }}
                 autoFocus
                 disabled={loading2FA}
+                className="admin-login-input admin-login-otp-input"
               />
               <Button
                 type="primary"
@@ -188,11 +189,18 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
                 onClick={handle2FAVerify}
                 disabled={!is2FACodeValid}
                 block
-                className="h-11 text-[15px] font-semibold"
+                className="admin-login-btn h-11 text-[15px] font-semibold"
               >
                 Xác thực & Đăng nhập
               </Button>
-              <Button type="link" onClick={() => setUseBackup(b => !b)} style={{ marginTop: 8 }} disabled={loading2FA} block>
+              <Button
+                type="link"
+                onClick={() => setUseBackup(b => !b)}
+                style={{ marginTop: 8 }}
+                disabled={loading2FA}
+                block
+                className="admin-login-link"
+              >
                 {useBackup ? 'Sử dụng mã 2FA từ app?' : 'Sử dụng mã dự phòng?'}
               </Button>
               <Button
@@ -206,6 +214,7 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
                 block
                 style={{ marginTop: 8 }}
                 disabled={loading2FA}
+                className="admin-login-text-btn"
               >
                 Quay lại
               </Button>
@@ -214,20 +223,21 @@ function AdminLoginPage() {const [loading, setLoading] = useState(false)
         </div>
       </Card>
 
-  <Modal
+      <Modal
         open={showTrustDeviceModal}
         onCancel={() => onTrustDevice(false)}
+        rootClassName="admin-login-trust-modal"
         footer={[
-          <Button key="skip" onClick={() => onTrustDevice(false)}>
+          <Button key="skip" onClick={() => onTrustDevice(false)} className="admin-login-modal-skip">
             Bỏ qua
           </Button>,
-          <Button key="trust" type="primary" onClick={() => onTrustDevice(true)}>
+          <Button key="trust" type="primary" onClick={() => onTrustDevice(true)} className="admin-login-modal-trust">
             Tin cậy thiết bị này
           </Button>
         ]}
       >
-        <Title level={4}>Tin cậy thiết bị này?</Title>
-        <p>
+        <Title level={4} className="admin-login-modal-title">Tin cậy thiết bị này?</Title>
+        <p className="admin-login-modal-description">
           Đăng nhập thành công! Bạn có muốn thêm thiết bị này vào danh sách thiết bị tin cậy không? <br />
           Khi tin cậy, lần sau đăng nhập sẽ không cần xác thực 2FA trên thiết bị này.
         </p>

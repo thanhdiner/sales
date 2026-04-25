@@ -1,6 +1,8 @@
 import React from 'react'
 import { formatOrderPrice, getOrderStatusText } from '../utils'
 
+const hasDigitalDeliveries = order => (order.orderItems || []).some(item => item.digitalDeliveries?.length > 0)
+
 const getPrimaryAction = order => {
   if (order.paymentStatus === 'failed' || order.status === 'cancelled') {
     return {
@@ -11,12 +13,12 @@ const getPrimaryAction = order => {
     }
   }
 
-  if (order.status === 'shipping' || order.status === 'completed') {
+  if (order.paymentStatus === 'paid' && hasDigitalDeliveries(order)) {
     return {
       label: 'Xem thông tin tài khoản',
       disabled: false,
       action: 'account',
-      helperText: 'Nếu shop đã cập nhật dữ liệu bàn giao, bạn có thể xem trực tiếp username, password, email hoặc key trong đơn này.',
+      helperText: 'Tài khoản/license đã sẵn sàng. Bạn có thể xem và sao chép trực tiếp trong đơn này.',
     }
   }
 

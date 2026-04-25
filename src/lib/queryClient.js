@@ -36,6 +36,9 @@ export const queryPersistOptions = queryPersister
   ? {
       persister: queryPersister,
       maxAge: HOUR,
-      buster: 'sales-react-query-v1'
+      buster: 'sales-react-query-v1',
+      dehydrateOptions: {
+        shouldDehydrateQuery: query => query.state.status === 'success' && query.meta?.persist !== false
+      }
     }
   : undefined

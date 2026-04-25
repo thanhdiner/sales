@@ -36,51 +36,53 @@ function AdminProductCategoriesPage() {
   } = useAdminProductCategoriesPage()
 
   return (
-    <>
+    <div className="admin-product-categories-page">
       <SEO title="Admin – Danh mục" noIndex />
-            <AdminProductCategoriesHeader
-        {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories }}
-      />
-      <AdminProductCategoriesHeaderActions
-        {...{
-          selectedRowKeys,
-          value,
-          setValue,
-          productCategories,
-          setProductCategories,
-          setTotalProductCategories,
-          setSelectedRowKeys,
-          editedPositions,
-          totalProductCategories,
-          currentPage,
-          setCurrentPage,
-          fetchData
-        }}
-      />
-      <AdminProductCategoriesTable
-        {...{
-          isLoading,
-          productCategories,
-          setEditedPositions,
-          setProductCategories,
-          setTotalProductCategories,
-          sortField,
-          setSortField,
-          setSortOrder,
-          selectedRowKeys,
-          setSelectedRowKeys,
-          columnsVisible,
-          totalProductCategories,
-          currentPage,
-          setCurrentPage,
-          limitItems,
-          sortOrder,
-          filterValues,
-          fetchData
-        }}
-      />
-      <AdminProductCategoriesPagination {...{ currentPage, totalProductCategories, limitItems, setCurrentPage, setSelectedRowKeys }} />
-    </>
+      <div className="admin-product-categories-page__inner">
+        <AdminProductCategoriesHeader
+          {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories }}
+        />
+        <AdminProductCategoriesHeaderActions
+          {...{
+            selectedRowKeys,
+            value,
+            setValue,
+            productCategories,
+            setProductCategories,
+            setTotalProductCategories,
+            setSelectedRowKeys,
+            editedPositions,
+            totalProductCategories,
+            currentPage,
+            setCurrentPage,
+            fetchData
+          }}
+        />
+        <AdminProductCategoriesTable
+          {...{
+            isLoading,
+            productCategories,
+            setEditedPositions,
+            setProductCategories,
+            setTotalProductCategories,
+            sortField,
+            setSortField,
+            setSortOrder,
+            selectedRowKeys,
+            setSelectedRowKeys,
+            columnsVisible,
+            totalProductCategories,
+            currentPage,
+            setCurrentPage,
+            limitItems,
+            sortOrder,
+            filterValues,
+            fetchData
+          }}
+        />
+        <AdminProductCategoriesPagination {...{ currentPage, totalProductCategories, limitItems, setCurrentPage, setSelectedRowKeys }} />
+      </div>
+    </div>
   )
 }
 

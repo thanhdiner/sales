@@ -1,0 +1,116 @@
+.admin-reviews-page {
+  color: var(--admin-text);
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-content,
+.admin-reviews-confirm-modal .ant-modal-content {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+  border-radius: 14px !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-body,
+.admin-reviews-confirm-modal .ant-modal-body {
+  background: var(--admin-surface) !important;
+  padding: 22px 24px !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-confirm-body,
+.admin-reviews-confirm-modal .ant-modal-confirm-body {
+  color: var(--admin-text-muted) !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-confirm-body > .anticon,
+.admin-reviews-confirm-modal .ant-modal-confirm-body > .anticon {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-reviews-confirm-modal .ant-modal-confirm-title,
+.admin-reviews-confirm-modal .ant-modal-confirm-content {
+  color: var(--admin-text) !important;
+}
+
+.admin-reviews-confirm-modal .ant-modal-confirm-content {
+  color: var(--admin-text-muted) !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-confirm-btns,
+.admin-reviews-confirm-modal .ant-modal-confirm-btns {
+  margin-top: 18px !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-modal-confirm-btns .ant-btn,
+.admin-reviews-confirm-modal .ant-modal-confirm-btns .ant-btn {
+  min-width: 88px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.admin-reviews-confirm-modal .ant-modal-close {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-reviews-confirm-modal .ant-modal-close:hover {
+  color: var(--admin-text) !important;
+}
+
+.admin-reviews-confirm-modal .ant-btn:not(.ant-btn-primary) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-reviews-confirm-modal .ant-btn:not(.ant-btn-primary):hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-reviews-confirm-modal .ant-btn-primary {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-reviews-confirm-modal .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-cancel,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-cancel {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-cancel:hover,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-cancel:hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok {
+  border: none !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok:hover,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok:hover {
+  filter: brightness(1.06);
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok--danger,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok--danger {
+  background: #dc2626 !important;
+  color: #fff !important;
+}
+
+.ant-modal.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok--danger:hover,
+.admin-reviews-confirm-modal .ant-btn.admin-reviews-confirm-ok--danger:hover {
+  background: #b91c1c !important;
+  filter: none;
+}

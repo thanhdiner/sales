@@ -21,7 +21,7 @@ export default function PromoCodesStats({ promoCodes }) {
       value: stats.expired,
       icon: <CalendarOutlined />
     },
-  {
+    {
       title: 'Lượt sử dụng',
       value: stats.totalUsed,
       icon: <UserOutlined />
@@ -32,16 +32,16 @@ export default function PromoCodesStats({ promoCodes }) {
     <Row gutter={[16, 16]} className="mb-6">
       {statItems.map(item => (
         <Col xs={24} sm={12} lg={6} key={item.title}>
-          <Card className="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+          <Card className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]">
             <Statistic
-              title={<span className="text-gray-500 dark:text-gray-400">{item.title}</span>}
+              title={<span className="text-[var(--admin-text-muted)]">{item.title}</span>}
               value={item.value}
               prefix={item.icon}
               valueStyle={{
                 color: 'inherit',
                 fontWeight: 600
               }}
-              className="text-gray-900 dark:text-gray-100"
+              className="text-[var(--admin-text)]"
             />
           </Card>
         </Col>

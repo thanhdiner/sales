@@ -21,7 +21,7 @@ export default function AdminChatbotRuntimeContentSection({
           <ApiOutlined /> Runtime và provider
         </span>
       )}
-      className="dark:border-gray-700 dark:bg-gray-800"
+      className="admin-chatbot-card"
     >
       <AdminChatbotRuntimeStatusSection config={config} />
 

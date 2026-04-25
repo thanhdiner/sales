@@ -2,22 +2,29 @@ import { message, Modal, Tag } from 'antd'
 import { toggleProductStatus } from '@/services/adminProductService'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
 
+const ADMIN_PRODUCTS_CONFIRM_MASK_STYLE = {
+  background: 'rgba(8, 10, 14, 0.72)',
+  backdropFilter: 'blur(2px)'
+}
+
 function FieldStatus({ status, record, setProducts }) {
   const permission = useAdminPermissions()
+  const statusClassName = status === 'active' ? 'admin-products-status-tag admin-products-status-tag--active' : 'admin-products-status-tag admin-products-status-tag--inactive'
 
   if (!permission.includes('edit_product')) {
-    return <Tag color={status === 'active' ? 'green' : 'red'}>{status}</Tag>
+    return <Tag className={statusClassName}>{status}</Tag>
   }
 
   return (
     <Tag
-      color={status === 'active' ? 'green' : 'red'}
-      style={{ cursor: 'pointer' }}
+      className={`${statusClassName} admin-products-status-tag--clickable`}
       onClick={() => {
         Modal.confirm({
-          title: <span className="dark:text-gray-300">Change Product Status</span>,
+          className: 'admin-products-confirm-modal',
+          maskStyle: ADMIN_PRODUCTS_CONFIRM_MASK_STYLE,
+          title: <span>Change Product Status</span>,
           content: (
-            <span className="dark:text-gray-300">
+            <span>
               Are you sure you want to change status of {record.title} from {status} to
               {status === 'active' ? ' inactive' : ' active'}?
             </span>

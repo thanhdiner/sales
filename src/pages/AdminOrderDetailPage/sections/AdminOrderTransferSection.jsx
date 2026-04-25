@@ -6,31 +6,31 @@ export default function AdminOrderTransferSection({ transferInfo }) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
-        <CreditCard className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+    <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
+      <h2 className="mb-4 flex items-center gap-2 text-base font-semibold text-[var(--admin-text)]">
+        <CreditCard className="h-5 w-5 text-[var(--admin-text-muted)]" />
         Thông tin chuyển khoản
       </h2>
 
       <div className="space-y-4">
         <div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Ngân hàng</p>
-          <p className="font-medium text-gray-900 dark:text-white">{transferInfo.bank}</p>
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--admin-text-subtle)]">Ngân hàng</p>
+          <p className="font-medium text-[var(--admin-text)]">{transferInfo.bank}</p>
         </div>
 
         <div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Số tài khoản</p>
-          <p className="font-mono font-medium text-gray-900 dark:text-white">{transferInfo.accountNumber}</p>
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--admin-text-subtle)]">Số tài khoản</p>
+          <p className="font-mono font-medium text-[var(--admin-text)]">{transferInfo.accountNumber}</p>
         </div>
 
         <div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Chủ tài khoản</p>
-          <p className="font-medium text-gray-900 dark:text-white">{transferInfo.accountName}</p>
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--admin-text-subtle)]">Chủ tài khoản</p>
+          <p className="font-medium text-[var(--admin-text)]">{transferInfo.accountName}</p>
         </div>
 
         <div>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-gray-400">Nội dung chuyển khoản</p>
-          <p className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 font-mono text-sm font-medium text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--admin-text-subtle)]">Nội dung chuyển khoản</p>
+          <p className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-3 py-2 font-mono text-sm font-medium text-[var(--admin-text)]">
             {transferInfo.content}
           </p>
         </div>

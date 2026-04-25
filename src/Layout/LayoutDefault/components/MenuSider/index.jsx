@@ -106,7 +106,7 @@ function MenuSider() {
       onOpenChange={keys => setOpenKeys(keys)}
       selectedKeys={selectedKeys}
       style={{ paddingBottom: '30px' }}
-      className="dark:bg-gray-800"
+      className="menu-sider"
     />
   )
 }

@@ -4,6 +4,7 @@ import AdminChatbotConfigHeaderSection from './sections/AdminChatbotConfigHeader
 import AdminChatbotConfigLoadingState from './sections/AdminChatbotConfigLoadingState'
 import AdminChatbotConfigOverviewSection from './sections/AdminChatbotConfigOverviewSection'
 import AdminChatbotConfigStatsSection from './sections/AdminChatbotConfigStatsSection'
+import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 export default function AdminChatbotConfigPage() {
   const {
@@ -24,7 +25,7 @@ export default function AdminChatbotConfigPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="admin-chatbot-page mx-auto max-w-7xl">
       <AdminChatbotConfigHeaderSection
         saving={saving}
         onReload={handleReload}

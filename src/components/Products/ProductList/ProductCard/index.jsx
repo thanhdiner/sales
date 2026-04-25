@@ -13,11 +13,11 @@ function ProductCard({ product }) {
 
   return (
     <Link to={`/products/${product.slug}`} className="block">
-      <div className="product-card shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:outline dark:outline-gray-600 dark:outline-1 dark:bg-gray-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10" />
+      <div className="product-card shadow relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:shadow-blue-100/50 hover:border-blue-300 transition-all duration-300 group h-full flex flex-col transform hover:-translate-y-1 dark:border-white/10 dark:bg-[linear-gradient(180deg,#101213_0%,#151719_100%)] dark:shadow-[0_14px_34px_rgba(0,0,0,0.24)] dark:hover:border-white/20 dark:hover:shadow-[0_22px_48px_rgba(0,0,0,0.34)]">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20 dark:from-green-500/10 dark:via-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none z-10 dark:via-white/5" />
 
-        <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-white p-3 dark:from-gray-700 dark:to-gray-800">
+        <div className="relative h-[210px] bg-gradient-to-br from-gray-50 to-white p-2.5 dark:from-[#202327] dark:to-[#151719]">
           <div className="absolute top-2 left-2 flex flex-col gap-1 z-30">
             {product.isTopDeal && (
               <span className="bg-gradient-to-r from-orange-500 to-yellow-400 text-white text-[11px] font-bold px-2 py-[2px] rounded shadow badge-topdeal uppercase tracking-wide">
@@ -43,7 +43,7 @@ function ProductCard({ product }) {
               className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 ${
                 actions.isInWishlist
                   ? 'bg-pink-500 text-white border-pink-500 scale-110'
-                  : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100'
+                  : 'bg-white/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100 dark:bg-[#202327]/90 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-pink-500/10 dark:hover:text-pink-300 dark:hover:border-pink-500/30'
               }`}
               title={actions.isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
             >
@@ -59,7 +59,7 @@ function ProductCard({ product }) {
               className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg border transition-all duration-200 ${
                 actions.isInCompare
                   ? 'bg-blue-500 text-white border-blue-500 scale-110'
-                  : 'bg-white/95 dark:bg-gray-700/95 text-gray-400 border-white/70 hover:bg-blue-50 hover:text-blue-500 hover:border-blue-300 opacity-0 group-hover:opacity-100'
+                  : 'bg-white/95 text-gray-400 border-white/70 hover:bg-blue-50 hover:text-blue-500 hover:border-blue-300 opacity-0 group-hover:opacity-100 dark:bg-[#202327]/90 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-blue-500/10 dark:hover:text-blue-300 dark:hover:border-blue-500/30'
               }`}
               title="So sánh sản phẩm"
             >
@@ -69,7 +69,7 @@ function ProductCard({ product }) {
 
           <button
             onClick={actions.handleAddToCart}
-            className="absolute bottom-2 right-2 w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-white/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-xl hover:scale-110 z-30"
+            className="absolute bottom-2 right-2 w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-white/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-xl hover:scale-110 z-30 dark:bg-[#202327]/95 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-green-500 dark:hover:text-[#06110a] dark:hover:border-green-500 dark:hover:shadow-[0_12px_24px_rgba(34,197,94,0.22)]"
             title="Thêm vào giỏ hàng"
             disabled={actions.addCartLoading || product.stock <= 0}
           >
@@ -93,24 +93,24 @@ function ProductCard({ product }) {
           <img
             src={product.thumbnail}
             alt={product.title}
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 filter group-hover:brightness-110"
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 filter group-hover:brightness-110 dark:group-hover:brightness-105"
             loading="lazy"
           />
         </div>
 
-        <div className="p-3 flex-1 flex flex-col bg-gradient-to-b from-white via-white to-gray-50/50 dark:from-gray-800 dark:to-gray-800">
-          <div className="h-16">
-            <h3 className="text-[16px] font-medium text-gray-800 leading-5 line-clamp-2 flex-1 group-hover:text-blue-600 transition-colors dark:text-white">
+        <div className="p-2.5 flex-1 flex flex-col bg-gradient-to-b from-white via-white to-gray-50/50 dark:from-[#151719] dark:via-[#151719] dark:to-[#101213]">
+          <div className="h-[54px]">
+            <h3 className="text-[15px] font-medium text-gray-800 leading-[19px] line-clamp-2 flex-1 group-hover:text-blue-600 transition-colors dark:text-[#f4f6f8] dark:group-hover:text-green-300">
               {product.title}
             </h3>
 
-            <div>
-              <Rate disabled allowHalf value={product.rate} className="text-xs" style={{ fontSize: '16px' }} />
+            <div className="leading-none">
+              <Rate disabled allowHalf value={product.rate} className="text-xs" style={{ fontSize: '14px' }} />
             </div>
           </div>
 
-          <div className="space-y-1 h-[40px]">
-            <div className="text-red-500 font-bold text-lg bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
+          <div className="space-y-0.5 h-[36px]">
+            <div className="text-red-500 font-bold text-[17px] leading-5 bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
               {priceNew.toLocaleString('vi-VN')} <span className="text-sm text-red-500">₫</span>
             </div>
 
@@ -121,8 +121,8 @@ function ProductCard({ product }) {
             )}
           </div>
 
-          <div className="mt-2 pt-2 border-t border-gray-100">
-            <div className="flex items-center text-xs text-green-600 bg-gradient-to-r from-green-50/50 to-emerald-50/50 px-2 py-1 rounded-md dark:bg-green-400 dark:text-green-700">
+          <div className="mt-1.5 pt-1.5 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-center text-xs text-green-600 bg-gradient-to-r from-green-50/50 to-emerald-50/50 px-2 py-1 rounded-md dark:from-green-500/10 dark:to-emerald-500/10 dark:text-green-300">
               <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"

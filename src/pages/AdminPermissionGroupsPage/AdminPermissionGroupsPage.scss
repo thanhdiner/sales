@@ -1,0 +1,199 @@
+.admin-permission-groups-page {
+  color: var(--admin-text);
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-table,
+.admin-permission-groups-table.ant-table-wrapper .ant-table-container,
+.admin-permission-groups-table.ant-table-wrapper .ant-table-content {
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-table-thead > tr > th {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+  font-weight: 600;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-empty-description {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-item,
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-prev .ant-pagination-item-link,
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-next .ant-pagination-item-link,
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-item a {
+  color: inherit !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent-soft) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-item-active a {
+  color: var(--admin-accent) !important;
+  font-weight: 600;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options .ant-select-arrow {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options-quick-jumper {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options-quick-jumper input {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  border-radius: 8px;
+  box-shadow: none !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options-quick-jumper input::placeholder {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options-quick-jumper input:hover,
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination-options-quick-jumper input:focus {
+  border-color: var(--admin-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-permission-groups-table .admin-permission-groups-delete-btn.ant-btn.ant-btn-text.ant-btn-dangerous {
+  color: #f87171 !important;
+}
+
+.admin-permission-groups-page .ant-switch {
+  background: var(--admin-surface-3);
+}
+
+.admin-permission-groups-page .ant-switch:hover {
+  background: var(--admin-surface-3);
+}
+
+.admin-permission-groups-page .ant-switch.ant-switch-checked {
+  background: var(--admin-accent);
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-content {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-header {
+  border-bottom: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-title {
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-body {
+  color: var(--admin-text);
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-footer {
+  border-top: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-close {
+  color: var(--admin-text-subtle);
+}
+
+.admin-permission-group-modal.ant-modal .ant-modal-close:hover {
+  color: var(--admin-text);
+  background: var(--admin-surface-3);
+}
+
+.admin-permission-group-modal .ant-input,
+.admin-permission-group-modal .ant-input-affix-wrapper,
+.admin-permission-group-modal .ant-input-textarea textarea {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: none !important;
+}
+
+.admin-permission-group-modal .ant-input::placeholder,
+.admin-permission-group-modal .ant-input-textarea textarea::placeholder {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-group-modal .ant-input:hover,
+.admin-permission-group-modal .ant-input:focus,
+.admin-permission-group-modal .ant-input-focused,
+.admin-permission-group-modal .ant-input-textarea textarea:hover,
+.admin-permission-group-modal .ant-input-textarea textarea:focus {
+  border-color: var(--admin-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-inner {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-inner-content,
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-inner-content * {
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-message > .anticon,
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-message-icon,
+.admin-permission-groups-popconfirm.ant-popover .ant-popconfirm-message-icon,
+.admin-permission-groups-popconfirm.ant-popover .ant-popconfirm-message-icon .anticon {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-popover-arrow::before {
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-btn-default {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-btn-default:hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-popconfirm.ant-popover .ant-btn-primary {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #ffffff !important;
+}

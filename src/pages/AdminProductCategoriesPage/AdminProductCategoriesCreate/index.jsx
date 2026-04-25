@@ -6,6 +6,12 @@ import { useAdminProductCategoryCreate } from '../hooks/useAdminProductCategoryC
 const initialValues = {
   status: 'active'
 }
+const labelClassName = 'text-[var(--admin-text-muted)]'
+const inputClassName =
+  '!border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
+const secondaryButtonClass =
+  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+const primaryButtonClass = 'rounded-lg !border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90'
 
 const AdminProductCategoriesCreate = () => {
   const { form, loading, treeData, handleSubmit, beforeUploadImage, getFileListFromEvent, navigate } =
@@ -15,13 +21,13 @@ const AdminProductCategoriesCreate = () => {
     <Form form={form} layout="vertical" initialValues={initialValues} onFinish={handleSubmit}>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item name="title" label={<span className="dark:text-gray-300">Category Name</span>} rules={[{ required: true }]}>
+          <Form.Item name="title" label={<span className={labelClassName}>Category Name</span>} rules={[{ required: true }]}>
             <Input
-              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              className={inputClassName}
               placeholder="Category Name"
             />
           </Form.Item>
-          <Form.Item name="parent_id" label={<span className="dark:text-gray-300">Parent Category</span>}>
+          <Form.Item name="parent_id" label={<span className={labelClassName}>Parent Category</span>}>
             <TreeSelect
               style={{ width: '100%' }}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -33,15 +39,15 @@ const AdminProductCategoriesCreate = () => {
               filterTreeNode={(input, treeNode) => treeNode.title.toLowerCase().includes(input.toLowerCase())}
             />
           </Form.Item>
-          <Form.Item name="slug" label={<span className="dark:text-gray-300">Slug URL</span>}>
+          <Form.Item name="slug" label={<span className={labelClassName}>Slug URL</span>}>
             <Input
-              className="dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-400 dark:border-gray-600"
+              className={inputClassName}
               placeholder="Tự động tạo từ Category Name hoặc bạn có thể sửa"
             />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item name="status" label={<span className="dark:text-gray-300">Status</span>}>
+          <Form.Item name="status" label={<span className={labelClassName}>Status</span>}>
             <Select
               options={[
                 { label: 'Active', value: 'active' },
@@ -49,21 +55,21 @@ const AdminProductCategoriesCreate = () => {
               ]}
             />
           </Form.Item>
-          <Form.Item name="position" label={<span className="dark:text-gray-300">Position</span>}>
+          <Form.Item name="position" label={<span className={labelClassName}>Position</span>}>
             <InputNumber placeholder="Position" style={{ width: '100%' }} min={0} />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={24}>
-          <Form.Item name="description" label={<span className="dark:text-gray-300">Short Description</span>}>
+          <Form.Item name="description" label={<span className={labelClassName}>Short Description</span>}>
             <TiptapEditor />
           </Form.Item>
         </Col>
         <Col span={24}>
           <Form.Item
             name="thumbnail"
-            label={<span className="dark:text-gray-300">Thumbnail (URL)</span>}
+            label={<span className={labelClassName}>Thumbnail (URL)</span>}
             valuePropName="fileList"
             getValueFromEvent={getFileListFromEvent}
             rules={[{ required: true, message: 'Please upload an image!' }]}
@@ -71,7 +77,7 @@ const AdminProductCategoriesCreate = () => {
             <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeUploadImage}>
               <div>
                 <PlusOutlined />
-                <div className="mt-2 dark:text-gray-300">Add Image</div>
+                <div className="mt-2 text-[var(--admin-text-muted)]">Add Image</div>
               </div>
             </Upload>
           </Form.Item>
@@ -79,10 +85,10 @@ const AdminProductCategoriesCreate = () => {
       </Row>
 
       <Form.Item style={{ textAlign: 'right' }}>
-        <Button onClick={() => navigate('/admin/product-categories')} disabled={loading} style={{ marginRight: 8 }}>
+        <Button className={secondaryButtonClass} onClick={() => navigate('/admin/product-categories')} disabled={loading} style={{ marginRight: 8 }}>
           Cancel
         </Button>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 120 }}>
+        <Button className={primaryButtonClass} type="primary" htmlType="submit" loading={loading} disabled={loading} style={{ width: 120 }}>
           {loading ? 'Creating...' : 'Create Category'}
         </Button>
       </Form.Item>

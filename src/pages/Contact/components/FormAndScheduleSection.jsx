@@ -8,7 +8,7 @@ import WorkingHoursCard from './WorkingHoursCard'
 const FormAndScheduleSection = () => {
   return (
     <motion.section
-      className="bg-white px-4 py-12 md:py-20 dark:bg-gray-950"
+      className="contact-band bg-white px-4 py-12 md:py-20 dark:bg-gray-950"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}

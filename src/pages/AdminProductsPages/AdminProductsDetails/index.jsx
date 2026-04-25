@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react'
+import { Spin } from 'antd'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '@/services/adminProductService'
-import { Spin } from 'antd'
-import renderRow from '@/utils/renderRow'
 import { adminProductRows } from '@/helpers/adminProductRows'
 import AdminProductThumbnail from './components/AdminProductCategoryThumbnail'
-import './AdminProductsDetails.scss'
 import SEO from '@/components/SEO'
+import './AdminProductsDetails.scss'
+
+function renderProductRow(label, value) {
+  return (
+    <tr key={label} className="admin-product__row">
+      <td className="admin-product__cell admin-product__cell--label">{label}</td>
+      <td className="admin-product__cell admin-product__cell--value">{value}</td>
+    </tr>
+  )
+}
 
 function AdminProductsDetails() {
   const { id } = useParams()
@@ -15,13 +23,14 @@ function AdminProductsDetails() {
 
   useEffect(() => {
     if (!id) return
+
     ;(async () => {
       setIsLoading(true)
       try {
-        const { product } = await getProductById(id)
-        setProduct(product)
-      } catch (err) {
-        console.error('Failed to fetch product:', err)
+        const response = await getProductById(id)
+        setProduct(response?.product || null)
+      } catch (error) {
+        console.error('Failed to fetch product:', error)
       } finally {
         setIsLoading(false)
       }
@@ -29,20 +38,19 @@ function AdminProductsDetails() {
   }, [id])
 
   return (
-    <div className="admin-product">
-      <SEO title="Admin – Chi tiết sản phẩm" noIndex />
-      <h1 className="admin-product__title dark:text-gray-200">Product Details</h1>
+    <section className="admin-product">
+      <SEO title="Admin - Product Details" noIndex />
+      <h1 className="admin-product__title">Product Details</h1>
 
-      <Spin spinning={isLoading} tip="Loading product...">
+      <Spin spinning={isLoading} tip="Loading product..." className="admin-product__spin">
         {!isLoading && product ? (
           <div className="admin-product__layout">
             <div className="admin-product__info">
               <table className="admin-product__table">
-                <tbody className="dark:text-gray-300">
-                  {adminProductRows(product).map(([label, value]) => renderRow(label, value))}
-                  {renderRow('Description', <div dangerouslySetInnerHTML={{ __html: product.description || '—' }} />)}
-
-                  {renderRow('Content', <div dangerouslySetInnerHTML={{ __html: product.content || '—' }} />)}
+                <tbody>
+                  {adminProductRows(product).map(([label, value]) => renderProductRow(label, value))}
+                  {renderProductRow('Description', <div className="admin-product__rich-text" dangerouslySetInnerHTML={{ __html: product.description || 'N/A' }} />)}
+                  {renderProductRow('Content', <div className="admin-product__rich-text" dangerouslySetInnerHTML={{ __html: product.content || 'N/A' }} />)}
                 </tbody>
               </table>
             </div>
@@ -52,10 +60,10 @@ function AdminProductsDetails() {
             </div>
           </div>
         ) : (
-          !isLoading && <p className="admin-product__empty">Không tìm thấy sản phẩm</p>
+          !isLoading && <p className="admin-product__empty">Product not found</p>
         )}
       </Spin>
-    </div>
+    </section>
   )
 }
 

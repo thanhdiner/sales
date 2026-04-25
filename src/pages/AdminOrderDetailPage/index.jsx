@@ -2,12 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import { useAdminOrderDetail } from './hooks/useAdminOrderDetail'
 import AdminOrderCustomerSection from './sections/AdminOrderCustomerSection'
+import AdminOrderDigitalDeliverySection from './sections/AdminOrderDigitalDeliverySection'
 import AdminOrderDetailEmptyState from './sections/AdminOrderDetailEmptyState'
 import AdminOrderDetailHeaderSection from './sections/AdminOrderDetailHeaderSection'
 import AdminOrderDetailLoadingState from './sections/AdminOrderDetailLoadingState'
 import AdminOrderItemsSection from './sections/AdminOrderItemsSection'
 import AdminOrderSummarySection from './sections/AdminOrderSummarySection'
 import AdminOrderTransferSection from './sections/AdminOrderTransferSection'
+
+const canRetryDigitalDelivery = order =>
+  order?.paymentStatus === 'paid' &&
+  order?.status !== 'cancelled' &&
+  (order.orderItems || []).some(item => item.deliveryType === 'instant_account' && !item.digitalDeliveries?.length)
 
 export default function AdminOrderDetailPage() {
   const { id } = useParams()
@@ -16,9 +22,11 @@ export default function AdminOrderDetailPage() {
     order,
     loading,
     status,
+    paymentStatus,
     updating,
     successMessage,
     handleStatusChange,
+    handlePaymentStatusChange,
     handleUpdateStatus
   } = useAdminOrderDetail(id)
 
@@ -28,7 +36,7 @@ export default function AdminOrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center rounded-xl bg-slate-50 dark:bg-gray-900">
+      <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
         <SEO title="Admin - Chi tiết đơn" noIndex />
         <AdminOrderDetailLoadingState />
       </div>
@@ -37,7 +45,7 @@ export default function AdminOrderDetailPage() {
 
   if (!order) {
     return (
-      <div className="flex min-h-screen items-center justify-center rounded-xl bg-slate-50 dark:bg-gray-900">
+      <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
         <SEO title="Admin - Chi tiết đơn" noIndex />
         <AdminOrderDetailEmptyState onBack={handleBack} />
       </div>
@@ -45,17 +53,20 @@ export default function AdminOrderDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 dark:bg-gray-900">
+    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6 text-[var(--admin-text)]">
       <SEO title="Admin - Chi tiết đơn" noIndex />
 
       <div className="mx-auto max-w-6xl">
         <AdminOrderDetailHeaderSection
           order={order}
           status={status}
+          paymentStatus={paymentStatus}
           updating={updating}
           successMessage={successMessage}
+          canRetryDigitalDelivery={canRetryDigitalDelivery(order)}
           onBack={handleBack}
           onStatusChange={handleStatusChange}
+          onPaymentStatusChange={handlePaymentStatusChange}
           onUpdateStatus={handleUpdateStatus}
         />
 
@@ -63,6 +74,7 @@ export default function AdminOrderDetailPage() {
           <div className="space-y-6 lg:col-span-2">
             <AdminOrderCustomerSection contact={order.contact} />
             <AdminOrderItemsSection orderItems={order.orderItems} />
+            <AdminOrderDigitalDeliverySection orderItems={order.orderItems} paymentStatus={order.paymentStatus} />
           </div>
 
           <div className="space-y-6">

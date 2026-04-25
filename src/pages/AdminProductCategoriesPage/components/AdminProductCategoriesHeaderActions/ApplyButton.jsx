@@ -5,6 +5,11 @@ import {
   deleteManyProductCategories
 } from '@/services/adminProductCategoryService'
 
+const ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE = {
+  background: 'rgba(8, 10, 14, 0.72)',
+  backdropFilter: 'blur(2px)'
+}
+
 function ApplyButton({
   value,
   setValue,
@@ -26,12 +31,10 @@ function ApplyButton({
     switch (value) {
       case 'delete':
         Modal.confirm({
-          title: <span className="dark:text-gray-300">Confirm Delete</span>,
-          content: (
-            <span className="dark:text-gray-300">
-              Are you sure you want to delete {selectedRowKeys.length} selected product categories?
-            </span>
-          ),
+          title: 'Confirm Delete',
+          content: `Are you sure you want to delete ${selectedRowKeys.length} selected product categories?`,
+          className: 'admin-product-categories-confirm-modal',
+          maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'Cancel',
@@ -64,12 +67,10 @@ function ApplyButton({
         const newStatus = value === 'status-active' ? 'active' : 'inactive'
 
         Modal.confirm({
-          title: <span className="dark:text-gray-300">Confirm Status Change</span>,
-          content: (
-            <span className="dark:text-gray-300">
-              Change status of {selectedRowKeys.length} product categories to "{newStatus}"?
-            </span>
-          ),
+          title: 'Confirm Status Change',
+          content: `Change status of ${selectedRowKeys.length} product categories to "${newStatus}"?`,
+          className: 'admin-product-categories-confirm-modal',
+          maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
@@ -95,8 +96,10 @@ function ApplyButton({
       }
       case 'change-position':
         Modal.confirm({
-          title: <span className="dark:text-gray-300">Confirm Position Change</span>,
-          content: <span className="dark:text-gray-300">Change position of {selectedRowKeys.length} product categories?</span>,
+          title: 'Confirm Position Change',
+          content: `Change position of ${selectedRowKeys.length} product categories?`,
+          className: 'admin-product-categories-confirm-modal',
+          maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
           okText: 'Yes',
           cancelText: 'Cancel',
           onOk: async () => {
@@ -135,7 +138,12 @@ function ApplyButton({
   }
   return (
     <>
-      <Button type="primary" disabled={!value || !selectedRowKeys.length} onClick={() => handleApplyAction()}>
+      <Button
+        type="primary"
+        disabled={!value || !selectedRowKeys.length}
+        onClick={() => handleApplyAction()}
+        className="admin-product-categories-btn admin-product-categories-btn--apply"
+      >
         Apply
       </Button>
     </>

@@ -28,6 +28,11 @@ export default function PromoCodesTable({
   onToggleStatus,
   onDelete
 }) {
+  const textActionButtonClass =
+    '!text-[var(--admin-text-muted)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+  const primaryButtonClass =
+    '!border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90'
+
   const columns = [
     {
       title: 'Mã giảm giá',
@@ -35,8 +40,14 @@ export default function PromoCodesTable({
       key: 'code',
       render: text => (
         <Space>
-          <span className="font-mono font-bold text-blue-600">{text}</span>
-          <Button type="text" size="small" icon={<CopyOutlined />} onClick={() => onCopy(text)} />
+          <span className="font-mono font-bold text-[var(--admin-accent)]">{text}</span>
+          <Button
+            type="text"
+            size="small"
+            icon={<CopyOutlined />}
+            onClick={() => onCopy(text)}
+            className={textActionButtonClass}
+          />
         </Space>
       )
     },
@@ -45,9 +56,11 @@ export default function PromoCodesTable({
       dataIndex: 'discountType',
       key: 'discountType',
       render: (type, record) => (
-        <Space>
+        <Space className="text-[var(--admin-text-muted)]">
           {type === 'percent' ? <PercentageOutlined /> : <DollarOutlined />}
-          <span>{type === 'percent' ? `${record.discountValue}%` : formatCurrency(record.discountValue)}</span>
+          <span className="text-[var(--admin-text)]">
+            {type === 'percent' ? `${record.discountValue}%` : formatCurrency(record.discountValue)}
+          </span>
         </Space>
       )
     },
@@ -55,7 +68,7 @@ export default function PromoCodesTable({
       title: 'Điều kiện',
       key: 'conditions',
       render: (_, record) => (
-        <div className="text-sm">
+        <div className="text-sm text-[var(--admin-text-muted)]">
           {record.minOrder > 0 && <div>Đơn tối thiểu: {formatCurrency(record.minOrder)}</div>}
           {record.maxDiscount && <div>Giảm tối đa: {formatCurrency(record.maxDiscount)}</div>}
         </div>
@@ -68,14 +81,14 @@ export default function PromoCodesTable({
         const percentage = getPromoCodeUsagePercentage(record)
 
         return (
-          <div className="text-sm">
-            <div>
+          <div className="text-sm text-[var(--admin-text-muted)]">
+            <div className="text-[var(--admin-text)]">
               {record.usedCount} / {record.usageLimit || '∞'}
             </div>
 
             {record.usageLimit && (
-              <div className="mt-1 h-2 w-full rounded-full bg-gray-200">
-                <div className="h-2 rounded-full bg-blue-600" style={{ width: `${percentage}%` }} />
+              <div className="mt-1 h-2 w-full rounded-full bg-[var(--admin-surface-3)]">
+                <div className="h-2 rounded-full bg-[var(--admin-accent)]" style={{ width: `${percentage}%` }} />
               </div>
             )}
           </div>
@@ -87,9 +100,9 @@ export default function PromoCodesTable({
       dataIndex: 'expiresAt',
       key: 'expiresAt',
       render: date => (
-        <Space>
+        <Space className="text-[var(--admin-text-muted)]">
           <CalendarOutlined />
-          {date ? dayjs(date).format('DD/MM/YYYY') : 'Không giới hạn'}
+          <span className="text-[var(--admin-text)]">{date ? dayjs(date).format('DD/MM/YYYY') : 'Không giới hạn'}</span>
         </Space>
       )
     },
@@ -107,11 +120,21 @@ export default function PromoCodesTable({
       render: (_, record) => (
         <Space>
           <Tooltip title="Xem chi tiết">
-            <Button type="text" icon={<EyeOutlined />} onClick={() => onShowDetail(record)} />
+            <Button
+              type="text"
+              icon={<EyeOutlined />}
+              onClick={() => onShowDetail(record)}
+              className={textActionButtonClass}
+            />
           </Tooltip>
 
           <Tooltip title="Chỉnh sửa">
-            <Button type="text" icon={<EditOutlined />} onClick={() => onEdit(record)} />
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => onEdit(record)}
+              className={textActionButtonClass}
+            />
           </Tooltip>
 
           <Tooltip title={record.isActive ? 'Tắt' : 'Bật'}>
@@ -123,8 +146,9 @@ export default function PromoCodesTable({
             onConfirm={() => onDelete(record._id)}
             okText="Xóa"
             cancelText="Hủy"
+            overlayClassName="admin-promo-popconfirm"
           >
-            <Button type="text" danger icon={<DeleteOutlined />} />
+            <Button type="text" danger icon={<DeleteOutlined />} className="hover:!bg-[var(--admin-surface-2)]" />
           </Popconfirm>
         </Space>
       )
@@ -132,11 +156,11 @@ export default function PromoCodesTable({
   ]
 
   return (
-    <Card className="dark:bg-gray-800 dark:text-gray-100">
+    <Card className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text)] shadow-[var(--admin-shadow)]">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-semibold dark:text-white">Danh sách mã giảm giá</h2>
+        <h2 className="text-lg font-semibold text-[var(--admin-text)]">Danh sách mã giảm giá</h2>
 
-        <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={onCreate} className={primaryButtonClass}>
           Tạo mã mới
         </Button>
       </div>
@@ -153,11 +177,11 @@ export default function PromoCodesTable({
             total: pagination.total,
             showSizeChanger: true,
             showQuickJumper: true,
-            showTotal: total => <span className="dark:text-white">Tổng {total} mã giảm giá</span>
+            showTotal: total => <span className="text-[var(--admin-text-muted)]">Tổng {total} mã giảm giá</span>
           }}
           onChange={onTableChange}
           scroll={{ x: 900 }}
-          className="min-w-[900px]"
+          className="admin-promo-table min-w-[900px]"
         />
       </div>
     </Card>

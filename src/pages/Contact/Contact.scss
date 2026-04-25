@@ -1,0 +1,274 @@
+.contact-themed {
+  isolation: isolate;
+  position: relative;
+}
+
+html.dark .contact-themed {
+  --contact-bg: var(--client-dark-bg, #070809);
+  --contact-surface: var(--client-dark-surface, #101213);
+  --contact-surface-2: var(--client-dark-surface-2, #151719);
+  --contact-surface-3: var(--client-dark-surface-3, #202327);
+  --contact-border: var(--client-dark-border, rgba(255, 255, 255, 0.08));
+  --contact-border-strong: var(--client-dark-border-strong, rgba(255, 255, 255, 0.14));
+  --contact-text: var(--client-dark-text, #f4f6f8);
+  --contact-muted: var(--client-dark-muted, #a8b0ba);
+  --contact-subtle: var(--client-dark-subtle, #707983);
+  --contact-accent: #5e6ad2;
+  --contact-accent-soft: rgba(94, 106, 210, 0.16);
+  --contact-info: var(--client-dark-info, #3b82f6);
+  --contact-info-soft: var(--client-dark-info-soft, rgba(59, 130, 246, 0.14));
+  --contact-success: var(--client-dark-primary, #22c55e);
+  --contact-success-soft: var(--client-dark-primary-soft, rgba(34, 197, 94, 0.13));
+
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 220px),
+    var(--contact-bg) !important;
+  color: var(--contact-text);
+}
+
+html.dark .contact-themed .contact-band {
+  background: var(--contact-bg) !important;
+}
+
+html.dark .contact-themed .contact-panel,
+html.dark .contact-themed .contact-card,
+html.dark .contact-themed .contact-form-card,
+html.dark .contact-themed .contact-faq-shell,
+html.dark .contact-themed .contact-cta-card,
+html.dark .contact-themed .contact-media-frame {
+  border-color: var(--contact-border) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
+    var(--contact-surface) !important;
+  color: var(--contact-text);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 18px 44px rgba(0, 0, 0, 0.22) !important;
+}
+
+html.dark .contact-themed .contact-media-inner,
+html.dark .contact-themed .contact-card-row,
+html.dark .contact-themed .contact-method-row,
+html.dark .contact-themed .contact-muted-box,
+html.dark .contact-themed .contact-form-success,
+html.dark .contact-themed .contact-topic-tag,
+html.dark .contact-themed .contact-faq-list,
+html.dark .contact-themed .contact-faq-item {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text);
+}
+
+html.dark .contact-themed .contact-card-row:hover,
+html.dark .contact-themed .contact-method-row:hover,
+html.dark .contact-themed .contact-secondary-action:hover,
+html.dark .contact-themed .contact-outline-action:hover,
+html.dark .contact-themed .contact-faq-item:hover {
+  border-color: var(--contact-border-strong) !important;
+  background: var(--contact-surface-3) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-heading,
+html.dark .contact-themed .contact-title,
+html.dark .contact-themed .contact-card-title,
+html.dark .contact-themed .contact-form-label,
+html.dark .contact-themed .contact-metric-value,
+html.dark .contact-themed .contact-faq-question {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-copy,
+html.dark .contact-themed .contact-description,
+html.dark .contact-themed .contact-muted-text,
+html.dark .contact-themed .contact-method-value,
+html.dark .contact-themed .contact-metric-label,
+html.dark .contact-themed .contact-form-help,
+html.dark .contact-themed .contact-faq-answer {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-eyebrow,
+html.dark .contact-themed .contact-section-eyebrow {
+  color: var(--contact-subtle) !important;
+}
+
+html.dark .contact-themed .contact-section-eyebrow--accent {
+  color: var(--contact-accent) !important;
+}
+
+html.dark .contact-themed .contact-badge,
+html.dark .contact-themed .contact-overlay-card {
+  border: 1px solid var(--contact-border);
+  background: rgba(16, 18, 19, 0.88) !important;
+  color: var(--contact-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-icon-box,
+html.dark .contact-themed .contact-faq-index,
+html.dark .contact-themed .contact-faq-chevron,
+html.dark .contact-themed .contact-success-icon {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-3) !important;
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-faq-item--open {
+  border-color: rgba(94, 106, 210, 0.48) !important;
+  background: var(--contact-surface-2) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-faq-item--open .contact-faq-index,
+html.dark .contact-themed .contact-faq-item--open .contact-faq-chevron {
+  background: var(--contact-accent-soft) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-faq-item--open .contact-faq-question {
+  color: #a5b4fc !important;
+}
+
+html.dark .contact-themed .contact-success-icon {
+  background: var(--contact-success-soft) !important;
+  color: var(--contact-success) !important;
+}
+
+html.dark .contact-themed .contact-input,
+html.dark .contact-themed .contact-subject-select .ant-select-selector {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-input::placeholder,
+html.dark .contact-themed .contact-subject-select .ant-select-selection-placeholder {
+  color: var(--contact-subtle) !important;
+}
+
+html.dark .contact-themed .contact-input:hover,
+html.dark .contact-themed .contact-input:focus,
+html.dark .contact-themed .contact-subject-select:hover .ant-select-selector,
+html.dark .contact-themed .contact-subject-select.ant-select-focused .ant-select-selector {
+  border-color: var(--contact-accent) !important;
+  background: var(--contact-surface-3) !important;
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.16) !important;
+}
+
+html.dark .contact-themed .contact-subject-select .ant-select-selection-item,
+html.dark .contact-themed .contact-subject-select .ant-select-arrow,
+html.dark .contact-themed .contact-subject-select .ant-select-clear {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-primary-action,
+html.dark .contact-themed .contact-submit-button {
+  border-color: var(--contact-accent) !important;
+  background: var(--contact-accent) !important;
+  color: #f4f6f8 !important;
+  box-shadow: 0 12px 28px rgba(94, 106, 210, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-primary-action:hover,
+html.dark .contact-themed .contact-submit-button:hover {
+  border-color: #737de6 !important;
+  background: #737de6 !important;
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-submit-button:disabled {
+  opacity: 0.62;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-secondary-action,
+html.dark .contact-themed .contact-outline-action {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-brand-action {
+  background: #0b74e5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 28px rgba(11, 116, 229, 0.22) !important;
+}
+
+html.dark .contact-themed .contact-brand-action:hover {
+  background: #0968cf !important;
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-tip {
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-bg-orb {
+  opacity: 0.5;
+}
+
+html.dark .contact-themed .contact-bg-orb--blue {
+  background: rgba(94, 106, 210, 0.16) !important;
+}
+
+html.dark .contact-themed .contact-bg-orb--violet {
+  background: rgba(168, 85, 247, 0.13) !important;
+}
+
+html.dark .contact-themed .contact-bg-orb--cyan {
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+html.dark .contact-themed .contact-decoration {
+  opacity: 0.24;
+}
+
+html.dark .contact-themed .contact-decoration--accent {
+  background: var(--contact-accent-soft) !important;
+}
+
+html.dark .contact-themed .contact-decoration--line {
+  background: rgba(244, 246, 248, 0.22) !important;
+}
+
+html.dark .contact-themed .contact-decoration--border {
+  border-color: rgba(94, 106, 210, 0.28) !important;
+}
+
+html.dark .contact-themed .contact-arrow {
+  color: var(--contact-subtle) !important;
+}
+
+html.dark .contact-subject-select-dropdown {
+  --contact-dropdown-surface: var(--client-dark-surface-2, #151719);
+  --contact-dropdown-surface-hover: var(--client-dark-surface-3, #202327);
+  --contact-dropdown-border: var(--client-dark-border, rgba(255, 255, 255, 0.08));
+  --contact-dropdown-text: var(--client-dark-text, #f4f6f8);
+  --contact-dropdown-muted: var(--client-dark-muted, #a8b0ba);
+
+  padding: 6px !important;
+  border: 1px solid var(--contact-dropdown-border) !important;
+  border-radius: 8px !important;
+  background: var(--contact-dropdown-surface) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42) !important;
+}
+
+html.dark .contact-subject-select-dropdown .ant-select-item {
+  min-height: 34px;
+  border-radius: 6px !important;
+  color: var(--contact-dropdown-muted) !important;
+}
+
+html.dark .contact-subject-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: var(--contact-dropdown-surface-hover) !important;
+  color: var(--contact-dropdown-text) !important;
+}
+
+html.dark .contact-subject-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: rgba(94, 106, 210, 0.18) !important;
+  color: #c7d2fe !important;
+  font-weight: 600 !important;
+}

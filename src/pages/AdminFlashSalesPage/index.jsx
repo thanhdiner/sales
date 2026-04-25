@@ -8,8 +8,13 @@ import FlashSaleStats from './components/FlashSaleStats'
 import { useAdminFlashSalesData } from './hooks/useAdminFlashSalesData'
 import { useFlashSaleForm } from './hooks/useFlashSaleForm'
 import { validateFlashSaleForm } from './utils/flashSaleHelpers'
+import './AdminFlashSalesPage.scss'
 
 const DEFAULT_PAGE_SIZE = 10
+const ADMIN_FLASH_SALES_CONFIRM_MASK_STYLE = {
+  background: 'rgba(8, 10, 14, 0.72)',
+  backdropFilter: 'blur(2px)'
+}
 
 const FlashSaleAdmin = () => {
   const { flashSales, tableLoading, submitLoading, submitFlashSale, deleteFlashSaleItem } = useAdminFlashSalesData()
@@ -35,8 +40,10 @@ const FlashSaleAdmin = () => {
 
   const handleDelete = id => {
     Modal.confirm({
-      title: <span className="dark:text-white">Xác nhận xóa</span>,
-      content: <span className="dark:text-white">Bạn có chắc chắn muốn xóa flash sale này?</span>,
+      className: 'admin-flash-sales-confirm-modal',
+      maskStyle: ADMIN_FLASH_SALES_CONFIRM_MASK_STYLE,
+      title: <span>Xác nhận xóa</span>,
+      content: <span>Bạn có chắc chắn muốn xóa flash sale này?</span>,
       okText: 'Xóa',
       cancelText: 'Hủy',
       okType: 'danger',
@@ -60,13 +67,13 @@ const FlashSaleAdmin = () => {
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-gray-50 p-4 dark:bg-gray-800 sm:p-6">
-      <SEO title="Admin – Flash Sale" noIndex />
+    <div className="admin-flash-sales-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-6">
+      <SEO title="Admin - Flash Sale" noIndex />
 
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Quản Lý Flash Sale</h1>
-          <p className="text-gray-600 dark:text-gray-400">Quản lý các chương trình khuyến mãi flash sale</p>
+          <h1 className="mb-2 text-3xl font-bold text-[var(--admin-text)]">Quản Lý Flash Sale</h1>
+          <p className="text-[var(--admin-text-muted)]">Quản lý các chương trình khuyến mãi flash sale</p>
         </div>
 
         <FlashSaleStats flashSales={flashSales} />

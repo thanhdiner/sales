@@ -11,7 +11,7 @@ const toolColumns = onToggleTool => [
     key: 'label',
     render: (_, tool) => (
       <div>
-        <div className="font-medium text-gray-900 dark:text-white">{tool.label}</div>
+        <div className="admin-chatbot-primary-text font-medium">{tool.label}</div>
         <Text type="secondary" className="text-xs">
           {tool.name}
         </Text>
@@ -81,10 +81,10 @@ export default function AdminChatbotToolsTableSection({
         </span>
       )}
       extra={<Tag color="processing">Hard-code trong backend</Tag>}
-      className="dark:border-gray-700 dark:bg-gray-800"
+      className="admin-chatbot-card"
     >
       <Alert
-        className="mb-4"
+        className="admin-chatbot-alert mb-4"
         type="info"
         showIcon
         message="Admin chỉ quản lý quyền bật/tắt của tool"
@@ -92,6 +92,7 @@ export default function AdminChatbotToolsTableSection({
       />
 
       <Table
+        className="admin-chatbot-table"
         rowKey="name"
         columns={toolColumns(onToggleTool)}
         dataSource={toolRegistry}

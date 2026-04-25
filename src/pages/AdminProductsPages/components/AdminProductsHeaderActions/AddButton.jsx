@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function AddButton() {
   return (
     <Link to="/admin/products/create">
-      <Button style={{ fontWeight: '700' }} variant="outlined" className="custom-btn-blue">
+      <Button className="admin-products-btn admin-products-btn--add font-bold" variant="outlined">
         <PlusCircleFilled />
         ADD
       </Button>

@@ -18,32 +18,37 @@ const ORDER_STATUS_CONFIGS = {
   completed: {
     label: 'Hoàn thành',
     icon: CheckCircle,
-    badgeClassName: 'bg-emerald-100 text-emerald-800',
-    iconClassName: 'text-emerald-600'
+    badgeClassName:
+      'border border-[color-mix(in_srgb,#22c55e_32%,var(--admin-border))] bg-[color-mix(in_srgb,#22c55e_16%,var(--admin-surface-2))] text-[#15803d] dark:text-[#4ade80]',
+    iconClassName: 'text-[#16a34a] dark:text-[#4ade80]'
   },
   confirmed: {
     label: 'Đã xác nhận',
     icon: CheckCircle,
-    badgeClassName: 'bg-blue-100 text-blue-800',
-    iconClassName: 'text-blue-600'
+    badgeClassName:
+      'border border-[color-mix(in_srgb,#3b82f6_32%,var(--admin-border))] bg-[color-mix(in_srgb,#3b82f6_16%,var(--admin-surface-2))] text-[#1d4ed8] dark:text-[#93c5fd]',
+    iconClassName: 'text-[#2563eb] dark:text-[#93c5fd]'
   },
   pending: {
     label: 'Chờ xác nhận',
     icon: Clock,
-    badgeClassName: 'bg-amber-100 text-amber-800',
-    iconClassName: 'text-amber-600'
+    badgeClassName:
+      'border border-[color-mix(in_srgb,#f59e0b_36%,var(--admin-border))] bg-[color-mix(in_srgb,#f59e0b_16%,var(--admin-surface-2))] text-[#b45309] dark:text-[#fbbf24]',
+    iconClassName: 'text-[#d97706] dark:text-[#fbbf24]'
   },
   shipping: {
     label: 'Đang giao',
     icon: Truck,
-    badgeClassName: 'bg-blue-100 text-blue-800',
-    iconClassName: 'text-blue-600'
+    badgeClassName:
+      'border border-[color-mix(in_srgb,#3b82f6_32%,var(--admin-border))] bg-[color-mix(in_srgb,#3b82f6_16%,var(--admin-surface-2))] text-[#1d4ed8] dark:text-[#93c5fd]',
+    iconClassName: 'text-[#2563eb] dark:text-[#93c5fd]'
   },
   cancelled: {
     label: 'Đã hủy',
     icon: XCircle,
-    badgeClassName: 'bg-gray-100 text-gray-800',
-    iconClassName: 'text-gray-600'
+    badgeClassName:
+      'border border-[color-mix(in_srgb,#ef4444_30%,var(--admin-border))] bg-[color-mix(in_srgb,#ef4444_14%,var(--admin-surface-2))] text-[#b91c1c] dark:text-[#fca5a5]',
+    iconClassName: 'text-[#dc2626] dark:text-[#fca5a5]'
   }
 }
 

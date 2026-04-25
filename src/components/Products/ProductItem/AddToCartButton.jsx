@@ -8,7 +8,7 @@ export default function AddToCartButton({ loading, outOfStock, onClick }) {
       <button
         onClick={onClick}
         disabled={loading || outOfStock}
-        className="flex w-full items-center justify-center gap-2 rounded-[12px] bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(37,99,235,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_36px_rgba(37,99,235,0.28)] active:translate-y-0 disabled:cursor-not-allowed disabled:bg-[linear-gradient(135deg,#94a3b8_0%,#64748b_100%)] disabled:shadow-none dark:bg-[linear-gradient(135deg,#e2e8f0_0%,#93c5fd_100%)] dark:text-slate-950 dark:shadow-[0_16px_30px_rgba(59,130,246,0.12)] dark:disabled:bg-[linear-gradient(135deg,#475569_0%,#334155_100%)] dark:disabled:text-white"
+        className="flex w-full items-center justify-center gap-2 rounded-[12px] bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(37,99,235,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_16px_28px_rgba(37,99,235,0.3)] active:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:shadow-none dark:bg-green-500 dark:text-[#06110a] dark:shadow-[0_12px_24px_rgba(34,197,94,0.18)] dark:hover:bg-green-400 dark:hover:shadow-[0_16px_28px_rgba(34,197,94,0.24)] dark:disabled:bg-[#202327] dark:disabled:text-[#707983]"
       >
         {loading ? (
           <>

@@ -16,7 +16,7 @@ export default function AdminBannerFormModal({
   return (
     <Modal
       title={
-        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
+        <span className="text-base font-semibold text-[var(--admin-text)]">
           {editingBanner ? 'Chỉnh sửa Banner' : 'Thêm Banner mới'}
         </span>
       }
@@ -27,25 +27,27 @@ export default function AdminBannerFormModal({
       cancelText="Hủy"
       width={600}
       style={{ top: 50, maxWidth: '95%' }}
+      wrapClassName="admin-banners-modal"
       okButtonProps={{
         size: 'large',
-        className: 'rounded-lg bg-gray-900 font-medium hover:!bg-gray-800'
+        className: 'rounded-lg !border-none !bg-[var(--admin-accent)] font-medium !text-white hover:!opacity-90'
       }}
       cancelButtonProps={{
         size: 'large',
-        className: 'rounded-lg'
+        className:
+          'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-3)] hover:!text-[var(--admin-text)]'
       }}
       confirmLoading={submitLoading}
       destroyOnClose
     >
-      <Divider className="my-4" />
+      <Divider className="my-4 !border-[var(--admin-border)]" />
 
       <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true }}>
         <Form.Item label="Tiêu đề banner" name="title" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
           <Input
             placeholder="Nhập tiêu đề banner"
             size="large"
-            className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+            className="admin-banners-input rounded-lg"
           />
         </Form.Item>
 
@@ -53,7 +55,7 @@ export default function AdminBannerFormModal({
           <Input
             placeholder="Nhập link chuyển hướng"
             size="large"
-            className="rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+            className="admin-banners-input rounded-lg"
           />
         </Form.Item>
 

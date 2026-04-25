@@ -31,6 +31,8 @@ export function useAdminWidgetsData() {
 
   const handleDeleteWidget = widgetId => {
     Modal.confirm({
+      className: 'admin-widgets-confirm-modal',
+      wrapClassName: 'admin-widgets-confirm-modal',
       title: 'Xác nhận xóa widget',
       content: 'Bạn có chắc chắn muốn xóa widget này không?',
       okText: 'Xóa',

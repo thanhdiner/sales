@@ -1,12 +1,34 @@
-import { CheckCircle, Clock, Globe, MessageCircle, UserCheck } from 'lucide-react'
+import { CheckCircle, Clock, ExternalLink, Globe, MessageCircle, UserCheck } from 'lucide-react'
 
 import StatusBadge from '../components/StatusBadge'
 import { dayjs } from '../utils'
 
+function DetailRow({ icon: Icon, label, children }) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--admin-text-subtle)]" strokeWidth={1.8} />
+      <div className="min-w-0 flex-1">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--admin-text-subtle)]">{label}</p>
+        <div className="mt-0.5 text-sm text-[var(--admin-text-muted)]">{children}</div>
+      </div>
+    </div>
+  )
+}
+
+function getSessionLabel(sessionId) {
+  if (!sessionId) {
+    return 'Phiên mới'
+  }
+
+  return `#${sessionId.slice(-8).toUpperCase()}`
+}
+
 export default function AdminChatDetailsPane({
+  assigning,
   isAssignedToMe,
   isResolved,
   messages,
+  resolving,
   selectedConversation,
   onAssign,
   onResolve
@@ -15,109 +37,119 @@ export default function AdminChatDetailsPane({
     return null
   }
 
+  const customerName = selectedConversation.customer?.name || 'Khách ẩn danh'
+  const currentPage = selectedConversation.customer?.currentPage
+
   return (
-    <div className="hidden h-full w-[260px] flex-shrink-0 overflow-y-auto bg-white dark:bg-gray-900 lg:block xl:w-[280px]">
-      <div className="border-b border-gray-100 px-5 py-6 text-center dark:border-gray-800">
-        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-xl font-bold text-white">
-          {(selectedConversation.customer?.name || 'K')[0].toUpperCase()}
+    <aside className="hidden h-full w-[280px] shrink-0 overflow-y-auto border-l border-[var(--admin-border)] bg-[var(--admin-surface)] xl:block">
+      <div className="border-b border-[var(--admin-border)] px-5 py-6 text-center">
+        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-[var(--admin-surface-2)] text-xl font-semibold text-[var(--admin-text)]">
+          {customerName[0].toUpperCase()}
         </div>
-        <p className="font-bold text-gray-800 dark:text-white">{selectedConversation.customer?.name || 'Khách ẩn danh'}</p>
-        <StatusBadge status={selectedConversation.status} />
+        <p className="font-semibold text-[var(--admin-text)]">{customerName}</p>
+        <p className="mt-1 font-mono text-xs text-[var(--admin-text-subtle)]">{getSessionLabel(selectedConversation.sessionId)}</p>
+        <div className="mt-3">
+          <StatusBadge status={selectedConversation.status} />
+        </div>
       </div>
 
-      <div className="space-y-4 p-4">
-        <div>
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Thông tin hội thoại</p>
-          <div className="space-y-2.5 text-xs text-gray-600 dark:text-gray-400">
-            <div className="flex items-start gap-2">
-              <Clock className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
-              <div>
-                <p className="text-[10px] text-gray-400">Bắt đầu</p>
-                <p className="text-gray-700 dark:text-gray-300">{dayjs(selectedConversation.createdAt).format('DD/MM HH:mm')}</p>
-              </div>
-            </div>
+      <div className="space-y-5 p-5">
+        <section>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
+            Thông tin hội thoại
+          </p>
+
+          <div className="space-y-4">
+            <DetailRow icon={Clock} label="Bắt đầu">
+              {dayjs(selectedConversation.createdAt).format('DD/MM/YYYY HH:mm')}
+            </DetailRow>
 
             {selectedConversation.firstReplyAt && (
-              <div className="flex items-start gap-2">
-                <CheckCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
-                <div>
-                  <p className="text-[10px] text-gray-400">Phản hồi đầu tiên</p>
-                  <p className="text-gray-700 dark:text-gray-300">{dayjs(selectedConversation.firstReplyAt).format('DD/MM HH:mm')}</p>
-                </div>
-              </div>
+              <DetailRow icon={CheckCircle} label="Phản hồi đầu tiên">
+                {dayjs(selectedConversation.firstReplyAt).format('DD/MM/YYYY HH:mm')}
+              </DetailRow>
             )}
 
-            <div className="flex items-start gap-2">
-              <MessageCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
-              <div>
-                <p className="text-[10px] text-gray-400">Số tin nhắn</p>
-                <p className="text-gray-700 dark:text-gray-300">{selectedConversation.messageCount || messages.length}</p>
-              </div>
-            </div>
+            <DetailRow icon={MessageCircle} label="Số tin nhắn">
+              {selectedConversation.messageCount || messages.length}
+            </DetailRow>
 
-            {selectedConversation.customer?.currentPage && (
-              <div className="flex min-w-0 items-start gap-2">
-                <Globe className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gray-400" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-[10px] text-gray-400">Trang hiện tại</p>
-                  <p
-                    className="line-clamp-2 break-all text-[11px] text-gray-700 dark:text-gray-300"
-                    title={selectedConversation.customer.currentPage}
-                  >
-                    {selectedConversation.customer.currentPage}
-                  </p>
-                </div>
-              </div>
+            {currentPage && (
+              <DetailRow icon={Globe} label="Trang hiện tại">
+                <a
+                  href={currentPage}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex max-w-full items-center gap-1 text-xs text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
+                  title={currentPage}
+                >
+                  <span className="line-clamp-2 break-all">{currentPage}</span>
+                  <ExternalLink className="h-3 w-3 shrink-0" strokeWidth={1.8} />
+                </a>
+              </DetailRow>
             )}
           </div>
-        </div>
+        </section>
 
-        <div className="border-t border-gray-100 pt-4 dark:border-gray-800">
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Agent phụ trách</p>
+        <section className="border-t border-[var(--admin-border)] pt-5">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
+            Agent phụ trách
+          </p>
+
           {selectedConversation.assignedAgent?.agentName ? (
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+            <div className="flex items-center gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--admin-accent)] text-sm font-semibold text-[#f4f5f8]">
                 {selectedConversation.assignedAgent.agentName[0]?.toUpperCase()}
               </div>
-              <div>
-                <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{selectedConversation.assignedAgent.agentName}</p>
-                <p className="text-[10px] text-gray-400">{dayjs(selectedConversation.assignedAgent.assignedAt).fromNow()}</p>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-[var(--admin-text)]">
+                  {selectedConversation.assignedAgent.agentName}
+                </p>
+                <p className="text-xs text-[var(--admin-text-muted)]">
+                  {dayjs(selectedConversation.assignedAgent.assignedAt).fromNow()}
+                </p>
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-2 text-gray-400">
-              <UserCheck className="h-4 w-4" />
-              <span className="text-xs">Chưa được phân công</span>
+            <div className="flex items-center gap-2 rounded-xl border border-dashed border-[var(--admin-border-strong)] bg-[var(--admin-surface-2)] p-3 text-[var(--admin-text-muted)]">
+              <UserCheck className="h-4 w-4" strokeWidth={1.8} />
+              <span className="text-sm">Chưa được phân công</span>
             </div>
           )}
-        </div>
+        </section>
 
         {!isResolved && (
-          <div className="space-y-2 border-t border-gray-100 pt-4 dark:border-gray-800">
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Hành động nhanh</p>
+          <section className="space-y-2 border-t border-[var(--admin-border)] pt-5">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
+              Hành động nhanh
+            </p>
+
             {selectedConversation.status === 'unassigned' && (
               <button
                 type="button"
                 onClick={onAssign}
-                className="flex w-full items-center gap-2 rounded-lg bg-blue-50 px-3 py-2.5 text-left text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                disabled={assigning}
+                className="flex w-full items-center gap-2 rounded-lg bg-[var(--admin-accent)] px-3 py-2.5 text-left text-sm font-medium text-[#f4f5f8] transition-colors hover:bg-[color-mix(in_srgb,var(--admin-accent)_88%,#000000)] disabled:cursor-wait disabled:opacity-70"
               >
-                <UserCheck className="h-3.5 w-3.5" />
-                Nhận cuộc trò chuyện
+                <UserCheck className="h-4 w-4" strokeWidth={1.8} />
+                {assigning ? 'Đang nhận cuộc trò chuyện' : 'Nhận cuộc trò chuyện'}
               </button>
             )}
+
             {isAssignedToMe && (
               <button
                 type="button"
                 onClick={onResolve}
-                className="flex w-full items-center gap-2 rounded-lg bg-green-50 px-3 py-2.5 text-left text-xs font-medium text-green-700 transition-colors hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
+                disabled={resolving}
+                className="flex w-full items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2.5 text-left text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-70"
               >
-                <CheckCircle className="h-3.5 w-3.5" />
-                Đánh dấu đã giải quyết
+                <CheckCircle className="h-4 w-4" strokeWidth={1.8} />
+                {resolving ? 'Đang lưu trạng thái' : 'Đánh dấu đã giải quyết'}
               </button>
             )}
-          </div>
+          </section>
         )}
       </div>
-    </div>
+    </aside>
   )
 }

@@ -7,6 +7,7 @@ import ContactMethodsSection from './components/ContactMethodsSection'
 import FormAndScheduleSection from './components/FormAndScheduleSection'
 import FAQSection from './components/FAQSection'
 import CTASection from './components/CTASection'
+import './Contact.scss'
 
 const ContactPage = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -16,7 +17,7 @@ const ContactPage = () => {
   }, [])
 
   return (
-    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
+    <main className="contact-themed min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
       <SEO
         title="Liên hệ"
         description="Liên hệ SmartMall qua Zalo, Facebook hoặc email. Hỗ trợ nhanh chóng, tư vấn tận tâm trong giờ hành chính và cả ngoài giờ."

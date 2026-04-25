@@ -7,6 +7,7 @@ import PromoCodesStats from './components/PromoCodesStats'
 import PromoCodesTable from './components/PromoCodesTable'
 import { useAdminPromoCodesData } from './hooks/useAdminPromoCodesData'
 import { getPromoCodeFormValues } from './utils/promoCodeHelpers'
+import './AdminPromoCodesPage.scss'
 
 export default function AdminPromoCodesPage() {
   const [modalVisible, setModalVisible] = useState(false)
@@ -59,12 +60,12 @@ export default function AdminPromoCodesPage() {
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-gray-50 p-6 dark:bg-gray-800">
+    <div className="admin-promo-codes-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
       <SEO title="Admin – Mã giảm giá" noIndex />
 
       <div className="mb-6">
-        <h1 className="mb-2 text-2xl font-bold text-gray-800 dark:text-gray-100">Quản lý mã giảm giá</h1>
-        <p className="text-gray-600 dark:text-gray-400">Tạo và quản lý các mã giảm giá cho khách hàng</p>
+        <h1 className="mb-2 text-2xl font-bold text-[var(--admin-text)]">Quản lý mã giảm giá</h1>
+        <p className="text-[var(--admin-text-muted)]">Tạo và quản lý các mã giảm giá cho khách hàng</p>
       </div>
 
       <PromoCodesStats promoCodes={promoCodes} />

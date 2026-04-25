@@ -17,15 +17,22 @@ export function formatCurrency(amount) {
 }
 
 export function getFlashSaleStatusMeta(status) {
+  const activeClassName =
+    'border border-[var(--admin-success-border)] bg-[var(--admin-success-bg-soft)] text-[var(--admin-success-text)]'
+  const scheduledClassName =
+    'border border-[var(--admin-info-border)] bg-[var(--admin-info-bg-soft)] text-[var(--admin-info-text)]'
+  const completedClassName =
+    'border border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text-muted)]'
+
   switch (status) {
     case 'active':
-      return { className: 'bg-green-100 text-green-800', label: 'Đang diễn ra' }
+      return { className: activeClassName, label: 'Đang diễn ra' }
     case 'scheduled':
-      return { className: 'bg-blue-100 text-blue-800', label: 'Đã lên lịch' }
+      return { className: scheduledClassName, label: 'Đã lên lịch' }
     case 'completed':
-      return { className: 'bg-gray-100 text-gray-800', label: 'Đã kết thúc' }
+      return { className: completedClassName, label: 'Đã kết thúc' }
     default:
-      return { className: 'bg-gray-100 text-gray-800', label: 'Không xác định' }
+      return { className: completedClassName, label: 'Không xác định' }
   }
 }
 

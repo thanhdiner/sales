@@ -7,25 +7,25 @@ const getUserLabel = updateEntry => {
   if (updateEntry?.account_id?.fullName) return updateEntry.account_id.fullName
   if (updateEntry?.by?.fullName) return updateEntry.by.fullName
   if (updateEntry?.by?.email) return updateEntry.by.email
-  return '—'
+  return 'N/A'
 }
 
 const formatUpdateHistory = updateBy => {
-  if (!updateBy?.length) return '—'
+  if (!updateBy?.length) return 'N/A'
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="admin-product__history">
       {updateBy.map((entry, index) => {
         const userLabel = getUserLabel(entry)
         const updatedAt = entry?.updatedAt || entry?.createdAt
-        const dateLabel = updatedAt ? formatDate(updatedAt) : '—'
+        const dateLabel = updatedAt ? formatDate(updatedAt) : 'N/A'
 
         return (
-          <div key={`${userLabel}-${updatedAt || index}`} className="flex items-start gap-3">
-            <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-blue-500 dark:bg-blue-400" />
-            <div className="min-w-0">
-              <div className="font-medium">{userLabel}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">{dateLabel}</div>
+          <div key={`${userLabel}-${updatedAt || index}`} className="admin-product__history-item">
+            <span className="admin-product__history-dot" />
+            <div className="admin-product__history-content">
+              <div className="admin-product__history-user">{userLabel}</div>
+              <div className="admin-product__history-time">{dateLabel}</div>
             </div>
           </div>
         )
@@ -34,34 +34,35 @@ const formatUpdateHistory = updateBy => {
   )
 }
 
-export function adminProductRows(p) {
-  const discounted = p.discountPercentage > 0 ? (p.price * (1 - p.discountPercentage / 100)).toFixed(2) : 0
+export function adminProductRows(product) {
+  const discounted =
+    product.discountPercentage > 0 ? (product.price * (1 - product.discountPercentage / 100)).toFixed(2) : 0
 
   return [
-    ['Product', p.title],
-    ['Slug', p.slug],
-    ['Category', p.productCategory],
+    ['Product', product.title],
+    ['Slug', product.slug],
+    ['Category', product.productCategory],
     [
       'Price',
       discounted ? (
         <>
-          <span style={{ textDecoration: 'line-through', opacity: 0.6 }}>{`${formatVND(p.price, { withSuffix: true })}`}</span>{' '}
-          <strong>{`${formatVND(discounted, { withSuffix: true })}`}</strong>
+          <span className="admin-product__price-original">{`${formatVND(product.price, { withSuffix: true })}`}</span>{' '}
+          <strong className="admin-product__price-discounted">{`${formatVND(discounted, { withSuffix: true })}`}</strong>
         </>
       ) : (
-        `${formatVND(p.price, { withSuffix: true })}`
+        `${formatVND(product.price, { withSuffix: true })}`
       )
     ],
-    p.discountPercentage > 0 && ['Discount (%)', `${p.discountPercentage}%`],
-    ['Stock', p.stock ?? 0],
-    ['Position', p.position ?? '—'],
-    ['Status', capitalize(p.status)],
-    ['Rate', p.rate ? `${p.rate} ⭐` : 'N/A'],
-    ['Time start', formatDate(p.timeStart)],
-    ['Time finish', formatDate(p.timeFinish)],
-    ['Created by', p.createdBy?.account_id ?? '—'],
-    ['Created at', formatDate(p.createdAt)],
-    ['Last updated', p.updatedAt ? formatDate(p.updatedAt) : '—'],
-    ['Update history', formatUpdateHistory(p.updateBy)]
+    product.discountPercentage > 0 && ['Discount (%)', `${product.discountPercentage}%`],
+    ['Stock', product.stock ?? 0],
+    ['Position', product.position ?? 'N/A'],
+    ['Status', capitalize(product.status)],
+    ['Rate', product.rate ? `${product.rate} *` : 'N/A'],
+    ['Time start', formatDate(product.timeStart)],
+    ['Time finish', formatDate(product.timeFinish)],
+    ['Created by', product.createdBy?.account_id ?? 'N/A'],
+    ['Created at', formatDate(product.createdAt)],
+    ['Last updated', product.updatedAt ? formatDate(product.updatedAt) : 'N/A'],
+    ['Update history', formatUpdateHistory(product.updateBy)]
   ].filter(Boolean)
 }

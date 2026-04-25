@@ -62,3 +62,26 @@
     display: none;
   }
 }
+
+.dark .home__featured-products {
+  background: #101213;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
+
+  &__icon {
+    color: #22c55e;
+  }
+
+  &__title {
+    color: #f4f6f8;
+  }
+
+  &__view-all {
+    color: #22c55e;
+
+    &:hover {
+      color: #4ade80;
+      opacity: 1;
+    }
+  }
+}

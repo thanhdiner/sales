@@ -16,6 +16,7 @@ import ProductPurchasePanel from './components/ProductPurchasePanel'
 import ProductSummaryPanel from './components/ProductSummaryPanel'
 import { getGalleryImages, getMaxAvailable, getProductFeatures, getProductId, getProductPricing } from './helpers'
 import { getStoredClientAccessToken } from '@/utils/auth'
+import './ProductsDetail.scss'
 
 const EMPTY_CART_ITEMS = []
 
@@ -197,7 +198,7 @@ function ProductsDetail() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="product-detail-page flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
         <Spin tip="Đang tải sản phẩm..." size="large" />
       </div>
     )
@@ -207,7 +208,7 @@ function ProductsDetail() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="product-detail-page flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-5 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <p className="text-base font-medium text-red-600 dark:text-red-400">{error}</p>
         </div>
@@ -218,7 +219,7 @@ function ProductsDetail() {
   if (!product) return null
 
   return (
-    <div className="min-h-screen rounded-xl bg-gray-50 dark:bg-gray-950">
+    <div className="product-detail-page min-h-screen rounded-xl bg-gray-50 dark:bg-gray-950">
       <div className="container mx-auto max-w-7xl px-4 py-6 md:py-8">
         <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <span>Trang chủ</span>

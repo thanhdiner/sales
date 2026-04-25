@@ -51,9 +51,7 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
       key: 'export',
       icon: <FileExcelOutlined />,
       label: 'Export Products',
-      className: '',
-      color: 'cyan',
-      variant: 'solid',
+      className: 'admin-products-btn admin-products-btn--utility',
       onClick: () => exportToExcel(products, columnsVisible)
     },
     {
@@ -61,12 +59,13 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
       dropdown: <DropdownToggleColumns {...{ columnMenu }} />,
       icon: <TableOutlined />,
       label: 'Toggle Columns',
-      className: 'custom-btn-orange'
+      className: 'admin-products-btn admin-products-btn--utility'
     },
     {
       key: 'filter',
       icon: <FilterOutlined />,
       label: 'Filter',
+      className: 'admin-products-btn admin-products-btn--utility',
       onClick: handleToggleFilter
     }
   ]
@@ -77,7 +76,7 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
         btn.dropdown ? (
           <div key={btn.key}>{btn.dropdown}</div>
         ) : (
-          <Button key={btn.key} onClick={btn.onClick} className={btn.className} color={btn.color} variant={btn.variant}>
+          <Button key={btn.key} onClick={btn.onClick} className={btn.className}>
             {btn.icon}
             {btn.label}
           </Button>

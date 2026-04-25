@@ -1,6 +1,8 @@
-import { QrcodeOutlined } from '@ant-design/icons'
-import { Form, Input, Modal, Upload } from 'antd'
+import { BankOutlined, QrcodeOutlined } from '@ant-design/icons'
+import { Form, Input, Modal, Typography, Upload } from 'antd'
 import { ADMIN_BANK_INFO_FORM_INITIAL_VALUES } from '../utils'
+
+const { Text } = Typography
 
 export default function AdminBankInfoFormModalSection({
   open,
@@ -16,59 +18,65 @@ export default function AdminBankInfoFormModalSection({
 }) {
   return (
     <Modal
-      title={editing ? 'Sửa thông tin' : 'Thêm thông tin mới'}
+      rootClassName="admin-bank-info-modal"
+      wrapClassName="admin-bank-info-modal"
+      className="admin-bank-info-modal"
+      title={
+        <div className="admin-bank-info-modal__title-wrap">
+          <div className="admin-bank-info-modal__title-icon">
+            <BankOutlined />
+          </div>
+          <div>
+            <div className="admin-bank-info-modal__title">
+              {editing ? 'Sửa thông tin ngân hàng' : 'Thêm tài khoản ngân hàng'}
+            </div>
+            <div className="admin-bank-info-modal__subtitle">
+              Cập nhật dữ liệu chuyển khoản cho bước thanh toán.
+            </div>
+          </div>
+        </div>
+      }
       open={open}
       onOk={onSubmit}
       onCancel={onClose}
-      okText={editing ? 'Lưu' : 'Tạo'}
+      okText={editing ? 'Lưu thay đổi' : 'Tạo tài khoản'}
       cancelText="Đóng"
       destroyOnClose
-      className="rounded-xl"
       confirmLoading={submitLoading}
-      okButtonProps={{ disabled: submitLoading }}
-      cancelButtonProps={{ disabled: submitLoading }}
+      okButtonProps={{
+        disabled: submitLoading,
+        className: 'admin-bank-info-btn admin-bank-info-btn--primary'
+      }}
+      cancelButtonProps={{
+        disabled: submitLoading,
+        className: 'admin-bank-info-btn admin-bank-info-btn--secondary'
+      }}
       centered
+      width={620}
       styles={{ body: bodyStyle }}
     >
       <div ref={contentRef}>
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={ADMIN_BANK_INFO_FORM_INITIAL_VALUES}
-        >
-          <Form.Item
-            name="bankName"
-            label="Ngân hàng"
-            rules={[{ required: true, message: 'Nhập tên ngân hàng' }]}
-          >
-            <Input placeholder="Vietcombank" className="dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" />
+        <Form form={form} layout="vertical" initialValues={ADMIN_BANK_INFO_FORM_INITIAL_VALUES} className="admin-bank-info-modal__form">
+          <Form.Item name="bankName" label="Ngân hàng" rules={[{ required: true, message: 'Nhập tên ngân hàng' }]}>
+            <Input size="large" placeholder="Vietcombank" className="admin-bank-info-input" />
           </Form.Item>
 
-          <Form.Item
-            name="accountNumber"
-            label="Số tài khoản"
-            rules={[{ required: true, message: 'Nhập số tài khoản' }]}
-          >
-            <Input placeholder="1234567890" className="dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200" />
-          </Form.Item>
+          <div className="admin-bank-info-modal__grid">
+            <Form.Item name="accountNumber" label="Số tài khoản" rules={[{ required: true, message: 'Nhập số tài khoản' }]}>
+              <Input size="large" placeholder="1234567890" className="admin-bank-info-input admin-bank-info-input--mono" />
+            </Form.Item>
 
-          <Form.Item
-            name="accountHolder"
-            label="Chủ tài khoản"
-            rules={[{ required: true, message: 'Nhập chủ tài khoản' }]}
-          >
-            <Input placeholder="NGUYEN VAN A" className="dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100" />
-          </Form.Item>
+            <Form.Item name="accountHolder" label="Chủ tài khoản" rules={[{ required: true, message: 'Nhập chủ tài khoản' }]}>
+              <Input size="large" placeholder="NGUYEN VAN A" className="admin-bank-info-input" />
+            </Form.Item>
+          </div>
 
           <Form.Item
             name="noteTemplate"
-            label="Nội dung chuyển khoản (mẫu)"
+            label="Nội dung chuyển khoản mẫu"
             rules={[{ required: true, message: 'Nhập mẫu nội dung' }]}
           >
-            <Input
-              placeholder="[Ten KH] - [So dien thoai]"
-              className="dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
-            />
+            <Input.TextArea rows={3} placeholder="[Ten KH] - [So dien thoai]" className="admin-bank-info-input" />
           </Form.Item>
 
           <Form.Item
@@ -78,20 +86,26 @@ export default function AdminBankInfoFormModalSection({
             getValueFromEvent={event => (Array.isArray(event) ? event : event?.fileList)}
           >
             <Upload
+              className="admin-bank-info-upload"
               listType="picture-card"
               maxCount={1}
               accept="image/*"
               beforeUpload={onQrBeforeUpload}
               onRemove={onQrRemove}
             >
-              <div>
+              <div className="admin-bank-info-upload__trigger">
                 <QrcodeOutlined />
-                <div className="mt-2 dark:text-gray-200">Thêm QR</div>
+                <div className="admin-bank-info-upload__text">Tải QR</div>
               </div>
             </Upload>
           </Form.Item>
+
+          <Text className="admin-bank-info-modal__hint">
+            Hỗ trợ ảnh QR dưới 5MB. Khi đổi ảnh, ảnh cũ sẽ được gỡ khỏi hệ thống.
+          </Text>
         </Form>
       </div>
     </Modal>
   )
 }
+

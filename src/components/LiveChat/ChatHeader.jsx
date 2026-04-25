@@ -1,11 +1,14 @@
 import React from 'react'
-import { ChevronDown, Bot, X } from 'lucide-react'
+import { Bot, ChevronDown, Minus, X } from 'lucide-react'
 
-export default function ChatHeader({ onBack, onClose, assignedAgent, isResolved }) {
+export default function ChatHeader({ onBack, onClose, onMinimize, assignedAgent, isResolved }) {
   return (
     <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center gap-3 flex-shrink-0">
       <button
+        type="button"
         onClick={onBack}
+        aria-label="Quay lại"
+        title="Quay lại"
         className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
       >
         <ChevronDown className="w-4 h-4 rotate-90" />
@@ -27,7 +30,22 @@ export default function ChatHeader({ onBack, onClose, assignedAgent, isResolved 
           </p>
         </div>
       </div>
-      <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+      <button
+        type="button"
+        onClick={onMinimize}
+        aria-label="Thu gọn chat"
+        title="Thu gọn chat"
+        className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+      >
+        <Minus className="w-4 h-4" />
+      </button>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Đóng chat"
+        title="Đóng chat"
+        className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+      >
         <X className="w-4 h-4" />
       </button>
     </div>

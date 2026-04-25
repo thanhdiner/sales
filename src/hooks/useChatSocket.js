@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { syncClientStateFromBotTools } from '@/lib/clientCache'
 import { getSocket } from '@/services/socketService'
+import { clearResolvedSessionMarker, markSessionResolved } from '@/hooks/useChatSession'
 import { hasChatImages, isSameImagePayload, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
 
 export function useChatSocket({
@@ -73,10 +74,19 @@ export function useChatSocket({
       setIsBotTyping(isTyping)
     }
 
-    const onResolved = () => setIsResolved(true)
+    const onResolved = () => {
+      markSessionResolved(sessionId)
+      setIsResolved(true)
+    }
 
     const onConvUpdated = (conv) => {
-      if (conv.sessionId === sessionId) setConversation(conv)
+      if (conv.sessionId !== sessionId) return
+
+      setConversation(conv)
+      const resolved = conv.status === 'resolved'
+      setIsResolved(resolved)
+      if (resolved) markSessionResolved(sessionId)
+      else clearResolvedSessionMarker(sessionId)
     }
 
     socket.on('chat:message', onMessage)

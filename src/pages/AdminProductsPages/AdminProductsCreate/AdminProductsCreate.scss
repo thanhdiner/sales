@@ -1,0 +1,309 @@
+body.admin-layout-active {
+  --product-create-surface: var(--admin-surface, #ffffff);
+  --product-create-surface-2: var(--admin-surface-2, #f8fafc);
+  --product-create-surface-3: var(--admin-surface-3, #eef2f7);
+  --product-create-border: var(--admin-border, rgba(15, 23, 42, 0.08));
+  --product-create-border-strong: var(--admin-border-strong, rgba(15, 23, 42, 0.14));
+  --product-create-text: var(--admin-text, #111827);
+  --product-create-text-muted: var(--admin-text-muted, #4b5563);
+  --product-create-text-subtle: var(--admin-text-subtle, #6b7280);
+  --product-create-accent: var(--admin-accent, #5e6ad2);
+  --product-create-accent-soft: var(--admin-accent-soft, rgba(94, 106, 210, 0.12));
+}
+
+.admin-product-create {
+  color: var(--product-create-text);
+}
+
+.admin-product-create__card {
+  border: 1px solid var(--product-create-border);
+  border-radius: 14px;
+  background: var(--product-create-surface);
+  padding: 20px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-product-create__label {
+  color: var(--product-create-text-muted);
+  font-weight: 600;
+}
+
+.admin-product-create .ant-form-item-label > label {
+  color: var(--product-create-text-muted) !important;
+}
+
+.admin-product-create__hint {
+  color: var(--product-create-text-subtle);
+  font-size: 12px;
+}
+
+.admin-product-create__select,
+.admin-product-create__picker,
+.admin-product-create__textarea {
+  width: 100%;
+}
+
+.admin-product-create__input,
+.admin-product-create__input-number,
+.admin-product-create__select .ant-select-selector,
+.admin-product-create__picker,
+.admin-product-create .ant-input,
+.admin-product-create .ant-input-number,
+.admin-product-create .ant-picker {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface) !important;
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create .ant-input::placeholder,
+.admin-product-create .ant-input-number-input::placeholder,
+.admin-product-create .ant-select-selection-placeholder,
+.admin-product-create .ant-picker-input > input::placeholder {
+  color: var(--product-create-text-subtle) !important;
+}
+
+.admin-product-create .ant-input:hover,
+.admin-product-create .ant-input:focus,
+.admin-product-create .ant-input-number:hover,
+.admin-product-create .ant-input-number-focused,
+.admin-product-create .ant-select-focused .ant-select-selector,
+.admin-product-create .ant-select-selector:hover,
+.admin-product-create .ant-picker:hover,
+.admin-product-create .ant-picker-focused {
+  border-color: var(--product-create-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
+}
+
+.admin-product-create .ant-input-number,
+.admin-product-create .ant-input-number-group-wrapper,
+.admin-product-create .ant-picker,
+.admin-product-create__input-number {
+  width: 100%;
+}
+
+.admin-product-create .ant-input-number-input,
+.admin-product-create .ant-input-number-input-wrap input,
+.admin-product-create .ant-picker input {
+  color: var(--product-create-text) !important;
+  background: transparent !important;
+}
+
+.admin-product-create .ant-select-arrow,
+.admin-product-create .ant-select-clear,
+.admin-product-create .ant-picker-suffix,
+.admin-product-create .ant-picker-clear {
+  color: var(--product-create-text-muted) !important;
+}
+
+.admin-product-create .ant-checkbox-wrapper {
+  color: var(--product-create-text-muted);
+}
+
+.admin-product-create .ant-checkbox-inner {
+  border-color: var(--product-create-border-strong);
+  background: var(--product-create-surface);
+}
+
+.admin-product-create .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: var(--product-create-accent);
+  background: var(--product-create-accent);
+}
+
+.admin-product-create__upload .ant-upload-select {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+}
+
+.admin-product-create__upload .ant-upload-list-item-container .ant-upload-list-item {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+}
+
+.admin-product-create__upload-trigger {
+  color: var(--product-create-text-muted);
+}
+
+.admin-product-create__upload-text {
+  margin-top: 8px;
+  color: var(--product-create-text-muted);
+}
+
+.admin-product-create__features {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-product-create__feature-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-product-create__remove-feature-btn.ant-btn.ant-btn-text {
+  color: #f87171 !important;
+}
+
+.admin-product-create__remove-feature-btn.ant-btn.ant-btn-text:hover {
+  background: rgba(248, 81, 73, 0.12) !important;
+}
+
+.admin-product-create__add-feature-btn.ant-btn.ant-btn-dashed {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+  color: var(--product-create-text-muted) !important;
+}
+
+.admin-product-create__add-feature-btn.ant-btn.ant-btn-dashed:hover {
+  border-color: var(--product-create-border-strong) !important;
+  color: var(--product-create-text) !important;
+  background: var(--product-create-surface-3) !important;
+}
+
+.admin-product-create__editor .tiptap-editor {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface) !important;
+}
+
+.admin-product-create__editor .tiptap-editor .ProseMirror {
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create__editor .toolbar {
+  border-bottom-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+}
+
+.admin-product-create__editor .toolbar-btn,
+.admin-product-create__editor select {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface) !important;
+}
+
+.admin-product-create__editor .toolbar-btn svg,
+.admin-product-create__editor select svg {
+  stroke: var(--product-create-text-muted) !important;
+}
+
+.admin-product-create__editor .toolbar-btn:hover,
+.admin-product-create__editor select:hover {
+  border-color: var(--product-create-accent) !important;
+  background: var(--product-create-accent-soft) !important;
+}
+
+.admin-product-create__editor .toolbar-btn:hover svg,
+.admin-product-create__editor select:hover svg {
+  stroke: var(--product-create-accent) !important;
+}
+
+.admin-product-create__editor .toolbar-btn.active {
+  border-color: var(--product-create-accent) !important;
+  outline: 0 !important;
+  background: var(--product-create-accent-soft) !important;
+}
+
+.admin-product-create__editor .highlight-options,
+.admin-product-create__editor .color-options {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+}
+
+.admin-product-create__actions.ant-form-item {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.admin-product-create__btn.ant-btn {
+  height: 40px;
+  border-radius: 8px;
+  padding-inline: 16px;
+  font-weight: 600;
+}
+
+.admin-product-create__btn--cancel.ant-btn {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+  color: var(--product-create-text-muted) !important;
+  margin-right: 8px;
+}
+
+.admin-product-create__btn--cancel.ant-btn:hover {
+  border-color: var(--product-create-border-strong) !important;
+  color: var(--product-create-text) !important;
+  background: var(--product-create-surface-3) !important;
+}
+
+.admin-product-create__btn--submit.ant-btn.ant-btn-primary {
+  min-width: 140px;
+  border-color: var(--product-create-accent) !important;
+  background: var(--product-create-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-product-create__btn--submit.ant-btn.ant-btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.admin-product-create__btn--submit.ant-btn.ant-btn-primary:disabled,
+.admin-product-create__btn--submit.ant-btn.ant-btn-primary[disabled] {
+  border-color: var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+  color: var(--product-create-text-subtle) !important;
+}
+
+.admin-product-create-popup.ant-select-dropdown {
+  border: 1px solid var(--product-create-border) !important;
+  border-radius: 10px !important;
+  background: var(--product-create-surface-2) !important;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28) !important;
+}
+
+.admin-product-create-popup .ant-select-item,
+.admin-product-create-popup .ant-select-tree-title {
+  color: var(--product-create-text-muted) !important;
+}
+
+.admin-product-create-popup .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.admin-product-create-popup .ant-select-tree-node-content-wrapper:hover {
+  background: var(--product-create-surface-3) !important;
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create-popup .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+.admin-product-create-popup .ant-select-tree-node-selected {
+  background: var(--product-create-accent-soft) !important;
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create-popup .ant-select-tree {
+  background: transparent !important;
+}
+
+.admin-product-create-picker-popup .ant-picker-panel-container {
+  border: 1px solid var(--product-create-border) !important;
+  background: var(--product-create-surface-2) !important;
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create-picker-popup .ant-picker-cell-in-view {
+  color: var(--product-create-text) !important;
+}
+
+.admin-product-create-picker-popup .ant-picker-cell:hover .ant-picker-cell-inner {
+  background: var(--product-create-surface-3) !important;
+}
+
+.admin-product-create-picker-popup .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: var(--product-create-accent) !important;
+}
+
+.admin-product-create-picker-popup .ant-picker-header,
+.admin-product-create-picker-popup .ant-picker-content th,
+.admin-product-create-picker-popup .ant-picker-time-panel-column > li {
+  color: var(--product-create-text-muted) !important;
+}
+
+@media (max-width: 992px) {
+  .admin-product-create__card {
+    padding: 16px;
+  }
+}

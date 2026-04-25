@@ -333,14 +333,55 @@ html.dark .ant-typography {
 html.dark .coupons-card .ant-tabs-tab-active {
   background: #495464 !important;
 }
-html.dark .ant-modal-content {
+html.dark body:not(.admin-layout-active) .ant-modal-content {
   background-color: #1f2937 !important;
   color: #f9fafb !important;
 }
 
-html.dark .ant-modal-header {
+html.dark body:not(.admin-layout-active) .ant-modal-header {
   background-color: #1f2937 !important;
   border-bottom: 1px solid #374151 !important;
+}
+
+html.dark .ant-message .ant-message-notice-content {
+  background: #111827 !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.dark .ant-message .ant-message-custom-content,
+html.dark .ant-message .ant-message-custom-content > span {
+  color: #f9fafb !important;
+}
+
+html.dark .ant-message .anticon-check-circle {
+  color: #22c55e !important;
+}
+
+html.dark .ant-message .anticon-close-circle {
+  color: #ef4444 !important;
+}
+
+html.dark .ant-message .anticon-exclamation-circle {
+  color: #f59e0b !important;
+}
+
+html.dark .ant-message .anticon-info-circle,
+html.dark .ant-message .anticon-loading {
+  color: #60a5fa !important;
+}
+
+html.dark .ant-notification .ant-notification-notice {
+  background: #111827 !important;
+  border: 1px solid #374151 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.dark .ant-notification .ant-notification-notice-message,
+html.dark .ant-notification .ant-notification-notice-description,
+html.dark .ant-notification .ant-notification-notice-close {
+  color: #f9fafb !important;
 }
 
 /* ── Live Chat Typing Animation ───────────────────────────────────── */
@@ -433,6 +474,51 @@ html.dark .ant-modal-header {
     pointer-events: none;
   }
 }
+
+html.dark body:not(.admin-layout-active) .swiper-custom-navigation {
+  .swiper-button-prev,
+  .swiper-button-next {
+    background-color: rgba(32, 35, 39, 0.92) !important;
+    border-width: 1px !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 10px !important;
+    height: 10px !important;
+    margin: 0 !important;
+    border-top-width: 2px !important;
+    border-right-width: 2px !important;
+    border-top-color: #a8b0ba !important;
+    border-right-color: #a8b0ba !important;
+  }
+
+  .swiper-button-prev::after {
+    transform: translate(-35%, -50%) rotate(-135deg) !important;
+  }
+
+  .swiper-button-next::after {
+    transform: translate(-65%, -50%) rotate(45deg) !important;
+  }
+
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    background-color: #202327 !important;
+    border-color: rgba(34, 197, 94, 0.45) !important;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34), 0 0 0 3px rgba(34, 197, 94, 0.12) !important;
+  }
+
+  .swiper-button-prev:hover::after,
+  .swiper-button-next:hover::after {
+    border-top-color: #22c55e !important;
+    border-right-color: #22c55e !important;
+  }
+}
 .ant-image-preview-root {
   position: relative;
   z-index: 9999 !important;
@@ -448,4 +534,369 @@ html.dark .ant-modal-header {
 
 .ant-image-preview-operations-wrapper {
   z-index: 10001 !important;
+}
+
+html.dark {
+  --client-dark-bg: #070809;
+  --client-dark-surface: #101213;
+  --client-dark-surface-2: #151719;
+  --client-dark-surface-3: #202327;
+  --client-dark-border: rgba(255, 255, 255, 0.08);
+  --client-dark-border-strong: rgba(255, 255, 255, 0.14);
+  --client-dark-text: #f4f6f8;
+  --client-dark-muted: #a8b0ba;
+  --client-dark-subtle: #707983;
+  --client-dark-primary: #22c55e;
+  --client-dark-primary-soft: rgba(34, 197, 94, 0.13);
+  --client-dark-info: #3b82f6;
+  --client-dark-info-soft: rgba(59, 130, 246, 0.14);
+  --client-dark-info-border: rgba(147, 197, 253, 0.36);
+  --client-dark-warning: #facc15;
+  --client-dark-warning-soft: rgba(250, 204, 21, 0.14);
+  --client-dark-warning-border: rgba(251, 191, 36, 0.36);
+  --client-dark-danger: #ef4444;
+  --client-dark-danger-soft: rgba(239, 68, 68, 0.15);
+  --client-dark-danger-border: rgba(252, 165, 165, 0.36);
+  --client-dark-purple: #a855f7;
+  --client-dark-purple-soft: rgba(168, 85, 247, 0.16);
+  --client-dark-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+}
+
+html.dark body:not(.admin-layout-active) {
+  background: var(--client-dark-bg) !important;
+  color: var(--client-dark-text);
+}
+
+html.dark body:not(.admin-layout-active) #root,
+html.dark body:not(.admin-layout-active) .ant-layout {
+  background: var(--client-dark-bg) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-950 {
+  background-color: var(--client-dark-bg) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/30,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/40,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/90,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900\/30,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900\/90,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-900\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-900 {
+  background-color: var(--client-dark-surface) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/50,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/70,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-800\/50,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-white\/5 {
+  background-color: var(--client-dark-surface-2) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700\/70,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-white\/10,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-gray-800:hover,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-gray-700:hover,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-white\/10:hover {
+  background-color: var(--client-dark-surface-3) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:border-gray-800,
+html.dark body:not(.admin-layout-active) .dark\:border-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:border-gray-600,
+html.dark body:not(.admin-layout-active) .dark\:border-slate-800,
+html.dark body:not(.admin-layout-active) .dark\:border-slate-700,
+html.dark body:not(.admin-layout-active) .dark\:border-zinc-800,
+html.dark body:not(.admin-layout-active) .dark\:border-white\/10,
+html.dark body:not(.admin-layout-active) .dark\:outline-gray-600 {
+  border-color: var(--client-dark-border) !important;
+  outline-color: var(--client-dark-border) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-white,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-100,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-200,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-100,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-200 {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-gray-300,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-400,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-300,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-400 {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-gray-500,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-600,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-500,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-600,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-700 {
+  color: var(--client-dark-subtle) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-card,
+html.dark body:not(.admin-layout-active) .ant-list,
+html.dark body:not(.admin-layout-active) .ant-modal-content,
+html.dark body:not(.admin-layout-active) .ant-modal-header,
+html.dark body:not(.admin-layout-active) .ant-modal-footer,
+html.dark body:not(.admin-layout-active) .ant-drawer-content,
+html.dark body:not(.admin-layout-active) .ant-drawer-header,
+html.dark body:not(.admin-layout-active) .ant-popover-inner,
+html.dark body:not(.admin-layout-active) .ant-popconfirm-inner-content,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu,
+html.dark body:not(.admin-layout-active) .ant-select-dropdown,
+html.dark body:not(.admin-layout-active) .ant-picker-dropdown .ant-picker-panel-container,
+html.dark body:not(.admin-layout-active) .ant-message .ant-message-notice-content,
+html.dark body:not(.admin-layout-active) .ant-notification .ant-notification-notice {
+  background: var(--client-dark-surface) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-card,
+html.dark body:not(.admin-layout-active) .ant-modal-content,
+html.dark body:not(.admin-layout-active) .ant-drawer-content,
+html.dark body:not(.admin-layout-active) .ant-popover-inner,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu,
+html.dark body:not(.admin-layout-active) .ant-select-dropdown,
+html.dark body:not(.admin-layout-active) .ant-picker-dropdown .ant-picker-panel-container,
+html.dark body:not(.admin-layout-active) .ant-message .ant-message-notice-content,
+html.dark body:not(.admin-layout-active) .ant-notification .ant-notification-notice {
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-card-head,
+html.dark body:not(.admin-layout-active) .ant-card-body,
+html.dark body:not(.admin-layout-active) .ant-modal-body,
+html.dark body:not(.admin-layout-active) .ant-drawer-body,
+html.dark body:not(.admin-layout-active) .ant-collapse,
+html.dark body:not(.admin-layout-active) .ant-collapse-item,
+html.dark body:not(.admin-layout-active) .ant-collapse-content,
+html.dark body:not(.admin-layout-active) .ant-descriptions-view,
+html.dark body:not(.admin-layout-active) .ant-table,
+html.dark body:not(.admin-layout-active) .ant-table-container,
+html.dark body:not(.admin-layout-active) .ant-table-cell,
+html.dark body:not(.admin-layout-active) .ant-table-tbody > tr > td {
+  background: var(--client-dark-surface) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-table-thead > tr > th,
+html.dark body:not(.admin-layout-active) .ant-table-tbody > tr.ant-table-row:hover > td,
+html.dark body:not(.admin-layout-active) .ant-table-tbody > tr > td.ant-table-cell-row-hover,
+html.dark body:not(.admin-layout-active) .ant-collapse-header,
+html.dark body:not(.admin-layout-active) .ant-descriptions-item-label {
+  background: var(--client-dark-surface-2) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-modal-title,
+html.dark body:not(.admin-layout-active) .ant-drawer-title,
+html.dark body:not(.admin-layout-active) .ant-card-head-title,
+html.dark body:not(.admin-layout-active) .ant-form-item-label > label,
+html.dark body:not(.admin-layout-active) .ant-typography,
+html.dark body:not(.admin-layout-active) .ant-empty-description,
+html.dark body:not(.admin-layout-active) .ant-result-title,
+html.dark body:not(.admin-layout-active) .ant-result-subtitle,
+html.dark body:not(.admin-layout-active) .ant-notification-notice-message,
+html.dark body:not(.admin-layout-active) .ant-notification-notice-description,
+html.dark body:not(.admin-layout-active) .ant-message-custom-content,
+html.dark body:not(.admin-layout-active) .ant-pagination-item a,
+html.dark body:not(.admin-layout-active) .ant-pagination-prev button,
+html.dark body:not(.admin-layout-active) .ant-pagination-next button {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-form-item-explain,
+html.dark body:not(.admin-layout-active) .ant-input-show-count-suffix,
+html.dark body:not(.admin-layout-active) .ant-input-data-count,
+html.dark body:not(.admin-layout-active) .ant-select-selection-placeholder,
+html.dark body:not(.admin-layout-active) .ant-picker-input > input::placeholder,
+html.dark body:not(.admin-layout-active) .ant-input::placeholder,
+html.dark body:not(.admin-layout-active) textarea::placeholder,
+html.dark body:not(.admin-layout-active) input::placeholder {
+  color: var(--client-dark-subtle) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-input,
+html.dark body:not(.admin-layout-active) .ant-input-affix-wrapper,
+html.dark body:not(.admin-layout-active) .ant-input-number,
+html.dark body:not(.admin-layout-active) .ant-input-number-input,
+html.dark body:not(.admin-layout-active) .ant-input-password,
+html.dark body:not(.admin-layout-active) .ant-picker,
+html.dark body:not(.admin-layout-active) .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+html.dark body:not(.admin-layout-active) textarea,
+html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']) {
+  background: var(--client-dark-surface-2) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-input:hover,
+html.dark body:not(.admin-layout-active) .ant-input:focus,
+html.dark body:not(.admin-layout-active) .ant-input-affix-wrapper:hover,
+html.dark body:not(.admin-layout-active) .ant-input-affix-wrapper-focused,
+html.dark body:not(.admin-layout-active) .ant-input-number:hover,
+html.dark body:not(.admin-layout-active) .ant-input-number-focused,
+html.dark body:not(.admin-layout-active) .ant-picker:hover,
+html.dark body:not(.admin-layout-active) .ant-picker-focused,
+html.dark body:not(.admin-layout-active) .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector,
+html.dark body:not(.admin-layout-active) textarea:focus,
+html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']):focus {
+  background: var(--client-dark-surface-3) !important;
+  border-color: rgba(34, 197, 94, 0.72) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.16) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-select-item,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu-item,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu-submenu-title,
+html.dark body:not(.admin-layout-active) .ant-picker-header,
+html.dark body:not(.admin-layout-active) .ant-picker-header button,
+html.dark body:not(.admin-layout-active) .ant-picker-content th,
+html.dark body:not(.admin-layout-active) .ant-picker-cell,
+html.dark body:not(.admin-layout-active) .ant-picker-time-panel-cell-inner {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+html.dark body:not(.admin-layout-active) .ant-select-item:hover,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu-item:hover,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu-item-active,
+html.dark body:not(.admin-layout-active) .ant-dropdown-menu-submenu-title:hover,
+html.dark body:not(.admin-layout-active) .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background: var(--client-dark-surface-3) !important;
+  border-color: var(--client-dark-border-strong) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+html.dark body:not(.admin-layout-active) .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+html.dark body:not(.admin-layout-active) .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+html.dark body:not(.admin-layout-active) .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner,
+html.dark body:not(.admin-layout-active) .ant-pagination-item-active {
+  background: var(--client-dark-primary-soft) !important;
+  border-color: rgba(34, 197, 94, 0.45) !important;
+  color: var(--client-dark-primary) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-default:not(.ant-btn-dangerous) {
+  background: var(--client-dark-surface-2) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-default:not(.ant-btn-dangerous):hover,
+html.dark body:not(.admin-layout-active) .ant-btn-default:not(.ant-btn-dangerous):focus {
+  background: var(--client-dark-surface-3) !important;
+  border-color: var(--client-dark-border-strong) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-primary {
+  background: var(--client-dark-primary) !important;
+  border-color: var(--client-dark-primary) !important;
+  color: #06110a !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-primary:hover,
+html.dark body:not(.admin-layout-active) .ant-btn-primary:focus {
+  background: #16a34a !important;
+  border-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+html.dark body:not(.admin-layout-active) button[class~='dark:bg-gray-100'][class~='font-semibold']:not(:disabled),
+html.dark body:not(.admin-layout-active) a[class~='dark:bg-gray-100'][class~='font-semibold'] {
+  background: var(--client-dark-primary) !important;
+  border-color: var(--client-dark-primary) !important;
+  color: #06110a !important;
+}
+
+html.dark body:not(.admin-layout-active) button[class~='dark:bg-gray-100'][class~='font-semibold']:not(:disabled):hover,
+html.dark body:not(.admin-layout-active) a[class~='dark:bg-gray-100'][class~='font-semibold']:hover {
+  background: #16a34a !important;
+  border-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+html.dark body:not(.admin-layout-active) button[class~='dark:bg-gray-100'][class~='font-semibold']:disabled {
+  background: var(--client-dark-surface-3) !important;
+  border-color: var(--client-dark-border) !important;
+  color: var(--client-dark-subtle) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-dangerous,
+html.dark body:not(.admin-layout-active) .ant-btn-dangerous:hover {
+  background: var(--client-dark-surface-2) !important;
+  color: var(--client-dark-danger) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-btn-primary.ant-btn-dangerous,
+html.dark body:not(.admin-layout-active) .ant-btn-primary.ant-btn-dangerous:hover,
+html.dark body:not(.admin-layout-active) .ant-btn-primary.ant-btn-dangerous:focus {
+  background: var(--client-dark-danger) !important;
+  border-color: var(--client-dark-danger) !important;
+  color: #ffffff !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-modal-close,
+html.dark body:not(.admin-layout-active) .ant-drawer-close,
+html.dark body:not(.admin-layout-active) .ant-notification-notice-close,
+html.dark body:not(.admin-layout-active) .ant-popover .anticon {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-menu,
+html.dark body:not(.admin-layout-active) .ant-menu-sub,
+html.dark body:not(.admin-layout-active) .ant-menu-light {
+  background: var(--client-dark-surface) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-menu-item,
+html.dark body:not(.admin-layout-active) .ant-menu-submenu-title {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-menu-item:hover,
+html.dark body:not(.admin-layout-active) .ant-menu-submenu-title:hover,
+html.dark body:not(.admin-layout-active) .ant-menu-item-selected {
+  background: var(--client-dark-surface-3) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .ant-divider,
+html.dark body:not(.admin-layout-active) .ant-card-head,
+html.dark body:not(.admin-layout-active) .ant-modal-header,
+html.dark body:not(.admin-layout-active) .ant-modal-footer,
+html.dark body:not(.admin-layout-active) .ant-drawer-header,
+html.dark body:not(.admin-layout-active) .ant-list-item,
+html.dark body:not(.admin-layout-active) .ant-descriptions-row > th,
+html.dark body:not(.admin-layout-active) .ant-descriptions-row > td {
+  border-color: var(--client-dark-border) !important;
 }

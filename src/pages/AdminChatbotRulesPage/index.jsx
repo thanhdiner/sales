@@ -3,6 +3,7 @@ import AdminChatbotRulesContentSection from './sections/AdminChatbotRulesContent
 import AdminChatbotRulesHeaderSection from './sections/AdminChatbotRulesHeaderSection'
 import AdminChatbotRulesLoadingState from './sections/AdminChatbotRulesLoadingState'
 import AdminChatbotRulesStatsSection from './sections/AdminChatbotRulesStatsSection'
+import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 export default function AdminChatbotRulesPage() {
   const {
@@ -29,7 +30,7 @@ export default function AdminChatbotRulesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="admin-chatbot-page mx-auto max-w-7xl">
       <AdminChatbotRulesHeaderSection
         saving={saving}
         onReload={handleReload}

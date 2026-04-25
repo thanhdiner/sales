@@ -60,7 +60,7 @@ export function getNotificationBadgeText(unreadCount) {
 }
 
 export function getNotificationBellClassName() {
-  return 'header__action__notification--btn relative flex items-center justify-center text-gray-700 transition-colors dark:text-gray-200'
+  return 'header__action__notification--btn relative flex h-8 w-8 items-center justify-center text-gray-700 transition-colors dark:text-gray-200'
 }
 
 export function getNotificationButtonTitle() {
@@ -68,7 +68,7 @@ export function getNotificationButtonTitle() {
 }
 
 export function getNotificationNewDotClassName() {
-  return 'absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-gray-800'
+  return 'client-notification-dot absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-gray-800'
 }
 
 export function getNotificationNewDotVisible(list) {
@@ -160,19 +160,19 @@ export function getNotificationMarkAllClassName() {
 }
 
 export function getNotificationRowColor(notif) {
-  return notif.read ? '' : 'bg-gray-50 dark:bg-gray-800/70'
+  return notif.read ? 'bg-white dark:bg-gray-800' : 'bg-blue-50/80 dark:bg-blue-950/30'
 }
 
 export function getNotificationDotColor(notif) {
-  return notif.read ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-200 dark:bg-gray-700'
+  return notif.read ? 'bg-gray-100 dark:bg-gray-700' : 'bg-blue-100 dark:bg-blue-900/60'
 }
 
 export function getNotificationTitleColor(notif) {
-  return notif.read ? 'text-gray-700 dark:text-gray-300' : 'text-gray-900 dark:text-gray-100'
+  return notif.read ? 'text-gray-700 dark:text-gray-300' : 'text-blue-950 dark:text-blue-100'
 }
 
 export function getNotificationPanelRowClassName(notif) {
-  return `flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 ${getNotificationRowColor(notif)}`
+  return `flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 ${getNotificationRowColor(notif)}`
 }
 
 export function getNotificationPanelIconWrapClassName(notif) {
@@ -192,7 +192,7 @@ export function getNotificationPanelTimeClassName() {
 }
 
 export function getNotificationUnreadDotClassName() {
-  return 'mt-2 h-2 w-2 shrink-0 rounded-full bg-gray-900 dark:bg-gray-100'
+  return 'mt-2 h-2 w-2 shrink-0 rounded-full bg-blue-600 dark:bg-blue-300'
 }
 
 export function getNotificationItemTitle(notif) {

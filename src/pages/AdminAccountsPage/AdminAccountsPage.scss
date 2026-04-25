@@ -1,0 +1,253 @@
+.admin-accounts-page {
+  color: var(--admin-text);
+}
+
+.admin-accounts-page .ant-typography {
+  color: var(--admin-text);
+}
+
+.admin-accounts-table-content .ant-table,
+.admin-accounts-table-content .ant-table-container,
+.admin-accounts-table-content .ant-table-content,
+.admin-accounts-table-content .ant-table-cell {
+  background: transparent !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-table-content .ant-table-thead > tr > th {
+  background: var(--admin-surface-2) !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-muted) !important;
+  font-weight: 600 !important;
+}
+
+.admin-accounts-table-content .ant-table-tbody > tr > td {
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.admin-accounts-table-content .ant-table-tbody > tr.ant-table-row:hover > td,
+.admin-accounts-table-content .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-accounts-table-content .ant-empty-description {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-table-content .ant-pagination {
+  color: var(--admin-text-muted);
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-item {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-item a {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-item-active a {
+  color: #f4f5f8 !important;
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.admin-accounts-table-content .ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-table-content .ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
+.admin-accounts-table-content .ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-status-select .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-status-select.ant-select-focused .ant-select-selector,
+.admin-accounts-status-select:hover .ant-select-selector {
+  border-color: var(--admin-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.16) !important;
+}
+
+.admin-accounts-action-btn.ant-btn {
+  box-shadow: none !important;
+}
+
+.admin-accounts-modal .ant-modal-content {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-accounts-modal .ant-modal-header {
+  border-bottom: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+}
+
+.admin-accounts-modal .ant-modal-title {
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal .ant-modal-body {
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal .ant-form-item-label > label {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input,
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper,
+.admin-accounts-modal .ant-modal-body .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input::placeholder,
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper input::placeholder {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper .ant-input {
+  background: transparent !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input:hover,
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper:hover,
+.admin-accounts-modal .ant-modal-body .ant-select:hover .ant-select-selector {
+  border-color: var(--admin-border-strong) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input:focus,
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper-focused,
+.admin-accounts-modal .ant-modal-body .ant-select-focused .ant-select-selector {
+  border-color: var(--admin-accent) !important;
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.16) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input[disabled],
+.admin-accounts-modal .ant-modal-body .ant-input-affix-wrapper-disabled,
+.admin-accounts-modal .ant-modal-body .ant-select-disabled .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: color-mix(in srgb, var(--admin-surface-2) 86%, var(--admin-surface-3)) !important;
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-accounts-modal .ant-modal-body .ant-input-password-icon,
+.admin-accounts-modal .ant-modal-body .ant-select-arrow {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-modal .ant-modal-body input:-webkit-autofill,
+.admin-accounts-modal .ant-modal-body input:-webkit-autofill:hover,
+.admin-accounts-modal .ant-modal-body input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--admin-text) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--admin-surface-2) inset !important;
+  box-shadow: 0 0 0 1000px var(--admin-surface-2) inset !important;
+  caret-color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal .ant-upload-wrapper .ant-upload-select,
+.admin-accounts-modal .ant-upload-wrapper .ant-upload-list-item-container .ant-upload-list-item {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-accounts-modal .ant-upload-wrapper .ant-upload-list-item-name,
+.admin-accounts-modal .ant-upload-wrapper .ant-upload-list-item-actions .anticon {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-modal-btn-secondary.ant-btn {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-modal-btn-secondary.ant-btn:hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-modal-btn-primary.ant-btn {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-accounts-modal-btn-primary.ant-btn:hover {
+  border-color: var(--admin-accent) !important;
+  opacity: 0.9;
+}
+
+.admin-accounts-select-dropdown.ant-select-dropdown {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-accounts-select-dropdown .ant-select-item {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-accounts-popconfirm.ant-popover .ant-popover-inner {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-accounts-popconfirm .ant-popconfirm-title,
+.admin-accounts-popconfirm .ant-popconfirm-description {
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-popconfirm .ant-popconfirm-message-icon .anticon {
+  color: var(--admin-warning-text) !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-accounts-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-accounts-modal .ant-modal-content,
+html.dark body.admin-layout-active .ant-modal-root .admin-accounts-modal .ant-modal-content {
+  background: var(--admin-surface) !important;
+  border-color: var(--admin-border) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-accounts-modal .ant-modal-header,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-accounts-modal .ant-modal-header,
+html.dark body.admin-layout-active .ant-modal-root .admin-accounts-modal .ant-modal-header,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-accounts-modal .ant-modal-body,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-accounts-modal .ant-modal-body,
+html.dark body.admin-layout-active .ant-modal-root .admin-accounts-modal .ant-modal-body,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal-wrap.admin-accounts-modal .ant-modal-footer,
+html.dark body.admin-layout-active .ant-modal-root .ant-modal.admin-accounts-modal .ant-modal-footer,
+html.dark body.admin-layout-active .ant-modal-root .admin-accounts-modal .ant-modal-footer {
+  background: var(--admin-surface) !important;
+  border-color: var(--admin-border) !important;
+}

@@ -36,7 +36,7 @@ export default function NotificationPanel({
   onClickNotification
 }) {
   return (
-    <div className="absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
+    <div className="client-notification-panel absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-2xl border border-blue-100 bg-white text-gray-900 shadow-xl shadow-slate-900/10 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/30">
       <div className={getNotificationPanelHeaderClassName()}>
         <div>
           <span className={getNotificationTitleTextClassName()}>{getNotificationPanelTitle(notifications)}</span>
@@ -84,7 +84,7 @@ export default function NotificationPanel({
               aria-label={getNotificationItemAriaLabel(notif)}
             >
               <div className={getNotificationPanelIconWrapClassName(notif)}>
-                <Package className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+                <Package className="h-4 w-4 text-blue-600 dark:text-blue-300" />
               </div>
 
               <div className="min-w-0 flex-1">

@@ -16,7 +16,7 @@ function Footer() {
 
   return (
     <>
-      <footer className="footer dark:bg-gray-800 dark:text-white">
+      <footer className="footer dark:text-white">
         <div className="footer__easter-egg" title="Cố lên!">
           <div className="smoke-container">
             <span className="smoke-puff puff-1"></span>

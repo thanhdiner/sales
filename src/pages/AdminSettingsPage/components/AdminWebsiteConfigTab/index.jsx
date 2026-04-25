@@ -1,11 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { Tabs, Form, Input, Upload, Button, Card, Row, Col, message, Divider } from 'antd'
-import { SaveOutlined, EyeOutlined, GlobalOutlined, PhoneOutlined, MailOutlined, SettingOutlined, PlusOutlined } from '@ant-design/icons'
-import { editAdminWebsiteConfig } from '@/services/adminWebsiteConfigService'
+import { Button, Form, Input, Spin, Upload, message } from 'antd'
+import {
+  BarChart3,
+  Eye,
+  Globe2,
+  ImagePlus,
+  Mail,
+  MapPin,
+  Phone,
+  RefreshCw,
+  Save,
+  Search,
+  Share2,
+  Store,
+  UploadCloud
+} from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
+
+import { editAdminWebsiteConfig } from '@/services/adminWebsiteConfigService'
 import { fetchWebsiteConfig } from '@/stores/websiteConfigSlice'
 
 const { TextArea } = Input
+const WEBSITE_CONFIG_TAB_KEYS = ['basic', 'contact', 'seo']
+const inputClass =
+  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
+const secondaryButtonClass =
+  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+const primaryButtonClass =
+  'rounded-lg !border-none !bg-[var(--admin-accent)] font-semibold !text-white hover:!opacity-90'
 
 function urlToFileList(url, name = 'image.jpg') {
   if (!url) return []
@@ -19,270 +42,105 @@ function urlToFileList(url, name = 'image.jpg') {
   ]
 }
 
+function getInitial(data) {
+  if (!data) return {}
+  return {
+    ...data,
+    logo: urlToFileList(data.logoUrl, 'logo.png'),
+    favicon: urlToFileList(data.faviconUrl, 'favicon.png')
+  }
+}
+
+function getFileListFromEvent(e) {
+  return Array.isArray(e) ? e : e?.fileList
+}
+
+function beforeImageUpload(file) {
+  const isImage = file.type.startsWith('image/')
+  if (!isImage) message.error('Chỉ hỗ trợ file hình ảnh')
+  return isImage ? false : Upload.LIST_IGNORE
+}
+
+function SettingsPanel({ title, description, Icon, children, className = '' }) {
+  return (
+    <section
+      className={`rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5 ${className}`}
+    >
+      <div className="mb-4 flex items-start gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]">
+          <Icon className="h-4 w-4" />
+        </div>
+        <div>
+          <h2 className="text-sm font-semibold text-[var(--admin-text)]">{title}</h2>
+          {description && <p className="mt-1 text-sm leading-5 text-[var(--admin-text-muted)]">{description}</p>}
+        </div>
+      </div>
+      {children}
+    </section>
+  )
+}
+
+function UploadField({ name, label, requiredMessage }) {
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      valuePropName="fileList"
+      getValueFromEvent={getFileListFromEvent}
+      rules={[{ required: true, message: requiredMessage }]}
+    >
+      <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeImageUpload}>
+        <div className="flex flex-col items-center gap-2 text-[var(--admin-text-muted)]">
+          <UploadCloud className="h-5 w-5" />
+          <span className="text-xs">Tải lên</span>
+        </div>
+      </Upload>
+    </Form.Item>
+  )
+}
+
 export default function WebsiteConfigTab() {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const dispatch = useDispatch()
+  const activeTab = WEBSITE_CONFIG_TAB_KEYS.includes(searchParams.get('tab')) ? searchParams.get('tab') : 'basic'
+
+  const configTabs = useMemo(() => ([
+    {
+      key: 'basic',
+      label: 'Thông tin',
+      description: 'Tên, mô tả, nhận diện',
+      Icon: Store
+    },
+    {
+      key: 'contact',
+      label: 'Liên hệ',
+      description: 'Kênh hỗ trợ và mạng xã hội',
+      Icon: Phone
+    },
+    {
+      key: 'seo',
+      label: 'SEO',
+      description: 'Meta và analytics',
+      Icon: Search
+    }
+  ]), [])
+
+  const handleTabChange = key => {
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.set('tab', key)
+    setSearchParams(nextParams, { replace: true })
+  }
 
   useEffect(() => {
     if (!websiteConfig) dispatch(fetchWebsiteConfig())
   }, [dispatch, websiteConfig])
 
-  const getInitial = data => {
-    if (!data) return {}
-    return {
-      ...data,
-      logo: urlToFileList(data.logoUrl, 'logo.png'),
-      favicon: urlToFileList(data.faviconUrl, 'favicon.png')
-    }
-  }
   useEffect(() => {
     if (websiteConfig) form.setFieldsValue(getInitial(websiteConfig))
   }, [form, websiteConfig])
-
-  const tabItems = [
-    {
-      label: (
-        <span className="dark:text-gray-400">
-          <GlobalOutlined /> Thông tin cơ bản
-        </span>
-      ),
-      key: '1',
-      children: (
-        <Row gutter={24}>
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Thông tin website</span>} className="mb-6 dark:bg-gray-800">
-              <Form.Item
-                label={<span className="dark:text-gray-300">Tên website</span>}
-                name="siteName"
-                rules={[{ required: true, message: 'Vui lòng nhập tên website!' }]}
-              >
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="Nhập tên website"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Slogan/Tagline</span>} name="tagline">
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="Nhập slogan của website"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Mô tả website</span>} name="description">
-                <TextArea
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  rows={4}
-                  placeholder="Nhập mô tả về website của bạn"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-
-          <Col xs={24} lg={12}>
-            <Card className="dark:bg-gray-800" title={<span className="dark:text-gray-300">Logo & Favicon</span>}>
-              <Form.Item
-                name="logo"
-                label={<span className="dark:text-gray-300">Logo website</span>}
-                valuePropName="fileList"
-                getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-                rules={[{ required: true, message: 'Vui lòng upload Logo!' }]}
-              >
-                <Upload
-                  listType="picture-card"
-                  maxCount={1}
-                  accept="image/*"
-                  beforeUpload={file => {
-                    const isImage = file.type.startsWith('image/')
-                    if (!isImage) message.error('You can only upload image files!')
-                    return isImage ? false : Upload.LIST_IGNORE
-                  }}
-                >
-                  <div>
-                    <PlusOutlined />
-                    <div className="mt-2 dark:text-gray-300">Tải lên</div>
-                  </div>
-                </Upload>
-              </Form.Item>
-
-              <Form.Item
-                name="favicon"
-                label={<span className="dark:text-gray-300">Favicon</span>}
-                valuePropName="fileList"
-                getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
-                rules={[{ required: true, message: 'Please upload an image!' }]}
-              >
-                <Upload
-                  listType="picture-card"
-                  maxCount={1}
-                  accept="image/*"
-                  beforeUpload={file => {
-                    const isImage = file.type.startsWith('image/')
-                    if (!isImage) message.error('You can only upload image files!')
-                    return isImage ? false : Upload.LIST_IGNORE
-                  }}
-                >
-                  <div>
-                    <PlusOutlined />
-                    <div className="mt-2 dark:text-gray-300">Tải lên</div>
-                  </div>
-                </Upload>
-              </Form.Item>
-            </Card>
-          </Col>
-        </Row>
-      )
-    },
-    {
-      label: (
-        <span className="dark:text-gray-400">
-          <PhoneOutlined /> Liên hệ
-        </span>
-      ),
-      key: '2',
-      children: (
-        <Row gutter={24}>
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Thông tin liên hệ cơ bản</span>} className="mb-6 dark:bg-gray-800">
-              <Form.Item label={<span className="dark:text-gray-300">Số điện thoại</span>} name={['contactInfo', 'phone']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
-                  prefix={<PhoneOutlined />}
-                  placeholder="Nhập số điện thoại"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item
-                label={<span className="dark:text-gray-300">Email</span>}
-                name={['contactInfo', 'email']}
-                rules={[{ type: 'email', message: 'Email không hợp lệ!' }]}
-              >
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
-                  prefix={<MailOutlined />}
-                  placeholder="Nhập địa chỉ email"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Địa chỉ</span>} name={['contactInfo', 'address']}>
-                <TextArea
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  rows={3}
-                  placeholder="Nhập địa chỉ công ty/tổ chức"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Website</span>} name={['contactInfo', 'website']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
-                  prefix={<GlobalOutlined />}
-                  placeholder="https://example.com"
-                  size="large"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Mạng xã hội</span>} className="dark:bg-gray-800">
-              <Form.Item label={<span className="dark:text-gray-300">Facebook</span>} name={['contactInfo', 'socialMedia', 'facebook']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="https://facebook.com/yourpage"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Twitter</span>} name={['contactInfo', 'socialMedia', 'twitter']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="https://twitter.com/youraccount"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Instagram</span>} name={['contactInfo', 'socialMedia', 'instagram']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="https://instagram.com/youraccount"
-                  size="large"
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">LinkedIn</span>} name={['contactInfo', 'socialMedia', 'linkedin']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="https://linkedin.com/company/yourcompany"
-                  size="large"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-        </Row>
-      )
-    },
-    {
-      label: (
-        <span className="dark:text-gray-400">
-          <SettingOutlined /> SEO & Analytics
-        </span>
-      ),
-      key: '3',
-      children: (
-        <Row gutter={24}>
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Cài đặt SEO</span>} className="mb-6 dark:bg-gray-800">
-              <Form.Item label={<span className="dark:text-gray-300">Meta Title</span>} name={['seoSettings', 'metaTitle']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="Tiêu đề hiển thị trên Google"
-                  size="large"
-                  showCount
-                  maxLength={60}
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Meta Description</span>} name={['seoSettings', 'metaDescription']}>
-                <TextArea
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  rows={3}
-                  placeholder="Mô tả hiển thị trên kết quả tìm kiếm"
-                  showCount
-                  maxLength={160}
-                />
-              </Form.Item>
-
-              <Form.Item label={<span className="dark:text-gray-300">Keywords</span>} name={['seoSettings', 'keywords']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="từ khóa 1, từ khóa 2, từ khóa 3"
-                  size="large"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-
-          <Col xs={24} lg={12}>
-            <Card title={<span className="dark:text-gray-300">Analytics & Tracking</span>} className="dark:bg-gray-800">
-              <Form.Item label={<span className="dark:text-gray-300">Google Analytics ID</span>} name={['seoSettings', 'googleAnalytics']}>
-                <Input
-                  className="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:placeholder:text-gray-400"
-                  placeholder="G-XXXXXXXXXX"
-                  size="large"
-                />
-              </Form.Item>
-            </Card>
-          </Col>
-        </Row>
-      )
-    }
-  ]
 
   const handleSave = async values => {
     try {
@@ -300,6 +158,7 @@ export default function WebsiteConfigTab() {
         oldImages.push(websiteConfig.faviconUrl)
         deleteImages.push(!!(values.favicon && values.favicon[0]?.originFileObj))
       }
+
       formData.append('oldImages', JSON.stringify(oldImages))
       formData.append('deleteImages', JSON.stringify(deleteImages))
       if (values.logo && values.logo[0]?.originFileObj) {
@@ -315,54 +174,218 @@ export default function WebsiteConfigTab() {
       formData.append('seoSettings', JSON.stringify(values.seoSettings || {}))
 
       await editAdminWebsiteConfig(formData)
-      message.success('Cấu hình đã được lưu thành công!')
-
+      message.success('Cấu hình đã được lưu thành công')
       dispatch(fetchWebsiteConfig())
     } catch (e) {
-      message.error('Lưu cấu hình thất bại!')
+      message.error('Lưu cấu hình thất bại')
     } finally {
       setLoading(false)
     }
   }
 
-  const handlePreview = () => message.info('Preview feature coming soon!')
-  if (!websiteConfig) return <div className="p-8 text-center text-gray-500">Đang tải cấu hình...</div>
+  const handlePreview = () => message.info('Tính năng xem trước sẽ được bổ sung')
+
+  const handleReset = () => {
+    form.setFieldsValue(getInitial(websiteConfig))
+    message.info('Đã hoàn tác các thay đổi')
+  }
+
+  if (!websiteConfig) {
+    return (
+      <div className="flex min-h-[320px] items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] shadow-[var(--admin-shadow)]">
+        <div className="text-center">
+          <Spin />
+          <p className="mt-3 text-sm">Đang tải cấu hình...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white min-h-screen dark:bg-gray-800">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2 dark:text-gray-200">Cấu Hình Website</h1>
-        <p className="text-gray-600 dark:text-gray-400">Quản lý thông tin cơ bản và cài đặt của website</p>
+    <div className="space-y-5">
+      <div className="grid gap-2 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-1.5 shadow-[var(--admin-shadow)] md:grid-cols-3">
+        {configTabs.map(({ key, label, description, Icon }) => {
+          const active = activeTab === key
+
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => handleTabChange(key)}
+              className={`flex min-h-[62px] items-center gap-3 rounded-lg px-3 py-2 text-left transition ${
+                active
+                  ? 'bg-[var(--admin-accent)] text-white'
+                  : 'text-[var(--admin-text-muted)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]'
+              }`}
+            >
+              <span
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                  active
+                    ? 'bg-white/15 text-white'
+                    : 'bg-[var(--admin-surface-2)] text-[var(--admin-text-subtle)]'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold">{label}</span>
+                <span className={`mt-0.5 block text-xs ${active ? 'text-blue-100' : 'text-[var(--admin-text-subtle)]'}`}>
+                  {description}
+                </span>
+              </span>
+            </button>
+          )
+        })}
       </div>
 
-      <Form form={form} layout="vertical" onFinish={handleSave} initialValues={getInitial(websiteConfig)} className="w-full">
-        <Tabs defaultActiveKey="1" className="w-full" items={tabItems} />
-        <Divider />
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSave}
+        initialValues={getInitial(websiteConfig)}
+        className="w-full [&_.ant-form-item-label>label]:text-sm [&_.ant-form-item-label>label]:font-medium [&_.ant-form-item-label>label]:text-[var(--admin-text-muted)]"
+      >
+        {activeTab === 'basic' && (
+          <div className="grid gap-5 lg:grid-cols-2">
+            <SettingsPanel
+              title="Thông tin website"
+              description="Các nội dung xuất hiện ở tiêu đề, footer và metadata cơ bản."
+              Icon={Globe2}
+            >
+              <Form.Item name="siteName" label="Tên website" rules={[{ required: true, message: 'Vui lòng nhập tên website' }]}>
+                <Input className={inputClass} placeholder="Nhập tên website" size="large" />
+              </Form.Item>
+
+              <Form.Item label="Slogan / Tagline" name="tagline">
+                <Input className={inputClass} placeholder="Nhập slogan của website" size="large" />
+              </Form.Item>
+
+              <Form.Item label="Mô tả website" name="description">
+                <TextArea className={inputClass} rows={5} placeholder="Nhập mô tả ngắn về website" />
+              </Form.Item>
+            </SettingsPanel>
+
+            <SettingsPanel title="Logo & favicon" description="Tải lên file hình ảnh dùng cho nhận diện website." Icon={ImagePlus}>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                <UploadField name="logo" label="Logo website" requiredMessage="Vui lòng upload logo" />
+                <UploadField name="favicon" label="Favicon" requiredMessage="Vui lòng upload favicon" />
+              </div>
+              <p className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-3 py-2 text-xs leading-5 text-[var(--admin-text-muted)]">
+                Khuyến nghị dùng ảnh nền trong suốt cho logo và favicon vuông để hiển thị tốt trên tab trình duyệt.
+              </p>
+            </SettingsPanel>
+          </div>
+        )}
+
+        {activeTab === 'contact' && (
+          <div className="grid gap-5 lg:grid-cols-2">
+            <SettingsPanel title="Thông tin liên hệ" description="Thông tin khách hàng nhìn thấy khi cần hỗ trợ." Icon={Phone}>
+              <Form.Item label="Số điện thoại" name={['contactInfo', 'phone']}>
+                <Input
+                  className={inputClass}
+                  prefix={<Phone className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder="Nhập số điện thoại"
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item label="Email" name={['contactInfo', 'email']} rules={[{ type: 'email', message: 'Email không hợp lệ' }]}>
+                <Input
+                  className={inputClass}
+                  prefix={<Mail className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder="support@example.com"
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item label="Địa chỉ" name={['contactInfo', 'address']}>
+                <TextArea className={inputClass} rows={4} placeholder="Nhập địa chỉ công ty / tổ chức" />
+              </Form.Item>
+
+              <Form.Item label="Website" name={['contactInfo', 'website']}>
+                <Input
+                  className={inputClass}
+                  prefix={<MapPin className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder="https://example.com"
+                  size="large"
+                />
+              </Form.Item>
+            </SettingsPanel>
+
+            <SettingsPanel title="Mạng xã hội" description="Liên kết tới các kênh truyền thông chính thức." Icon={Share2}>
+              <Form.Item label="Facebook" name={['contactInfo', 'socialMedia', 'facebook']}>
+                <Input className={inputClass} placeholder="https://facebook.com/yourpage" size="large" />
+              </Form.Item>
+
+              <Form.Item label="Twitter / X" name={['contactInfo', 'socialMedia', 'twitter']}>
+                <Input className={inputClass} placeholder="https://x.com/youraccount" size="large" />
+              </Form.Item>
+
+              <Form.Item label="Instagram" name={['contactInfo', 'socialMedia', 'instagram']}>
+                <Input className={inputClass} placeholder="https://instagram.com/youraccount" size="large" />
+              </Form.Item>
+
+              <Form.Item label="LinkedIn" name={['contactInfo', 'socialMedia', 'linkedin']}>
+                <Input className={inputClass} placeholder="https://linkedin.com/company/yourcompany" size="large" />
+              </Form.Item>
+            </SettingsPanel>
+          </div>
+        )}
+
+        {activeTab === 'seo' && (
+          <div className="grid gap-5 lg:grid-cols-2">
+            <SettingsPanel title="Cài đặt SEO" description="Tối ưu nội dung hiển thị trên công cụ tìm kiếm." Icon={Search}>
+              <Form.Item label="Meta title" name={['seoSettings', 'metaTitle']}>
+                <Input className={inputClass} placeholder="Tiêu đề hiển thị trên Google" size="large" showCount maxLength={60} />
+              </Form.Item>
+
+              <Form.Item label="Meta description" name={['seoSettings', 'metaDescription']}>
+                <TextArea className={inputClass} rows={4} placeholder="Mô tả hiển thị trên kết quả tìm kiếm" showCount maxLength={160} />
+              </Form.Item>
+
+              <Form.Item label="Keywords" name={['seoSettings', 'keywords']}>
+                <Input className={inputClass} placeholder="từ khóa 1, từ khóa 2, từ khóa 3" size="large" />
+              </Form.Item>
+            </SettingsPanel>
+
+            <SettingsPanel title="Analytics & tracking" description="Thông tin dùng cho theo dõi hiệu quả website." Icon={BarChart3}>
+              <Form.Item label="Google Analytics ID" name={['seoSettings', 'googleAnalytics']}>
+                <Input className={inputClass} placeholder="G-XXXXXXXXXX" size="large" />
+              </Form.Item>
+            </SettingsPanel>
+          </div>
+        )}
+
+        <div className="mt-5 flex flex-col gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3 shadow-[var(--admin-shadow)] sm:flex-row sm:items-center sm:justify-between">
           <Button
-            className="w-full sm:w-auto dark:bg-blue-600 dark:text-gray-300 dark:hover:!bg-blue-500 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
-            icon={<EyeOutlined />}
+            icon={<Eye className="h-4 w-4" />}
             size="large"
             onClick={handlePreview}
             disabled={loading}
+            className={secondaryButtonClass}
           >
             Xem trước
           </Button>
 
-          <div className="flex w-full sm:w-auto justify-stretch sm:justify-end gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Button
-              className="w-full sm:w-auto dark:bg-gray-500 dark:text-gray-200 dark:hover:!bg-gray-400 dark:hover:!text-gray-100 dark:hover:!border-gray-300"
+              icon={<RefreshCw className="h-4 w-4" />}
               size="large"
               disabled={loading}
-              onClick={() => {
-                form.setFieldsValue(getInitial(websiteConfig))
-                message.info('Đã hoàn tác các thay đổi!')
-              }}
+              onClick={handleReset}
+              className={secondaryButtonClass}
             >
-              Hủy bỏ
+              Hoàn tác
             </Button>
 
-            <Button type="primary" htmlType="submit" icon={<SaveOutlined />} size="large" loading={loading} className="w-full sm:w-auto">
+            <Button
+              type="primary"
+              htmlType="submit"
+              icon={<Save className="h-4 w-4" />}
+              size="large"
+              loading={loading}
+              className={primaryButtonClass}
+            >
               Lưu cấu hình
             </Button>
           </div>

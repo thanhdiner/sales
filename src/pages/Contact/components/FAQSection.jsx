@@ -32,8 +32,8 @@ const FAQSection = () => {
             transition={{ duration: 0.5, ease: 'easeOut' }}
             viewport={viewport}
           >
-            <div className="rounded-[28px] border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="space-y-3 rounded-[22px] bg-gradient-to-br from-violet-50/30 via-white to-blue-50/20 p-4 md:p-5 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
+            <div className="contact-faq-shell rounded-[28px] border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="contact-faq-list space-y-3 rounded-[22px] bg-gradient-to-br from-violet-50/30 via-white to-blue-50/20 p-4 md:p-5 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
                 {faqs.map((faq, index) => (
                   <FAQItem
                     key={index}

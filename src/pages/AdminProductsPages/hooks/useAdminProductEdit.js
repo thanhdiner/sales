@@ -109,6 +109,8 @@ export function useAdminProductEdit() {
       formData.append('costPrice', values.costPrice)
       formData.append('discountPercentage', values.discountPercentage || 0)
       formData.append('stock', values.stock || 0)
+      formData.append('deliveryType', values.deliveryType || 'manual')
+      formData.append('deliveryInstructions', values.deliveryInstructions || '')
       formData.append('description', values.description || '')
       formData.append('status', values.status || 'active')
       formData.append('slug', values.slug || '')

@@ -72,14 +72,14 @@ export default function AdminChatbotRuntimeStatusSection({ config }) {
       </div>
 
       <Alert
-        className="mb-4"
+        className="admin-chatbot-alert mb-4"
         type="warning"
         showIcon
         message="Runtime thực tế vẫn ưu tiên đọc provider/model từ server"
         description="Admin page lưu cấu hình trong database để orchestrator dùng và để quản trị dễ hơn. API key vẫn phải đặt ở file .env."
       />
 
-      <div className="mb-4 rounded-2xl border border-blue-100 bg-blue-50 p-4 dark:border-blue-900/40 dark:bg-blue-900/10">
+      <div className="admin-chatbot-runtime-summary mb-4 rounded-2xl p-4">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Tag color={config?.runtimeEnabled ? 'green' : 'red'}>
             Runtime: {config?.runtimeEnabled ? 'Bật' : 'Tắt'}
@@ -99,7 +99,7 @@ export default function AdminChatbotRuntimeStatusSection({ config }) {
 
       {config?.runtimeConfigError && (
         <Alert
-          className="mb-4"
+          className="admin-chatbot-alert mb-4"
           type="error"
           showIcon
           message="Runtime env chưa hợp lệ"

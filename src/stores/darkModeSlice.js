@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { applyDocumentTheme, persistDarkMode, resolveInitialDarkMode } from '@/utils/themeMode'
+
+const initialDarkMode = resolveInitialDarkMode()
+applyDocumentTheme(initialDarkMode)
 
 const initialState = {
-  value: localStorage.getItem('darkModeClient') === 'true'
+  value: initialDarkMode
 }
 
 const darkModeSlice = createSlice({
@@ -9,10 +13,10 @@ const darkModeSlice = createSlice({
   initialState,
   reducers: {
     setDarkMode: (state, action) => {
-      state.value = action.payload
-      localStorage.setItem('darkModeClient', action.payload)
-      if (action.payload) document.documentElement.classList.add('dark')
-      else document.documentElement.classList.remove('dark')
+      const isDarkMode = !!action.payload
+      state.value = isDarkMode
+      persistDarkMode(isDarkMode)
+      applyDocumentTheme(isDarkMode)
     }
   }
 })

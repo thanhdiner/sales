@@ -21,7 +21,7 @@ export default function AdminReviewRow({
   const mediaItems = getReviewMediaItems(review)
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-colors hover:border-gray-300 dark:border-gray-700 dark:bg-gray-900">
+    <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)] transition-colors hover:border-[var(--admin-border-strong)]">
       <div className="flex flex-col gap-4 sm:flex-row">
         <div className="min-w-0 flex-1 space-y-3">
           <div className="flex items-start justify-between gap-3">
@@ -29,23 +29,23 @@ export default function AdminReviewRow({
               <AdminReviewsAvatar user={review.userId} />
 
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <p className="truncate text-sm font-semibold text-[var(--admin-text)]">
                   {review.userId?.fullName || review.userId?.username || 'Khách hàng'}
                 </p>
-                <p className="truncate text-xs text-gray-400">{review.userId?.email}</p>
+                <p className="truncate text-xs text-[var(--admin-text-subtle)]">{review.userId?.email}</p>
               </div>
             </div>
 
             <div className="flex flex-shrink-0 items-center gap-2">
               {review.hidden && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                <span className="inline-flex items-center gap-1 rounded-full border border-[color-mix(in_srgb,#f59e0b_35%,var(--admin-border))] bg-[color-mix(in_srgb,#f59e0b_14%,var(--admin-surface-2))] px-2 py-0.5 text-[11px] font-semibold text-[color-mix(in_srgb,#f59e0b_76%,var(--admin-text))]">
                   <EyeOff size={10} strokeWidth={1.8} />
                   Ẩn
                 </span>
               )}
 
               <AdminReviewsRatingBadge rating={review.rating} />
-              <span className="text-xs text-gray-400">{dayjs(review.createdAt).fromNow()}</span>
+              <span className="text-xs text-[var(--admin-text-subtle)]">{dayjs(review.createdAt).fromNow()}</span>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ export default function AdminReviewRow({
               href={`/product/${review.productId.slug}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex max-w-full items-center gap-1.5 text-xs font-medium text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+              className="inline-flex max-w-full items-center gap-1.5 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
             >
               <ExternalLink size={12} strokeWidth={1.8} />
               <span className="truncate">{review.productId.title}</span>
@@ -62,13 +62,13 @@ export default function AdminReviewRow({
           )}
 
           {review.title && (
-            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+            <p className="text-sm font-semibold text-[var(--admin-text)]">
               {review.title}
             </p>
           )}
 
           {review.content && (
-            <p className="text-sm leading-6 text-gray-600 dark:text-gray-300">{review.content}</p>
+            <p className="text-sm leading-6 text-[var(--admin-text-muted)]">{review.content}</p>
           )}
 
           {mediaItems.length > 0 && (
@@ -76,7 +76,7 @@ export default function AdminReviewRow({
               {mediaItems.slice(0, 6).map((item, index) => (
                 <div
                   key={`${item.url}-${index}`}
-                  className="h-14 w-14 overflow-hidden rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
+                  className="h-14 w-14 overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)]"
                 >
                   {item.isVideo ? (
                     <video src={item.url} className="h-full w-full object-cover" muted />
@@ -87,7 +87,7 @@ export default function AdminReviewRow({
               ))}
 
               {mediaItems.length > 6 && (
-                <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-xs font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+                <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-xs font-medium text-[var(--admin-text-muted)]">
                   +{mediaItems.length - 6}
                 </div>
               )}
@@ -95,26 +95,26 @@ export default function AdminReviewRow({
           )}
 
           {review.sellerReply?.content && (
-            <div className="space-y-1 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/70">
+            <div className="space-y-1 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-3">
               <div className="flex items-center justify-between gap-3">
-                <span className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200">
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-[var(--admin-text)]">
                   <ShieldCheck size={13} strokeWidth={1.8} />
                   Phản hồi của Shop
                 </span>
 
-                <span className="text-[10px] text-gray-400">
+                <span className="text-[10px] text-[var(--admin-text-subtle)]">
                   {dayjs(review.sellerReply.repliedAt).fromNow()}
                 </span>
               </div>
 
-              <p className="text-sm leading-6 text-gray-600 dark:text-gray-300">
+              <p className="text-sm leading-6 text-[var(--admin-text-muted)]">
                 {review.sellerReply.content}
               </p>
             </div>
           )}
 
           {review.hidden && (
-            <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+            <div className="rounded-xl border border-[color-mix(in_srgb,#f59e0b_35%,var(--admin-border))] bg-[color-mix(in_srgb,#f59e0b_14%,var(--admin-surface-2))] px-3 py-2 text-xs text-[color-mix(in_srgb,#f59e0b_76%,var(--admin-text))]">
               Review này đang bị ẩn khỏi trang sản phẩm.
             </div>
           )}
@@ -124,7 +124,7 @@ export default function AdminReviewRow({
           <button
             type="button"
             onClick={() => onReply(review)}
-            className="flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-1.5 text-xs font-medium text-[var(--admin-text)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)]"
           >
             <MessageSquare size={13} strokeWidth={1.8} />
             {review.sellerReply?.content ? 'Sửa phản hồi' : 'Phản hồi'}
@@ -134,7 +134,7 @@ export default function AdminReviewRow({
             <button
               type="button"
               onClick={() => onDeleteReply(review._id)}
-              className="flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+              className="flex items-center justify-center gap-1.5 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-1.5 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
             >
               <X size={13} strokeWidth={1.8} />
               Xoá phản hồi
@@ -145,7 +145,7 @@ export default function AdminReviewRow({
             <button
               type="button"
               onClick={() => onHide(review._id)}
-              className="flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-amber-700 transition-colors hover:bg-amber-50 dark:border-gray-700 dark:bg-gray-900 dark:text-amber-300 dark:hover:bg-amber-950/20"
+              className="flex items-center justify-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,#f59e0b_35%,var(--admin-border))] bg-[color-mix(in_srgb,#f59e0b_14%,var(--admin-surface-2))] px-3 py-1.5 text-xs font-medium text-[color-mix(in_srgb,#f59e0b_76%,var(--admin-text))] transition-colors hover:bg-[color-mix(in_srgb,#f59e0b_22%,var(--admin-surface-2))]"
             >
               <EyeOff size={13} strokeWidth={1.8} />
               Ẩn review
@@ -155,7 +155,7 @@ export default function AdminReviewRow({
           <button
             type="button"
             onClick={() => onDelete(review._id)}
-            className="flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 dark:border-gray-700 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-red-950/30"
+            className="flex items-center justify-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,#ef4444_35%,var(--admin-border))] bg-[color-mix(in_srgb,#ef4444_12%,var(--admin-surface-2))] px-3 py-1.5 text-xs font-medium text-[color-mix(in_srgb,#ef4444_76%,var(--admin-text))] transition-colors hover:bg-[color-mix(in_srgb,#ef4444_20%,var(--admin-surface-2))]"
           >
             <Trash2 size={13} strokeWidth={1.8} />
             Xoá

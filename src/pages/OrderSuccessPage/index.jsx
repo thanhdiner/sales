@@ -104,6 +104,7 @@ export default function OrderSuccessPage() {
   const getFailureMessage = () => {
     if (reason === 'invalid_signature') return 'Chữ ký không hợp lệ từ cổng thanh toán.'
     if (reason === 'payment_failed') return 'Giao dịch không thành công. Vui lòng thử lại.'
+    if (reason === 'order_expired') return 'Đơn hàng đã hết hạn thanh toán. Tồn kho đã được trả lại.'
     if (reason === 'server_error') return 'Có lỗi phía máy chủ. Vui lòng liên hệ hỗ trợ.'
 
     return 'Thanh toán không thành công hoặc đã bị hủy.'
