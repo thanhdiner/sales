@@ -163,6 +163,21 @@
     "addFeature": "Thêm tính năng",
     "shortDescription": "Mô tả ngắn",
     "content": "Nội dung chi tiết",
+    "ai": {
+      "fullContent": "AI gợi ý toàn bộ nội dung sản phẩm",
+      "previewTitle": "Xem trước nội dung AI",
+      "apply": "Áp dụng",
+      "applied": "Đã áp dụng nội dung AI",
+      "cancel": "Hủy",
+      "regenerate": "Tạo lại",
+      "error": "Không thể tạo nội dung AI",
+      "actions": {
+        "suggest": "Gợi ý",
+        "improve": "Cải thiện",
+        "complete": "Hoàn thiện",
+        "generate_all": "Tạo toàn bộ"
+      }
+    },
     "translations": {
       "sectionTitle": "Bản dịch tiếng Anh",
       "title": "Tên sản phẩm tiếng Anh",

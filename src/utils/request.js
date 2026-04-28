@@ -55,6 +55,10 @@ const requestWithAuth = async (method, path, data) => {
   const isFormData = data instanceof FormData
   let accessToken = await getFreshAccessToken()
 
+  if (!accessToken && path.startsWith('admin/') && !path.startsWith('admin/auth/')) {
+    accessToken = await refreshAccessToken()
+  }
+
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...getLanguageHeaders(),

@@ -66,6 +66,7 @@
     "excerptPlaceholder": "Đoạn mô tả ngắn hiển thị trong danh sách blog",
     "content": "Nội dung",
     "contentPlaceholder": "Nhập nội dung bài viết",
+    "characterLimitExceeded": "Nội dung không được vượt quá {{max}} ký tự",
     "category": "Danh mục",
     "categoryPlaceholder": "Tin tức, hướng dẫn, cập nhật...",
     "tags": "Thẻ",
@@ -101,6 +102,7 @@
     "deleteSuccess": "Đã xóa bài viết",
     "deleteError": "Xóa bài viết thất bại",
     "saveError": "Không lưu được bài viết",
+    "mediaUploadError": "Không tải được media vào bài viết",
     "slugExists": "Slug đã tồn tại. Có thể dùng: {{slug}}",
     "imageOnly": "Chỉ được tải lên file ảnh",
     "imageTooLarge": "Ảnh phải nhỏ hơn {{size}}MB"

@@ -8,6 +8,7 @@ import {
   AdminUploadField
 } from '@/components/admin/form'
 import { getLocalizedProductCategoryTree } from '@/pages/AdminProductCategoriesPage/utils/productCategoryLocalization'
+import ProductAIAssistant from './ProductAIAssistant'
 import ProductCredentialManager from './ProductCredentialManager'
 import ProductTranslationFields from './ProductTranslationFields'
 
@@ -43,6 +44,12 @@ export default function ProductForm({
   const deliveryType = Form.useWatch('deliveryType', form)
 
   const label = key => <span className={`${prefix}__label`}>{t(key)}</span>
+  const aiLabel = (key, target, language = 'vi') => (
+    <div className={`${prefix}__label-with-ai`}>
+      {label(key)}
+      <ProductAIAssistant classNamePrefix={prefix} form={form} language={language} target={target} />
+    </div>
+  )
   const costPriceRules = isCreate
     ? [{ required: true, message: t('form.costPriceRequired') }]
     : [
@@ -110,9 +117,14 @@ export default function ProductForm({
         onFinish={onSubmit}
       >
         <div className={`${prefix}__card`}>
+          <div className={`${prefix}__ai-all`}>
+            <span className={`${prefix}__ai-all-title`}>{t('form.ai.fullContent')}</span>
+            <ProductAIAssistant classNamePrefix={prefix} form={form} target="all" />
+          </div>
+
           <Row gutter={16}>
             <Col xs={24} lg={12}>
-              <Form.Item name="title" label={label('form.productName')} rules={[{ required: true }]}>
+              <Form.Item name="title" label={aiLabel('form.productName', 'title')} rules={[{ required: true }]}>
                 <Input className={`${prefix}__input`} placeholder={t('form.productNamePlaceholder')} />
               </Form.Item>
 
@@ -160,7 +172,7 @@ export default function ProductForm({
                 />
               </Form.Item>
 
-              <Form.Item name="deliveryInstructions" label={label('form.deliveryInstructions')}>
+              <Form.Item name="deliveryInstructions" label={aiLabel('form.deliveryInstructions', 'deliveryInstructions')}>
                 <Input.TextArea
                   className={`${prefix}__textarea`}
                   placeholder={t('form.deliveryInstructionsPlaceholder')}
@@ -241,7 +253,7 @@ export default function ProductForm({
                 addLabel={t('form.addFeature')}
                 fieldClassName={`${prefix}__features`}
                 inputClassName={`${prefix}__input`}
-                label={label('form.features')}
+                label={aiLabel('form.features', 'features')}
                 placeholder={fieldName => t('form.featurePlaceholder', { number: fieldName + 1 })}
                 removeButtonClassName={`${prefix}__remove-feature-btn`}
                 removeLabel={t('form.removeFeature')}
@@ -254,7 +266,7 @@ export default function ProductForm({
               <AdminRichTextField
                 editorClassName={`${prefix}__editor`}
                 form={form}
-                label={label('form.shortDescription')}
+                label={aiLabel('form.shortDescription', 'description')}
                 name="description"
               />
             </Col>
@@ -263,7 +275,7 @@ export default function ProductForm({
               <AdminRichTextField
                 editorClassName={`${prefix}__editor`}
                 form={form}
-                label={label('form.content')}
+                label={aiLabel('form.content', 'content')}
                 name="content"
               />
             </Col>

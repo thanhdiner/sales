@@ -4,6 +4,7 @@ import ProductsPages from '@/pages/ProductsPages'
 import About from '@/pages/About'
 import Contact from '@/pages/Contact'
 import Blog from '@/pages/Blog'
+import BlogDetail from '@/pages/Blog/BlogDetail'
 import Error404 from '@/pages/Error404'
 import ProductsDetail from '@/pages/ProductsPages/ProductsDetail'
 import ProfilePage from '@/pages/ProfilePage'
@@ -47,6 +48,7 @@ export const clientRoutes = [
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/blog', element: <Blog /> },
+      { path: '/blog/:slug', element: <BlogDetail /> },
       {
         path: '/user/profile',
         element: (

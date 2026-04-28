@@ -197,27 +197,64 @@ body.admin-layout-active .ant-select-tree-node-content-wrapper.ant-select-tree-n
   color: var(--admin-text) !important;
 }
 
+body.admin-layout-active .ant-picker-dropdown,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-panel-container,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-panel-layout,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-panel,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-date-panel,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-header,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-body,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-footer {
+  background: var(--admin-surface) !important;
+  background-color: var(--admin-surface) !important;
+}
+
 body.admin-layout-active .ant-picker-dropdown .ant-picker-panel-container {
+  overflow: hidden;
   border: 1px solid var(--admin-border) !important;
-  background: var(--admin-surface-2) !important;
+  border-radius: var(--admin-frame-radius-md) !important;
+  box-shadow: var(--admin-shadow) !important;
 }
 
 body.admin-layout-active .ant-picker-dropdown .ant-picker-header,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-header button,
 body.admin-layout-active .ant-picker-dropdown .ant-picker-content th,
-body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-column > li {
+body.admin-layout-active .ant-picker-dropdown .ant-picker-cell,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-column > li,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-cell-inner {
   color: var(--admin-text-muted) !important;
 }
 
-body.admin-layout-active .ant-picker-dropdown .ant-picker-cell-in-view {
+body.admin-layout-active .ant-picker-dropdown .ant-picker-header-view,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-cell-in-view,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
   color: var(--admin-text) !important;
 }
 
-body.admin-layout-active .ant-picker-dropdown .ant-picker-cell:hover .ant-picker-cell-inner {
-  background: var(--admin-surface-3) !important;
+body.admin-layout-active .ant-picker-dropdown .ant-picker-cell:hover .ant-picker-cell-inner,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-cell-inner:hover {
+  background: var(--admin-surface-2) !important;
 }
 
-body.admin-layout-active .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
-  background: var(--admin-accent) !important;
+body.admin-layout-active .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: var(--admin-accent) !important;
+}
+
+body.admin-layout-active .ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+body.admin-layout-active .ant-picker-dropdown .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background: var(--admin-accent-soft) !important;
+  color: var(--admin-text) !important;
+}
+
+body.admin-layout-active .ant-picker-dropdown .ant-picker-now-btn {
+  color: var(--admin-accent) !important;
+}
+
+body.admin-layout-active .ant-picker-dropdown .ant-picker-ok .ant-btn {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
 }
 
 body.admin-layout-active .tiptap-editor {

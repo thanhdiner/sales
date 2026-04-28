@@ -1,11 +1,18 @@
 import { Col, Form, Input, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { AdminFeatureListField, AdminRichTextField } from '@/components/admin/form'
+import ProductAIAssistant from './ProductAIAssistant'
 
 export default function ProductTranslationFields({ form, classNamePrefix }) {
   const { t } = useTranslation('adminProducts')
 
   const label = key => <span className={`${classNamePrefix}__label`}>{t(key)}</span>
+  const aiLabel = (key, target) => (
+    <div className={`${classNamePrefix}__label-with-ai`}>
+      {label(key)}
+      <ProductAIAssistant classNamePrefix={classNamePrefix} form={form} language="en" target={target} />
+    </div>
+  )
 
   return (
     <div className={`${classNamePrefix}__translation-section`}>
@@ -15,13 +22,13 @@ export default function ProductTranslationFields({ form, classNamePrefix }) {
 
       <Row gutter={16}>
         <Col xs={24} lg={12}>
-          <Form.Item name={['translations', 'en', 'title']} label={label('form.translations.title')}>
+          <Form.Item name={['translations', 'en', 'title']} label={aiLabel('form.translations.title', 'translations.en.title')}>
             <Input className={`${classNamePrefix}__input`} placeholder={t('form.translations.titlePlaceholder')} />
           </Form.Item>
         </Col>
 
         <Col xs={24} lg={12}>
-          <Form.Item name={['translations', 'en', 'deliveryInstructions']} label={label('form.translations.deliveryInstructions')}>
+          <Form.Item name={['translations', 'en', 'deliveryInstructions']} label={aiLabel('form.translations.deliveryInstructions', 'translations.en.deliveryInstructions')}>
             <Input.TextArea
               className={`${classNamePrefix}__textarea`}
               rows={3}
@@ -36,7 +43,7 @@ export default function ProductTranslationFields({ form, classNamePrefix }) {
             addLabel={t('form.translations.addFeature')}
             fieldClassName={`${classNamePrefix}__features`}
             inputClassName={`${classNamePrefix}__input`}
-            label={label('form.translations.features')}
+            label={aiLabel('form.translations.features', 'translations.en.features')}
             name={['translations', 'en', 'features']}
             placeholder={fieldName => t('form.translations.featurePlaceholder', { number: fieldName + 1 })}
             removeButtonClassName={`${classNamePrefix}__remove-feature-btn`}
@@ -49,7 +56,7 @@ export default function ProductTranslationFields({ form, classNamePrefix }) {
           <AdminRichTextField
             editorClassName={`${classNamePrefix}__editor`}
             form={form}
-            label={label('form.translations.description')}
+            label={aiLabel('form.translations.description', 'translations.en.description')}
             name={['translations', 'en', 'description']}
           />
         </Col>
@@ -58,7 +65,7 @@ export default function ProductTranslationFields({ form, classNamePrefix }) {
           <AdminRichTextField
             editorClassName={`${classNamePrefix}__editor`}
             form={form}
-            label={label('form.translations.content')}
+            label={aiLabel('form.translations.content', 'translations.en.content')}
             name={['translations', 'en', 'content']}
           />
         </Col>

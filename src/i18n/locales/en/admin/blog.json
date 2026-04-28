@@ -66,6 +66,7 @@
     "excerptPlaceholder": "Short description shown in the blog list",
     "content": "Content",
     "contentPlaceholder": "Enter post content",
+    "characterLimitExceeded": "Content must not exceed {{max}} characters",
     "category": "Category",
     "categoryPlaceholder": "News, guides, updates...",
     "tags": "Tags",
@@ -101,6 +102,7 @@
     "deleteSuccess": "Post deleted",
     "deleteError": "Failed to delete post",
     "saveError": "Failed to save post",
+    "mediaUploadError": "Failed to upload media into the post",
     "slugExists": "Slug already exists. You can use: {{slug}}",
     "imageOnly": "Only image files can be uploaded",
     "imageTooLarge": "Image must be smaller than {{size}}MB"

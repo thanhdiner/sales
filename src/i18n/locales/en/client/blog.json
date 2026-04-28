@@ -14,14 +14,45 @@
     "all": "All"
   },
   "labels": {
-    "featured": "Featured"
+    "featured": "Featured",
+    "author": "Admin",
+    "readTime": "{{count}} min read"
+  },
+  "stats": {
+    "articles": " articles",
+    "categories": " categories",
+    "featured": " featured"
+  },
+  "sections": {
+    "featured": "Featured posts",
+    "latest": "Latest posts",
+    "popular": "Popular posts",
+    "tags": "Tags",
+    "toc": "Table of contents",
+    "relatedProducts": "Related products",
+    "relatedPosts": "Related posts"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "blog": "Blog"
+  },
+  "detail": {
+    "ctaTitle": "Need the right product?",
+    "ctaDescription": "Explore SmartMall categories for accounts, games, and software deals.",
+    "ctaAction": "View products",
+    "productPlaceholder": "Suggested product"
   },
   "actions": {
-    "read": "Read post"
+    "read": "Read post",
+    "loadMore": "Load more",
+    "backToBlog": "Back to Blog"
   },
   "messages": {
     "loading": "Loading posts...",
     "fetchError": "Failed to load blog posts",
-    "empty": "No matching posts yet"
+    "detailFetchError": "Failed to load blog post",
+    "empty": "No matching posts yet",
+    "notFound": "Blog post not found",
+    "noToc": "No table of contents yet"
   }
 }

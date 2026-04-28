@@ -14,14 +14,45 @@
     "all": "Tất cả"
   },
   "labels": {
-    "featured": "Nổi bật"
+    "featured": "Nổi bật",
+    "author": "Admin",
+    "readTime": "{{count}} phút đọc"
+  },
+  "stats": {
+    "articles": " bài viết",
+    "categories": " danh mục",
+    "featured": " nổi bật"
+  },
+  "sections": {
+    "featured": "Bài viết nổi bật",
+    "latest": "Bài mới nhất",
+    "popular": "Bài phổ biến",
+    "tags": "Tags",
+    "toc": "Mục lục",
+    "relatedProducts": "Sản phẩm liên quan",
+    "relatedPosts": "Bài viết liên quan"
+  },
+  "breadcrumb": {
+    "home": "Trang chủ",
+    "blog": "Blog"
+  },
+  "detail": {
+    "ctaTitle": "Cần tìm sản phẩm phù hợp?",
+    "ctaDescription": "Khám phá danh mục SmartMall để chọn tài khoản, game và phần mềm đang được ưu đãi.",
+    "ctaAction": "Xem sản phẩm",
+    "productPlaceholder": "Sản phẩm gợi ý"
   },
   "actions": {
-    "read": "Đọc bài viết"
+    "read": "Đọc bài viết",
+    "loadMore": "Load more",
+    "backToBlog": "Quay lại Blog"
   },
   "messages": {
     "loading": "Đang tải bài viết...",
     "fetchError": "Không tải được danh sách bài viết",
-    "empty": "Chưa có bài viết phù hợp"
+    "detailFetchError": "Không tải được bài viết",
+    "empty": "Chưa có bài viết phù hợp",
+    "notFound": "Không tìm thấy bài viết",
+    "noToc": "Chưa có mục lục"
   }
 }

@@ -53,3 +53,7 @@ export const getProductById = async id => {
 export const updateProductById = async (id, data) => {
   return await patch(`admin/products/edit/${id}`, data)
 }
+
+export const generateAdminProductContent = async payload => {
+  return await post('admin/product-content-assistant/generate', payload)
+}

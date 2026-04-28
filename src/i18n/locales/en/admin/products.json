@@ -163,6 +163,21 @@
     "addFeature": "Add feature",
     "shortDescription": "Short description",
     "content": "Detail content",
+    "ai": {
+      "fullContent": "AI suggestions for full product content",
+      "previewTitle": "Preview AI content",
+      "apply": "Apply",
+      "applied": "AI content applied",
+      "cancel": "Cancel",
+      "regenerate": "Regenerate",
+      "error": "Failed to generate AI content",
+      "actions": {
+        "suggest": "Suggest",
+        "improve": "Improve",
+        "complete": "Complete",
+        "generate_all": "Generate all"
+      }
+    },
     "translations": {
       "sectionTitle": "English translation",
       "title": "English product name",

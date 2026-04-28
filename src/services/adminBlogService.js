@@ -39,6 +39,12 @@ export const updateAdminBlogPost = async (id, formData) => {
   return await patch(`admin/blog/${id}`, formData)
 }
 
+export const uploadAdminBlogMedia = async file => {
+  const formData = new FormData()
+  formData.append('media', file)
+  return await post('admin/blog/media', formData)
+}
+
 export const deleteAdminBlogPost = async id => {
   return await del(`admin/blog/${id}`)
 }

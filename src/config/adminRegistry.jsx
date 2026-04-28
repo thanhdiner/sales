@@ -44,6 +44,8 @@ const AdminWidgetsPage = lazy(() => import('@/pages/AdminWidgetsPage'))
 const AdminBannersPage = lazy(() => import('@/pages/AdminBannersPage'))
 const AdminAboutPage = lazy(() => import('@/pages/AdminAboutPage'))
 const AdminBlogPage = lazy(() => import('@/pages/AdminBlogPage'))
+const AdminBlogCreate = lazy(() => import('@/pages/AdminBlogPage/AdminBlogCreate'))
+const AdminBlogEdit = lazy(() => import('@/pages/AdminBlogPage/AdminBlogEdit'))
 const AdminTermsPage = lazy(() => import('@/pages/AdminTermsPage'))
 const AdminCooperationContactPage = lazy(() => import('@/pages/AdminCooperationContactPage'))
 const AdminHomeWhyChooseUsPage = lazy(() => import('@/pages/AdminHomeWhyChooseUsPage'))
@@ -148,7 +150,12 @@ export const adminRouteRegistry = [
     menuRoute('banners', AdminBannersPage, { permission: 'view_banners' }, 'routes.banners'),
     menuRoute('widgets', AdminWidgetsPage, { permission: 'view_widgets' }, 'routes.widgets'),
     menuRoute('about', AdminAboutPage, { permission: 'view_about_content' }, 'routes.about'),
-    menuRoute('blog', AdminBlogPage, { permission: 'view_blog' }, 'routes.blog'),
+    menuRoute('blog', AdminBlogPage, { permission: 'view_blog' }, 'routes.blog', {
+      relatedRoutes: [
+        route('blog/create', AdminBlogCreate, { permission: 'create_blog' }),
+        route('blog/edit/:id', AdminBlogEdit, { permission: 'edit_blog' })
+      ]
+    }),
     menuRoute('terms', AdminTermsPage, { permission: 'view_terms_content' }, 'routes.terms'),
     menuRoute('home-why-choose-us', AdminHomeWhyChooseUsPage, { permission: 'view_home_why_choose_us_content' }, 'routes.home-why-choose-us'),
     menuRoute('cooperation-contact', AdminCooperationContactPage, { permission: 'view_cooperation_contact_content' }, 'routes.cooperation-contact'),

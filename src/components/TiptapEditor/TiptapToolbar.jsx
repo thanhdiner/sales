@@ -3,14 +3,22 @@ import {
   AlignLeftIcon,
   AlignRightIcon,
   BoldIcon,
+  CodeIcon,
   Heading1Icon,
   Heading2Icon,
+  ImageIcon,
+  InfoIcon,
   ItalicIcon,
+  LinkIcon,
   ListIcon,
+  TableIcon,
   ListOrderedIcon,
+  MinusIcon,
   PaintbrushIcon,
+  QuoteIcon,
   TypeIcon,
-  UnderlineIcon
+  UnderlineIcon,
+  VideoIcon
 } from 'lucide-react'
 
 const highlightColors = ['yellow', 'lightgreen', 'lightblue', 'pink']
@@ -52,7 +60,14 @@ function TiptapToolbar({
   showHighlightOptions,
   colorRef,
   showColorPicker,
-  setShowColorPicker
+  setShowColorPicker,
+  onImageUpload,
+  onVideoUpload,
+  onVideoEmbed,
+  onLink,
+  onImageCaption,
+  onCallout,
+  onTable
 }) {
   return (
     <div className="toolbar dark:bg-gray-800">
@@ -146,6 +161,26 @@ function TiptapToolbar({
         )}
       </div>
 
+      <button type="button" className="toolbar-btn" onClick={onLink} title="Link">
+        <LinkIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onImageUpload} title="Upload image">
+        <ImageIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onImageCaption} title="Image with caption">
+        <span className="toolbar-btn-label">IMG+</span>
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onVideoUpload} title="Upload video">
+        <VideoIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onVideoEmbed} title="Embed video URL">
+        <span className="toolbar-btn-label">URL</span>
+      </button>
+
       {listButtons.map(btn => (
         <button
           key={btn.cmd}
@@ -156,6 +191,31 @@ function TiptapToolbar({
           <btn.icon size={16} />
         </button>
       ))}
+
+      <button
+        type="button"
+        className={`toolbar-btn ${editor.isActive('blockquote') ? 'active' : ''}`}
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        title="Quote"
+      >
+        <QuoteIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onCallout} title="Callout">
+        <InfoIcon size={16} />
+      </button>
+
+      <button type="button" className={`toolbar-btn ${editor.isActive('codeBlock') ? 'active' : ''}`} onClick={() => editor.chain().focus().toggleCodeBlock().run()} title="Code block">
+        <CodeIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={onTable} title="Table">
+        <TableIcon size={16} />
+      </button>
+
+      <button type="button" className="toolbar-btn" onClick={() => editor.chain().focus().setHorizontalRule().run()} title="Divider">
+        <MinusIcon size={16} />
+      </button>
 
       {headingButtons.map(btn => (
         <button

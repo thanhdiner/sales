@@ -1,3 +1,68 @@
+.admin-product-edit__label-with-ai {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.admin-product-edit__ai-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 12px;
+  border: 1px solid var(--product-edit-border);
+  border-radius: 10px;
+  background: var(--product-edit-surface-2);
+}
+
+.admin-product-edit__ai-all-title {
+  color: var(--product-edit-text);
+  font-weight: 700;
+}
+
+.admin-product-edit__ai-preview {
+  max-height: 420px;
+  overflow: auto;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--product-edit-border);
+  border-radius: 8px;
+  background: var(--product-edit-surface-2);
+  color: var(--product-edit-text);
+}
+
+.admin-product-edit__ai-modal-root .ant-modal-content,
+.admin-product-edit__ai-modal-root .ant-modal-header {
+  background: var(--product-edit-surface) !important;
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit__ai-modal-root .ant-modal-content {
+  border: 1px solid var(--product-edit-border) !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45) !important;
+}
+
+.admin-product-edit__ai-modal-root .ant-modal-title,
+.admin-product-edit__ai-modal-root .ant-modal-body,
+.admin-product-edit__ai-modal-root .ant-modal-close {
+  color: var(--product-edit-text) !important;
+}
+
+.admin-product-edit__ai-modal-root .ant-modal-footer .ant-btn-default {
+  border-color: var(--product-edit-border) !important;
+  background: var(--product-edit-surface-2) !important;
+  color: var(--product-edit-text-muted) !important;
+}
+
+.admin-product-edit__ai-modal-root .ant-modal-footer .ant-btn-default:hover {
+  border-color: var(--product-edit-border-strong) !important;
+  background: var(--product-edit-surface-3) !important;
+  color: var(--product-edit-text) !important;
+}
+
 body.admin-layout-active {
   --product-edit-surface: var(--admin-surface, #ffffff);
   --product-edit-surface-2: var(--admin-surface-2, #f8fafc);
