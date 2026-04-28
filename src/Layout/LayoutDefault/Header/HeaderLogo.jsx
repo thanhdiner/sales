@@ -24,10 +24,10 @@ export default function HeaderLogo({ websiteConfig, isDesktop, onOpenMenu }) {
         <img
           src={websiteConfig?.logoUrl}
           alt={websiteConfig?.siteName || 'Logo'}
-          className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-sm shadow-sm object-contain ml-2 md:ml-8"
+          className="w-8 h-8 bg-white rounded-lg shadow-sm object-contain ml-2 md:ml-8"
         />
 
-        <span className="header__site-name l-2 text-xl md:text-2xl font-semibold text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out overflow-hidden inline-block">
+        <span className="header__site-name l-2 text-lg md:text-xl font-semibold text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out overflow-hidden inline-block">
           {websiteConfig?.siteName}
         </span>
       </Link>
