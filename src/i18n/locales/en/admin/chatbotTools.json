@@ -68,6 +68,10 @@
       "label": "Check stock",
       "description": "Quickly check stock availability for one or more products, optionally with requested quantity."
     },
+    "getProductAlternatives": {
+      "label": "Product alternatives",
+      "description": "Suggest in-stock alternatives when the source product is out of stock, insufficient, or over budget."
+    },
     "compareProducts": {
       "label": "Compare products",
       "description": "Compare 2-4 products by price, stock, rating, sales, discount, and feature signals."
@@ -87,6 +91,14 @@
     "getOrderInvoice": {
       "label": "Order invoice/receipt",
       "description": "Get the invoice or receipt link for an order. If no generated file exists, return the order detail link and instructions for saving it as a receipt."
+    },
+    "resendOrderConfirmation": {
+      "label": "Resend order confirmation",
+      "description": "Resend the order confirmation email for a signed-in customer who owns the order. Sends only to the order contact email or account email."
+    },
+    "resendDigitalDelivery": {
+      "label": "Resend digital delivery",
+      "description": "Resend digital account/license delivery details by email for a paid order. Does not show credentials in chat."
     },
     "reorderPreviousOrder": {
       "label": "Reorder previous order",
@@ -112,6 +124,14 @@
       "label": "Update pending order items",
       "description": "Update products or quantities on a signed-in customer's unpaid pending order. Requires clear confirmation."
     },
+    "applyPromoCodeToPendingOrder": {
+      "label": "Apply promo to pending order",
+      "description": "Apply or replace a promo code on an unpaid pending order and refresh payment details. Requires clear confirmation."
+    },
+    "removePromoCodeFromPendingOrder": {
+      "label": "Remove promo from pending order",
+      "description": "Remove a promo code from an unpaid pending order and refresh payment details. Requires clear confirmation."
+    },
     "checkPaymentStatus": {
       "label": "Check payment status",
       "description": "Check whether an order is pending, paid, failed, or expired for VNPay, MoMo, ZaloPay, and Sepay payments."
@@ -120,6 +140,10 @@
       "label": "Resume payment",
       "description": "Create a fresh payment link for a signed-in customer's pending order. Supports VNPay, MoMo, ZaloPay, and Sepay instructions."
     },
+    "updatePendingOrderPaymentMethod": {
+      "label": "Update payment method",
+      "description": "Change the payment gateway for a signed-in customer's unpaid pending order. Requires clear confirmation."
+    },
     "getBankInfo": {
       "label": "Bank transfer info",
       "description": "Get the active bank account and transfer QR. If a pending order is provided, also returns the amount and required transfer content."
@@ -127,6 +151,10 @@
     "verifyBankTransfer": {
       "label": "Verify bank transfer",
       "description": "Check whether a bank transfer/Sepay payment has been recorded by orderCode or paymentReference."
+    },
+    "submitPaymentProof": {
+      "label": "Submit payment proof",
+      "description": "Create a ticket with transfer receipt/proof for staff reconciliation when automatic verification does not match. Does not confirm payment automatically."
     },
     "getFlashSales": {
       "label": "Flash sale",
@@ -195,6 +223,14 @@
     "getNotificationPreferences": {
       "label": "Notification preferences",
       "description": "Read the customer's notification preferences, including channels and order, payment, promotion, restock, wishlist, and support topics."
+    },
+    "listNotifications": {
+      "label": "List notifications",
+      "description": "View the signed-in customer's notifications, optionally filtered by read state or category."
+    },
+    "markNotificationRead": {
+      "label": "Mark notification read",
+      "description": "Mark one, multiple, or all of the customer's notifications as read."
     },
     "updateUserProfile": {
       "label": "Update customer profile",
@@ -347,6 +383,14 @@
     "getSupportTicketStatus": {
       "label": "Check ticket status",
       "description": "Check the status of a support ticket created by the chatbot using its ticket ID."
+    },
+    "addSupportTicketMessage": {
+      "label": "Add ticket message",
+      "description": "Add text, notes, images, or attachment links to an existing chatbot-created ticket. Requires clear confirmation."
+    },
+    "updateSupportTicket": {
+      "label": "Update ticket",
+      "description": "Alias for adding text, notes, images, or attachment links to an existing chatbot-created ticket. Requires clear confirmation."
     },
     "reportBugOrIssue": {
       "label": "Report bug or issue",

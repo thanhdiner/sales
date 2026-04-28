@@ -1,4 +1,4 @@
-import { get, post } from '@/utils/clientRequest'
+import { del, get, post } from '@/utils/clientRequest'
 
 export const getProducts = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
@@ -20,6 +20,10 @@ export const getProductDetail = async slug => {
 
 export const subscribeBackInStock = async (productId, payload = {}) => {
   return await post(`products/${productId}/notify-when-back-in-stock`, payload)
+}
+
+export const unsubscribeBackInStock = async (productId, payload = {}) => {
+  return await del(`products/${productId}/notify-when-back-in-stock`, payload)
 }
 
 export const notifyWhenBackInStock = subscribeBackInStock

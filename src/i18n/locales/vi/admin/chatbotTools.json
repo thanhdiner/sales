@@ -68,6 +68,10 @@
       "label": "Kiem tra ton kho",
       "description": "Kiem tra ton kho nhanh cho 1 hoac nhieu san pham, kem so luong yeu cau neu can."
     },
+    "getProductAlternatives": {
+      "label": "Goi y san pham thay the",
+      "description": "Goi y san pham thay the con hang khi san pham goc het hang, khong du so luong hoac vuot ngan sach."
+    },
     "compareProducts": {
       "label": "So sanh san pham",
       "description": "So sanh 2-4 san pham theo gia, ton kho, rating, luot ban, giam gia va dac diem noi bat."
@@ -87,6 +91,14 @@
     "getOrderInvoice": {
       "label": "Hóa đơn/biên nhận đơn hàng",
       "description": "Lấy link hóa đơn hoặc biên nhận của đơn hàng. Nếu chưa có file riêng, trả link chi tiết đơn và hướng dẫn lưu thành biên nhận."
+    },
+    "resendOrderConfirmation": {
+      "label": "Gui lai email xac nhan don",
+      "description": "Gui lai email xac nhan don hang cho khach dang dang nhap va so huu don. Chi gui ve email lien he cua don hoac email tai khoan."
+    },
+    "resendDigitalDelivery": {
+      "label": "Gui lai thong tin ban giao so",
+      "description": "Gui lai thong tin ban giao so/tai khoan/license qua email cho don da thanh toan. Khong hien thi credential trong chat."
     },
     "reorderPreviousOrder": {
       "label": "Dat lai don cu",
@@ -112,6 +124,14 @@
       "label": "Sua san pham don pending",
       "description": "Sua san pham hoac so luong trong don pending chua thanh toan cua khach dang dang nhap. Can khach xac nhan ro rang."
     },
+    "applyPromoCodeToPendingOrder": {
+      "label": "Ap ma giam gia don pending",
+      "description": "Ap hoac thay ma giam gia cho don pending chua thanh toan va tao lai thong tin thanh toan. Can khach xac nhan ro rang."
+    },
+    "removePromoCodeFromPendingOrder": {
+      "label": "Go ma giam gia don pending",
+      "description": "Go ma giam gia khoi don pending chua thanh toan va tao lai thong tin thanh toan. Can khach xac nhan ro rang."
+    },
     "checkPaymentStatus": {
       "label": "Kiểm tra trạng thái thanh toán",
       "description": "Kiểm tra đơn đang chờ, đã thanh toán, thất bại hoặc hết hạn cho VNPay, MoMo, ZaloPay và Sepay."
@@ -120,6 +140,10 @@
       "label": "Lấy lại link thanh toán",
       "description": "Tạo lại link thanh toán cho đơn pending của khách đang đăng nhập. Hỗ trợ VNPay, MoMo, ZaloPay và hướng dẫn Sepay."
     },
+    "updatePendingOrderPaymentMethod": {
+      "label": "Doi cong thanh toan",
+      "description": "Doi cong thanh toan cho don pending chua thanh toan cua khach dang dang nhap. Can khach xac nhan ro rang."
+    },
     "getBankInfo": {
       "label": "Thông tin chuyển khoản",
       "description": "Lấy tài khoản ngân hàng active và QR chuyển khoản. Nếu có đơn pending, trả thêm số tiền và nội dung chuyển khoản cần dùng."
@@ -127,6 +151,10 @@
     "verifyBankTransfer": {
       "label": "Kiểm tra chuyển khoản",
       "description": "Tra trạng thái ghi nhận chuyển khoản/Sepay theo orderCode hoặc paymentReference."
+    },
+    "submitPaymentProof": {
+      "label": "Gửi chứng từ thanh toán",
+      "description": "Tạo ticket gửi biên lai/chứng từ chuyển khoản để nhân viên đối soát khi auto verify chưa khớp. Không tự xác nhận thanh toán."
     },
     "getFlashSales": {
       "label": "Flash sale",
@@ -195,6 +223,14 @@
     "getNotificationPreferences": {
       "label": "Tùy chọn thông báo",
       "description": "Đọc tùy chọn thông báo của khách, gồm kênh nhận và các nhóm thông báo đơn hàng, thanh toán, khuyến mãi, hàng về lại, wishlist và hỗ trợ."
+    },
+    "listNotifications": {
+      "label": "Danh sach thong bao",
+      "description": "Xem danh sach thong bao cua khach dang dang nhap, co the loc chua doc, da doc hoac theo nhom."
+    },
+    "markNotificationRead": {
+      "label": "Danh dau thong bao da doc",
+      "description": "Danh dau mot, nhieu hoac tat ca thong bao cua khach la da doc."
     },
     "updateUserProfile": {
       "label": "Cập nhật hồ sơ khách hàng",
@@ -347,6 +383,14 @@
     "getSupportTicketStatus": {
       "label": "Tra trạng thái ticket",
       "description": "Tra trạng thái ticket hỗ trợ đã tạo từ chatbot theo mã ticket."
+    },
+    "addSupportTicketMessage": {
+      "label": "Bo sung thong tin ticket",
+      "description": "Bo sung noi dung, ghi chu hoac anh/tep dinh kem vao ticket da tao. Can khach xac nhan ro rang."
+    },
+    "updateSupportTicket": {
+      "label": "Cap nhat ticket",
+      "description": "Alias de bo sung noi dung, ghi chu hoac anh/tep dinh kem vao ticket da tao. Can khach xac nhan ro rang."
     },
     "reportBugOrIssue": {
       "label": "Báo lỗi/sự cố",
