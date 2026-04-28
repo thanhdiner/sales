@@ -355,17 +355,17 @@ function AdminChatComposer({
       </div>
 
       {pendingImage && !isNote && (
-        <div className="mb-3 flex items-center gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-2.5">
-          <div className="h-16 w-16 overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)]">
+        <div className="mb-3 grid min-w-0 grid-cols-[4rem_minmax(0,1fr)_2rem] items-center gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-2.5 max-[420px]:grid-cols-[3.5rem_minmax(0,1fr)_2rem]">
+          <div className="h-16 w-16 overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] max-[420px]:h-14 max-[420px]:w-14">
             <img src={pendingImage.previewUrl} alt={pendingImage.name} className="h-full w-full object-cover" />
           </div>
 
-          <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
+          <div className="min-w-0 overflow-hidden">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
               {t('composer.attachedImage')}
             </p>
-            <p className="truncate text-sm text-[var(--admin-text)]">{pendingImage.name}</p>
-            <p className="mt-0.5 text-xs text-[var(--admin-text-muted)]">
+            <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-[var(--admin-text)]">{pendingImage.name}</p>
+            <p className="mt-0.5 line-clamp-2 text-xs text-[var(--admin-text-muted)]">
               {t('composer.attachedImageDescription')}
             </p>
           </div>
@@ -373,7 +373,7 @@ function AdminChatComposer({
           <button
             type="button"
             onClick={onClearPendingImage}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[var(--admin-text-muted)] transition-colors hover:bg-[var(--admin-surface)] hover:text-red-500 dark:hover:text-red-400"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--admin-text-muted)] transition-colors hover:bg-[var(--admin-surface)] hover:text-red-500 dark:hover:text-red-400"
             title={t('composer.removeAttachedImage')}
             aria-label={t('composer.removeAttachedImage')}
           >
