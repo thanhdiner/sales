@@ -10,11 +10,14 @@ import { connectSocket, getSocket } from '@/services/socketService'
 import { adminRouteLabelKeys } from './Sider/adminMenuUtils'
 
 const { Content } = Layout
+const ADMIN_MOBILE_SIDEBAR_QUERY = '(max-width: 767.98px)'
 const CHAT_DESKTOP_SIDEBAR_LOCK_QUERY = '(min-width: 1280px)'
 
 function LayoutAdmin() {
   const { t } = useTranslation('adminLayout')
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => (
+    typeof window === 'undefined' ? false : window.matchMedia(ADMIN_MOBILE_SIDEBAR_QUERY).matches
+  ))
   const [isChatDesktopViewport, setIsChatDesktopViewport] = useState(() => (
     typeof window === 'undefined' ? false : window.matchMedia(CHAT_DESKTOP_SIDEBAR_LOCK_QUERY).matches
   ))

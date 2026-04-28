@@ -20,6 +20,9 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
   const navigate = useNavigate()
   const { t } = useTranslation('adminLayout')
   const [stateOpenKeys, setStateOpenKeys] = useState([])
+  const [isMobileViewport, setIsMobileViewport] = useState(() => (
+    typeof window === 'undefined' ? false : window.matchMedia('(max-width: 767.98px)').matches
+  ))
   const permissions = useAdminPermissions()
 
   const adminUser = useSelector(state => state.adminUser.user)
@@ -83,18 +86,25 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
   }
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) setCollapsed(true)
+    const mediaQuery = window.matchMedia('(max-width: 767.98px)')
+    const handleChange = event => {
+      setIsMobileViewport(event.matches)
+      if (event.matches) setCollapsed(true)
     }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    setIsMobileViewport(mediaQuery.matches)
+    if (mediaQuery.matches) setCollapsed(true)
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => mediaQuery.removeEventListener('change', handleChange)
   }, [setCollapsed])
 
   useEffect(() => {
     if (window.innerWidth < 768) setCollapsed(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
+
+  const hideMenuContent = collapsed && isMobileViewport
 
   return (
     <Sider
@@ -137,8 +147,9 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
           selectedKeys={[getSelectedAdminMenuKey(location.pathname)]}
           items={menuItems}
           onOpenChange={onOpenChange}
-          openKeys={stateOpenKeys}
+          openKeys={hideMenuContent ? [] : stateOpenKeys}
           className="admin-sider-menu border-0 bg-transparent"
+          style={hideMenuContent ? { display: 'none' } : undefined}
         />
       </div>
     </Sider>
