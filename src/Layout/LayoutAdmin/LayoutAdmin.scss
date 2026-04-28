@@ -1,5 +1,12 @@
+.admin-layout-root {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+}
+
 .admin-layout-shell {
   position: relative;
+  min-height: 0;
   background: var(--admin-bg);
   color: var(--admin-text);
   transition: background-color 0.2s ease, color 0.2s ease;

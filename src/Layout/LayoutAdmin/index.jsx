@@ -89,7 +89,7 @@ function LayoutAdmin() {
 
   return (
     <>
-      <Layout className="h-screen overflow-hidden">
+      <Layout className="admin-layout-root overflow-hidden">
         {!effectiveCollapsed && (
           <div onClick={() => setCollapsed(true)} className="fixed inset-0 bg-black/40 backdrop-blur-[1px] z-20 md:hidden animate-fadeIn" />
         )}
