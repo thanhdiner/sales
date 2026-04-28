@@ -26,7 +26,7 @@ export default function MessageInput({
   const hasPendingImages = pendingImages.length > 0
 
   return (
-    <div className="p-3 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex-shrink-0">
+    <div className="p-2.5 bg-white/95 dark:bg-[#101415] border-t border-gray-100/80 dark:border-white/[0.06] flex-shrink-0">
       {hasPendingImages && (
         <div className="mb-2 rounded-xl border border-blue-100 bg-blue-50/70 p-2.5 dark:border-blue-900/40 dark:bg-blue-950/30">
           <div className="mb-2 flex items-center justify-between gap-3">
@@ -66,7 +66,7 @@ export default function MessageInput({
         </div>
       )}
 
-      <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 rounded-xl px-3 py-2.5 border border-gray-200 dark:border-gray-700 focus-within:border-blue-400 dark:focus-within:border-blue-500 transition-colors">
+      <div className="smartmall-live-chat-composer flex items-end gap-2 rounded-2xl border border-gray-200/80 bg-gray-50/90 px-2 py-1.5 shadow-sm transition-all focus-within:border-emerald-400/70 focus-within:ring-4 focus-within:ring-emerald-500/10 dark:border-white/10 dark:bg-white/[0.055] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] dark:focus-within:border-emerald-400/60">
         <input
           ref={imageInputRef}
           type="file"
@@ -79,7 +79,7 @@ export default function MessageInput({
           type="button"
           onClick={onOpenImagePicker}
           disabled={isUploadingImage}
-          className="w-8 h-8 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-300 dark:hover:bg-blue-900/20 disabled:cursor-not-allowed disabled:text-gray-300 dark:disabled:text-gray-600 flex items-center justify-center flex-shrink-0 transition-colors"
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl text-gray-500 transition-colors hover:bg-emerald-50 hover:text-emerald-600 disabled:cursor-not-allowed disabled:text-gray-300 dark:text-gray-300 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-300 dark:disabled:text-gray-600"
           title={hasPendingImages ? t('input.addImage') : t('input.attachImage')}
         >
           {isUploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
@@ -92,14 +92,14 @@ export default function MessageInput({
           onChange={onInputChange}
           onKeyDown={onKeyDown}
           placeholder={hasPendingImages ? t('input.imagePlaceholder') : t('input.placeholder')}
-          className="flex-1 bg-transparent resize-none outline-none text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 leading-5 py-1"
+          className="smartmall-live-chat-composer__input min-h-8 flex-1 resize-none rounded-none !border-0 !bg-transparent px-1 py-1.5 text-sm leading-5 text-gray-800 !shadow-none outline-none placeholder:text-gray-400 focus:!border-0 focus:!bg-transparent focus:!shadow-none dark:text-gray-100 dark:placeholder:!text-gray-500"
           style={{ maxHeight: '80px', overflowY: 'auto' }}
         />
 
         <button
           onClick={onSendMessage}
           disabled={!canSend || isUploadingImage}
-          className="w-8 h-8 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 dark:disabled:bg-gray-700 text-white disabled:text-gray-400 flex items-center justify-center flex-shrink-0 transition-all active:scale-95"
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-sm shadow-emerald-500/20 transition-all hover:bg-emerald-400 active:scale-95 disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none dark:bg-emerald-500/90 dark:hover:bg-emerald-400 dark:disabled:bg-white/10 dark:disabled:text-gray-500"
           aria-label={t('input.send')}
           title={t('input.send')}
         >

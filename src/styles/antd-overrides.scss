@@ -411,6 +411,18 @@ html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type=
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.16) !important;
 }
 
+.smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input,
+.smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input:hover,
+.smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input:focus,
+html.dark body:not(.admin-layout-active) .smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input,
+html.dark body:not(.admin-layout-active) .smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input:hover,
+html.dark body:not(.admin-layout-active) .smartmall-live-chat-composer textarea.smartmall-live-chat-composer__input:focus {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 html.dark body:not(.admin-layout-active) .ant-select-item,
 html.dark body:not(.admin-layout-active) .ant-dropdown-menu-item,
 html.dark body:not(.admin-layout-active) .ant-dropdown-menu-submenu-title,

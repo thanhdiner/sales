@@ -175,9 +175,9 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
 
   const sendMessage = async (text, currentPageOrOptions = window.location.pathname, sessionOverride = null) => {
     const { currentPage, targetSessionId } = resolveSendOptions(currentPageOrOptions, sessionOverride)
-    const t = (text ?? input).trim()
+    const messageText = (text ?? input).trim()
     const imagesToSend = pendingImagesRef.current
-    if (!t && imagesToSend.length === 0) return
+    if (!messageText && imagesToSend.length === 0) return
 
     if (isResolved && targetSessionId === sessionId) {
       onResolvedSendAttempt?.()
@@ -195,7 +195,7 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
           type: 'image',
           imageUrl: previewUrls[0] || null,
           imageUrls: previewUrls,
-          message: t
+          message: messageText
         })
 
         clearPendingImages({ revoke: false })
@@ -210,7 +210,7 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
             type: 'image',
             imageUrl: imageUrls[0] || null,
             imageUrls,
-            message: t,
+            message: messageText,
             currentPage
           }, targetSessionId)
         } catch (err) {
@@ -220,22 +220,23 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
       } else {
         const clientTempId = appendOptimisticMessage({
           clientTempId: createClientTempId(),
-          message: t
+          message: messageText
         })
+
+        resetComposer()
 
         try {
           await emitMessage({
             clientTempId,
             type: 'text',
-            message: t,
+            message: messageText,
             currentPage
           }, targetSessionId)
         } catch (err) {
           removeOptimisticMessage(clientTempId)
+          setInput(messageText)
           throw err
         }
-
-        resetComposer()
       }
     } catch (err) {
       handleSendError(err)
