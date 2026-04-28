@@ -1,6 +1,7 @@
 import { Divider, Form, Input, Modal, Switch, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
+import { AdminFormSection } from '@/components/admin/ui'
 
 export default function AdminBannerFormModal({
   form,
@@ -62,11 +63,7 @@ export default function AdminBannerFormModal({
           />
         </Form.Item>
 
-        <div className="admin-banners-translation-section">
-          <div className="admin-banners-translation-section__header">
-            <h3 className="admin-banners-translation-section__title">{t('form.translations.sectionTitle')}</h3>
-          </div>
-
+        <AdminFormSection className="admin-banners-translation-section" title={t('form.translations.sectionTitle')}>
           <Form.Item label={t('form.translations.title')} name={['translations', 'en', 'title']}>
             <Input
               placeholder={t('form.translations.titlePlaceholder')}
@@ -82,7 +79,7 @@ export default function AdminBannerFormModal({
               className="admin-banners-input rounded-lg"
             />
           </Form.Item>
-        </div>
+        </AdminFormSection>
 
         <Form.Item label={t('form.status')} name="isActive" valuePropName="checked">
           <Switch />

@@ -23,6 +23,8 @@
   },
   "status": {
     "draft": "Draft",
+    "queued": "Queued",
+    "archived": "Archived",
     "published": "Published"
   },
   "table": {

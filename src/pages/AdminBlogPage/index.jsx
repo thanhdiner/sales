@@ -44,6 +44,8 @@ const defaultFormValues = {
 
 const statusColor = {
   published: 'green',
+  queued: 'blue',
+  archived: 'volcano',
   draft: 'default'
 }
 
@@ -508,8 +510,10 @@ export default function AdminBlogPage() {
               onChange={value => handleFilterChange({ status: value || '' })}
               placeholder={t('filters.status')}
               options={[
+                { value: 'draft', label: t('status.draft') },
+                { value: 'queued', label: t('status.queued') },
                 { value: 'published', label: t('status.published') },
-                { value: 'draft', label: t('status.draft') }
+                { value: 'archived', label: t('status.archived') }
               ]}
             />
             <Select
@@ -584,7 +588,9 @@ export default function AdminBlogPage() {
                   size="large"
                   options={[
                     { value: 'draft', label: t('status.draft') },
-                    { value: 'published', label: t('status.published') }
+                    { value: 'queued', label: t('status.queued') },
+                    { value: 'published', label: t('status.published') },
+                    { value: 'archived', label: t('status.archived') }
                   ]}
                 />
               </Form.Item>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { message } from 'antd'
 import {
   GlobalOutlined,
@@ -21,7 +21,7 @@ import { setDarkMode } from '@/stores/darkModeSlice'
 import { setLanguage } from '@/stores/languageSlice'
 import { clearClientTokens, clearClientTokensSession } from '@/utils/auth'
 
-export default function useAccountMenu(user) {
+export default function useAccountMenu(user, { headerHidden = false } = {}) {
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,6 +30,12 @@ export default function useAccountMenu(user) {
   const darkMode = useSelector(state => !!state.darkMode?.value)
   const language = useSelector(state => state.language?.value || 'vi')
   const isLoggedIn = !!user
+
+  useEffect(() => {
+    if (headerHidden) {
+      setAccountMenuOpen(false)
+    }
+  }, [headerHidden])
 
   const themeMenuItem = {
     key: 'theme',
@@ -134,6 +140,10 @@ export default function useAccountMenu(user) {
   }
 
   const handleAccountMenuOpenChange = (nextOpen, info) => {
+    if (nextOpen && headerHidden) {
+      return
+    }
+
     if (!nextOpen && info?.source === 'menu') {
       return
     }

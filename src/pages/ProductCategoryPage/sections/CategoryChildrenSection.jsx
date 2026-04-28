@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { ContentSection } from '@/components/PageLayout'
 import { getCategoryId } from '../utils/productCategoryUtils'
 
 function CategoryChildrenSection({ categories = [], productCounts = {} }) {
@@ -9,11 +10,7 @@ function CategoryChildrenSection({ categories = [], productCounts = {} }) {
   if (!categories.length) return null
 
   return (
-    <section id="category-children" className="scroll-mt-24 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-900 md:p-5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-gray-950 dark:text-white">{t('categoryPage.children.title')}</h2>
-      </div>
-
+    <ContentSection id="category-children" className="scroll-mt-24" title={t('categoryPage.children.title')}>
       <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4 xl:grid-cols-5">
         {categories.map(category => {
           const categoryId = getCategoryId(category)
@@ -45,7 +42,7 @@ function CategoryChildrenSection({ categories = [], productCounts = {} }) {
           )
         })}
       </div>
-    </section>
+    </ContentSection>
   )
 }
 

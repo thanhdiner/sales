@@ -1,5 +1,6 @@
 import { BankOutlined, GlobalOutlined, QrcodeOutlined } from '@ant-design/icons'
 import { Form, Input, Modal, Typography, Upload } from 'antd'
+import { AdminFormSection } from '@/components/admin/ui'
 import { ADMIN_BANK_INFO_FORM_INITIAL_VALUES } from '../utils'
 
 const { Text } = Typography
@@ -80,12 +81,11 @@ export default function AdminBankInfoFormModalSection({
             <Input.TextArea rows={3} placeholder="[Ten KH] - [So dien thoai]" className="admin-bank-info-input" />
           </Form.Item>
 
-          <div className="admin-bank-info-modal__translation-section">
-            <div className="admin-bank-info-modal__translation-header">
-              <GlobalOutlined />
-              <h3 className="admin-bank-info-modal__translation-title">{t('form.translations.sectionTitle')}</h3>
-            </div>
-
+          <AdminFormSection
+            className="admin-bank-info-modal__translation-section"
+            title={t('form.translations.sectionTitle')}
+            extra={<GlobalOutlined />}
+          >
             <Form.Item name={['translations', 'en', 'bankName']} label={t('form.translations.bankName')}>
               <Input size="large" placeholder={t('form.translations.bankNamePlaceholder')} className="admin-bank-info-input" />
             </Form.Item>
@@ -103,7 +103,7 @@ export default function AdminBankInfoFormModalSection({
                 />
               </Form.Item>
             </div>
-          </div>
+          </AdminFormSection>
 
           <Form.Item
             name="qrCode"

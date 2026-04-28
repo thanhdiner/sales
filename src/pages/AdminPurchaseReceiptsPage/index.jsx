@@ -16,7 +16,13 @@ import {
   StickyNote,
   UserRound
 } from 'lucide-react'
-import SEO from '@/components/SEO'
+import {
+  AdminPageShell,
+  AdminStatCard,
+  AdminStatGrid,
+  AdminTableShell,
+  AdminToolbar
+} from '@/components/admin/ui'
 import { getAdminProducts } from '@/services/adminProductService'
 import { createPurchaseReceipt, getPurchaseReceipts } from '@/services/adminPurchaseReceiptService'
 import { useTranslation } from 'react-i18next'
@@ -501,16 +507,18 @@ export default function AdminPurchaseReceiptsPage() {
   const tableScrollX = visibleColumns.reduce((sum, column) => sum + toNumber(column.width || 160), 0)
 
   return (
-    <div className="admin-purchase-receipts-page min-h-screen rounded-xl p-3 sm:p-4 lg:p-6">
-      <SEO title={t('seo.title')} noIndex />
-
-      <div className="admin-purchase-receipts-page__inner mx-auto max-w-7xl space-y-5">
-        <header className="admin-purchase-receipts-header">
-          <div>
-            <h1 className="admin-purchase-receipts-header__title">{t('page.title')}</h1>
-            <p className="admin-purchase-receipts-header__desc">{t('page.description')}</p>
-          </div>
-
+    <AdminPageShell
+      seoTitle={t('seo.title')}
+      className="admin-purchase-receipts-page"
+      contentClassName="admin-purchase-receipts-page__inner"
+      maxWidth="1280px"
+    >
+      <AdminToolbar
+        className="admin-purchase-receipts-header"
+        title={t('page.title')}
+        titleLevel={1}
+        description={t('page.description')}
+        actions={(
           <Button
             type="primary"
             icon={<Plus className="h-4 w-4" />}
@@ -520,37 +528,33 @@ export default function AdminPurchaseReceiptsPage() {
           >
             {t('actions.create')}
           </Button>
-        </header>
+        )}
+      />
 
-        <section className="admin-purchase-receipts-stats" aria-label={t('stats.ariaLabel')}>
-          {stats.map(item => {
-            const Icon = item.icon
+      <AdminStatGrid columns={4} className="admin-purchase-receipts-stats" aria-label={t('stats.ariaLabel')}>
+        {stats.map(item => (
+          <AdminStatCard
+            key={item.key}
+            className="admin-purchase-receipts-stat-card"
+            label={item.label}
+            value={item.value}
+            meta={item.hint}
+            icon={item.icon}
+          />
+        ))}
+      </AdminStatGrid>
 
-            return (
-              <article className="admin-purchase-receipts-stat-card" key={item.key}>
-                <div>
-                  <p className="admin-purchase-receipts-stat-card__label">{item.label}</p>
-                  <p className="admin-purchase-receipts-stat-card__value">{item.value}</p>
-                  <p className="admin-purchase-receipts-stat-card__hint">{item.hint}</p>
-                </div>
-                <span className="admin-purchase-receipts-stat-card__icon" aria-hidden="true">
-                  <Icon className="h-5 w-5" />
-                </span>
-              </article>
-            )
-          })}
-        </section>
-
-        <section className="admin-purchase-receipts-card">
-          <div className="admin-purchase-receipts-card__head">
-            <div>
-              <h2 className="admin-purchase-receipts-card__title">{t('table.title')}</h2>
-              <p className="admin-purchase-receipts-card__desc">{t('table.description')}</p>
-            </div>
-            <div className="admin-purchase-receipts-card__count">
-              {t('table.resultCount', { count: formatNumber(total, locale) })}
-            </div>
+      <AdminTableShell
+        className="admin-purchase-receipts-card"
+        title={t('table.title')}
+        description={t('table.description')}
+        extra={(
+          <div className="admin-purchase-receipts-card__count">
+            {t('table.resultCount', { count: formatNumber(total, locale) })}
           </div>
+        )}
+        bodyClassName="admin-purchase-receipts-card__body"
+      >
 
           <div className="admin-purchase-receipts-toolbar">
             <Input.Search
@@ -781,8 +785,7 @@ export default function AdminPurchaseReceiptsPage() {
               />
             )}
           </div>
-        </section>
-      </div>
+      </AdminTableShell>
 
       <Modal
         title={(
@@ -916,6 +919,6 @@ export default function AdminPurchaseReceiptsPage() {
           </div>
         </Form>
       </Modal>
-    </div>
+    </AdminPageShell>
   )
 }

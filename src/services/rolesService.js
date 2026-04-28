@@ -12,6 +12,10 @@ export const updateAdminRoleById = async (id, data) => {
   return await patch(`admin/roles/edit/${id}`, data)
 }
 
+export const updateAdminRolePermissionsById = async (id, permissions) => {
+  return await patch(`admin/roles/permissions/${id}`, { permissions })
+}
+
 export const deleteAdminRole = async id => {
   return await patch(`admin/roles/delete/${id}`)
 }

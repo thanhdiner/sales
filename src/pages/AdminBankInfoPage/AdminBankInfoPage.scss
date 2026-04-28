@@ -21,30 +21,8 @@ body.admin-layout-active {
   color: inherit;
 }
 
-.admin-bank-info-header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .admin-bank-info-header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-.admin-bank-info-header__title.ant-typography {
-  margin-bottom: 4px !important;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--bank-info-text) !important;
-}
-
-.admin-bank-info-header__desc.ant-typography {
-  font-size: 14px;
-  color: var(--bank-info-text-muted) !important;
+.admin-bank-info-stats {
+  --admin-stat-value-size: 28px;
 }
 
 .admin-bank-info-btn.ant-btn {
@@ -83,93 +61,6 @@ body.admin-layout-active {
   border-color: var(--bank-info-border-strong) !important;
   background: var(--bank-info-surface-3) !important;
   color: var(--bank-info-text) !important;
-}
-
-.admin-bank-info-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-@media (min-width: 640px) {
-  .admin-bank-info-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1280px) {
-  .admin-bank-info-stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.admin-bank-info-stat-card {
-  border: 1px solid var(--bank-info-border);
-  border-radius: 12px;
-  background: var(--bank-info-surface);
-  padding: 12px 16px;
-}
-
-.admin-bank-info-stat-card__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.admin-bank-info-stat-card__label {
-  margin: 0;
-  font-size: 11px;
-  line-height: 16px;
-  font-weight: 600;
-  color: var(--bank-info-text-subtle);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.admin-bank-info-stat-card__value {
-  margin: 4px 0 0;
-  font-size: 28px;
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--bank-info-text);
-}
-
-.admin-bank-info-stat-card__icon {
-  display: flex;
-  height: 40px;
-  width: 40px;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--bank-info-border);
-  border-radius: 12px;
-  background: var(--bank-info-surface-2);
-  color: var(--bank-info-text-muted);
-}
-
-.admin-bank-info-table-card {
-  border: 1px solid var(--bank-info-border);
-  border-radius: 12px;
-  background: var(--bank-info-surface);
-  padding: 20px;
-}
-
-.admin-bank-info-table-card__head {
-  margin-bottom: 16px;
-}
-
-.admin-bank-info-table-card__title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--bank-info-text);
-}
-
-.admin-bank-info-table-card__desc {
-  margin: 4px 0 0;
-  font-size: 14px;
-  color: var(--bank-info-text-muted);
 }
 
 .admin-bank-info-table-card__wrap {
@@ -787,43 +678,16 @@ html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-m
     gap: 14px;
   }
 
-  .admin-bank-info-header__title.ant-typography {
-    font-size: 22px;
-    line-height: 1.25;
-  }
-
-  .admin-bank-info-header__desc.ant-typography {
-    display: block;
-    line-height: 1.5;
-  }
-
   .admin-bank-info-stats {
+    --admin-stat-icon-radius: 10px;
+    --admin-stat-icon-size: 32px;
+    --admin-stat-value-size: 24px;
     gap: 8px;
   }
 
   .admin-bank-info-stat-card {
     min-height: 76px;
     padding: 10px;
-  }
-
-  .admin-bank-info-stat-card__row {
-    gap: 8px;
-  }
-
-  .admin-bank-info-stat-card__label {
-    font-size: 10px;
-    line-height: 14px;
-    text-transform: none;
-  }
-
-  .admin-bank-info-stat-card__value {
-    font-size: 24px;
-  }
-
-  .admin-bank-info-stat-card__icon {
-    height: 32px;
-    width: 32px;
-    border-radius: 10px;
   }
 
   .admin-bank-info-table-card {

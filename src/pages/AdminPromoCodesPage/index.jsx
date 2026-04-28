@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
-import SEO from '@/components/SEO'
+import { AdminResourcePage } from '@/components/admin/ui'
 import PromoCodeDetailModal from './components/PromoCodeDetailModal'
 import PromoCodeFormModal from './components/PromoCodeFormModal'
 import { useAdminPromoCodesData } from './hooks/useAdminPromoCodesData'
@@ -147,57 +147,64 @@ export default function AdminPromoCodesPage() {
   }
 
   return (
-    <div className="admin-promo-codes-page">
-      <SEO title={t('seo.title')} noIndex />
-
-      <div className="admin-promo-codes-page__inner">
-        <PromoCodesHeaderSection
-          loading={loading}
-          onCreate={handleCreate}
-          onExport={handleExport}
-          onRefresh={refreshCurrentPage}
-        />
-
-        <PromoCodesStatsSection promoCodes={promoCodes} language={language} />
-
-        <PromoCodesFiltersSection
-          filters={filters}
-          onFiltersChange={handleFiltersChange}
-          onClearFilters={handleClearFilters}
-        />
-
-        <PromoCodesTableSection
-          promoCodes={promoCodes}
-          loading={loading}
-          language={language}
-          onCopy={handleCopy}
-          onShowDetail={showDetail}
-          onEdit={handleEdit}
-          onDuplicate={handleDuplicate}
-          onToggleStatus={handleToggleStatus}
-          onExtendExpiry={handleExtendExpiry}
-          onDelete={handleDelete}
-        />
-
-        <PromoCodesMobileListSection
-          promoCodes={promoCodes}
-          loading={loading}
-          language={language}
-          onCopy={handleCopy}
-          onShowDetail={showDetail}
-          onEdit={handleEdit}
-          onDuplicate={handleDuplicate}
-          onToggleStatus={handleToggleStatus}
-          onExtendExpiry={handleExtendExpiry}
-          onDelete={handleDelete}
-        />
-
-        <PromoCodesPaginationSection
-          pagination={pagination}
-          language={language}
-          onPageChange={handleTableChange}
-        />
-      </div>
+    <>
+      <AdminResourcePage
+        resource="promo-codes"
+        seoTitle={t('seo.title')}
+        className="admin-promo-codes-page"
+        contentClassName="admin-promo-codes-page__inner"
+        header={(
+          <PromoCodesHeaderSection
+            loading={loading}
+            onCreate={handleCreate}
+            onExport={handleExport}
+            onRefresh={refreshCurrentPage}
+          />
+        )}
+        stats={<PromoCodesStatsSection promoCodes={promoCodes} language={language} />}
+        filters={(
+          <PromoCodesFiltersSection
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+            onClearFilters={handleClearFilters}
+          />
+        )}
+        table={(
+          <PromoCodesTableSection
+            promoCodes={promoCodes}
+            loading={loading}
+            language={language}
+            onCopy={handleCopy}
+            onShowDetail={showDetail}
+            onEdit={handleEdit}
+            onDuplicate={handleDuplicate}
+            onToggleStatus={handleToggleStatus}
+            onExtendExpiry={handleExtendExpiry}
+            onDelete={handleDelete}
+          />
+        )}
+        mobileList={(
+          <PromoCodesMobileListSection
+            promoCodes={promoCodes}
+            loading={loading}
+            language={language}
+            onCopy={handleCopy}
+            onShowDetail={showDetail}
+            onEdit={handleEdit}
+            onDuplicate={handleDuplicate}
+            onToggleStatus={handleToggleStatus}
+            onExtendExpiry={handleExtendExpiry}
+            onDelete={handleDelete}
+          />
+        )}
+        pagination={(
+          <PromoCodesPaginationSection
+            pagination={pagination}
+            language={language}
+            onPageChange={handleTableChange}
+          />
+        )}
+      />
 
       <PromoCodeFormModal
         open={modalVisible}
@@ -211,6 +218,6 @@ export default function AdminPromoCodesPage() {
       />
 
       <PromoCodeDetailModal open={detailModalVisible} selectedCode={selectedCode} language={language} t={t} onCancel={closeDetail} />
-    </div>
+    </>
   )
 }

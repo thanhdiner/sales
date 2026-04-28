@@ -6,6 +6,7 @@ import {
   parsePromoCodeNumericInput,
   PROMO_CODE_FORM_INITIAL_VALUES
 } from '../utils/promoCodeHelpers'
+import { AdminFormActions } from '@/components/admin/form'
 
 const inputClass =
   '!border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
@@ -309,17 +310,21 @@ export default function PromoCodeFormModal({ open, editingCode, form, loading, l
           </Row>
         </FormSection>
 
-        <div className="admin-promo-form-actions">
-          <Button onClick={onCancel} className={secondaryButtonClass}>
-            {t('common.cancel')}
-          </Button>
-          <Button onClick={handleSaveDraft} loading={loading} className={secondaryButtonClass}>
-            {t('form.saveDraft')}
-          </Button>
-          <Button type="primary" htmlType="submit" loading={loading} className={primaryButtonClass}>
-            {t('form.savePromoCode')}
-          </Button>
-        </div>
+        <AdminFormActions
+          cancelButtonClassName={secondaryButtonClass}
+          cancelDisabled={false}
+          cancelLabel={t('common.cancel')}
+          className="admin-promo-form-actions"
+          extra={(
+            <Button onClick={handleSaveDraft} loading={loading} className={secondaryButtonClass}>
+              {t('form.saveDraft')}
+            </Button>
+          )}
+          loading={loading}
+          onCancel={onCancel}
+          submitButtonClassName={primaryButtonClass}
+          submitLabel={t('form.savePromoCode')}
+        />
       </Form>
     </Modal>
   )

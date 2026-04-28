@@ -23,6 +23,8 @@
   },
   "status": {
     "draft": "Bản nháp",
+    "queued": "Chờ đăng",
+    "archived": "Lưu trữ",
     "published": "Đã xuất bản"
   },
   "table": {

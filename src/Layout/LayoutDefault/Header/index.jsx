@@ -32,6 +32,7 @@ function Header({ onOpenMenu, notifications, setNotifications }) {
         <HeaderActions
           isDesktop={isDesktop}
           user={user}
+          headerHidden={headerHidden}
           notifications={notifications}
           setNotifications={setNotifications}
         />

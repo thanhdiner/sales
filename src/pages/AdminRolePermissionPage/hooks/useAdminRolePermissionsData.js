@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { getAdminRoles, updateAdminRoleById } from '@/services/rolesService'
+import { getAdminRoles, updateAdminRolePermissionsById } from '@/services/rolesService'
 import { getAdminPermissionGroups } from '@/services/permissionGroupsService'
 import { getAdminPermissions } from '@/services/permissionService'
 import { buildRolePermissionMap, getGroupPermissionNames, getPermissionNames } from '../utils'
@@ -92,13 +92,7 @@ export function useAdminRolePermissionsData() {
 
     try {
       for (const role of roles) {
-        await updateAdminRoleById(role._id, {
-          label: role.label,
-          description: role.description || '',
-          translations: role.translations,
-          isActive: role.isActive,
-          permissions: rolePerm[role._id]
-        })
+        await updateAdminRolePermissionsById(role._id, rolePerm[role._id])
       }
 
       message.success(t('messages.updateSuccess'))

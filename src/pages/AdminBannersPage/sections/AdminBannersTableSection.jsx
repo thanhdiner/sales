@@ -9,7 +9,6 @@ import {
   Skeleton,
   Space,
   Table,
-  Tag,
   Tooltip,
   Typography
 } from 'antd'
@@ -19,6 +18,7 @@ import {
   LinkOutlined,
   MoreOutlined
 } from '@ant-design/icons'
+import { AdminStatusPill, AdminTablePanel } from '@/components/admin/ui'
 import { getLocalizedBannerLink, getLocalizedBannerTitle } from '@/utils/bannerLocalization'
 
 const { Text } = Typography
@@ -31,12 +31,12 @@ function BannerStatusTag({ value }) {
   const { t } = useTranslation('adminBanners')
 
   return (
-    <Tag
-      icon={<span className="admin-banners-status-dot" />}
+    <AdminStatusPill
       className={getStatusTagClassName(value)}
+      tone={value ? 'success' : 'neutral'}
     >
       {value ? t('status.active') : t('status.inactive')}
-    </Tag>
+    </AdminStatusPill>
   )
 }
 
@@ -299,7 +299,7 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
 
   return (
     <>
-      <div className="admin-banners-table-wrap">
+      <AdminTablePanel className="admin-banners-table-wrap">
         <Table
           rowKey="_id"
           dataSource={banners}
@@ -318,7 +318,7 @@ export default function AdminBannersTableSection({ banners, loading, onEditBanne
           onChange={handleTableChange}
           className="admin-banners-table"
         />
-      </div>
+      </AdminTablePanel>
 
       <div className="admin-banners-responsive">
         {loading ? (

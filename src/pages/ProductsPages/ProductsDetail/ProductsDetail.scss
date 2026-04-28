@@ -97,28 +97,6 @@
 }
 
 .product-detail-page {
-  --product-detail-bg: #f6f7fb;
-  --product-detail-surface: #ffffff;
-  --product-detail-surface-2: #f8fafc;
-  --product-detail-surface-3: #eef2f7;
-  --product-detail-border: rgba(15, 23, 42, 0.09);
-  --product-detail-border-strong: rgba(15, 23, 42, 0.16);
-  --product-detail-text: #111827;
-  --product-detail-muted: #475569;
-  --product-detail-subtle: #64748b;
-  --product-detail-info: #2563eb;
-  --product-detail-info-soft: rgba(37, 99, 235, 0.12);
-  --product-detail-primary-action: #0b74e5;
-  --product-detail-primary-action-hover: #0969d8;
-  --product-detail-success: #16a34a;
-  --product-detail-success-soft: rgba(22, 163, 74, 0.12);
-  --product-detail-danger: #dc2626;
-  --product-detail-danger-soft: rgba(220, 38, 38, 0.12);
-  --product-detail-warning: #ca8a04;
-  --product-detail-warning-soft: rgba(202, 138, 4, 0.13);
-  --product-detail-surface-glint: rgba(255, 255, 255, 0.72);
-  --product-detail-inset-highlight: rgba(255, 255, 255, 0.72);
-
   position: relative;
   isolation: isolate;
   background:
@@ -170,27 +148,6 @@
 }
 
 html.dark body:not(.admin-layout-active) .product-detail-page {
-  --product-detail-bg: #070809;
-  --product-detail-surface: #101213;
-  --product-detail-surface-2: #151719;
-  --product-detail-surface-3: #202327;
-  --product-detail-border: rgba(255, 255, 255, 0.08);
-  --product-detail-border-strong: rgba(255, 255, 255, 0.14);
-  --product-detail-text: #f4f6f8;
-  --product-detail-muted: #a8b0ba;
-  --product-detail-subtle: #707983;
-  --product-detail-info: #3b82f6;
-  --product-detail-info-soft: rgba(59, 130, 246, 0.14);
-  --product-detail-primary-action: #1677ff;
-  --product-detail-primary-action-hover: #4096ff;
-  --product-detail-success: #22c55e;
-  --product-detail-success-soft: rgba(34, 197, 94, 0.13);
-  --product-detail-danger: #ef4444;
-  --product-detail-danger-soft: rgba(239, 68, 68, 0.15);
-  --product-detail-warning: #facc15;
-  --product-detail-warning-soft: rgba(250, 204, 21, 0.14);
-  --product-detail-surface-glint: rgba(255, 255, 255, 0.025);
-  --product-detail-inset-highlight: rgba(255, 255, 255, 0.035);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 180px),
     var(--product-detail-bg) !important;

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Avatar, Button, Dropdown, Grid, Pagination, Space, Table, Tag, Tooltip, Typography } from 'antd'
+import { Avatar, Button, Dropdown, Grid, Pagination, Space, Table, Tooltip, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons'
+import { AdminStatusPill, AdminTablePanel } from '@/components/admin/ui'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { getLocalizedWidgetTitle } from '../utils'
 
@@ -136,9 +137,14 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
       key: 'isActive',
       width: 160,
       render: value => (
-        <Tag icon={value ? <EyeOutlined /> : <EyeInvisibleOutlined />} className={getStatusTagClass(value)}>
+        <AdminStatusPill
+          dot={false}
+          icon={value ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+          tone={value ? 'success' : 'neutral'}
+          className={getStatusTagClass(value)}
+        >
           {value ? t('status.active') : t('status.inactive')}
-        </Tag>
+        </AdminStatusPill>
       ),
       filters: [
         { text: t('status.active'), value: true },
@@ -177,7 +183,7 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
   }, [isTablet, language, onDeleteWidget, onEditWidget, t])
 
   return (
-    <div className="admin-widgets-table-wrapper">
+    <AdminTablePanel className="admin-widgets-table-wrapper" bodyClassName="admin-widgets-table-panel__body">
       <div className="admin-widgets-table-desktop-tablet">
         <Table
           rowKey="_id"
@@ -263,12 +269,14 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
                 )}
 
                 <div className="admin-widgets-mobile-card__status-row">
-                  <Tag
+                  <AdminStatusPill
                     icon={widget.isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                    dot={false}
+                    tone={widget.isActive ? 'success' : 'neutral'}
                     className={getStatusTagClass(widget.isActive)}
                   >
                     {widget.isActive ? t('status.active') : t('status.inactive')}
-                  </Tag>
+                  </AdminStatusPill>
                 </div>
               </article>
             ))
@@ -303,6 +311,6 @@ export default function AdminWidgetsTableSection({ widgets, loading, onEditWidge
           </div>
         </div>
       </div>
-    </div>
+    </AdminTablePanel>
   )
 }

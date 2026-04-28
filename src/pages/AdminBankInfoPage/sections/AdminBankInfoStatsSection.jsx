@@ -1,4 +1,5 @@
 import { Building2, CircleCheck, CirclePause, QrCode } from 'lucide-react'
+import { AdminStatCard, AdminStatGrid } from '@/components/admin/ui'
 
 function getBankInfoStats(bankInfos) {
   return bankInfos.reduce(
@@ -23,45 +24,41 @@ export default function AdminBankInfoStatsSection({ bankInfos, t }) {
     {
       key: 'total',
       label: t('stats.total'),
-      icon: Building2
+      icon: Building2,
+      tone: 'default'
     },
     {
       key: 'active',
       label: t('stats.active'),
-      icon: CircleCheck
+      icon: CircleCheck,
+      tone: 'success'
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
-      icon: CirclePause
+      icon: CirclePause,
+      tone: 'danger'
     },
     {
       key: 'withQr',
       label: t('stats.withQr'),
-      icon: QrCode
+      icon: QrCode,
+      tone: 'info'
     }
   ]
 
   return (
-    <div className="admin-bank-info-stats">
-      {statItems.map(item => {
-        const Icon = item.icon
-
-        return (
-          <div key={item.key} className="admin-bank-info-stat-card">
-            <div className="admin-bank-info-stat-card__row">
-              <div>
-                <p className="admin-bank-info-stat-card__label">{item.label}</p>
-                <p className="admin-bank-info-stat-card__value">{stats[item.key]}</p>
-              </div>
-
-              <div className="admin-bank-info-stat-card__icon">
-                <Icon className="h-5 w-5" strokeWidth={1.8} />
-              </div>
-            </div>
-          </div>
-        )
-      })}
-    </div>
+    <AdminStatGrid className="admin-bank-info-stats" columns={4}>
+      {statItems.map(item => (
+        <AdminStatCard
+          key={item.key}
+          label={item.label}
+          value={stats[item.key]}
+          icon={item.icon}
+          tone={item.tone}
+          className="admin-bank-info-stat-card"
+        />
+      ))}
+    </AdminStatGrid>
   )
 }

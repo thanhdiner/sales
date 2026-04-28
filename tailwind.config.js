@@ -1,62 +1,64 @@
+const tokenColor = variable => `rgb(var(${variable}) / <alpha-value>)`
+
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        white: '#ffffff',
-        black: '#000000',
+        white: tokenColor('--tw-color-white'),
+        black: tokenColor('--tw-color-black'),
         gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#303E4C',
-          800: '#1E2939',
-          900: '#111827'
+          50: tokenColor('--tw-color-gray-50'),
+          100: tokenColor('--tw-color-gray-100'),
+          200: tokenColor('--tw-color-gray-200'),
+          300: tokenColor('--tw-color-gray-300'),
+          400: tokenColor('--tw-color-gray-400'),
+          500: tokenColor('--tw-color-gray-500'),
+          600: tokenColor('--tw-color-gray-600'),
+          700: tokenColor('--tw-color-gray-700'),
+          800: tokenColor('--tw-color-gray-800'),
+          900: tokenColor('--tw-color-gray-900')
         },
         primary: {
-          DEFAULT: '#4F8CFF',
-          dark: '#275dab',
-          foreground: '#1a263b',
-          'on-dark': '#cfe2ff'
+          DEFAULT: tokenColor('--tw-color-primary'),
+          dark: tokenColor('--tw-color-primary-dark'),
+          foreground: tokenColor('--tw-color-primary-foreground'),
+          'on-dark': tokenColor('--tw-color-primary-on-dark')
         },
         secondary: {
-          DEFAULT: '#00C896',
-          dark: '#089176',
-          light: '#7afcd3'
+          DEFAULT: tokenColor('--tw-color-secondary'),
+          dark: tokenColor('--tw-color-secondary-dark'),
+          light: tokenColor('--tw-color-secondary-light')
         },
         border: {
-          DEFAULT: '#ffffff',
-          dark: '#22232B',
-          gray: '#e5e7eb'
+          DEFAULT: tokenColor('--tw-color-border'),
+          dark: tokenColor('--tw-color-border-dark'),
+          gray: tokenColor('--tw-color-border-gray')
         },
         success: {
-          DEFAULT: '#28C76F',
-          dark: '#009659'
+          DEFAULT: tokenColor('--tw-color-success'),
+          dark: tokenColor('--tw-color-success-dark')
         },
         error: {
-          DEFAULT: '#EA5455',
-          dark: '#A61B1B'
+          DEFAULT: tokenColor('--tw-color-error'),
+          dark: tokenColor('--tw-color-error-dark')
         },
         warning: {
-          DEFAULT: '#FF9F43',
-          dark: '#C77700'
+          DEFAULT: tokenColor('--tw-color-warning'),
+          dark: tokenColor('--tw-color-warning-dark')
         },
         text: {
-          DEFAULT: '#1a263b',
-          dark: '#f1f5f9',
-          muted: '#64748b'
+          DEFAULT: tokenColor('--tw-color-text'),
+          dark: tokenColor('--tw-color-text-dark'),
+          muted: tokenColor('--tw-color-text-muted')
         },
         background: {
-          DEFAULT: '#F5F7FB',
-          dark: '#181A20',
-          'soft-dark': '#23283a',
-          card: '#fff',
-          'card-dark': '#23283a'
+          DEFAULT: tokenColor('--tw-color-background'),
+          dark: tokenColor('--tw-color-background-dark'),
+          'soft-dark': tokenColor('--tw-color-background-soft-dark'),
+          card: tokenColor('--tw-color-background-card'),
+          'card-dark': tokenColor('--tw-color-background-card-dark')
         }
       }
     }

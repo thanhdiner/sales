@@ -7,6 +7,15 @@ import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useSelector } from 'react-redux'
 import { buildAdminMenuItems, getSelectedAdminMenuKey } from './adminMenuUtils'
 
+const normalizeText = value => String(value || '').trim().toLowerCase()
+
+const isSuperAdmin = user => {
+  const roleLabel = normalizeText(user?.role_id?.label || user?.role?.label || user?.role_id || user?.role)
+  const username = normalizeText(user?.username)
+
+  return username === 'superadmin' || roleLabel === 'superadmin' || roleLabel === 'super admin'
+}
+
 function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = false }) {
   const navigate = useNavigate()
   const { t } = useTranslation('adminLayout')
@@ -16,10 +25,12 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
   const adminUser = useSelector(state => state.adminUser.user)
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const shouldPreservePermissionItems = !Array.isArray(adminUser?.role_id?.permissions)
+  const shouldShowAllPermissionItems = isSuperAdmin(adminUser)
 
   const menuItems = useMemo(
     () => buildAdminMenuItems(permissions, t, {
       preservePermissionItems: shouldPreservePermissionItems,
+      isSuperAdmin: shouldShowAllPermissionItems,
       compactGroups: compactChatMenu
         ? {
             'live-chat': {
@@ -29,7 +40,7 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
           }
         : undefined
     }),
-    [compactChatMenu, permissions, shouldPreservePermissionItems, t]
+    [compactChatMenu, permissions, shouldPreservePermissionItems, shouldShowAllPermissionItems, t]
   )
 
   const getLevelKeys = items1 => {

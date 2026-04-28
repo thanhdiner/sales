@@ -1,0 +1,400 @@
+:root {
+  --radius-item: 12px;
+  --radius-md: 6px;
+  --radius-admin-lg: 14px;
+  --radius-admin-md: 10px;
+  --radius-admin-md-mobile: 9px;
+
+  --tw-color-white: 255 255 255;
+  --tw-color-black: 0 0 0;
+  --tw-color-gray-50: 249 250 251;
+  --tw-color-gray-100: 243 244 246;
+  --tw-color-gray-200: 229 231 235;
+  --tw-color-gray-300: 209 213 219;
+  --tw-color-gray-400: 156 163 175;
+  --tw-color-gray-500: 107 114 128;
+  --tw-color-gray-600: 75 85 99;
+  --tw-color-gray-700: 48 62 76;
+  --tw-color-gray-800: 30 41 57;
+  --tw-color-gray-900: 17 24 39;
+  --tw-color-primary: 79 140 255;
+  --tw-color-primary-dark: 39 93 171;
+  --tw-color-primary-foreground: 26 38 59;
+  --tw-color-primary-on-dark: 207 226 255;
+  --tw-color-secondary: 0 200 150;
+  --tw-color-secondary-dark: 8 145 118;
+  --tw-color-secondary-light: 122 252 211;
+  --tw-color-border: 255 255 255;
+  --tw-color-border-dark: 34 35 43;
+  --tw-color-border-gray: 229 231 235;
+  --tw-color-success: 40 199 111;
+  --tw-color-success-dark: 0 150 89;
+  --tw-color-error: 234 84 85;
+  --tw-color-error-dark: 166 27 27;
+  --tw-color-warning: 255 159 67;
+  --tw-color-warning-dark: 199 119 0;
+  --tw-color-text: 26 38 59;
+  --tw-color-text-dark: 241 245 249;
+  --tw-color-text-muted: 100 116 139;
+  --tw-color-background: 245 247 251;
+  --tw-color-background-dark: 24 26 32;
+  --tw-color-background-soft-dark: 35 40 58;
+  --tw-color-background-card: 255 255 255;
+  --tw-color-background-card-dark: 35 40 58;
+
+  --surface-page: #f6f7fb;
+  --surface-page-soft: #eef2f7;
+  --surface-base: #ffffff;
+  --surface-elevated: #f8fafc;
+  --surface-muted: #eef2f7;
+  --surface-subtle: #f1f5f9;
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-default: rgba(15, 23, 42, 0.09);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --border-stronger: rgba(15, 23, 42, 0.16);
+  --text-strong: #111827;
+  --text-muted: #4b5563;
+  --text-secondary: #475569;
+  --text-subtle: #64748b;
+  --accent-admin: #5e6ad2;
+  --accent-admin-hover: #4f5bc5;
+  --accent-admin-active: #454fab;
+  --accent-admin-soft: rgba(94, 106, 210, 0.12);
+  --accent-admin-ring: rgba(94, 106, 210, 0.2);
+  --info-text: #1d4ed8;
+  --info: #2563eb;
+  --info-soft: rgba(37, 99, 235, 0.12);
+  --info-bg-soft: rgba(59, 130, 246, 0.16);
+  --info-border: rgba(59, 130, 246, 0.32);
+  --success: #16a34a;
+  --success-text: #15803d;
+  --success-soft: rgba(22, 163, 74, 0.12);
+  --success-bg-soft: rgba(34, 197, 94, 0.16);
+  --success-border: rgba(34, 197, 94, 0.32);
+  --warning: #ca8a04;
+  --warning-text: #b45309;
+  --warning-soft: rgba(202, 138, 4, 0.13);
+  --warning-bg-soft: rgba(245, 158, 11, 0.16);
+  --warning-border: rgba(245, 158, 11, 0.36);
+  --danger: #dc2626;
+  --danger-text: #b91c1c;
+  --danger-soft: rgba(220, 38, 38, 0.12);
+  --danger-bg-soft: rgba(239, 68, 68, 0.14);
+  --danger-border: rgba(239, 68, 68, 0.3);
+  --action-primary: #0b74e5;
+  --action-primary-hover: #0969d8;
+  --shadow-admin: 0 14px 32px rgba(15, 23, 42, 0.08);
+  --shadow-admin-login: 0 24px 48px rgba(15, 23, 42, 0.12);
+  --surface-glint: rgba(255, 255, 255, 0.72);
+  --inset-highlight: rgba(255, 255, 255, 0.72);
+
+  --border-radius-item: var(--radius-item);
+  --border-radius-md: var(--radius-md);
+  --color-white: rgb(var(--tw-color-white));
+  --color-black: rgb(var(--tw-color-black));
+  --color-gray: #888888;
+  --color-gray2: #333333;
+  --color-gray3: #cccccc;
+  --color-blue: #3b82f6;
+  --color-blue2: #bfdbfe;
+  --color-blue3: #7dd3fc;
+  --color-blue4: #003cff;
+  --color-blue5: #0099ff;
+  --color-red: #d93843;
+  --color-red2: #e01020;
+  --color-orange: #f59e0b;
+  --primary-color: #4096ff;
+  --color-bg-base: #ffffff;
+  --color-bg-container: #fafafa;
+  --color-bg-selected: #e6f7ff;
+  --color-primary: #1890ff;
+  --color-accent: #52c41a;
+  --color-text-primary: #222222;
+  --color-text-secondary: #595959;
+}
+
+[data-theme='dark'],
+html.dark {
+  --client-dark-bg: #070809;
+  --client-dark-surface: #101213;
+  --client-dark-surface-2: #151719;
+  --client-dark-surface-3: #202327;
+  --client-dark-border: rgba(255, 255, 255, 0.08);
+  --client-dark-border-strong: rgba(255, 255, 255, 0.14);
+  --client-dark-text: #f4f6f8;
+  --client-dark-muted: #a8b0ba;
+  --client-dark-subtle: #707983;
+  --client-dark-primary: #22c55e;
+  --client-dark-primary-soft: rgba(34, 197, 94, 0.13);
+  --client-dark-info: #3b82f6;
+  --client-dark-info-soft: rgba(59, 130, 246, 0.14);
+  --client-dark-info-border: rgba(147, 197, 253, 0.36);
+  --client-dark-warning: #facc15;
+  --client-dark-warning-soft: rgba(250, 204, 21, 0.14);
+  --client-dark-warning-border: rgba(251, 191, 36, 0.36);
+  --client-dark-danger: #ef4444;
+  --client-dark-danger-soft: rgba(239, 68, 68, 0.15);
+  --client-dark-danger-border: rgba(252, 165, 165, 0.36);
+  --client-dark-purple: #a855f7;
+  --client-dark-purple-soft: rgba(168, 85, 247, 0.16);
+  --client-dark-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+
+  --color-white: var(--client-dark-surface);
+  --color-black: var(--client-dark-text);
+  --color-gray: var(--client-dark-muted);
+  --color-gray2: var(--client-dark-surface-3);
+  --color-gray3: var(--client-dark-border);
+  --color-blue: var(--client-dark-info);
+  --color-blue2: var(--client-dark-info-soft);
+  --color-blue3: rgba(59, 130, 246, 0.24);
+  --color-blue4: #2563eb;
+  --color-blue5: #60a5fa;
+  --color-red: var(--client-dark-danger);
+  --color-red2: #dc2626;
+  --color-orange: var(--client-dark-warning);
+  --primary-color: var(--client-dark-primary);
+  --color-bg-base: var(--client-dark-bg);
+  --color-bg-container: var(--client-dark-surface);
+  --color-bg-selected: var(--client-dark-surface-3);
+  --color-primary: var(--client-dark-primary);
+  --color-accent: var(--client-dark-info);
+  --color-text-primary: var(--client-dark-text);
+  --color-text-secondary: var(--client-dark-muted);
+}
+
+body.admin-layout-active {
+  --admin-frame-radius-lg: var(--radius-admin-lg);
+  --admin-frame-radius-md: var(--radius-admin-md);
+  --admin-bg: var(--surface-page);
+  --admin-bg-soft: var(--surface-page-soft);
+  --admin-surface: var(--surface-base);
+  --admin-surface-2: var(--surface-elevated);
+  --admin-surface-3: var(--surface-muted);
+  --admin-border: var(--border-subtle);
+  --admin-border-strong: var(--border-strong);
+  --admin-text: var(--text-strong);
+  --admin-text-muted: var(--text-muted);
+  --admin-text-subtle: #6b7280;
+  --admin-accent: var(--accent-admin);
+  --admin-accent-soft: var(--accent-admin-soft);
+  --admin-shadow: var(--shadow-admin);
+  --admin-info-text: var(--info-text);
+  --admin-info-bg-soft: var(--info-bg-soft);
+  --admin-info-border: var(--info-border);
+  --admin-success-text: var(--success-text);
+  --admin-success-bg-soft: var(--success-bg-soft);
+  --admin-success-border: var(--success-border);
+  --admin-warning-text: var(--warning-text);
+  --admin-warning-bg-soft: var(--warning-bg-soft);
+  --admin-warning-border: var(--warning-border);
+  --admin-danger-text: var(--danger-text);
+  --admin-danger-bg-soft: var(--danger-bg-soft);
+  --admin-danger-border: var(--danger-border);
+}
+
+html.dark body.admin-layout-active {
+  --admin-bg: #08090a;
+  --admin-bg-soft: #0d0e10;
+  --admin-surface: #111214;
+  --admin-surface-2: #17181b;
+  --admin-surface-3: #202124;
+  --admin-border: var(--client-dark-border);
+  --admin-border-strong: rgba(255, 255, 255, 0.12);
+  --admin-text: #f4f5f8;
+  --admin-text-muted: #a1a1aa;
+  --admin-text-subtle: #71717a;
+  --admin-accent: var(--accent-admin);
+  --admin-accent-soft: rgba(94, 106, 210, 0.16);
+  --admin-shadow: var(--client-dark-shadow);
+  --admin-info-text: #93c5fd;
+  --admin-info-bg-soft: rgba(59, 130, 246, 0.2);
+  --admin-info-border: var(--client-dark-info-border);
+  --admin-success-text: #4ade80;
+  --admin-success-bg-soft: rgba(34, 197, 94, 0.2);
+  --admin-success-border: rgba(74, 222, 128, 0.34);
+  --admin-warning-text: #fbbf24;
+  --admin-warning-bg-soft: rgba(245, 158, 11, 0.2);
+  --admin-warning-border: var(--client-dark-warning-border);
+  --admin-danger-text: #fca5a5;
+  --admin-danger-bg-soft: rgba(239, 68, 68, 0.2);
+  --admin-danger-border: var(--client-dark-danger-border);
+}
+
+@media (max-width: 768px) {
+  body.admin-layout-active {
+    --admin-frame-radius-lg: var(--radius-admin-lg);
+    --admin-frame-radius-md: var(--radius-admin-md-mobile);
+  }
+}
+
+.admin-login-page,
+.admin-login-trust-modal {
+  --admin-login-bg: var(--surface-base);
+  --admin-login-surface: var(--surface-base);
+  --admin-login-surface-2: var(--surface-subtle);
+  --admin-login-border: rgba(15, 23, 42, 0.1);
+  --admin-login-border-strong: rgba(15, 23, 42, 0.18);
+  --admin-login-text: var(--text-strong);
+  --admin-login-text-muted: var(--text-muted);
+  --admin-login-text-subtle: #6b7280;
+  --admin-login-accent: var(--accent-admin);
+  --admin-login-accent-hover: var(--accent-admin-hover);
+  --admin-login-accent-active: var(--accent-admin-active);
+  --admin-login-accent-ring: var(--accent-admin-ring);
+  --admin-login-shadow: var(--shadow-admin-login);
+}
+
+html.dark .admin-login-page,
+html.dark .admin-login-trust-modal {
+  --admin-login-bg: #08090a;
+  --admin-login-surface: #111214;
+  --admin-login-surface-2: #17181b;
+  --admin-login-border: var(--client-dark-border);
+  --admin-login-border-strong: var(--client-dark-border-strong);
+  --admin-login-text: #f4f5f8;
+  --admin-login-text-muted: #a1a1aa;
+  --admin-login-text-subtle: #71717a;
+  --admin-login-accent: var(--accent-admin);
+  --admin-login-accent-hover: #6d78da;
+  --admin-login-accent-active: var(--accent-admin-hover);
+  --admin-login-accent-ring: rgba(94, 106, 210, 0.3);
+  --admin-login-shadow: 0 28px 56px rgba(0, 0, 0, 0.42);
+}
+
+.product-detail-page {
+  --product-detail-bg: var(--surface-page);
+  --product-detail-surface: var(--surface-base);
+  --product-detail-surface-2: var(--surface-elevated);
+  --product-detail-surface-3: var(--surface-muted);
+  --product-detail-border: var(--border-default);
+  --product-detail-border-strong: var(--border-stronger);
+  --product-detail-text: var(--text-strong);
+  --product-detail-muted: var(--text-secondary);
+  --product-detail-subtle: var(--text-subtle);
+  --product-detail-info: var(--info);
+  --product-detail-info-soft: var(--info-soft);
+  --product-detail-primary-action: var(--action-primary);
+  --product-detail-primary-action-hover: var(--action-primary-hover);
+  --product-detail-success: var(--success);
+  --product-detail-success-soft: var(--success-soft);
+  --product-detail-danger: var(--danger);
+  --product-detail-danger-soft: var(--danger-soft);
+  --product-detail-warning: var(--warning);
+  --product-detail-warning-soft: var(--warning-soft);
+  --product-detail-surface-glint: var(--surface-glint);
+  --product-detail-inset-highlight: var(--inset-highlight);
+}
+
+html.dark body:not(.admin-layout-active) .product-detail-page {
+  --product-detail-bg: var(--client-dark-bg);
+  --product-detail-surface: var(--client-dark-surface);
+  --product-detail-surface-2: var(--client-dark-surface-2);
+  --product-detail-surface-3: var(--client-dark-surface-3);
+  --product-detail-border: var(--client-dark-border);
+  --product-detail-border-strong: var(--client-dark-border-strong);
+  --product-detail-text: var(--client-dark-text);
+  --product-detail-muted: var(--client-dark-muted);
+  --product-detail-subtle: var(--client-dark-subtle);
+  --product-detail-info: var(--client-dark-info);
+  --product-detail-info-soft: var(--client-dark-info-soft);
+  --product-detail-primary-action: #1677ff;
+  --product-detail-primary-action-hover: #4096ff;
+  --product-detail-success: var(--client-dark-primary);
+  --product-detail-success-soft: var(--client-dark-primary-soft);
+  --product-detail-danger: var(--client-dark-danger);
+  --product-detail-danger-soft: var(--client-dark-danger-soft);
+  --product-detail-warning: var(--client-dark-warning);
+  --product-detail-warning-soft: var(--client-dark-warning-soft);
+  --product-detail-surface-glint: rgba(255, 255, 255, 0.025);
+  --product-detail-inset-highlight: rgba(255, 255, 255, 0.035);
+}
+
+html.dark body:not(.admin-layout-active) {
+  background: var(--client-dark-bg) !important;
+  color: var(--client-dark-text);
+}
+
+html.dark body:not(.admin-layout-active) #root,
+html.dark body:not(.admin-layout-active) .ant-layout {
+  background: var(--client-dark-bg) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-950,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-950 {
+  background-color: var(--client-dark-bg) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/30,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/40,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/90,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-900\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900\/30,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-900\/90,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-900,
+html.dark body:not(.admin-layout-active) .dark\:bg-neutral-900\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-900 {
+  background-color: var(--client-dark-surface) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/50,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/70,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-800\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-800\/50,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-800,
+html.dark body:not(.admin-layout-active) .dark\:bg-white\/5 {
+  background-color: var(--client-dark-surface-2) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700\/70,
+html.dark body:not(.admin-layout-active) .dark\:bg-gray-700\/95,
+html.dark body:not(.admin-layout-active) .dark\:bg-slate-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-zinc-700,
+html.dark body:not(.admin-layout-active) .dark\:bg-white\/10,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-gray-800:hover,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-gray-700:hover,
+html.dark body:not(.admin-layout-active) .dark\:hover\:bg-white\/10:hover {
+  background-color: var(--client-dark-surface-3) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:border-gray-800,
+html.dark body:not(.admin-layout-active) .dark\:border-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:border-gray-600,
+html.dark body:not(.admin-layout-active) .dark\:border-slate-800,
+html.dark body:not(.admin-layout-active) .dark\:border-slate-700,
+html.dark body:not(.admin-layout-active) .dark\:border-zinc-800,
+html.dark body:not(.admin-layout-active) .dark\:border-white\/10,
+html.dark body:not(.admin-layout-active) .dark\:outline-gray-600 {
+  border-color: var(--client-dark-border) !important;
+  outline-color: var(--client-dark-border) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-white,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-100,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-200,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-100,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-200 {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-gray-300,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-400,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-300,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-400 {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .dark\:text-gray-500,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-600,
+html.dark body:not(.admin-layout-active) .dark\:text-gray-700,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-500,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-600,
+html.dark body:not(.admin-layout-active) .dark\:text-slate-700 {
+  color: var(--client-dark-subtle) !important;
+}

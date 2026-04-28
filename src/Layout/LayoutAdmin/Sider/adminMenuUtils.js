@@ -22,6 +22,7 @@ export function buildAdminMenuItems(permissions, translate = labelKey => labelKe
   const permissionList = Array.isArray(permissions) ? permissions : []
   const preservePermissionItems = options.preservePermissionItems === true
   const compactGroups = options.compactGroups || {}
+  const isSuperAdmin = options.isSuperAdmin === true
 
   const hasPermissionRule = item => Boolean(
     item.permission ||
@@ -30,8 +31,13 @@ export function buildAdminMenuItems(permissions, translate = labelKey => labelKe
   )
 
   const canShowMenuItem = item => {
+    if (isSuperAdmin) return true
     if (preservePermissionItems && hasPermissionRule(item)) return true
-    if (item.permissions) return hasAllPermissions(permissionList, item.permissions)
+    if (item.permissions) {
+      return item.requireAll === false
+        ? item.permissions.some(permission => permissionList.includes(permission))
+        : hasAllPermissions(permissionList, item.permissions)
+    }
     if (item.permission) return permissionList.includes(item.permission)
     return true
   }

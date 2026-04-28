@@ -2,7 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Empty, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Tooltip, message } from 'antd'
 import { CheckCircle2, ClipboardList, FolderTree, MessageSquareText } from 'lucide-react'
-import SEO from '@/components/SEO'
+import {
+  AdminCard,
+  AdminFormSection,
+  AdminPageShell,
+  AdminStatCard,
+  AdminStatGrid,
+  AdminStatusPill,
+  AdminTableShell
+} from '@/components/admin/ui'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import {
   createQuickReplyCategory,
@@ -116,33 +124,32 @@ function getRequestErrorMessage(error, fallback) {
 
 function QuickRepliesHeader({ onCreate, onManageCategories }) {
   return (
-    <section className="admin-quick-replies-header">
-      <div className="min-w-0">
-        <h1 className="admin-quick-replies-header__title">Quick replies</h1>
-        <p className="admin-quick-replies-header__description">
-          Manage reusable message templates for live chat agents.
-        </p>
-      </div>
+    <AdminCard
+      className="admin-quick-replies-header"
+      title="Quick replies"
+      titleLevel={1}
+      description="Manage reusable message templates for live chat agents."
+      extra={(
+        <div className="admin-quick-replies-header__actions">
+          <Button
+            icon={<FolderTree className="h-4 w-4" strokeWidth={1.8} />}
+            onClick={onManageCategories}
+            className="admin-quick-replies-secondary-btn"
+          >
+            Manage categories
+          </Button>
 
-      <div className="admin-quick-replies-header__actions">
-        <Button
-          icon={<FolderTree className="h-4 w-4" strokeWidth={1.8} />}
-          onClick={onManageCategories}
-          className="admin-quick-replies-secondary-btn"
-        >
-          Manage categories
-        </Button>
-
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={onCreate}
-          className="admin-quick-replies-primary-btn"
-        >
-          Create reply
-        </Button>
-      </div>
-    </section>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={onCreate}
+            className="admin-quick-replies-primary-btn"
+          >
+            Create reply
+          </Button>
+        </div>
+      )}
+    />
   )
 }
 
@@ -175,25 +182,24 @@ function QuickRepliesStats({ stats }) {
   ]
 
   return (
-    <section className="admin-quick-replies-stats">
+    <AdminStatGrid columns={4} className="admin-quick-replies-stats">
       {items.map(({ key, label, value, Icon }) => (
-        <div key={key} className={`admin-quick-replies-stat admin-quick-replies-stat--${key}`}>
-          <div>
-            <p className="admin-quick-replies-stat__label">{label}</p>
-            <p className="admin-quick-replies-stat__value">{value || 0}</p>
-          </div>
-          <span className="admin-quick-replies-stat__icon">
-            <Icon className="h-5 w-5" strokeWidth={1.8} />
-          </span>
-        </div>
+        <AdminStatCard
+          key={key}
+          className={`admin-quick-replies-stat admin-quick-replies-stat--${key}`}
+          label={label}
+          value={value || 0}
+          icon={Icon}
+          tone={key === 'active' ? 'success' : key === 'categories' ? 'info' : key === 'usedThisMonth' ? 'warning' : 'default'}
+        />
       ))}
-    </section>
+    </AdminStatGrid>
   )
 }
 
 function QuickRepliesFilters({ categoryOptions, filters, onFilterChange }) {
   return (
-    <section className="admin-quick-replies-filters">
+    <AdminCard className="admin-quick-replies-filters" bodyClassName="admin-quick-replies-filters__body">
       <Input.Search
         allowClear
         value={filters.search}
@@ -222,15 +228,19 @@ function QuickRepliesFilters({ categoryOptions, filters, onFilterChange }) {
         options={LANGUAGE_OPTIONS}
         className="admin-quick-replies-filter-select"
       />
-    </section>
+    </AdminCard>
   )
 }
 
 function StatusPill({ active }) {
   return (
-    <span className={`admin-quick-replies-status ${active ? 'admin-quick-replies-status--active' : 'admin-quick-replies-status--inactive'}`}>
+    <AdminStatusPill
+      dot={false}
+      tone={active ? 'success' : 'neutral'}
+      className={`admin-quick-replies-status ${active ? 'admin-quick-replies-status--active' : 'admin-quick-replies-status--inactive'}`}
+    >
       {active ? 'Active' : 'Inactive'}
-    </span>
+    </AdminStatusPill>
   )
 }
 
@@ -356,7 +366,10 @@ function QuickRepliesTable({
   ]
 
   return (
-    <section className="admin-quick-replies-table-section">
+    <AdminTableShell
+      className="admin-quick-replies-table-section"
+      bodyClassName="admin-quick-replies-table-section__body"
+    >
       <Table
         rowKey="_id"
         dataSource={data}
@@ -378,7 +391,7 @@ function QuickRepliesTable({
         }}
         className="admin-quick-replies-table"
       />
-    </section>
+    </AdminTableShell>
   )
 }
 
@@ -604,20 +617,16 @@ function ManageCategoriesModal({
       styles={{ body: bodyStyle }}
     >
       <div ref={contentRef} className="admin-quick-replies-categories">
-        <div className="admin-quick-replies-category-form-card">
-          <div className="admin-quick-replies-category-form-card__head">
-            <div>
-              <h3>{editing ? 'Edit category' : 'Create category'}</h3>
-              <p>Use a stable slug because quick replies store the category slug.</p>
-            </div>
-
-            {editing && (
-              <Button onClick={onCreateNew} className="admin-quick-replies-secondary-btn">
-                New category
-              </Button>
-            )}
-          </div>
-
+        <AdminFormSection
+          className="admin-quick-replies-category-form-card"
+          title={editing ? 'Edit category' : 'Create category'}
+          description="Use a stable slug because quick replies store the category slug."
+          extra={editing && (
+            <Button onClick={onCreateNew} className="admin-quick-replies-secondary-btn">
+              New category
+            </Button>
+          )}
+        >
           <Form
             form={form}
             layout="vertical"
@@ -671,7 +680,7 @@ function ManageCategoriesModal({
               </Button>
             </div>
           </Form>
-        </div>
+        </AdminFormSection>
 
         <Table
           rowKey="_id"
@@ -1007,28 +1016,29 @@ export default function AdminQuickRepliesPage() {
   }), [categories, stats])
 
   return (
-    <div className="admin-quick-replies-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 sm:p-4 lg:p-6">
-      <SEO title="Admin - Quick Replies" noIndex />
-
-      <div className="admin-quick-replies-page__inner mx-auto max-w-7xl">
-        <QuickRepliesHeader onCreate={openCreateModal} onManageCategories={openCategoriesModal} />
-        <QuickRepliesStats stats={memoizedStats} />
-        <QuickRepliesFilters
-          categoryOptions={categoryOptions}
-          filters={filters}
-          onFilterChange={handleFilterChange}
-        />
-        <QuickRepliesTable
-          categoryOptions={categoryOptions}
-          data={items}
-          loading={loading}
-          pagination={pagination}
-          onChangePagination={handlePaginationChange}
-          onEdit={openEditModal}
-          onDelete={handleDelete}
-          onToggleStatus={handleToggleStatus}
-        />
-      </div>
+    <AdminPageShell
+      seoTitle="Admin - Quick Replies"
+      className="admin-quick-replies-page"
+      contentClassName="admin-quick-replies-page__inner"
+      maxWidth="1280px"
+    >
+      <QuickRepliesHeader onCreate={openCreateModal} onManageCategories={openCategoriesModal} />
+      <QuickRepliesStats stats={memoizedStats} />
+      <QuickRepliesFilters
+        categoryOptions={categoryOptions}
+        filters={filters}
+        onFilterChange={handleFilterChange}
+      />
+      <QuickRepliesTable
+        categoryOptions={categoryOptions}
+        data={items}
+        loading={loading}
+        pagination={pagination}
+        onChangePagination={handlePaginationChange}
+        onEdit={openEditModal}
+        onDelete={handleDelete}
+        onToggleStatus={handleToggleStatus}
+      />
 
       <QuickReplyFormModal
         categoryOptions={categoryOptions}
@@ -1056,6 +1066,6 @@ export default function AdminQuickRepliesPage() {
         onToggleStatus={handleToggleCategoryStatus}
         onNameChange={handleCategoryNameChange}
       />
-    </div>
+    </AdminPageShell>
   )
 }

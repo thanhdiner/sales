@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import SEO from '@/components/SEO'
+import { AdminPageShell } from '@/components/admin/ui'
 import useAdminBankInfoPage from './hooks/useAdminBankInfoPage'
 import AdminBankInfoFormModalSection from './sections/AdminBankInfoFormModalSection'
 import AdminBankInfoHeaderSection from './sections/AdminBankInfoHeaderSection'
@@ -28,22 +28,23 @@ export default function AdminBankInfoPage() {
   } = useAdminBankInfoPage({ t })
 
   return (
-    <div className="admin-bank-info-page min-h-screen rounded-xl p-6">
-      <SEO title={t('seo.title')} noIndex />
+    <AdminPageShell
+      seoTitle={t('seo.title')}
+      className="admin-bank-info-page"
+      contentClassName="admin-bank-info-page__inner space-y-5"
+      maxWidth="1280px"
+    >
+      <AdminBankInfoHeaderSection t={t} onCreate={handleCreate} />
 
-      <div className="admin-bank-info-page__inner mx-auto max-w-7xl space-y-5">
-        <AdminBankInfoHeaderSection t={t} onCreate={handleCreate} />
+      <AdminBankInfoStatsSection t={t} bankInfos={data} />
 
-        <AdminBankInfoStatsSection t={t} bankInfos={data} />
-
-        <AdminBankInfoTableSection
-          t={t}
-          data={data}
-          loading={loading}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      </div>
+      <AdminBankInfoTableSection
+        t={t}
+        data={data}
+        loading={loading}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       <AdminBankInfoFormModalSection
         t={t}
@@ -58,6 +59,6 @@ export default function AdminBankInfoPage() {
         onQrBeforeUpload={handleQrBeforeUpload}
         onQrRemove={handleQrRemove}
       />
-    </div>
+    </AdminPageShell>
   )
 }

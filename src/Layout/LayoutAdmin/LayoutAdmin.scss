@@ -1,61 +1,3 @@
-body.admin-layout-active {
-  --admin-frame-radius-lg: 14px;
-  --admin-frame-radius-md: 10px;
-  --admin-bg: #f6f7fb;
-  --admin-bg-soft: #eef2f7;
-  --admin-surface: #ffffff;
-  --admin-surface-2: #f8fafc;
-  --admin-surface-3: #eef2f7;
-  --admin-border: rgba(15, 23, 42, 0.08);
-  --admin-border-strong: rgba(15, 23, 42, 0.14);
-  --admin-text: #111827;
-  --admin-text-muted: #4b5563;
-  --admin-text-subtle: #6b7280;
-  --admin-accent: #5e6ad2;
-  --admin-accent-soft: rgba(94, 106, 210, 0.12);
-  --admin-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
-  --admin-info-text: #1d4ed8;
-  --admin-info-bg-soft: rgba(59, 130, 246, 0.16);
-  --admin-info-border: rgba(59, 130, 246, 0.32);
-  --admin-success-text: #15803d;
-  --admin-success-bg-soft: rgba(34, 197, 94, 0.16);
-  --admin-success-border: rgba(34, 197, 94, 0.32);
-  --admin-warning-text: #b45309;
-  --admin-warning-bg-soft: rgba(245, 158, 11, 0.16);
-  --admin-warning-border: rgba(245, 158, 11, 0.36);
-  --admin-danger-text: #b91c1c;
-  --admin-danger-bg-soft: rgba(239, 68, 68, 0.14);
-  --admin-danger-border: rgba(239, 68, 68, 0.3);
-}
-
-html.dark body.admin-layout-active {
-  --admin-bg: #08090a;
-  --admin-bg-soft: #0d0e10;
-  --admin-surface: #111214;
-  --admin-surface-2: #17181b;
-  --admin-surface-3: #202124;
-  --admin-border: rgba(255, 255, 255, 0.08);
-  --admin-border-strong: rgba(255, 255, 255, 0.12);
-  --admin-text: #f4f5f8;
-  --admin-text-muted: #a1a1aa;
-  --admin-text-subtle: #71717a;
-  --admin-accent: #5e6ad2;
-  --admin-accent-soft: rgba(94, 106, 210, 0.16);
-  --admin-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
-  --admin-info-text: #93c5fd;
-  --admin-info-bg-soft: rgba(59, 130, 246, 0.2);
-  --admin-info-border: rgba(147, 197, 253, 0.36);
-  --admin-success-text: #4ade80;
-  --admin-success-bg-soft: rgba(34, 197, 94, 0.2);
-  --admin-success-border: rgba(74, 222, 128, 0.34);
-  --admin-warning-text: #fbbf24;
-  --admin-warning-bg-soft: rgba(245, 158, 11, 0.2);
-  --admin-warning-border: rgba(251, 191, 36, 0.36);
-  --admin-danger-text: #fca5a5;
-  --admin-danger-bg-soft: rgba(239, 68, 68, 0.2);
-  --admin-danger-border: rgba(252, 165, 165, 0.36);
-}
-
 .admin-layout-shell {
   position: relative;
   background: var(--admin-bg);
@@ -688,13 +630,6 @@ body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-
 
 .ant-dropdown.admin-user-menu-dropdown .admin-user-menu-logout {
   color: #ef4444 !important;
-}
-
-@media (max-width: 768px) {
-  .admin-layout-shell {
-    --admin-frame-radius-lg: 14px;
-    --admin-frame-radius-md: 9px;
-  }
 }
 
 html.dark .admin-sider-scroll {

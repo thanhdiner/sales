@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Empty, Image, Pagination, Popconfirm, Space, Spin, Table, Tag, Tooltip, Typography } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
+import { AdminStatusPill, AdminTablePanel } from '@/components/admin/ui'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   ADMIN_BANK_INFO_TABLE_PAGE_SIZE,
@@ -31,9 +32,12 @@ function BankBadge({ bankName }) {
 
 function StatusPill({ record, t }) {
   return (
-    <span className={`admin-bank-info-status-pill ${record.isActive ? 'admin-bank-info-status-pill--active' : 'admin-bank-info-status-pill--inactive'}`}>
+    <AdminStatusPill
+      tone={record.isActive ? 'success' : 'neutral'}
+      className={`admin-bank-info-status-pill ${record.isActive ? 'admin-bank-info-status-pill--active' : 'admin-bank-info-status-pill--inactive'}`}
+    >
       {record.isActive ? t('status.active') : t('status.inactive')}
-    </span>
+    </AdminStatusPill>
   )
 }
 
@@ -268,14 +272,11 @@ export default function AdminBankInfoTableSection({
   ]
 
   return (
-    <div className="admin-bank-info-table-card">
-      <div className="admin-bank-info-table-card__head">
-        <h2 className="admin-bank-info-table-card__title">{t('table.title')}</h2>
-        <p className="admin-bank-info-table-card__desc">
-          {t('table.description')}
-        </p>
-      </div>
-
+    <AdminTablePanel
+      className="admin-bank-info-table-card"
+      title={t('table.title')}
+      description={t('table.description')}
+    >
       <div className="admin-bank-info-table-card__wrap admin-bank-info-table-card__desktop">
         <Table
           rowKey="_id"
@@ -334,6 +335,6 @@ export default function AdminBankInfoTableSection({
           />
         </div>
       )}
-    </div>
+    </AdminTablePanel>
   )
 }

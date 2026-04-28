@@ -1,11 +1,9 @@
 import { Col, Form, Input, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
-import TiptapEditor from '@/components/TiptapEditor'
+import { AdminRichTextField } from '@/components/admin/form'
 
 function CategoryTranslationFields({ form }) {
   const { t } = useTranslation('adminProductCategories')
-  const description = Form.useWatch(['translations', 'en', 'description'], form)
-  const content = Form.useWatch(['translations', 'en', 'content'], form)
 
   const label = key => <span className="admin-product-categories-form__label">{t(key)}</span>
 
@@ -23,18 +21,19 @@ function CategoryTranslationFields({ form }) {
         </Col>
 
         <Col span={24}>
-          <Form.Item label={label('form.translations.description')}>
-            <TiptapEditor
-              value={description || ''}
-              onChange={value => form.setFieldValue(['translations', 'en', 'description'], value)}
-            />
-          </Form.Item>
+          <AdminRichTextField
+            form={form}
+            label={label('form.translations.description')}
+            name={['translations', 'en', 'description']}
+          />
         </Col>
 
         <Col span={24}>
-          <Form.Item label={label('form.translations.content')}>
-            <TiptapEditor value={content || ''} onChange={value => form.setFieldValue(['translations', 'en', 'content'], value)} />
-          </Form.Item>
+          <AdminRichTextField
+            form={form}
+            label={label('form.translations.content')}
+            name={['translations', 'en', 'content']}
+          />
         </Col>
       </Row>
     </div>

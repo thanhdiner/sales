@@ -1,32 +1,28 @@
-import { Button, Typography } from 'antd'
+import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-
-const { Title, Text } = Typography
+import { AdminToolbar } from '@/components/admin/ui'
 
 export default function AdminBannersHeaderSection({ onCreateBanner }) {
   const { t } = useTranslation('adminBanners')
 
   return (
-    <div className="admin-banners-header">
-      <div className="admin-banners-header__content">
-        <Title level={2} className="admin-banners-header__title">
-          {t('page.title')}
-        </Title>
-        <Text className="admin-banners-header__description">
-          {t('page.description')}
-        </Text>
-      </div>
-
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={onCreateBanner}
-        aria-label={t('common.create')}
-        className="admin-banners-create-btn"
-      >
-        <span className="admin-banners-create-btn__label">{t('common.create')}</span>
-      </Button>
-    </div>
+    <AdminToolbar
+      className="admin-banners-header"
+      contentClassName="admin-banners-header__content"
+      title={t('page.title')}
+      description={t('page.description')}
+      actions={(
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={onCreateBanner}
+          aria-label={t('common.create')}
+          className="admin-ui-button admin-ui-button--primary admin-banners-create-btn"
+        >
+          <span className="admin-banners-create-btn__label">{t('common.create')}</span>
+        </Button>
+      )}
+    />
   )
 }

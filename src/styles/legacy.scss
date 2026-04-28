@@ -1,0 +1,212 @@
+.admin-title {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.admin-heading {
+  font-size: 16px;
+}
+
+@mixin custom-btn($bg-color, $hover-color: darken($bg-color, 10%)) {
+  background: $bg-color;
+  color: #fff;
+  border-color: $bg-color;
+
+  &:hover {
+    background: $hover-color !important;
+    border-color: $hover-color !important;
+    color: #fff !important;
+  }
+}
+
+.custom-btn-orange {
+  @include custom-btn(#ff8904, #f4a244);
+}
+
+.custom-btn-blue {
+  @include custom-btn(#39df55, #5ff478);
+}
+
+.qtyInput::-webkit-outer-spin-button,
+.qtyInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.qtyInput {
+  -moz-appearance: textfield;
+}
+
+//# custom scrollbar styles products page
+.products-scrollbar {
+  display: hidden !important;
+  scrollbar-width: thin;
+  scrollbar-color: #dfdfdf #f9f9f9;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .game-news-coming-soon-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .community-coming-soon-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .quick-support-coming-soon-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .license-coming-soon-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .privacy-policy-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .return-policy-page {
+  background: var(--client-dark-bg, #070809) !important;
+  background-image: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-nav::before {
+  border-bottom-color: var(--client-dark-border, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab {
+  border-radius: 10px 10px 0 0;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab-active {
+  background: var(--client-dark-primary-soft, rgba(34, 197, 94, 0.13)) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab-active .ant-tabs-tab-btn,
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab-active span,
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab:hover .ant-tabs-tab-btn,
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-tab:hover span {
+  color: var(--client-dark-primary, #22c55e) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-card .ant-tabs-ink-bar {
+  background: var(--client-dark-primary, #22c55e) !important;
+}
+
+.coupons-search-card.ant-card,
+.coupons-tabs-card.ant-card {
+  border-radius: 12px;
+}
+
+.coupons-search-card.ant-card .ant-card-body,
+.coupons-tabs-card.ant-card .ant-card-body {
+  padding: 20px 28px;
+}
+
+.coupon-search-input.ant-input,
+.coupon-search-input.ant-input-affix-wrapper {
+  height: 44px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.coupon-search-input.ant-input:focus,
+.coupon-search-input.ant-input-affix-wrapper-focused {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18) !important;
+}
+
+.coupons-tabs-card .ant-tabs-nav {
+  margin-bottom: 0;
+}
+
+.coupons-tabs-card .ant-tabs-tab {
+  margin: 0 32px 0 0;
+  padding: 0 0 16px;
+  border-radius: 0;
+}
+
+.coupons-tabs-card .ant-tabs-tab-active {
+  background: transparent !important;
+}
+
+.coupons-tabs-card .ant-tabs-ink-bar {
+  height: 2px;
+  border-radius: 999px;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-page {
+  background: var(--client-dark-bg, #070809) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-search-card.ant-card,
+html.dark body:not(.admin-layout-active) .coupons-tabs-card.ant-card {
+  border-color: var(--client-dark-border, rgba(255, 255, 255, 0.08)) !important;
+  background: var(--client-dark-surface, #101213) !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-search-card.ant-card .ant-card-body,
+html.dark body:not(.admin-layout-active) .coupons-tabs-card.ant-card .ant-card-body {
+  background: transparent !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input-affix-wrapper,
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input {
+  border-color: var(--client-dark-border-strong, rgba(255, 255, 255, 0.14)) !important;
+  background: var(--client-dark-surface-2, #151719) !important;
+  color: var(--client-dark-text, #f4f6f8) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input-affix-wrapper:hover,
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input:hover {
+  border-color: var(--client-dark-border-strong, rgba(255, 255, 255, 0.14)) !important;
+  background: var(--client-dark-surface-3, #202327) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input-affix-wrapper-focused,
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input:focus {
+  border-color: rgba(16, 185, 129, 0.7) !important;
+  background: var(--client-dark-surface-3, #202327) !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.16) !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input-affix-wrapper .ant-input,
+html.dark body:not(.admin-layout-active) .coupon-search-input.ant-input-affix-wrapper .ant-input:focus {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-tabs-card .ant-tabs-tab {
+  border-radius: 0;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-tabs-card .ant-tabs-tab-active {
+  background: transparent !important;
+}
+
+html.dark body:not(.admin-layout-active) .coupons-tabs-card .ant-tabs-ink-bar {
+  background: #22c55e !important;
+}
+
+@media (max-width: 767px) {
+  .coupons-search-card.ant-card .ant-card-body,
+  .coupons-tabs-card.ant-card .ant-card-body {
+    padding: 16px;
+  }
+
+  .coupons-tabs-card .ant-tabs-tab {
+    margin-right: 22px;
+    padding-bottom: 12px;
+  }
+}

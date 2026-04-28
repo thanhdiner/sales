@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { Select } from 'antd'
 import { Search, SortDesc, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { ContentSection } from '@/components/PageLayout'
 
 const SORT_OPTIONS = [
   { value: 'recommended', labelKey: 'categoryPage.products.sort.recommended' },
@@ -30,7 +31,7 @@ function CategoryProductsToolbar({
   )
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-gray-900 md:p-5">
+    <ContentSection as="div">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-950 dark:text-white">{t('categoryPage.products.title')}</h2>
@@ -73,7 +74,7 @@ function CategoryProductsToolbar({
           />
         </div>
       </div>
-    </div>
+    </ContentSection>
   )
 }
 

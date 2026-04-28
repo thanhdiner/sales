@@ -2,8 +2,10 @@ import { Dropdown } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import useAccountMenu from './useAccountMenu'
 
-export default function AccountMenu({ user }) {
-  const { accountMenuOpen, menuItems, handleMenuClick, handleAccountMenuOpenChange } = useAccountMenu(user)
+export default function AccountMenu({ user, headerHidden = false }) {
+  const { accountMenuOpen, menuItems, handleMenuClick, handleAccountMenuOpenChange } = useAccountMenu(user, {
+    headerHidden
+  })
   const isLoggedIn = !!user
 
   return (
@@ -14,13 +16,14 @@ export default function AccountMenu({ user }) {
           onClick: handleMenuClick
         }}
         overlayClassName="header-account-dropdown"
-        open={accountMenuOpen}
+        open={!headerHidden && accountMenuOpen}
         onOpenChange={handleAccountMenuOpenChange}
         placement="bottomRight"
+        align={{ offset: [0, 10] }}
         arrow
         trigger={['click']}
       >
-        <button className="header__action__account--btn">
+        <button type="button" className="header__action__account--btn" aria-label="Account menu">
           {isLoggedIn && user?.avatarUrl ? (
             <img
               src={user.avatarUrl}

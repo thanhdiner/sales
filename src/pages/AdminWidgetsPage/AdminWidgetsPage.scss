@@ -14,56 +14,19 @@ body.admin-layout-active .admin-widgets-confirm-modal {
   --widgets-shadow: var(--admin-shadow, 0 14px 32px rgba(15, 23, 42, 0.08));
 }
 
-.admin-widgets-page {
-  min-height: 100%;
-  border-radius: 12px;
-  background: var(--admin-bg-soft);
-  padding: 24px;
-  color: var(--widgets-text);
-}
-
-.admin-widgets-page__inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.admin-widgets-page__card.ant-card {
-  border: 1px solid var(--widgets-border);
-  border-radius: 14px;
-  background: var(--widgets-surface);
-  box-shadow: var(--widgets-shadow);
-}
-
-.admin-widgets-page__card.ant-card .ant-card-body {
-  padding: 20px;
-}
-
-.admin-widgets-header {
-  margin-bottom: 18px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
 .admin-widgets-header__content {
   min-width: 0;
 }
 
-.admin-widgets-header__title.ant-typography {
-  margin: 0 !important;
-  color: var(--widgets-text) !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
+.admin-widgets-header {
+  --admin-toolbar-title-size: 30px;
 }
 
-.admin-widgets-header__description.ant-typography {
-  margin-top: 6px;
-  color: var(--widgets-text-muted);
-  font-size: 14px;
-  line-height: 1.55;
+.admin-widgets-stats {
+  --admin-stat-card-radius: 10px;
+  --admin-stat-icon-radius: 8px;
+  --admin-stat-icon-size: 34px;
+  --admin-stat-value-size: 24px;
 }
 
 .admin-widgets-btn.ant-btn {
@@ -127,86 +90,12 @@ body.admin-layout-active .admin-widgets-confirm-modal {
   opacity: 1;
 }
 
-.admin-widgets-stats {
-  margin-bottom: 16px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.admin-widgets-stats__card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid var(--widgets-border);
-  border-radius: 10px;
-  background: var(--widgets-surface);
-  padding: 12px 14px;
-}
-
 .admin-widgets-stats__card--active {
   border-color: rgba(38, 162, 105, 0.36);
 }
 
 .admin-widgets-stats__card--inactive {
   border-color: rgba(248, 81, 73, 0.3);
-}
-
-.admin-widgets-stats__content {
-  min-width: 0;
-}
-
-.admin-widgets-stats__label {
-  margin: 0;
-  color: var(--widgets-text-subtle);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.admin-widgets-stats__value {
-  margin: 5px 0 0;
-  color: var(--widgets-text);
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.admin-widgets-stats__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--widgets-border);
-  border-radius: 8px;
-  background: var(--widgets-surface-2);
-  color: var(--widgets-accent);
-  font-size: 18px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.admin-widgets-stats__card--active .admin-widgets-stats__icon {
-  border-color: rgba(38, 162, 105, 0.36);
-  background: rgba(38, 162, 105, 0.14);
-  color: #26a269;
-}
-
-.admin-widgets-stats__card--inactive .admin-widgets-stats__icon {
-  border-color: rgba(248, 81, 73, 0.36);
-  background: rgba(248, 81, 73, 0.1);
-  color: #f87171;
-}
-
-.admin-widgets-table-wrapper {
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid var(--widgets-border);
-  border-radius: 12px;
-  background: var(--widgets-surface);
 }
 
 .admin-widgets-table-desktop-tablet {
@@ -726,8 +615,8 @@ html.dark body.admin-layout-active .ant-modal-root .admin-widgets-confirm-modal 
 }
 
 @media (max-width: 1279px) {
-  .admin-widgets-header__title.ant-typography {
-    font-size: 28px !important;
+  .admin-widgets-header {
+    --admin-toolbar-title-size: 28px;
   }
 
   .admin-widgets-stats {
@@ -749,19 +638,12 @@ html.dark body.admin-layout-active .ant-modal-root .admin-widgets-confirm-modal 
   }
 
   .admin-widgets-header {
+    --admin-toolbar-title-size: 24px;
     margin-bottom: 14px;
-  }
-
-  .admin-widgets-header__title.ant-typography {
-    font-size: 24px !important;
   }
 
   .admin-widgets-stats {
     gap: 10px;
-  }
-
-  .admin-widgets-stats__value {
-    font-size: 30px;
   }
 }
 

@@ -1,5 +1,6 @@
 import { Divider, Form, Input, InputNumber, Modal, Switch, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { AdminFormSection } from '@/components/admin/ui'
 
 export default function AdminWidgetFormModal({
   t = key => key,
@@ -51,12 +52,11 @@ export default function AdminWidgetFormModal({
           <Input placeholder={t('form.widgetTitlePlaceholder')} size="large" className="admin-widgets-input" />
         </Form.Item>
 
-        <div className="admin-widgets-form__translation-section">
-          <h3 className="admin-widgets-form__translation-title">{t('form.translations.sectionTitle')}</h3>
+        <AdminFormSection className="admin-widgets-form__translation-section" title={t('form.translations.sectionTitle')}>
           <Form.Item label={t('form.translations.title')} name={['translations', 'en', 'title']}>
             <Input placeholder={t('form.translations.titlePlaceholder')} size="large" className="admin-widgets-input" />
           </Form.Item>
-        </div>
+        </AdminFormSection>
 
         <Form.Item
           label={t('form.icon')}
