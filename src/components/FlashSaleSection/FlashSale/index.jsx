@@ -8,12 +8,14 @@ import ProductItem from '../../Products/ProductItem'
 import FlashSaleSkeleton from './FlashSaleSkeleton'
 import { mapFlashSaleProducts } from './flashSaleHelpers'
 
+const HOME_SLIDER_PRODUCT_LIMIT = 12
+
 function FlashSale({ products = [], discountPercent, flashSaleId, loading }) {
   if (loading) return <FlashSaleSkeleton />
   if (products.length === 0) return null
 
   const productsWithDiscount = mapFlashSaleProducts(
-    products,
+    products.slice(0, HOME_SLIDER_PRODUCT_LIMIT),
     discountPercent,
     flashSaleId
   )
@@ -37,11 +39,21 @@ function FlashSale({ products = [], discountPercent, flashSaleId, loading }) {
               }
             : false
         }
-        speed={500}
+        speed={380}
         grabCursor
-        touchRatio={1}
+        touchRatio={1.45}
+        threshold={3}
+        longSwipesRatio={0.2}
+        followFinger
+        simulateTouch
+        preventClicks
+        preventClicksPropagation
+        touchStartPreventDefault={false}
         touchReleaseOnEdges
         cssMode={false}
+        watchSlidesProgress={false}
+        observer={false}
+        observeParents={false}
         breakpoints={{
           0: { slidesPerView: 2.15, spaceBetween: 8 },
           390: { slidesPerView: 2, spaceBetween: 8 },

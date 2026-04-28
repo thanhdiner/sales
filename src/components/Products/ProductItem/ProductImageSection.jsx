@@ -23,11 +23,13 @@ export default function ProductImageSection({
         <img
           src={product.thumbnail}
           alt={product.title}
+          loading="lazy"
+          decoding="async"
           className="block h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03] sm:p-4"
         />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/5 via-transparent to-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-black/20 dark:to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/5 via-transparent to-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-black/20 dark:to-transparent" />
 
       <ProductBadges product={product} />
 

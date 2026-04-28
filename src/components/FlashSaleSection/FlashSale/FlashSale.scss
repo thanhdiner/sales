@@ -3,11 +3,17 @@
 
   .swiper {
     padding: 4px 2px 10px 2px;
+    touch-action: pan-y;
+  }
+
+  .swiper-wrapper {
+    will-change: transform;
   }
 
   .swiper-slide {
     height: auto;
     padding: 0;
+    touch-action: pan-y;
   }
 
   .swiper-button-prev {

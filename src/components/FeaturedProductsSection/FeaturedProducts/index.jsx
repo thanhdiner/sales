@@ -10,6 +10,8 @@ import SliderSkeleton from '../../LazyLoad/SliderSkeleton'
 import { getProducts } from '@/services/clientProductService'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
+const HOME_SLIDER_PRODUCT_LIMIT = 12
+
 function FeaturedProducts() {
   const language = useCurrentLanguage()
   const { data: products = [], isPending } = useQuery({
@@ -21,10 +23,12 @@ function FeaturedProducts() {
     placeholderData: previousData => previousData,
     staleTime: 5 * 60 * 1000 // Cache 5 phút
   })
-  const loading = isPending && products.length === 0
+  const visibleProducts = products.slice(0, HOME_SLIDER_PRODUCT_LIMIT)
+  const loading = isPending && visibleProducts.length === 0
+  const canLoop = visibleProducts.length > 5
 
   if (loading) return <SliderSkeleton />
-  if (products.length < 5) return null
+  if (visibleProducts.length < 5) return null
 
   return (
     <div className="product-slider-featured swiper-custom-navigation">
@@ -32,14 +36,24 @@ function FeaturedProducts() {
         modules={[Navigation, Autoplay]}
         spaceBetween={18}
         slidesPerView={5}
-        navigation
-        loop
-        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-        speed={500}
+        navigation={canLoop}
+        loop={canLoop}
+        autoplay={canLoop ? { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
+        speed={380}
         grabCursor
-        touchRatio={1}
+        touchRatio={1.45}
+        threshold={3}
+        longSwipesRatio={0.2}
+        followFinger
+        simulateTouch
+        preventClicks
+        preventClicksPropagation
+        touchStartPreventDefault={false}
         touchReleaseOnEdges
         cssMode={false}
+        watchSlidesProgress={false}
+        observer={false}
+        observeParents={false}
         breakpoints={{
           0:    { slidesPerView: 2.15, spaceBetween: 8 },
           390:  { slidesPerView: 2, spaceBetween: 8 },
@@ -49,7 +63,7 @@ function FeaturedProducts() {
           1200: { slidesPerView: 5, spaceBetween: 18 },
         }}
       >
-        {products?.map(product => (
+        {visibleProducts.map(product => (
           <SwiperSlide key={product._id}>
             <ProductItem product={product} />
           </SwiperSlide>

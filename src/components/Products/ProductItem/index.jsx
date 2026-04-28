@@ -63,4 +63,4 @@ function ProductItem({ product, isDragging }) {
   )
 }
 
-export default ProductItem
+export default React.memo(ProductItem)

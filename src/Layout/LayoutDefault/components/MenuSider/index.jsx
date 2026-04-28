@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useCategoriesQuery } from '@/hooks/queries/useSharedAppQueries'
 import './MenuSider.scss'
 
-function MenuSider() {
+function MenuSider({ showGroupTitle = true }) {
   const location = useLocation()
   const { t } = useTranslation('clientSidebar')
   const [openKeys, setOpenKeys] = useState([])
@@ -95,15 +95,17 @@ function MenuSider() {
       }
     })
 
-  const items = [
-    {
-      key: 'product-category-group',
-      type: 'group',
-      label: <span className="dark:text-white">{t('categoryMenu.title')}</span>,
-      className: 'menu-sider__group--divider',
-      children: renderCategoryItems(categories)
-    }
-  ]
+  const items = showGroupTitle
+    ? [
+        {
+          key: 'product-category-group',
+          type: 'group',
+          label: <span className="dark:text-white">{t('categoryMenu.title')}</span>,
+          className: 'menu-sider__group--divider',
+          children: renderCategoryItems(categories)
+        }
+      ]
+    : renderCategoryItems(categories)
 
   if (loading) {
     return (

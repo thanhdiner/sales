@@ -49,7 +49,7 @@ function LayoutDefault() {
       </PageContextProvider>
       {!isDesktop && (
         <Drawer
-          title={<span className="dark:text-white">Danh muc san pham</span>}
+          title={<span className="dark:text-white">Danh mục sản phẩm</span>}
           placement="left"
           width={250}
           open={drawerOpen}
@@ -58,7 +58,7 @@ function LayoutDefault() {
           bodyStyle={{ padding: 0 }}
         >
           <div className="layout-default__drawer__inner">
-            <MenuSider />
+            <MenuSider showGroupTitle={false} />
           </div>
         </Drawer>
       )}
