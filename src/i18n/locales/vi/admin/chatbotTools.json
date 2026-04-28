@@ -1,0 +1,378 @@
+{
+  "seo": {
+    "title": "Admin - Công cụ Agent"
+  },
+  "page": {
+    "title": "Công cụ Agent",
+    "description": "Bật tắt tool built-in mà agent được phép gọi trong runtime.",
+    "openAgentSettings": "Cài đặt Agent",
+    "reload": "Tải lại",
+    "save": "Lưu tools"
+  },
+  "stats": {
+    "totalTools": "Tổng tools",
+    "enabledTools": "Đang bật",
+    "disabledTools": "Đang tắt"
+  },
+  "table": {
+    "title": "Tools built-in",
+    "backendBadge": "Hard-code trong backend",
+    "alertMessage": "Admin chỉ quản lý quyền bật/tắt của tool",
+    "alertDescription": "Định nghĩa tool, schema và executor vẫn nằm ở backend. Trang này chỉ quyết định tool nào được phép đưa vào runtime của agent.",
+    "columns": {
+      "tool": "Tool",
+      "description": "Mô tả",
+      "group": "Nhóm",
+      "permission": "Quyền",
+      "enabled": "Bật"
+    }
+  },
+  "confirmation": {
+    "requiredShort": "Cần xác nhận",
+    "noneShort": "Không xác nhận",
+    "requiredUser": "Cần xác nhận user",
+    "none": "Không cần xác nhận"
+  },
+  "risk": {
+    "safe": "An toàn",
+    "write": "Ghi dữ liệu",
+    "dangerous": "Nguy hiểm",
+    "caution": "Cần thận trọng",
+    "restricted": "Hạn chế"
+  },
+  "groups": {
+    "catalog": "Catalog",
+    "orders": "Đơn hàng",
+    "promotions": "Khuyến mãi",
+    "membership": "VIP",
+    "cart": "Giỏ hàng",
+    "wishlist": "Yêu thích",
+    "account": "Tài khoản",
+    "checkout": "Đặt hàng",
+    "payments": "Thanh toán",
+    "policies": "Chính sách",
+    "content": "Nội dung",
+    "reviews": "Đánh giá",
+    "support": "Hỗ trợ"
+  },
+  "tools": {
+    "searchProducts": {
+      "label": "Tìm sản phẩm",
+      "description": "Tìm kiếm và lọc sản phẩm theo từ khoá, danh mục, khoảng giá, rating, tồn kho và sắp xếp."
+    },
+    "getProductDetail": {
+      "label": "Chi tiết sản phẩm",
+      "description": "Lấy thông tin chi tiết của một sản phẩm cụ thể. Ưu tiên dùng slug từ kết quả searchProducts. Nếu không có slug, có thể dùng tên sản phẩm."
+    },
+    "checkProductAvailability": {
+      "label": "Kiem tra ton kho",
+      "description": "Kiem tra ton kho nhanh cho 1 hoac nhieu san pham, kem so luong yeu cau neu can."
+    },
+    "compareProducts": {
+      "label": "So sanh san pham",
+      "description": "So sanh 2-4 san pham theo gia, ton kho, rating, luot ban, giam gia va dac diem noi bat."
+    },
+    "checkOrderStatus": {
+      "label": "Tra cứu đơn hàng",
+      "description": "Kiểm tra trạng thái đơn hàng theo mã đơn hàng. Dùng khi khách hỏi về tình trạng đơn hàng, giao hàng, thanh toán."
+    },
+    "listMyOrders": {
+      "label": "Danh sach don cua toi",
+      "description": "Lay danh sach don hang gan day cua khach dang dang nhap, co the loc theo trang thai."
+    },
+    "getOrderDetail": {
+      "label": "Chi tiet don hang",
+      "description": "Lay chi tiet mot don hang cua khach dang dang nhap theo orderId hoac ma don hang."
+    },
+    "getOrderInvoice": {
+      "label": "Hóa đơn/biên nhận đơn hàng",
+      "description": "Lấy link hóa đơn hoặc biên nhận của đơn hàng. Nếu chưa có file riêng, trả link chi tiết đơn và hướng dẫn lưu thành biên nhận."
+    },
+    "reorderPreviousOrder": {
+      "label": "Dat lai don cu",
+      "description": "Tao don thanh toan moi tu cac san pham trong don cu cua khach. Can khach xac nhan ro rang."
+    },
+    "trackOrderByCode": {
+      "label": "Theo doi don bang ma",
+      "description": "Tra cuu don hang bang ma don hang va so dien thoai dat hang."
+    },
+    "cancelOrder": {
+      "label": "Huy don hang",
+      "description": "Huy don hang pending cua khach dang dang nhap. Day la tool nguy hiem va can khach xac nhan ro rang."
+    },
+    "updateOrderAddress": {
+      "label": "Sửa địa chỉ đơn hàng",
+      "description": "Sửa địa chỉ giao hàng của đơn pending cho khách đang đăng nhập. Cần khách xác nhận rõ ràng."
+    },
+    "updateOrderContact": {
+      "label": "Cập nhật liên hệ đơn hàng",
+      "description": "Sửa số điện thoại, email hoặc ghi chú của đơn pending cho khách đang đăng nhập. Cần khách xác nhận rõ ràng."
+    },
+    "updatePendingOrderItems": {
+      "label": "Sua san pham don pending",
+      "description": "Sua san pham hoac so luong trong don pending chua thanh toan cua khach dang dang nhap. Can khach xac nhan ro rang."
+    },
+    "checkPaymentStatus": {
+      "label": "Kiểm tra trạng thái thanh toán",
+      "description": "Kiểm tra đơn đang chờ, đã thanh toán, thất bại hoặc hết hạn cho VNPay, MoMo, ZaloPay và Sepay."
+    },
+    "resumePayment": {
+      "label": "Lấy lại link thanh toán",
+      "description": "Tạo lại link thanh toán cho đơn pending của khách đang đăng nhập. Hỗ trợ VNPay, MoMo, ZaloPay và hướng dẫn Sepay."
+    },
+    "getBankInfo": {
+      "label": "Thông tin chuyển khoản",
+      "description": "Lấy tài khoản ngân hàng active và QR chuyển khoản. Nếu có đơn pending, trả thêm số tiền và nội dung chuyển khoản cần dùng."
+    },
+    "verifyBankTransfer": {
+      "label": "Kiểm tra chuyển khoản",
+      "description": "Tra trạng thái ghi nhận chuyển khoản/Sepay theo orderCode hoặc paymentReference."
+    },
+    "getFlashSales": {
+      "label": "Flash sale",
+      "description": "Lấy danh sách sản phẩm đang khuyến mãi giảm giá."
+    },
+    "getAvailablePromoCodes": {
+      "label": "Mã giảm giá khả dụng",
+      "description": "Lấy danh sách mã giảm giá công khai hoặc mã dành riêng cho khách đang chat, còn hiệu lực và chưa hết lượt."
+    },
+    "checkPromoCode": {
+      "label": "Kiểm tra mã giảm giá",
+      "description": "Kiểm tra một mã giảm giá có còn hợp lệ với khách đang chat hay không. Nếu có subtotal thì tính luôn mức giảm dự kiến."
+    },
+    "getVipBenefits": {
+      "label": "Quyền lợi VIP",
+      "description": "Lấy nội dung chương trình VIP Membership/SmartMall Plus, gồm quyền lợi, gói thành viên, bảng so sánh và FAQ."
+    },
+    "getLoyaltyStatus": {
+      "label": "Trạng thái thành viên",
+      "description": "Xem điểm tích lũy, hạng thành viên hiện tại và tiến độ lên hạng của khách đang đăng nhập."
+    },
+    "getCart": {
+      "label": "Xem giỏ hàng",
+      "description": "Lấy giỏ hàng hiện tại của khách đang chat, gồm sản phẩm, số lượng, giá backend tính và tổng tạm tính."
+    },
+    "addToCart": {
+      "label": "Thêm vào giỏ",
+      "description": "Thêm sản phẩm vào giỏ hàng của khách đang chat. Chỉ dùng khi khách muốn thêm hoặc giữ trong giỏ; với yêu cầu mua trực tiếp thì dùng tool Đặt hàng."
+    },
+    "updateCartQuantity": {
+      "label": "Cập nhật số lượng giỏ",
+      "description": "Cập nhật số lượng của một sản phẩm đang có trong giỏ hàng."
+    },
+    "removeFromCart": {
+      "label": "Xóa khỏi giỏ",
+      "description": "Xóa một sản phẩm khỏi giỏ hàng của khách đang chat."
+    },
+    "applyPromoCodeToCart": {
+      "label": "Ap ma vao gio",
+      "description": "Ap va luu ma giam gia hop le vao gio hang hien tai cua khach dang chat."
+    },
+    "validateCart": {
+      "label": "Kiểm tra giỏ hàng",
+      "description": "Kiểm tra giỏ hàng hiện tại có sản phẩm hết hàng, vượt tồn kho, giá thay đổi hoặc mã giảm giá đang nhập có hợp lệ hay không."
+    },
+    "removePromoCodeFromCart": {
+      "label": "Gỡ mã giảm giá khỏi giỏ",
+      "description": "Gỡ mã giảm giá đang được áp dụng hoặc đang xét cho giỏ hàng và trả lại giỏ không kèm kiểm tra mã."
+    },
+    "getCheckoutProfile": {
+      "label": "Hồ sơ đặt hàng mặc định",
+      "description": "Lấy thông tin đặt hàng mặc định của khách, gồm liên hệ, địa chỉ, cách nhận hàng và thanh toán."
+    },
+    "getDeliveryOptions": {
+      "label": "Phương thức nhận/giao",
+      "description": "Lấy phương thức nhận hàng/giao hàng khả dụng, ETA và ước tính phí nếu có theo sản phẩm, giỏ hàng hoặc tạm tính đơn."
+    },
+    "getUserProfile": {
+      "label": "Hồ sơ khách hàng",
+      "description": "Đọc thông tin hồ sơ cơ bản của khách đang đăng nhập, gồm username, họ tên, email, số điện thoại, avatar và trạng thái tài khoản."
+    },
+    "requestPasswordReset": {
+      "label": "Yêu cầu đặt lại mật khẩu",
+      "description": "Gửi mã hoặc hướng dẫn đặt lại mật khẩu qua email sau khi khách xác nhận. Không đổi mật khẩu trực tiếp trong chat."
+    },
+    "getNotificationPreferences": {
+      "label": "Tùy chọn thông báo",
+      "description": "Đọc tùy chọn thông báo của khách, gồm kênh nhận và các nhóm thông báo đơn hàng, thanh toán, khuyến mãi, hàng về lại, wishlist và hỗ trợ."
+    },
+    "updateUserProfile": {
+      "label": "Cập nhật hồ sơ khách hàng",
+      "description": "Cập nhật hồ sơ cơ bản của khách đang đăng nhập như họ tên, số điện thoại hoặc avatar. Cần khách xác nhận rõ ràng."
+    },
+    "requestEmailChange": {
+      "label": "Gửi OTP đổi email",
+      "description": "Gửi mã OTP xác thực đến email mới của khách. Tool này chưa cập nhật email."
+    },
+    "verifyEmailChange": {
+      "label": "Xác minh đổi email",
+      "description": "Xác minh OTP và cập nhật email tài khoản. Không dùng updateUserProfile cho đổi email."
+    },
+    "requestAccountDeletion": {
+      "label": "Yêu cầu xoá tài khoản",
+      "description": "Tạo ticket yêu cầu xoá tài khoản cho khách đang đăng nhập. Tool này cần xác nhận và không xoá tài khoản ngay trong chat."
+    },
+    "updateCheckoutProfile": {
+      "label": "Cập nhật hồ sơ đặt hàng",
+      "description": "Lưu hoặc sửa thông tin đặt hàng mặc định của khách. Tool này ghi dữ liệu và cần khách xác nhận rõ ràng."
+    },
+    "updateNotificationPreferences": {
+      "label": "Cập nhật thông báo",
+      "description": "Lưu tùy chọn thông báo của khách. Tool này ghi dữ liệu và cần khách xác nhận rõ ràng."
+    },
+    "placeOrder": {
+      "label": "Đặt hàng",
+      "description": "Tạo đơn chờ thanh toán từ giỏ hoặc sản phẩm chỉ định sau khi khách xác nhận. Chỉ hỗ trợ thanh toán online qua VNPay, MoMo hoặc ZaloPay."
+    },
+    "clearCart": {
+      "label": "Xóa toàn bộ giỏ",
+      "description": "Xóa toàn bộ giỏ hàng của khách đang chat. Chỉ thực thi sau khi khách xác nhận rõ ràng."
+    },
+    "getWishlist": {
+      "label": "Xem danh sách yêu thích",
+      "description": "Lấy danh sách sản phẩm yêu thích hiện tại của khách đang chat, gồm tên, giá, tồn kho, link và phân trang."
+    },
+    "addToWishlist": {
+      "label": "Thêm yêu thích",
+      "description": "Thêm một sản phẩm vào danh sách yêu thích của khách đang chat. Dùng khi khách muốn lưu lại, xem sau hoặc yêu thích sản phẩm."
+    },
+    "removeFromWishlist": {
+      "label": "Xóa khỏi yêu thích",
+      "description": "Xóa một sản phẩm khỏi danh sách yêu thích của khách đang chat."
+    },
+    "toggleWishlist": {
+      "label": "Bật/tắt yêu thích",
+      "description": "Bật hoặc tắt trạng thái yêu thích của một sản phẩm cho khách đang chat. Nếu đã có trong wishlist thì xóa, nếu chưa có thì thêm."
+    },
+    "clearWishlist": {
+      "label": "Xóa toàn bộ yêu thích",
+      "description": "Xóa toàn bộ danh sách yêu thích của khách đang chat. Chỉ thực thi sau khi khách xác nhận rõ ràng."
+    },
+    "searchPolicies": {
+      "label": "Tìm chính sách/FAQ",
+      "description": "Tìm trong FAQ, chính sách đổi trả, chính sách bảo mật và điều khoản đang được admin quản lý. Dùng khi khách hỏi về quy định, đổi trả, hoàn tiền, bảo mật, tài khoản hoặc điều khoản sử dụng."
+    },
+    "getReturnPolicy": {
+      "label": "Chính sách đổi trả",
+      "description": "Lấy nội dung chính sách đổi trả/hoàn tiền đang được admin quản lý. Có thể lọc theo chủ đề khách hỏi."
+    },
+    "getPrivacyPolicy": {
+      "label": "Chính sách bảo mật",
+      "description": "Lấy chính sách bảo mật do admin quản lý cho các câu hỏi về dữ liệu cá nhân, cookie, bảo mật tài khoản hoặc quyền riêng tư."
+    },
+    "getTermsOfService": {
+      "label": "Điều khoản sử dụng",
+      "description": "Lấy điều khoản sử dụng do admin quản lý cho các câu hỏi về quy định website, tài khoản, trách nhiệm, hạn chế hoặc điều khoản mua hàng."
+    },
+    "getFAQ": {
+      "label": "FAQ",
+      "description": "Lấy câu hỏi thường gặp đang được admin quản lý. Có thể tìm theo câu hỏi của khách."
+    },
+    "searchBlogPosts": {
+      "label": "Bài viết blog",
+      "description": "Tìm bài viết blog đã publish theo từ khóa, danh mục hoặc tag để agent tư vấn bằng nội dung có sẵn."
+    },
+    "getBuyingGuides": {
+      "label": "Hướng dẫn mua hàng",
+      "description": "Lấy nội dung trang hướng dẫn mua hàng đang có trong website config cho câu hỏi về quy trình mua, thanh toán, theo dõi đơn và mẹo mua sắm."
+    },
+    "browseByCategory": {
+      "label": "Duyệt theo danh mục",
+      "description": "Duyệt sản phẩm theo danh mục hoặc chủ đề. Dùng khi khách hỏi chung về một lĩnh vực hoặc muốn xem gợi ý."
+    },
+    "getPersonalizedRecommendations": {
+      "label": "Gợi ý cá nhân hóa",
+      "description": "Lấy danh sách sản phẩm gợi ý từ hệ thống recommendations. Dùng khi khách muốn tư vấn sản phẩm phù hợp, ưu tiên hơn danh sách bán chạy nếu khách không hỏi riêng về best seller."
+    },
+    "getRecentViewedProducts": {
+      "label": "Sản phẩm vừa xem",
+      "description": "Lấy các sản phẩm khách vừa xem và gợi ý liên quan để tư vấn theo ngữ cảnh hiện tại."
+    },
+    "getRelatedProducts": {
+      "label": "Sản phẩm liên quan",
+      "description": "Lấy danh sách sản phẩm liên quan theo sản phẩm khách đang xem hoặc quan tâm. Dùng để gợi ý lựa chọn tương tự sau khi đã xác định sản phẩm mốc."
+    },
+    "getPopularProducts": {
+      "label": "Sản phẩm nổi bật",
+      "description": "Lấy danh sách sản phẩm bán chạy nhất hoặc được yêu thích nhất. Dùng khi khách hỏi về best seller hoặc muốn gợi ý nhanh."
+    },
+    "getProductReviewSummary": {
+      "label": "Tóm tắt đánh giá sản phẩm",
+      "description": "Lấy điểm đánh giá trung bình, tổng số review và một vài nhận xét nổi bật của sản phẩm theo tên hoặc slug."
+    },
+    "getProductReviews": {
+      "label": "Danh sách review sản phẩm",
+      "description": "Lấy danh sách review công khai thật của sản phẩm theo rating, sort, page và limit."
+    },
+    "createReview": {
+      "label": "Tao danh gia san pham",
+      "description": "Tao danh gia text cong khai cho san pham da mua sau khi khach xac nhan ro rang."
+    },
+    "updateReview": {
+      "label": "Sua danh gia san pham",
+      "description": "Sua danh gia san pham cua chinh khach dang dang nhap sau khi khach xac nhan ro rang."
+    },
+    "deleteReview": {
+      "label": "Xoa danh gia san pham",
+      "description": "Xoa danh gia san pham cua chinh khach dang dang nhap sau khi khach xac nhan ro rang."
+    },
+    "voteReview": {
+      "label": "Binh chon review huu ich",
+      "description": "Bat hoac tat binh chon huu ich cho review cong khai cua khach khac sau khi xac nhan."
+    },
+    "getStoreConfig": {
+      "label": "Cau hinh cua hang",
+      "description": "Lay ten cua hang va thong tin lien he tu cau hinh website."
+    },
+    "getSupportInfo": {
+      "label": "Thong tin ho tro",
+      "description": "Lay hotline, email, gio ho tro, website va link mang xa hoi tu cau hinh website."
+    },
+    "getStoreLocations": {
+      "label": "Dia diem cua hang",
+      "description": "Lay dia chi cua hang, chi nhanh, diem pickup va link ban do tu cau hinh website."
+    },
+    "submitContactRequest": {
+      "label": "Tạo yêu cầu liên hệ",
+      "description": "Tạo yêu cầu hỗ trợ khi khách để lại email hoặc số điện thoại và muốn được liên hệ ngoài chat."
+    },
+    "scheduleCallback": {
+      "label": "Đặt lịch gọi lại",
+      "description": "Đặt lịch để nhân viên gọi lại cho khách theo số điện thoại và khung giờ mong muốn."
+    },
+    "createSupportTicket": {
+      "label": "Tạo ticket hỗ trợ",
+      "description": "Tạo ticket hỗ trợ bất đồng bộ có danh mục và mức ưu tiên để nhân viên theo dõi sau."
+    },
+    "getSupportTicketStatus": {
+      "label": "Tra trạng thái ticket",
+      "description": "Tra trạng thái ticket hỗ trợ đã tạo từ chatbot theo mã ticket."
+    },
+    "reportBugOrIssue": {
+      "label": "Báo lỗi/sự cố",
+      "description": "Ghi nhận lỗi website, thanh toán, sản phẩm hoặc đơn hàng từ chat để nhân viên theo dõi."
+    },
+    "getRefundStatus": {
+      "label": "Kiem tra doi tra/hoan tien",
+      "description": "Kiem tra trang thai yeu cau doi tra, doi san pham hoac hoan tien da ghi nhan tren don hang."
+    },
+    "requestReturnOrRefund": {
+      "label": "Tạo yêu cầu đổi trả/hoàn tiền",
+      "description": "Tạo ticket đổi trả, đổi sản phẩm hoặc hoàn tiền từ chat sau khi khách xác nhận rõ ràng."
+    },
+    "handoffToHuman": {
+      "label": "Chuyển nhân viên",
+      "description": "Cho AI chuyển cuộc trò chuyện sang nhân viên hỗ trợ và ghi lý do escalation cụ thể."
+    },
+    "requestHumanAgent": {
+      "label": "Yêu cầu nhân viên",
+      "description": "Alias của handoffToHuman. Dùng khi hội thoại cần nhân viên thật tiếp quản."
+    }
+  },
+  "pagination": {
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} tools"
+  },
+  "messages": {
+    "updateSuccess": "Cập nhật agent tools thành công"
+  }
+}

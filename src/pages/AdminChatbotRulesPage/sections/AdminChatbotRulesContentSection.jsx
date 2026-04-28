@@ -1,4 +1,5 @@
 import { Alert, Card, Form, Input, Select } from 'antd'
+import { useTranslation } from 'react-i18next'
 import AdminChatbotRulesStringListEditor from '../components/AdminChatbotRulesStringListEditor'
 
 const { TextArea } = Input
@@ -16,43 +17,45 @@ export default function AdminChatbotRulesContentSection({
   onAddRule,
   onRemoveRule
 }) {
+  const { t } = useTranslation('adminChatbotRules')
+
   return (
     <>
       <Alert
         className="admin-chatbot-alert mb-4"
         type="info"
         showIcon
-        message="Rules nên chỉ chứa chính sách hành vi và guardrail"
-        description="Nếu là cấu hình model/provider thì dùng Runtime & Provider. Nếu là quyền bật/tắt tool thì dùng Agent Tools."
+        message={t('alert.message')}
+        description={t('alert.description')}
       />
 
       <Form form={form} layout="vertical">
-        <Card title="Prompt, rules và fallback" className="admin-chatbot-card">
+        <Card title={t('content.title')} className="admin-chatbot-card">
           <Form.Item
             name="brandVoice"
-            label="Brand voice"
-            extra="Hướng dẫn cách agent nên giao tiếp với khách."
+            label={t('form.brandVoice')}
+            extra={t('form.brandVoiceExtra')}
           >
             <TextArea
               rows={4}
-              placeholder="Ví dụ: Thân thiện, xưng mình/bạn, ngắn gọn, không vòng vo..."
+              placeholder={t('form.brandVoicePlaceholder')}
             />
           </Form.Item>
 
           <Form.Item
             name="systemPromptOverride"
-            label="System prompt override"
-            extra="Nếu điền, prompt này sẽ thay thế prompt động mặc định."
+            label={t('form.systemPromptOverride')}
+            extra={t('form.systemPromptOverrideExtra')}
           >
-            <TextArea rows={6} placeholder="Để trống để dùng prompt mặc định..." />
+            <TextArea rows={6} placeholder={t('form.systemPromptOverridePlaceholder')} />
           </Form.Item>
 
           <Form.Item
             name="fallbackMessage"
-            label="Fallback message"
-            extra="Tin nhắn trả về khi AI gặp lỗi hoặc không xử lý được."
+            label={t('form.fallbackMessage')}
+            extra={t('form.fallbackMessageExtra')}
           >
-            <TextArea rows={2} placeholder="Xin lỗi, mình đang gặp chút trục trặc..." />
+            <TextArea rows={2} placeholder={t('form.fallbackMessagePlaceholder')} />
           </Form.Item>
 
           <Form.Item name="systemRules" hidden>
@@ -61,15 +64,15 @@ export default function AdminChatbotRulesContentSection({
 
           <div className="mb-4">
             <AdminChatbotRulesStringListEditor
-              title="Quy tắc hệ thống"
+              title={t('form.systemRules')}
               items={watchedRules}
               tagColor="blue"
               inputValue={ruleInput}
               onInputChange={onRuleInputChange}
               onAdd={onAddRule}
               onRemove={onRemoveRule}
-              placeholder="Thêm quy tắc như: Không tự tạo đơn nếu khách chưa xác nhận"
-              buttonLabel="Thêm rule"
+              placeholder={t('form.systemRulesPlaceholder')}
+              buttonLabel={t('form.addRule')}
               buttonType="primary"
               compactClassName="max-w-2xl"
             />
@@ -80,15 +83,15 @@ export default function AdminChatbotRulesContentSection({
           </Form.Item>
 
           <AdminChatbotRulesStringListEditor
-            title="Từ khóa auto-escalate"
+            title={t('form.autoEscalateKeywords')}
             items={watchedKeywords}
             tagColor="orange"
             inputValue={keywordInput}
             onInputChange={onKeywordInputChange}
             onAdd={onAddKeyword}
             onRemove={onRemoveKeyword}
-            placeholder="Ví dụ: hoàn tiền, hủy đơn, gặp nhân viên"
-            buttonLabel="Thêm"
+            placeholder={t('form.autoEscalateKeywordsPlaceholder')}
+            buttonLabel={t('form.add')}
           />
         </Card>
       </Form>

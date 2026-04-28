@@ -1,0 +1,81 @@
+{
+  "seo": {
+    "title": "Admin - Đánh giá"
+  },
+  "page": {
+    "title": "Quản lý đánh giá",
+    "description": "Xem, phản hồi và kiểm duyệt đánh giá sản phẩm.",
+    "refresh": "Làm mới"
+  },
+  "common": {
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "customer": "Khách hàng",
+    "hidden": "Ẩn",
+    "star": "sao"
+  },
+  "stats": {
+    "total": "Tổng đánh giá",
+    "totalSub": "tất cả sản phẩm",
+    "average": "Điểm trung bình",
+    "averageSub": "trên thang 5 sao",
+    "replied": "Đã phản hồi",
+    "replyRate": "{{rate}}% tỷ lệ phản hồi",
+    "unreplied": "Chưa phản hồi",
+    "unrepliedSub": "cần xử lý",
+    "distribution": "Phân bổ đánh giá",
+    "clearRating": "Bỏ lọc {{rating}} sao"
+  },
+  "filters": {
+    "searchPlaceholder": "Tìm theo tên khách hàng, nội dung...",
+    "resultCount": "{{count}} kết quả"
+  },
+  "list": {
+    "empty": "Không có đánh giá nào"
+  },
+  "row": {
+    "sellerReply": "Phản hồi của Shop",
+    "hiddenNotice": "Review này đang bị ẩn khỏi trang sản phẩm.",
+    "reply": "Phản hồi",
+    "editReply": "Sửa phản hồi",
+    "deleteReply": "Xóa phản hồi",
+    "hideReview": "Ẩn review",
+    "mediaImageAlt": "Ảnh đánh giá {{index}}",
+    "mediaVideoLabel": "Video đánh giá {{index}}"
+  },
+  "replyModal": {
+    "editTitle": "Chỉnh sửa phản hồi Shop",
+    "createTitle": "Phản hồi với tư cách Shop",
+    "placeholder": "Nhập nội dung phản hồi của Shop...",
+    "sending": "Đang gửi...",
+    "update": "Cập nhật",
+    "send": "Gửi phản hồi",
+    "close": "Đóng modal phản hồi",
+    "translations": {
+      "enContent": "Phản hồi Shop tiếng Anh",
+      "enContentPlaceholder": "Nhập phiên bản tiếng Anh của phản hồi Shop..."
+    }
+  },
+  "confirm": {
+    "deleteReplyTitle": "Xóa phản hồi",
+    "deleteReplyContent": "Bạn có chắc muốn xóa phản hồi của Shop không?",
+    "hideTitle": "Ẩn đánh giá",
+    "hideContent": "Ẩn review này khỏi trang sản phẩm? Người dùng vẫn thấy review của họ nhưng khách khác sẽ không thấy.",
+    "hideOk": "Ẩn",
+    "deleteReviewTitle": "Xóa đánh giá",
+    "deleteReviewContent": "Xóa vĩnh viễn đánh giá này? Hành động không thể hoàn tác."
+  },
+  "messages": {
+    "fetchError": "Không thể tải đánh giá",
+    "replyRequired": "Vui lòng nhập nội dung phản hồi",
+    "replyUpdated": "Đã cập nhật phản hồi",
+    "replySent": "Đã gửi phản hồi",
+    "replyFailed": "Gửi phản hồi thất bại",
+    "deleteReplySuccess": "Đã xóa phản hồi",
+    "deleteReplyFailed": "Xóa phản hồi thất bại",
+    "hideSuccess": "Đã ẩn review",
+    "hideFailed": "Ẩn review thất bại",
+    "deleteSuccess": "Đã xóa đánh giá",
+    "deleteFailed": "Xóa thất bại"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "seo": {
+    "title": "Admin - Quy tắc Agent"
+  },
+  "page": {
+    "title": "Quy tắc Agent",
+    "description": "Quản lý prompt, quy tắc hệ thống, fallback và từ khóa auto-escalate.",
+    "openAgentSettings": "Mở Cài đặt Agent",
+    "reload": "Tải lại",
+    "save": "Lưu rules"
+  },
+  "stats": {
+    "systemRules": "Rules hệ thống",
+    "escalateKeywords": "Từ khóa escalate",
+    "promptOverride": "Prompt override",
+    "overrideEnabled": "Đã dùng",
+    "defaultPrompt": "Mặc định"
+  },
+  "alert": {
+    "message": "Rules nên chỉ chứa chính sách hành vi và guardrail",
+    "description": "Nếu là cấu hình model/provider thì dùng Runtime & Provider. Nếu là quyền bật/tắt tool thì dùng Agent Tools."
+  },
+  "content": {
+    "title": "Prompt, rules và fallback"
+  },
+  "form": {
+    "brandVoice": "Brand voice",
+    "brandVoiceExtra": "Hướng dẫn cách agent nên giao tiếp với khách.",
+    "brandVoicePlaceholder": "Ví dụ: Thân thiện, xưng mình/bạn, ngắn gọn, không vòng vo...",
+    "systemPromptOverride": "System prompt override",
+    "systemPromptOverrideExtra": "Nếu điền, prompt này sẽ thay thế prompt động mặc định.",
+    "systemPromptOverridePlaceholder": "Để trống để dùng prompt mặc định...",
+    "fallbackMessage": "Fallback message",
+    "fallbackMessageExtra": "Tin nhắn trả về khi AI gặp lỗi hoặc không xử lý được.",
+    "fallbackMessagePlaceholder": "Xin lỗi, mình đang gặp chút trục trặc...",
+    "systemRules": "Quy tắc hệ thống",
+    "systemRulesPlaceholder": "Thêm quy tắc như: Không tự tạo đơn nếu khách chưa xác nhận",
+    "addRule": "Thêm rule",
+    "autoEscalateKeywords": "Từ khóa auto-escalate",
+    "autoEscalateKeywordsPlaceholder": "Ví dụ: hoàn tiền, hủy đơn, gặp nhân viên",
+    "add": "Thêm"
+  },
+  "messages": {
+    "updateSuccess": "Cập nhật agent rules thành công"
+  }
+}

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+import SEO from '@/components/SEO'
 import useAdminReviewsPage from './hooks/useAdminReviewsPage'
 import AdminReviewsFiltersSection from './sections/AdminReviewsFiltersSection'
 import AdminReviewsHeaderSection from './sections/AdminReviewsHeaderSection'
@@ -8,6 +10,7 @@ import AdminReviewsReplyModal from './sections/AdminReviewsReplyModal'
 import './AdminReviewsPage.scss'
 
 export default function AdminReviewsPage() {
+  const { t } = useTranslation('adminReviews')
   const {
     reviews,
     total,
@@ -34,6 +37,8 @@ export default function AdminReviewsPage() {
 
   return (
     <div className="admin-reviews-page min-h-screen space-y-6 rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-6">
+      <SEO title={t('seo.title')} noIndex />
+
       <AdminReviewsHeaderSection onRefresh={handleRefresh} />
 
       <AdminReviewsOverviewSection

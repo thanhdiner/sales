@@ -1,0 +1,189 @@
+{
+  "seo": {
+    "title": "Chính sách bảo mật",
+    "description": "Chính sách bảo mật thông tin của SmartMall – cam kết bảo vệ dữ liệu cá nhân của bạn."
+  },
+  "summary": {
+    "title": "Tóm tắt nhanh",
+    "description": "Chúng tôi thu thập thông tin cần thiết để cung cấp dịch vụ, bảo vệ dữ liệu bằng mã hóa SSL, không bán thông tin cho bên thứ ba, và bạn có toàn quyền kiểm soát dữ liệu cá nhân."
+  },
+  "sections": {
+    "dataCollection": "1. Thu thập thông tin",
+    "usage": "2. Sử dụng thông tin",
+    "sharing": "3. Chia sẻ thông tin",
+    "security": "4. Bảo mật thông tin",
+    "userRights": "5. Quyền của người dùng",
+    "cookies": "6. Cookies và công nghệ theo dõi",
+    "contact": "7. Thông tin liên hệ"
+  },
+  "dataTypes": {
+    "personal": {
+      "title": "Thông tin cá nhân",
+      "items": ["Họ tên", "Số điện thoại", "Email", "Địa chỉ"]
+    },
+    "payment": {
+      "title": "Thông tin thanh toán",
+      "items": ["Lịch sử giao dịch", "Phương thức thanh toán"]
+    },
+    "technical": {
+      "title": "Thông tin kỹ thuật",
+      "items": ["Địa chỉ IP", "Loại trình duyệt", "Hệ điều hành", "Cookies"]
+    },
+    "behavior": {
+      "title": "Thông tin hành vi",
+      "items": ["Lịch sử duyệt web", "Sản phẩm quan tâm", "Thời gian truy cập"]
+    }
+  },
+  "usageTimeline": {
+    "service": {
+      "title": "Cung cấp dịch vụ",
+      "description": "Xử lý đơn hàng, giao hàng, thanh toán và hỗ trợ khách hàng"
+    },
+    "experience": {
+      "title": "Cải thiện trải nghiệm",
+      "description": "Cá nhân hóa nội dung, đưa ra gợi ý sản phẩm phù hợp"
+    },
+    "marketing": {
+      "title": "Liên lạc marketing",
+      "description": "Gửi thông tin khuyến mãi, sản phẩm mới (chỉ khi bạn đồng ý)"
+    },
+    "securityCompliance": {
+      "title": "Bảo mật và tuân thủ",
+      "description": "Phát hiện gian lận, tuân thủ quy định pháp luật"
+    }
+  },
+  "sharingData": {
+    "allowed": [
+      "Với đối tác vận chuyển để giao hàng",
+      "Với ngân hàng/cổng thanh toán để xử lý giao dịch",
+      "Với cơ quan pháp luật khi có yêu cầu hợp lệ",
+      "Với sự đồng ý rõ ràng của bạn"
+    ],
+    "disallowed": [
+      "Bán thông tin cho bên thứ ba",
+      "Chia sẻ với mục đích thương mại khác",
+      "Tiết lộ thông tin nhạy cảm không cần thiết",
+      "Chia sẻ không có sự đồng ý"
+    ]
+  },
+  "securityMeasures": {
+    "ssl": {
+      "title": "Mã hóa SSL/TLS",
+      "description": "Tất cả dữ liệu được mã hóa trong quá trình truyền tải"
+    },
+    "firewall": {
+      "title": "Firewall bảo mật",
+      "description": "Hệ thống firewall đa lớp bảo vệ máy chủ"
+    },
+    "accessControl": {
+      "title": "Kiểm soát truy cập",
+      "description": "Chỉ nhân viên được ủy quyền mới có thể truy cập dữ liệu"
+    },
+    "backup": {
+      "title": "Sao lưu định kỳ",
+      "description": "Dữ liệu được sao lưu thường xuyên để đảm bảo an toàn"
+    }
+  },
+  "userRights": {
+    "know": "Quyền được biết về việc thu thập và sử dụng thông tin",
+    "accessEdit": "Quyền truy cập và sửa đổi thông tin cá nhân",
+    "delete": "Quyền xóa tài khoản và dữ liệu cá nhân",
+    "unsubscribe": "Quyền từ chối nhận thông tin quảng cáo",
+    "complain": "Quyền khiếu nại khi có vi phạm quyền riêng tư",
+    "copy": "Quyền yêu cầu sao chép dữ liệu cá nhân"
+  },
+  "cookieCategories": {
+    "essential": {
+      "title": "Cookies thiết yếu",
+      "description": "Cần thiết cho hoạt động cơ bản của website như đăng nhập, giỏ hàng, bảo mật. Không thể tắt loại cookies này."
+    },
+    "performance": {
+      "title": "Cookies hiệu suất",
+      "description": "Giúp chúng tôi hiểu cách bạn sử dụng website để cải thiện trải nghiệm. Thông tin được thu thập ẩn danh."
+    },
+    "marketing": {
+      "title": "Cookies tiếp thị",
+      "description": "Được sử dụng để hiển thị quảng cáo phù hợp với sở thích của bạn trên các website khác. Bạn có thể từ chối loại cookies này."
+    }
+  },
+  "faq": {
+    "whyCollect": {
+      "question": "Tại sao chúng tôi cần thu thập thông tin cá nhân?",
+      "answer": "Chúng tôi thu thập thông tin để cung cấp dịch vụ tốt nhất, xử lý đơn hàng, hỗ trợ khách hàng và cải thiện trải nghiệm mua sắm của bạn."
+    },
+    "thirdParty": {
+      "question": "Thông tin của tôi có được chia sẻ với bên thứ ba không?",
+      "answer": "Chúng tôi chỉ chia sẻ thông tin với các đối tác tin cậy cần thiết để hoàn thành dịch vụ (như vận chuyển, thanh toán) và luôn yêu cầu họ bảo vệ thông tin theo tiêu chuẩn cao."
+    },
+    "deleteAccount": {
+      "question": "Tôi có thể xóa tài khoản và dữ liệu của mình không?",
+      "answer": "Có, bạn có thể yêu cầu xóa tài khoản bất cứ lúc nào. Chúng tôi sẽ xóa toàn bộ dữ liệu cá nhân trong vòng 30 ngày, trừ những thông tin cần thiết theo quy định pháp luật."
+    },
+    "cookiesControl": {
+      "question": "Làm thế nào để tôi kiểm soát cookies?",
+      "answer": "Bạn có thể quản lý cookies thông qua cài đặt trình duyệt. Tuy nhiên, việc vô hiệu hóa cookies có thể ảnh hưởng đến một số tính năng của website."
+    }
+  },
+  "contactSection": {
+    "title": "7. Thông tin liên hệ",
+    "description": "Nếu bạn có bất kỳ câu hỏi nào về chính sách này, vui lòng liên hệ với chúng tôi qua các kênh bên dưới.",
+    "email": "Email",
+    "hotline": "Hotline",
+    "website": "Website"
+  },
+  "cookiesSection": {
+    "title": "6. Cookies và công nghệ theo dõi",
+    "description": "Chúng tôi sử dụng cookies và các công nghệ tương tự để cải thiện trải nghiệm, ghi nhớ tùy chọn và hỗ trợ các tính năng cần thiết trên website.",
+    "manageButton": "Quản lý cài đặt Cookies"
+  },
+  "dataCollectionSection": {
+    "title": "1. Thu thập thông tin",
+    "description": "Chúng tôi thu thập các loại thông tin sau để cung cấp dịch vụ tốt nhất cho bạn:",
+    "importantNoteTitle": "Lưu ý quan trọng",
+    "importantNoteDescription": "Chúng tôi chỉ thu thập thông tin cần thiết và với sự đồng ý của bạn. Bạn có thể từ chối cung cấp một số thông tin nhưng điều này có thể ảnh hưởng đến chất lượng dịch vụ."
+  },
+  "informationSharingSection": {
+    "title": "3. Chia sẻ thông tin",
+    "description": "Chúng tôi có thể chia sẻ thông tin của bạn trong một số trường hợp cần thiết để vận hành dịch vụ, nhưng luôn giới hạn trong phạm vi phù hợp và minh bạch.",
+    "allowedTitle": "Được phép chia sẻ",
+    "disallowedTitle": "Không được chia sẻ"
+  },
+  "informationUsageSection": {
+    "title": "2. Sử dụng thông tin"
+  },
+  "contactModal": {
+    "title": "Liên hệ về quyền riêng tư",
+    "supportTitle": "Chúng tôi sẵn sàng hỗ trợ",
+    "supportDescription": "Mọi yêu cầu về quyền riêng tư sẽ được xử lý trong vòng 72 giờ làm việc.",
+    "supportEmail": "Email hỗ trợ",
+    "hotline": "Hotline",
+    "note": "Khi liên hệ, vui lòng cung cấp thông tin tài khoản và mô tả rõ yêu cầu của bạn để chúng tôi có thể hỗ trợ nhanh chóng và chính xác nhất."
+  },
+  "faqSection": {
+    "title": "Câu hỏi thường gặp"
+  },
+  "pageHeader": {
+    "eyebrow": "Chính sách",
+    "title": "Chính sách bảo mật",
+    "description": "Chúng tôi cam kết bảo vệ quyền riêng tư và thông tin cá nhân của bạn một cách an toàn và minh bạch.",
+    "updatedAt": "Cập nhật: 01/08/2025",
+    "gdpr": "Tuân thủ GDPR",
+    "iso": "ISO 27001"
+  },
+  "sidebar": {
+    "title": "Mục lục"
+  },
+  "securitySection": {
+    "title": "4. Bảo mật thông tin",
+    "description": "Chúng tôi áp dụng các biện pháp bảo mật cần thiết để bảo vệ thông tin của bạn trong quá trình sử dụng dịch vụ.",
+    "commitmentTitle": "Cam kết bảo mật",
+    "commitmentDescription": "Chúng tôi tuân thủ các tiêu chuẩn bảo mật quốc tế như ISO 27001, GDPR và các quy định bảo mật dữ liệu của Việt Nam."
+  },
+  "userRightsSection": {
+    "title": "5. Quyền của người dùng",
+    "description": "Bạn có các quyền sau đối với thông tin cá nhân của mình:",
+    "howToTitle": "Cách thực hiện quyền của bạn",
+    "howToDescription": "Để thực hiện các quyền trên, vui lòng liên hệ với chúng tôi qua email hoặc hotline. Chúng tôi sẽ phản hồi trong vòng 72 giờ.",
+    "contactButton": "Liên hệ ngay"
+  }
+}

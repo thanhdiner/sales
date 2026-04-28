@@ -1,0 +1,656 @@
+.sovereign-auth-page,
+.sovereign-auth-oauth {
+  --auth-bg: #fbf8ff;
+  --auth-header-bg: #fbf8ff;
+  --auth-header-shadow: 0 24px 48px rgba(39, 56, 154, 0.06);
+  --auth-panel-bg: #f4f2fc;
+  --auth-card-bg: rgba(255, 255, 255, 0.88);
+  --auth-card-border: rgba(197, 197, 212, 0.25);
+  --auth-card-shadow: 0 24px 48px rgba(39, 56, 154, 0.09);
+  --auth-side-bg: #27389a;
+  --auth-side-overlay: linear-gradient(135deg, rgba(39, 56, 154, 0.85) 0%, rgba(65, 81, 179, 0.45) 60%, transparent 100%);
+  --auth-side-image-opacity: 0.4;
+  --auth-side-image-blend: overlay;
+  --auth-primary: #27389a;
+  --auth-primary-hover: #4151b3;
+  --auth-primary-active: #1f2f86;
+  --auth-primary-fixed: #dee0ff;
+  --auth-primary-soft: rgba(39, 56, 154, 0.1);
+  --auth-text: #1a1b22;
+  --auth-text-muted: #454652;
+  --auth-text-subtle: #757684;
+  --auth-border: #c5c5d4;
+  --auth-border-hover: rgba(39, 56, 154, 0.18);
+  --auth-border-focus: rgba(39, 56, 154, 0.28);
+  --auth-focus-ring: rgba(39, 56, 154, 0.1);
+  --auth-input-bg: #ffffff;
+  --auth-input-text: #1a1b22;
+  --auth-input-placeholder: #757684;
+  --auth-logo-bg: #ffffff;
+  --auth-logo-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --auth-button-bg: linear-gradient(135deg, #27389a 0%, #4151b3 100%);
+  --auth-button-hover-bg: linear-gradient(135deg, #3143a5 0%, #4c5fc0 100%);
+  --auth-button-active-bg: linear-gradient(135deg, #1f2f86 0%, #3949a6 100%);
+  --auth-warning: #6c3400;
+  --auth-success: #52c41a;
+
+  background: var(--auth-bg);
+  color: var(--auth-text);
+}
+
+html.dark body:not(.admin-layout-active) .sovereign-auth-page,
+html.dark body:not(.admin-layout-active) .sovereign-auth-oauth {
+  --auth-bg: #070809;
+  --auth-header-bg: rgba(12, 14, 15, 0.96);
+  --auth-header-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
+  --auth-panel-bg: #070809;
+  --auth-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)), #101213;
+  --auth-card-border: rgba(255, 255, 255, 0.08);
+  --auth-card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  --auth-side-bg: #060708;
+  --auth-side-overlay: linear-gradient(135deg, rgba(6, 7, 8, 0.94) 0%, rgba(16, 18, 19, 0.86) 52%, rgba(34, 197, 94, 0.2) 100%);
+  --auth-side-image-opacity: 0.26;
+  --auth-side-image-blend: luminosity;
+  --auth-primary: #22c55e;
+  --auth-primary-hover: #46dd72;
+  --auth-primary-active: #18b955;
+  --auth-primary-fixed: #bbf7d0;
+  --auth-primary-soft: rgba(34, 197, 94, 0.13);
+  --auth-text: #f4f6f8;
+  --auth-text-muted: #a8b0ba;
+  --auth-text-subtle: #707983;
+  --auth-border: rgba(255, 255, 255, 0.08);
+  --auth-border-hover: rgba(255, 255, 255, 0.14);
+  --auth-border-focus: rgba(34, 197, 94, 0.58);
+  --auth-focus-ring: rgba(34, 197, 94, 0.13);
+  --auth-input-bg: #151719;
+  --auth-input-text: #f4f6f8;
+  --auth-input-placeholder: #707983;
+  --auth-logo-bg: #151719;
+  --auth-logo-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --auth-button-bg: linear-gradient(90deg, #18b955 0%, #46dd72 100%);
+  --auth-button-hover-bg: linear-gradient(90deg, #22c55e 0%, #62e586 100%);
+  --auth-button-active-bg: linear-gradient(90deg, #159947 0%, #22c55e 100%);
+  --auth-warning: #facc15;
+  --auth-success: #22c55e;
+}
+
+.sovereign-auth-page .ant-form-item-label > label {
+  color: var(--auth-text-muted) !important;
+  font-weight: 600;
+}
+
+.sovereign-auth-page h1,
+.sovereign-auth-page h2,
+.sovereign-auth-page h3,
+.sovereign-auth-page h4,
+.sovereign-auth-page .ant-typography strong {
+  color: var(--auth-text) !important;
+}
+
+.sovereign-auth-page .ant-form-item-explain,
+.sovereign-auth-page .ant-form-item-extra {
+  color: var(--auth-text-subtle) !important;
+}
+
+.sovereign-auth-page .ant-form-item-explain-error {
+  color: #f87171 !important;
+}
+
+.sovereign-auth-page .ant-checkbox-wrapper {
+  color: var(--auth-text-muted);
+}
+
+.sovereign-auth-page .ant-checkbox-inner {
+  border-color: var(--auth-border-hover) !important;
+  background: var(--auth-input-bg) !important;
+}
+
+.sovereign-auth-page .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: var(--auth-primary) !important;
+  background: var(--auth-primary) !important;
+}
+
+.sovereign-auth-page .ant-checkbox-checked::after {
+  border-color: var(--auth-primary) !important;
+}
+
+.sovereign-auth-page .ant-divider {
+  border-color: var(--auth-border) !important;
+  color: var(--auth-text-subtle) !important;
+}
+
+.sovereign-auth-page .ant-divider-inner-text {
+  color: var(--auth-text-subtle) !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.sovereign-login-input .ant-input,
+.sovereign-login-input .ant-input-affix-wrapper,
+.sovereign-register-input .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper,
+.sovereign-forgot-input .ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper {
+  color: var(--auth-input-text) !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper,
+.sovereign-login-input .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper,
+.sovereign-register-input .ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper,
+.sovereign-forgot-input .ant-input {
+  background: var(--auth-input-bg) !important;
+  border-color: var(--auth-border) !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper .ant-input,
+.sovereign-login-input .ant-input-affix-wrapper input.ant-input,
+.sovereign-register-input .ant-input-affix-wrapper .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper .ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper input.ant-input {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper:hover,
+.sovereign-login-input .ant-input:hover,
+.sovereign-register-input .ant-input-affix-wrapper:hover,
+.sovereign-register-input .ant-input:hover,
+.sovereign-forgot-input .ant-input-affix-wrapper:hover,
+.sovereign-forgot-input .ant-input:hover {
+  background: var(--auth-input-bg) !important;
+  border-color: var(--auth-border-hover) !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper:focus,
+.sovereign-login-input .ant-input-affix-wrapper-focused,
+.sovereign-login-input .ant-input:focus,
+.sovereign-login-input .ant-input-affix-wrapper:focus-within,
+.sovereign-register-input .ant-input-affix-wrapper:focus,
+.sovereign-register-input .ant-input-affix-wrapper-focused,
+.sovereign-register-input .ant-input:focus,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within,
+.sovereign-forgot-input .ant-input-affix-wrapper:focus,
+.sovereign-forgot-input .ant-input-affix-wrapper-focused,
+.sovereign-forgot-input .ant-input:focus,
+.sovereign-forgot-input .ant-input-affix-wrapper:focus-within {
+  background: var(--auth-input-bg) !important;
+  border-color: var(--auth-border-focus) !important;
+  box-shadow: 0 0 0 4px var(--auth-focus-ring) !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper .ant-input,
+.sovereign-login-input .ant-input-affix-wrapper .ant-input:hover,
+.sovereign-login-input .ant-input-affix-wrapper .ant-input:focus,
+.sovereign-login-input .ant-input-affix-wrapper .ant-input:active,
+.sovereign-login-input .ant-input-affix-wrapper input.ant-input,
+.sovereign-login-input .ant-input-affix-wrapper input.ant-input:hover,
+.sovereign-login-input .ant-input-affix-wrapper input.ant-input:focus,
+.sovereign-login-input .ant-input-affix-wrapper input.ant-input:active,
+.sovereign-register-input .ant-input-affix-wrapper .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper .ant-input:hover,
+.sovereign-register-input .ant-input-affix-wrapper .ant-input:focus,
+.sovereign-register-input .ant-input-affix-wrapper .ant-input:active,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input:hover,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input:focus,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input:active,
+.sovereign-forgot-input .ant-input-affix-wrapper .ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper .ant-input:hover,
+.sovereign-forgot-input .ant-input-affix-wrapper .ant-input:focus,
+.sovereign-forgot-input .ant-input-affix-wrapper .ant-input:active,
+.sovereign-forgot-input .ant-input-affix-wrapper input.ant-input,
+.sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:hover,
+.sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:focus,
+.sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:active {
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper,
+.sovereign-register-input .ant-input-affix-wrapper,
+.sovereign-forgot-input .ant-input-affix-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden;
+}
+
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper .ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper .ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper .ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper .ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper .ant-input:active,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper input.ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper input.ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper input.ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper input.ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-login-input .ant-input-affix-wrapper input.ant-input:active,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper .ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper .ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper .ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper .ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper .ant-input:active,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper input.ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper input.ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper input.ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper input.ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-register-input .ant-input-affix-wrapper input.ant-input:active,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper .ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper .ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper .ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper .ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper .ant-input:active,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper input.ant-input,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:hover,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:focus,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .sovereign-auth-page .sovereign-forgot-input .ant-input-affix-wrapper input.ant-input:active {
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.sovereign-login-input .ant-input::placeholder,
+.sovereign-login-input input.ant-input::placeholder,
+.sovereign-register-input .ant-input::placeholder,
+.sovereign-register-input input.ant-input::placeholder,
+.sovereign-forgot-input .ant-input::placeholder,
+.sovereign-forgot-input input.ant-input::placeholder {
+  color: var(--auth-input-placeholder) !important;
+}
+
+.sovereign-login-input .ant-input-prefix,
+.sovereign-login-input .ant-input-password-icon,
+.sovereign-register-input .ant-input-prefix,
+.sovereign-register-input .ant-input-password-icon,
+.sovereign-forgot-input .ant-input-prefix,
+.sovereign-forgot-input .ant-input-password-icon {
+  color: var(--auth-text-subtle) !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper-focused .ant-input-prefix,
+.sovereign-login-input .ant-input-affix-wrapper:focus-within .ant-input-prefix,
+.sovereign-login-input .ant-input-affix-wrapper-focused .ant-input-password-icon,
+.sovereign-login-input .ant-input-affix-wrapper:focus-within .ant-input-password-icon,
+.sovereign-register-input .ant-input-affix-wrapper-focused .ant-input-prefix,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within .ant-input-prefix,
+.sovereign-register-input .ant-input-affix-wrapper-focused .ant-input-password-icon,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within .ant-input-password-icon,
+.sovereign-forgot-input .ant-input-affix-wrapper-focused .ant-input-prefix,
+.sovereign-forgot-input .ant-input-affix-wrapper:focus-within .ant-input-prefix,
+.sovereign-forgot-input .ant-input-affix-wrapper-focused .ant-input-password-icon,
+.sovereign-forgot-input .ant-input-affix-wrapper:focus-within .ant-input-password-icon {
+  color: var(--auth-primary) !important;
+}
+
+.sovereign-login-input .ant-input:-webkit-autofill,
+.sovereign-login-input .ant-input:-webkit-autofill:hover,
+.sovereign-login-input .ant-input:-webkit-autofill:focus,
+.sovereign-login-input .ant-input:-webkit-autofill:active,
+.sovereign-login-input input.ant-input:-webkit-autofill,
+.sovereign-login-input input.ant-input:-webkit-autofill:hover,
+.sovereign-login-input input.ant-input:-webkit-autofill:focus,
+.sovereign-login-input input.ant-input:-webkit-autofill:active,
+.sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill,
+.sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill:hover,
+.sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill:focus,
+.sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill:active,
+.sovereign-register-input .ant-input:-webkit-autofill,
+.sovereign-register-input .ant-input:-webkit-autofill:hover,
+.sovereign-register-input .ant-input:-webkit-autofill:focus,
+.sovereign-register-input .ant-input:-webkit-autofill:active,
+.sovereign-register-input input.ant-input:-webkit-autofill,
+.sovereign-register-input input.ant-input:-webkit-autofill:hover,
+.sovereign-register-input input.ant-input:-webkit-autofill:focus,
+.sovereign-register-input input.ant-input:-webkit-autofill:active,
+.sovereign-register-input .ant-input-affix-wrapper input:-webkit-autofill,
+.sovereign-register-input .ant-input-affix-wrapper input:-webkit-autofill:hover,
+.sovereign-register-input .ant-input-affix-wrapper input:-webkit-autofill:focus,
+.sovereign-register-input .ant-input-affix-wrapper input:-webkit-autofill:active,
+.sovereign-forgot-input .ant-input:-webkit-autofill,
+.sovereign-forgot-input .ant-input:-webkit-autofill:hover,
+.sovereign-forgot-input .ant-input:-webkit-autofill:focus,
+.sovereign-forgot-input .ant-input:-webkit-autofill:active,
+.sovereign-forgot-input input.ant-input:-webkit-autofill,
+.sovereign-forgot-input input.ant-input:-webkit-autofill:hover,
+.sovereign-forgot-input input.ant-input:-webkit-autofill:focus,
+.sovereign-forgot-input input.ant-input:-webkit-autofill:active,
+.sovereign-forgot-input .ant-input-affix-wrapper input:-webkit-autofill,
+.sovereign-forgot-input .ant-input-affix-wrapper input:-webkit-autofill:hover,
+.sovereign-forgot-input .ant-input-affix-wrapper input:-webkit-autofill:focus,
+.sovereign-forgot-input .ant-input-affix-wrapper input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--auth-input-text) !important;
+  caret-color: var(--auth-input-text) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--auth-input-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--auth-input-bg) inset !important;
+}
+
+.sovereign-login-input .ant-input-affix-wrapper:has(input:-webkit-autofill),
+.sovereign-register-input .ant-input-affix-wrapper:has(input:-webkit-autofill),
+.sovereign-forgot-input .ant-input-affix-wrapper:has(input:-webkit-autofill) {
+  background: var(--auth-input-bg) !important;
+}
+
+.sovereign-login-input input:-moz-autofill,
+.sovereign-register-input input:-moz-autofill,
+.sovereign-forgot-input input:-moz-autofill {
+  box-shadow: 0 0 0 1000px var(--auth-input-bg) inset !important;
+  -moz-text-fill-color: var(--auth-input-text) !important;
+}
+
+.sovereign-btn-primary.ant-btn-primary,
+.sovereign-register-btn-primary.ant-btn-primary,
+.sovereign-forgot-btn-primary.ant-btn-primary {
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: var(--auth-button-bg) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: none !important;
+}
+
+.sovereign-btn-primary.ant-btn-primary:hover,
+.sovereign-register-btn-primary.ant-btn-primary:hover,
+.sovereign-forgot-btn-primary.ant-btn-primary:hover {
+  background: var(--auth-button-hover-bg) !important;
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+.sovereign-btn-primary.ant-btn-primary:active,
+.sovereign-register-btn-primary.ant-btn-primary:active,
+.sovereign-forgot-btn-primary.ant-btn-primary:active {
+  background: var(--auth-button-active-bg) !important;
+}
+
+.sovereign-btn-social,
+.sovereign-register-btn-social {
+  border: 1px solid var(--auth-border) !important;
+  background: var(--auth-input-bg) !important;
+  color: var(--auth-text-muted) !important;
+}
+
+.sovereign-btn-social:hover,
+.sovereign-register-btn-social:hover {
+  border-color: var(--auth-border-hover) !important;
+  background: var(--auth-primary-soft) !important;
+  color: var(--auth-text) !important;
+}
+
+html.dark .sovereign-auth-page .sovereign-btn-social img[alt='GitHub'],
+html.dark .sovereign-auth-page .sovereign-register-btn-social img[alt='GitHub'] {
+  filter: invert(1);
+}
+
+.sovereign-forgot-link-btn.ant-btn-link,
+.sovereign-auth-page a {
+  color: var(--auth-primary) !important;
+}
+
+.sovereign-forgot-link-btn.ant-btn-link:hover,
+.sovereign-auth-page a:hover {
+  color: var(--auth-primary-hover) !important;
+}
+
+.sovereign-forgot-steps .ant-steps-item-process .ant-steps-item-icon,
+.sovereign-forgot-steps .ant-steps-item-finish .ant-steps-item-icon {
+  background-color: var(--auth-primary) !important;
+  border-color: var(--auth-primary) !important;
+}
+
+.sovereign-forgot-steps .ant-steps-item-wait .ant-steps-item-icon {
+  background-color: var(--auth-input-bg) !important;
+  border-color: var(--auth-border) !important;
+}
+
+.sovereign-forgot-steps .ant-steps-item-wait .ant-steps-icon {
+  color: var(--auth-text-subtle) !important;
+}
+
+.sovereign-forgot-steps .ant-steps-item-tail::after {
+  background-color: var(--auth-border) !important;
+}
+
+.sovereign-auth-oauth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--auth-bg);
+  color: var(--auth-text);
+}
+
+.sovereign-auth-oauth .ant-spin-text {
+  color: var(--auth-text-muted) !important;
+}
+
+.sovereign-auth-oauth .ant-spin-dot-item {
+  background-color: var(--auth-primary) !important;
+}
+
+@media (max-width: 1024px) {
+  .sovereign-auth-page {
+    min-height: 100svh !important;
+  }
+
+  .sovereign-auth-main {
+    display: block !important;
+    height: auto !important;
+    min-height: calc(100svh - 4rem) !important;
+    padding-top: 4rem !important;
+    overflow: visible !important;
+    background: var(--auth-bg) !important;
+  }
+
+  .sovereign-left-panel,
+  .sovereign-register-left-panel,
+  .sovereign-forgot-left-panel {
+    display: none !important;
+  }
+
+  .sovereign-right-panel,
+  .sovereign-register-right-panel,
+  .sovereign-forgot-right-panel {
+    width: 100% !important;
+    min-height: calc(100svh - 4rem) !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 1.75rem 1.25rem 2.75rem !important;
+    background: var(--auth-bg) !important;
+    align-items: flex-start !important;
+  }
+
+  .sovereign-auth-card {
+    width: 100% !important;
+    max-width: 32rem !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  .sovereign-auth-page--register .sovereign-auth-card {
+    max-width: 34rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .sovereign-auth-header nav {
+    padding: 0.75rem 1rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .sovereign-auth-header nav > a {
+    min-width: 0 !important;
+    max-width: calc(100% - 7.5rem) !important;
+  }
+
+  .sovereign-auth-header nav > a > span {
+    font-size: 1.15rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sovereign-auth-nav-actions {
+    gap: 0.375rem !important;
+  }
+
+  .sovereign-auth-nav-actions > button:not(.sovereign-auth-language-toggle) {
+    display: none !important;
+  }
+
+  .sovereign-auth-language-toggle {
+    min-width: 4rem !important;
+    padding: 0.3rem 0.6rem !important;
+  }
+
+  .sovereign-auth-main {
+    min-height: calc(100svh - 3.75rem) !important;
+    padding-top: 3.75rem !important;
+  }
+
+  .sovereign-right-panel,
+  .sovereign-register-right-panel,
+  .sovereign-forgot-right-panel {
+    min-height: calc(100svh - 3.75rem) !important;
+    padding: 1rem 0.875rem 2rem !important;
+  }
+
+  .sovereign-auth-card {
+    max-width: none !important;
+    padding: 1.375rem !important;
+    border-radius: 1.125rem !important;
+  }
+
+  .sovereign-auth-card h2 {
+    font-size: 1.35rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .sovereign-auth-card p {
+    line-height: 1.55 !important;
+  }
+
+  .sovereign-auth-social-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.625rem !important;
+  }
+
+  .sovereign-btn-social,
+  .sovereign-register-btn-social {
+    min-height: 2.75rem !important;
+    padding: 0.55rem 0.75rem !important;
+  }
+
+  .sovereign-forgot-steps {
+    width: min(13.5rem, 100%);
+    margin: 0 auto;
+  }
+
+  .sovereign-forgot-steps.ant-steps {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps-horizontal .ant-steps-item {
+    flex: 1 1 0 !important;
+    min-width: auto !important;
+    padding-inline-start: 0 !important;
+    overflow: visible !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps-horizontal .ant-steps-item:last-child {
+    flex: 0 0 auto !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item-container {
+    display: block !important;
+    position: relative !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item-icon {
+    margin-inline: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item-content {
+    display: none !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item-tail {
+    display: block !important;
+    top: 12px !important;
+    inset-inline-start: 24px !important;
+    width: calc(100% - 24px) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item-tail::after {
+    display: block !important;
+    width: 100% !important;
+    height: 1px !important;
+    margin: 0 !important;
+  }
+
+  .sovereign-forgot-steps.ant-steps .ant-steps-item:last-child .ant-steps-item-tail {
+    display: none !important;
+  }
+
+  .sovereign-forgot-code-input {
+    letter-spacing: 0.16em !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .sovereign-auth-header nav {
+    padding-inline: 0.75rem !important;
+  }
+
+  .sovereign-auth-header nav > a {
+    max-width: calc(100% - 5rem) !important;
+  }
+
+  .sovereign-auth-nav-actions > a {
+    padding: 0.3rem 0.5rem !important;
+  }
+
+  .sovereign-auth-nav-actions > a span:not(.material-symbols-outlined) {
+    display: none !important;
+  }
+
+  .sovereign-auth-language-toggle {
+    min-width: 3.75rem !important;
+    padding-inline: 0.55rem !important;
+  }
+
+  .sovereign-right-panel,
+  .sovereign-register-right-panel,
+  .sovereign-forgot-right-panel {
+    padding-inline: 0.75rem !important;
+  }
+
+  .sovereign-auth-card {
+    padding: 1.125rem !important;
+  }
+
+  .sovereign-login-options-row {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}

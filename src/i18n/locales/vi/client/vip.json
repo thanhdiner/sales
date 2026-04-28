@@ -1,0 +1,185 @@
+{
+  "seo": {
+    "title": "VIP Membership - SmartMall",
+    "description": "Trở thành thành viên VIP SmartMall để nhận ưu đãi độc quyền, tích điểm cao hơn, freeship và hỗ trợ ưu tiên."
+  },
+  "hero": {
+    "eyebrow": "VIP Membership",
+    "title": "Đẳng cấp hơn - Ưu đãi nhiều hơn",
+    "description": "Trở thành thành viên VIP để nhận ưu đãi độc quyền, tích điểm cao, hỗ trợ ưu tiên và trải nghiệm mua sắm tốt hơn tại SmartMall.",
+    "status": "Kích hoạt quyền lợi ngay sau khi thanh toán thành công",
+    "primaryButton": "Đăng ký ngay",
+    "primaryButtonLink": "#vip-pricing",
+    "secondaryButton": "Xem quyền lợi",
+    "secondaryButtonLink": "#vip-comparison",
+    "imageUrl": "/icons/cardWalletPromotions.webp",
+    "imageAlt": "Thẻ thành viên VIP SmartMall"
+  },
+  "stats": [
+    {
+      "value": "15%",
+      "label": "Giảm giá tối đa"
+    },
+    {
+      "value": "x2",
+      "label": "Tích điểm cao nhất"
+    },
+    {
+      "value": "24/7",
+      "label": "Hỗ trợ ưu tiên"
+    }
+  ],
+  "quickBenefits": [
+    {
+      "title": "Giảm giá độc quyền",
+      "description": "Ưu đãi riêng cho thành viên VIP."
+    },
+    {
+      "title": "Tích điểm vượt trội",
+      "description": "Nhận điểm thưởng cao hơn mỗi đơn hàng."
+    },
+    {
+      "title": "Freeship toàn quốc",
+      "description": "Miễn phí vận chuyển theo quyền lợi gói."
+    },
+    {
+      "title": "Hỗ trợ 24/7 ưu tiên",
+      "description": "Được tiếp nhận và xử lý nhanh hơn."
+    }
+  ],
+  "plansSection": {
+    "eyebrow": "Gói thành viên",
+    "title": "Chọn gói VIP phù hợp",
+    "description": "So sánh nhanh các cấp Silver, Gold và Diamond để chọn gói phù hợp với nhu cầu mua sắm của bạn."
+  },
+  "plans": [
+    {
+      "name": "Silver",
+      "badge": "",
+      "price": "99.000đ",
+      "period": "/ tháng",
+      "description": "Phù hợp cho khách hàng bắt đầu sử dụng quyền lợi VIP.",
+      "features": ["Giảm 5% đơn hàng", "Tích điểm x1.2", "Hỗ trợ ưu tiên"],
+      "ctaLabel": "Chọn gói Silver",
+      "ctaLink": "#vip-pricing",
+      "highlighted": false
+    },
+    {
+      "name": "Gold",
+      "badge": "Phổ biến",
+      "price": "199.000đ",
+      "period": "/ tháng",
+      "description": "Gói cân bằng giữa ưu đãi, tích điểm và vận chuyển.",
+      "features": ["Giảm 10% đơn hàng", "Tích điểm x1.5", "Freeship toàn quốc"],
+      "ctaLabel": "Chọn gói Gold",
+      "ctaLink": "#vip-pricing",
+      "highlighted": true
+    },
+    {
+      "name": "Diamond",
+      "badge": "",
+      "price": "399.000đ",
+      "period": "/ tháng",
+      "description": "Dành cho khách hàng mua sắm thường xuyên và muốn quyền lợi cao nhất.",
+      "features": ["Giảm 15% đơn hàng", "Tích điểm x2", "Quà sinh nhật", "Hỗ trợ 24/7"],
+      "ctaLabel": "Chọn gói Diamond",
+      "ctaLink": "#vip-pricing",
+      "highlighted": false
+    }
+  ],
+  "comparisonSection": {
+    "eyebrow": "So sánh",
+    "title": "So sánh quyền lợi",
+    "description": "Bảng tổng hợp các quyền lợi chính theo từng cấp thành viên VIP."
+  },
+  "comparisonRows": [
+    {
+      "benefit": "Giảm giá đơn hàng",
+      "silver": "5%",
+      "gold": "10%",
+      "diamond": "15%"
+    },
+    {
+      "benefit": "Tích điểm",
+      "silver": "x1.2",
+      "gold": "x1.5",
+      "diamond": "x2"
+    },
+    {
+      "benefit": "Freeship toàn quốc",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "Hỗ trợ ưu tiên 24/7",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "Quà sinh nhật",
+      "silver": "—",
+      "gold": "—",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "Ưu đãi độc quyền",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    }
+  ],
+  "benefitsSection": {
+    "eyebrow": "Quyền lợi",
+    "title": "Quyền lợi VIP nổi bật",
+    "description": "Những lợi ích giúp trải nghiệm mua sắm nhanh hơn, tiết kiệm hơn và được chăm sóc tốt hơn."
+  },
+  "benefits": [
+    {
+      "title": "Giảm giá độc quyền",
+      "description": "Nhận ưu đãi riêng cho thành viên VIP trong các chương trình phù hợp."
+    },
+    {
+      "title": "Tích điểm cao",
+      "description": "Tăng tốc tích điểm để đổi quà và sử dụng quyền lợi nhanh hơn."
+    },
+    {
+      "title": "Freeship toàn quốc",
+      "description": "Tiết kiệm chi phí vận chuyển cho các đơn hàng đủ điều kiện."
+    },
+    {
+      "title": "Support 24/7",
+      "description": "Được ưu tiên hỗ trợ khi cần tư vấn, kiểm tra đơn hoặc xử lý phát sinh."
+    }
+  ],
+  "faqSection": {
+    "eyebrow": "FAQ",
+    "title": "Câu hỏi thường gặp",
+    "description": "Các thông tin cần biết trước khi chọn và thanh toán gói VIP."
+  },
+  "faqs": [
+    {
+      "question": "VIP Membership là gì?",
+      "answer": "VIP Membership là chương trình thành viên trả phí giúp bạn nhận ưu đãi mua sắm, tích điểm cao hơn và hỗ trợ ưu tiên tại SmartMall."
+    },
+    {
+      "question": "Làm thế nào để trở thành thành viên VIP?",
+      "answer": "Bạn chọn gói phù hợp, đăng nhập tài khoản, tạo đơn mua gói VIP và hoàn tất thanh toán."
+    },
+    {
+      "question": "Tôi có thể nâng cấp hoặc hạ cấp gói VIP không?",
+      "answer": "Bạn có thể yêu cầu thay đổi gói khi SmartMall mở luồng quản lý gói VIP cho tài khoản."
+    },
+    {
+      "question": "Quyền lợi VIP có áp dụng cho hàng khuyến mãi không?",
+      "answer": "Một số quyền lợi có thể không áp dụng đồng thời với chương trình khuyến mãi khác. Điều kiện cụ thể sẽ hiển thị khi thanh toán."
+    }
+  ],
+  "cta": {
+    "title": "Trở thành VIP ngay hôm nay",
+    "description": "Tận hưởng trải nghiệm mua sắm cao cấp và ưu đãi vượt trội dành riêng cho thành viên VIP.",
+    "button": "Đăng ký ngay",
+    "buttonLink": "#vip-pricing"
+  }
+}

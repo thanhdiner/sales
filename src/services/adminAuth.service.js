@@ -1,4 +1,6 @@
-const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+import { API_URL } from '@/utils/env'
+
+const API_DOMAIN = API_URL
 
 export const authAdminLogin = data =>
   fetch(API_DOMAIN + '/admin/auth/login', {

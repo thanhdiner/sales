@@ -1,0 +1,213 @@
+{
+  "seo": {
+    "title": "Checkout"
+  },
+  "header": {
+    "backToCart": "Back to cart",
+    "eyebrow": "Checkout",
+    "title": "Complete your order",
+    "description": "Review your delivery information, payment method, and confirm your order."
+  },
+  "button": {
+    "back": "Back",
+    "continue": "Continue"
+  },
+  "validation": {
+    "requiredContact": "Please enter your first name, last name, and phone number!",
+    "invalidPhone": "Invalid phone number!",
+    "requiredAddress": "Please select province/city, district, ward, and enter your detailed address!"
+  },
+  "deliveryOptions": {
+    "pickup": {
+      "name": "Receive on website",
+      "time": "Same day",
+      "description": "Come to the shop to receive the product and pay directly"
+    },
+    "contact": {
+      "name": "Private contact",
+      "time": "By agreement",
+      "description": "We will contact you to agree on the delivery method"
+    }
+  },
+  "paymentMethods": {
+    "transfer": {
+      "name": "Bank transfer",
+      "description": "Pay first by bank transfer, then receive the product"
+    },
+    "vnpay": {
+      "name": "VNPay",
+      "description": "Pay via VNPay gateway (ATM, Visa, QR)"
+    },
+    "momo": {
+      "name": "MoMo Wallet",
+      "description": "Pay via MoMo e-wallet"
+    },
+    "zalopay": {
+      "name": "ZaloPay",
+      "description": "Pay via ZaloPay app"
+    },
+    "sepay": {
+      "name": "Sepay",
+      "description": "Bank transfer with automatic confirmation via Sepay"
+    },
+    "contact": {
+      "name": "Agreement by contact",
+      "description": "Payment method will be agreed when we contact you"
+    }
+  },
+  "contactForm": {
+    "title": "Contact information",
+    "description": "Enter your information so the shop can confirm and process your order.",
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone number",
+      "email": "Email",
+      "optional": "optional",
+      "notes": "Notes"
+    },
+    "address": {
+      "title": "Delivery address",
+      "description": "Select each address level to reduce mistakes. If your order does not require physical delivery, you can leave this section blank.",
+      "loadError": "Could not load the Vietnam address list. You can temporarily enter your address manually.",
+      "manualLabel": "Address / delivery information",
+      "manualPlaceholder": "Example: house number, street, ward, district, province/city...",
+      "province": "Province / City",
+      "district": "District",
+      "ward": "Ward",
+      "provincePlaceholder": "Select Province / City",
+      "districtPlaceholder": "Select District",
+      "districtPlaceholderDisabled": "Select Province / City first",
+      "wardPlaceholder": "Select Ward",
+      "wardPlaceholderDisabled": "Select District first",
+      "detail": "Detailed address",
+      "detailPlaceholder": "House number, street name, building, alley...",
+      "fullAddress": "Full address:"
+    },
+    "placeholders": {
+      "firstName": "Nguyen",
+      "lastName": "Van A",
+      "phone": "0123456789",
+      "email": "your@email.com",
+      "notes": "Describe the product you want to buy, preferred delivery time, or special requests..."
+    },
+    "delivery": {
+      "title": "Delivery method",
+      "free": "Free"
+    },
+    "storeInfo": {
+      "title": "Store information",
+      "email": "Email:",
+      "hotline": "Hotline:",
+      "openingHours": "Opening hours:",
+      "openingHoursValue": "8:00 - 21:00 daily"
+    }
+  },
+  "orderSummary": {
+    "title": "Your order",
+    "description": "Review your products and total amount before confirming.",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping fee",
+    "freeShipping": "Free",
+    "total": "Total",
+    "benefits": {
+      "warranty": "Official warranty",
+      "pickup": "Pick up at the shop",
+      "support": "Support when needed"
+    }
+  },
+  "paymentForm": {
+    "title": "Payment method",
+    "description": "Choose a suitable payment method to complete your order.",
+    "message": {
+      "bankLoadFailed": "Could not load bank information",
+      "copySuccess": "Copied",
+      "copyFailed": "Copy failed"
+    },
+    "transfer": {
+      "title": "Bank transfer information",
+      "description": "Please transfer using the information below so the shop can confirm your order.",
+      "loading": "Loading bank information...",
+      "bankName": "Bank",
+      "accountNumber": "Account number",
+      "accountHolder": "Account holder",
+      "note": "Transfer note",
+      "copy": "Copy",
+      "copied": "Copied",
+      "qrAlt": "Transfer QR code",
+      "openQr": "Open QR image",
+      "afterTransferNote": "After transferring, you can continue placing the order. The shop will contact the registered phone number to confirm payment.",
+      "empty": "No bank transfer information available."
+    },
+    "card": {
+      "title": "Card information",
+      "cardNumber": "Card number",
+      "cardName": "Name on card",
+      "expiryDate": "Expiry date",
+      "cvv": "CVV",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "cardNamePlaceholder": "NGUYEN VAN A",
+      "expiryDatePlaceholder": "MM/YY",
+      "cvvPlaceholder": "123"
+    },
+    "securityNote": "Payment is processed through a secure connection to protect your information."
+  },
+  "reviewOrder": {
+    "message": {
+      "createOrderFailed": "Could not create order",
+      "redirectingPayment": "Redirecting to payment gateway...",
+      "orderSuccess": "Order placed successfully!",
+      "genericError": "Something went wrong!",
+      "sepayOrderCreated": "Sepay order created. Please transfer with the exact reference.",
+      "sepaySimulateSuccess": "Sepay payment simulated successfully!",
+      "sepaySimulateFailed": "Failed to simulate Sepay payment"
+    },
+    "title": "Confirm order",
+    "description": "Review your information before submitting the order request.",
+    "contactInfo": {
+      "title": "Contact information",
+      "fullName": "Full name:",
+      "phone": "Phone number:",
+      "email": "Email:",
+      "address": "Address:",
+      "notes": "Notes:"
+    },
+    "payment": {
+      "title": "Payment method",
+      "autoRedirect": "Auto redirect",
+      "waitingWebhook": "Waiting for webhook",
+      "onlineNote": "You will be redirected to the {{name}} payment page after confirming. Please do not close your browser during payment.",
+      "sepayNote": "After creating the order, transfer the exact amount with the order reference. The Sepay webhook will confirm the order when the incoming transaction arrives."
+    },
+    "delivery": {
+      "title": "Delivery method",
+      "nameWithTime": "{{name}} - {{time}}"
+    },
+    "button": {
+      "redirecting": "Redirecting to payment gateway...",
+      "creatingSepay": "Creating Sepay request...",
+      "submitting": "Submitting...",
+      "payWith": "Pay with {{name}}",
+      "createSepay": "Create Sepay payment order",
+      "sendContactRequest": "Send contact request",
+      "confirmOrder": "Confirm order"
+    },
+    "sepay": {
+      "title": "Sepay payment",
+      "reference": "Transfer reference:",
+      "amount": "Amount:",
+      "bankName": "Bank",
+      "accountNumber": "Account number",
+      "accountHolder": "Account holder",
+      "loadingBank": "Loading bank transfer information...",
+      "missingBankInfo": "No active bank information is configured. Please configure Bank Info in admin or use the dev simulation button.",
+      "description": "When a Sepay webhook matches the order reference and amount, the order will move to paid automatically.",
+      "qrAlt": "Sepay transfer QR code",
+      "openQr": "Open QR image",
+      "noQr": "No QR image is configured. Please transfer manually using the information next to this panel.",
+      "simulateButton": "Simulate paid",
+      "simulating": "Simulating..."
+    }
+  }
+}

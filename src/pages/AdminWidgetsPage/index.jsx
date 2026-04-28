@@ -1,4 +1,5 @@
 import { Card } from 'antd'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import { useAdminWidgetForm } from './hooks/useAdminWidgetForm'
 import { useAdminWidgetsData } from './hooks/useAdminWidgetsData'
@@ -9,19 +10,21 @@ import AdminWidgetsTableSection from './sections/AdminWidgetsTableSection'
 import './AdminWidgetsPage.scss'
 
 export default function AdminWidgetsPage() {
-  const { widgets, loading, fetchWidgets, handleDeleteWidget } = useAdminWidgetsData()
-  const widgetForm = useAdminWidgetForm({ onSaved: fetchWidgets })
+  const { t } = useTranslation('adminWidgets')
+  const { widgets, loading, fetchWidgets, handleDeleteWidget } = useAdminWidgetsData({ t })
+  const widgetForm = useAdminWidgetForm({ onSaved: fetchWidgets, t })
 
   return (
     <div className="admin-widgets-page">
-      <SEO title="Admin - Widgets" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="admin-widgets-page__inner">
         <Card className="admin-widgets-page__card">
-          <AdminWidgetsHeaderSection onCreateWidget={() => widgetForm.openModal()} />
-          <AdminWidgetsStatsSection widgets={widgets} />
+          <AdminWidgetsHeaderSection t={t} onCreateWidget={() => widgetForm.openModal()} />
+          <AdminWidgetsStatsSection t={t} widgets={widgets} />
 
           <AdminWidgetsTableSection
+            t={t}
             widgets={widgets}
             loading={loading}
             onEditWidget={widgetForm.openModal}
@@ -29,7 +32,7 @@ export default function AdminWidgetsPage() {
           />
         </Card>
 
-        <AdminWidgetFormModal {...widgetForm} />
+        <AdminWidgetFormModal t={t} {...widgetForm} />
       </div>
     </div>
   )

@@ -1,24 +1,15 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { getArrayValue, getTextValue, navigateToAboutLink } from '../utils'
 
-const steps = [
-  {
-    title: 'Bảo mật đơn giản',
-    description: 'Mọi giao dịch đều qua hệ thống ngân hàng và ví điện tử phổ biến.'
-  },
-  {
-    title: 'Giao hàng nhanh',
-    description: 'Gửi thông tin tài khoản, phần mềm nhanh nhất có thể, đa phần trong ngày.'
-  },
-  {
-    title: 'Hỗ trợ tận tâm',
-    description: 'Có thắc mắc gì, mình trả lời sớm nhất có thể, thường trong giờ hành chính.'
-  }
-]
-
-const FeaturesSection = ({ viewport }) => {
+const FeaturesSection = ({ content, viewport }) => {
   const navigate = useNavigate()
+  const { t } = useTranslation('clientAbout')
+
+  const steps = getArrayValue(content?.steps, t('featuresSection.steps', { returnObjects: true }))
+  const titleLines = getArrayValue(content?.titleLines, t('featuresSection.titleLines', { returnObjects: true }))
 
   return (
     <motion.section
@@ -38,27 +29,28 @@ const FeaturesSection = ({ viewport }) => {
             viewport={viewport}
           >
             <p className="about-page__eyebrow mb-4 text-[14px] font-bold uppercase text-[#f57059]">
-              SmartMall operation
+              {getTextValue(content?.eyebrow, t('featuresSection.eyebrow'))}
             </p>
 
             <h2 className="about-page__section-title max-w-[460px] text-[32px] font-extrabold tracking-[-1.2px] text-black md:text-[40px] md:leading-[48px]">
-              Shop nhỏ
-              <br />
-              nhưng vẫn giữ
-              <br />
-              trải nghiệm rõ ràng
+              {Array.isArray(titleLines) &&
+                titleLines.map((line, index) => (
+                  <React.Fragment key={`${line}-${index}`}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
             </h2>
 
             <p className="about-page__muted mt-6 max-w-[480px] text-[16px] font-medium leading-[30px] tracking-[-0.32px] text-[#64607d]">
-              Dù quy mô còn nhỏ, mình vẫn cố gắng giữ quy trình mua hàng đơn giản, giao nhanh và hỗ trợ dễ hiểu để khách yên tâm hơn khi sử
-              dụng.
+              {getTextValue(content?.description, t('featuresSection.description'))}
             </p>
 
             <button
-              onClick={() => navigate('/products')}
+              onClick={() => navigateToAboutLink(navigate, content?.buttonLink, '/products')}
               className="about-page__primary-button mt-10 inline-flex h-[47px] items-center justify-center rounded-[47px] bg-[#f57059] px-8 text-[16px] font-semibold tracking-[-0.32px] text-white transition-all hover:bg-[#e65a43] hover:shadow-[0_8px_20px_rgba(245,112,89,0.25)]"
             >
-              Xem sản phẩm
+              {getTextValue(content?.button, t('featuresSection.button'))}
             </button>
           </motion.div>
 
@@ -69,7 +61,6 @@ const FeaturesSection = ({ viewport }) => {
             viewport={viewport}
             className="relative min-h-[600px] w-full"
           >
-            {/* Background decorative circle */}
             <div className="about-page__soft-orbit absolute -right-[10%] top-[10%] h-[500px] w-[500px] rounded-full bg-[#f8f9fc]" />
 
             <svg className="about-page__feature-path absolute inset-0 h-full w-full drop-shadow-[0_16px_16px_rgba(245,112,89,0.15)]" viewBox="0 0 1070 448" fill="none" preserveAspectRatio="none">
@@ -82,7 +73,6 @@ const FeaturesSection = ({ viewport }) => {
               />
             </svg>
 
-            {/* Step 1 */}
             <div className="absolute left-[16%] top-[87%]">
               <span className="about-page__ghost-number pointer-events-none absolute left-[100px] -top-[70px] z-0 select-none text-[160px] font-black leading-none tracking-tighter text-black opacity-[0.03]">
                 1
@@ -91,12 +81,15 @@ const FeaturesSection = ({ viewport }) => {
                 <div className="h-[22px] w-[22px] rounded-full bg-[#c4c4c4]" />
               </div>
               <div className="absolute left-[-32px] top-[40px] w-[250px]">
-                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">{steps[0].title}</h3>
-                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">{steps[0].description}</p>
+                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">
+                  {steps?.[0]?.title}
+                </h3>
+                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">
+                  {steps?.[0]?.description}
+                </p>
               </div>
             </div>
 
-            {/* Step 2 */}
             <div className="absolute left-[58%] top-[56%]">
               <span className="about-page__ghost-number pointer-events-none absolute left-[100px] -top-[70px] z-0 select-none text-[160px] font-black leading-none tracking-tighter text-black opacity-[0.03]">
                 2
@@ -105,12 +98,15 @@ const FeaturesSection = ({ viewport }) => {
                 <div className="h-[22px] w-[22px] rounded-full bg-[#c4c4c4]" />
               </div>
               <div className="absolute left-[-32px] top-[40px] w-[250px]">
-                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">{steps[1].title}</h3>
-                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">{steps[1].description}</p>
+                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">
+                  {steps?.[1]?.title}
+                </h3>
+                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">
+                  {steps?.[1]?.description}
+                </p>
               </div>
             </div>
 
-            {/* Step 3 */}
             <div className="absolute left-[88%] top-[4%]">
               <span className="about-page__ghost-number pointer-events-none absolute right-[100px] -top-[70px] z-0 select-none text-[160px] font-black leading-none tracking-tighter text-black opacity-[0.03]">
                 3
@@ -119,8 +115,12 @@ const FeaturesSection = ({ viewport }) => {
                 <div className="h-[22px] w-[22px] rounded-full bg-[#c4c4c4]" />
               </div>
               <div className="absolute right-[-32px] top-[40px] w-[250px] text-right">
-                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">{steps[2].title}</h3>
-                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">{steps[2].description}</p>
+                <h3 className="about-page__item-title text-[17px] font-extrabold text-[#0f1115]">
+                  {steps?.[2]?.title}
+                </h3>
+                <p className="about-page__muted mt-2 text-[15px] font-medium leading-[1.7] text-[#64607d]">
+                  {steps?.[2]?.description}
+                </p>
               </div>
             </div>
           </motion.div>

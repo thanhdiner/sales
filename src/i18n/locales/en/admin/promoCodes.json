@@ -1,0 +1,262 @@
+{
+  "seo": {
+    "title": "Admin - Promo Codes"
+  },
+  "page": {
+    "title": "Promo code manager",
+    "subtitle": "Create and manage discount codes for customers"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "create": "Create code",
+    "update": "Update",
+    "noLimit": "No limit",
+    "allCustomers": "All customers",
+    "notAvailable": "N/A",
+    "infinity": "infinity",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "actions": {
+    "create": "Create promo code",
+    "export": "Export",
+    "refresh": "Refresh"
+  },
+  "categories": {
+    "all": "General",
+    "new": "New customers",
+    "flash": "Flash Sale",
+    "shipping": "Free shipping",
+    "vip": "VIP",
+    "weekend": "Weekend",
+    "student": "Students"
+  },
+  "audience": {
+    "allCustomers": "All customers",
+    "newCustomers": "New customers",
+    "specificCustomers": "Specific customers",
+    "customerGroups": "Customer groups",
+    "all_customers": "All customers",
+    "new_customers": "New customers",
+    "specific_customers": "Specific customers",
+    "customer_groups": "Customer groups"
+  },
+  "messages": {
+    "copySuccess": "Promo code copied",
+    "copyError": "Failed to copy promo code",
+    "fetchError": "Failed to load promo codes",
+    "deleteSuccess": "Promo code deleted successfully",
+    "deleteError": "Failed to delete promo code",
+    "updateSuccess": "Promo code updated successfully",
+    "createSuccess": "Promo code created successfully",
+    "genericError": "Something went wrong",
+    "toggleSuccess": "Promo code {{action}}",
+    "toggleOn": "enabled",
+    "toggleOff": "disabled",
+    "statusUpdateError": "Failed to update status",
+    "detailError": "Failed to load promo code details",
+    "duplicateReady": "Duplicated promo code opened as an inactive draft",
+    "exportEmpty": "No promo codes to export",
+    "exportSuccess": "Promo codes exported"
+  },
+  "stats": {
+    "total": "Total codes",
+    "active": "Active",
+    "expired": "Expired",
+    "usage": "Usage count"
+  },
+  "status": {
+    "disabled": "Disabled",
+    "expired": "Expired",
+    "usageLimitReached": "Limit reached",
+    "active": "Active"
+  },
+  "discount": {
+    "percent": "{{value}}% off",
+    "amount": "{{value}} off",
+    "freeShipping": "Free shipping",
+    "types": {
+      "percent": "Percentage discount",
+      "fixed": "Fixed amount discount",
+      "freeShipping": "Free shipping"
+    }
+  },
+  "filters": {
+    "searchPlaceholder": "Search by promo code / campaign",
+    "clear": "Clear",
+    "statusOptions": {
+      "all": "All statuses",
+      "active": "Active",
+      "expired": "Expired",
+      "disabled": "Disabled"
+    },
+    "discountTypeOptions": {
+      "all": "All discount types",
+      "percent": "Percentage",
+      "fixed": "Fixed amount",
+      "free_shipping": "Free shipping"
+    },
+    "audienceOptions": {
+      "all": "All audiences",
+      "all_customers": "All customers",
+      "new_customers": "New customers",
+      "specific_customers": "Specific customers",
+      "customer_groups": "Customer groups"
+    },
+    "dateFields": {
+      "expiresAt": "Expires at",
+      "createdAt": "Created at"
+    }
+  },
+  "table": {
+    "title": "Promo code list",
+    "description": "Review campaigns, limits, audience, schedule, and quick actions.",
+    "createButton": "Create new code",
+    "paginationSummary": "Showing {{rangeStart}} - {{rangeEnd}} of {{total}} promo codes",
+    "visibleCount": "{{count}} codes on this page",
+    "empty": "No promo codes yet",
+    "noConditions": "No conditions",
+    "conditionSeparator": " - ",
+    "minOrder": "Min: {{amount}}",
+    "maxDiscount": "Max: {{amount}}",
+    "usage": "Usage",
+    "usageValue": "{{used}} / {{limit}}",
+    "expiry": "Expires",
+    "audience": "Audience",
+    "createdAt": "Created",
+    "usedByCount": "{{count}} customers used",
+    "fallbackCampaignTitle": "Code {{code}}",
+    "deleteConfirmTitle": "Are you sure you want to delete this promo code?",
+    "mobile": {
+      "discount": "Discount",
+      "type": "Type",
+      "conditions": "Conditions",
+      "usage": "Usage",
+      "audience": "Audience",
+      "expires": "Expires",
+      "created": "Created"
+    },
+    "columns": {
+      "code": "Promo code",
+      "campaign": "Campaign",
+      "discountType": "Discount type",
+      "conditions": "Conditions",
+      "usage": "Usage",
+      "expiresAt": "Expires at",
+      "audience": "Audience",
+      "createdAt": "Created at",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "viewDetail": "View details",
+      "viewUsageHistory": "View usage history",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "extendExpiry": "Extend expiry",
+      "enable": "Enable",
+      "disable": "Disable",
+      "enableCode": "Enable promo code",
+      "disableCode": "Disable promo code",
+      "deleteCode": "Delete code"
+    }
+  },
+  "form": {
+    "titleCreate": "Create promo code",
+    "titleEdit": "Edit promo code",
+    "sections": {
+      "basic": "Basic information",
+      "discount": "Discount settings",
+      "conditions": "Conditions",
+      "usage": "Usage limits",
+      "audience": "Audience",
+      "schedule": "Schedule"
+    },
+    "code": "Promo code",
+    "codeRequired": "Please enter a promo code",
+    "codePlaceholder": "Example: WELCOME20",
+    "title": "Campaign title",
+    "campaignName": "Campaign name",
+    "campaignPlaceholder": "Example: New customer offer",
+    "titlePlaceholder": "Example: New customer offer",
+    "description": "Description",
+    "descriptionPlaceholder": "Shortly describe this code's benefit or condition",
+    "category": "Code group",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English campaign title",
+      "titlePlaceholder": "Enter English campaign title",
+      "description": "English description",
+      "descriptionPlaceholder": "Enter English campaign description"
+    },
+    "discountType": "Discount type",
+    "discountTypeRequired": "Please select a discount type",
+    "discountTypes": {
+      "percent": "Percentage",
+      "amount": "Fixed amount",
+      "freeShipping": "Free shipping"
+    },
+    "discountValue": "Discount value",
+    "discountValueRequired": "Please enter a discount value",
+    "freeShippingValuePlaceholder": "No value needed",
+    "maxDiscount": "Max discount amount",
+    "minOrder": "Minimum order amount",
+    "applicableProducts": "Applicable products",
+    "applicableProductsPlaceholder": "Type product names or IDs",
+    "applicableCategories": "Applicable categories",
+    "applicableCategoriesPlaceholder": "Type category names",
+    "excludedProducts": "Excluded products",
+    "excludedProductsPlaceholder": "Type excluded product names or IDs",
+    "usageLimit": "Total usage limit",
+    "usageLimitPlaceholder": "Leave blank = no limit",
+    "usagePerCustomer": "Usage per customer",
+    "usagePerCustomerPlaceholder": "Default 1",
+    "newCustomersOnly": "New customers only",
+    "audienceType": "Audience type",
+    "specificCustomers": "Specific customers",
+    "specificCustomersPlaceholder": "Type customer emails or IDs",
+    "customerGroups": "Customer groups",
+    "customerGroupsPlaceholder": "Type customer group names",
+    "startsAt": "Start date",
+    "startsAtPlaceholder": "Select start date",
+    "expiresAt": "End date",
+    "expiresAtPlaceholder": "Select end date",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Disabled",
+    "saveDraft": "Save draft",
+    "savePromoCode": "Save promo code"
+  },
+  "detail": {
+    "title": "Promo code details",
+    "fallbackTitle": "Code {{code}}",
+    "category": "Code group",
+    "discountType": "Discount type",
+    "minOrder": "Minimum order",
+    "maxDiscount": "Max discount",
+    "used": "Used",
+    "usedBy": "Customers used",
+    "audience": "Applies to",
+    "usedByList": "Used by",
+    "expiresAt": "Expires at",
+    "status": "Status",
+    "createdAt": "Created at"
+  },
+  "serverErrors": {
+    "duplicate": "This promo code already exists",
+    "notFound": "Promo code not found",
+    "invalidId": "Invalid promo code ID",
+    "createFailed": "Unable to create promo code",
+    "updateFailed": "Unable to update promo code",
+    "deleteFailed": "Unable to delete promo code",
+    "listFailed": "Unable to load promo codes",
+    "detailFailed": "Unable to load promo code details",
+    "codeAlphanum": "Promo code can only contain letters and numbers",
+    "codeMin": "Promo code must be at least 2 characters",
+    "codeRequired": "Promo code is required",
+    "discountTypeInvalid": "Discount type must be percentage or fixed amount",
+    "discountTypeRequired": "Discount type is required",
+    "discountValueRequired": "Discount value is required"
+  }
+}

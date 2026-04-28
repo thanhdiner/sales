@@ -1,0 +1,168 @@
+{
+  "agent": {
+    "defaultName": "SmartMall Support",
+    "botName": "SmartMall Bot"
+  },
+  "status": {
+    "active": "Đang hoạt động",
+    "resolved": "Đã giải quyết"
+  },
+  "actions": {
+    "back": "Quay lại",
+    "minimize": "Thu gọn chat",
+    "close": "Đóng chat",
+    "restore": "Mở lại chat",
+    "openContact": "Mở liên hệ",
+    "closeContact": "Đóng liên hệ",
+    "scrollTop": "Cuộn lên đầu trang",
+    "scrollBottom": "Xuống cuối",
+    "newConversation": "Cuộc trò chuyện mới"
+  },
+  "auth": {
+    "loginRequired": "Vui lòng đăng nhập để sử dụng chat hỗ trợ!"
+  },
+  "home": {
+    "responseTime": "Thường trả lời trong vài phút",
+    "faqTitle": "Câu hỏi thường gặp",
+    "startChat": "Bắt đầu chat",
+    "newConversation": "Cuộc trò chuyện mới"
+  },
+  "empty": {
+    "title": "Bắt đầu cuộc trò chuyện",
+    "description": "Đội ngũ hỗ trợ sẽ phản hồi sớm nhất có thể"
+  },
+  "preview": {
+    "empty": "Bắt đầu cuộc trò chuyện...",
+    "image": "[Ảnh]"
+  },
+  "typing": {
+    "bot": "Bot đang soạn..."
+  },
+  "thinking": {
+    "summary": "Xem tiến trình xử lý",
+    "liveSummary": "Đang xử lý...",
+    "summaryWithTime": "Đã xử lý trong {{time}}",
+    "title": "Tiến trình xử lý",
+    "steps": {
+      "understandRunning": "Đang phân tích yêu cầu",
+      "understand": "Đã phân tích yêu cầu",
+      "toolRunning": "Đang tra cứu: {{tool}}",
+      "tool": "Đã tra cứu: {{tool}}",
+      "toolFallback": "công cụ hệ thống",
+      "composeRunning": "Đang soạn phản hồi",
+      "compose": "Đã soạn phản hồi"
+    }
+  },
+  "resolved": {
+    "message": "✅ Cuộc trò chuyện đã được giải quyết",
+    "startNew": "Bắt đầu cuộc trò chuyện mới"
+  },
+  "system": {
+    "agentJoined": "{{agentName}} đã tham gia cuộc trò chuyện",
+    "agentResolved": "{{agentName}} đã đánh dấu cuộc trò chuyện là đã giải quyết",
+    "botReturned": "Trợ lý AI SmartMall Bot đã quay trở lại. Bạn cần tôi giúp gì?",
+    "requestedHuman": "Khách hàng yêu cầu nói chuyện với nhân viên hỗ trợ",
+    "resolved": "Cuộc trò chuyện đã được đánh dấu giải quyết",
+    "reopened": "Cuộc trò chuyện được mở lại"
+  },
+  "input": {
+    "attachmentsTitle": "Ảnh đính kèm ({{current}}/{{max}})",
+    "attachmentsDescription": "Tất cả ảnh sẽ được gửi cùng một tin nhắn",
+    "clearAll": "Xóa hết",
+    "clearAllTitle": "Xóa tất cả ảnh đính kèm",
+    "removeImage": "Xóa {{name}}",
+    "addImage": "Thêm ảnh đính kèm",
+    "attachImage": "Đính kèm ảnh",
+    "placeholder": "Nhập tin nhắn...",
+    "imagePlaceholder": "Thêm lời nhắn cho các ảnh...",
+    "send": "Gửi tin nhắn",
+    "switchToBot": "Quay lại chat với AI",
+    "requestHuman": "Nói chuyện với nhân viên"
+  },
+  "messages": {
+    "sendFailed": "Không thể gửi tin nhắn",
+    "reactionFailed": "Không thể thả cảm xúc",
+    "newConversationFailed": "Không thể đóng cuộc trò chuyện cũ. Vui lòng thử lại.",
+    "conversationClosed": "Cuộc trò chuyện đã đóng. Vui lòng bắt đầu cuộc trò chuyện mới.",
+    "maxImagesPerSend": "Tối đa {{count}} ảnh mỗi lần gửi",
+    "maxImagesPerMessage": "Chỉ giữ tối đa {{count}} ảnh trong một tin nhắn"
+  },
+  "reactions": {
+    "add": "Thả cảm xúc",
+    "reactWith": "Thả {{emoji}}",
+    "remove": "Bỏ {{emoji}}"
+  },
+  "defaults": {
+    "guest": "Khách",
+    "you": "Bạn",
+    "imageAlt": "Ảnh chat"
+  },
+  "imagePreview": {
+    "title": "Xem ảnh",
+    "close": "Đóng xem ảnh",
+    "open": "Mở ảnh",
+    "download": "Tải ảnh",
+    "metadata": "Ảnh từ {{senderName}} · {{time}}",
+    "unknownSender": "chat"
+  },
+  "quickActions": {
+    "product": {
+      "label": "Hỏi về sản phẩm",
+      "text": "Tôi muốn hỏi về sản phẩm"
+    },
+    "orderTracking": {
+      "label": "Kiểm tra đơn hàng",
+      "text": "Tôi cần kiểm tra đơn hàng của mình"
+    },
+    "payment": {
+      "label": "Phương thức thanh toán",
+      "text": "Các phương thức thanh toán được hỗ trợ?"
+    },
+    "return": {
+      "label": "Đổi trả hàng",
+      "text": "Chính sách đổi trả hàng như thế nào?"
+    }
+  },
+  "floating": {
+    "support": "SmartMall Support",
+    "callNow": "Gọi ngay",
+    "zalo": "Chat Zalo",
+    "messenger": "Messenger"
+  },
+  "orderTracking": {
+    "status": {
+      "pending": "Chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "shipping": "Đang giao hàng",
+      "completed": "Hoàn thành",
+      "cancelled": "Đã hủy"
+    },
+    "paymentStatus": {
+      "pending": "Chưa thanh toán",
+      "paid": "Đã thanh toán",
+      "failed": "Thanh toán thất bại"
+    },
+    "validation": {
+      "required": "Vui lòng nhập đầy đủ mã đơn hàng và số điện thoại.",
+      "invalidPhone": "Số điện thoại không hợp lệ. Vui lòng kiểm tra lại."
+    },
+    "errors": {
+      "notFound": "Không tìm thấy đơn hàng hoặc số điện thoại không khớp."
+    },
+    "title": "Kiểm tra đơn hàng",
+    "orderCode": "Mã đơn hàng",
+    "orderCodePlaceholder": "Nhập mã đơn hàng...",
+    "phone": "Số điện thoại đặt hàng",
+    "phonePlaceholder": "Nhập số điện thoại...",
+    "search": "Tra cứu đơn hàng",
+    "result": {
+      "orderDate": "Ngày đặt:",
+      "itemCountLabel": "Số sản phẩm:",
+      "itemCount": "{{count}} sản phẩm",
+      "itemCount_one": "{{count}} sản phẩm",
+      "itemCount_other": "{{count}} sản phẩm",
+      "payment": "Thanh toán:",
+      "total": "Tổng tiền:"
+    }
+  }
+}

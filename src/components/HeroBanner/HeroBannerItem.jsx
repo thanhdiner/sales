@@ -1,17 +1,23 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { getLocalizedBannerLink, getLocalizedBannerTitle } from '@/utils/bannerLocalization'
 
 export default function HeroBannerItem({ banner, viewport }) {
+  const language = useCurrentLanguage()
+  const title = getLocalizedBannerTitle(banner, language, banner.title || '')
+  const link = getLocalizedBannerLink(banner, language, banner.link || '')
+
   return (
     <div
       className="HeroBanner-banner cursor-pointer"
       onClick={() => {
-        if (banner.link) window.open(banner.link, '_blank')
+        if (link) window.open(link, '_blank')
       }}
     >
       <img
         src={banner.img}
-        alt={banner.title}
+        alt={title}
         className="HeroBanner-img"
         draggable={false}
         style={{ userSelect: 'none', WebkitUserDrag: 'none' }}
@@ -24,8 +30,8 @@ export default function HeroBannerItem({ banner, viewport }) {
         transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
         viewport={viewport}
       >
-        <h3 className="HeroBanner-title" aria-label={banner.title}>
-          {banner.title}
+        <h3 className="HeroBanner-title" aria-label={title}>
+          {title}
         </h3>
       </motion.div>
     </div>

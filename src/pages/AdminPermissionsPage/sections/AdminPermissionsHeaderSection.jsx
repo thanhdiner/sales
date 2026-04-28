@@ -4,17 +4,18 @@ import { Button, Typography } from 'antd'
 const { Title, Text } = Typography
 
 export default function AdminPermissionsHeaderSection({
+  t,
   canCreatePermission,
   onCreatePermission
 }) {
   return (
-    <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <Title level={2} className="!mb-1 !text-2xl !font-semibold !text-[var(--admin-text)]">
-          Quyền hạn
+    <div className="admin-permissions-header">
+      <div className="min-w-0">
+        <Title level={2} className="admin-permissions-header__title !mb-1 !text-2xl !font-semibold !text-[var(--admin-text)]">
+          {t('page.title')}
         </Title>
-        <Text className="text-sm text-[var(--admin-text-muted)]">
-          Quản lý các quyền truy cập và phân loại quyền theo nhóm.
+        <Text className="admin-permissions-header__description text-sm text-[var(--admin-text-muted)]">
+          {t('page.description')}
         </Text>
       </div>
 
@@ -23,9 +24,9 @@ export default function AdminPermissionsHeaderSection({
           type="primary"
           icon={<PlusOutlined />}
           onClick={onCreatePermission}
-          className="h-10 rounded-lg !border-none !bg-[var(--admin-accent)] px-4 font-medium !text-white shadow-none hover:!opacity-90 sm:w-auto"
+          className="admin-permissions-create-btn h-10 rounded-lg !border-none !bg-[var(--admin-accent)] px-4 font-medium !text-white shadow-none hover:!opacity-90"
         >
-          Thêm quyền
+          <span>{t('common.create')}</span>
         </Button>
       )}
     </div>

@@ -1,23 +1,75 @@
-import { Clock, RotateCcw, Shield, Truck } from 'lucide-react'
-import { formatPromotionDate } from '../helpers'
+import { Clock, KeyRound, RotateCcw, Shield, ShieldCheck, Truck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { formatPromotionDate, inferDigitalProductInfo } from '../helpers'
 
 const supportCards = [
-  { icon: Shield, title: 'Bảo hành', description: 'Trọn gói' },
-  { icon: Truck, title: 'Giao hàng', description: 'Miễn phí' },
-  { icon: RotateCcw, title: 'Hỗ trợ', description: 'Tư vấn 24/7' }
+  {
+    icon: Shield,
+    titleKey: 'productDetail.infoSections.supportCards.warranty.title',
+    descriptionKey: 'productDetail.infoSections.supportCards.warranty.description'
+  },
+  {
+    icon: Truck,
+    titleKey: 'productDetail.infoSections.supportCards.delivery.title',
+    descriptionKey: 'productDetail.infoSections.supportCards.delivery.description'
+  },
+  {
+    icon: RotateCcw,
+    titleKey: 'productDetail.infoSections.supportCards.support.title',
+    descriptionKey: 'productDetail.infoSections.supportCards.support.description'
+  }
 ]
 
 function ProductInfoSections({ product, features }) {
-  return (
-    <>
-      {features.length > 0 && (
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <h3 className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">Tính năng nổi bật</h3>
+  const { t, i18n } = useTranslation('clientProducts')
+  const digitalInfo = inferDigitalProductInfo(product, t)
+  const compactFeatures = features.slice(0, 4)
 
-          <ul className="space-y-2">
-            {features.map((feature, index) => (
-              <li key={index} className="flex items-start gap-3 text-sm leading-6 text-gray-700 dark:text-gray-300">
-                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gray-400" />
+  return (
+    <section className="product-detail-card product-detail-digital-info">
+      <div className="product-detail-card__heading">
+        <div className="product-detail-card__icon">
+          <KeyRound size={18} />
+        </div>
+
+        <div>
+          <p className="product-detail-section-eyebrow">{t('productDetail.digitalInfo.eyebrow')}</p>
+          <h2 className="product-detail-card__title">{t('productDetail.digitalInfo.title')}</h2>
+        </div>
+      </div>
+
+      <div className="product-detail-digital-info__grid">
+        {digitalInfo.map(item => (
+          <div className="product-detail-digital-info__item" key={item.label}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </div>
+        ))}
+      </div>
+
+      {product.timeStart && product.timeFinish && (
+        <div className="product-detail-promotion-window">
+          <Clock size={17} />
+          <div>
+            <strong>{t('productDetail.infoSections.promotionTime')}</strong>
+            <span>
+              {t('productDetail.infoSections.promotionRange', {
+                start: formatPromotionDate(product.timeStart, i18n.language),
+                end: formatPromotionDate(product.timeFinish, i18n.language)
+              })}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {compactFeatures.length > 0 && (
+        <div className="product-detail-compact-features">
+          <h3>{t('productDetail.infoSections.featuresTitle')}</h3>
+
+          <ul>
+            {compactFeatures.map((feature, index) => (
+              <li key={`${feature}-${index}`}>
+                <ShieldCheck size={15} />
                 <span>{feature}</span>
               </li>
             ))}
@@ -25,48 +77,18 @@ function ProductInfoSections({ product, features }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {supportCards.map(({ icon: Icon, title, description }) => (
-          <div key={title} className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
-            <Icon className="mx-auto mb-2 h-6 w-6 text-gray-600 dark:text-gray-300" />
-            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{title}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+      <div className="product-detail-trust-grid">
+        {supportCards.map(({ icon: Icon, titleKey, descriptionKey }) => (
+          <div key={titleKey} className="product-detail-trust-item">
+            <Icon size={19} />
+            <div>
+              <p>{t(titleKey)}</p>
+              <span>{t(descriptionKey)}</span>
+            </div>
           </div>
         ))}
       </div>
-
-      {product.timeStart && product.timeFinish && (
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <div className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
-            <Clock className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-            <span className="font-semibold">Thời gian khuyến mãi</span>
-          </div>
-
-          <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            Từ {formatPromotionDate(product.timeStart)}
-            {' đến '}
-            {formatPromotionDate(product.timeFinish)}
-          </div>
-        </div>
-      )}
-
-      {product.description && (
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <h3 className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">Mô tả sản phẩm</h3>
-          <div className="leading-7 text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: product.description }} />
-        </div>
-      )}
-
-      {product.content && (
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <h3 className="mb-3 text-base font-semibold text-gray-900 dark:text-gray-100">Chi tiết sản phẩm</h3>
-          <div
-            className="prose prose-sm max-w-none text-gray-700 dark:prose-invert dark:text-gray-300"
-            dangerouslySetInnerHTML={{ __html: product.content }}
-          />
-        </div>
-      )}
-    </>
+    </section>
   )
 }
 

@@ -1,0 +1,55 @@
+{
+  "seo": {
+    "title": "Admin - Terms of Service"
+  },
+  "page": {
+    "title": "Terms of service content",
+    "description": "Manage the bilingual terms shown on the customer-facing terms page."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content",
+    "remove": "Remove",
+    "addSection": "Add section",
+    "addParagraph": "Add paragraph",
+    "addItem": "Add item"
+  },
+  "messages": {
+    "fetchError": "Unable to load terms content",
+    "saveSuccess": "Terms content saved",
+    "saveError": "Unable to save terms content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Header",
+    "notice": "Important notice",
+    "termsSections": "Terms sections",
+    "termsSectionsDescription": "Use {{email}} and {{phone}} inside paragraphs when the page should display current website contact details.",
+    "sectionItem": "Section {{index}}",
+    "paragraphs": "Paragraphs",
+    "items": "Bullet items"
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "updatedAt": "Updated label",
+    "description": "Description",
+    "sectionId": "Section ID",
+    "sectionTitle": "Section title",
+    "paragraph": "Paragraph",
+    "item": "Item",
+    "footer": "Footer"
+  }
+}

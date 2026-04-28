@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button, Space, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   ApiOutlined,
   ReloadOutlined,
@@ -10,6 +11,8 @@ import {
 const { Title, Text } = Typography
 
 export default function AdminChatbotRuntimeHeaderSection({ saving, onReload, onSave }) {
+  const { t } = useTranslation('adminChatbotRuntime')
+
   return (
     <div className="admin-chatbot-page-header mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
@@ -19,22 +22,22 @@ export default function AdminChatbotRuntimeHeaderSection({ saving, onReload, onS
 
         <div>
           <Title level={4} className="admin-chatbot-page-title !mb-0">
-            Runtime & Provider
+            {t('page.title')}
           </Title>
 
           <Text type="secondary" className="admin-chatbot-page-subtitle">
-            Quản lý provider, model, rate limit và kiểm tra kết nối AI runtime.
+            {t('page.description')}
           </Text>
         </div>
       </div>
 
       <Space wrap>
         <Link to="/admin/chatbot-config">
-          <Button icon={<RobotOutlined />} className="admin-chatbot-action-btn">Mở Agent Settings</Button>
+          <Button icon={<RobotOutlined />} className="admin-chatbot-action-btn">{t('page.openAgentSettings')}</Button>
         </Link>
 
         <Button icon={<ReloadOutlined />} onClick={onReload} className="admin-chatbot-action-btn">
-          Tải lại
+          {t('page.reload')}
         </Button>
 
         <Button
@@ -44,7 +47,7 @@ export default function AdminChatbotRuntimeHeaderSection({ saving, onReload, onS
           loading={saving}
           className="admin-chatbot-primary-btn"
         >
-          Lưu runtime
+          {t('page.save')}
         </Button>
       </Space>
     </div>

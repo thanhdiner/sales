@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Drawer, Grid, Layout } from 'antd'
 import { useSelector } from 'react-redux'
+import { useLocation, Outlet } from 'react-router-dom'
 import LiveChat from '@/components/LiveChat'
 import CompareBar from '@/components/CompareBar'
 import MenuSider from './components/MenuSider'
+import MobileBottomNav from './components/MobileBottomNav'
 import Footer from './Footer'
 import Header from './Header'
 import useClientNotifications from './hooks/useClientNotifications'
 import './LayoutDefault.scss'
-import { Outlet } from 'react-router-dom'
 
 const { Content, Sider } = Layout
 const { useBreakpoint } = Grid
@@ -16,12 +17,14 @@ const { useBreakpoint } = Grid
 function LayoutDefault() {
   const screens = useBreakpoint()
   const isDesktop = screens.lg
+  const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const user = useSelector(state => state.clientUser.user)
   const { notifications, setNotifications, notifContextHolder } = useClientNotifications(user)
+  const isHomePage = location.pathname === '/'
 
   return (
-    <Layout className="layout-default">
+    <Layout className={`layout-default${isHomePage ? ' layout-default--home' : ''}`}>
       {notifContextHolder}
       <Header onOpenMenu={() => setDrawerOpen(true)} notifications={notifications} setNotifications={setNotifications} />
 
@@ -55,6 +58,7 @@ function LayoutDefault() {
         </Drawer>
       )}
 
+      {!isDesktop && <MobileBottomNav />}
       <LiveChat />
       <CompareBar />
     </Layout>

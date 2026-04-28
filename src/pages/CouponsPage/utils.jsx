@@ -6,7 +6,7 @@ import {
   PercentageOutlined,
   ShoppingCartOutlined,
   StarOutlined,
-  ThunderboltOutlined,
+  ThunderboltOutlined
 } from '@ant-design/icons'
 
 export const getCouponCategoryIcon = category => {
@@ -41,4 +41,17 @@ export const getCouponDiscountColorClass = type => {
   }
 }
 
-export const formatCouponCurrency = value => `${Number(value || 0).toLocaleString()}đ`
+export const getCouponLocale = language => {
+  return language?.startsWith('en') ? 'en-US' : 'vi-VN'
+}
+
+export const formatCouponCurrency = (value, language = 'vi') => {
+  return Number(value || 0).toLocaleString(getCouponLocale(language), {
+    style: 'currency',
+    currency: 'VND'
+  })
+}
+
+export const formatCouponNumber = (value, language = 'vi') => {
+  return Number(value || 0).toLocaleString(getCouponLocale(language))
+}

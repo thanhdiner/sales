@@ -7,8 +7,10 @@ import {
   updateProductCategoryById
 } from '@/services/adminProductCategoryService'
 import { removeNodeFromTree } from '@/utils/removeNodeFromTree'
+import { useTranslation } from 'react-i18next'
 
 export function useAdminProductCategoryEdit() {
+  const { t } = useTranslation('adminProductCategories')
   const [loading, setLoading] = useState(false)
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [treeData, setTreeData] = useState([])
@@ -38,7 +40,7 @@ export function useAdminProductCategoryEdit() {
           ]
         })
       } catch {
-        message.error('❌ Failed to load product category')
+        message.error(t('formMessages.loadError'))
         navigate(pathNavigate)
       }
     }
@@ -48,38 +50,48 @@ export function useAdminProductCategoryEdit() {
         const response = await getAdminProductCategoryTree()
         if (response) setTreeData(removeNodeFromTree(response, id))
       } catch {
-        message.error('❌ Failed to load category tree data')
+        message.error(t('formMessages.loadTreeError'))
       }
     }
 
     fetchProduct()
     fetchTreeData()
-  }, [form, id, navigate])
+  }, [form, id, navigate, t])
 
   const handleSubmit = async values => {
+    const submitValues = {
+      ...values,
+      ...form.getFieldsValue(true)
+    }
+
     setLoading(true)
     try {
       const formData = new FormData()
-      const file = values.thumbnail?.[0]?.originFileObj
+      const file = submitValues.thumbnail?.[0]?.originFileObj
 
       if (file) {
         formData.append('thumbnail', file)
         formData.append('oldImage', oldThumbnail)
-      } else if (typeof values.thumbnail === 'string') formData.append('thumbnail', values.thumbnail)
+      } else if (typeof submitValues.thumbnail === 'string') formData.append('thumbnail', submitValues.thumbnail)
 
-      formData.append('title', values.title)
-      formData.append('parent_id', values.parent_id || '')
-      formData.append('description', values.description || '')
-      formData.append('status', values.status || 'active')
-      formData.append('position', values?.position)
-      formData.append('slug', values.slug || '')
+      if (submitValues.translations != null) {
+        formData.append('translations', JSON.stringify(submitValues.translations))
+      }
+
+      formData.append('title', submitValues.title)
+      formData.append('parent_id', submitValues.parent_id || '')
+      formData.append('description', submitValues.description || '')
+      formData.append('content', submitValues.content || '')
+      formData.append('status', submitValues.status || 'active')
+      formData.append('position', submitValues?.position)
+      formData.append('slug', submitValues.slug || '')
 
       await updateProductCategoryById(id, formData)
-      message.success('✅ Product updated successfully!')
+      message.success(t('formMessages.updateSuccess'))
       navigate(pathNavigate)
     } catch (err) {
       console.error(err)
-      message.error('❌ Failed to update product category!')
+      message.error(t('formMessages.updateError'))
     } finally {
       setLoading(false)
     }
@@ -87,7 +99,7 @@ export function useAdminProductCategoryEdit() {
 
   const beforeUploadImage = file => {
     const isImage = file.type.startsWith('image/')
-    if (!isImage) message.error('You can only upload image files!')
+    if (!isImage) message.error(t('formMessages.imageOnly'))
     return isImage ? false : Upload.LIST_IGNORE
   }
 

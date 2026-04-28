@@ -106,23 +106,23 @@
 .sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill,
 .sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill:hover,
 .sovereign-login-input .ant-input-affix-wrapper input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #1a1b22 !important;
-  caret-color: #1a1b22 !important;
-  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
-  box-shadow: 0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color: var(--auth-input-text, #1a1b22) !important;
+  caret-color: var(--auth-input-text, #1a1b22) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--auth-input-bg, #fff) inset !important;
+  box-shadow: 0 0 0 1000px var(--auth-input-bg, #fff) inset !important;
   border-radius: 14px !important;
   transition: background-color 9999s ease-in-out 0s !important;
 }
 
 /* Đảm bảo wrapper không bị ám nền khi autofill */
 .sovereign-login-input .ant-input-affix-wrapper:has(input:-webkit-autofill) {
-  background: #fff !important;
+  background: var(--auth-input-bg, #fff) !important;
 }
 
 /* Firefox autofill fallback */
 .sovereign-login-input input:-moz-autofill {
-  box-shadow: 0 0 0 1000px #fff inset !important;
-  -moz-text-fill-color: #1a1b22 !important;
+  box-shadow: 0 0 0 1000px var(--auth-input-bg, #fff) inset !important;
+  -moz-text-fill-color: var(--auth-input-text, #1a1b22) !important;
 }
 
 .sovereign-btn-social {
@@ -161,3 +161,5 @@
     overflow: visible !important;
   }
 }
+
+@import './AuthTheme.scss';

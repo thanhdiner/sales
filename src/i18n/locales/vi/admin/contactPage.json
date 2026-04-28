@@ -1,0 +1,105 @@
+{
+  "seo": {
+    "title": "Admin - Trang liên hệ"
+  },
+  "page": {
+    "title": "Nội dung trang liên hệ",
+    "description": "Quản lý nội dung trang liên hệ phía khách hàng và bản dịch tiếng Anh."
+  },
+  "tabs": {
+    "vi": "Nội dung tiếng Việt",
+    "en": "Bản dịch tiếng Anh"
+  },
+  "actions": {
+    "save": "Lưu",
+    "reload": "Tải lại",
+    "remove": "Xóa",
+    "addTopic": "Thêm chủ đề",
+    "addHighlight": "Thêm điểm nổi bật",
+    "addSeller": "Thêm người phụ trách",
+    "addMethod": "Thêm kênh liên hệ",
+    "addWorkingHour": "Thêm giờ làm việc",
+    "addFaq": "Thêm FAQ"
+  },
+  "sections": {
+    "seo": "SEO",
+    "links": "Liên kết chung",
+    "linksDescription": "Dùng cho các nút ở hero, lịch làm việc, FAQ hỗ trợ và CTA.",
+    "hero": "Hero",
+    "heroTopics": "Chủ đề hero",
+    "highlights": "Điểm nổi bật",
+    "highlightsItems": "Danh sách điểm nổi bật",
+    "contactMethods": "Kênh liên hệ",
+    "sellers": "Người phụ trách",
+    "sellerMethods": "Kênh liên hệ của người phụ trách",
+    "schedule": "Form và giờ làm việc",
+    "workingHoursItems": "Dòng giờ làm việc",
+    "faq": "FAQ và thẻ hỗ trợ",
+    "faqItems": "Danh sách FAQ",
+    "cta": "CTA cuối trang",
+    "translationIntro": "Bản dịch tiếng Anh",
+    "translationDescription": "Chỉ nhập phần chữ cần thay thế nội dung tiếng Việt khi website chuyển sang tiếng Anh."
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "zaloUrl": "URL Zalo",
+    "emailUrl": "URL Email",
+    "productsUrl": "URL sản phẩm",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "titleLine1": "Dòng tiêu đề 1",
+    "titleLine2": "Dòng tiêu đề 2",
+    "description": "Mô tả",
+    "zaloButton": "Nút Zalo",
+    "emailButton": "Nút Email",
+    "imageUrl": "URL hình ảnh",
+    "imageAlt": "Alt hình ảnh",
+    "topic": "Chủ đề",
+    "visualBadge": "Badge ảnh",
+    "visualEyebrow": "Nhãn nhỏ trên ảnh",
+    "visualButton": "Nút trên ảnh",
+    "visualDescription": "Mô tả trên ảnh",
+    "value": "Giá trị",
+    "label": "Nhãn",
+    "note": "Ghi chú",
+    "sellerName": "Tên người phụ trách",
+    "sellerRole": "Vai trò",
+    "avatar": "URL avatar",
+    "methodType": "Loại kênh",
+    "methodTitle": "Tên kênh",
+    "methodValue": "Giá trị kênh",
+    "actionLabel": "Nhãn hành động",
+    "link": "Liên kết",
+    "workingTitle": "Tiêu đề giờ làm việc",
+    "workingDescription": "Mô tả giờ làm việc",
+    "noteTitle": "Tiêu đề ghi chú",
+    "noteDescription": "Mô tả ghi chú",
+    "type": "Loại",
+    "day": "Ngày",
+    "time": "Thời gian",
+    "question": "Câu hỏi",
+    "answer": "Câu trả lời",
+    "helpEyebrow": "Nhãn nhỏ thẻ hỗ trợ",
+    "helpTitle": "Tiêu đề thẻ hỗ trợ",
+    "helpDescription": "Mô tả thẻ hỗ trợ",
+    "tip": "Mẹo",
+    "chatButton": "Nút chat",
+    "productsButton": "Nút sản phẩm"
+  },
+  "methodTypes": {
+    "zalo": "Zalo",
+    "facebook": "Facebook",
+    "email": "Email",
+    "phone": "Điện thoại",
+    "link": "Liên kết"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung trang liên hệ",
+    "saveSuccess": "Đã lưu nội dung trang liên hệ",
+    "saveError": "Không thể lưu nội dung trang liên hệ"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "seo": {
+    "title": "Blog / tin tức - SmartMall",
+    "description": "Cập nhật tin tức, hướng dẫn mua hàng và kinh nghiệm chọn sản phẩm tại SmartMall."
+  },
+  "page": {
+    "eyebrow": "Blog / tin tức",
+    "title": "Cập nhật mới nhất từ SmartMall",
+    "description": "Theo dõi các bài viết hướng dẫn, tin tức sản phẩm và thông tin hữu ích cho quá trình mua sắm."
+  },
+  "filters": {
+    "keyword": "Tìm bài viết",
+    "category": "Danh mục blog",
+    "all": "Tất cả"
+  },
+  "labels": {
+    "featured": "Nổi bật"
+  },
+  "actions": {
+    "read": "Đọc bài viết"
+  },
+  "messages": {
+    "loading": "Đang tải bài viết...",
+    "fetchError": "Không tải được danh sách bài viết",
+    "empty": "Chưa có bài viết phù hợp"
+  }
+}

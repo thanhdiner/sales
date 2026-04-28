@@ -1,0 +1,41 @@
+{
+  "seo": {
+    "title": "Admin - Tin tức game"
+  },
+  "page": {
+    "title": "Nội dung trang tin tức game",
+    "description": "Quản lý nội dung song ngữ hiển thị ở trang /game-news phía khách hàng."
+  },
+  "tabs": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reload": "Tải lại",
+    "reset": "Đặt lại",
+    "save": "Lưu nội dung"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung trang tin tức game",
+    "saveSuccess": "Đã lưu nội dung trang tin tức game",
+    "saveError": "Không thể lưu nội dung trang tin tức game",
+    "resetDone": "Đã đặt lại form"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  },
+  "sections": {
+    "seo": "SEO",
+    "content": "Nội dung coming soon",
+    "contentDescription": "Các trường này đang được dùng trực tiếp trên trang /game-news."
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "descriptionSecondLine": "Dòng mô tả thứ hai",
+    "status": "Trạng thái"
+  }
+}

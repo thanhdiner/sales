@@ -1,0 +1,66 @@
+{
+  "seo": {
+    "title": "Admin - Banners"
+  },
+  "page": {
+    "title": "Banner Management",
+    "description": "Manage banners displayed on the customer-facing site."
+  },
+  "common": {
+    "banner": "Banner",
+    "create": "Add Banner",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "upload": "Upload"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "table": {
+    "image": "Banner Image",
+    "title": "Title",
+    "link": "Link",
+    "status": "Status",
+    "actions": "Actions",
+    "emptyLink": "None",
+    "noImage": "No image",
+    "empty": "No banners yet",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} banners",
+    "openActions": "Open banner actions",
+    "editTooltip": "Edit banner",
+    "deleteTooltip": "Delete banner"
+  },
+  "form": {
+    "createTitle": "Add New Banner",
+    "editTitle": "Edit Banner",
+    "title": "Banner title",
+    "titleRequired": "Please enter a title",
+    "titlePlaceholder": "Enter banner title",
+    "link": "Link",
+    "linkPlaceholder": "Enter destination link",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English banner title",
+      "titlePlaceholder": "Enter English banner title",
+      "link": "English link",
+      "linkPlaceholder": "Enter destination link for English"
+    },
+    "status": "Status",
+    "image": "Banner image",
+    "imageRequired": "Please upload a banner image"
+  },
+  "messages": {
+    "fetchError": "Unable to load banner list",
+    "deleteConfirmTitle": "Confirm banner deletion",
+    "deleteConfirmContent": "Are you sure you want to delete this banner?",
+    "deleteSuccess": "Banner deleted",
+    "deleteError": "Unable to delete banner",
+    "updateSuccess": "Banner updated",
+    "createSuccess": "Banner added",
+    "saveError": "Unable to save banner",
+    "invalidImage": "Only image files can be uploaded"
+  }
+}

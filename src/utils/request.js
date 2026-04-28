@@ -2,12 +2,24 @@ import { getAccessToken, setAccessToken, clearTokens } from './auth'
 import { authAdminRefresh } from '../services/adminAuth.service'
 import { store } from '../stores'
 import { setUser } from '../stores/adminUser'
+import { API_URL } from './env'
 
-const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+const API_DOMAIN = API_URL
 
 let refreshingPromise = null
 
 const getAuthHeaders = accessToken => (accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+const getCurrentLanguage = () => {
+  try {
+    return localStorage.getItem('language') === 'en' ? 'en' : 'vi'
+  } catch {
+    return 'vi'
+  }
+}
+
+const getLanguageHeaders = () => ({
+  'Accept-Language': getCurrentLanguage()
+})
 
 const refreshAccessToken = async () => {
   try {
@@ -45,6 +57,7 @@ const requestWithAuth = async (method, path, data) => {
 
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...getLanguageHeaders(),
     ...getAuthHeaders(accessToken)
   }
 
@@ -70,6 +83,7 @@ const requestWithAuth = async (method, path, data) => {
       const newToken = await refreshingPromise
       headers = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        ...getLanguageHeaders(),
         Authorization: `Bearer ${newToken}`
       }
       options.headers = headers

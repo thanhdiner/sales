@@ -1,16 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import useProductCategoryPage from './hooks/useProductCategoryPage'
+import CategoryChildrenSection from './sections/CategoryChildrenSection'
+import CategoryContentSection from './sections/CategoryContentSection'
+import CategoryHeroSection from './sections/CategoryHeroSection'
+import CategoryProductsSection from './sections/CategoryProductsSection'
 import ProductCategoryErrorState from './sections/ProductCategoryErrorState'
-import ProductCategoryFiltersSection from './sections/ProductCategoryFiltersSection'
-import ProductCategoryDiscoverySection from './sections/ProductCategoryDiscoverySection'
-import ProductCategoryGridSection from './sections/ProductCategoryGridSection'
 import ProductCategoryLoadingState from './sections/ProductCategoryLoadingState'
-import ProductCategoryTitleSection from './sections/ProductCategoryTitleSection'
 import { getCategoryDescription } from './utils/productCategoryUtils'
 
-function ProductCategoryPage() {
+function ProductCategoryDetailPage() {
+  const { t } = useTranslation('clientProducts')
   const { slug } = useParams()
   const {
     category,
@@ -18,15 +20,18 @@ function ProductCategoryPage() {
     error,
     searchInput,
     sortBy,
-    selectedFeatures,
     currentPage,
     totalPages,
-    flattenedCategories,
-    filteredProducts,
+    limit,
+    categoryChildren,
+    childCategoryProductCounts,
     paginatedProducts,
+    totalProducts,
+    resultCount,
+    hasSearchInput,
     handleSearchChange,
+    clearSearch,
     setSortBy,
-    setFeatureFilters,
     setPage
   } = useProductCategoryPage(slug)
 
@@ -38,45 +43,51 @@ function ProductCategoryPage() {
     return <ProductCategoryErrorState error={error} />
   }
 
-  const plainDescription = getCategoryDescription(category)
+  const fallbackDescription = t('categoryPage.seo.fallbackDescription', {
+    categoryTitle: category.title || ''
+  })
+  const plainDescription = getCategoryDescription(category, fallbackDescription)
   const shortDescription = plainDescription.slice(0, 180)
-  const hasSearchInput = searchInput.trim().length > 0
+  const categoryTitle = category.title || t('categoryPage.seo.fallbackTitle')
 
   return (
-    <div className="min-h-screen bg-[#f5f5fa] px-3 py-4 dark:bg-gray-950 md:px-5">
+    <div className="min-h-screen bg-[#f5f5fa] px-3 py-4 dark:bg-gray-950 md:px-5 md:py-6">
       <SEO
-        title={category.title || 'Danh mục sản phẩm'}
-        description={shortDescription || `Xem tất cả sản phẩm trong danh mục ${category.title || ''} tại SmartMall.`}
-        url={`https://smartmall.site/categories/${slug}`}
+        title={categoryTitle}
+        description={shortDescription || fallbackDescription}
+        url={`https://smartmall.site/product-categories/${slug}`}
       />
 
-      <div className="mx-auto max-w-[1440px]">
-        <main className="min-w-0 space-y-4">
-          <ProductCategoryTitleSection category={category} />
+      <main className="mx-auto flex max-w-[1440px] flex-col gap-4">
+        <CategoryHeroSection
+          category={category}
+          plainDescription={plainDescription}
+          totalProducts={totalProducts}
+          childCount={categoryChildren.length}
+        />
 
-          <ProductCategoryDiscoverySection categories={flattenedCategories} activeSlug={slug} />
+        <CategoryChildrenSection categories={categoryChildren} productCounts={childCategoryProductCounts} />
 
-          <ProductCategoryFiltersSection
-            searchInput={searchInput}
-            sortBy={sortBy}
-            selectedFeatures={selectedFeatures}
-            onSearchChange={handleSearchChange}
-            onSortChange={setSortBy}
-            onFeatureFiltersChange={setFeatureFilters}
-          />
+        <CategoryContentSection category={category} />
 
-          <ProductCategoryGridSection
-            products={paginatedProducts}
-            totalProducts={filteredProducts.length}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            hasSearchInput={hasSearchInput}
-            onPageChange={setPage}
-          />
-        </main>
-      </div>
+        <CategoryProductsSection
+          products={paginatedProducts}
+          totalProducts={totalProducts}
+          resultCount={resultCount}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          limit={limit}
+          hasSearchInput={hasSearchInput}
+          searchInput={searchInput}
+          sortBy={sortBy}
+          onSearchChange={handleSearchChange}
+          onSortChange={setSortBy}
+          onClearSearch={clearSearch}
+          onPageChange={setPage}
+        />
+      </main>
     </div>
   )
 }
 
-export default ProductCategoryPage
+export default ProductCategoryDetailPage

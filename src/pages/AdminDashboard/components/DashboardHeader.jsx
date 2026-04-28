@@ -1,25 +1,33 @@
 import React from 'react'
 import { Select } from 'antd'
 import { CalendarDays, Circle } from 'lucide-react'
-import { DATE_RANGE_OPTIONS } from '../utils/dashboardTransforms'
+import { useTranslation } from 'react-i18next'
+import { DATE_RANGE_OPTIONS, getDashboardLocale } from '../utils/dashboardTransforms'
 
-const formatToday = () =>
-  new Intl.DateTimeFormat('vi-VN', {
+const formatToday = locale =>
+  new Intl.DateTimeFormat(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric'
   }).format(new Date())
 
 export default function DashboardHeader({ dateRange, loading, onDateRangeChange }) {
+  const { t, i18n } = useTranslation('adminDashboard')
+  const locale = getDashboardLocale(i18n.language)
+  const dateRangeOptions = DATE_RANGE_OPTIONS.map(option => ({
+    ...option,
+    label: t(option.labelKey)
+  }))
+
   return (
     <div className="dashboard-header">
       <div className="header-content">
         <div className="title-section min-w-0">
           <div className="dashboard-title-row">
-            <h1 className="dashboard-title">Trung tâm điều khiển</h1>
+            <h1 className="dashboard-title">{t('header.title')}</h1>
             <span className="dashboard-live-pill">
               <Circle size={8} fill="currentColor" strokeWidth={0} />
-              Trực tuyến
+              {t('header.online')}
             </span>
           </div>
         </div>
@@ -27,7 +35,7 @@ export default function DashboardHeader({ dateRange, loading, onDateRangeChange 
         <div className="header-actions">
           <div className="dashboard-today">
             <CalendarDays size={17} />
-            <span>Hôm nay: {formatToday()}</span>
+            <span>{t('header.today', { date: formatToday(locale) })}</span>
           </div>
 
           <Select
@@ -36,7 +44,7 @@ export default function DashboardHeader({ dateRange, loading, onDateRangeChange 
             className="date-select"
             popupClassName="dashboard-date-dropdown"
             disabled={loading}
-            options={DATE_RANGE_OPTIONS}
+            options={dateRangeOptions}
             style={{ minWidth: 150 }}
           />
         </div>

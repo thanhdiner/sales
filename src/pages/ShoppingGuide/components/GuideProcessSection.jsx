@@ -1,12 +1,20 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { shoppingGuideSteps, shoppingGuideViewport } from '../data'
+import { shoppingGuideViewport } from '../data'
 
-const GuideProcessSection = ({ currentStep, setCurrentStep }) => {
+const formatStepAria = (template, step, title) =>
+  String(template || '')
+    .replace('{{step}}', step)
+    .replace('{{title}}', title)
+
+const GuideProcessSection = ({ content, currentStep, setCurrentStep }) => {
+  const section = content?.processSection || {}
+  const steps = content?.steps || []
+
   return (
     <motion.section
       id="shopping-guide-steps"
-      className="border-y border-gray-200 bg-white px-4 py-14 dark:border-gray-700 dark:bg-gray-900 sm:px-6 lg:px-8"
+      className="shopping-guide-section px-4 py-10 sm:px-6 lg:px-8 lg:py-12"
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
@@ -20,27 +28,28 @@ const GuideProcessSection = ({ currentStep, setCurrentStep }) => {
           transition={{ duration: 0.35, ease: 'easeOut' }}
           viewport={shoppingGuideViewport}
         >
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
-            Các bước thực hiện
+          <p className="shopping-guide-eyebrow mb-3 text-sm font-semibold uppercase">
+            {section.eyebrow}
           </p>
-          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
-            Quy trình mua sắm
-          </h2>
+
+          <h2 className="guide-title text-3xl font-semibold">{section.title}</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          {shoppingGuideSteps.map((step, index) => {
+          {steps.map((step, index) => {
             const isActive = currentStep === index
+            const title = step.title
 
             return (
               <motion.button
-                key={step.title}
+                key={`${title}-${index}`}
                 type="button"
                 onClick={() => setCurrentStep(index)}
-                className={`rounded-2xl border p-5 text-left transition-colors ${
+                aria-label={formatStepAria(section.stepAria, index + 1, title)}
+                className={`shopping-guide-card p-5 text-left transition-colors ${
                   isActive
-                    ? 'border-gray-900 bg-gray-50 dark:border-gray-200 dark:bg-gray-800'
-                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800'
+                    ? '!border-emerald-500 !bg-emerald-50/70 shadow-[0_0_0_1px_rgba(16,185,129,0.18)] dark:!border-emerald-400/80 dark:!bg-emerald-950/20 dark:shadow-[0_0_0_1px_rgba(52,211,153,0.14)]'
+                    : 'hover:!border-[var(--guide-border-strong)] hover:!bg-[var(--guide-surface-3)]'
                 }`}
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -50,20 +59,16 @@ const GuideProcessSection = ({ currentStep, setCurrentStep }) => {
                 <span
                   className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg border text-sm font-semibold ${
                     isActive
-                      ? 'border-gray-900 bg-gray-900 text-white dark:border-gray-100 dark:bg-gray-100 dark:text-gray-900'
-                      : 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                      ? 'border-emerald-500 bg-emerald-500 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-gray-950'
+                      : 'border-[var(--guide-border)] bg-[var(--guide-surface-3)] text-[var(--guide-text-muted)]'
                   }`}
                 >
                   {index + 1}
                 </span>
 
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                  {step.title}
-                </h3>
+                <h3 className="guide-title text-base font-semibold">{title}</h3>
 
-                <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                  {step.content}
-                </p>
+                <p className="guide-muted mt-2 text-sm leading-6">{step.content}</p>
               </motion.button>
             )
           })}
@@ -77,19 +82,21 @@ const GuideProcessSection = ({ currentStep, setCurrentStep }) => {
           viewport={shoppingGuideViewport}
         >
           <button
+            type="button"
             disabled={currentStep === 0}
             onClick={() => setCurrentStep(prev => Math.max(prev - 1, 0))}
-            className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="shopping-guide-secondary-button px-5 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Quay lại
+            {section.previous}
           </button>
 
           <button
-            disabled={currentStep === shoppingGuideSteps.length - 1}
-            onClick={() => setCurrentStep(prev => Math.min(prev + 1, shoppingGuideSteps.length - 1))}
-            className="rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
+            type="button"
+            disabled={currentStep >= steps.length - 1}
+            onClick={() => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1))}
+            className="shopping-guide-primary-button px-5 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Tiếp theo
+            {section.next}
           </button>
         </motion.div>
       </div>

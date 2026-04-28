@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Badge } from 'antd'
 import { Bell } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import NotificationPanel from './NotificationPanel'
 import {
   getClientOrderRoute,
-  getNotificationAriaLabel,
   getNotificationBellClassName,
-  getNotificationButtonTitle,
-  getNotificationNewDotClassName,
-  getNotificationNewDotVisible,
   getUnreadCount,
   markAllNotificationsReadIfNeeded,
   markNotificationReadIfNeeded,
@@ -19,6 +16,7 @@ import {
 } from './notificationUtils'
 
 export default function NotificationBell({ notifications = [], setNotifications }) {
+  const { t } = useTranslation('clientHeader')
   const [open, setOpen] = useState(false)
   const panelRef = useRef(null)
   const navigate = useNavigate()
@@ -40,7 +38,6 @@ export default function NotificationBell({ notifications = [], setNotifications 
   }, [])
 
   const unreadCount = getUnreadCount(notifications)
-  const showNewDot = getNotificationNewDotVisible(notifications)
 
   const markAllRead = () => {
     setNotifications(prev => markAllNotificationsReadIfNeeded(prev))
@@ -57,7 +54,12 @@ export default function NotificationBell({ notifications = [], setNotifications 
       setOpen(false)
     }
 
-    navigate(getClientOrderRoute(notif.orderId))
+    navigate(notif.orderId ? getClientOrderRoute(notif.orderId) : '/notifications')
+  }
+
+  const handleViewAll = () => {
+    setOpen(false)
+    navigate('/notifications')
   }
 
   return (
@@ -66,25 +68,23 @@ export default function NotificationBell({ notifications = [], setNotifications 
         type="button"
         onClick={() => setOpen(current => !current)}
         className={getNotificationBellClassName()}
-        title={getNotificationButtonTitle()}
-        aria-label={getNotificationAriaLabel(unreadCount)}
+        title={t('notification.bellTitle')}
+        aria-label={unreadCount > 0 ? t('notification.ariaLabel', { count: unreadCount }) : t('notification.bellTitle')}
       >
-        <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={unreadCount} overflowCount={99}>
+        <Badge style={{ transition: 'all 0.1s' }} offset={[1, 1]} size="small" dot={unreadCount > 0}>
           <span className="header__action__icon-slot">
             <Bell className="header__action__notification--icon" />
           </span>
         </Badge>
-
-        {showNewDot && <span className={getNotificationNewDotClassName()} />}
       </button>
 
       {open && (
         <NotificationPanel
           notifications={notifications}
           unreadCount={unreadCount}
-          onClose={() => setOpen(false)}
           onMarkAllRead={markAllRead}
           onClickNotification={handleClickNotif}
+          onViewAll={handleViewAll}
         />
       )}
     </div>

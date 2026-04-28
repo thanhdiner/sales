@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   ThunderboltOutlined,
   CreditCardOutlined,
@@ -11,14 +12,76 @@ import {
   RocketOutlined,
   GiftOutlined
 } from '@ant-design/icons'
+import { useHomeWhyChooseUsContent } from './useHomeWhyChooseUsContent'
 import './WhyChooseUs.scss'
 
-// Pseudo-random deterministic scatter for firework effect
-const getScatters = (i) => {
-  const angle = (i * 137.5) * (Math.PI / 180)
-  const distance = 30 + Math.abs(Math.sin(i * 11)) * 80 // 30 to 110px
+const WHY_CHOOSE_US_ITEMS = [
+  {
+    key: 'fastActivation',
+    Icon: ThunderboltOutlined,
+    accent: '#3b82f6'
+  },
+  {
+    key: 'fastDelivery',
+    Icon: RocketOutlined,
+    accent: '#06b6d4'
+  },
+  {
+    key: 'flexiblePayment',
+    Icon: CreditCardOutlined,
+    accent: '#10b981'
+  },
+  {
+    key: 'clearWarranty',
+    Icon: SafetyCertificateOutlined,
+    accent: '#8b5cf6'
+  },
+  {
+    key: 'regularOffers',
+    Icon: GiftOutlined,
+    accent: '#f59e0b'
+  },
+  {
+    key: 'dedicatedSupport',
+    Icon: CustomerServiceOutlined,
+    accent: '#ef4444'
+  }
+]
+
+const getTextValue = (value, fallback = '') => {
+  if (typeof value !== 'string') return fallback
+
+  const normalizedValue = value.trim()
+
+  return normalizedValue && normalizedValue !== '[object Object]' ? value : fallback
+}
+
+const getTextArray = (value, fallback = []) => {
+  const normalizedValue = Array.isArray(value)
+    ? value.filter(item => typeof item === 'string' && item.trim() && item.trim() !== '[object Object]')
+    : []
+
+  return normalizedValue.length ? normalizedValue : Array.isArray(fallback) ? fallback : []
+}
+
+const renderEmphasisText = value => {
+  if (!value) return null
+
+  return String(value)
+    .split(/(<em>.*?<\/em>)/gi)
+    .filter(Boolean)
+    .map((part, index) => {
+      const match = part.match(/^<em>(.*?)<\/em>$/i)
+
+      return match ? <em key={index}>{match[1]}</em> : <React.Fragment key={index}>{part}</React.Fragment>
+    })
+}
+
+const getScatters = i => {
+  const angle = i * 137.5 * (Math.PI / 180)
+  const distance = 30 + Math.abs(Math.sin(i * 11)) * 80
   const x = Math.cos(angle) * distance
-  const y = Math.sin(angle) * distance - 20 // slightly upward bias
+  const y = Math.sin(angle) * distance - 20
   const scale = 0.5 + Math.abs(Math.sin(i * 7)) * 1.5
   const rotate = Math.sin(i * 19) * 180
   return { x, y, scale, rotate }
@@ -27,50 +90,65 @@ const getScatters = (i) => {
 const TypewriterText = ({ phrases }) => {
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [displayedText, setDisplayedText] = useState('')
-  const [phase, setPhase] = useState('typing') // 'typing', 'waiting', 'exiting'
+  const [phase, setPhase] = useState('typing')
 
-  const currentPhrase = phrases[phraseIndex]
+  const currentPhrase = phrases[phraseIndex] || ''
 
   useEffect(() => {
+    if (!phrases.length) {
+      return
+    }
+
     if (phase === 'typing') {
       if (displayedText === currentPhrase) {
         setPhase('waiting')
         return
       }
+
       const timeout = setTimeout(() => {
         setDisplayedText(currentPhrase.substring(0, displayedText.length + 1))
-      }, 35) // Typing speed
+      }, 35)
+
       return () => clearTimeout(timeout)
     }
 
     if (phase === 'waiting') {
       const timeout = setTimeout(() => {
         setPhase('exiting')
-      }, 2500) // Wait 2.5s before explosion
+      }, 2500)
+
       return () => clearTimeout(timeout)
     }
 
     if (phase === 'exiting') {
       const timeout = setTimeout(() => {
         setDisplayedText('')
-        setPhraseIndex((prev) => (prev + 1) % phrases.length)
+        setPhraseIndex(prev => (prev + 1) % phrases.length)
         setPhase('typing')
-      }, 800) // Wait 800ms for the firework animation to complete
+      }, 800)
+
       return () => clearTimeout(timeout)
     }
   }, [displayedText, phase, phraseIndex, phrases, currentPhrase])
+
+  useEffect(() => {
+    setPhraseIndex(0)
+    setDisplayedText('')
+    setPhase('typing')
+  }, [phrases])
 
   return (
     <>
       <AnimatePresence>
         {phase !== 'exiting' && (
-          <motion.span key={phraseIndex} exit="exit">
+          <motion.span key={`${phraseIndex}-${currentPhrase}`} exit="exit">
             {displayedText.split(' ').map((word, wIdx, arr) => (
               <React.Fragment key={wIdx}>
                 <span className="inline-block">
                   {word.split('').map((char, cIdx) => {
-                    const i = wIdx * 100 + cIdx // unique deterministic index per character
+                    const i = wIdx * 100 + cIdx
                     const { x, y, scale, rotate } = getScatters(i)
+
                     return (
                       <motion.span
                         key={cIdx}
@@ -98,6 +176,7 @@ const TypewriterText = ({ phrases }) => {
           </motion.span>
         )}
       </AnimatePresence>
+
       <span className="inline-block w-[2px] h-[1.1em] bg-gray-400 align-middle animate-pulse -translate-y-[1px] ml-[1px]"></span>
     </>
   )
@@ -105,78 +184,19 @@ const TypewriterText = ({ phrases }) => {
 
 const WhyChooseUs = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation('clientHome')
+  const { data: content } = useHomeWhyChooseUsContent()
   const viewport = { once: true, amount: 0.15 }
+  const fallbackDescPhrases = t('whyChooseUsSection.descPhrases', { returnObjects: true })
+  const descPhrases = getTextArray(content?.descPhrases, fallbackDescPhrases)
 
-  const descPhrases = [
-    'Chúng tôi tập trung vào những điều quan trọng nhất: xử lý nhanh, thanh toán thuận tiện, chính sách rõ ràng và hỗ trợ khi bạn cần.',
-    'Cam kết mang đến trải nghiệm mua sắm tuyệt vời nhất với hàng ngàn ưu đãi và dịch vụ chăm sóc khách hàng tận tâm.',
-    'Hệ thống bảo mật hiện đại, đảm bảo an toàn tuyệt đối cho mọi giao dịch và thông tin cá nhân của bạn.',
-    'Tốc độ giao hàng siêu tốc, luôn đồng hành cùng bạn trên mọi hành trình mua sắm trực tuyến.'
-  ]
-
-
-  const items = [
-    {
-      icon: <ThunderboltOutlined />,
-      title: 'Kích hoạt nhanh chóng',
-      desc: (
-        <>
-          Xử lý đơn nhanh, hỗ trợ <em>trong ngày</em> và luôn có người <em>phản hồi</em> khi cần.
-        </>
-      ),
-      accent: '#3b82f6'
-    },
-    {
-      icon: <RocketOutlined />,
-      title: 'Giao hàng siêu tốc',
-      desc: (
-        <>
-          <em>Vận chuyển nhanh</em> toàn quốc, theo dõi đơn hàng <em>realtime</em> mọi lúc.
-        </>
-      ),
-      accent: '#06b6d4'
-    },
-    {
-      icon: <CreditCardOutlined />,
-      title: 'Thanh toán linh hoạt',
-      desc: (
-        <>
-          Hỗ trợ nhiều <em>hình thức thanh toán</em> tiện lợi, phù hợp với nhu cầu của bạn.
-        </>
-      ),
-      accent: '#10b981'
-    },
-    {
-      icon: <SafetyCertificateOutlined />,
-      title: 'Bảo hành rõ ràng',
-      desc: (
-        <>
-          <em>Cam kết hỗ trợ</em> nếu phát sinh lỗi trong quá trình sử dụng.
-        </>
-      ),
-      accent: '#8b5cf6'
-    },
-    {
-      icon: <GiftOutlined />,
-      title: 'Ưu đãi thường xuyên',
-      desc: (
-        <>
-          <em>Flash sale</em>, voucher giảm giá và chương trình <em>tích điểm</em> hấp dẫn.
-        </>
-      ),
-      accent: '#f59e0b'
-    },
-    {
-      icon: <CustomerServiceOutlined />,
-      title: 'Hỗ trợ tận tâm',
-      desc: (
-        <>
-          <em>Tư vấn nhanh</em>, dễ hiểu và đồng hành trong suốt quá trình <em>mua hàng</em>.
-        </>
-      ),
-      accent: '#ef4444'
-    }
-  ]
+  const items = WHY_CHOOSE_US_ITEMS.map(({ key, Icon, accent }) => ({
+    key,
+    icon: <Icon />,
+    title: getTextValue(content?.items?.[key]?.title, t(`whyChooseUsSection.items.${key}.title`)),
+    desc: getTextValue(content?.items?.[key]?.desc, t(`whyChooseUsSection.items.${key}.desc`)),
+    accent
+  }))
 
   const positions = ['pos-top', 'pos-top-right', 'pos-bottom-right', 'pos-bottom', 'pos-bottom-left', 'pos-top-left']
 
@@ -197,11 +217,11 @@ const WhyChooseUs = () => {
           viewport={viewport}
         >
           <span className="wcu-pill-spotlight inline-flex items-center rounded-full bg-orange-50 text-orange-600 px-4 py-1.5 text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400">
-            Tại sao nên chọn chúng tôi
+            {getTextValue(content?.eyebrow, t('whyChooseUsSection.eyebrow'))}
           </span>
 
           <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight text-balance dark:text-gray-100">
-            Mua hàng nhanh, hỗ trợ rõ ràng, <br className="hidden md:block" /> trải nghiệm yên tâm hơn
+            {getTextValue(content?.title, t('whyChooseUsSection.title'))}
           </h2>
 
           <p className="mt-4 text-base md:text-lg text-gray-600 leading-7 dark:text-gray-400 min-h-[56px] md:min-h-[84px]">
@@ -209,9 +229,7 @@ const WhyChooseUs = () => {
           </p>
         </motion.div>
 
-        {/* ── Hub-spoke layout ── */}
         <div className="wcu-hub mt-12">
-          {/* Central hub */}
           <motion.div
             className="wcu-hub__center"
             initial={{ opacity: 0, scale: 0.6 }}
@@ -227,7 +245,6 @@ const WhyChooseUs = () => {
             </div>
           </motion.div>
 
-          {/* 6 connector lines via CSS */}
           <div className="wcu-hub__line line-top" />
           <div className="wcu-hub__line line-top-right" />
           <div className="wcu-hub__line line-bottom-right" />
@@ -235,10 +252,9 @@ const WhyChooseUs = () => {
           <div className="wcu-hub__line line-bottom-left" />
           <div className="wcu-hub__line line-top-left" />
 
-          {/* 6 Cards */}
           {items.map((item, idx) => (
             <motion.div
-              key={idx}
+              key={item.key}
               className={`wcu-card ${positions[idx]}`}
               style={{ '--accent': item.accent }}
               initial={{ opacity: 0, y: 14 }}
@@ -249,8 +265,12 @@ const WhyChooseUs = () => {
               <div className="wcu-card__connector-icon" style={{ color: item.accent }}>
                 {item.icon}
               </div>
+
               <h3 className="wcu-card__title">{item.title}</h3>
-              <p className="wcu-card__desc">{item.desc}</p>
+
+              <p className="wcu-card__desc">
+                {renderEmphasisText(item.desc)}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -269,7 +289,7 @@ const WhyChooseUs = () => {
             onClick={() => navigate('/products')}
             className="!h-12 !px-6 !rounded-full !font-semibold"
           >
-            Khám phá ngay
+            {getTextValue(content?.cta, t('whyChooseUsSection.cta'))}
           </Button>
         </motion.div>
       </div>

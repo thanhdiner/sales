@@ -3,7 +3,7 @@ import { Form, Upload, message } from 'antd'
 import { createWidget, updateWidgetById } from '@/services/adminWidgetsService'
 import { getWidgetIconFileList, normalizeWidgetActiveValue } from '../utils'
 
-export function useAdminWidgetForm({ onSaved }) {
+export function useAdminWidgetForm({ onSaved, t = key => key }) {
   const [form] = Form.useForm()
   const [modalVisible, setModalVisible] = useState(false)
   const [editingWidget, setEditingWidget] = useState(null)
@@ -25,6 +25,11 @@ export function useAdminWidgetForm({ onSaved }) {
       setFileList(widgetIconFileList)
       form.setFieldsValue({
         ...widget,
+        translations: {
+          en: {
+            title: widget.translations?.en?.title || ''
+          }
+        },
         isActive: normalizeWidgetActiveValue(widget.isActive),
         iconUrl: widgetIconFileList
       })
@@ -32,7 +37,7 @@ export function useAdminWidgetForm({ onSaved }) {
       setOldIcon('')
       setFileList([])
       form.resetFields()
-      form.setFieldsValue({ isActive: true, order: 0, iconUrl: [] })
+      form.setFieldsValue({ isActive: true, order: 0, iconUrl: [], translations: { en: { title: '' } } })
     }
 
     setModalVisible(true)
@@ -49,16 +54,25 @@ export function useAdminWidgetForm({ onSaved }) {
   }
 
   const handleSubmit = async values => {
+    const submitValues = {
+      ...values,
+      ...form.getFieldsValue(true)
+    }
+
     setSubmitLoading(true)
 
     try {
       const formData = new FormData()
-      formData.append('title', values.title)
-      formData.append('link', values.link || '')
-      formData.append('order', values.order || 0)
-      formData.append('isActive', values.isActive ? 'true' : 'false')
+      formData.append('title', submitValues.title)
+      formData.append('link', submitValues.link || '')
+      formData.append('order', submitValues.order || 0)
+      formData.append('isActive', submitValues.isActive ? 'true' : 'false')
 
-      const file = values.iconUrl?.[0]?.originFileObj
+      if (submitValues.translations != null) {
+        formData.append('translations', JSON.stringify(submitValues.translations))
+      }
+
+      const file = submitValues.iconUrl?.[0]?.originFileObj
 
       if (file) {
         formData.append('iconUrl', file)
@@ -74,16 +88,16 @@ export function useAdminWidgetForm({ onSaved }) {
 
       if (editingWidget) {
         await updateWidgetById(editingWidget._id, formData)
-        message.success('Đã cập nhật widget')
+        message.success(t('messages.updateSuccess'))
       } else {
         await createWidget(formData)
-        message.success('Đã thêm widget')
+        message.success(t('messages.createSuccess'))
       }
 
+      await onSaved?.()
       closeModal()
-      onSaved?.()
     } catch (err) {
-      message.error(err.message || 'Không thể lưu widget')
+      message.error(err?.message || t('messages.saveError'))
     } finally {
       setSubmitLoading(false)
     }
@@ -98,7 +112,7 @@ export function useAdminWidgetForm({ onSaved }) {
 
     const isImage = file.type.startsWith('image/')
     if (!isImage) {
-      message.error('Chỉ được upload file ảnh')
+      message.error(t('messages.imageOnly'))
     }
 
     return isImage ? false : Upload.LIST_IGNORE

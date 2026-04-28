@@ -1,0 +1,81 @@
+{
+  "seo": {
+    "title": "Admin - Permissions"
+  },
+  "page": {
+    "title": "Permissions",
+    "description": "Manage access permissions and organize permissions by group."
+  },
+  "common": {
+    "create": "Add permission",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "submitCreate": "Create",
+    "cancel": "Cancel",
+    "enable": "On",
+    "disable": "Off",
+    "noActions": "--"
+  },
+  "stats": {
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Paused",
+    "enabled": "On",
+    "disabled": "Off"
+  },
+  "table": {
+    "columns": {
+      "code": "Permission code",
+      "name": "Permission name",
+      "description": "Description",
+      "group": "Permission group",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "noDescription": "No description",
+    "noGroup": "No group",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} permissions",
+    "deleteConfirmTitle": "Delete this permission?",
+    "deleteConfirmDescription": "Are you sure you want to delete this permission?",
+    "editPermission": "Edit permission",
+    "deletePermission": "Delete permission"
+  },
+  "form": {
+    "createTitle": "Add permission",
+    "editTitle": "Edit permission",
+    "name": "Permission name",
+    "nameRequired": "Please enter a permission name",
+    "nameMin": "Permission name must be at least 3 characters",
+    "namePlaceholder": "Example: View products",
+    "code": "Permission code",
+    "codeRequired": "Please enter a permission code",
+    "codeMin": "Permission code must be at least 3 characters",
+    "codePattern": "Only use a-z, 0-9, and underscores",
+    "codePlaceholder": "Example: view_products",
+    "description": "Description",
+    "descriptionPlaceholder": "Short description for this permission",
+    "translations": {
+      "sectionTitle": "English translation",
+      "name": "English permission name",
+      "namePlaceholder": "Enter English permission name",
+      "description": "English description",
+      "descriptionPlaceholder": "Enter English permission description"
+    },
+    "group": "Permission group",
+    "groupRequired": "Please select a permission group",
+    "groupPlaceholder": "Select a permission group"
+  },
+  "messages": {
+    "fetchError": "Unable to load permissions",
+    "deleteSuccess": "Permission deleted",
+    "deleteError": "Unable to delete permission",
+    "updateSuccess": "Permission updated",
+    "createSuccess": "Permission created",
+    "saveError": "Unable to save permission"
+  }
+}

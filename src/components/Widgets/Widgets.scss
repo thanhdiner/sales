@@ -5,46 +5,55 @@ $color-red: #d93843;
   background: #e0f2fe;
   border-radius: 8px;
   margin-top: 20px;
+
   &__list {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 8px 14px;
     width: 100%;
-    justify-content: space-between;
   }
+
   &__item {
-    width: 150px;
-    & a {
+    min-width: 0;
+
+    & a,
+    & > div {
       width: 100%;
       height: 100%;
-      padding: 20px;
+      padding: 20px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       row-gap: 10px;
       cursor: pointer;
       transition: transform 0.25s;
+
       &:hover {
         transform: translateY(-5px);
-        transition: transform 0.25s;
       }
     }
   }
+
   &__icon--wrap {
     width: 44px;
     height: 44px;
+
     & img {
       width: 100%;
       height: 100%;
       border-radius: 35%;
       border: 1px solid rgba(0, 0, 0, 0.05);
+      object-fit: cover;
     }
   }
+
   &__title {
     font-size: 0.875rem;
     color: $color-black;
     font-weight: 500;
     text-align: center;
     line-height: 1.4;
+
     &.highlight {
       color: $color-red;
     }
@@ -67,7 +76,8 @@ html.dark body:not(.admin-layout-active) .widgets {
     color: #a8b0ba !important;
   }
 
-  &__item a:hover &__title {
+  &__item a:hover &__title,
+  &__item > div:hover &__title {
     color: #f4f6f8 !important;
   }
 
@@ -82,77 +92,83 @@ html.dark body:not(.admin-layout-active) .widgets {
   }
 }
 
-/* ========= Responsive (desktop giữ nguyên) ========= */
-@media (max-width: 1199.98px) {
-  .widgets__list {
-    justify-content: flex-start;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-  .widgets__item {
-    width: 140px;
-  }
-}
-
+/* Tablet */
 @media (max-width: 991.98px) {
-  /* 4 per row */
-  .widgets__item {
-    width: calc(25% - 14px);
+  .widgets__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
+/* Mobile */
 @media (max-width: 767.98px) {
-  /* 3 per row */
-  .widgets__item {
-    width: calc(33.333% - 14px);
+  .widgets {
+    margin-top: 16px;
+    padding: 12px 10px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 22px;
+    background: rgba(7, 20, 40, 0.82);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .widgets__list {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px 8px;
+  }
+
+  .widgets__item a,
+  .widgets__item > div {
+    padding: 0;
+    row-gap: 7px;
+  }
+
+  .widgets__icon--wrap {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto;
+  }
+
+  .widgets__title {
+    color: #f8fafc;
+    font-size: 0.73rem;
+    font-weight: 700;
+    line-height: 1.18;
   }
 }
 
 @media (max-width: 575.98px) {
-  /* 2 per row */
   .widgets__list {
-    gap: 10px;
+    gap: 12px 7px;
   }
-  .widgets__item {
-    width: calc(50% - 10px);
-  }
-  .widgets__item a {
-    padding: 16px 10px;
+
+  .widgets__item a,
+  .widgets__item > div {
+    padding: 0;
     row-gap: 8px;
   }
+
   .widgets__icon--wrap {
-    width: 40px;
-    height: 40px;
+    width: clamp(44px, 12vw, 56px);
+    height: clamp(44px, 12vw, 56px);
   }
+
   .widgets__title {
-    font-size: 0.75rem;
+    font-size: clamp(0.66rem, 2.6vw, 0.78rem);
   }
-  .widgets__toggle-wrap {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
+}
+
+@media (max-width: 767.98px) {
+  html.dark body:not(.admin-layout-active) .widgets {
+    border-color: var(--client-dark-border, rgba(255, 255, 255, 0.08));
+    background: var(--client-dark-surface, #101213) !important;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
   }
-  .widgets__toggle {
-    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
-    border: none;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25);
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: background 0.25s, transform 0.25s;
+
+  html.dark body:not(.admin-layout-active) .widgets__title {
+    color: var(--client-dark-muted, #a8b0ba) !important;
   }
-  .widgets__toggle:hover {
-    background: linear-gradient(90deg, #0ea5e9, #0284c7);
-  }
-  .widgets__toggle:active {
-    transform: translateY(1px);
+
+  html.dark body:not(.admin-layout-active) .widgets__item a:hover .widgets__title,
+  html.dark body:not(.admin-layout-active) .widgets__item > div:hover .widgets__title {
+    color: var(--client-dark-text, #f4f6f8) !important;
   }
 }

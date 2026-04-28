@@ -1,9 +1,23 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
+import { FacebookFilled, LinkOutlined, MailOutlined, MessageOutlined, PhoneOutlined } from '@ant-design/icons'
 import { viewport } from '../constants'
 
-const SellerCard = ({ seller, index }) => {
+const METHOD_ICONS = {
+  zalo: MessageOutlined,
+  facebook: FacebookFilled,
+  email: MailOutlined,
+  phone: PhoneOutlined,
+  link: LinkOutlined
+}
+
+const getMethodIcon = method => {
+  if (method.icon) return method.icon
+  return METHOD_ICONS[method.type] || METHOD_ICONS.link
+}
+
+const SellerCard = ({ seller, index, note }) => {
   return (
     <motion.div
       className="contact-card rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-colors hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800"
@@ -23,6 +37,7 @@ const SellerCard = ({ seller, index }) => {
           <h3 className="contact-card-title truncate text-lg font-semibold text-gray-900 dark:text-white">
             {seller.name}
           </h3>
+
           <p className="contact-muted-text mt-1 text-sm text-gray-500 dark:text-gray-400">
             {seller.role}
           </p>
@@ -30,12 +45,12 @@ const SellerCard = ({ seller, index }) => {
       </div>
 
       <div className="mt-5 space-y-2">
-        {seller.methods.map((method, methodIndex) => {
-          const Icon = method.icon
+        {(seller.methods || []).map((method, methodIndex) => {
+          const Icon = getMethodIcon(method)
 
           return (
             <motion.a
-              key={`${seller.name}-${method.title}`}
+              key={`${seller.name}-${method.title}-${methodIndex}`}
               href={method.link}
               target="_blank"
               rel="noopener noreferrer nofollow"
@@ -58,12 +73,19 @@ const SellerCard = ({ seller, index }) => {
                   <div className="contact-card-title text-sm font-semibold text-gray-900 dark:text-white">
                     {method.title}
                   </div>
+
                   <div
                     className="contact-method-value truncate text-sm text-gray-500 dark:text-gray-400"
                     title={method.value}
                   >
                     {method.value}
                   </div>
+
+                  {(method.actionLabel || method.actionKey) && (
+                    <div className="mt-0.5 text-xs font-medium text-blue-600 dark:text-blue-300">
+                      {method.actionLabel || method.actionKey}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -74,7 +96,7 @@ const SellerCard = ({ seller, index }) => {
       </div>
 
       <p className="contact-muted-text mt-4 text-sm leading-6 text-gray-500 dark:text-gray-400">
-        Ưu tiên liên hệ qua Zalo hoặc Facebook để được phản hồi nhanh hơn.
+        {note}
       </p>
     </motion.div>
   )

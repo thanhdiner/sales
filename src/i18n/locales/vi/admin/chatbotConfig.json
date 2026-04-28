@@ -1,0 +1,49 @@
+{
+  "seo": {
+    "title": "Admin - Cài đặt Agent"
+  },
+  "page": {
+    "title": "Cài đặt Agent",
+    "description": "Quản lý hồ sơ và trạng thái hoạt động của agent chính.",
+    "reload": "Tải lại",
+    "save": "Lưu cấu hình"
+  },
+  "stats": {
+    "agentStatus": "Trạng thái agent",
+    "enabled": "Đang bật",
+    "disabled": "Đang tắt",
+    "runtimeProvider": "Provider runtime",
+    "enabledTools": "Tools đang bật"
+  },
+  "overview": {
+    "message": "Các phần cấu hình chuyên biệt đã được tách ra",
+    "runtime": "Runtime & Provider",
+    "rules": "Quy tắc Agent",
+    "tools": "Công cụ Agent",
+    "toolLogs": "Nhật ký gọi công cụ"
+  },
+  "form": {
+    "profileTitle": "Hồ sơ agent",
+    "agentName": "Tên agent",
+    "agentNamePlaceholder": "Ví dụ: Trợ lý mua hàng",
+    "agentTone": "Giọng điệu",
+    "agentTonePlaceholder": "Ví dụ: thân thiện, ngắn gọn",
+    "isEnabled": "Bật agent",
+    "enabled": "Bật",
+    "disabled": "Tắt",
+    "agentRole": "Vai trò",
+    "agentRoleExtra": "Mô tả ngắn agent này được phép hỗ trợ việc gì.",
+    "agentRolePlaceholder": "Hỗ trợ tìm sản phẩm, tư vấn, tra cứu khuyến mãi..."
+  },
+  "defaults": {
+    "agentName": "Trợ lý mua hàng"
+  },
+  "messages": {
+    "updateProfileSuccess": "Cập nhật hồ sơ agent thành công",
+    "loadToolLogsFailed": "Không thể tải lịch sử gọi công cụ",
+    "loadConfigFailed": "Không thể tải cấu hình AI",
+    "updateSuccess": "Cập nhật thành công",
+    "updateFailed": "Cập nhật thất bại",
+    "updateError": "Có lỗi xảy ra khi cập nhật"
+  }
+}

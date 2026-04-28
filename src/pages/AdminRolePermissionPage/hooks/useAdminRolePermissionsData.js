@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { getAdminRoles, updateAdminRoleById } from '@/services/rolesService'
 import { getAdminPermissionGroups } from '@/services/permissionGroupsService'
 import { getAdminPermissions } from '@/services/permissionService'
 import { buildRolePermissionMap, getGroupPermissionNames, getPermissionNames } from '../utils'
 
 export function useAdminRolePermissionsData() {
+  const { t } = useTranslation('adminRolePermission')
+  const language = useCurrentLanguage()
   const [roles, setRoles] = useState([])
   const [permissions, setPermissions] = useState([])
   const [permissionGroups, setPermissionGroups] = useState([])
@@ -28,11 +32,11 @@ export function useAdminRolePermissionsData() {
       setPermissionGroups(groupRes.data || [])
       setRolePerm(buildRolePermissionMap(nextRoles))
     } catch {
-      message.error('Lỗi khi lấy dữ liệu')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     fetchData()
@@ -90,14 +94,17 @@ export function useAdminRolePermissionsData() {
       for (const role of roles) {
         await updateAdminRoleById(role._id, {
           label: role.label,
+          description: role.description || '',
+          translations: role.translations,
+          isActive: role.isActive,
           permissions: rolePerm[role._id]
         })
       }
 
-      message.success('Cập nhật phân quyền thành công!')
+      message.success(t('messages.updateSuccess'))
       await fetchData()
     } catch {
-      message.error('Lưu phân quyền thất bại')
+      message.error(t('messages.updateError'))
     } finally {
       setLoading(false)
     }

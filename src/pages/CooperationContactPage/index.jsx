@@ -1,33 +1,44 @@
 import SEO from '@/components/SEO'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import '../Contact/Contact.scss'
+import { useCooperationContactContent } from './useCooperationContactContent'
+
+const getTextValue = (value, fallback = '') => {
+  if (typeof value !== 'string') return fallback
+
+  const normalizedValue = value.trim()
+
+  return normalizedValue && normalizedValue !== '[object Object]' ? value : fallback
+}
 
 const CooperationContactPage = () => {
+  const { t } = useTranslation('clientContact')
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const { data: content } = useCooperationContactContent()
 
-  const email = websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'
-  const phone = websiteConfig?.contactInfo?.phone || '0823387108'
+  const email = getTextValue(content?.email, websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com')
+  const phone = getTextValue(content?.phone, websiteConfig?.contactInfo?.phone || '0823387108')
 
   return (
     <div className="contact-themed min-h-[70vh] bg-white px-4 py-12 dark:bg-gray-900">
       <SEO
-        title="Hợp tác kinh doanh"
-        description="Liên hệ SmartMall để hợp tác kinh doanh và phân phối sản phẩm."
+        title={getTextValue(content?.seo?.title, t('cooperationPage.seo.title'))}
+        description={getTextValue(content?.seo?.description, t('cooperationPage.seo.description'))}
       />
 
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 text-center">
           <p className="contact-section-eyebrow mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
-            Hợp tác
+            {getTextValue(content?.eyebrow, t('cooperationPage.eyebrow'))}
           </p>
 
           <h1 className="contact-title text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
-            Liên hệ hợp tác
+            {getTextValue(content?.title, t('cooperationPage.title'))}
           </h1>
 
           <p className="contact-description mx-auto mt-4 max-w-xl text-base leading-7 text-gray-600 dark:text-gray-300">
-            Bạn muốn hợp tác kinh doanh, quảng cáo, phân phối sản phẩm hoặc trở thành đại lý?
-            Chúng tôi luôn sẵn sàng lắng nghe đề xuất và cùng phát triển.
+            {getTextValue(content?.description, t('cooperationPage.description'))}
           </p>
         </div>
 
@@ -35,7 +46,7 @@ const CooperationContactPage = () => {
           <div className="space-y-4">
             <div className="contact-muted-box rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
               <p className="contact-card-title text-sm font-semibold text-gray-900 dark:text-gray-100">
-                Email
+                {getTextValue(content?.emailLabel, t('cooperationPage.emailLabel'))}
               </p>
 
               <a
@@ -48,7 +59,7 @@ const CooperationContactPage = () => {
 
             <div className="contact-muted-box rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
               <p className="contact-card-title text-sm font-semibold text-gray-900 dark:text-gray-100">
-                Hotline / Zalo
+                {getTextValue(content?.phoneLabel, t('cooperationPage.phoneLabel'))}
               </p>
 
               <a
@@ -62,7 +73,7 @@ const CooperationContactPage = () => {
 
           <div className="contact-card-row mt-6 rounded-xl border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800">
             <p className="contact-muted-text mb-0 text-sm leading-6 text-gray-500 dark:text-gray-400">
-              Hoặc gửi đề xuất hợp tác qua email để được phản hồi trong vòng 24-48 giờ.
+              {getTextValue(content?.note, t('cooperationPage.note'))}
             </p>
           </div>
         </div>

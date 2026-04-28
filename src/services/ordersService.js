@@ -1,6 +1,7 @@
 import { get, post } from '@/utils/clientRequest'
+import { API_URL } from '@/utils/env'
 
-const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+const API_DOMAIN = API_URL
 
 export const createOrder = data => post('orders', data)
 export const getMyOrders = () => get('orders/my')

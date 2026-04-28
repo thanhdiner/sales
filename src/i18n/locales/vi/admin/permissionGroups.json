@@ -1,0 +1,79 @@
+{
+  "seo": {
+    "title": "Admin - Nhóm quyền"
+  },
+  "page": {
+    "title": "Nhóm quyền",
+    "description": "Quản lý các nhóm quyền dùng để phân loại quyền trong hệ thống."
+  },
+  "common": {
+    "create": "Thêm nhóm quyền",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "submitCreate": "Tạo",
+    "cancel": "Hủy",
+    "enable": "Bật",
+    "disable": "Tắt"
+  },
+  "stats": {
+    "total": "Tổng",
+    "active": "Hoạt động",
+    "inactive": "Tạm dừng"
+  },
+  "status": {
+    "active": "Đang hoạt động",
+    "inactive": "Tạm dừng"
+  },
+  "table": {
+    "columns": {
+      "name": "Tên nhóm",
+      "code": "Mã nhóm",
+      "description": "Mô tả",
+      "status": "Trạng thái",
+      "actions": "Hành động"
+    },
+    "permissionCount": "{{count}} quyền",
+    "noDescription": "Không có mô tả",
+    "untitledGroup": "Nhóm chưa có tên",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} nhóm quyền",
+    "empty": "Chưa có nhóm quyền",
+    "openActions": "Mở hành động nhóm quyền",
+    "deleteConfirmTitle": "Xóa nhóm quyền này?",
+    "deleteConfirmDescription": "Chỉ nên xóa \"{{name}}\" khi không có quyền nào đang liên kết với nhóm này."
+  },
+  "form": {
+    "createTitle": "Thêm nhóm quyền",
+    "editTitle": "Chỉnh sửa nhóm quyền",
+    "name": "Tên nhóm",
+    "nameRequired": "Vui lòng nhập tên nhóm",
+    "nameMin": "Tên nhóm phải có ít nhất 3 ký tự",
+    "namePlaceholder": "Ví dụ: Quản lý sản phẩm",
+    "code": "Mã nhóm",
+    "codeRequired": "Vui lòng nhập mã nhóm",
+    "codePattern": "Chỉ dùng a-z, 0-9 và dấu _",
+    "codePlaceholder": "Ví dụ: product",
+    "description": "Mô tả",
+    "descriptionMax": "Mô tả tối đa 300 ký tự",
+    "descriptionPlaceholder": "Mô tả ngắn về nhóm quyền",
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "label": "Tên nhóm tiếng Anh",
+      "labelPlaceholder": "Nhập tên nhóm bằng tiếng Anh",
+      "description": "Mô tả tiếng Anh",
+      "descriptionPlaceholder": "Mô tả ngắn bằng tiếng Anh cho nhóm quyền"
+    },
+    "status": "Trạng thái"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nhóm quyền",
+    "deleteSuccess": "Đã xóa nhóm quyền",
+    "deleteError": "Không thể xóa nhóm quyền",
+    "toggleActive": "Đã kích hoạt nhóm quyền",
+    "toggleInactive": "Đã tạm dừng nhóm quyền",
+    "toggleError": "Không thể thay đổi trạng thái",
+    "updateSuccess": "Đã cập nhật nhóm quyền",
+    "createSuccess": "Đã tạo nhóm quyền",
+    "saveError": "Không thể lưu nhóm quyền"
+  }
+}

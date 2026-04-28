@@ -1,5 +1,6 @@
 import { Card, Col, Input, Row, Select, Space, Statistic } from 'antd'
 import { FileSearchOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 
 export default function AdminChatbotToolLogsFiltersSection({
   toolOptions,
@@ -9,12 +10,14 @@ export default function AdminChatbotToolLogsFiltersSection({
   onToolNameFilterChange,
   onSessionIdFilterChange
 }) {
+  const { t } = useTranslation('adminChatbotToolLogs')
+
   return (
     <Row gutter={[16, 16]} className="mb-4">
       <Col xs={24} sm={12} xl={4}>
         <Card className="admin-chatbot-stat-card">
           <Statistic
-            title="Tổng logs"
+            title={t('stats.totalLogs')}
             value={toolLogsMeta.total || 0}
             prefix={<FileSearchOutlined />}
           />
@@ -24,7 +27,7 @@ export default function AdminChatbotToolLogsFiltersSection({
       <Col xs={24} sm={12} xl={4}>
         <Card className="admin-chatbot-stat-card">
           <Statistic
-            title="Lỗi"
+            title={t('stats.errors')}
             value={toolLogsMeta.errorCount || 0}
             prefix={<FileSearchOutlined />}
           />
@@ -36,7 +39,7 @@ export default function AdminChatbotToolLogsFiltersSection({
           <Space wrap className="w-full">
             <Select
               allowClear
-              placeholder="Lọc theo tool"
+              placeholder={t('filters.toolPlaceholder')}
               className="min-w-[220px]"
               options={toolOptions}
               value={toolNameFilter}
@@ -44,7 +47,7 @@ export default function AdminChatbotToolLogsFiltersSection({
             />
 
             <Input
-              placeholder="Lọc theo sessionId"
+              placeholder={t('filters.sessionPlaceholder')}
               className="min-w-[260px]"
               value={sessionIdFilter}
               onChange={event => onSessionIdFilterChange(event.target.value)}

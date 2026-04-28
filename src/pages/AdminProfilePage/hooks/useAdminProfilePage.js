@@ -5,8 +5,14 @@ import { updateProfile } from '@/stores/adminUser'
 import { updateAdminAvatar, updateAdminProfile } from '@/services/adminAccountsService'
 
 const getInitialLetterAvatar = name => name?.trim()?.split(' ').pop()?.charAt(0)?.toUpperCase() || 'U'
+const getLocale = language => (language?.startsWith('en') ? 'en-US' : 'vi-VN')
 
-export default function useAdminProfilePage() {
+function getTranslatedValue(t, key, fallback = '') {
+  const value = t(key)
+  return value === key ? fallback : value
+}
+
+export default function useAdminProfilePage({ language = 'vi', t = key => key } = {}) {
   const profile = useSelector(state => state.adminUser.user)
   const dispatch = useDispatch()
   const [form] = Form.useForm()
@@ -21,8 +27,7 @@ export default function useAdminProfilePage() {
     form.setFieldsValue({
       fullName: profile.fullName || '',
       email: profile.email || '',
-      username: profile.username || '',
-      status: profile.status || ''
+      username: profile.username || ''
     })
   }, [form, profile])
 
@@ -44,12 +49,12 @@ export default function useAdminProfilePage() {
     if (!file || !profile?._id) return
 
     if (!file.type.startsWith('image/')) {
-      message.error('Only image files are allowed!')
+      message.error(t('message.imageOnly'))
       return
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      message.error('Image must be smaller than 2MB!')
+      message.error(t('message.imageMaxSize'))
       return
     }
 
@@ -74,9 +79,9 @@ export default function useAdminProfilePage() {
       dispatch(updateProfile(response.data))
       setAvatarPreview(response.data.avatarUrl || '')
       setAvatarFile(null)
-      message.success('Avatar updated!')
+      message.success(t('message.avatarUpdated'))
     } catch (error) {
-      message.error(error?.response?.message || 'Upload failed!')
+      message.error(error?.response?.message || t('message.avatarUpdateFailed'))
     } finally {
       setLoading(false)
       if (inputRef.current) inputRef.current.value = ''
@@ -104,9 +109,9 @@ export default function useAdminProfilePage() {
 
       const response = await updateAdminAvatar(profile._id, formData)
       dispatch(updateProfile(response.data))
-      message.success('Avatar removed!')
+      message.success(t('message.avatarRemoved'))
     } catch (error) {
-      message.error(error?.response?.message || 'Remove avatar failed!')
+      message.error(error?.response?.message || t('message.avatarRemoveFailed'))
     } finally {
       setLoading(false)
       if (inputRef.current) inputRef.current.value = ''
@@ -121,9 +126,9 @@ export default function useAdminProfilePage() {
     try {
       const response = await updateAdminProfile(profile._id, { fullName: values.fullName })
       dispatch(updateProfile(response.data))
-      message.success('Updated successfully!')
+      message.success(t('message.updateSuccess'))
     } catch (error) {
-      message.error(error?.response?.data?.message || 'Update failed!')
+      message.error(error?.response?.data?.message || t('message.updateFailed'))
     } finally {
       setLoading(false)
     }
@@ -140,7 +145,8 @@ export default function useAdminProfilePage() {
     inputRef,
     avatarPreview,
     roleLabel: profile?.role_id?.label || '',
-    lastLoginLabel: profile?.lastLogin ? new Date(profile.lastLogin).toLocaleString('vi-VN') : '',
+    statusLabel: profile?.status ? getTranslatedValue(t, `status.${profile.status}`, profile.status) : '',
+    lastLoginLabel: profile?.lastLogin ? new Date(profile.lastLogin).toLocaleString(getLocale(language)) : t('fields.noLastLogin'),
     initialLetterAvatar: getInitialLetterAvatar(profile?.fullName),
     handleFileChange,
     handleRemoveAvatar,

@@ -1,0 +1,56 @@
+{
+  "gameAccount": {
+    "seo": {
+      "title": "Game accounts – Coming soon"
+    },
+    "eyebrow": "Coming soon",
+    "title": "Game accounts",
+    "description": "We are not selling game accounts yet. Please check back later or contact us if you have a specific request.",
+    "note": "This service will be updated soon."
+  },
+  "specialPackage": {
+    "seo": {
+      "title": "Special packages – Coming soon"
+    },
+    "eyebrow": "Coming soon",
+    "title": "Special service packages",
+    "description": "We do not currently provide special service packages. Please check back later or contact us if you have a custom request.",
+    "note": "This service will be updated soon."
+  },
+  "gameNews": {
+    "seo": {
+      "title": "Game news – Coming soon"
+    },
+    "title": "Game news",
+    "description": "The game news section will update events, promotions, and the latest information soon.",
+    "descriptionSecondLine": "Do not forget to come back so you will not miss any hot news!",
+    "status": "This feature is coming soon!"
+  },
+  "community": {
+    "seo": {
+      "title": "Community – Coming soon"
+    },
+    "title": "Gaming community",
+    "description": "A place to connect, share experiences, and meet other gamers will open soon.",
+    "descriptionSecondLine": "Do not miss the chance to become one of the first members of our community!",
+    "status": "This feature is under development!"
+  },
+  "quickSupport": {
+    "seo": {
+      "title": "Quick support – Coming soon"
+    },
+    "title": "Quick support",
+    "description": "The customer support and instant question-answering feature will launch soon.",
+    "descriptionSecondLine": "Rest assured, our team is always ready to support you!",
+    "status": "This feature will be available soon!"
+  },
+  "license": {
+    "seo": {
+      "title": "Licenses – Coming soon"
+    },
+    "title": "Software licenses",
+    "description": "A section for licensed software, genuine keys, and clearly sourced products will be updated soon.",
+    "descriptionSecondLine": "Stay tuned so you do not miss exclusive offers!",
+    "status": "This feature is currently under development!"
+  }
+}

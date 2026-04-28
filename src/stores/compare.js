@@ -1,10 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { message } from 'antd'
 
+const getInitialCompareItems = () => {
+  if (typeof localStorage === 'undefined') return []
+
+  try {
+    const rawItems = localStorage.getItem('compareList')
+    if (!rawItems) return []
+
+    const parsedItems = JSON.parse(rawItems)
+    return Array.isArray(parsedItems) ? parsedItems : []
+  } catch {
+    try {
+      localStorage.removeItem('compareList')
+    } catch {
+      // Ignore storage cleanup errors
+    }
+    return []
+  }
+}
+
 const compareSlice = createSlice({
   name: 'compare',
   initialState: {
-    items: JSON.parse(localStorage.getItem('compareList')) || []
+    items: getInitialCompareItems()
   },
   reducers: {
     toggleCompareLocal: (state, action) => {

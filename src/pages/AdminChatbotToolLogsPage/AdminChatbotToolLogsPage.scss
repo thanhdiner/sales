@@ -1,0 +1,239 @@
+.admin-chatbot-tool-logs-card.ant-card .ant-card-body {
+  padding: 18px !important;
+}
+
+.admin-chatbot-tool-logs-table {
+  overflow: hidden;
+  border: 1px solid var(--chatbot-border);
+  border-radius: 12px;
+  background: var(--chatbot-surface);
+}
+
+.admin-chatbot-tool-log-grid {
+  display: grid;
+  grid-template-columns:
+    132px minmax(150px, 1.05fr) minmax(150px, 0.9fr) 92px 78px
+    minmax(180px, 1.1fr) minmax(180px, 1.1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-chatbot-tool-log-head {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--chatbot-border);
+  background: var(--chatbot-surface-2);
+  color: var(--chatbot-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-chatbot-tool-log-row {
+  min-height: 72px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--chatbot-border);
+  transition: background-color 0.2s ease;
+}
+
+.admin-chatbot-tool-log-row:last-child {
+  border-bottom: 0;
+}
+
+.admin-chatbot-tool-log-row:hover {
+  background: var(--chatbot-surface-2);
+}
+
+.admin-chatbot-tool-log-cell,
+.admin-chatbot-tool-log-heading {
+  min-width: 0;
+}
+
+.admin-chatbot-tool-log-code.ant-typography {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-chatbot-tool-log-outcome.ant-tag {
+  max-width: 100%;
+  margin-inline-end: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-chatbot-tool-log-json,
+.admin-chatbot-tool-log-preview-text {
+  color: var(--chatbot-text-muted) !important;
+}
+
+.admin-chatbot-tool-log-mobile-list {
+  display: none;
+}
+
+.admin-chatbot-tool-log-mobile-row {
+  padding: 12px;
+  border-bottom: 1px solid var(--chatbot-border);
+  background: var(--chatbot-surface);
+}
+
+.admin-chatbot-tool-log-mobile-row:last-child {
+  border-bottom: 0;
+}
+
+.admin-chatbot-tool-log-mobile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 8px;
+  color: var(--chatbot-text-muted);
+  font-size: 12px;
+}
+
+.admin-chatbot-tool-log-detail-block {
+  min-width: 0;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--chatbot-border);
+}
+
+.admin-chatbot-tool-log-detail-label {
+  margin-bottom: 4px;
+  color: var(--chatbot-text-subtle);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-chatbot-tool-logs-state {
+  display: flex;
+  min-height: 240px;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 16px;
+}
+
+.admin-chatbot-tool-logs-pagination.ant-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.admin-chatbot-tool-logs-summary {
+  line-height: 1.5;
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .admin-chatbot-tool-log-grid {
+    grid-template-columns: 112px minmax(0, 1fr) minmax(96px, 0.72fr) 76px 64px;
+    gap: 8px;
+  }
+
+  .admin-chatbot-tool-log-head {
+    padding: 11px 12px;
+    font-size: 11px;
+  }
+
+  .admin-chatbot-tool-log-row {
+    min-height: 0;
+    padding: 12px;
+    row-gap: 10px;
+  }
+
+  .admin-chatbot-tool-log-heading.admin-chatbot-tool-log-input,
+  .admin-chatbot-tool-log-heading.admin-chatbot-tool-log-preview {
+    display: none;
+  }
+
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-input,
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-preview {
+    padding-top: 10px;
+    border-top: 1px solid var(--chatbot-border);
+  }
+
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-input::before,
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-preview::before {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--chatbot-text-subtle);
+    content: attr(data-label);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-input {
+    grid-column: 1 / 3;
+  }
+
+  .admin-chatbot-tool-log-cell.admin-chatbot-tool-log-preview {
+    grid-column: 3 / -1;
+  }
+
+  .admin-chatbot-tool-log-time .ant-typography,
+  .admin-chatbot-tool-log-duration .ant-typography,
+  .admin-chatbot-tool-log-session .ant-typography {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-chatbot-tool-logs-card.ant-card .ant-card-body {
+    padding: 12px !important;
+  }
+
+  .admin-chatbot-tool-logs-table {
+    border-radius: 10px;
+  }
+
+  .admin-chatbot-tool-log-head,
+  .admin-chatbot-tool-log-body {
+    display: none;
+  }
+
+  .admin-chatbot-tool-log-mobile-list {
+    display: block;
+  }
+
+  .admin-chatbot-tool-log-mobile-row .admin-chatbot-tool-log-outcome.ant-tag {
+    flex: 0 0 auto;
+  }
+
+  .admin-chatbot-tool-log-mobile-row > .flex > .min-w-0 {
+    flex: 1 1 auto;
+  }
+
+  .admin-chatbot-logs-footer {
+    align-items: stretch;
+  }
+
+  .admin-chatbot-tool-logs-summary {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .admin-chatbot-tool-logs-pagination.ant-pagination {
+    justify-content: center;
+  }
+
+  .admin-chatbot-tool-logs-pagination .ant-pagination-total-text {
+    width: 100%;
+    margin-right: 0 !important;
+    text-align: center;
+  }
+
+  .admin-chatbot-tool-logs-pagination .ant-pagination-options {
+    display: none !important;
+  }
+
+  .admin-chatbot-tool-logs-pagination .ant-pagination-item,
+  .admin-chatbot-tool-logs-pagination .ant-pagination-prev,
+  .admin-chatbot-tool-logs-pagination .ant-pagination-next {
+    min-width: 30px;
+    height: 30px;
+    line-height: 28px;
+  }
+}

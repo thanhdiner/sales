@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   createFlashSale,
   deleteFlashSale,
@@ -9,6 +11,8 @@ import {
 import { serializeFlashSaleForm } from '../utils/flashSaleHelpers'
 
 export function useAdminFlashSalesData() {
+  const { t } = useTranslation('adminFlashSales')
+  const language = useCurrentLanguage()
   const [flashSales, setFlashSales] = useState([])
   const [tableLoading, setTableLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
@@ -23,7 +27,7 @@ export function useAdminFlashSalesData() {
     } finally {
       setTableLoading(false)
     }
-  }, [])
+  }, [language])
 
   useEffect(() => {
     fetchFlashSales()
@@ -38,35 +42,35 @@ export function useAdminFlashSalesData() {
 
         if (editingItem) {
           await updateFlashSaleById(editingItem._id, dataToSend)
-          message.success('Cập nhật thành công')
+          message.success(t('messages.updateSuccess'))
         } else {
           await createFlashSale(dataToSend)
-          message.success('Tạo flash sale thành công')
+          message.success(t('messages.createSuccess'))
         }
 
         await fetchFlashSales()
         return true
       } catch (err) {
-        message.error(err.message || 'Có lỗi xảy ra')
+        message.error(err.message || t('messages.genericError'))
         return false
       } finally {
         setSubmitLoading(false)
       }
     },
-    [fetchFlashSales]
+    [fetchFlashSales, t]
   )
 
   const deleteFlashSaleItem = useCallback(
     async id => {
       try {
         await deleteFlashSale(id)
-        message.success('Đã xóa flash sale thành công')
+        message.success(t('messages.deleteSuccess'))
         await fetchFlashSales()
       } catch (err) {
-        message.error(err.message || 'Xóa thất bại')
+        message.error(err.message || t('messages.deleteError'))
       }
     },
-    [fetchFlashSales]
+    [fetchFlashSales, t]
   )
 
   return {

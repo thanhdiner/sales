@@ -1,0 +1,50 @@
+{
+  "seo": {
+    "title": "Admin - Liên hệ hợp tác"
+  },
+  "page": {
+    "title": "Nội dung liên hệ hợp tác",
+    "description": "Quản lý nội dung song ngữ hiển thị ở trang liên hệ hợp tác phía khách hàng."
+  },
+  "tabs": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reload": "Tải lại",
+    "reset": "Đặt lại",
+    "save": "Lưu nội dung"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung liên hệ hợp tác",
+    "saveSuccess": "Đã lưu nội dung liên hệ hợp tác",
+    "saveError": "Không thể lưu nội dung liên hệ hợp tác",
+    "resetDone": "Đã đặt lại form"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  },
+  "sections": {
+    "seo": "SEO",
+    "hero": "Nội dung giới thiệu",
+    "contact": "Thẻ liên hệ",
+    "contactDescription": "Để trống email hoặc số điện thoại nếu muốn dùng thông tin liên hệ chung của website."
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "emailLabel": "Nhãn email",
+    "email": "Email riêng",
+    "phoneLabel": "Nhãn số điện thoại",
+    "phone": "Số điện thoại riêng",
+    "note": "Ghi chú"
+  },
+  "placeholders": {
+    "email": "Để trống để dùng email website",
+    "phone": "Để trống để dùng số điện thoại website"
+  }
+}

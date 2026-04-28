@@ -1,17 +1,33 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { message as antdMessage } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 
 import { getSocket } from '@/services/socketService'
 import { chatService } from '@/services/chatService'
-import { createClientTempId, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
+import { getActiveQuickReplies, recordQuickReplyUsage } from '@/services/adminQuickRepliesService'
+import {
+  createClientTempId,
+  applyLocalChatReaction,
+  getLocalizedSystemMessage,
+  isSameOptimisticImageMessage,
+  mergeChatReactionUpdate,
+  revokeChatImageUrls
+} from '@/utils/chatMessage'
 
 import { apiFetch, getMessagePreview, revokePreviewUrl } from '../utils'
 
 const CHAT_TABS = new Set(['unassigned', 'mine', 'open', 'resolved'])
 const CONVERSATION_PAGE_SIZE = 30
 const SEARCH_DEBOUNCE_MS = 300
+
+function resolveQuickReplyVariables(content, variables = {}) {
+  return String(content || '').replace(/{{\s*([a-zA-Z][a-zA-Z0-9_]*)\s*}}/g, (match, key) => {
+    const value = variables[key]
+    return typeof value === 'string' && value.trim() ? value : match
+  })
+}
 
 function getValidChatTab(tab) {
   return CHAT_TABS.has(tab) ? tab : 'unassigned'
@@ -72,6 +88,7 @@ function conversationMatchesSearch(conversation, search) {
     conversation?.customer?.currentPage,
     conversation?.sessionId,
     conversation?.lastMessage,
+    conversation?.translations?.en?.lastMessage,
     conversation?.assignedAgent?.agentName
   ]
     .filter(Boolean)
@@ -89,6 +106,9 @@ function hasPaginationTotal(response) {
 }
 
 export function useAdminChatPage() {
+  const { t, i18n } = useTranslation('adminChat')
+  const language = i18n.resolvedLanguage || i18n.language
+  const quickReplyLanguage = String(language || '').toLowerCase().startsWith('en') ? 'en' : 'vi'
   const [searchParams, setSearchParams] = useSearchParams()
   const initialTab = getValidChatTab(searchParams.get('tab'))
   const initialSession = searchParams.get('session') || null
@@ -105,6 +125,8 @@ export function useAdminChatPage() {
   const [customerTyping, setCustomerTyping] = useState(false)
   const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [pendingImage, setPendingImage] = useState(null)
+  const [quickReplies, setQuickReplies] = useState([])
+  const [quickRepliesLoading, setQuickRepliesLoading] = useState(false)
   const [conversationsLoading, setConversationsLoading] = useState(true)
   const [conversationsLoadingMore, setConversationsLoadingMore] = useState(false)
   const [conversationPagination, setConversationPagination] = useState({
@@ -122,6 +144,7 @@ export function useAdminChatPage() {
   const inputRef = useRef(null)
   const imageInputRef = useRef(null)
   const typingTimerRef = useRef(null)
+  const agentTypingTimerRef = useRef(null)
   const pendingImageRef = useRef(null)
   const previousSessionRef = useRef(null)
   const selectedSessionRef = useRef(null)
@@ -136,9 +159,29 @@ export function useAdminChatPage() {
   const loadCountsRef = useRef(null)
 
   const admin = useSelector(state => state.adminUser?.user || state.user?.user)
+  const websiteConfig = useSelector(state => state.websiteConfig?.data)
   const agentId = admin?._id || null
   const agentName = admin?.fullName || admin?.name || 'Agent'
-  const agentAvatar = admin?.avatar || null
+  const agentAvatar = admin?.avatarUrl || admin?.avatar || null
+  const reactionActor = useMemo(() => ({
+    reactorType: 'agent',
+    reactorId: agentId ? String(agentId) : ''
+  }), [agentId])
+
+  const emitAgentTyping = useCallback((isTyping, sessionId = selectedSessionRef.current) => {
+    if (!sessionId) return
+
+    getSocket().emit('chat:typing', {
+      sessionId,
+      isTyping,
+      role: 'agent'
+    })
+  }, [])
+
+  const stopAgentTyping = useCallback((sessionId = selectedSessionRef.current) => {
+    clearTimeout(agentTypingTimerRef.current)
+    emitAgentTyping(false, sessionId)
+  }, [emitAgentTyping])
 
   const updateChatSearchParams = useCallback((updates = {}) => {
     setSearchParams(prevParams => {
@@ -161,8 +204,14 @@ export function useAdminChatPage() {
   }, [setSearchParams])
 
   useEffect(() => {
+    const previousSession = selectedSessionRef.current
+
+    if (previousSession && previousSession !== selectedSession) {
+      stopAgentTyping(previousSession)
+    }
+
     selectedSessionRef.current = selectedSession
-  }, [selectedSession])
+  }, [selectedSession, stopAgentTyping])
 
   useEffect(() => {
     activeTabRef.current = activeTab
@@ -195,6 +244,27 @@ export function useAdminChatPage() {
   useEffect(() => () => {
     revokePreviewUrl(pendingImageRef.current?.previewUrl)
   }, [])
+
+  useEffect(() => () => {
+    stopAgentTyping()
+  }, [stopAgentTyping])
+
+  const loadQuickReplies = useCallback(async () => {
+    setQuickRepliesLoading(true)
+
+    try {
+      const response = await getActiveQuickReplies({ limit: 100, language: quickReplyLanguage })
+      setQuickReplies(response?.data || [])
+    } catch {
+      setQuickReplies([])
+    } finally {
+      setQuickRepliesLoading(false)
+    }
+  }, [quickReplyLanguage])
+
+  useEffect(() => {
+    void loadQuickReplies()
+  }, [loadQuickReplies])
 
   const loadConversations = useCallback(async ({ append = false, page = 1, silent = false } = {}) => {
     const requestId = conversationsRequestRef.current + 1
@@ -352,6 +422,7 @@ export function useAdminChatPage() {
       const conversation = response?.data || null
 
       if (!conversation) {
+        stopAgentTyping(selectedSessionRef.current)
         selectedSessionRef.current = null
         restoredSessionRef.current = null
         setSelectedSession(null)
@@ -362,6 +433,10 @@ export function useAdminChatPage() {
 
       const urlTab = searchParams.get('tab')
       const nextTab = urlTab ? getValidChatTab(urlTab) : getConversationTab(conversation, agentId)
+
+      if (selectedSessionRef.current && selectedSessionRef.current !== sessionId) {
+        stopAgentTyping(selectedSessionRef.current)
+      }
 
       selectedSessionRef.current = sessionId
       setActiveTab(nextTab)
@@ -380,9 +455,9 @@ export function useAdminChatPage() {
         headers: { 'Content-Type': 'application/json' }
       })
     } catch {
-      antdMessage.error('Không thể khôi phục hội thoại từ URL')
+      antdMessage.error(t('errors.restoreConversation'))
     }
-  }, [agentId, loadHistory, searchParams, updateChatSearchParams])
+  }, [agentId, loadHistory, searchParams, stopAgentTyping, t, updateChatSearchParams])
 
   useEffect(() => {
     const urlTab = getValidChatTab(searchParams.get('tab'))
@@ -393,6 +468,7 @@ export function useAdminChatPage() {
     }
 
     if (!urlSession && selectedSessionRef.current) {
+      stopAgentTyping(selectedSessionRef.current)
       selectedSessionRef.current = null
       setSelectedSession(null)
       setSelectedConversation(null)
@@ -406,7 +482,7 @@ export function useAdminChatPage() {
       restoredSessionRef.current = urlSession
       void restoreConversationFromUrl(urlSession)
     }
-  }, [restoreConversationFromUrl, searchParams])
+  }, [restoreConversationFromUrl, searchParams, stopAgentTyping])
 
   useEffect(() => {
     loadConversations()
@@ -503,7 +579,12 @@ export function useAdminChatPage() {
             conversation.sessionId === message.sessionId
               ? {
                   ...conversation,
-                  lastMessage: getMessagePreview(message),
+                  lastMessage: getMessagePreview(message, {
+                    emptyText: t('message.empty'),
+                    imageText: t('message.image'),
+                    language,
+                    systemText: msg => getLocalizedSystemMessage(msg, t, language)
+                  }),
                   lastMessageAt: message.createdAt,
                   lastMessageSender: message.sender,
                   unreadByAgent:
@@ -530,7 +611,12 @@ export function useAdminChatPage() {
               conversation.sessionId === message.sessionId
                 ? {
                     ...conversation,
-                    lastMessage: getMessagePreview(message),
+                    lastMessage: getMessagePreview(message, {
+                      emptyText: t('message.empty'),
+                      imageText: t('message.image'),
+                      language,
+                      systemText: msg => getLocalizedSystemMessage(msg, t, language)
+                    }),
                     lastMessageAt: message.createdAt,
                     lastMessageSender: message.sender
                   }
@@ -549,6 +635,14 @@ export function useAdminChatPage() {
           )
         )
       }
+    }
+
+    const handleReactionUpdated = updatedMessage => {
+      if (selectedSessionRef.current !== updatedMessage?.sessionId) {
+        return
+      }
+
+      setMessages(prevMessages => mergeChatReactionUpdate(prevMessages, updatedMessage))
     }
 
     const handleConversationUpdated = conversation => {
@@ -591,6 +685,7 @@ export function useAdminChatPage() {
     socket.on('chat:new_conversation', handleNewConversation)
     socket.on('chat:new_message', handleNewMessage)
     socket.on('chat:message', handleMessage)
+    socket.on('chat:reaction_updated', handleReactionUpdated)
     socket.on('chat:conversation_updated', handleConversationUpdated)
     socket.on('chat:customer_typing', handleCustomerTyping)
 
@@ -598,11 +693,12 @@ export function useAdminChatPage() {
       socket.off('chat:new_conversation', handleNewConversation)
       socket.off('chat:new_message', handleNewMessage)
       socket.off('chat:message', handleMessage)
+      socket.off('chat:reaction_updated', handleReactionUpdated)
       socket.off('chat:conversation_updated', handleConversationUpdated)
       socket.off('chat:customer_typing', handleCustomerTyping)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     if (!selectedSession) {
@@ -706,6 +802,41 @@ export function useAdminChatPage() {
     })
   }, [agentAvatar, agentId, agentName, selectedSession])
 
+  const handleReactToMessage = useCallback((targetMessage, emoji) => {
+    if (!targetMessage?._id || targetMessage.isOptimistic || !selectedSession || !agentId) {
+      return
+    }
+
+    let previousTargetMessage = null
+    setMessages(prevMessages => {
+      previousTargetMessage = prevMessages.find(message =>
+        message?._id?.toString() === targetMessage._id?.toString()
+      )
+      return applyLocalChatReaction(prevMessages, targetMessage, emoji, reactionActor, agentName)
+    })
+
+    getSocket().emit('chat:reaction', {
+      sessionId: targetMessage.sessionId || selectedSession,
+      messageId: targetMessage._id,
+      emoji,
+      reactorType: reactionActor.reactorType,
+      reactorId: reactionActor.reactorId,
+      reactorName: agentName
+    }, response => {
+      if (response?.success === false) {
+        if (previousTargetMessage) {
+          setMessages(prevMessages => mergeChatReactionUpdate(prevMessages, previousTargetMessage))
+        }
+        antdMessage.error(response.message || t('errors.reactionFailed'))
+        return
+      }
+
+      if (response?.message) {
+        setMessages(prevMessages => mergeChatReactionUpdate(prevMessages, response.message))
+      }
+    })
+  }, [agentId, agentName, reactionActor, selectedSession, t])
+
   const selectConversation = useCallback(async (conversation) => {
     const nextSessionId = conversation?.sessionId
 
@@ -717,6 +848,7 @@ export function useAdminChatPage() {
       return
     }
 
+    stopAgentTyping(selectedSessionRef.current)
     selectedSessionRef.current = nextSessionId
     restoredSessionRef.current = nextSessionId
     clearPendingImage()
@@ -741,7 +873,7 @@ export function useAdminChatPage() {
         item.sessionId === conversation.sessionId ? { ...item, unreadByAgent: 0 } : item
       )
     )
-  }, [clearPendingImage, loadHistory, updateChatSearchParams])
+  }, [clearPendingImage, loadHistory, stopAgentTyping, updateChatSearchParams])
 
   const handleAssign = useCallback(async () => {
     if (!selectedSession) {
@@ -749,7 +881,7 @@ export function useAdminChatPage() {
     }
 
     if (!agentId) {
-      antdMessage.error('Không tìm thấy thông tin agent')
+      antdMessage.error(t('errors.missingAgent'))
       return
     }
 
@@ -763,7 +895,7 @@ export function useAdminChatPage() {
       })
 
       if (!response?.success) {
-        throw new Error(response?.message || 'Không thể nhận chat')
+        throw new Error(response?.message || t('errors.assignFailed'))
       }
 
       const nextConversation = response.data || {
@@ -791,11 +923,11 @@ export function useAdminChatPage() {
       await loadHistory(selectedSession)
       loadCounts()
     } catch (error) {
-      antdMessage.error(error?.message || 'Không thể nhận chat')
+      antdMessage.error(error?.message || t('errors.assignFailed'))
     } finally {
       setAssigning(false)
     }
-  }, [agentAvatar, agentId, agentName, loadCounts, loadHistory, selectedSession, updateChatSearchParams])
+  }, [agentAvatar, agentId, agentName, loadCounts, loadHistory, selectedSession, t, updateChatSearchParams])
 
   const handleResolve = useCallback(async () => {
     if (!selectedSession) {
@@ -811,7 +943,7 @@ export function useAdminChatPage() {
       })
 
       if (!response?.success) {
-        throw new Error(response?.message || 'Không thể đánh dấu đã giải quyết')
+        throw new Error(response?.message || t('errors.resolveFailed'))
       }
 
       const nextConversation = response.data || { status: 'resolved' }
@@ -831,22 +963,45 @@ export function useAdminChatPage() {
       await loadHistory(selectedSession)
       loadCounts()
     } catch (error) {
-      antdMessage.error(error?.message || 'Không thể đánh dấu đã giải quyết')
+      antdMessage.error(error?.message || t('errors.resolveFailed'))
     } finally {
       setResolving(false)
     }
-  }, [loadCounts, loadHistory, selectedSession, updateChatSearchParams])
+  }, [loadCounts, loadHistory, selectedSession, t, updateChatSearchParams])
 
   const isAssignedToMe = selectedConversation?.assignedAgent?.agentId === agentId
   const isResolved = selectedConversation?.status === 'resolved'
   const canReplyToConversation = !!selectedConversation && (selectedConversation.status !== 'unassigned' || isAssignedToMe)
   const canSend = (!!input.trim() || !!pendingImage) && canReplyToConversation && !isResolved
 
+  const scheduleAgentTyping = useCallback((value) => {
+    const sessionId = selectedSessionRef.current
+
+    if (!sessionId || isNote || isResolved || !canReplyToConversation || !String(value || '').trim()) {
+      stopAgentTyping(sessionId)
+      return
+    }
+
+    emitAgentTyping(true, sessionId)
+    clearTimeout(agentTypingTimerRef.current)
+    agentTypingTimerRef.current = window.setTimeout(() => {
+      emitAgentTyping(false, sessionId)
+    }, 2000)
+  }, [canReplyToConversation, emitAgentTyping, isNote, isResolved, stopAgentTyping])
+
+  useEffect(() => {
+    if (isNote || isResolved || !canReplyToConversation) {
+      stopAgentTyping()
+    }
+  }, [canReplyToConversation, isNote, isResolved, stopAgentTyping])
+
   const sendReply = useCallback(async () => {
     const text = input.trim()
     if ((!text && !pendingImage) || !selectedSession || isUploadingImage || !canReplyToConversation || isResolved) {
       return
     }
+
+    stopAgentTyping(selectedSession)
 
     try {
       if (pendingImage) {
@@ -908,7 +1063,7 @@ export function useAdminChatPage() {
         focusInputWithoutScroll()
       }
     } catch (error) {
-      antdMessage.error(error.message || 'Không thể tải ảnh lên')
+      antdMessage.error(error.message || t('errors.uploadImageFailed'))
     } finally {
       setIsUploadingImage(false)
     }
@@ -924,7 +1079,9 @@ export function useAdminChatPage() {
     isUploadingImage,
     pendingImage,
     removeOptimisticAgentMessage,
-    selectedSession
+    selectedSession,
+    stopAgentTyping,
+    t
   ])
 
   const handleImageChange = useCallback((event) => {
@@ -961,30 +1118,68 @@ export function useAdminChatPage() {
   }, [sendReply])
 
   const handleComposerChange = useCallback((event) => {
-    setInput(event.target.value)
+    const nextValue = event.target.value
+
+    setInput(nextValue)
     event.target.style.height = 'auto'
     event.target.style.height = `${Math.min(event.target.scrollHeight, 100)}px`
-  }, [])
+    scheduleAgentTyping(nextValue)
+  }, [scheduleAgentTyping])
+
+  const handleInsertQuickReply = useCallback((quickReply) => {
+    const resolvedContent = resolveQuickReplyVariables(quickReply?.content, {
+      customerName: selectedConversation?.customer?.name || '',
+      agentName,
+      storeName: websiteConfig?.siteName || 'SmartMall',
+      orderCode: selectedConversation?.orderCode || '',
+      productName: selectedConversation?.productName || ''
+    }).trim()
+
+    if (!resolvedContent) {
+      return
+    }
+
+    setInput(currentInput => {
+      const trimmedInput = currentInput.trimEnd()
+      return trimmedInput ? `${trimmedInput}\n${resolvedContent}` : resolvedContent
+    })
+
+    window.requestAnimationFrame(() => {
+      const currentInput = inputRef.current
+
+      if (currentInput) {
+        currentInput.style.height = 'auto'
+        currentInput.style.height = `${Math.min(currentInput.scrollHeight, 100)}px`
+      }
+
+      focusInputWithoutScroll()
+    })
+
+    if (quickReply?._id) {
+      void recordQuickReplyUsage(quickReply._id).catch(() => {})
+    }
+  }, [
+    agentName,
+    focusInputWithoutScroll,
+    selectedConversation?.customer?.name,
+    selectedConversation?.orderCode,
+    selectedConversation?.productName,
+    websiteConfig?.siteName
+  ])
 
   const handleSearchChange = useCallback((event) => {
     setSearchQuery(event.target.value)
   }, [])
 
   const handleBackToList = useCallback(() => {
+    stopAgentTyping(selectedSessionRef.current)
     selectedSessionRef.current = null
     setSelectedSession(null)
     setSelectedConversation(null)
-    setConversations([])
-    setConversationPagination({
-      hasMore: false,
-      limit: CONVERSATION_PAGE_SIZE,
-      page: 1,
-      total: 0
-    })
     setMessages([])
     setCustomerTyping(false)
     updateChatSearchParams({ tab: activeTabRef.current, session: null })
-  }, [updateChatSearchParams])
+  }, [stopAgentTyping, updateChatSearchParams])
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true)
@@ -1020,6 +1215,8 @@ export function useAdminChatPage() {
 
   const handleTabChange = useCallback(tabKey => {
     const nextTab = getValidChatTab(tabKey)
+
+    stopAgentTyping(selectedSessionRef.current)
     setActiveTab(nextTab)
     selectedSessionRef.current = null
     setSelectedSession(null)
@@ -1028,7 +1225,7 @@ export function useAdminChatPage() {
     setCustomerTyping(false)
     restoredSessionRef.current = null
     updateChatSearchParams({ tab: nextTab, session: null })
-  }, [updateChatSearchParams])
+  }, [stopAgentTyping, updateChatSearchParams])
 
   const filteredConversations = conversations
 
@@ -1064,6 +1261,9 @@ export function useAdminChatPage() {
     messagesLoading,
     messagesViewportRef,
     pendingImage,
+    quickReplies,
+    quickRepliesLoading,
+    reactionActor,
     resolving,
     refreshing,
     searchQuery,
@@ -1073,9 +1273,11 @@ export function useAdminChatPage() {
     handleBackToList,
     handleComposerChange,
     handleImageChange,
+    handleInsertQuickReply,
     handleKeyDown,
     handleLoadMoreConversations: loadMoreConversations,
     handleRefresh,
+    handleReactToMessage,
     handleResolve,
     handleSearchChange,
     handleSelectConversation: selectConversation,

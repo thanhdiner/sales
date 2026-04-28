@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import './i18n'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'

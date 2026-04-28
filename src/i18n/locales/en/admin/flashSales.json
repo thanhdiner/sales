@@ -1,0 +1,111 @@
+{
+  "seo": {
+    "title": "Admin - Flash Sales"
+  },
+  "page": {
+    "title": "Flash Sale Management",
+    "description": "Manage flash sale promotion programs"
+  },
+  "actions": {
+    "create": "Create new Flash Sale",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "createSubmit": "Create",
+    "updateSubmit": "Update"
+  },
+  "confirmDelete": {
+    "title": "Confirm delete",
+    "content": "Are you sure you want to delete this flash sale?",
+    "ok": "Delete",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "updateSuccess": "Updated successfully",
+    "createSuccess": "Flash sale created successfully",
+    "genericError": "Something went wrong",
+    "deleteSuccess": "Flash sale deleted successfully",
+    "deleteError": "Delete failed"
+  },
+  "stats": {
+    "totalRevenue": "Total revenue",
+    "activeSales": "Active sales",
+    "totalProductsSold": "Total products sold",
+    "totalPrograms": "Total programs"
+  },
+  "table": {
+    "loading": "Loading data...",
+    "emptyTitle": "No data",
+    "emptyDescription": "No flash sale programs yet.",
+    "paginationTotal": "{{from}}-{{to}} of {{total}} flash sales",
+    "columns": {
+      "name": "Program name",
+      "time": "Time",
+      "discount": "Discount",
+      "quantity": "Quantity",
+      "status": "Status",
+      "revenue": "Revenue",
+      "actions": "Actions"
+    },
+    "until": "to {{date}}",
+    "productCount": "{{count}} products",
+    "fallbackName": "Flash Sale",
+    "translationMissing": "Missing EN translation"
+  },
+  "status": {
+    "active": "Active",
+    "scheduled": "Scheduled",
+    "completed": "Completed",
+    "inactive": "Inactive",
+    "unknown": "Unknown"
+  },
+  "form": {
+    "createTitle": "Create new Flash Sale",
+    "editTitle": "Edit Flash Sale",
+    "fields": {
+      "name": {
+        "label": "Program name",
+        "placeholder": "Enter flash sale program name"
+      },
+      "startAt": {
+        "label": "Start date & time",
+        "placeholder": "Start date"
+      },
+      "endAt": {
+        "label": "End date & time",
+        "placeholder": "End date"
+      },
+      "discountPercent": {
+        "label": "Discount percent (%)",
+        "placeholder": "Enter discount %"
+      },
+      "maxQuantity": {
+        "label": "Maximum quantity",
+        "placeholder": "Enter quantity"
+      },
+      "products": {
+        "label": "Applied products",
+        "placeholder": "Select applied products",
+        "loading": "Loading..."
+      }
+    },
+    "translations": {
+      "sectionTitle": "English translation",
+      "sectionDescription": "Used when the admin interface is switched to English. If left blank, the default name is used.",
+      "name": {
+        "label": "Program name (English)",
+        "placeholder": "Example: Weekend Flash Deals"
+      }
+    },
+    "validation": {
+      "name": "Please enter the program name!",
+      "startAt": "Please select a start date!",
+      "endAt": "Please select an end date!",
+      "discountPercent": "Please enter the discount percent!",
+      "maxQuantity": "Please enter the maximum quantity!",
+      "products": "Please select at least one product!",
+      "dateOrder": "End time must be after start time!"
+    }
+  }
+}

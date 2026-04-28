@@ -1,0 +1,305 @@
+{
+  "seo": {
+    "title": "Admin - Settings"
+  },
+  "page": {
+    "eyebrow": "Admin settings",
+    "title": "System settings",
+    "description": "Manage admin account security and the website information shown to customers."
+  },
+  "tabs": {
+    "security": {
+      "label": "Security",
+      "description": "Password, 2FA, and trusted devices"
+    },
+    "configuration": {
+      "label": "Website configuration",
+      "description": "Information, contact, and SEO"
+    }
+  },
+  "website": {
+    "tabs": {
+      "basic": {
+        "label": "Information",
+        "description": "Name, description, branding"
+      },
+      "contact": {
+        "label": "Contact",
+        "description": "Support channels and social media"
+      },
+      "seo": {
+        "label": "SEO",
+        "description": "Meta and analytics"
+      }
+    },
+    "messages": {
+      "imageOnly": "Only image files are supported",
+      "saveSuccess": "Configuration saved successfully",
+      "saveError": "Unable to save configuration",
+      "previewComing": "Preview will be added later",
+      "resetDone": "Changes have been reset",
+      "loading": "Loading configuration..."
+    },
+    "upload": {
+      "label": "Upload"
+    },
+    "panels": {
+      "websiteInfo": {
+        "title": "Website information",
+        "description": "Content used in the page title, footer, and basic metadata."
+      },
+      "branding": {
+        "title": "Logo & favicon",
+        "description": "Upload images used for website branding.",
+        "hint": "A transparent logo and square favicon are recommended for the best browser tab display."
+      },
+      "contact": {
+        "title": "Contact information",
+        "description": "Information customers see when they need support."
+      },
+      "social": {
+        "title": "Social media",
+        "description": "Links to official communication channels."
+      },
+      "seo": {
+        "title": "SEO settings",
+        "description": "Optimize content displayed on search engines."
+      },
+      "analytics": {
+        "title": "Analytics & tracking",
+        "description": "Information used to track website performance."
+      }
+    },
+    "fields": {
+      "siteName": {
+        "label": "Website name",
+        "required": "Please enter the website name",
+        "placeholder": "Enter website name"
+      },
+      "tagline": {
+        "label": "Slogan / Tagline",
+        "placeholder": "Enter the website slogan"
+      },
+      "description": {
+        "label": "Website description",
+        "placeholder": "Enter a short website description"
+      },
+      "logo": {
+        "label": "Website logo",
+        "required": "Please upload a logo"
+      },
+      "favicon": {
+        "label": "Favicon",
+        "required": "Please upload a favicon"
+      },
+      "phone": {
+        "label": "Phone number",
+        "placeholder": "Enter phone number"
+      },
+      "email": {
+        "label": "Email",
+        "invalid": "Email is invalid",
+        "placeholder": "support@example.com"
+      },
+      "address": {
+        "label": "Address",
+        "placeholder": "Enter company / organization address"
+      },
+      "website": {
+        "label": "Website",
+        "placeholder": "https://example.com"
+      },
+      "facebook": {
+        "label": "Facebook",
+        "placeholder": "https://facebook.com/yourpage"
+      },
+      "twitter": {
+        "label": "Twitter / X",
+        "placeholder": "https://x.com/youraccount"
+      },
+      "instagram": {
+        "label": "Instagram",
+        "placeholder": "https://instagram.com/youraccount"
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "placeholder": "https://linkedin.com/company/yourcompany"
+      },
+      "metaTitle": {
+        "label": "Meta title",
+        "placeholder": "Title shown on Google"
+      },
+      "metaDescription": {
+        "label": "Meta description",
+        "placeholder": "Description shown in search results"
+      },
+      "keywords": {
+        "label": "Keywords",
+        "placeholder": "keyword 1, keyword 2, keyword 3"
+      },
+      "googleAnalytics": {
+        "label": "Google Analytics ID",
+        "placeholder": "G-XXXXXXXXXX"
+      }
+    },
+    "actions": {
+      "preview": "Preview",
+      "reset": "Reset",
+      "save": "Save configuration"
+    }
+  },
+  "security": {
+    "password": {
+      "messages": {
+        "success": "Password changed successfully",
+        "error": "Unable to change password"
+      },
+      "title": "Change password",
+      "description": "Update the admin password regularly to reduce unauthorized access risk.",
+      "fields": {
+        "currentPassword": {
+          "label": "Current password",
+          "required": "Please enter the current password"
+        },
+        "newPassword": {
+          "label": "New password",
+          "required": "Please enter a new password"
+        },
+        "confirmPassword": {
+          "label": "Confirm new password",
+          "required": "Please confirm the new password",
+          "mismatch": "The confirmation password does not match"
+        }
+      },
+      "warning": "Do not share the admin password. After changing it, review the devices that are currently signed in.",
+      "submit": "Update password"
+    },
+    "twofa": {
+      "messages": {
+        "statusError": "Unable to load 2FA status",
+        "secretError": "Unable to generate verification code",
+        "disabledSuccess": "Two-step verification has been disabled",
+        "disableError": "Unable to disable 2FA",
+        "incompleteCode": "Please enter all 6 digits",
+        "setupSuccess": "Two-step verification has been set up successfully",
+        "invalidCode": "Verification code is invalid",
+        "verifyError": "Unable to verify 2FA",
+        "backupRegenerated": "New backup codes generated",
+        "backupRegenerateError": "Unable to generate new backup codes",
+        "copied": "Copied to clipboard",
+        "downloaded": "Backup codes downloaded",
+        "removeDeviceSuccess": "Device removed from the trusted list",
+        "removeDeviceError": "Unable to remove device"
+      },
+      "modals": {
+        "disable": {
+          "title": "Disable two-step verification",
+          "content": "Are you sure you want to disable 2FA? This will reduce the security level of the admin account.",
+          "ok": "Disable 2FA",
+          "cancel": "Cancel"
+        },
+        "regenerate": {
+          "title": "Generate new backup codes",
+          "content": "Old codes will no longer work. Are you sure you want to generate a new set?",
+          "ok": "Generate",
+          "cancel": "Cancel"
+        },
+        "removeDevice": {
+          "title": "Remove trusted device",
+          "content": "This device will need to verify again on the next sign-in.",
+          "ok": "Remove",
+          "cancel": "Cancel"
+        }
+      },
+      "setup": {
+        "title": "Set up two-step verification",
+        "description": "Complete the steps below to enable 2FA for the admin account.",
+        "steps": {
+          "app": {
+            "title": "Install app",
+            "description": "Install Google Authenticator or another compatible 2FA app."
+          },
+          "qr": {
+            "title": "Scan QR code",
+            "description": "Add the admin account to the authenticator app."
+          },
+          "verify": {
+            "title": "Verify",
+            "description": "Enter the 6-digit code to finish."
+          }
+        },
+        "appStep": {
+          "message": "Step 1: Install an authenticator app",
+          "description": "You need an authenticator app to generate sign-in codes. Choose one below or use a 2FA app you already have.",
+          "continue": "Continue"
+        },
+        "qrStep": {
+          "message": "Step 2: Scan the QR code",
+          "description": "Open your authenticator app and scan the QR code to add the account.",
+          "manualTitle": "Cannot scan the code?",
+          "manualDescription": "Enter the secret key below manually in your authenticator app.",
+          "generatingSecret": "Generating secret key...",
+          "back": "Back",
+          "scanned": "I scanned it"
+        },
+        "verifyStep": {
+          "message": "Step 3: Verify",
+          "description": "Enter the 6-digit code shown in your authenticator app.",
+          "back": "Back",
+          "finish": "Finish setup"
+        },
+        "cancel": "Cancel setup",
+        "checking": "Checking security status..."
+      },
+      "main": {
+        "title": "Two-step verification",
+        "description": "Enable 2FA to require a verification code from your phone when signing in to the admin area.",
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
+      "backup": {
+        "title": "Backup codes",
+        "description": "Use these when you no longer have your authenticator device.",
+        "regenerate": "Generate",
+        "remaining": "{{count}} backup codes remaining.",
+        "more": "+{{count}} more codes",
+        "show": "Show",
+        "hide": "Hide",
+        "copy": "Copy",
+        "details": "Details"
+      },
+      "devices": {
+        "title": "Trusted devices",
+        "description": "{{count}} devices remembered after verification.",
+        "empty": "No trusted devices yet",
+        "fallback": "Device",
+        "current": "Current",
+        "unknownBrowser": "Unknown browser",
+        "lastUsed": "Last used: {{time}}",
+        "noData": "No data",
+        "remove": "Remove"
+      },
+      "tips": {
+        "title": "Security tips",
+        "items": [
+          "Store backup codes in a safe place, separate from your main device.",
+          "Do not share verification codes or backup codes with anyone.",
+          "Review and remove devices you no longer use regularly."
+        ]
+      },
+      "backupModal": {
+        "title": "Two-step verification backup codes",
+        "copyAll": "Copy all",
+        "downloadFile": "Download file",
+        "saved": "Saved safely",
+        "warningTitle": "Important note",
+        "warningDescription": "Store these codes in a safe place. Each code can only be used once."
+      },
+      "backupFile": {
+        "title": "Two-step verification backup codes - SmartMall Admin",
+        "createdAt": "Created on: {{date}}",
+        "note": "Note: Each code can only be used once. Keep them somewhere safe."
+      }
+    }
+  }
+}

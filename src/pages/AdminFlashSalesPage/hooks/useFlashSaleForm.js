@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
+import { useTranslation } from 'react-i18next'
 import { getAdminProducts } from '@/services/adminProductService'
 import {
   EMPTY_FLASH_SALE_FORM,
@@ -10,6 +11,7 @@ import {
 const INITIAL_PRODUCT_LIMIT = 20
 
 export function useFlashSaleForm() {
+  const { t } = useTranslation('adminFlashSales')
   const [showModal, setShowModal] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [formData, setFormData] = useState(EMPTY_FLASH_SALE_FORM)
@@ -51,13 +53,33 @@ export function useFlashSaleForm() {
   const openEdit = async item => {
     const selectedIds = (item.products || []).map(product => (typeof product === 'object' ? product._id : product))
     const products = await fetchProducts({ page: 1, limit: INITIAL_PRODUCT_LIMIT })
-    setProductList(mergeProductOptions(products, selectedIds))
+    setProductList(mergeProductOptions(products, selectedIds, item.products || [], t('form.fields.products.loading')))
     setEditingItem(item)
     setFormData(mapFlashSaleToFormData(item))
     setShowModal(true)
   }
 
   const handleChange = (field, value) => {
+    if (Array.isArray(field)) {
+      setFormData(prev => {
+        const next = { ...prev }
+        let cursor = next
+
+        field.forEach((key, index) => {
+          if (index === field.length - 1) {
+            cursor[key] = value
+            return
+          }
+
+          cursor[key] = { ...(cursor[key] || {}) }
+          cursor = cursor[key]
+        })
+
+        return next
+      })
+      return
+    }
+
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
@@ -73,14 +95,14 @@ export function useFlashSaleForm() {
             productName: value
           })
 
-          setProductList(mergeProductOptions(res.products || [], selectedIds, existingProducts))
+          setProductList(mergeProductOptions(res.products || [], selectedIds, existingProducts, t('form.fields.products.loading')))
         } catch {
-          setProductList(mergeProductOptions([], selectedIds, existingProducts))
+          setProductList(mergeProductOptions([], selectedIds, existingProducts, t('form.fields.products.loading')))
         } finally {
           setProductLoading(false)
         }
       }, 400),
-    []
+    [t]
   )
 
   useEffect(() => {

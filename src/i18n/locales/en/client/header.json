@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "flashSale": "Flash Sale",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "search": {
+    "placeholder": "Search accounts, software, games...",
+    "mobilePlaceholder": "Search products...",
+    "inputLabel": "Search products",
+    "openMobile": "Open search",
+    "back": "Back",
+    "clear": "Clear keyword",
+    "submit": "Search",
+    "dropdownLabel": "Search suggestions",
+    "title": "Search",
+    "suggestionFor": "Suggestions for \"{{keyword}}\"",
+    "productsTitle": "Products",
+    "relatedTitle": "Related keywords",
+    "recentTitle": "Recent searches",
+    "clearRecentAll": "Clear all",
+    "removeRecent": "Remove \"{{keyword}}\" from recent searches",
+    "popularTitle": "Popular keywords",
+    "categoryTitle": "Suggested categories",
+    "viewAll": "View all results for \"{{keyword}}\"",
+    "emptyTitle": "No results found",
+    "emptyDescription": "Try searching with another keyword",
+    "hotRank": "HOT {{rank}}"
+  },
+  "notification": {
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "shipping": "Shipping",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "fallback": "Update"
+    },
+    "orderTitle": "Order #{{orderId}}",
+    "orderStatusBody": "Changed to {{status}}",
+    "desktopBody": "Order #{{orderId}} changed to {{status}}",
+    "panelTitle": "Notifications",
+    "panelOrderTitle": "Order updates",
+    "allRead": "All read",
+    "oneUnread": "1 unread notification",
+    "manyUnread": "{{count}} unread notifications",
+    "unreadSummary": "You have {{count}} unread notifications",
+    "bellTitle": "Notifications",
+    "ariaLabel": "Notifications, {{count}} unread",
+    "markAllRead": "Mark as read",
+    "close": "Close notifications",
+    "empty": "No order updates yet",
+    "openNotification": "Open notification",
+    "viewAll": "View all notifications",
+    "pageTitle": "Notifications",
+    "pageDescription": "Manage all updates from orders, payments, system events, and related activity.",
+    "searchPlaceholder": "Search notifications...",
+    "searchButton": "Search",
+    "emptyList": "No matching notifications",
+    "loadingMore": "Loading more...",
+    "viewOrder": "View order",
+    "markRead": "Mark read",
+    "filters": {
+      "all": "All",
+      "unread": "Unread",
+      "orders": "Orders",
+      "payments": "Payments",
+      "system": "System"
+    },
+    "meta": {
+      "orders": "Order status was updated by admin",
+      "payments": "Payment update",
+      "system": "System update"
+    }
+  },
+  "mobileBottomNav": {
+    "ariaLabel": "Main navigation",
+    "home": "Home",
+    "products": "Categories",
+    "vip": "Smartmall Plus",
+    "orders": "Orders",
+    "account": "Account"
+  }
+}

@@ -1,60 +1,102 @@
-import { Alert, Card, Space, Switch, Table, Tag, Typography } from 'antd'
+import { Alert, Card, Grid, Space, Switch, Table, Tag, Typography } from 'antd'
 import { ToolOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 import { RISK_COLORS } from '@/pages/AdminChatbotShared/utils'
 
 const { Paragraph, Text } = Typography
+const { useBreakpoint } = Grid
 
-const toolColumns = onToggleTool => [
+const getRiskLabel = (riskLevel, t) => (
+  riskLevel ? t(`risk.${riskLevel}`, { defaultValue: riskLevel }) : t('risk.safe')
+)
+
+const getGroupLabel = (group, t) => (
+  group ? t(`groups.${group}`, { defaultValue: group }) : '--'
+)
+
+const getToolText = (tool, field, t) => (
+  t(`tools.${tool.name}.${field}`, { defaultValue: tool[field] || '--' })
+)
+
+const toolColumns = (onToggleTool, t) => [
   {
-    title: 'Tool',
+    title: t('table.columns.tool'),
     dataIndex: 'label',
     key: 'label',
-    render: (_, tool) => (
-      <div>
-        <div className="admin-chatbot-primary-text font-medium">{tool.label}</div>
-        <Text type="secondary" className="text-xs">
-          {tool.name}
-        </Text>
-      </div>
-    )
+    className: 'admin-chatbot-tools-table__tool-col',
+    render: (_, tool) => {
+      const label = getToolText(tool, 'label', t)
+      const description = getToolText(tool, 'description', t)
+      const group = getGroupLabel(tool.group, t)
+
+      return (
+        <div className="admin-chatbot-tools-table__tool-cell">
+          <div className="admin-chatbot-primary-text font-medium">{label}</div>
+          <Text type="secondary" className="admin-chatbot-tools-table__tool-name text-xs">
+            {tool.name}
+          </Text>
+
+          <Paragraph className="admin-chatbot-tools-table__mobile-description !mb-0 mt-2" ellipsis={{ rows: 2, expandable: false }}>
+            {description}
+          </Paragraph>
+
+          <div className="admin-chatbot-tools-table__mobile-meta">
+            <Tag>{group}</Tag>
+            <Tag color={RISK_COLORS[tool.riskLevel] || 'default'}>
+              {getRiskLabel(tool.riskLevel, t)}
+            </Tag>
+            {tool.requiresConfirmation ? (
+              <Tag color="warning">{t('confirmation.requiredShort')}</Tag>
+            ) : (
+              <Tag>{t('confirmation.noneShort')}</Tag>
+            )}
+          </div>
+        </div>
+      )
+    }
   },
   {
-    title: 'Mô tả',
+    title: t('table.columns.description'),
     dataIndex: 'description',
     key: 'description',
-    render: value => (
+    responsive: ['lg'],
+    render: (_, tool) => (
       <Paragraph className="!mb-0" ellipsis={{ rows: 2, expandable: false }}>
-        {value}
+        {getToolText(tool, 'description', t)}
       </Paragraph>
     )
   },
   {
-    title: 'Nhóm',
+    title: t('table.columns.group'),
     dataIndex: 'group',
     key: 'group',
     width: 120,
-    render: value => <Tag>{value}</Tag>
+    responsive: ['md'],
+    render: value => <Tag>{getGroupLabel(value, t)}</Tag>
   },
   {
-    title: 'Quyền',
+    title: t('table.columns.permission'),
     key: 'riskLevel',
     width: 180,
+    responsive: ['sm'],
     render: (_, tool) => (
       <Space direction="vertical" size={2}>
         <Tag color={RISK_COLORS[tool.riskLevel] || 'default'}>
-          {tool.riskLevel || 'safe'}
+          {getRiskLabel(tool.riskLevel, t)}
         </Tag>
 
         <Text type="secondary" className="text-xs">
-          {tool.requiresConfirmation ? 'Cần xác nhận user' : 'Không cần xác nhận'}
+          {tool.requiresConfirmation ? t('confirmation.requiredUser') : t('confirmation.none')}
         </Text>
       </Space>
     )
   },
   {
-    title: 'Bật',
+    title: t('table.columns.enabled'),
     key: 'enabled',
-    width: 100,
+    width: 86,
+    align: 'center',
+    className: 'admin-chatbot-tools-table__toggle-col',
     render: (_, tool) => (
       <Switch
         checked={tool.enabled !== false}
@@ -73,40 +115,51 @@ export default function AdminChatbotToolsTableSection({
   onPageSizeChange,
   onToggleTool
 }) {
+  const { t } = useTranslation('adminChatbotTools')
+  const screens = useBreakpoint()
+  const showQuickJumper = Boolean(screens.md)
+  const showTableScroll = Boolean(screens.lg)
+
   return (
     <Card
       title={(
         <span className="flex items-center gap-2">
-          <ToolOutlined /> Tools built-in
+          <ToolOutlined /> {t('table.title')}
         </span>
       )}
-      extra={<Tag color="processing">Hard-code trong backend</Tag>}
-      className="admin-chatbot-card"
+      extra={<Tag color="processing">{t('table.backendBadge')}</Tag>}
+      className="admin-chatbot-card admin-chatbot-tools-card"
     >
       <Alert
         className="admin-chatbot-alert mb-4"
         type="info"
         showIcon
-        message="Admin chỉ quản lý quyền bật/tắt của tool"
-        description="Định nghĩa tool, schema và executor vẫn nằm ở backend. Trang này chỉ quyết định tool nào được phép đưa vào runtime của agent."
+        message={t('table.alertMessage')}
+        description={t('table.alertDescription')}
       />
 
       <Table
-        className="admin-chatbot-table"
+        className="admin-chatbot-table admin-chatbot-tools-table"
         rowKey="name"
-        columns={toolColumns(onToggleTool)}
+        columns={toolColumns(onToggleTool, t)}
         dataSource={toolRegistry}
+        tableLayout="fixed"
         pagination={{
           current: currentPage,
           pageSize,
           total,
           showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (count, range) => `${range[0]}-${range[1]} của ${count} tools`,
+          showQuickJumper,
+          responsive: true,
+          showTotal: (count, range) => t('pagination.showTotal', {
+            rangeStart: range[0],
+            rangeEnd: range[1],
+            total: count
+          }),
           onChange: onPageChange,
           onShowSizeChange: onPageSizeChange
         }}
-        scroll={{ x: 960 }}
+        scroll={showTableScroll ? { x: 860 } : undefined}
       />
     </Card>
   )

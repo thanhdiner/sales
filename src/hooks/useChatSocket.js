@@ -3,7 +3,13 @@ import { useDispatch } from 'react-redux'
 import { syncClientStateFromBotTools } from '@/lib/clientCache'
 import { getSocket } from '@/services/socketService'
 import { clearResolvedSessionMarker, markSessionResolved } from '@/hooks/useChatSession'
-import { hasChatImages, isSameImagePayload, isSameOptimisticImageMessage, revokeChatImageUrls } from '@/utils/chatMessage'
+import {
+  hasChatImages,
+  isSameImagePayload,
+  isSameOptimisticImageMessage,
+  mergeChatReactionUpdate,
+  revokeChatImageUrls
+} from '@/utils/chatMessage'
 
 export function useChatSocket({
   sessionId,
@@ -11,6 +17,7 @@ export function useChatSocket({
   setMessages,
   setUnread,
   setIsBotTyping,
+  setBotActivity,
   setConversation,
   setIsTypingAgent,
   setIsResolved
@@ -60,7 +67,10 @@ export function useChatSocket({
           .catch(() => undefined)
       }
       if ((nextMsg.sender === 'agent' || nextMsg.sender === 'bot') && !open) setUnread(u => u + 1)
-      if (nextMsg.sender === 'bot') setIsBotTyping(false)
+      if (nextMsg.sender === 'bot') {
+        setIsBotTyping(false)
+        setBotActivity?.([])
+      }
       if (nextMsg.type === 'system') setConversation(prev => prev ? { ...prev } : prev)
     }
 
@@ -72,11 +82,42 @@ export function useChatSocket({
 
     const onBotTyping = ({ isTyping }) => {
       setIsBotTyping(isTyping)
+      if (isTyping) setBotActivity?.([])
+      else setBotActivity?.([])
+    }
+
+    const onBotActivity = (activity) => {
+      if (activity?.sessionId && activity.sessionId !== sessionId) return
+
+      setBotActivity?.(prev => {
+        const nextActivity = {
+          ...activity,
+          receivedAt: Date.now()
+        }
+        const key = `${nextActivity.type || 'step'}:${nextActivity.toolName || ''}:${nextActivity.round || ''}`
+        const existingIndex = prev.findIndex(item =>
+          `${item.type || 'step'}:${item.toolName || ''}:${item.round || ''}` === key
+        )
+
+        if (existingIndex === -1) return [...prev, nextActivity]
+
+        const next = [...prev]
+        next[existingIndex] = {
+          ...next[existingIndex],
+          ...nextActivity
+        }
+        return next
+      })
     }
 
     const onResolved = () => {
       markSessionResolved(sessionId)
       setIsResolved(true)
+    }
+
+    const onReactionUpdated = (updatedMessage) => {
+      if (updatedMessage?.sessionId !== sessionId) return
+      setMessages(prev => mergeChatReactionUpdate(prev, updatedMessage))
     }
 
     const onConvUpdated = (conv) => {
@@ -92,18 +133,22 @@ export function useChatSocket({
     socket.on('chat:message', onMessage)
     socket.on('chat:typing', onTyping)
     socket.on('chat:bot_typing', onBotTyping)
+    socket.on('chat:bot_activity', onBotActivity)
     socket.on('chat:resolved', onResolved)
     socket.on('chat:conversation_updated', onConvUpdated)
+    socket.on('chat:reaction_updated', onReactionUpdated)
 
     return () => {
       socket.off('connect', joinRoom)
       socket.off('chat:message', onMessage)
       socket.off('chat:typing', onTyping)
       socket.off('chat:bot_typing', onBotTyping)
+      socket.off('chat:bot_activity', onBotActivity)
       socket.off('chat:resolved', onResolved)
       socket.off('chat:conversation_updated', onConvUpdated)
+      socket.off('chat:reaction_updated', onReactionUpdated)
     }
-  }, [dispatch, sessionId, open, setMessages, setUnread, setIsBotTyping, setConversation, setIsTypingAgent, setIsResolved])
+  }, [dispatch, sessionId, open, setMessages, setUnread, setIsBotTyping, setBotActivity, setConversation, setIsTypingAgent, setIsResolved])
 
   const requestHumanAgent = () => {
     setConversation(prev => ({

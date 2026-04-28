@@ -1,6 +1,9 @@
 import { TreeSelect } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 function SelectList({ value, treeData, setValue }) {
+  const { t } = useTranslation('adminProducts')
+
   return (
     <TreeSelect
       style={{ width: 160 }}
@@ -10,7 +13,7 @@ function SelectList({ value, treeData, setValue }) {
       popupClassName="admin-products-popup"
       dropdownClassName="admin-products-popup"
       treeData={treeData}
-      placeholder="Choice Action"
+      placeholder={t('bulk.choiceAction')}
       treeDefaultExpandAll
       onChange={setValue}
       allowClear

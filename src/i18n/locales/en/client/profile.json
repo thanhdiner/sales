@@ -1,0 +1,146 @@
+{
+  "seo": {
+    "title": "My profile"
+  },
+  "loading": {
+    "profile": "Please wait while your profile is loading..."
+  },
+  "message": {
+    "imageOnly": "Only image files are accepted!",
+    "imageMaxSize": "Image must be smaller than 2MB!",
+    "updateSuccess": "Profile updated successfully!",
+    "updateFailed": "Failed to update profile!",
+    "checkoutAddressRequired": "Please select province/city, district, ward, and enter your detailed address!",
+    "checkoutSaveSuccess": "Default checkout information saved!",
+    "checkoutSaveFailed": "Failed to save default checkout information!",
+    "invalidEmail": "Please enter a valid email!",
+    "sendCodeSuccess": "Verification code has been sent to your new email!",
+    "sendCodeFailed": "Failed to send verification code!",
+    "requiredVerifyCode": "Please enter the verification code!",
+    "emailUpdateSuccess": "Email updated successfully!",
+    "verifyFailed": "Verification failed!"
+  },
+  "emailWarning": "Your email is temporary. Please update to a real email so you can recover your password and receive notifications.",
+  "header": {
+    "eyebrow": "Profile",
+    "title": "Account information",
+    "description": "Manage your personal information and security settings."
+  },
+  "emailAlert": {
+    "title": "Update email",
+    "button": "Update now"
+  },
+  "avatar": {
+    "alt": "Avatar",
+    "change": "Change profile picture",
+    "remove": "Remove picture",
+    "fallback": "U"
+  },
+  "profileCard": {
+    "status": "Status",
+    "active": "Active",
+    "lastLogin": "Last login",
+    "noLastLogin": "None"
+  },
+  "form": {
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Enter your full name",
+    "fullNameRequired": "Please enter your full name!",
+    "username": "Username",
+    "phone": "Phone number",
+    "phonePlaceholder": "Enter phone number",
+    "phoneInvalid": "Invalid phone number!",
+    "email": "Email",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "changeEmail": "Change email",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save changes"
+  },
+  "checkoutProfile": {
+    "title": "Default checkout information",
+    "description": "This information will be filled in automatically when you go to checkout, so you do not need to enter it again every time you shop.",
+    "firstName": "Default first name",
+    "firstNamePlaceholder": "Nguyen",
+    "lastName": "Default last name",
+    "lastNamePlaceholder": "Van A",
+    "phone": "Default phone number",
+    "phonePlaceholder": "0123456789",
+    "email": "Default email",
+    "emailPlaceholder": "your@email.com",
+    "deliveryMethod": "Preferred delivery method",
+    "paymentMethod": "Preferred payment method",
+    "deliveryOptions": {
+      "pickup": "Receive on website",
+      "contact": "Private contact"
+    },
+    "paymentOptions": {
+      "transfer": "Bank transfer",
+      "contact": "Agreement by contact",
+      "vnpay": "VNPay",
+      "momo": "MoMo",
+      "zalopay": "ZaloPay",
+      "sepay": "Sepay"
+    },
+    "address": {
+      "title": "Default delivery address",
+      "description": "Select each address level to reduce mistakes. If your order does not require physical delivery, you can leave this section blank.",
+      "loadError": "Could not load the Vietnam address list. You can temporarily enter your address manually.",
+      "manualLabel": "Address / delivery information",
+      "manualPlaceholder": "Example: house number, street, ward, district, province/city...",
+      "province": "Province / City",
+      "district": "District",
+      "ward": "Ward",
+      "provincePlaceholder": "Select Province / City",
+      "districtPlaceholder": "Select District",
+      "districtPlaceholderDisabled": "Select Province / City first",
+      "wardPlaceholder": "Select Ward",
+      "wardPlaceholderDisabled": "Select District first",
+      "detail": "Detailed address",
+      "detailPlaceholder": "House number, street name, building, alley...",
+      "fullAddress": "Full address:"
+    },
+    "notes": "Default notes",
+    "notesPlaceholder": "Notes you often use when placing orders",
+    "restore": "Restore",
+    "saving": "Saving...",
+    "save": "Save checkout information"
+  },
+  "emailModal": {
+    "title": "Update new email",
+    "newEmail": "New email",
+    "newEmailRequired": "Please enter your new email!",
+    "newEmailInvalid": "Invalid email!",
+    "newEmailPlaceholder": "Enter new email",
+    "sendCode": "Send verification code",
+    "checkEmailTitle": "Check your email",
+    "checkEmailDescription": "We sent a 6-digit verification code to {{email}}.",
+    "verifyCode": "Verification code",
+    "verifyCodeRequired": "Please enter the verification code!",
+    "verifyCodeLength": "Verification code must be 6 digits!",
+    "verifyCodePlaceholder": "Enter verification code",
+    "verifyAndUpdate": "Verify & update email"
+  },
+  "emailUpdateSection": {
+    "message": {
+      "invalidEmail": "Please enter a valid email!",
+      "sendCodeSuccess": "Verification code has been sent to your new email!",
+      "sendCodeFailed": "Failed to send verification code!",
+      "requiredVerifyCode": "Please enter the verification code!",
+      "updateSuccess": "Email updated successfully!",
+      "verifyFailed": "Verification failed!",
+      "resendSuccess": "Verification code has been resent!",
+      "resendFailed": "Failed to resend verification code!"
+    },
+    "successAlert": "Email updated successfully!",
+    "securityTitle": "🔐 Account security",
+    "securityDescription": "You need to update your personal email to protect your account and recover your password when needed.",
+    "emailPlaceholder": "Enter your personal email",
+    "confirmEmailButton": "Confirm new email",
+    "codeSent": "Verification code has been sent to {{email}}",
+    "codePlaceholder": "Enter the 6-digit verification code",
+    "confirmCodeButton": "Confirm code",
+    "resendCodeButton": "Resend code"
+  }
+}

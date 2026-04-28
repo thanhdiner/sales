@@ -1,0 +1,103 @@
+{
+  "seo": {
+    "title": "About SmartMall",
+    "description": "SmartMall – A small shop specializing in game accounts and licensed software. Trusted, transparent, fairly priced, and supported with care."
+  },
+  "ownerSection": {
+    "title": "Who is behind the shop",
+    "paragraphs": [
+      "I am a self-taught person who enjoys technology. This shop was created as a side income source and to offer game accounts and licensed software at more accessible prices.",
+      "Since the shop is still small, I handle almost everything myself. I will provide clear advice, support within my ability, and try to keep each order as smooth as possible."
+    ],
+    "stats": {
+      "goodPrice": "Good price",
+      "support": "Support",
+      "easyBuy": "Easy to buy",
+      "consulting": "Consulting"
+    },
+    "imageAlt": "Shop owner portrait",
+    "ribbon": {
+      "brand": "Shop",
+      "text": "self-operated"
+    }
+  },
+  "ctaSection": {
+    "title": "Want to try shopping with us?",
+    "description": "Message me if you are not sure what to choose. I will try to give quick advice so you can find the right product.",
+    "button": "View products"
+  },
+  "featuresSection": {
+    "eyebrow": "SmartMall operation",
+    "titleLines": ["A small shop", "with a clear", "shopping experience"],
+    "description": "Even though the shop is still small, I try to keep the shopping process simple, delivery fast, and support easy to understand so customers can feel more confident.",
+    "button": "View products",
+    "steps": [
+      {
+        "title": "Simple security",
+        "description": "Every transaction goes through common banks and popular e-wallets."
+      },
+      {
+        "title": "Fast delivery",
+        "description": "Account and software information is sent as quickly as possible, mostly within the same day."
+      },
+      {
+        "title": "Dedicated support",
+        "description": "If you have questions, I will reply as soon as possible, usually during business hours."
+      }
+    ]
+  },
+  "heroSection": {
+    "eyebrow": "About SmartMall",
+    "titleLines": ["Licensed", "software", "store"],
+    "description": "SmartMall focuses on a clear shopping experience, fast support, and transparent service. The goal is to help customers choose easily, buy smoothly, and feel more confident while using their products.",
+    "primaryButton": "View products",
+    "secondaryButton": "Contact now",
+    "reviews": "Reviews",
+    "imageAlt": "SmartMall hero"
+  },
+  "benefitsSection": {
+    "title": "Benefits of Working With Us",
+    "items": [
+      {
+        "title": "Clear process",
+        "description": "Product information is clearly presented so customers can choose and compare more easily."
+      },
+      {
+        "title": "Fast delivery",
+        "description": "After the order is confirmed, the shop tries to send the account or software as soon as possible."
+      },
+      {
+        "title": "Support when needed",
+        "description": "If there are any issues during use, the shop still provides support so customers can feel more confident."
+      }
+    ]
+  },
+  "timelineSection": {
+    "items": [
+      {
+        "title": "The beginning",
+        "description": "At first, I mainly sold a few game accounts and software products to friends and acquaintances."
+      },
+      {
+        "title": "Growth",
+        "description": "Later, I built a dedicated website to sell to new customers. The shop is still small and mostly self-operated."
+      },
+      {
+        "title": "Operation optimization",
+        "description": "I started standardizing the sales process, supporting customers faster, and organizing products more clearly."
+      },
+      {
+        "title": "Customer expansion",
+        "description": "The customer base gradually expanded, with more new customers coming from the website and natural referrals."
+      },
+      {
+        "title": "Product variety",
+        "description": "More product lines were added to match real customer needs and provide more choices."
+      },
+      {
+        "title": "Stability and growth",
+        "description": "I continue improving the customer experience and building a stable foundation for more sustainable growth."
+      }
+    ]
+  }
+}

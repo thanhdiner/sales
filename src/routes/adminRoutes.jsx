@@ -7,6 +7,7 @@ import AdminProtectedRoute from '@/components/AdminProtectedRoute'
 import AccessDenied from '@/components/AccessDenied'
 
 const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'))
+const AdminNotificationsPage = lazy(() => import('@/pages/AdminNotificationsPage'))
 const AdminProductsPages = lazy(() => import('@/pages/AdminProductsPages'))
 const AdminProductsDetails = lazy(() => import('@/pages/AdminProductsPages/AdminProductsDetails'))
 const AdminProductsCreate = lazy(() => import('@/pages/AdminProductsPages/AdminProductsCreate'))
@@ -29,8 +30,23 @@ const AdminOrderDetailPage = lazy(() => import('@/pages/AdminOrderDetailPage'))
 const AdminPurchaseReceiptsPage = lazy(() => import('@/pages/AdminPurchaseReceiptsPage'))
 const AdminWidgetsPage = lazy(() => import('@/pages/AdminWidgetsPage'))
 const AdminBannersPage = lazy(() => import('@/pages/AdminBannersPage'))
+const AdminAboutPage = lazy(() => import('@/pages/AdminAboutPage'))
+const AdminBlogPage = lazy(() => import('@/pages/AdminBlogPage'))
+const AdminTermsPage = lazy(() => import('@/pages/AdminTermsPage'))
+const AdminCooperationContactPage = lazy(() => import('@/pages/AdminCooperationContactPage'))
+const AdminHomeWhyChooseUsPage = lazy(() => import('@/pages/AdminHomeWhyChooseUsPage'))
+const AdminContactPageContentPage = lazy(() => import('@/pages/AdminContactPageContentPage'))
+const AdminPrivacyPolicyPage = lazy(() => import('@/pages/AdminPrivacyPolicyPage'))
+const AdminReturnPolicyPage = lazy(() => import('@/pages/AdminReturnPolicyPage'))
+const AdminFaqPage = lazy(() => import('@/pages/AdminFaqPage'))
+const AdminFooterPage = lazy(() => import('@/pages/AdminFooterPage'))
+const AdminGameAccountPage = lazy(() => import('@/pages/AdminGameAccountPage'))
+const AdminGameNewsPage = lazy(() => import('@/pages/AdminGameNewsPage'))
+const AdminVipPage = lazy(() => import('@/pages/AdminVipPage'))
+const AdminComingSoonPage = lazy(() => import('@/pages/AdminComingSoonPage'))
 const AdminFlashSalesPage = lazy(() => import('@/pages/AdminFlashSalesPage'))
 const AdminChatPage = lazy(() => import('@/pages/AdminChatPage'))
+const AdminQuickRepliesPage = lazy(() => import('@/pages/AdminQuickRepliesPage'))
 const AdminReviewsPage = lazy(() => import('@/pages/AdminReviewsPage'))
 const AdminChatbotConfigPage = lazy(() => import('@/pages/AdminChatbotConfigPage'))
 const AdminChatbotRuntimePage = lazy(() => import('@/pages/AdminChatbotRuntimePage'))
@@ -65,6 +81,14 @@ export const adminRoutes = [
         element: (
           <AdminRequireAuth>
             {lazyElement(AdminDashboard)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'notifications',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminNotificationsPage)}
           </AdminRequireAuth>
         )
       },
@@ -283,6 +307,134 @@ export const adminRoutes = [
         )
       },
       {
+        path: 'about',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminAboutPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'blog',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminBlogPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'terms',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminTermsPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'cooperation-contact',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminCooperationContactPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'home-why-choose-us',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminHomeWhyChooseUsPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'contact-page',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminContactPageContentPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'privacy-policy',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminPrivacyPolicyPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'return-policy',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminReturnPolicyPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'faq',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminFaqPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'footer',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminFooterPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'game-account',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminGameAccountPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'game-news',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminGameNewsPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'vip',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminVipPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'community',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminComingSoonPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'quick-support',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminComingSoonPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'license',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminComingSoonPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
         path: 'flash-sales',
         element: (
           <AdminProtectedRoute permission="view_flashsales">
@@ -297,6 +449,14 @@ export const adminRoutes = [
         element: (
           <AdminRequireAuth>
             {lazyElement(AdminChatPage)}
+          </AdminRequireAuth>
+        )
+      },
+      {
+        path: 'live-chat/quick-replies',
+        element: (
+          <AdminRequireAuth>
+            {lazyElement(AdminQuickRepliesPage)}
           </AdminRequireAuth>
         )
       },

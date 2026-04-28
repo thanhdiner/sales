@@ -1,0 +1,141 @@
+{
+  "seo": {
+    "title": "Admin - Notifications"
+  },
+  "page": {
+    "eyebrow": "Admin notifications",
+    "title": "Notifications",
+    "description": "Track important system updates and quickly handle the work that needs attention."
+  },
+  "dropdown": {
+    "title": "Notifications",
+    "summary": "{{unread}} unread · {{urgent}} urgent",
+    "markRead": "Mark read",
+    "urgent": "Urgent",
+    "viewAll": "View all notifications",
+    "total": "{{count}} total",
+    "emptyTitle": "No notifications",
+    "emptyDescription": "Important system updates will appear here.",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread",
+      "urgent": "Urgent"
+    }
+  },
+  "actions": {
+    "markAllRead": "Mark all as read",
+    "settings": "Notification settings",
+    "markRead": "Mark read",
+    "archive": "Archive",
+    "delete": "Delete",
+    "viewOrder": "View order",
+    "viewPayment": "View payment",
+    "viewProduct": "View product",
+    "viewReview": "View review",
+    "viewRefund": "View refund",
+    "viewUser": "View customer",
+    "viewSystem": "View system"
+  },
+  "stats": {
+    "total": {
+      "label": "All",
+      "description": "Total notifications currently shown."
+    },
+    "unread": {
+      "label": "Unread",
+      "description": "New notifications that need checking."
+    },
+    "actionRequired": {
+      "label": "Action required",
+      "description": "Work that needs admin follow-up."
+    },
+    "today": {
+      "label": "Today",
+      "description": "Updates created today."
+    }
+  },
+  "tabs": {
+    "all": "All",
+    "unread": "Unread",
+    "actionRequired": "Action required",
+    "order": "Orders",
+    "payment": "Payments",
+    "inventory": "Inventory",
+    "review": "Reviews"
+  },
+  "filters": {
+    "searchPlaceholder": "Search notification...",
+    "allTypes": "All types",
+    "allPriorities": "All priorities",
+    "clear": "Clear"
+  },
+  "selection": {
+    "selected": "{{count}} notifications selected",
+    "markRead": "Mark selected read",
+    "archive": "Archive",
+    "delete": "Delete",
+    "clear": "Clear selection"
+  },
+  "list": {
+    "title": "Notification list",
+    "description": "A table-card layout for quick scanning on desktop and compact cards on mobile.",
+    "count": "{{count}} notifications",
+    "empty": "No matching notifications."
+  },
+  "pagination": {
+    "total": "{{count}} notifications total"
+  },
+  "meta": {
+    "type": "Type",
+    "priority": "Priority",
+    "status": "Status",
+    "actionRequired": "Action required"
+  },
+  "groups": {
+    "order": "Order",
+    "payment": "Payment",
+    "inventory": "Inventory",
+    "review": "Review",
+    "refund": "Refund",
+    "user": "User",
+    "system": "System"
+  },
+  "types": {
+    "order_created": "New order",
+    "order_cancelled": "Order cancelled",
+    "payment_success": "Payment successful",
+    "payment_failed": "Payment failed",
+    "low_stock": "Low stock",
+    "out_of_stock": "Out of stock",
+    "review_created": "New review",
+    "refund_requested": "Refund requested",
+    "user_registered": "New customer",
+    "system_alert": "System alert"
+  },
+  "priorities": {
+    "high": "High",
+    "normal": "Normal",
+    "low": "Low"
+  },
+  "statuses": {
+    "all": "All statuses",
+    "read": "Read",
+    "unread": "Unread",
+    "actionRequired": "Action required"
+  },
+  "messages": {
+    "newCustomer": "New customer",
+    "allRead": "All notifications have been marked as read.",
+    "markRead": "Notification marked as read.",
+    "archived": "Notification archived.",
+    "deleted": "Notification deleted.",
+    "selectedRead": "Selected notifications have been marked as read.",
+    "selectedArchived": "Selected notifications archived.",
+    "selectedDeleted": "Selected notifications deleted.",
+    "settingsComing": "Notification settings will be connected when backend configuration is available."
+  },
+  "socket": {
+    "orderTitle": "New order #{{orderId}}",
+    "orderMessage": "{{customerName}} has placed an order worth {{total}}."
+  }
+}

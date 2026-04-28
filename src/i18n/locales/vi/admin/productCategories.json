@@ -1,0 +1,204 @@
+{
+  "seo": {
+    "title": "Admin - Danh mục sản phẩm",
+    "detailsTitle": "Admin - Chi tiết danh mục"
+  },
+  "page": {
+    "title": "Quản lý danh mục sản phẩm"
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Tạm ẩn"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Hủy",
+    "apply": "Áp dụng",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "view": "Xem",
+    "back": "Quay lại"
+  },
+  "filters": {
+    "categoryName": "Tên danh mục",
+    "categoryNamePlaceholder": "Tên danh mục",
+    "status": "Trạng thái",
+    "all": "Tất cả",
+    "show": "Hiển thị",
+    "perPage": "{{count}} mỗi trang",
+    "position": "Vị trí",
+    "positionPlaceholder": "Vị trí",
+    "filter": "Lọc",
+    "clear": "Xóa lọc"
+  },
+  "bulk": {
+    "selected": "Đã chọn {{count}} mục",
+    "choiceAction": "Chọn hành động",
+    "add": "Thêm",
+    "actions": {
+      "delete": "Xóa",
+      "changePosition": "Đổi vị trí",
+      "changeStatus": "Đổi trạng thái"
+    },
+    "messages": {
+      "selectFirst": "Vui lòng chọn danh mục trước.",
+      "chooseAction": "Vui lòng chọn một hành động.",
+      "deleteSuccess": "Đã xóa {{count}} danh mục thành công!",
+      "deleteError": "Không thể xóa các danh mục đã chọn.",
+      "statusSuccess": "Đã cập nhật trạng thái thành {{status}} cho {{count}} danh mục",
+      "statusError": "Không thể đổi trạng thái.",
+      "positionSuccess": "Đã đổi vị trí cho {{count}} danh mục",
+      "positionError": "Không thể đổi vị trí.",
+      "unsupported": "Hành động này chưa được hỗ trợ."
+    },
+    "modals": {
+      "deleteTitle": "Xác nhận xóa",
+      "deleteContent": "Bạn có chắc muốn xóa {{count}} danh mục đã chọn?",
+      "statusTitle": "Xác nhận đổi trạng thái",
+      "statusContent": "Đổi trạng thái của {{count}} danh mục sang \"{{status}}\"?",
+      "positionTitle": "Xác nhận đổi vị trí",
+      "positionContent": "Đổi vị trí của {{count}} danh mục?"
+    }
+  },
+  "utility": {
+    "exportProductCategories": "Xuất danh mục",
+    "exportMobile": "Xuất",
+    "toggleColumns": "Ẩn/hiện cột",
+    "filter": "Lọc",
+    "sheetName": "Danh mục",
+    "fileName": "danh_sach_danh_muc.xlsx"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Tên danh mục",
+    "position": "Vị trí",
+    "status": "Trạng thái",
+    "thumbnail": "Ảnh đại diện",
+    "thumbnailRequired": "Ảnh đại diện *",
+    "actions": "Hành động",
+    "actionsRequired": "Hành động *",
+    "createdBy": "Người tạo",
+    "createdAt": "Ngày tạo",
+    "updatedBy": "Người cập nhật",
+    "updatedAt": "Ngày cập nhật",
+    "parent": "Danh mục cha",
+    "slug": "Slug"
+  },
+  "columnMenu": {
+    "title": "Ẩn/hiện cột",
+    "requiredNote": "* Các cột này bắt buộc và không thể ẩn."
+  },
+  "table": {
+    "rootCategory": "Danh mục gốc",
+    "loading": "Đang tải danh mục...",
+    "empty": "Không tìm thấy danh mục",
+    "deleteTitle": "Xác nhận xóa",
+    "deleteContent": "Bạn có chắc muốn xóa danh mục \"{{title}}\"?",
+    "deleteSuccess": "Đã xóa danh mục thành công!",
+    "deleteError": "Không thể xóa danh mục.",
+    "changeStatusTitle": "Đổi trạng thái danh mục",
+    "changeStatusContent": "Bạn có chắc muốn đổi trạng thái của \"{{title}}\" từ \"{{from}}\" sang \"{{to}}\"?",
+    "statusUpdated": "Đã cập nhật trạng thái thành {{status}}",
+    "statusUpdateError": "Không thể cập nhật trạng thái",
+    "parent": "Danh mục cha",
+    "position": "Vị trí",
+    "updated": "Cập nhật"
+  },
+  "pagination": {
+    "summary": "Tổng {{total}} danh mục, Trang {{current}} / {{pages}}"
+  },
+  "form": {
+    "categoryName": "Tên danh mục",
+    "categoryNamePlaceholder": "Nhập tên danh mục",
+    "parentCategory": "Danh mục cha",
+    "parentCategoryPlaceholder": "Chọn danh mục cha (nếu có)",
+    "slug": "Slug URL",
+    "slugPlaceholder": "Tự động tạo từ tên danh mục hoặc bạn có thể sửa",
+    "status": "Trạng thái",
+    "position": "Vị trí",
+    "positionPlaceholder": "Nhập vị trí",
+    "shortDescription": "Mô tả ngắn",
+    "content": "Nội dung chi tiết",
+    "thumbnail": "Ảnh đại diện",
+    "thumbnailRequired": "Vui lòng upload ảnh đại diện!",
+    "addImage": "Thêm ảnh",
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "title": "Tên danh mục tiếng Anh",
+      "titlePlaceholder": "Nhập tên danh mục bằng tiếng Anh",
+      "description": "Mô tả ngắn tiếng Anh",
+      "content": "Nội dung chi tiết tiếng Anh"
+    },
+    "cancel": "Hủy",
+    "create": "Tạo danh mục",
+    "creating": "Đang tạo...",
+    "save": "Lưu thay đổi",
+    "saving": "Đang lưu..."
+  },
+  "formMessages": {
+    "loadTreeError": "Không thể tải cây danh mục",
+    "createSuccess": "Đã tạo danh mục thành công!",
+    "createError": "Không thể tạo danh mục!",
+    "slugExists": "Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: {{suggestedSlug}}",
+    "imageOnly": "Bạn chỉ có thể upload file ảnh!",
+    "loadError": "Không thể tải danh mục",
+    "updateSuccess": "Đã cập nhật danh mục thành công!",
+    "updateError": "Không thể cập nhật danh mục!"
+  },
+  "details": {
+    "emptyLabel": "Danh mục sản phẩm",
+    "notFound": "Không tìm thấy danh mục",
+    "loadError": "Không thể tải dữ liệu danh mục",
+    "emptyDescription": "Kiểm tra lại đường dẫn hoặc quay về trang quản lý danh mục để chọn một bản ghi khác.",
+    "backToList": "Quay lại danh sách",
+    "backToCategoryList": "Quay lại danh sách danh mục",
+    "overviewEyebrow": "Tổng quan danh mục sản phẩm",
+    "parentLabel": "Danh mục cha",
+    "noneParent": "Không có",
+    "categoryList": "Danh sách danh mục",
+    "editCategory": "Chỉnh sửa danh mục",
+    "editNow": "Chỉnh sửa ngay",
+    "overview": {
+      "status": "Trạng thái",
+      "position": "Vị trí hiển thị",
+      "createdAt": "Ngày tạo",
+      "updatedAt": "Cập nhật gần nhất"
+    },
+    "blocks": {
+      "overviewTitle": "Tổng quan",
+      "overviewSubtitle": "Các thông tin định danh và trạng thái hiển thị của danh mục.",
+      "descriptionTitle": "Mô tả",
+      "descriptionSubtitle": "Nội dung giới thiệu hiển thị cho danh mục sản phẩm này.",
+      "contentTitle": "Nội dung chi tiết",
+      "contentSubtitle": "Phần nội dung mở rộng nếu danh mục có cấu hình thêm.",
+      "historyTitle": "Lịch sử cập nhật",
+      "historySubtitle": "Theo dõi các lần chỉnh sửa gần đây của danh mục.",
+      "adminTitle": "Thông tin quản trị",
+      "adminSubtitle": "Metadata nội bộ để theo dõi bản ghi này.",
+      "quickTitle": "Thao tác nhanh",
+      "quickSubtitle": "Điều hướng nhanh tới các trang quản trị liên quan."
+    },
+    "meta": {
+      "categoryName": "Tên danh mục",
+      "slug": "Slug",
+      "parent": "Danh mục cha",
+      "position": "Vị trí",
+      "createdBy": "Người tạo",
+      "createdAt": "Ngày tạo",
+      "updatedAt": "Cập nhật gần nhất"
+    },
+    "emptyDescriptionText": "Danh mục này chưa có mô tả ngắn.",
+    "emptyContentText": "Danh mục này chưa có nội dung chi tiết.",
+    "historyUserNote": "Tài khoản thực hiện cập nhật",
+    "emptyHistoryText": "Chưa có lịch sử cập nhật được ghi nhận.",
+    "thumbnail": {
+      "title": "Ảnh đại diện danh mục",
+      "description": "Xem nhanh ảnh đang dùng cho danh mục này.",
+      "fileName": "Tên file",
+      "empty": "Danh mục này chưa có ảnh đại diện.",
+      "alt": "Ảnh đại diện danh mục"
+    }
+  }
+}

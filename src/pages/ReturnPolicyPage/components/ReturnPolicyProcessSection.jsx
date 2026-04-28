@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Grid, Steps, Typography } from 'antd'
-import { returnPolicyOnlineSteps, returnPolicyPhysicalSteps } from '../data'
 
 const { Title } = Typography
 const { useBreakpoint } = Grid
@@ -19,9 +18,11 @@ const toStepItems = steps =>
     ),
   }))
 
-const ReturnPolicyProcessSection = () => {
+const ReturnPolicyProcessSection = ({ content = {} }) => {
   const screens = useBreakpoint()
   const isMobile = !screens.md
+  const physical = content.physical || {}
+  const online = content.online || {}
 
   return (
     <>
@@ -30,12 +31,12 @@ const ReturnPolicyProcessSection = () => {
           level={2}
           className="!mb-8 text-center !text-2xl !font-semibold !tracking-[-0.02em] !text-gray-900 dark:!text-gray-100"
         >
-          Quy trình đổi trả hàng vật lý
+          {physical.title}
         </Title>
 
         <Steps
           current={-1}
-          items={toStepItems(returnPolicyPhysicalSteps)}
+          items={toStepItems(physical.steps || [])}
           direction={isMobile ? 'vertical' : 'horizontal'}
           size={isMobile ? 'small' : 'default'}
           className="mb-6"
@@ -43,11 +44,11 @@ const ReturnPolicyProcessSection = () => {
 
         <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-900/30">
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-            Lưu ý quan trọng
+            {physical.noteTitle}
           </h3>
 
           <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-            Vui lòng giữ nguyên tình trạng sản phẩm và đóng gói cẩn thận khi gửi về để đảm bảo quá trình xử lý nhanh chóng.
+            {physical.noteDescription}
           </p>
         </div>
       </Card>
@@ -57,12 +58,12 @@ const ReturnPolicyProcessSection = () => {
           level={2}
           className="!mb-8 text-center !text-2xl !font-semibold !tracking-[-0.02em] !text-gray-900 dark:!text-gray-100"
         >
-          Quy trình xử lý dịch vụ online / tài khoản / phần mềm
+          {online.title}
         </Title>
 
         <Steps
           current={-1}
-          items={toStepItems(returnPolicyOnlineSteps)}
+          items={toStepItems(online.steps || [])}
           direction={isMobile ? 'vertical' : 'horizontal'}
           size={isMobile ? 'small' : 'default'}
           className="mb-6"
@@ -70,16 +71,14 @@ const ReturnPolicyProcessSection = () => {
 
         <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-900/30">
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-            Lưu ý
+            {online.noteTitle}
           </h3>
 
-          <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-            Một số sản phẩm số, phần mềm bản quyền, tài khoản số, dịch vụ nâng cấp online chỉ hỗ trợ hoàn tiền hoặc đổi mới khi phát sinh lỗi từ hệ thống hoặc không sử dụng được.
-          </p>
-
-          <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-            Sau khi dịch vụ đã được kích hoạt thành công, một số sản phẩm không áp dụng hoàn tiền theo quy định của nhà phát hành.
-          </p>
+          {(online.noteDescriptions || []).map(description => (
+            <p key={description} className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+              {description}
+            </p>
+          ))}
         </div>
       </Card>
     </>

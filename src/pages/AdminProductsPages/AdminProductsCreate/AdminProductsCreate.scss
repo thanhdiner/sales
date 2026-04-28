@@ -13,6 +13,18 @@ body.admin-layout-active {
 
 .admin-product-create {
   color: var(--product-create-text);
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-product-create__form,
+.admin-product-create__card {
+  min-width: 0;
+}
+
+.admin-product-create .ant-row,
+.admin-product-create .ant-col {
+  min-width: 0;
 }
 
 .admin-product-create__card {
@@ -41,6 +53,13 @@ body.admin-layout-active {
 .admin-product-create__picker,
 .admin-product-create__textarea {
   width: 100%;
+}
+
+.admin-product-create__editor,
+.admin-product-create__editor .tiptap-editor,
+.admin-product-create__upload,
+.admin-product-create .ant-upload-wrapper {
+  max-width: 100%;
 }
 
 .admin-product-create__input,
@@ -207,9 +226,35 @@ body.admin-layout-active {
   background: var(--product-create-surface-2) !important;
 }
 
+.admin-product-create__translation-section {
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--product-create-border);
+}
+
+.admin-product-create__translation-header {
+  margin-bottom: 14px;
+}
+
+.admin-product-create__translation-title {
+  margin: 0;
+  color: var(--product-create-text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .admin-product-create__actions.ant-form-item {
+  margin-top: 8px;
   margin-bottom: 0;
   text-align: right;
+}
+
+.admin-product-create__actions .ant-form-item-control-input-content {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .admin-product-create__btn.ant-btn {
@@ -223,7 +268,6 @@ body.admin-layout-active {
   border-color: var(--product-create-border) !important;
   background: var(--product-create-surface-2) !important;
   color: var(--product-create-text-muted) !important;
-  margin-right: 8px;
 }
 
 .admin-product-create__btn--cancel.ant-btn:hover {
@@ -305,5 +349,28 @@ body.admin-layout-active {
 @media (max-width: 992px) {
   .admin-product-create__card {
     padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-product-create__card {
+    padding: 12px;
+  }
+
+  .admin-product-create__feature-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-product-create__remove-feature-btn.ant-btn.ant-btn-text {
+    align-self: flex-end;
+  }
+
+  .admin-product-create__actions .ant-form-item-control-input-content {
+    justify-content: stretch;
+  }
+
+  .admin-product-create__btn.ant-btn {
+    flex: 1 1 150px;
   }
 }

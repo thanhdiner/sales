@@ -5,8 +5,10 @@ import AdminProductsHeaderActions from './components/AdminProductsHeaderActions'
 import AdminProductsHeader from './components/AdminProductsHeader'
 import SEO from '@/components/SEO'
 import { useAdminProductsPage } from './hooks/useAdminProductsPage'
+import { useTranslation } from 'react-i18next'
 
 function AdminProductsPages() {
+  const { t } = useTranslation('adminProducts')
   const {
     columnsVisible,
     setColumnsVisible,
@@ -36,7 +38,7 @@ function AdminProductsPages() {
 
   return (
     <>
-      <SEO title="Admin – Sản phẩm" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <main className="admin-products-page">
         <div className="admin-products-page__inner">

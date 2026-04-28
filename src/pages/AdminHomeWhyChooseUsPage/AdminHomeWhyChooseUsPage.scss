@@ -1,0 +1,145 @@
+.admin-home-wcu-page {
+  min-height: 100vh;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--admin-bg-soft);
+  color: var(--admin-text);
+}
+
+.admin-home-wcu-card {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px;
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-home-wcu-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-home-wcu-header .ant-typography {
+  margin: 0;
+  color: var(--admin-text);
+}
+
+.admin-home-wcu-section {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
+}
+
+.admin-home-wcu-section__header {
+  margin-bottom: 14px;
+}
+
+.admin-home-wcu-section__header h3,
+.admin-home-wcu-list__header h4,
+.admin-home-wcu-list-item__title {
+  margin: 0;
+  color: var(--admin-text);
+  font-weight: 700;
+}
+
+.admin-home-wcu-section__header p {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+}
+
+.admin-home-wcu-list {
+  width: 100%;
+}
+
+.admin-home-wcu-list__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.admin-home-wcu-items {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-home-wcu-list-item {
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+}
+
+.admin-home-wcu-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.admin-home-wcu-list-item--inline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.admin-home-wcu-list-item--inline .ant-form-item {
+  margin-bottom: 0;
+}
+
+.admin-home-wcu-list-item__title {
+  margin-bottom: 12px;
+}
+
+.admin-home-wcu-page .ant-input,
+.admin-home-wcu-page .ant-input-affix-wrapper {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-home-wcu-page .ant-input::placeholder {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-home-wcu-page .ant-tabs-tab,
+.admin-home-wcu-page .ant-form-item-label > label,
+.admin-home-wcu-page .ant-typography {
+  color: var(--admin-text-muted);
+}
+
+.admin-home-wcu-page .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--admin-accent) !important;
+}
+
+.admin-home-wcu-page .ant-tabs-ink-bar {
+  background: var(--admin-accent) !important;
+}
+
+@media (max-width: 767px) {
+  .admin-home-wcu-page {
+    padding: 0;
+  }
+
+  .admin-home-wcu-card {
+    padding: 14px;
+  }
+
+  .admin-home-wcu-header {
+    flex-direction: column;
+  }
+
+  .admin-home-wcu-list-item--inline {
+    grid-template-columns: 1fr;
+  }
+}

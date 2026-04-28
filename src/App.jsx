@@ -11,6 +11,7 @@ import { getAdminMe } from './services/adminMeService'
 import { logout, setUser } from './stores/adminUser'
 import { applyDocumentTheme } from './utils/themeMode'
 import { clearTokens, getAccessToken, setAccessToken } from './utils/auth'
+import { applyDocumentLanguage } from './utils/languageMode'
 
 function App() {
   const dispatch = useDispatch()
@@ -19,10 +20,15 @@ function App() {
   useClientBootstrap()
 
   const isDark = useSelector(state => !!state.darkMode?.value)
+  const language = useSelector(state => state.language?.value || 'vi')
 
   useEffect(() => {
     applyDocumentTheme(isDark)
   }, [isDark])
+
+  useEffect(() => {
+    applyDocumentLanguage(language)
+  }, [language])
 
   useEffect(() => {
     let isMounted = true

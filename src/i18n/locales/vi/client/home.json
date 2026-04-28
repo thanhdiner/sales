@@ -1,0 +1,76 @@
+{
+  "seo": {
+    "title": "Trang chủ",
+    "description": "SmartMall – Mua tài khoản game, phần mềm bản quyền chính hãng, giá cực tốt. Flash sale hằng ngày, giao hàng nhanh, hỗ trợ 24/7."
+  },
+  "heroBanner": {
+    "empty": "Chưa có banner nào",
+    "ariaLabel": "Banner nổi bật"
+  },
+  "widgets": {
+    "empty": "Chưa có tiện ích nào"
+  },
+  "flashSaleSection": {
+    "title": "Flash Sale",
+    "viewAll": "Xem tất cả",
+    "countdownLabel": "Kết thúc sau:",
+    "dayUnit": "{{count}} ngày"
+  },
+  "topDealSection": {
+    "titleAlt": "TOP DEAL - SIÊU RẺ",
+    "viewAll": "Xem tất cả"
+  },
+  "featuredProductsSection": {
+    "title": "Sản phẩm nổi bật",
+    "viewAll": "Xem tất cả"
+  },
+  "dailySuggestionsSection": {
+    "title": "Gợi ý hôm nay",
+    "loadMore": "Xem thêm",
+    "tabs": {
+      "forYou": "Dành cho bạn",
+      "deal": "Deal Siêu Rẻ",
+      "new": "Hàng Mới Nhất"
+    },
+    "heroBanner": {
+      "seeMore": "Xem thêm"
+    }
+  },
+  "whyChooseUsSection": {
+    "eyebrow": "Tại sao nên chọn chúng tôi",
+    "title": "Mua hàng nhanh, hỗ trợ rõ ràng, trải nghiệm yên tâm hơn",
+    "descPhrases": [
+      "Chúng tôi tập trung vào những điều quan trọng nhất: xử lý nhanh, thanh toán thuận tiện, chính sách rõ ràng và hỗ trợ khi bạn cần.",
+      "Cam kết mang đến trải nghiệm mua sắm tuyệt vời nhất với hàng ngàn ưu đãi và dịch vụ chăm sóc khách hàng tận tâm.",
+      "Hệ thống bảo mật hiện đại, đảm bảo an toàn tuyệt đối cho mọi giao dịch và thông tin cá nhân của bạn.",
+      "Tốc độ giao hàng siêu tốc, luôn đồng hành cùng bạn trên mọi hành trình mua sắm trực tuyến."
+    ],
+    "cta": "Khám phá ngay",
+    "items": {
+      "fastActivation": {
+        "title": "Kích hoạt nhanh chóng",
+        "desc": "Xử lý đơn nhanh, hỗ trợ <em>trong ngày</em> và luôn có người <em>phản hồi</em> khi cần."
+      },
+      "fastDelivery": {
+        "title": "Giao hàng siêu tốc",
+        "desc": "<em>Vận chuyển nhanh</em> toàn quốc, theo dõi đơn hàng <em>realtime</em> mọi lúc."
+      },
+      "flexiblePayment": {
+        "title": "Thanh toán linh hoạt",
+        "desc": "Hỗ trợ nhiều <em>hình thức thanh toán</em> tiện lợi, phù hợp với nhu cầu của bạn."
+      },
+      "clearWarranty": {
+        "title": "Bảo hành rõ ràng",
+        "desc": "<em>Cam kết hỗ trợ</em> nếu phát sinh lỗi trong quá trình sử dụng."
+      },
+      "regularOffers": {
+        "title": "Ưu đãi thường xuyên",
+        "desc": "<em>Flash sale</em>, voucher giảm giá và chương trình <em>tích điểm</em> hấp dẫn."
+      },
+      "dedicatedSupport": {
+        "title": "Hỗ trợ tận tâm",
+        "desc": "<em>Tư vấn nhanh</em>, dễ hiểu và đồng hành trong suốt quá trình <em>mua hàng</em>."
+      }
+    }
+  }
+}

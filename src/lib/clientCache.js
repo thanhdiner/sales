@@ -1,4 +1,5 @@
 import { getCart } from '@/services/cartsService'
+import { getClientMe } from '@/services/userService'
 import { getWishlist } from '@/services/wishlistService'
 import { queryClient } from '@/lib/queryClient'
 import { queryKeys, AUTHENTICATED_QUERY_SCOPE } from '@/lib/queryKeys'
@@ -12,6 +13,9 @@ const CART_MUTATION_TOOLS = new Set([
   'addToCart',
   'updateCartQuantity',
   'removeFromCart',
+  'applyPromoCodeToCart',
+  'removePromoCodeFromCart',
+  'placeOrder',
   'clearCart'
 ])
 
@@ -20,6 +24,12 @@ const WISHLIST_MUTATION_TOOLS = new Set([
   'removeFromWishlist',
   'toggleWishlist',
   'clearWishlist'
+])
+
+const USER_MUTATION_TOOLS = new Set([
+  'updateCheckoutProfile',
+  'updateNotificationPreferences',
+  'verifyEmailChange'
 ])
 
 export const hasClientToken = () => Boolean(getClientAccessToken() || getClientAccessTokenSession())
@@ -95,6 +105,11 @@ export const syncWishlistFromServer = async dispatch => {
   return syncWishlistState(dispatch, wishlist)
 }
 
+export const syncClientUserFromServer = async dispatch => {
+  const user = await getClientMe()
+  return syncClientUserState(dispatch, user)
+}
+
 export const getClientSyncTargetsFromTools = toolsUsed => {
   const normalizedTools = Array.isArray(toolsUsed)
     ? [...new Set(
@@ -107,7 +122,8 @@ export const getClientSyncTargetsFromTools = toolsUsed => {
 
   return {
     cart: normalizedTools.some(tool => CART_MUTATION_TOOLS.has(tool)),
-    wishlist: normalizedTools.some(tool => WISHLIST_MUTATION_TOOLS.has(tool))
+    wishlist: normalizedTools.some(tool => WISHLIST_MUTATION_TOOLS.has(tool)),
+    user: normalizedTools.some(tool => USER_MUTATION_TOOLS.has(tool))
   }
 }
 
@@ -123,6 +139,10 @@ export const syncClientStateFromBotTools = async (dispatch, toolsUsed) => {
 
   if (syncTargets.wishlist) {
     syncTasks.push(syncWishlistFromServer(dispatch))
+  }
+
+  if (syncTargets.user) {
+    syncTasks.push(syncClientUserFromServer(dispatch))
   }
 
   if (syncTasks.length === 0) return

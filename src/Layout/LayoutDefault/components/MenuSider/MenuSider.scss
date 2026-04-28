@@ -36,8 +36,10 @@
 }
 
 .menu-sider__label {
+  width: 135px;
   white-space: normal;
   word-break: break-word;
+  overflow-wrap: break-word;
   line-height: 1.4;
   display: inline-block;
 }

@@ -33,6 +33,7 @@ html.dark .admin-login-trust-modal {
 }
 
 .admin-login-page {
+  position: relative;
   color: var(--admin-login-text);
   background: var(--admin-login-bg);
 }
@@ -52,6 +53,53 @@ html.dark .admin-login-page {
 
 .admin-login-content {
   position: relative;
+}
+
+.admin-login-toolbar {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--admin-login-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--admin-login-surface) 88%, transparent);
+  box-shadow: var(--admin-login-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.admin-login-toolbar-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--admin-login-text-muted);
+}
+
+.admin-login-toolbar-btn.ant-btn:hover,
+.admin-login-toolbar-btn.ant-btn:focus-visible {
+  border-color: var(--admin-login-border-strong);
+  background: var(--admin-login-surface-2) !important;
+  color: var(--admin-login-text) !important;
+}
+
+.admin-login-toolbar-btn.ant-btn .anticon {
+  font-size: 16px;
+}
+
+.admin-login-language-btn.ant-btn {
+  width: auto;
+  padding-inline: 12px;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .admin-login-title.ant-typography {
@@ -77,6 +125,45 @@ html.dark .admin-login-page {
 .admin-login-input.ant-input-affix-wrapper .ant-input {
   border: 0 !important;
   background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+.admin-login-input.ant-input-affix-wrapper .ant-input:hover,
+.admin-login-input.ant-input-affix-wrapper .ant-input:focus,
+.admin-login-input.ant-input-affix-wrapper .ant-input:focus-visible,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:hover,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:focus,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:focus-visible {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper .ant-input,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper input.ant-input,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper .ant-input:hover,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper input.ant-input:hover,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper .ant-input:focus,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper input.ant-input:focus,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper .ant-input:focus-visible,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper input.ant-input:focus-visible {
+  border: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper:hover .ant-input,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper:hover input.ant-input,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper:focus-within .ant-input,
+html.dark body:not(.admin-layout-active) .admin-login-page .admin-login-input.ant-input-affix-wrapper:focus-within input.ant-input {
+  border: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  outline: 0 !important;
   box-shadow: none !important;
   color: inherit !important;
 }
@@ -185,4 +272,17 @@ html.dark .admin-login-page {
   border-color: var(--admin-login-border-strong) !important;
   background: var(--admin-login-surface-2) !important;
   color: var(--admin-login-text) !important;
+}
+
+@media (max-width: 575.98px) {
+  .admin-login-toolbar {
+    top: 12px;
+    right: 12px;
+    padding: 5px;
+  }
+
+  .admin-login-toolbar-btn.ant-btn {
+    min-width: 34px;
+    height: 34px;
+  }
 }

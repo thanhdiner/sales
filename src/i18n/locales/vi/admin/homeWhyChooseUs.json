@@ -1,0 +1,54 @@
+{
+  "seo": {
+    "title": "Admin - Kh\u1ed1i l\u00fd do ch\u1ecdn shop"
+  },
+  "page": {
+    "title": "Kh\u1ed1i l\u00fd do ch\u1ecdn shop",
+    "description": "Qu\u1ea3n l\u00fd n\u1ed9i dung song ng\u1eef cho kh\u1ed1i l\u00fd do tr\u00ean trang ch\u1ee7."
+  },
+  "tabs": {
+    "vi": "Ti\u1ebfng Vi\u1ec7t",
+    "en": "Ti\u1ebfng Anh"
+  },
+  "actions": {
+    "preview": "Xem tr\u01b0\u1edbc",
+    "reload": "T\u1ea3i l\u1ea1i",
+    "reset": "\u0110\u1eb7t l\u1ea1i",
+    "save": "L\u01b0u n\u1ed9i dung",
+    "remove": "X\u00f3a",
+    "addPhrase": "Th\u00eam c\u00e2u"
+  },
+  "messages": {
+    "fetchError": "Kh\u00f4ng th\u1ec3 t\u1ea3i n\u1ed9i dung kh\u1ed1i l\u00fd do",
+    "saveSuccess": "\u0110\u00e3 l\u01b0u n\u1ed9i dung kh\u1ed1i l\u00fd do",
+    "saveError": "Kh\u00f4ng th\u1ec3 l\u01b0u n\u1ed9i dung kh\u1ed1i l\u00fd do",
+    "resetDone": "\u0110\u00e3 \u0111\u1eb7t l\u1ea1i form"
+  },
+  "validation": {
+    "required": "Vui l\u00f2ng nh\u1eadp tr\u01b0\u1eddng n\u00e0y"
+  },
+  "sections": {
+    "header": "Ti\u00eau \u0111\u1ec1",
+    "descPhrases": "C\u00e2u typewriter",
+    "descPhrasesDescription": "C\u00e1c c\u00e2u hi\u1ec3n th\u1ecb b\u00ean d\u01b0\u1edbi ti\u00eau \u0111\u1ec1 kh\u1ed1i.",
+    "cards": "Th\u1ebb l\u00fd do",
+    "cardsDescription": "S\u00e1u th\u1ebb v\u1eabn gi\u1eef icon v\u00e0 b\u1ed1 c\u1ee5c hi\u1ec7n t\u1ea1i tr\u00ean trang ch\u1ee7."
+  },
+  "fields": {
+    "eyebrow": "Nh\u00e3n nh\u1ecf",
+    "title": "Ti\u00eau \u0111\u1ec1",
+    "cta": "N\u00fat CTA",
+    "phrase": "C\u00e2u {{index}}",
+    "phrasePlaceholder": "Nh\u1eadp c\u00e2u",
+    "cardTitle": "Ti\u00eau \u0111\u1ec1 th\u1ebb",
+    "cardDescription": "M\u00f4 t\u1ea3 th\u1ebb"
+  },
+  "itemLabels": {
+    "fastActivation": "K\u00edch ho\u1ea1t nhanh",
+    "fastDelivery": "Giao h\u00e0ng nhanh",
+    "flexiblePayment": "Thanh to\u00e1n linh ho\u1ea1t",
+    "clearWarranty": "B\u1ea3o h\u00e0nh r\u00f5 r\u00e0ng",
+    "regularOffers": "\u01afu \u0111\u00e3i th\u01b0\u1eddng xuy\u00ean",
+    "dedicatedSupport": "H\u1ed7 tr\u1ee3 t\u1eadn t\u00e2m"
+  }
+}

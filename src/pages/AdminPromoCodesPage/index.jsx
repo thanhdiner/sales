@@ -1,18 +1,48 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import dayjs from 'dayjs'
 import { Form, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import PromoCodeDetailModal from './components/PromoCodeDetailModal'
 import PromoCodeFormModal from './components/PromoCodeFormModal'
-import PromoCodesStats from './components/PromoCodesStats'
-import PromoCodesTable from './components/PromoCodesTable'
 import { useAdminPromoCodesData } from './hooks/useAdminPromoCodesData'
-import { getPromoCodeFormValues } from './utils/promoCodeHelpers'
+import PromoCodesFiltersSection from './sections/PromoCodesFiltersSection'
+import PromoCodesHeaderSection from './sections/PromoCodesHeaderSection'
+import PromoCodesMobileListSection from './sections/PromoCodesMobileListSection'
+import PromoCodesPaginationSection from './sections/PromoCodesPaginationSection'
+import PromoCodesStatsSection from './sections/PromoCodesStatsSection'
+import PromoCodesTableSection from './sections/PromoCodesTableSection'
+import {
+  DEFAULT_PROMO_CODE_FILTERS,
+  getPromoCodeApiFilters,
+  getPromoCodeExportRows,
+  getPromoCodeFormValues
+} from './utils/promoCodeHelpers'
 import './AdminPromoCodesPage.scss'
 
+function buildCsv(rows) {
+  if (!rows.length) return ''
+
+  const headers = Object.keys(rows[0])
+  const escapeCell = value => {
+    const text = String(value ?? '')
+    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
+  }
+
+  return [
+    headers.map(escapeCell).join(','),
+    ...rows.map(row => headers.map(header => escapeCell(row[header])).join(','))
+  ].join('\n')
+}
+
 export default function AdminPromoCodesPage() {
+  const { t, i18n } = useTranslation('adminPromoCodes')
+  const language = i18n.resolvedLanguage || i18n.language
   const [modalVisible, setModalVisible] = useState(false)
   const [editingCode, setEditingCode] = useState(null)
+  const [filters, setFilters] = useState(DEFAULT_PROMO_CODE_FILTERS)
   const [form] = Form.useForm()
+  const apiFilters = useMemo(() => getPromoCodeApiFilters(filters), [filters])
 
   const {
     promoCodes,
@@ -20,13 +50,15 @@ export default function AdminPromoCodesPage() {
     pagination,
     selectedCode,
     detailModalVisible,
+    refreshCurrentPage,
+    setPage,
     handleTableChange,
     handleDelete,
     handleSubmitPromoCode,
     handleToggleStatus,
     showDetail,
     closeDetail
-  } = useAdminPromoCodesData()
+  } = useAdminPromoCodesData({ t, filters: apiFilters })
 
   const handleCreate = () => {
     setEditingCode(null)
@@ -37,6 +69,30 @@ export default function AdminPromoCodesPage() {
   const handleEdit = record => {
     setEditingCode(record)
     form.setFieldsValue(getPromoCodeFormValues(record))
+    setModalVisible(true)
+  }
+
+  const handleDuplicate = record => {
+    const duplicateValues = getPromoCodeFormValues(record)
+    const nextCode = `${record.code || ''}COPY`.slice(0, 50)
+
+    setEditingCode(null)
+    form.setFieldsValue({
+      ...duplicateValues,
+      code: nextCode,
+      isActive: false
+    })
+    setModalVisible(true)
+    message.info(t('messages.duplicateReady'))
+  }
+
+  const handleExtendExpiry = record => {
+    setEditingCode(record)
+    form.setFieldsValue({
+      ...getPromoCodeFormValues(record),
+      isActive: true,
+      expiresAt: dayjs().add(30, 'day').endOf('day')
+    })
     setModalVisible(true)
   }
 
@@ -53,46 +109,108 @@ export default function AdminPromoCodesPage() {
   const handleCopy = async text => {
     try {
       await navigator.clipboard.writeText(text)
-      message.success('Đã sao chép mã giảm giá')
+      message.success(t('messages.copySuccess'))
     } catch (err) {
-      message.error('Sao chép mã giảm giá thất bại')
+      message.error(t('messages.copyError'))
     }
   }
 
+  const handleFiltersChange = nextFilters => {
+    setFilters(nextFilters)
+    setPage(1)
+  }
+
+  const handleClearFilters = () => {
+    setFilters(DEFAULT_PROMO_CODE_FILTERS)
+    setPage(1)
+  }
+
+  const handleExport = () => {
+    const rows = getPromoCodeExportRows(promoCodes, language, t)
+
+    if (!rows.length) {
+      message.info(t('messages.exportEmpty'))
+      return
+    }
+
+    const blob = new Blob([`\uFEFF${buildCsv(rows)}`], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+
+    link.href = url
+    link.download = `promo-codes-${dayjs().format('YYYYMMDD-HHmm')}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    message.success(t('messages.exportSuccess'))
+  }
+
   return (
-    <div className="admin-promo-codes-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
-      <SEO title="Admin – Mã giảm giá" noIndex />
+    <div className="admin-promo-codes-page">
+      <SEO title={t('seo.title')} noIndex />
 
-      <div className="mb-6">
-        <h1 className="mb-2 text-2xl font-bold text-[var(--admin-text)]">Quản lý mã giảm giá</h1>
-        <p className="text-[var(--admin-text-muted)]">Tạo và quản lý các mã giảm giá cho khách hàng</p>
+      <div className="admin-promo-codes-page__inner">
+        <PromoCodesHeaderSection
+          loading={loading}
+          onCreate={handleCreate}
+          onExport={handleExport}
+          onRefresh={refreshCurrentPage}
+        />
+
+        <PromoCodesStatsSection promoCodes={promoCodes} language={language} />
+
+        <PromoCodesFiltersSection
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
+          onClearFilters={handleClearFilters}
+        />
+
+        <PromoCodesTableSection
+          promoCodes={promoCodes}
+          loading={loading}
+          language={language}
+          onCopy={handleCopy}
+          onShowDetail={showDetail}
+          onEdit={handleEdit}
+          onDuplicate={handleDuplicate}
+          onToggleStatus={handleToggleStatus}
+          onExtendExpiry={handleExtendExpiry}
+          onDelete={handleDelete}
+        />
+
+        <PromoCodesMobileListSection
+          promoCodes={promoCodes}
+          loading={loading}
+          language={language}
+          onCopy={handleCopy}
+          onShowDetail={showDetail}
+          onEdit={handleEdit}
+          onDuplicate={handleDuplicate}
+          onToggleStatus={handleToggleStatus}
+          onExtendExpiry={handleExtendExpiry}
+          onDelete={handleDelete}
+        />
+
+        <PromoCodesPaginationSection
+          pagination={pagination}
+          language={language}
+          onPageChange={handleTableChange}
+        />
       </div>
-
-      <PromoCodesStats promoCodes={promoCodes} />
-
-      <PromoCodesTable
-        promoCodes={promoCodes}
-        loading={loading}
-        pagination={pagination}
-        onCreate={handleCreate}
-        onTableChange={handleTableChange}
-        onCopy={handleCopy}
-        onShowDetail={showDetail}
-        onEdit={handleEdit}
-        onToggleStatus={handleToggleStatus}
-        onDelete={handleDelete}
-      />
 
       <PromoCodeFormModal
         open={modalVisible}
         editingCode={editingCode}
         form={form}
         loading={loading}
+        language={language}
+        t={t}
         onCancel={() => setModalVisible(false)}
         onSubmit={handleFormSubmit}
       />
 
-      <PromoCodeDetailModal open={detailModalVisible} selectedCode={selectedCode} onCancel={closeDetail} />
+      <PromoCodeDetailModal open={detailModalVisible} selectedCode={selectedCode} language={language} t={t} onCancel={closeDetail} />
     </div>
   )
 }

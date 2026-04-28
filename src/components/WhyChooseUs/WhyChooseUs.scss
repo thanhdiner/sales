@@ -166,7 +166,7 @@
     &.line-bottom {
       top: 50%; left: 50%; width: 190px; transform: rotate(90deg);
     }
-    
+
     // Corner lines: 150px diagonal + 50px horizontal
     &.line-top-right {
       top: 50%; left: 50%; width: 150px; transform: rotate(-36.87deg);
@@ -349,7 +349,7 @@
 }
 
 // ─── Responsive ──────────────────────────────────────────────────────────────
-@media (max-width: 1024px) {
+@media (max-width: 1279.98px) {
   .wcu-hub {
     height: auto;
     display: grid;
@@ -364,20 +364,134 @@
 
   .wcu-card {
     position: static;
+    inset: auto;
     width: auto;
+    min-width: 0;
+    height: 100%;
+    margin: 0 !important;
     transform: none !important;
 
     &__connector-icon {
       position: static;
+      inset: auto;
       transform: none !important;
-      margin-bottom: 14px;
+      margin: 0 0 14px 0 !important;
     }
   }
 }
 
 @media (max-width: 640px) {
+  .why-choose-us {
+    margin-top: 24px !important;
+    border-radius: 14px;
+
+    > div {
+      padding: 28px 14px !important;
+    }
+
+    h2 {
+      font-size: 1.65rem !important;
+      line-height: 1.2 !important;
+    }
+
+    > div > div > p {
+      min-height: 120px !important;
+      font-size: 0.95rem !important;
+      line-height: 1.65 !important;
+    }
+  }
+
   .wcu-hub {
     grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 24px !important;
+  }
+
+  .wcu-card {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: start;
+    padding: 14px 14px;
+
+    &__connector-icon {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      width: 40px;
+      height: 40px;
+      margin: 0 !important;
+      border-radius: 12px;
+    }
+
+    &__title {
+      grid-column: 2;
+      font-size: 0.98rem;
+      line-height: 1.3;
+    }
+
+    &__desc {
+      grid-column: 2;
+      min-height: 0 !important;
+      margin-top: 5px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .why-choose-us {
+    > div {
+      padding: 24px 12px !important;
+    }
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    h2 {
+      font-size: 1.45rem !important;
+    }
+
+    > div > div > p {
+      min-height: 132px !important;
+      font-size: 0.9rem !important;
+    }
+
+    .ant-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .wcu-hub {
+    gap: 9px;
+    margin-top: 22px !important;
+  }
+
+  .wcu-card {
+    padding: 13px 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .why-choose-us > div > div > p {
+    min-height: 150px !important;
+  }
+
+  .wcu-card {
+    grid-template-columns: 36px minmax(0, 1fr);
+    column-gap: 10px;
+
+    &__connector-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    &__desc {
+      min-height: 0 !important;
+    }
   }
 }
 

@@ -2,10 +2,12 @@ import React from 'react'
 import { Rate } from 'antd'
 import { Heart, BarChart2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { formatDeliveryDate } from '@/utils/formatDeliveryDate'
 import { useProductActions } from '@/hooks/useProductActions'
 
 function ProductCard({ product }) {
+  const { t } = useTranslation('clientProducts')
   const priceNew = (product.price * (100 - product.discountPercentage)) / 100
   const price = product.price
   const deliveryText = formatDeliveryDate(product.deliveryEstimateDays || 0)
@@ -21,14 +23,16 @@ function ProductCard({ product }) {
           <div className="absolute top-2 left-2 flex flex-col gap-1 z-30">
             {product.isTopDeal && (
               <span className="bg-gradient-to-r from-orange-500 to-yellow-400 text-white text-[11px] font-bold px-2 py-[2px] rounded shadow badge-topdeal uppercase tracking-wide">
-                Top Deal
+                {t('card.topDeal')}
               </span>
             )}
+
             {product.isFeatured && (
               <span className="bg-gradient-to-r from-blue-600 to-cyan-400 text-white text-[11px] font-bold px-2 py-[2px] rounded shadow badge-featured uppercase tracking-wide">
-                Nổi bật
+                {t('card.featured')}
               </span>
             )}
+
             {product.discountPercentage > 0 && (
               <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded shadow-lg">
                 -{Math.round(product.discountPercentage)}%
@@ -45,7 +49,8 @@ function ProductCard({ product }) {
                   ? 'bg-pink-500 text-white border-pink-500 scale-110'
                   : 'bg-white/95 text-gray-400 border-white/70 hover:bg-pink-50 hover:text-pink-500 hover:border-pink-300 opacity-0 group-hover:opacity-100 dark:bg-[#202327]/90 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-pink-500/10 dark:hover:text-pink-300 dark:hover:border-pink-500/30'
               }`}
-              title={actions.isInWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+              title={actions.isInWishlist ? t('card.removeWishlist') : t('card.addWishlist')}
+              aria-label={actions.isInWishlist ? t('card.removeWishlist') : t('card.addWishlist')}
             >
               {actions.wishlistLoading ? (
                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -61,7 +66,8 @@ function ProductCard({ product }) {
                   ? 'bg-blue-500 text-white border-blue-500 scale-110'
                   : 'bg-white/95 text-gray-400 border-white/70 hover:bg-blue-50 hover:text-blue-500 hover:border-blue-300 opacity-0 group-hover:opacity-100 dark:bg-[#202327]/90 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-blue-500/10 dark:hover:text-blue-300 dark:hover:border-blue-500/30'
               }`}
-              title="So sánh sản phẩm"
+              title={t('card.compare')}
+              aria-label={t('card.compare')}
             >
               <BarChart2 className="w-4 h-4" />
             </button>
@@ -70,7 +76,8 @@ function ProductCard({ product }) {
           <button
             onClick={actions.handleAddToCart}
             className="absolute bottom-2 right-2 w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full shadow-lg border border-white/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-xl hover:scale-110 z-30 dark:bg-[#202327]/95 dark:text-[#a8b0ba] dark:border-white/10 dark:hover:bg-green-500 dark:hover:text-[#06110a] dark:hover:border-green-500 dark:hover:shadow-[0_12px_24px_rgba(34,197,94,0.22)]"
-            title="Thêm vào giỏ hàng"
+            title={t('card.addToCart')}
+            aria-label={t('card.addToCart')}
             disabled={actions.addCartLoading || product.stock <= 0}
           >
             {actions.addCartLoading ? (

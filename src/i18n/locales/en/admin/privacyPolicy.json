@@ -1,0 +1,95 @@
+{
+  "seo": {
+    "title": "Admin - Privacy Policy"
+  },
+  "page": {
+    "title": "Privacy Policy",
+    "description": "Manage /privacy-policy content in Vietnamese and English."
+  },
+  "tabs": {
+    "vi": "Vietnamese content",
+    "en": "English translation"
+  },
+  "actions": {
+    "reload": "Reload",
+    "save": "Save content",
+    "remove": "Remove",
+    "addDataType": "Add data group",
+    "addItem": "Add item",
+    "addUsage": "Add usage item",
+    "addSecurityMeasure": "Add security measure",
+    "addRight": "Add right",
+    "addCookie": "Add cookie",
+    "addFaq": "Add FAQ"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Page header",
+    "summary": "Summary and sidebar",
+    "sidebarItems": "Table of contents",
+    "sidebarItemsDescription": "IDs are used as client page anchors. Only edit the visible title.",
+    "dataCollection": "Information collection",
+    "dataTypes": "Information groups",
+    "dataTypeItems": "Group items",
+    "usage": "Information usage",
+    "usageItems": "Usage items",
+    "sharing": "Information sharing",
+    "allowedItems": "Allowed sharing",
+    "disallowedItems": "Disallowed sharing",
+    "security": "Information security",
+    "securityMeasures": "Security measures",
+    "userRights": "User rights",
+    "userRightItems": "Rights list",
+    "cookies": "Cookies",
+    "cookieCategories": "Cookie categories",
+    "faq": "FAQ",
+    "faqItems": "FAQ list",
+    "contact": "Contact"
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "description": "Description",
+    "updatedAt": "Updated label",
+    "gdpr": "GDPR label",
+    "iso": "ISO label",
+    "sidebarTitle": "Sidebar title",
+    "anchorId": "Anchor ID",
+    "sectionTitle": "Section title",
+    "importantNoteTitle": "Important note title",
+    "importantNoteDescription": "Important note content",
+    "item": "Item",
+    "allowedTitle": "Allowed title",
+    "disallowedTitle": "Disallowed title",
+    "commitmentTitle": "Commitment title",
+    "commitmentDescription": "Commitment content",
+    "howToTitle": "How-to title",
+    "howToDescription": "How-to content",
+    "contactButton": "Contact button",
+    "right": "Right",
+    "key": "Key",
+    "manageButton": "Manage cookies button",
+    "question": "Question",
+    "answer": "Answer",
+    "emailLabel": "Email label",
+    "hotlineLabel": "Hotline label",
+    "websiteLabel": "Website label",
+    "modalTitle": "Modal title",
+    "supportTitle": "Support title",
+    "supportDescription": "Support description",
+    "supportEmail": "Support email label",
+    "supportEmailValue": "Modal email",
+    "supportPhoneValue": "Modal phone",
+    "note": "Note"
+  },
+  "validation": {
+    "required": "Please enter this field"
+  },
+  "messages": {
+    "fetchError": "Unable to load privacy policy content",
+    "saveSuccess": "Privacy policy content saved",
+    "saveError": "Unable to save privacy policy content"
+  }
+}

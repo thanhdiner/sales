@@ -1,0 +1,77 @@
+{
+  "seo": {
+    "title": "Flash Sale – Giảm giá sốc",
+    "description": "Flash Sale SmartMall – Giảm giá sốc mỗi ngày, số lượng có hạn. Nhanh tay sắm tài khoản game và phần mềm bản quyền giá tốt nhất!"
+  },
+  "category": {
+    "all": "Tất cả",
+    "uncategorized": "Chưa phân loại",
+    "prev": "Xem danh mục trước",
+    "next": "Xem danh mục tiếp theo"
+  },
+  "status": {
+    "active": "Đang bán",
+    "scheduled": "Sắp mở",
+    "ended": "Đã kết thúc"
+  },
+  "time": {
+    "day": "Ngày",
+    "hour": "Giờ",
+    "minute": "Phút",
+    "second": "Giây",
+    "range": "{{start}} - {{end}}",
+    "fromTo": "Từ {{start}} đến {{end}}"
+  },
+  "sale": {
+    "discount": "Giảm {{percent}}%",
+    "soldProgress": "Đã bán {{sold}}/{{max}}",
+    "activeProductsTitle": "Sản phẩm đang giảm",
+    "productCount": "{{count}} sản phẩm",
+    "participatingProducts": "{{count}} sản phẩm tham gia",
+    "upcomingTitle": "Flash Sale sắp diễn ra",
+    "upcomingSelling": "Sắp mở bán",
+    "remindMe": "Đặt nhắc nhở"
+  },
+  "product": {
+    "bestSeller": "Bán chạy",
+    "noRating": "Chưa có đánh giá",
+    "sold": "Đã bán {{count}}",
+    "saving": "Tiết kiệm {{amount}}",
+    "stockLeft": "Còn {{count}}",
+    "outOfStock": "Hết hàng",
+    "delivery": "Giao {{count}} ngày",
+    "buyNow": "Mua ngay",
+    "removeWishlist": "Xóa khỏi yêu thích",
+    "addWishlist": "Thêm vào yêu thích",
+    "compare": "So sánh sản phẩm"
+  },
+  "message": {
+    "loginToBuy": "Bạn cần đăng nhập để mua sản phẩm!",
+    "loginToWishlist": "Bạn cần đăng nhập để thêm vào danh sách yêu thích!",
+    "addedToCart": "Đã thêm vào giỏ hàng! Chuyển đến giỏ hàng...",
+    "buyNowFailed": "Mua ngay thất bại!",
+    "wishlistError": "Có lỗi xảy ra, thử lại!"
+  },
+  "empty": {
+    "title": "Không có Flash Sale nào",
+    "description": "Hãy quay lại sau để không bỏ lỡ các chương trình khuyến mãi hấp dẫn."
+  },
+  "loadMore": {
+    "loading": "Đang tải...",
+    "default": "Xem thêm"
+  },
+  "trust": {
+    "official": {
+      "title": "Sản phẩm chính hãng",
+      "desc": "Đầy đủ giấy phép, thông tin rõ ràng."
+    },
+    "fastDelivery": {
+      "title": "Giao nhanh sau thanh toán",
+      "desc": "Nhận key hoặc tài khoản nhanh chóng."
+    },
+    "support": {
+      "title": "Hỗ trợ tận tâm",
+      "desc": "Luôn có hỗ trợ khi phát sinh vấn đề."
+    }
+  }
+}

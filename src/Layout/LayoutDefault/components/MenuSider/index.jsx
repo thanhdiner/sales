@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Menu, Skeleton } from 'antd'
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useCategoriesQuery } from '@/hooks/queries/useSharedAppQueries'
 import './MenuSider.scss'
 
 function MenuSider() {
   const location = useLocation()
+  const { t } = useTranslation('clientSidebar')
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
   const { data: categories = [], isLoading: loading } = useCategoriesQuery()
@@ -64,6 +66,17 @@ function MenuSider() {
       const hasChildren = category.children && category.children.length > 0
       const key = category.slug || category.value
 
+      const parentLinkItem = {
+        key: `${key}-all`,
+        label: (
+          <Link className="menu-sider__label" to={`/product-categories/${category.slug}`}>
+            <span className="dark:text-white">
+              {t('categoryMenu.allPrefix', { category: category.title })}
+            </span>
+          </Link>
+        )
+      }
+
       return {
         key,
         icon: category.thumbnail ? (
@@ -71,12 +84,14 @@ function MenuSider() {
         ) : (
           <span className="menu-sider__icon-placeholder" />
         ),
-        label: (
+        label: hasChildren ? (
+          <span className="menu-sider__label dark:text-white">{category.title}</span>
+        ) : (
           <Link className="menu-sider__label" to={`/product-categories/${category.slug}`}>
             <span className="dark:text-white">{category.title}</span>
           </Link>
         ),
-        children: hasChildren ? renderCategoryItems(category.children) : undefined
+        children: hasChildren ? [parentLinkItem, ...renderCategoryItems(category.children)] : undefined
       }
     })
 
@@ -84,7 +99,7 @@ function MenuSider() {
     {
       key: 'product-category-group',
       type: 'group',
-      label: <span className="dark:text-white">Danh mục sản phẩm</span>,
+      label: <span className="dark:text-white">{t('categoryMenu.title')}</span>,
       className: 'menu-sider__group--divider',
       children: renderCategoryItems(categories)
     }

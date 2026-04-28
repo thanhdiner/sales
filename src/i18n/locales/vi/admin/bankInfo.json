@@ -1,0 +1,88 @@
+{
+  "seo": {
+    "title": "Admin - Ng\u00e2n h\u00e0ng"
+  },
+  "page": {
+    "title": "Qu\u1ea3n l\u00fd th\u00f4ng tin ng\u00e2n h\u00e0ng",
+    "description": "C\u1ea5u h\u00ecnh t\u00e0i kho\u1ea3n nh\u1eadn chuy\u1ec3n kho\u1ea3n hi\u1ec3n th\u1ecb trong b\u01b0\u1edbc thanh to\u00e1n.",
+    "createButton": "Th\u00eam t\u00e0i kho\u1ea3n"
+  },
+  "stats": {
+    "total": "T\u1ed5ng t\u00e0i kho\u1ea3n",
+    "active": "\u0110ang d\u00f9ng",
+    "inactive": "Ch\u01b0a k\u00edch ho\u1ea1t",
+    "withQr": "C\u00f3 QR"
+  },
+  "common": {
+    "delete": "X\u00f3a",
+    "cancel": "H\u1ee7y"
+  },
+  "table": {
+    "title": "Danh s\u00e1ch t\u00e0i kho\u1ea3n nh\u1eadn ti\u1ec1n",
+    "description": "B\u1ea3n ghi \u0111ang d\u00f9ng s\u1ebd \u0111\u01b0\u1ee3c l\u1ea5y l\u00e0m th\u00f4ng tin chuy\u1ec3n kho\u1ea3n cho kh\u00e1ch \u1edf trang thanh to\u00e1n.",
+    "columns": {
+      "bank": "Ng\u00e2n h\u00e0ng",
+      "accountNumber": "S\u1ed1 t\u00e0i kho\u1ea3n",
+      "accountHolder": "Ch\u1ee7 t\u00e0i kho\u1ea3n",
+      "noteTemplate": "N\u1ed9i dung m\u1eabu",
+      "qrCode": "QR Code",
+      "actions": "H\u00e0nh \u0111\u1ed9ng"
+    },
+    "bankSubtitle": "Ng\u00e2n h\u00e0ng {{bankName}}",
+    "defaultBankSubtitle": "Ng\u00e2n h\u00e0ng nh\u1eadn chuy\u1ec3n kho\u1ea3n",
+    "noQr": "Ch\u01b0a c\u00f3",
+    "notConfigured": "Ch\u01b0a c\u1ea5u h\u00ecnh",
+    "empty": "Ch\u01b0a c\u00f3 t\u00e0i kho\u1ea3n ng\u00e2n h\u00e0ng",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} c\u1ee7a {{total}} t\u00e0i kho\u1ea3n",
+    "editTooltip": "S\u1eeda th\u00f4ng tin",
+    "deleteTooltip": "X\u00f3a t\u00e0i kho\u1ea3n",
+    "deleteConfirmTitle": "X\u00f3a t\u00e0i kho\u1ea3n n\u00e0y?",
+    "deleteConfirmDescription": "T\u00e0i kho\u1ea3n \u0111\u00e3 x\u00f3a s\u1ebd kh\u00f4ng c\u00f2n hi\u1ec3n th\u1ecb \u1edf trang thanh to\u00e1n."
+  },
+  "status": {
+    "active": "\u0110ang d\u00f9ng",
+    "inactive": "T\u1ea1m t\u1eaft"
+  },
+  "form": {
+    "createTitle": "Th\u00eam t\u00e0i kho\u1ea3n ng\u00e2n h\u00e0ng",
+    "editTitle": "S\u1eeda th\u00f4ng tin ng\u00e2n h\u00e0ng",
+    "subtitle": "C\u1eadp nh\u1eadt d\u1eef li\u1ec7u chuy\u1ec3n kho\u1ea3n cho b\u01b0\u1edbc thanh to\u00e1n.",
+    "createSubmit": "T\u1ea1o t\u00e0i kho\u1ea3n",
+    "saveSubmit": "L\u01b0u thay \u0111\u1ed5i",
+    "close": "\u0110\u00f3ng",
+    "bankName": "Ng\u00e2n h\u00e0ng",
+    "bankNameRequired": "Nh\u1eadp t\u00ean ng\u00e2n h\u00e0ng",
+    "accountNumber": "S\u1ed1 t\u00e0i kho\u1ea3n",
+    "accountNumberRequired": "Nh\u1eadp s\u1ed1 t\u00e0i kho\u1ea3n",
+    "accountHolder": "Ch\u1ee7 t\u00e0i kho\u1ea3n",
+    "accountHolderRequired": "Nh\u1eadp ch\u1ee7 t\u00e0i kho\u1ea3n",
+    "noteTemplate": "N\u1ed9i dung chuy\u1ec3n kho\u1ea3n m\u1eabu",
+    "noteTemplateRequired": "Nh\u1eadp m\u1eabu n\u1ed9i dung",
+    "qrCode": "\u1ea2nh QR Code",
+    "uploadQr": "T\u1ea3i QR",
+    "translations": {
+      "sectionTitle": "B\u1ea3n d\u1ecbch ti\u1ebfng Anh",
+      "bankName": "T\u00ean ng\u00e2n h\u00e0ng (EN)",
+      "bankNamePlaceholder": "Bank name in English",
+      "accountHolder": "Ch\u1ee7 t\u00e0i kho\u1ea3n (EN)",
+      "accountHolderPlaceholder": "Account holder in English",
+      "noteTemplate": "N\u1ed9i dung m\u1eabu (EN)",
+      "noteTemplatePlaceholder": "Transfer note template in English"
+    },
+    "hint": "H\u1ed7 tr\u1ee3 \u1ea3nh QR d\u01b0\u1edbi 5MB. Khi \u0111\u1ed5i \u1ea3nh, \u1ea3nh c\u0169 s\u1ebd \u0111\u01b0\u1ee3c g\u1ee1 kh\u1ecfi h\u1ec7 th\u1ed1ng."
+  },
+  "messages": {
+    "fetchError": "L\u1ed7i t\u1ea3i danh s\u00e1ch th\u00f4ng tin ng\u00e2n h\u00e0ng",
+    "updateSuccess": "\u0110\u00e3 c\u1eadp nh\u1eadt th\u00f4ng tin ng\u00e2n h\u00e0ng",
+    "createSuccess": "\u0110\u00e3 t\u1ea1o t\u00e0i kho\u1ea3n ng\u00e2n h\u00e0ng",
+    "saveError": "C\u00f3 l\u1ed7i x\u1ea3y ra",
+    "deleteSuccess": "\u0110\u00e3 x\u00f3a t\u00e0i kho\u1ea3n ng\u00e2n h\u00e0ng",
+    "deleteError": "X\u00f3a t\u00e0i kho\u1ea3n th\u1ea5t b\u1ea1i",
+    "needActiveAccount": "C\u1ea7n \u00edt nh\u1ea5t 1 t\u00e0i kho\u1ea3n \u0111ang d\u00f9ng. H\u00e3y k\u00edch ho\u1ea1t t\u00e0i kho\u1ea3n kh\u00e1c tr\u01b0\u1edbc.",
+    "activateSuccess": "\u0110\u00e3 \u0111\u1eb7t l\u00e0m t\u00e0i kho\u1ea3n \u0111ang d\u00f9ng",
+    "deactivateSuccess": "\u0110\u00e3 t\u1eaft k\u00edch ho\u1ea1t",
+    "statusError": "C\u1eadp nh\u1eadt tr\u1ea1ng th\u00e1i th\u1ea5t b\u1ea1i",
+    "imageOnly": "Ch\u1ec9 \u0111\u01b0\u1ee3c upload file \u1ea3nh",
+    "imageTooLarge": "\u1ea2nh ph\u1ea3i nh\u1ecf h\u01a1n 5MB"
+  }
+}

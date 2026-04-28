@@ -1,6 +1,9 @@
 import { Pagination } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 function AdminProductCategoriesPagination({ currentPage, totalProductCategories, limitItems, setCurrentPage, setSelectedRowKeys }) {
+  const { t } = useTranslation('adminProductCategories')
+
   const handleChangePage = page => {
     setCurrentPage(page)
     setSelectedRowKeys([])
@@ -9,8 +12,11 @@ function AdminProductCategoriesPagination({ currentPage, totalProductCategories,
   return (
     <div className="product-categories-pagination">
       <span className="admin-product-categories-pagination-summary">
-        Total <span className="font-bold">{totalProductCategories}</span> categories, Page {currentPage} of{' '}
-        {Math.ceil(totalProductCategories / limitItems)}
+        {t('pagination.summary', {
+          total: totalProductCategories,
+          current: currentPage,
+          pages: Math.ceil(totalProductCategories / limitItems)
+        })}
       </span>
       <Pagination
         size="small"

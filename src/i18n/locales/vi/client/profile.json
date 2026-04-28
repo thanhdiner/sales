@@ -1,0 +1,146 @@
+{
+  "seo": {
+    "title": "Hồ sơ của tôi"
+  },
+  "loading": {
+    "profile": "Chờ chút đang tải thông tin..."
+  },
+  "message": {
+    "imageOnly": "Chỉ chấp nhận ảnh!",
+    "imageMaxSize": "Ảnh phải nhỏ hơn 2MB!",
+    "updateSuccess": "Cập nhật thành công!",
+    "updateFailed": "Cập nhật thất bại!",
+    "checkoutAddressRequired": "Vui lòng chọn đầy đủ Tỉnh/Thành, Quận/Huyện, Phường/Xã và nhập địa chỉ chi tiết!",
+    "checkoutSaveSuccess": "Đã lưu thông tin đặt hàng mặc định!",
+    "checkoutSaveFailed": "Lưu thông tin đặt hàng thất bại!",
+    "invalidEmail": "Vui lòng nhập email hợp lệ!",
+    "sendCodeSuccess": "Mã xác thực đã gửi tới email mới!",
+    "sendCodeFailed": "Gửi mã xác thực thất bại!",
+    "requiredVerifyCode": "Nhập mã xác thực!",
+    "emailUpdateSuccess": "Cập nhật email thành công!",
+    "verifyFailed": "Xác thực thất bại!"
+  },
+  "emailWarning": "Email của bạn là email tạm thời. Vui lòng cập nhật email thật để có thể lấy lại mật khẩu và nhận thông báo.",
+  "header": {
+    "eyebrow": "Hồ sơ",
+    "title": "Thông tin tài khoản",
+    "description": "Quản lý thông tin cá nhân và cài đặt bảo mật của bạn."
+  },
+  "emailAlert": {
+    "title": "Cập nhật email",
+    "button": "Cập nhật ngay"
+  },
+  "avatar": {
+    "alt": "Avatar",
+    "change": "Đổi ảnh đại diện",
+    "remove": "Xóa ảnh",
+    "fallback": "U"
+  },
+  "profileCard": {
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "lastLogin": "Lần đăng nhập cuối",
+    "noLastLogin": "Chưa có"
+  },
+  "form": {
+    "fullName": "Họ và tên",
+    "fullNamePlaceholder": "Nhập họ và tên của bạn",
+    "fullNameRequired": "Vui lòng nhập họ tên!",
+    "username": "Username",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "Nhập số điện thoại",
+    "phoneInvalid": "Số điện thoại không hợp lệ!",
+    "email": "Email",
+    "verified": "Đã xác thực",
+    "unverified": "Chưa xác thực",
+    "changeEmail": "Đổi email",
+    "cancel": "Hủy bỏ",
+    "saving": "Đang lưu...",
+    "save": "Lưu thay đổi"
+  },
+  "checkoutProfile": {
+    "title": "Thông tin đặt hàng mặc định",
+    "description": "Thông tin ở đây sẽ được tự động điền khi bạn vào trang thanh toán, giúp không phải nhập lại mỗi lần mua hàng.",
+    "firstName": "Họ mặc định",
+    "firstNamePlaceholder": "Nguyễn",
+    "lastName": "Tên mặc định",
+    "lastNamePlaceholder": "Văn A",
+    "phone": "Số điện thoại mặc định",
+    "phonePlaceholder": "0123456789",
+    "email": "Email mặc định",
+    "emailPlaceholder": "your@email.com",
+    "deliveryMethod": "Cách nhận hàng ưa thích",
+    "paymentMethod": "Thanh toán ưa thích",
+    "deliveryOptions": {
+      "pickup": "Nhận tại website",
+      "contact": "Liên hệ riêng"
+    },
+    "paymentOptions": {
+      "transfer": "Chuyển khoản",
+      "contact": "Thỏa thuận khi liên hệ",
+      "vnpay": "VNPay",
+      "momo": "MoMo",
+      "zalopay": "ZaloPay",
+      "sepay": "Sepay"
+    },
+    "address": {
+      "title": "Địa chỉ nhận hàng mặc định",
+      "description": "Chọn theo từng cấp để giảm nhập sai địa chỉ. Nếu đơn của bạn không cần giao vật lý, bạn có thể để trống phần này.",
+      "loadError": "Không tải được danh sách địa chỉ Việt Nam. Bạn có thể nhập tạm địa chỉ thủ công.",
+      "manualLabel": "Địa chỉ / thông tin nhận hàng",
+      "manualPlaceholder": "Ví dụ: số nhà, đường, phường/xã, quận/huyện, tỉnh/thành...",
+      "province": "Tỉnh / Thành phố",
+      "district": "Quận / Huyện",
+      "ward": "Phường / Xã",
+      "provincePlaceholder": "Chọn Tỉnh / Thành phố",
+      "districtPlaceholder": "Chọn Quận / Huyện",
+      "districtPlaceholderDisabled": "Chọn Tỉnh / Thành phố trước",
+      "wardPlaceholder": "Chọn Phường / Xã",
+      "wardPlaceholderDisabled": "Chọn Quận / Huyện trước",
+      "detail": "Địa chỉ chi tiết",
+      "detailPlaceholder": "Số nhà, tên đường, tòa nhà, hẻm...",
+      "fullAddress": "Địa chỉ đầy đủ:"
+    },
+    "notes": "Ghi chú mặc định",
+    "notesPlaceholder": "Các lưu ý mà bạn thường dùng khi đặt hàng",
+    "restore": "Khôi phục",
+    "saving": "Đang lưu...",
+    "save": "Lưu thông tin đặt hàng"
+  },
+  "emailModal": {
+    "title": "Cập nhật email mới",
+    "newEmail": "Email mới",
+    "newEmailRequired": "Vui lòng nhập email mới!",
+    "newEmailInvalid": "Email không hợp lệ!",
+    "newEmailPlaceholder": "Nhập email mới",
+    "sendCode": "Gửi mã xác thực",
+    "checkEmailTitle": "Kiểm tra email của bạn",
+    "checkEmailDescription": "Chúng tôi đã gửi mã xác thực 6 số tới {{email}}.",
+    "verifyCode": "Mã xác thực",
+    "verifyCodeRequired": "Nhập mã xác thực!",
+    "verifyCodeLength": "Mã xác thực gồm 6 số!",
+    "verifyCodePlaceholder": "Nhập mã xác thực",
+    "verifyAndUpdate": "Xác thực & cập nhật email"
+  },
+  "emailUpdateSection": {
+    "message": {
+      "invalidEmail": "Vui lòng nhập email hợp lệ!",
+      "sendCodeSuccess": "Mã xác thực đã gửi tới email mới!",
+      "sendCodeFailed": "Gửi mã xác thực thất bại!",
+      "requiredVerifyCode": "Nhập mã xác thực!",
+      "updateSuccess": "Cập nhật email thành công!",
+      "verifyFailed": "Xác thực thất bại!",
+      "resendSuccess": "Đã gửi lại mã xác thực!",
+      "resendFailed": "Gửi lại mã thất bại!"
+    },
+    "successAlert": "Email đã cập nhật thành công!",
+    "securityTitle": "🔐 Bảo mật tài khoản",
+    "securityDescription": "Bạn cần cập nhật email cá nhân để bảo vệ tài khoản và có thể khôi phục mật khẩu khi cần thiết.",
+    "emailPlaceholder": "Nhập email cá nhân của bạn",
+    "confirmEmailButton": "Xác nhận email mới",
+    "codeSent": "Mã xác thực đã gửi tới {{email}}",
+    "codePlaceholder": "Nhập mã xác thực 6 số",
+    "confirmCodeButton": "Xác nhận mã",
+    "resendCodeButton": "Gửi lại mã"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "theme": {
+    "darkMode": "Chế độ tối"
+  },
+  "language": {
+    "label": "Ngôn ngữ",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
+  "account": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "profile": "Hồ sơ",
+    "orders": "Đơn hàng của tôi",
+    "wishlist": "Yêu thích",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "logoutSuccess": "Đăng xuất thành công!",
+    "logoutWarning": "Có lỗi khi đăng xuất. Vẫn sẽ đăng xuất tài khoản!"
+  }
+}

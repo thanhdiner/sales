@@ -1,0 +1,46 @@
+{
+  "seo": {
+    "title": "Admin - {{page}}"
+  },
+  "page": {
+    "title": "{{page}} page content",
+    "description": "Manage bilingual content shown on the customer {{page}} page."
+  },
+  "pages": {
+    "community": "Community",
+    "quickSupport": "Quick support",
+    "license": "License"
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content"
+  },
+  "messages": {
+    "fetchError": "Unable to load {{page}} page content",
+    "saveSuccess": "{{page}} page content saved",
+    "saveError": "Unable to save {{page}} page content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "sections": {
+    "seo": "SEO",
+    "content": "Coming soon content",
+    "contentDescription": "These fields are used directly on the matching client page."
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "title": "Title",
+    "description": "Description line 1",
+    "descriptionSecondLine": "Description line 2",
+    "status": "Status"
+  }
+}

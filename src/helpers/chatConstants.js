@@ -1,8 +1,29 @@
 import { ShoppingBag, PackageSearch, CreditCard, RotateCcw } from 'lucide-react'
 
-export const QUICK_ACTIONS = [
-  { label: 'Hỏi về sản phẩm', text: 'Tôi muốn hỏi về sản phẩm', icon: ShoppingBag, type: 'chat' },
-  { label: 'Kiểm tra đơn hàng', text: 'Tôi cần kiểm tra đơn hàng của mình', icon: PackageSearch, type: 'modal', actionId: 'order-tracking' },
-  { label: 'Phương thức thanh toán', text: 'Các phương thức thanh toán được hỗ trợ?', icon: CreditCard, type: 'chat' },
-  { label: 'Đổi trả hàng', text: 'Chính sách đổi trả hàng như thế nào?', icon: RotateCcw, type: 'chat' },
+export const getQuickActions = (t) => [
+  {
+    label: t('quickActions.product.label'),
+    text: t('quickActions.product.text'),
+    icon: ShoppingBag,
+    type: 'chat'
+  },
+  {
+    label: t('quickActions.orderTracking.label'),
+    text: t('quickActions.orderTracking.text'),
+    icon: PackageSearch,
+    type: 'modal',
+    actionId: 'order-tracking'
+  },
+  {
+    label: t('quickActions.payment.label'),
+    text: t('quickActions.payment.text'),
+    icon: CreditCard,
+    type: 'chat'
+  },
+  {
+    label: t('quickActions.return.label'),
+    text: t('quickActions.return.text'),
+    icon: RotateCcw,
+    type: 'chat'
+  }
 ]

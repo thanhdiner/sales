@@ -1,0 +1,32 @@
+{
+  "easterEgg": "Keep going!",
+  "customerSupport": {
+    "title": "Customer support",
+    "hotline": "Hotline:",
+    "workingTime": "(8 AM - 10 PM daily)",
+    "shoppingGuide": "Shopping guide",
+    "privacyPolicy": "Privacy policy",
+    "returnPolicy": "Return & refund policy",
+    "faq": "Frequently asked questions (FAQ)",
+    "supportEmail": "Customer support:"
+  },
+  "about": {
+    "title": "About us",
+    "aboutUs": "About us",
+    "terms": "Terms of service",
+    "cooperation": "Partnership contact"
+  },
+  "services": {
+    "title": "Services & products",
+    "gameAccount": "Game accounts",
+    "licenseUpgrade": "License upgrades",
+    "coupons": "Top-up cards & vouchers",
+    "specialPackage": "Special packages"
+  },
+  "payment": {
+    "title": "Payment methods"
+  },
+  "social": {
+    "title": "Connect with us"
+  }
+}

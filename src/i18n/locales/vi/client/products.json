@@ -1,0 +1,466 @@
+{
+  "sort": {
+    "newest": "Mới nhất",
+    "soldDesc": "Bán chạy nhất",
+    "rateDesc": "Đánh giá cao nhất",
+    "priceAsc": "Giá tăng dần",
+    "priceDesc": "Giá giảm dần",
+    "nameAsc": "Tên A-Z",
+    "nameDesc": "Tên Z-A"
+  },
+  "pricePreset": {
+    "all": "Tất cả",
+    "under100k": "Dưới 100k",
+    "from100kTo500k": "100k - 500k",
+    "from500kTo1m": "500k - 1tr",
+    "from1mTo5m": "1tr - 5tr",
+    "over5m": "Trên 5tr"
+  },
+  "filter": {
+    "title": "Bộ lọc",
+    "advancedTitle": "Bộ lọc nâng cao",
+    "filtering": "Đang lọc",
+    "resetAll": "Xóa tất cả bộ lọc",
+    "reset": "Xóa bộ lọc",
+    "category": "Danh mục",
+    "allCategories": "Tất cả danh mục",
+    "priceRange": "Khoảng giá",
+    "minRating": "Đánh giá tối thiểu",
+    "productType": "Loại sản phẩm",
+    "all": "Tất cả",
+    "topDeal": "🔥 Top Deal",
+    "featured": "⭐ Nổi bật",
+    "ratingUp": "trở lên ({{value}}★)",
+    "activeDot": "●"
+  },
+  "page": {
+    "title": "Danh sách sản phẩm",
+    "totalProducts": "({{count}} sản phẩm)",
+    "searchPlaceholder": "Tìm kiếm sản phẩm...",
+    "emptyTitle": "Không tìm thấy sản phẩm nào",
+    "emptyDescription": "Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm",
+    "loadMore": "Xem thêm ({{current}}/{{total}})"
+  },
+  "list": {
+    "loading": "Đang tải sản phẩm...",
+    "empty": "Không tìm thấy sản phẩm nào"
+  },
+  "card": {
+    "topDeal": "Top Deal",
+    "featured": "Nổi bật",
+    "removeWishlist": "Xóa khỏi yêu thích",
+    "addWishlist": "Thêm vào yêu thích",
+    "compare": "So sánh sản phẩm",
+    "addToCart": "Thêm vào giỏ hàng"
+  },
+  "productItem": {
+    "addingToCart": "Đang thêm...",
+    "outOfStock": "Hết hàng",
+    "addToCart": "Thêm vào giỏ",
+    "removeWishlist": "Xóa khỏi yêu thích",
+    "addWishlist": "Thêm vào yêu thích",
+    "compare": "So sánh sản phẩm",
+    "soldOut": "Hết hàng",
+    "onlyLeft": "Chỉ còn {{count}}",
+    "hotDeal": "Hot Deal",
+    "featured": "Nổi bật",
+    "stockLeft": "Còn lại",
+    "soldCount": "Đã bán {{count}}",
+    "saving": "Tiết kiệm {{amount}}₫",
+    "deliveryInDays": "Giao hàng trong {{count}} ngày"
+  },
+  "categoryPage": {
+    "seo": {
+      "fallbackTitle": "Danh mục sản phẩm",
+      "fallbackDescription": "Xem tất cả sản phẩm trong danh mục {{categoryTitle}} tại SmartMall."
+    },
+    "error": {
+      "notFound": "Không tìm thấy danh mục hoặc có lỗi xảy ra."
+    },
+    "breadcrumb": {
+      "home": "Trang chủ",
+      "categories": "Danh mục"
+    },
+    "discovery": {
+      "title": "Khám phá theo danh mục"
+    },
+    "children": {
+      "title": "Danh mục con",
+      "productCount": "{{count}} sản phẩm"
+    },
+    "content": {
+      "title": "Giới thiệu danh mục"
+    },
+    "products": {
+      "title": "Sản phẩm trong danh mục",
+      "count": "{{count}} sản phẩm",
+      "filteredCount": "Tìm thấy {{count}} sản phẩm",
+      "searchPlaceholder": "Tìm trong danh mục",
+      "sortLabel": "Sắp xếp sản phẩm",
+      "clearSearch": "Xóa tìm kiếm",
+      "showing": "Hiển thị {{shown}} / {{total}} sản phẩm",
+      "sort": {
+        "recommended": "Gợi ý tốt nhất",
+        "newest": "Mới nhất",
+        "soldDesc": "Bán chạy nhất",
+        "rateDesc": "Đánh giá cao nhất",
+        "priceAsc": "Giá tăng dần",
+        "priceDesc": "Giá giảm dần",
+        "nameAsc": "Tên A-Z",
+        "nameDesc": "Tên Z-A"
+      }
+    },
+    "errorState": {
+      "seoTitle": "Danh mục sản phẩm",
+      "eyebrow": "Danh mục sản phẩm",
+      "title": "Không thể tải trang danh mục",
+      "fallbackMessage": "Không tìm thấy danh mục này hoặc đã có lỗi xảy ra trong quá trình tải dữ liệu.",
+      "retry": "Thử tải lại"
+    },
+    "filters": {
+      "title": "Tất cả sản phẩm",
+      "description": "Khám phá các sản phẩm tài khoản số chất lượng, giao hàng nhanh và hỗ trợ 24/7.",
+      "searchPlaceholder": "Search sản phẩm",
+      "reset": "Đặt lại",
+      "activeLabel": "Đang lọc:",
+      "clear": "Xóa bộ lọc",
+      "sort": {
+        "name": "Phổ biến",
+        "priceLow": "Giá thấp",
+        "priceHigh": "Giá cao"
+      },
+      "quickFilters": {
+        "autoDelivery": "Giao hàng tự động",
+        "licensed": "Tài khoản bản quyền",
+        "support": "Hỗ trợ 24/7",
+        "featured": "Nổi bật"
+      }
+    },
+    "grid": {
+      "emptySearchTitle": "Không tìm thấy sản phẩm phù hợp",
+      "emptyCategoryTitle": "Danh mục này chưa có sản phẩm",
+      "emptySearchDescription": "Hãy thử từ khóa ngắn hơn, không dấu, hoặc đổi cách diễn đạt để hệ thống gợi đúng hơn.",
+      "emptyCategoryDescription": "Sản phẩm trong danh mục này sẽ xuất hiện tại đây ngay khi được cập nhật trên hệ thống.",
+      "showing": "Hiển thị {{shown}} / {{total}} sản phẩm"
+    },
+    "hero": {
+      "eyebrow": "Danh mục sản phẩm",
+      "productsCount": "{{count}} sản phẩm",
+      "childCategoriesCount": "{{count}} danh mục con",
+      "viewProducts": "Xem sản phẩm",
+      "viewChildren": "Danh mục con",
+      "imageAlt": "Banner danh mục {{categoryTitle}}",
+      "noImage": "Chưa có hình đại diện cho danh mục này."
+    }
+  },
+  "productsPage": {
+    "seo": {
+      "title": "Tất cả sản phẩm",
+      "description": "Khám phá hàng trăm sản phẩm tại SmartMall – tài khoản game, phần mềm bản quyền chính hãng, giá tốt, giao hàng nhanh."
+    }
+  },
+  "productDetail": {
+    "seo": {
+      "title": "Chi tiết sản phẩm"
+    },
+    "message": {
+      "loadFailed": "Có lỗi xảy ra khi tải sản phẩm.",
+      "loginRequiredAddCart": "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!",
+      "loginRequiredBuyNow": "Bạn cần đăng nhập để mua sản phẩm!",
+      "maxAddToCart": "Chỉ có thể thêm tối đa {{count}} sản phẩm này vào giỏ hàng!",
+      "addCartSuccess": "Đã thêm vào giỏ hàng!",
+      "addCartFailed": "Thêm sản phẩm vào giỏ hàng thất bại!",
+      "buyNowFailed": "Mua ngay thất bại!",
+      "shareSuccess": "Đã chia sẻ sản phẩm",
+      "shareCopySuccess": "Đã sao chép liên kết sản phẩm",
+      "shareFailed": "Không thể chia sẻ sản phẩm, vui lòng sao chép link thủ công",
+      "notifyEmailInvalid": "Email không đúng định dạng",
+      "notifySuccess": "Đã đăng ký báo khi có hàng.",
+      "notifyFailed": "Không thể đăng ký thông báo, vui lòng thử lại."
+    },
+    "shareText": "Xem sản phẩm {{title}} trên SmartMall",
+    "loading": "Đang tải sản phẩm...",
+    "breadcrumb": {
+      "label": "Đường dẫn sản phẩm",
+      "home": "Trang chủ",
+      "products": "Sản phẩm"
+    },
+    "exploreMore": {
+      "fallbackCategory": "Khám phá",
+      "fallbackTitle": "Khám phá thêm",
+      "fallbackSubtitle": "Thêm nhiều lựa chọn nổi bật trong danh mục {{categoryTitle}}.",
+      "sectionTitle": "Khám phá thêm",
+      "sameCategory": "Cùng danh mục",
+      "recommended": "Gợi ý dành cho bạn",
+      "loadingProducts": "Đang tải sản phẩm",
+      "featuredCount": "{{count}} sản phẩm nổi bật",
+      "emptyTitle": "Chưa có thêm sản phẩm gợi ý ở thời điểm này.",
+      "emptyDescription": "Bạn có thể bấm vào thẻ bên trái để khám phá thêm sản phẩm cùng danh mục."
+    },
+    "gallery": {
+      "sampleImages": "Mẫu ảnh",
+      "imageCount": "{{count}} ảnh",
+      "imageAlt": "{{title}} ảnh {{index}}",
+      "thumbnailAlt": "{{title}} ảnh nhỏ {{index}}",
+      "sampleAlt": "{{title}} mẫu {{index}}",
+      "openGallery": "Mở thư viện ảnh",
+      "closeGallery": "Đóng thư viện ảnh",
+      "previousImage": "Ảnh trước",
+      "nextImage": "Ảnh tiếp theo",
+      "like": "Yêu thích sản phẩm",
+      "unlike": "Bỏ yêu thích sản phẩm",
+      "share": "Chia sẻ sản phẩm"
+    },
+    "shareModal": {
+      "title": "Sao chép liên kết sản phẩm",
+      "description": "Trình duyệt không cho phép sao chép tự động. Hãy chọn liên kết bên dưới và sao chép thủ công."
+    },
+    "notifyModal": {
+      "title": "Báo khi có hàng",
+      "description": "Nhập email để SmartMall thông báo khi sản phẩm này có hàng trở lại.",
+      "emailPlaceholder": "Email nhận thông báo",
+      "submit": "Đăng ký",
+      "cancel": "Hủy"
+    },
+    "infoSections": {
+      "featuresTitle": "Tính năng nổi bật",
+      "promotionTime": "Thời gian khuyến mãi",
+      "promotionRange": "Từ {{start}} đến {{end}}",
+      "descriptionTitle": "Mô tả sản phẩm",
+      "contentTitle": "Chi tiết sản phẩm",
+      "supportCards": {
+        "warranty": {
+          "title": "Bảo hành",
+          "description": "Trọn gói"
+        },
+        "delivery": {
+          "title": "Giao hàng",
+          "description": "Miễn phí"
+        },
+        "support": {
+          "title": "Hỗ trợ",
+          "description": "Tư vấn 24/7"
+        }
+      }
+    },
+    "digitalInfo": {
+      "eyebrow": "Tài khoản số",
+      "title": "Thông tin tài khoản",
+      "accountType": "Loại tài khoản",
+      "duration": "Thời hạn",
+      "devices": "Số thiết bị",
+      "warranty": "Bảo hành",
+      "delivery": "Giao hàng",
+      "support": "Hỗ trợ",
+      "values": {
+        "automaticDelivery": "Tự động sau thanh toán",
+        "staffProcessing": "Nhân viên xử lý",
+        "accountUpgrade": "Nâng cấp chính chủ",
+        "privateAccount": "Dùng riêng",
+        "digitalAccount": "Tài khoản / key số",
+        "byProductPackage": "Theo gói sản phẩm",
+        "standardWarranty": "7 ngày",
+        "liveSupport": "Live chat / ticket"
+      }
+    },
+    "purchasePanel": {
+      "quantity": "Số lượng",
+      "maxAdded": "Bạn đã thêm hết số lượng còn lại vào giỏ",
+      "outOfStockHint": "Sản phẩm đang hết hàng",
+      "buyNow": "Mua ngay",
+      "addToCart": "Thêm vào giỏ",
+      "notifyWhenBackInStock": "Báo khi có hàng",
+      "addToWishlist": "Thêm yêu thích",
+      "removeFromWishlist": "Đã yêu thích",
+      "decreaseQuantity": "Giảm số lượng",
+      "increaseQuantity": "Tăng số lượng"
+    },
+    "summaryPanel": {
+      "topDeal": "Ưu đãi tốt",
+      "featured": "Nổi bật",
+      "noRating": "Chưa có đánh giá",
+      "stock": "Còn {{count}} sản phẩm",
+      "reviewCount": "{{count}} đánh giá",
+      "soldCount": "Đã bán {{count}}",
+      "inStockWithCount": "Còn hàng {{count}}",
+      "outOfStock": "Hết hàng",
+      "saving": "Tiết kiệm {{amount}}"
+    },
+    "tabs": {
+      "eyebrow": "Chi tiết",
+      "title": "Thông tin sản phẩm",
+      "description": "Mô tả",
+      "specifications": "Thông số",
+      "reviews": "Đánh giá",
+      "policy": "Chính sách",
+      "emptyDescription": "Sản phẩm này chưa có mô tả chi tiết.",
+      "category": "Danh mục",
+      "stock": "Tồn kho"
+    },
+    "policy": {
+      "delivery": {
+        "title": "Giao hàng",
+        "description": "Tài khoản, key hoặc thông tin đăng nhập được xử lý sau khi thanh toán thành công."
+      },
+      "warranty": {
+        "title": "Bảo hành",
+        "description": "Hỗ trợ kiểm tra và xử lý theo thời hạn bảo hành ghi trong sản phẩm."
+      },
+      "usage": {
+        "title": "Lưu ý sử dụng",
+        "description": "Không đổi mật khẩu, không chia sẻ sai điều kiện và đọc kỹ hướng dẫn sau khi mua."
+      },
+      "support": {
+        "title": "Kênh hỗ trợ",
+        "description": "Liên hệ qua live chat hoặc ticket khi cần hỗ trợ kích hoạt và sử dụng."
+      },
+      "security": {
+        "title": "Thanh toán an toàn",
+        "description": "Đơn hàng được ghi nhận trên hệ thống để đối soát và hỗ trợ sau mua."
+      }
+    },
+    "stickyActions": {
+      "price": "Giá bán"
+    },
+    "reviewSection": {
+      "ownerNote": {
+        "canEdit": "Bạn đã sửa {{count}}/2 lần.",
+        "editLimitReached": "Bạn đã dùng hết 2/2 lượt sửa cho đánh giá này."
+      },
+      "message": {
+        "loginRequiredReview": "Vui lòng đăng nhập để đánh giá",
+        "createSuccess": "Đánh giá đã được gửi!",
+        "createFailed": "Gửi đánh giá thất bại",
+        "updateSuccess": "Đã cập nhật đánh giá!",
+        "updateFailed": "Cập nhật thất bại",
+        "deleteSuccess": "Đã xoá đánh giá",
+        "deleteFailed": "Xoá thất bại",
+        "loginRequiredVote": "Vui lòng đăng nhập để vote",
+        "voteFailed": "Vote thất bại",
+        "replySuccess": "Đã gửi phản hồi",
+        "replyFailed": "Gửi phản hồi thất bại",
+        "deleteReplySuccess": "Đã xoá phản hồi",
+        "deleteReplyFailed": "Xoá phản hồi thất bại"
+      },
+      "modal": {
+        "deleteReviewTitle": "Xoá đánh giá",
+        "deleteReviewContent": "Bạn chắc chắn muốn xoá đánh giá này không?",
+        "deleteReplyTitle": "Xoá phản hồi",
+        "deleteReplyContent": "Xoá phản hồi của Shop?",
+        "okDelete": "Xoá",
+        "cancel": "Huỷ"
+      },
+      "loginRequired": {
+        "title": "Đăng nhập để xem quyền đánh giá",
+        "description": "Bạn cần đăng nhập để biết mình có thể đánh giá sản phẩm này hay không.",
+        "button": "Đăng nhập"
+      },
+      "notPurchased": {
+        "title": "Chỉ khách đã mua sản phẩm này mới có thể đánh giá",
+        "description": "Hệ thống chỉ mở đánh giá cho tài khoản đã có đơn hàng chứa sản phẩm này."
+      },
+      "orderNotCompleted": {
+        "title": "Bạn có thể đánh giá sau khi đơn hàng hoàn tất",
+        "description": "Đơn hàng của bạn đã chứa sản phẩm này nhưng chưa ở trạng thái hoàn tất."
+      },
+      "form": {
+        "createTitle": "Viết đánh giá của bạn",
+        "editTitle": "Chỉnh sửa đánh giá"
+      },
+      "myReview": {
+        "title": "Đánh giá của bạn",
+        "description": "Bạn chỉ có thể sửa tối đa 2 lần cho mỗi đánh giá.",
+        "editCount": "Đã sửa {{count}}/2 lần"
+      }
+    },
+    "reviewCard": {
+      "anonymousCustomer": "Khách hàng",
+      "menu": {
+        "more": "Mở menu đánh giá",
+        "edit": "Chỉnh sửa",
+        "delete": "Xoá đánh giá"
+      },
+      "hiddenNotice": "Đánh giá này đang bị ẩn bởi quản trị viên và không hiển thị công khai.",
+      "media": {
+        "open": "Mở media đánh giá",
+        "imageAlt": "Ảnh đánh giá {{index}}"
+      },
+      "vote": {
+        "ownerDisabled": "Không thể vote đánh giá của mình",
+        "loginRequired": "Đăng nhập để vote",
+        "helpful": "Hữu ích",
+        "helpfulWithCount": "Hữu ích ({{count}})"
+      },
+      "sellerReply": {
+        "title": "Phản hồi từ Shop",
+        "edit": "Chỉnh sửa phản hồi",
+        "delete": "Xoá phản hồi",
+        "placeholder": "Nhập phản hồi của Shop...",
+        "send": "Gửi phản hồi",
+        "update": "Cập nhật phản hồi",
+        "cancel": "Huỷ",
+        "replyAsShop": "Phản hồi với tư cách Shop"
+      }
+    },
+    "reviewForm": {
+      "starLabels": {
+        "1": "Rất tệ",
+        "2": "Tệ",
+        "3": "Bình thường",
+        "4": "Tốt",
+        "5": "Xuất sắc"
+      },
+      "message": {
+        "ratingRequired": "Vui lòng chọn số sao"
+      },
+      "ratingLabel": "Chọn số sao",
+      "ratingButton": "Chọn {{count}} sao",
+      "titlePlaceholder": "Tiêu đề đánh giá (tuỳ chọn)",
+      "contentPlaceholder": "Chia sẻ trải nghiệm của bạn về sản phẩm này...",
+      "currentMedia": "Ảnh/video hiện tại",
+      "removeImage": "Xoá ảnh hiện tại",
+      "removeVideo": "Xoá video hiện tại",
+      "update": "Cập nhật",
+      "submit": "Gửi đánh giá",
+      "cancel": "Huỷ"
+    },
+    "reviewList": {
+      "emptyTitle": "Chưa có đánh giá nào",
+      "emptyDescription": "Hãy là người đầu tiên đánh giá sản phẩm này.",
+      "previous": "Trước",
+      "next": "Tiếp",
+      "page": "Trang {{page}}"
+    },
+    "reviewMedia": {
+      "close": "Đóng trình xem media",
+      "previous": "Media trước",
+      "next": "Media tiếp theo",
+      "imageAlt": "Ảnh đánh giá {{index}}",
+      "videoLabel": "Video đánh giá {{index}}",
+      "removeFile": "Xoá tệp đã chọn",
+      "galleryTitle": "Ảnh & video từ khách hàng",
+      "fileCount": "{{count}} tệp",
+      "openMedia": "Mở media đánh giá",
+      "showMore": "Xem thêm {{count}} tệp",
+      "upload": "Thêm ảnh / video"
+    },
+    "reviewSummary": {
+      "title": "Đánh giá sản phẩm",
+      "description": "Xem phản hồi thực tế từ khách hàng đã sử dụng sản phẩm.",
+      "reviewCount": "{{count}} đánh giá",
+      "starFilter": "{{count}} sao"
+    },
+    "reviewSort": {
+      "newest": "Mới nhất",
+      "helpful": "Hữu ích nhất",
+      "highRating": "Cao nhất",
+      "lowRating": "Thấp nhất"
+    },
+    "reviewTime": {
+      "justNow": "Vừa xong",
+      "minutesAgo": "{{count}} phút trước",
+      "hoursAgo": "{{count}} giờ trước",
+      "daysAgo": "{{count}} ngày trước"
+    }
+  }
+}

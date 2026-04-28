@@ -1,0 +1,115 @@
+{
+  "seo": {
+    "title": "Admin - Overview"
+  },
+  "header": {
+    "title": "Control center",
+    "online": "Live",
+    "today": "Today: {{date}}"
+  },
+  "dateRanges": {
+    "7days": "Last 7 days",
+    "30days": "Last 30 days",
+    "90days": "Last 3 months"
+  },
+  "common": {
+    "viewAll": "View all",
+    "unknown": "Unknown",
+    "noData": "No data yet"
+  },
+  "status": {
+    "completed": "Completed",
+    "pending": "Pending confirmation",
+    "confirmed": "Confirmed",
+    "processing": "Processing",
+    "shipping": "Shipping",
+    "cancelled": "Cancelled",
+    "active": "Active",
+    "visible": "Visible"
+  },
+  "stats": {
+    "trendAria": "{{title}} trend",
+    "comparison": "Compared with last week",
+    "subInfo": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "newThisWeek": "New this week",
+      "pending": "Pending confirmation",
+      "confirmed": "Confirmed",
+      "shipping": "Shipping",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "visible": "Visible",
+      "hidden": "Hidden"
+    },
+    "cards": {
+      "totalUsers": "Total customers",
+      "totalAdmins": "Total admins",
+      "totalOrders": "Total orders",
+      "revenue": "Revenue",
+      "profit": "Profit",
+      "products": "Products",
+      "categories": "Product categories"
+    }
+  },
+  "charts": {
+    "quickOverview": "Quick overview",
+    "orderStatus": "Orders by status",
+    "totalOrders": "Total orders",
+    "todayActivity": "Today's activity",
+    "empty": "No data yet",
+    "rows": {
+      "customers": "Customers",
+      "orders": "Orders",
+      "revenue": "Revenue",
+      "profit": "Profit",
+      "products": "Products",
+      "categories": "Categories"
+    },
+    "activity": {
+      "newOrders": "New order created",
+      "newCustomers": "New customer registered",
+      "newProducts": "New product added",
+      "todayRevenue": "Today's revenue",
+      "newThisWeek": "New this week: {{count}}"
+    }
+  },
+  "activity": {
+    "topCustomers": "Top customers",
+    "recentOrders": "Recent orders",
+    "emptyCustomers": "No customer data yet",
+    "emptyOrders": "No recent orders yet",
+    "fallbackCustomer": "Customer",
+    "customerOrders": "{{amount}} - {{count}} orders"
+  },
+  "topProducts": {
+    "productsTitle": "Top products",
+    "categoriesTitle": "Category distribution",
+    "emptyProducts": "No top product data yet",
+    "emptyCategories": "No category data yet",
+    "sold": "Sold: {{count}} - {{revenue}}",
+    "categoryFallback": "Category {{number}}",
+    "categoryProductCount": "Products: {{count}}",
+    "trends": {
+      "down": "Down",
+      "equal": "Stable",
+      "up": "Up"
+    }
+  },
+  "legacyTopCustomers": {
+    "title": "Top customers",
+    "totalSpent": "Total spent:"
+  },
+  "ordersSkeleton": {
+    "order": "Order",
+    "customer": "Customer",
+    "value": "Value",
+    "status": "Status",
+    "time": "Time"
+  },
+  "salesChart": {
+    "last7Days": "Revenue over the last 7 days",
+    "last30Days": "Revenue over the last 30 days",
+    "last3Months": "Revenue over the last 3 months"
+  }
+}

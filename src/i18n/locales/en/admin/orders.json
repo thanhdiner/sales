@@ -1,0 +1,68 @@
+{
+  "seo": {
+    "title": "Admin - Orders"
+  },
+  "page": {
+    "title": "Order Manager",
+    "description": "Track, search, and manage every customer order."
+  },
+  "filters": {
+    "searchPlaceholder": "Search by name, phone number, order code...",
+    "statusPlaceholder": "All statuses"
+  },
+  "status": {
+    "all": "All statuses",
+    "pending": "Pending confirmation",
+    "confirmed": "Confirmed",
+    "shipping": "Shipping",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "unknown": "Unknown: {{value}}"
+  },
+  "paymentStatus": {
+    "pending": "Unpaid",
+    "paid": "Paid",
+    "failed": "Payment failed",
+    "unknown": "Unknown: {{value}}"
+  },
+  "paymentMethod": {
+    "transfer": "Bank transfer",
+    "contact": "Contact later",
+    "vnpay": "VNPay",
+    "momo": "MoMo",
+    "zalopay": "ZaloPay",
+    "sepay": "Sepay",
+    "unknown": "Unknown: {{value}}"
+  },
+  "deliveryMethod": {
+    "pickup": "Store pickup",
+    "contact": "Contact for delivery",
+    "unknown": "Unknown: {{value}}"
+  },
+  "table": {
+    "loading": "Loading orders...",
+    "emptyTitle": "No orders found",
+    "emptyDescription": "No orders match the current filters.",
+    "columns": {
+      "orderCode": "Order code",
+      "customer": "Customer",
+      "contact": "Contact",
+      "createdAt": "Created at",
+      "status": "Status",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "viewDetails": "View details",
+    "viewOrderDetails": "View order details",
+    "guestCustomer": "Guest customer",
+    "unknownProduct": "Unknown product",
+    "itemsSummary": {
+      "more": "{{summary}} +{{count}} more"
+    }
+  },
+  "pagination": {
+    "summary": "Showing {{from}} - {{to}} of {{total}} orders",
+    "previous": "Previous",
+    "next": "Next"
+  }
+}

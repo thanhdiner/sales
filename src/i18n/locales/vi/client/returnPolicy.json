@@ -1,0 +1,282 @@
+{
+  "seo": {
+    "title": "Chính sách đổi trả",
+    "description": "Chính sách đổi trả hàng tại SmartMall - rõ ràng, minh bạch, bảo vệ quyền lợi khách hàng."
+  },
+  "pageHeader": {
+    "eyebrow": "Chính sách",
+    "title": "Chính sách đổi trả & hoàn tiền",
+    "description": "Chúng tôi cam kết mang đến trải nghiệm mua sắm thuận tiện với chính sách đổi trả rõ ràng, linh hoạt và dễ thực hiện.",
+    "tags": {
+      "freeReturn": "Đổi trả miễn phí",
+      "flexibleDeadline": "Thời hạn tùy loại sản phẩm",
+      "fastRefund": "Hoàn tiền nhanh chóng"
+    },
+    "actions": {
+      "request": "Yêu cầu đổi trả",
+      "tracking": "Tra cứu yêu cầu"
+    }
+  },
+  "process": {
+    "physical": {
+      "title": "Quy trình đổi trả hàng vật lý",
+      "noteTitle": "Lưu ý quan trọng",
+      "noteDescription": "Vui lòng giữ nguyên tình trạng sản phẩm và đóng gói cẩn thận khi gửi về để đảm bảo quá trình xử lý nhanh chóng.",
+      "steps": {
+        "request": {
+          "title": "Yêu cầu đổi trả",
+          "description": "Gửi yêu cầu qua website hoặc hotline"
+        },
+        "confirm": {
+          "title": "Xác nhận yêu cầu",
+          "description": "Chúng tôi sẽ xác nhận trong 24h"
+        },
+        "ship": {
+          "title": "Gửi sản phẩm",
+          "description": "Đóng gói và gửi sản phẩm về"
+        },
+        "inspect": {
+          "title": "Kiểm tra & xử lý",
+          "description": "Kiểm tra sản phẩm và xử lý yêu cầu"
+        },
+        "complete": {
+          "title": "Hoàn tất",
+          "description": "Đổi sản phẩm mới hoặc hoàn tiền"
+        }
+      }
+    },
+    "online": {
+      "title": "Quy trình xử lý dịch vụ online / tài khoản / phần mềm",
+      "noteTitle": "Lưu ý",
+      "noteDescriptions": [
+        "Một số sản phẩm số, phần mềm bản quyền, tài khoản số, dịch vụ nâng cấp online chỉ hỗ trợ hoàn tiền hoặc đổi mới khi phát sinh lỗi từ hệ thống hoặc không sử dụng được.",
+        "Sau khi dịch vụ đã được kích hoạt thành công, một số sản phẩm không áp dụng hoàn tiền theo quy định của nhà phát hành."
+      ],
+      "steps": {
+        "request": {
+          "title": "Gửi yêu cầu hỗ trợ",
+          "description": "Liên hệ qua website, Zalo hoặc email"
+        },
+        "verify": {
+          "title": "Xác minh & kiểm tra",
+          "description": "Kiểm tra trạng thái giao dịch & tài khoản"
+        },
+        "handle": {
+          "title": "Xử lý & phản hồi",
+          "description": "Sửa lỗi, kích hoạt lại, cấp lại dịch vụ hoặc hoàn tiền nếu đủ điều kiện"
+        },
+        "complete": {
+          "title": "Hoàn tất",
+          "description": "Kết thúc yêu cầu, xác nhận với khách hàng"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "title": "Điều kiện đổi trả",
+    "acceptedTitle": "Được chấp nhận",
+    "rejectedTitle": "Không được chấp nhận",
+    "physicalTitle": "Hàng vật lý",
+    "digitalTitle": "Dịch vụ online, tài khoản, phần mềm",
+    "acceptedPhysicalItems": [
+      "Sản phẩm còn nguyên vẹn, chưa sử dụng",
+      "Đầy đủ bao bì, nhãn mác, phụ kiện",
+      "Có hóa đơn mua hàng hợp lệ",
+      "Trong thời hạn đổi trả quy định từng loại sản phẩm",
+      "Lý do chính đáng như lỗi kỹ thuật, giao sai hoặc hư hỏng vận chuyển"
+    ],
+    "acceptedDigitalItems": [
+      "Dịch vụ hoặc tài khoản chưa kích hoạt, hoặc không sử dụng được do lỗi hệ thống",
+      "Tài khoản hoặc bản quyền chưa sử dụng, hoặc bị lỗi kỹ thuật khi nhận",
+      "Giao nhầm hoặc mua nhầm gói dịch vụ và chưa kích hoạt"
+    ],
+    "rejectedPhysicalItems": [
+      "Sản phẩm đã qua sử dụng, bị bẩn hoặc hư hỏng bởi người dùng",
+      "Thiếu phụ kiện, bao bì gốc hoặc không còn nhãn mác",
+      "Quá thời hạn đổi trả",
+      "Sản phẩm theo yêu cầu riêng như đặt làm hoặc cá nhân hóa",
+      "Đồ lót, mỹ phẩm, sản phẩm đã mở seal hoặc đã dùng thử"
+    ],
+    "rejectedDigitalItems": [
+      "Đã kích hoạt hoặc bắt đầu sử dụng dịch vụ thành công",
+      "Đã chuyển nhượng, tặng hoặc giao dịch lại cho người khác",
+      "Vi phạm điều khoản sử dụng, bị khóa hoặc banned do lỗi người dùng"
+    ]
+  },
+  "refund": {
+    "title": "Phương thức hoàn tiền",
+    "popular": "Phổ biến",
+    "timeLabel": "Thời gian",
+    "feeLabel": "Phí"
+  },
+  "refundMethods": {
+    "bankTransfer": {
+      "method": "Chuyển khoản ngân hàng",
+      "time": "2-3 tiếng làm việc",
+      "fee": "Miễn phí"
+    },
+    "eWallet": {
+      "method": "Ví điện tử (MoMo, ZaloPay)",
+      "time": "2-3 tiếng làm việc",
+      "fee": "Miễn phí"
+    },
+    "cash": {
+      "method": "Tiền mặt tại cửa hàng",
+      "time": "Ngay lập tức",
+      "fee": "Miễn phí"
+    }
+  },
+  "categories": {
+    "title": "Thời hạn đổi trả theo danh mục",
+    "description": "Thời hạn đổi trả được tính từ ngày nhận hàng và có thể khác nhau tùy theo từng nhóm sản phẩm.",
+    "columns": {
+      "category": "Danh mục sản phẩm",
+      "returnPeriod": "Thời hạn đổi trả",
+      "conditions": "Điều kiện",
+      "specialNotes": "Lưu ý đặc biệt"
+    },
+    "extraTitle": "Thông tin bổ sung",
+    "extraDescription": "Các sản phẩm trong chương trình clearance sale có thể có thời hạn đổi trả ngắn hơn."
+  },
+  "productCategories": {
+    "electronics": {
+      "category": "Điện tử & Công nghệ",
+      "returnPeriod": "1-15 ngày (tùy loại)",
+      "conditions": ["Còn nguyên seal", "Đầy đủ phụ kiện", "Có hóa đơn"],
+      "specialNotes": "Không áp dụng cho phần mềm đã kích hoạt"
+    },
+    "fashion": {
+      "category": "Thời trang & Phụ kiện",
+      "returnPeriod": "1-30 ngày (tùy loại)",
+      "conditions": ["Chưa qua sử dụng", "Còn nguyên tag", "Không bị bẩn/hỏng"],
+      "specialNotes": "Đồ lót, tất vớ không được đổi trả"
+    },
+    "beauty": {
+      "category": "Mỹ phẩm & Sức khỏe",
+      "returnPeriod": "1-7 ngày (tùy loại)",
+      "conditions": ["Chưa mở nắp", "Còn nguyên seal", "Không dị ứng"],
+      "specialNotes": "Chỉ đổi trả khi có lỗi từ nhà sản xuất"
+    },
+    "homeAppliance": {
+      "category": "Đồ gia dụng",
+      "returnPeriod": "1-20 ngày (tùy loại)",
+      "conditions": ["Còn nguyên vẹn", "Đầy đủ phụ kiện", "Chưa sử dụng"],
+      "specialNotes": "Đồ thủy tinh phải đóng gói cẩn thận"
+    },
+    "books": {
+      "category": "Sách & Văn phòng phẩm",
+      "returnPeriod": "1-14 ngày (tùy loại)",
+      "conditions": ["Không bị rách/bẩn", "Chưa viết/đánh dấu", "Còn nguyên vẹn"],
+      "specialNotes": "Sách điện tử không được hoàn trả"
+    },
+    "digitalServices": {
+      "category": "Dịch vụ online / Tài khoản / Phần mềm",
+      "returnPeriod": "1-3 ngày (tùy loại)",
+      "conditions": [
+        "Chưa kích hoạt hoặc chưa sử dụng",
+        "Lỗi kỹ thuật không sử dụng được",
+        "Giao nhầm, mua nhầm gói và chưa dùng"
+      ],
+      "specialNotes": "Không hoàn/đổi nếu đã kích hoạt hoặc đã sử dụng thành công. Không áp dụng khi vi phạm điều khoản sử dụng hoặc bị khóa do người dùng."
+    }
+  },
+  "reasons": {
+    "title": "Lý do đổi trả phổ biến",
+    "description": "Một số lý do thường gặp khi khách hàng tạo yêu cầu đổi trả sản phẩm.",
+    "cardDescription": "Nhấn để chọn lý do này khi tạo yêu cầu đổi trả."
+  },
+  "returnReasons": {
+    "defective": "Sản phẩm bị lỗi/hỏng",
+    "wrongItem": "Giao sai sản phẩm",
+    "notAsDescribed": "Không đúng mô tả",
+    "sizeIssue": "Không vừa size",
+    "changeMind": "Thay đổi ý định",
+    "damagedShipping": "Hư hỏng khi vận chuyển"
+  },
+  "faqSection": {
+    "title": "Câu hỏi thường gặp",
+    "description": "Một số câu hỏi phổ biến về quy trình đổi trả và hoàn tiền."
+  },
+  "faq": {
+    "promotion": {
+      "question": "Tôi có thể đổi trả sản phẩm mua từ chương trình khuyến mãi không?",
+      "answer": "Có, bạn có thể đổi trả sản phẩm khuyến mãi theo chính sách thông thường. Tuy nhiên, số tiền hoàn lại sẽ là giá đã giảm, không phải giá gốc."
+    },
+    "shippingFee": {
+      "question": "Chi phí vận chuyển khi đổi trả do ai chịu?",
+      "answer": "Nếu lỗi từ chúng tôi (giao sai hàng, sản phẩm lỗi), chúng tôi sẽ chịu phí vận chuyển. Nếu do thay đổi ý định của khách hàng, khách hàng sẽ chịu phí vận chuyển."
+    },
+    "exchangeUpgrade": {
+      "question": "Tôi có thể đổi sang sản phẩm khác có giá trị cao hơn không?",
+      "answer": "Có, bạn có thể đổi sang sản phẩm có giá cao hơn bằng cách bù thêm phần chênh lệch. Chúng tôi sẽ tính toán và thông báo số tiền cần bù."
+    },
+    "processingTime": {
+      "question": "Thời gian xử lý đổi trả mất bao lâu?",
+      "answer": "Thông thường 5-7 ngày làm việc kể từ khi chúng tôi nhận được sản phẩm. Trong thời gian cao điểm có thể kéo dài thêm 2-3 ngày."
+    },
+    "cancelRequest": {
+      "question": "Tôi có thể hủy yêu cầu đổi trả đã gửi không?",
+      "answer": "Có, bạn có thể hủy yêu cầu trước khi gửi sản phẩm về. Sau khi sản phẩm đã được gửi đi, việc hủy sẽ phụ thuộc vào tình trạng xử lý."
+    }
+  },
+  "support": {
+    "tipsTitle": "Mẹo đổi trả thành công",
+    "supportTitle": "Hỗ trợ khách hàng",
+    "hotlineLabel": "Hotline đổi trả",
+    "emailLabel": "Email hỗ trợ",
+    "hoursLabel": "Thời gian hỗ trợ",
+    "tips": {
+      "takePhotos": "Chụp ảnh sản phẩm trước khi đóng gói",
+      "keepPackaging": "Giữ nguyên bao bì và phụ kiện",
+      "packCarefully": "Đóng gói cẩn thận để tránh hư hỏng",
+      "keepReceipt": "Giữ lại biên lai vận chuyển",
+      "trackRequest": "Theo dõi trạng thái qua mã yêu cầu"
+    }
+  },
+  "footerCta": {
+    "title": "Cần hỗ trợ thêm?",
+    "description": "Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ bạn trong quá trình đổi trả và hoàn tiền.",
+    "callButton": "Gọi hotline",
+    "emailButton": "Gửi email",
+    "faqButton": "FAQ chi tiết"
+  },
+  "requestModal": {
+    "title": "Tạo Yêu Cầu Đổi Trả",
+    "successTitle": "Yêu cầu đã được gửi!",
+    "successContent": "Mã yêu cầu của bạn là RT2025080001. Chúng tôi sẽ liên hệ trong vòng 24h.",
+    "orderNumberLabel": "Mã đơn hàng",
+    "orderNumberRequired": "Vui lòng nhập mã đơn hàng",
+    "orderNumberPlaceholder": "VD: ORD2025080001",
+    "emailLabel": "Email",
+    "emailRequired": "Vui lòng nhập email",
+    "emailInvalid": "Email không hợp lệ",
+    "emailPlaceholder": "your@email.com",
+    "reasonLabel": "Lý do đổi trả",
+    "reasonRequired": "Vui lòng chọn lý do",
+    "reasonPlaceholder": "Chọn lý do đổi trả",
+    "descriptionLabel": "Mô tả chi tiết",
+    "descriptionRequired": "Vui lòng mô tả chi tiết",
+    "descriptionPlaceholder": "Mô tả tình trạng sản phẩm, lý do cụ thể...",
+    "imagesLabel": "Hình ảnh sản phẩm",
+    "uploadButton": "Tải lên hình ảnh",
+    "uploadHint": "Tối đa 5 ảnh, mỗi ảnh không quá 2MB",
+    "cancelButton": "Hủy",
+    "submitButton": "Gửi yêu cầu"
+  },
+  "tracking": {
+    "modalTitle": "Tra Cứu Trạng Thái Đổi Trả",
+    "searchPlaceholder": "Nhập mã yêu cầu đổi trả (VD: RT2025080001)",
+    "searchButton": "Tra cứu",
+    "codeLabel": "Mã yêu cầu:",
+    "statusLabel": "Đang xử lý",
+    "estimatedTitle": "Ước tính hoàn tất",
+    "estimatedDescription": "Yêu cầu của bạn dự kiến được hoàn tất trong 2-3 ngày làm việc tới.",
+    "statuses": {
+      "received": "Đã tiếp nhận",
+      "verifying": "Đang xác minh",
+      "waitingWarehouse": "Chờ sản phẩm về kho",
+      "inspecting": "Đang kiểm tra sản phẩm",
+      "completed": "Hoàn tất xử lý"
+    }
+  }
+}

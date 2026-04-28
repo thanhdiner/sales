@@ -1,0 +1,288 @@
+{
+  "seo": {
+    "title": "Admin - Products",
+    "detailsTitle": "Admin - Product Details"
+  },
+  "page": {
+    "title": "Product Manager"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View"
+  },
+  "filters": {
+    "productName": "Product name",
+    "productNamePlaceholder": "Product name",
+    "price": "Price",
+    "pricePlaceholder": "Price",
+    "productCategory": "Product category",
+    "selectCategory": "Select category",
+    "stock": "Stock",
+    "stockPlaceholder": "Stock",
+    "status": "Status",
+    "all": "All",
+    "show": "Show",
+    "perPage": "{{count}} per page",
+    "position": "Position",
+    "positionPlaceholder": "Position",
+    "discount": "Discount (%)",
+    "discountPlaceholder": "Discount %",
+    "filter": "Filter",
+    "clear": "Clear",
+    "loadCategoryError": "Failed to load category tree data"
+  },
+  "bulk": {
+    "selected": "Selected {{count}} items",
+    "choiceAction": "Choose action",
+    "add": "Add",
+    "actions": {
+      "delete": "Delete",
+      "changePosition": "Change position",
+      "changeStatus": "Change status"
+    },
+    "messages": {
+      "selectFirst": "Please select products first.",
+      "chooseAction": "Please choose an action.",
+      "deleteSuccess": "Deleted {{count}} products successfully!",
+      "deleteError": "Failed to delete selected products.",
+      "statusSuccess": "Status updated to {{status}} for {{count}} products",
+      "statusError": "Failed to change status.",
+      "positionSuccess": "Changed position for {{count}} products",
+      "positionError": "Failed to change positions.",
+      "unsupported": "This action is not supported yet."
+    },
+    "modals": {
+      "deleteTitle": "Confirm deletion",
+      "deleteContent": "Are you sure you want to delete {{count}} selected products?",
+      "statusTitle": "Confirm status change",
+      "statusContent": "Change status of {{count}} products to \"{{status}}\"?",
+      "positionTitle": "Confirm position change",
+      "positionContent": "Change position of {{count}} products?"
+    }
+  },
+  "utility": {
+    "exportProducts": "Export products",
+    "exportMobile": "Export",
+    "toggleColumns": "Toggle columns",
+    "filter": "Filter",
+    "sheetName": "Products",
+    "fileName": "products_export.xlsx"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Product name",
+    "price": "Price",
+    "category": "Category",
+    "stock": "Stock",
+    "position": "Position",
+    "discount": "Discount %",
+    "discountPercentage": "Discount percentage",
+    "status": "Status",
+    "thumbnail": "Thumbnail",
+    "thumbnailRequired": "Thumbnail *",
+    "actions": "Actions",
+    "actionsRequired": "Actions *",
+    "createdBy": "Created by",
+    "createdAt": "Created at",
+    "updatedBy": "Updated by",
+    "updatedAt": "Updated at"
+  },
+  "columnMenu": {
+    "title": "Toggle columns",
+    "requiredNote": "* These columns are required and cannot be hidden."
+  },
+  "table": {
+    "uncategorized": "Uncategorized",
+    "loading": "Loading products...",
+    "empty": "No products found",
+    "deleteTitle": "Confirm delete",
+    "deleteContent": "Are you sure you want to delete product \"{{title}}\"?",
+    "deleteSuccess": "Product deleted successfully!",
+    "deleteError": "Failed to delete product.",
+    "changeStatusTitle": "Change product status",
+    "changeStatusContent": "Are you sure you want to change status of {{title}} from {{from}} to {{to}}?",
+    "statusUpdated": "Status updated to {{status}}",
+    "statusUpdateError": "Failed to update status"
+  },
+  "pagination": {
+    "summary": "Total {{total}} products, Page {{current}} of {{pages}}"
+  },
+  "form": {
+    "productName": "Product name",
+    "productNamePlaceholder": "Enter product name",
+    "productCategory": "Category",
+    "productCategoryPlaceholder": "Select product category",
+    "sellingPrice": "Selling price (VND)",
+    "sellingPricePlaceholder": "Enter selling price",
+    "costPrice": "Cost price (VND)",
+    "costPricePlaceholder": "Enter cost price",
+    "costPriceRequired": "Please enter the cost price!",
+    "costPriceMin": "Cost price must be greater than or equal to 0!",
+    "costPriceLimit": "Cost price cannot be greater than selling price!",
+    "discount": "Discount (%)",
+    "stock": "Stock",
+    "deliveryType": "Delivery type",
+    "deliveryTypes": {
+      "manual": "Manual delivery",
+      "instantAccount": "Instant account delivery on site"
+    },
+    "deliveryInstructions": "Delivery instructions",
+    "deliveryInstructionsPlaceholder": "Example: Sign in with the account below and change the password after receiving it.",
+    "deliveryEstimateDays": "Estimated delivery after",
+    "deliveryEstimateDaysRequired": "Please select the estimated delivery days!",
+    "dayOption": "{{count}} day(s)",
+    "status": "Status",
+    "position": "Position",
+    "positionPlaceholder": "Enter position or leave blank to auto-generate",
+    "slug": "Slug URL",
+    "slugPlaceholder": "Auto-generated from product name or entered manually",
+    "promotionTime": "Promotion time",
+    "options": "Options",
+    "topDeal": "Top Deal",
+    "featured": "Featured product",
+    "thumbnail": "Thumbnail",
+    "thumbnailRequired": "Please upload a thumbnail!",
+    "thumbnailHint": "Main image shown on the product card.",
+    "productImages": "Product sample images",
+    "productImagesHint": "You can upload multiple images for the detail page.",
+    "addImage": "Add image",
+    "features": "Featured features",
+    "featureRequired": "Enter a feature!",
+    "featurePlaceholder": "Feature #{{number}}",
+    "removeFeature": "Delete",
+    "addFeature": "Add feature",
+    "shortDescription": "Short description",
+    "content": "Detail content",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English product name",
+      "titlePlaceholder": "Enter English product name",
+      "deliveryInstructions": "English delivery instructions",
+      "deliveryInstructionsPlaceholder": "Enter delivery instructions in English",
+      "features": "English featured features",
+      "featurePlaceholder": "English feature #{{number}}",
+      "addFeature": "Add English feature",
+      "description": "English short description",
+      "content": "English detail content"
+    },
+    "cancel": "Cancel",
+    "create": "Create product",
+    "creating": "Creating...",
+    "save": "Save changes",
+    "saving": "Saving..."
+  },
+  "formMessages": {
+    "loadTreeError": "Failed to load product categories",
+    "createSuccess": "Product created successfully!",
+    "createError": "Failed to create product!",
+    "slugExists": "Slug already exists, please choose another one. Suggested: {{suggestedSlug}}",
+    "imageOnly": "You can only upload image files!",
+    "loadError": "Failed to load product",
+    "updateSuccess": "Product updated successfully!",
+    "updateError": "Failed to update product"
+  },
+  "details": {
+    "loading": "Loading product...",
+    "title": "Product Details",
+    "notFound": "Product not found",
+    "untitledProduct": "Untitled product",
+    "quickActions": "Quick Actions",
+    "updateHistory": "Update History",
+    "descriptionContent": "Description / Content",
+    "metadata": "Metadata",
+    "price": "Price",
+    "stock": "Stock",
+    "category": "Category",
+    "mainInfo": "Main Info",
+    "basicInfo": "Basic Info",
+    "pricingInventory": "Pricing & Inventory",
+    "product": "Product",
+    "slug": "Slug",
+    "status": "Status",
+    "rate": "Rate",
+    "discount": "Discount",
+    "position": "Position",
+    "createdAt": "Created at",
+    "lastUpdated": "Last updated",
+    "createdBy": "Created by",
+    "timeStart": "Time start",
+    "timeFinish": "Time finish",
+    "description": "Description",
+    "content": "Content",
+    "deleteTitle": "Confirm Delete",
+    "deleteContent": "Are you sure you want to delete product \"{{title}}\"?",
+    "deleteSuccess": "Product deleted successfully!",
+    "deleteError": "Failed to delete product."
+  },
+  "credentials": {
+    "statuses": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "sold": "Sold",
+      "disabled": "Disabled"
+    },
+    "messages": {
+      "loadError": "Failed to load account stock.",
+      "missingInput": "Enter at least one account or license value.",
+      "addSuccess": "Added {{count}} account/license item(s) to stock.",
+      "addError": "Failed to add credential.",
+      "revealError": "Failed to view credential.",
+      "disableSuccess": "Credential disabled."
+    },
+    "modal": {
+      "revealTitle": "Credential information",
+      "disableTitle": "Disable this credential?",
+      "disableContent": "Disabled credentials will not be sold to new orders.",
+      "disable": "Disable",
+      "bulkTitle": "Bulk import",
+      "addToStock": "Add to stock",
+      "cancel": "Cancel"
+    },
+    "columns": {
+      "info": "Info",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "summary": {
+      "username": "Username",
+      "email": "Email",
+      "key": "Key",
+      "url": "URL"
+    },
+    "tooltips": {
+      "view": "View credential",
+      "disable": "Disable"
+    },
+    "title": "Instant delivery account/license stock",
+    "availableCount": "Available: {{count}}",
+    "fields": {
+      "username": "Username",
+      "usernamePlaceholder": "username",
+      "password": "Password",
+      "passwordPlaceholder": "password",
+      "email": "Email",
+      "emailPlaceholder": "login email",
+      "licenseKey": "License key",
+      "licenseKeyPlaceholder": "key / activation code",
+      "loginUrl": "Login link",
+      "loginUrlPlaceholder": "https://...",
+      "notes": "Notes",
+      "notesPlaceholder": "notes/private instructions"
+    },
+    "buttons": {
+      "add": "Add to stock",
+      "bulk": "Bulk import"
+    },
+    "bulkPlaceholder": "username|password|email|licenseKey|loginUrl|notes\nlicense-key-only\n{\"username\":\"user1\",\"password\":\"pass1\",\"email\":\"user1@example.com\"}"
+  }
+}

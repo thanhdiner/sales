@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import { useAdminOrderDetail } from './hooks/useAdminOrderDetail'
 import AdminOrderCustomerSection from './sections/AdminOrderCustomerSection'
@@ -16,6 +17,7 @@ const canRetryDigitalDelivery = order =>
   (order.orderItems || []).some(item => item.deliveryType === 'instant_account' && !item.digitalDeliveries?.length)
 
 export default function AdminOrderDetailPage() {
+  const { t } = useTranslation('adminOrderDetail')
   const { id } = useParams()
   const navigate = useNavigate()
   const {
@@ -37,7 +39,7 @@ export default function AdminOrderDetailPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
-        <SEO title="Admin - Chi tiết đơn" noIndex />
+        <SEO title={t('seo.title')} noIndex />
         <AdminOrderDetailLoadingState />
       </div>
     )
@@ -46,15 +48,15 @@ export default function AdminOrderDetailPage() {
   if (!order) {
     return (
       <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
-        <SEO title="Admin - Chi tiết đơn" noIndex />
+        <SEO title={t('seo.title')} noIndex />
         <AdminOrderDetailEmptyState onBack={handleBack} />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6 text-[var(--admin-text)]">
-      <SEO title="Admin - Chi tiết đơn" noIndex />
+    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 text-[var(--admin-text)] sm:p-4 lg:p-6">
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-6xl">
         <AdminOrderDetailHeaderSection

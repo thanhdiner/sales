@@ -1,24 +1,45 @@
+import { AppstoreOutlined, LineChartOutlined, PauseCircleOutlined } from '@ant-design/icons'
 import { getWidgetStats } from '../utils'
 
-export default function AdminWidgetsStatsSection({ widgets }) {
+export default function AdminWidgetsStatsSection({ widgets, t }) {
   const stats = getWidgetStats(widgets)
+
+  const statItems = [
+    {
+      key: 'total',
+      label: t('stats.total'),
+      value: stats.total,
+      icon: <AppstoreOutlined />,
+      cardClass: 'admin-widgets-stats__card'
+    },
+    {
+      key: 'active',
+      label: t('stats.active'),
+      value: stats.active,
+      icon: <LineChartOutlined />,
+      cardClass: 'admin-widgets-stats__card admin-widgets-stats__card--active'
+    },
+    {
+      key: 'inactive',
+      label: t('stats.inactive'),
+      value: stats.inactive,
+      icon: <PauseCircleOutlined />,
+      cardClass: 'admin-widgets-stats__card admin-widgets-stats__card--inactive'
+    }
+  ]
 
   return (
     <div className="admin-widgets-stats">
-      <div className="admin-widgets-stats__card">
-        <p className="admin-widgets-stats__label">Tổng</p>
-        <p className="admin-widgets-stats__value">{stats.total}</p>
-      </div>
+      {statItems.map(item => (
+        <div key={item.key} className={item.cardClass}>
+          <div className="admin-widgets-stats__content">
+            <p className="admin-widgets-stats__label">{item.label}</p>
+            <p className="admin-widgets-stats__value">{item.value}</p>
+          </div>
 
-      <div className="admin-widgets-stats__card admin-widgets-stats__card--active">
-        <p className="admin-widgets-stats__label">Hoạt động</p>
-        <p className="admin-widgets-stats__value">{stats.active}</p>
-      </div>
-
-      <div className="admin-widgets-stats__card admin-widgets-stats__card--inactive">
-        <p className="admin-widgets-stats__label">Tạm dừng</p>
-        <p className="admin-widgets-stats__value">{stats.inactive}</p>
-      </div>
+          <span className="admin-widgets-stats__icon">{item.icon}</span>
+        </div>
+      ))}
     </div>
   )
 }

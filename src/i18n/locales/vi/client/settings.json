@@ -1,0 +1,63 @@
+{
+  "seoTitle": "Cài đặt tài khoản",
+  "eyebrow": "Cài đặt",
+  "title": "Cài đặt tài khoản",
+  "description": "Quản lý giao diện, ngôn ngữ và bảo mật tài khoản của bạn.",
+  "appearance": {
+    "title": "Giao diện",
+    "currentMode": "Chế độ hiện tại: {{mode}}",
+    "light": "Sáng",
+    "dark": "Tối",
+    "toggleLabel": "Chuyển chế độ giao diện"
+  },
+  "language": {
+    "title": "Ngôn ngữ",
+    "description": "Chọn ngôn ngữ hiển thị cho giao diện website.",
+    "current": "Ngôn ngữ hiện tại: {{language}}",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
+  "password": {
+    "changeTitle": "Đổi mật khẩu",
+    "setupTitle": "Thiết lập mật khẩu",
+    "changeDescription": "Cập nhật mật khẩu để bảo vệ tài khoản của bạn.",
+    "setupDescription": "Thiết lập mật khẩu cho tài khoản đăng nhập bằng mạng xã hội.",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu mới",
+    "currentPlaceholder": "Nhập mật khẩu hiện tại",
+    "newPlaceholder": "Nhập mật khẩu mới",
+    "confirmPlaceholder": "Xác nhận mật khẩu mới",
+    "confirmMismatch": "Mật khẩu xác nhận không khớp.",
+    "processing": "Đang xử lý...",
+    "changeButton": "Đổi mật khẩu",
+    "setupButton": "Thiết lập mật khẩu",
+    "cancel": "Hủy bỏ",
+    "showCurrentLabel": "Hiện hoặc ẩn mật khẩu hiện tại",
+    "showNewLabel": "Hiện hoặc ẩn mật khẩu mới",
+    "showConfirmLabel": "Hiện hoặc ẩn mật khẩu xác nhận"
+  },
+  "validation": {
+    "required": "Vui lòng điền đầy đủ thông tin!",
+    "confirmMismatch": "Mật khẩu xác nhận không khớp!",
+    "weakPassword": "Mật khẩu không đáp ứng yêu cầu bảo mật!",
+    "success": "Đổi mật khẩu thành công!",
+    "error": "Có lỗi xảy ra, vui lòng thử lại!"
+  },
+  "rules": {
+    "minLength": "Ít nhất 6 ký tự",
+    "uppercase": "Có chữ hoa",
+    "lowercase": "Có chữ thường",
+    "number": "Có số"
+  },
+  "security": {
+    "title": "Lưu ý bảo mật",
+    "description": "Một số mẹo giúp bạn tạo mật khẩu mạnh và an toàn hơn.",
+    "tips": [
+      "Sử dụng mật khẩu mạnh với ít nhất 8 ký tự.",
+      "Kết hợp chữ hoa, chữ thường, số và ký tự đặc biệt.",
+      "Không sử dụng thông tin cá nhân dễ đoán.",
+      "Thay đổi mật khẩu định kỳ để đảm bảo an toàn."
+    ]
+  }
+}

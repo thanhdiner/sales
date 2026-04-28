@@ -15,10 +15,11 @@ export const DEFAULT_CHECKOUT_PROFILE = {
   address: '',
   notes: '',
   deliveryMethod: 'pickup',
-  paymentMethod: 'transfer'
+  paymentMethod: 'vnpay'
 }
 
 const normalizeText = value => (typeof value === 'string' ? value.trim() : '')
+const ONLINE_PAYMENT_METHODS = ['vnpay', 'momo', 'zalopay', 'sepay']
 
 export const splitFullName = fullName => {
   const normalized = normalizeText(fullName)
@@ -47,9 +48,9 @@ export const normalizeCheckoutProfile = profile => {
     ...normalizedAddress,
     notes: normalizeText(profile?.notes),
     deliveryMethod: profile?.deliveryMethod === 'contact' ? 'contact' : 'pickup',
-    paymentMethod: ['transfer', 'contact', 'vnpay', 'momo', 'zalopay'].includes(profile?.paymentMethod)
+    paymentMethod: ONLINE_PAYMENT_METHODS.includes(profile?.paymentMethod)
       ? profile.paymentMethod
-      : 'transfer'
+      : 'vnpay'
   }
 }
 

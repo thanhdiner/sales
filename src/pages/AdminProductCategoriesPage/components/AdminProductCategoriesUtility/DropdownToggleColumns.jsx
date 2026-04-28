@@ -1,7 +1,7 @@
 import { TableOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
 
-function DropdownToggleColumns({ columnMenu }) {
+function DropdownToggleColumns({ columnMenu, label }) {
   return (
     <Dropdown
       dropdownRender={() => columnMenu}
@@ -13,7 +13,7 @@ function DropdownToggleColumns({ columnMenu }) {
     >
       <Button className="admin-product-categories-btn">
         <TableOutlined />
-        Toggle Columns
+        {label}
       </Button>
     </Dropdown>
   )

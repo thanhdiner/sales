@@ -1,0 +1,61 @@
+{
+  "seo": {
+    "title": "Giỏ hàng",
+    "titleDetail": "Giỏ hàng của bạn"
+  },
+  "message": {
+    "fetchCartFailed": "Không lấy được giỏ hàng",
+    "removeFailed": "Xóa sản phẩm thất bại",
+    "updateQuantityFailed": "Cập nhật số lượng thất bại",
+    "invalidQuantity": "Vui lòng nhập số lượng hợp lệ!",
+    "maxStock": "Chỉ còn tối đa {{count}} sản phẩm trong kho",
+    "removeSuccess": "Đã xóa sản phẩm khỏi giỏ hàng",
+    "promoRequired": "Vui lòng nhập mã giảm giá",
+    "promoSuccess": "Áp dụng mã thành công",
+    "promoInvalid": "Mã không hợp lệ",
+    "genericError": "Có lỗi xảy ra"
+  },
+  "modal": {
+    "removeTitle": "Xóa sản phẩm khỏi giỏ hàng?",
+    "removeContent": "Sản phẩm này sẽ được xóa khỏi danh sách giỏ hàng của bạn.",
+    "okText": "Xóa",
+    "cancelText": "Hủy"
+  },
+  "empty": {
+    "title": "Giỏ hàng trống",
+    "description": "Bạn chưa có sản phẩm nào trong giỏ hàng.",
+    "button": "Tiếp tục mua sắm"
+  },
+  "page": {
+    "title": "Giỏ hàng",
+    "itemCount": "Có {{count}} sản phẩm trong giỏ hàng của bạn",
+    "selectAll": "Chọn tất cả",
+    "availableCount": "({{selected}}/{{total}} sản phẩm khả dụng)"
+  },
+  "item": {
+    "inStock": "Còn hàng",
+    "outOfStock": "Hết hàng",
+    "removeTitle": "Xóa",
+    "lineTotal": "Thành tiền",
+    "lineTotalMobile": "Thành tiền: {{amount}}"
+  },
+  "promo": {
+    "title": "Mã giảm giá",
+    "placeholder": "Nhập mã",
+    "apply": "Áp dụng",
+    "percentDescription": "Giảm {{value}}%",
+    "percentMaxDescription": "Giảm {{value}}%, tối đa {{max}}",
+    "fixedDescription": "Giảm {{value}}"
+  },
+  "summary": {
+    "title": "Tóm tắt đơn hàng",
+    "subtotal": "Tạm tính ({{count}} sản phẩm)",
+    "discount": "Giảm giá",
+    "shipping": "Phí vận chuyển",
+    "freeShipping": "Miễn phí",
+    "total": "Tổng cộng",
+    "checkout": "Thanh toán",
+    "checkoutWithCount": "Thanh toán ({{count}})",
+    "selectToCheckout": "Vui lòng chọn sản phẩm để thanh toán"
+  }
+}

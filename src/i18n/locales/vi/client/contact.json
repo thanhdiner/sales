@@ -1,0 +1,153 @@
+{
+  "seo": {
+    "title": "Liên hệ",
+    "description": "Liên hệ SmartMall qua Zalo, Facebook hoặc email. Hỗ trợ nhanh chóng, tư vấn tận tâm trong giờ hành chính và cả ngoài giờ."
+  },
+  "highlightsSection": {
+    "eyebrow": "Điểm nổi bật",
+    "title": "Lý do khách hàng chọn liên hệ trực tiếp",
+    "description": "Những cam kết hỗ trợ cốt lõi giúp việc tư vấn, xử lý đơn hàng và phản hồi thông tin diễn ra nhanh và rõ ràng hơn.",
+    "items": {
+      "responseTime": "Thời gian phản hồi",
+      "security": "Bảo mật thông tin",
+      "support": "Hỗ trợ tận tâm"
+    }
+  },
+  "sellers": {
+    "roles": {
+      "software": "Chuyên phần mềm bản quyền",
+      "support": "Chuyên tư vấn & hỗ trợ đơn hàng"
+    },
+    "actions": {
+      "zalo": "Nhắn Zalo",
+      "facebook": "Chat FB",
+      "email": "Gửi email"
+    },
+    "note": "Ưu tiên liên hệ qua Zalo hoặc Facebook để được phản hồi nhanh hơn."
+  },
+  "workingHours": {
+    "weekday": "Thứ 2 - Thứ 6",
+    "saturday": "Thứ 7",
+    "sunday": "Chủ nhật"
+  },
+  "faqs": {
+    "order": {
+      "question": "Làm sao để đặt hàng?",
+      "answer": "Bạn có thể liên hệ qua Facebook, Zalo hoặc email. Bên mình sẽ tư vấn và hướng dẫn chi tiết."
+    },
+    "payment": {
+      "question": "Thanh toán như thế nào?",
+      "answer": "Bên mình hỗ trợ thanh toán qua ngân hàng và một số ví điện tử phổ biến."
+    },
+    "delivery": {
+      "question": "Bao lâu nhận được hàng?",
+      "answer": "Thông thường trong ngày, tối đa 24 giờ. Với tài khoản phần mềm, thời gian xử lý thường nhanh hơn."
+    },
+    "warranty": {
+      "question": "Có bảo hành không?",
+      "answer": "Tùy từng sản phẩm sẽ có hoặc không có bảo hành. Nếu có, thông tin thời gian và điều kiện bảo hành sẽ được ghi rõ ở phần mô tả sản phẩm."
+    }
+  },
+  "contactMethodsSection": {
+    "eyebrow": "Kết nối trực tiếp",
+    "title": "Liên hệ với SmartMall",
+    "description": "Chọn kênh phù hợp để được tư vấn sản phẩm, hỗ trợ đơn hàng hoặc giải đáp thông tin trước khi mua."
+  },
+  "ctaSection": {
+    "eyebrow": "Cần hỗ trợ thêm?",
+    "title": "Bạn chưa tìm được thông tin cần thiết?",
+    "description": "Cứ nhắn mình nếu bạn chưa biết chọn gì, mình sẽ cố gắng tư vấn nhanh để bạn tìm được sản phẩm phù hợp.",
+    "chatButton": "Chat ngay với tư vấn viên",
+    "productsButton": "Xem sản phẩm nổi bật"
+  },
+  "faqHelpCard": {
+    "eyebrow": "Cần hỗ trợ thêm?",
+    "title": "Vẫn chưa thấy câu trả lời?",
+    "description": "Gửi thông tin cho chúng tôi qua Zalo hoặc email, đội ngũ hỗ trợ sẽ phản hồi trong thời gian sớm nhất.",
+    "zaloButton": "Chat qua Zalo",
+    "emailButton": "Gửi email",
+    "tip": "Mẹo: Hãy mô tả rõ nhu cầu và mã đơn nếu có để được hỗ trợ nhanh hơn."
+  },
+  "faqSection": {
+    "eyebrow": "Câu hỏi thường gặp",
+    "title": "Trung tâm trợ giúp",
+    "description": "Một số thắc mắc phổ biến đã được tổng hợp sẵn để bạn tra cứu nhanh trước khi liên hệ trực tiếp."
+  },
+  "formScheduleSection": {
+    "eyebrow": "Gửi yêu cầu",
+    "title": "Gửi thông tin nhanh, nhận hỗ trợ đúng lúc",
+    "description": "Bạn có thể gửi yêu cầu trực tiếp qua biểu mẫu hoặc xem khung giờ hoạt động để nhận phản hồi nhanh hơn."
+  },
+  "heroSection": {
+    "eyebrow": "Liên hệ hỗ trợ",
+    "titleLine1": "Cần hỗ trợ?",
+    "titleLine2": "Bên mình luôn sẵn sàng.",
+    "description": "Gửi tin nhắn cho SmartMall khi bạn cần tư vấn sản phẩm, hỗ trợ đơn hàng hoặc muốn kiểm tra thông tin trước khi mua.",
+    "zaloButton": "Nhắn Zalo",
+    "emailButton": "Gửi email",
+    "topics": {
+      "productAdvice": "Tư vấn sản phẩm",
+      "orderSupport": "Hỗ trợ đơn hàng",
+      "quickResponse": "Phản hồi nhanh"
+    },
+    "visual": {
+      "imageAlt": "SmartMall hỗ trợ khách hàng",
+      "badge": "Hỗ trợ 1:1 từ SmartMall",
+      "eyebrow": "Phản hồi minh bạch",
+      "description": "Tư vấn rõ ràng, kiểm tra nhanh và hỗ trợ bạn trước khi mua.",
+      "button": "Liên hệ ngay"
+    }
+  },
+  "workingHoursCard": {
+    "title": "Thời gian hoạt động",
+    "description": "Khung giờ hỗ trợ và phản hồi khách hàng.",
+    "noteTitle": "Lưu ý phản hồi",
+    "noteDescription": "Ngoài giờ hành chính, bên mình vẫn kiểm tra tin nhắn định kỳ và ưu tiên phản hồi các yêu cầu khẩn.",
+    "zaloButton": "Nhắn Zalo",
+    "emailButton": "Gửi email"
+  },
+  "cooperationPage": {
+    "seo": {
+      "title": "Hợp tác kinh doanh",
+      "description": "Liên hệ SmartMall để hợp tác kinh doanh và phân phối sản phẩm."
+    },
+    "eyebrow": "Hợp tác",
+    "title": "Liên hệ hợp tác",
+    "description": "Bạn muốn hợp tác kinh doanh, quảng cáo, phân phối sản phẩm hoặc trở thành đại lý? Chúng tôi luôn sẵn sàng lắng nghe đề xuất và cùng phát triển.",
+    "emailLabel": "Email",
+    "phoneLabel": "Hotline / Zalo",
+    "note": "Hoặc gửi đề xuất hợp tác qua email để được phản hồi trong vòng 24-48 giờ."
+  },
+  "contactForm": {
+    "subjects": {
+      "product": "Hỏi về sản phẩm",
+      "order": "Đặt hàng",
+      "support": "Hỗ trợ kỹ thuật",
+      "partnership": "Hợp tác",
+      "other": "Khác"
+    },
+    "validation": {
+      "required": "Vui lòng nhập đầy đủ Email, Chủ đề và Nội dung!"
+    },
+    "message": {
+      "success": "Gửi tin nhắn thành công!",
+      "error": "Đã có lỗi xảy ra, thử lại sau!"
+    },
+    "title": "Gửi tin nhắn cho shop",
+    "description": "Điền thông tin bên dưới, shop sẽ phản hồi bạn sớm nhất có thể.",
+    "successTitle": "Cảm ơn bạn!",
+    "successDescription": "Tin nhắn đã được gửi thành công. Mình sẽ phản hồi sớm nhất có thể!",
+    "fields": {
+      "name": "Tên của bạn",
+      "namePlaceholder": "Nhập tên của bạn",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "subject": "Chủ đề",
+      "subjectPlaceholder": "Chọn chủ đề",
+      "message": "Tin nhắn",
+      "messagePlaceholder": "Nhập tin nhắn của bạn..."
+    },
+    "submit": "Gửi tin nhắn",
+    "submitting": "Đang gửi..."
+  }
+}

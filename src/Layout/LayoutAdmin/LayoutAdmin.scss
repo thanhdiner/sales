@@ -351,6 +351,16 @@ body.admin-layout-active .color-options {
   color: var(--admin-text) !important;
 }
 
+.admin-header-language-btn.ant-btn-text {
+  width: auto;
+  min-width: 64px;
+  padding-inline: 10px;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
 .admin-header-brand {
   color: var(--admin-text);
 }
@@ -473,6 +483,46 @@ body.admin-layout-active .color-options {
 
 .admin-notification-item-dot {
   background: var(--admin-accent);
+}
+
+body.admin-layout-active .ant-message .ant-message-notice-content {
+  border: 1px solid var(--admin-border-strong) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+body.admin-layout-active .ant-message .ant-message-custom-content,
+body.admin-layout-active .ant-message .ant-message-custom-content > span {
+  color: var(--admin-text) !important;
+}
+
+body.admin-layout-active .ant-message .anticon-check-circle {
+  color: var(--admin-success-text) !important;
+}
+
+body.admin-layout-active .ant-message .anticon-close-circle {
+  color: var(--admin-danger-text) !important;
+}
+
+body.admin-layout-active .ant-message .anticon-exclamation-circle {
+  color: var(--admin-warning-text) !important;
+}
+
+body.admin-layout-active .ant-message .anticon-info-circle,
+body.admin-layout-active .ant-message .anticon-loading {
+  color: var(--admin-info-text) !important;
+}
+
+body.admin-layout-active .admin-chat-quick-replies-popover .ant-popover-inner {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+body.admin-layout-active .admin-chat-quick-replies-popover .ant-popover-arrow::before {
+  background: var(--admin-surface) !important;
 }
 
 .admin-sider.ant-layout-sider {

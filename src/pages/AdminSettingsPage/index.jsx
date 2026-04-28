@@ -1,4 +1,5 @@
 import { Globe2, ShieldCheck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 import SEO from '@/components/SEO'
@@ -8,14 +9,14 @@ import AdminWebsiteConfigTab from './components/AdminWebsiteConfigTab'
 const SETTING_TABS = [
   {
     key: 'security',
-    label: 'Bảo mật',
-    description: 'Mật khẩu, 2FA và thiết bị tin cậy',
+    labelKey: 'tabs.security.label',
+    descriptionKey: 'tabs.security.description',
     Icon: ShieldCheck
   },
   {
     key: 'configuration',
-    label: 'Cấu hình website',
-    description: 'Thông tin, liên hệ và SEO',
+    labelKey: 'tabs.configuration.label',
+    descriptionKey: 'tabs.configuration.description',
     Icon: Globe2
   }
 ]
@@ -23,6 +24,7 @@ const SETTING_TABS = [
 const SECURITY_URL_PARAMS = ['twofa', 'twofaStep']
 
 const AdminSettingsPage = () => {
+  const { t } = useTranslation('adminSettings')
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = searchParams.get('setting') || 'security'
 
@@ -39,25 +41,27 @@ const AdminSettingsPage = () => {
 
   return (
     <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-5 lg:p-6">
-      <SEO title="Admin - Cài đặt" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-7xl space-y-5">
         <div className="flex flex-col gap-4 border-b border-[var(--admin-border)] pb-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--admin-accent)]">
-              Admin settings
+              {t('page.eyebrow')}
             </p>
             <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--admin-text)]">
-              Cài đặt hệ thống
+              {t('page.title')}
             </h1>
             <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
-              Quản lý bảo mật tài khoản quản trị và thông tin hiển thị của website.
+              {t('page.description')}
             </p>
           </div>
 
           <div className="grid gap-2 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-1.5 shadow-[var(--admin-shadow)] sm:grid-cols-2">
-            {SETTING_TABS.map(({ key, label, description, Icon }) => {
+            {SETTING_TABS.map(({ key, labelKey, descriptionKey, Icon }) => {
               const active = activeTab === key
+              const label = t(labelKey)
+              const description = t(descriptionKey)
 
               return (
                 <button

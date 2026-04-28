@@ -1,31 +1,38 @@
 import { Form, Input, Modal, Select } from 'antd'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import { adminPermissionInitialValues } from '../utils'
+import { getLocalizedPermissionGroupLabel } from '@/utils/permissionLocalization'
 
 export default function AdminPermissionFormModal({
+  t = key => key,
   form,
   modalVisible,
   editingPermission,
   submitLoading,
   permissionGroups,
+  language,
   closeModal,
   handleSubmit,
   handleTitleChange
 }) {
   const { bodyStyle, contentRef } = useModalBodyScroll(modalVisible)
+  const permissionGroupOptions = permissionGroups.map(group => ({
+    ...group,
+    label: getLocalizedPermissionGroupLabel(group, language, group.label || group.value)
+  }))
 
   return (
     <Modal
       title={
         <span className="text-base font-semibold text-[var(--admin-text)]">
-          {editingPermission ? 'Chỉnh sửa quyền' : 'Thêm quyền'}
+          {editingPermission ? t('form.editTitle') : t('form.createTitle')}
         </span>
       }
       open={modalVisible}
       onCancel={closeModal}
       onOk={() => form.submit()}
-      okText={editingPermission ? 'Lưu' : 'Tạo'}
-      cancelText="Hủy"
+      okText={editingPermission ? t('common.save') : t('common.submitCreate')}
+      cancelText={t('common.cancel')}
       destroyOnClose
       confirmLoading={submitLoading}
       centered
@@ -49,50 +56,69 @@ export default function AdminPermissionFormModal({
           className="[&_.ant-form-item-label>label]:text-[var(--admin-text-muted)]"
         >
           <Form.Item
-            label="Tên quyền"
+            label={t('form.name')}
             name="title"
             rules={[
-              { required: true, message: 'Vui lòng nhập tên quyền' },
-              { min: 3, message: 'Tên quyền phải có ít nhất 3 ký tự' }
+              { required: true, message: t('form.nameRequired') },
+              { min: 3, message: t('form.nameMin') }
             ]}
           >
             <Input
-              placeholder="Ví dụ: Xem sản phẩm"
+              placeholder={t('form.namePlaceholder')}
               className="admin-permission-input rounded-lg"
               onChange={handleTitleChange}
             />
           </Form.Item>
 
           <Form.Item
-            label="Mã quyền"
+            label={t('form.code')}
             name="name"
             rules={[
-              { required: true, message: 'Vui lòng nhập mã quyền' },
-              { min: 3, message: 'Mã quyền phải có ít nhất 3 ký tự' },
-              { pattern: /^[a-z0-9_]+$/, message: 'Chỉ dùng a-z, 0-9 và dấu _' }
+              { required: true, message: t('form.codeRequired') },
+              { min: 3, message: t('form.codeMin') },
+              { pattern: /^[a-z0-9_]+$/, message: t('form.codePattern') }
             ]}
           >
             <Input
-              placeholder="Ví dụ: view_products"
+              placeholder={t('form.codePlaceholder')}
               disabled={!!editingPermission}
               className="admin-permission-input rounded-lg"
             />
           </Form.Item>
 
-          <Form.Item label="Mô tả" name="description">
+          <Form.Item label={t('form.description')} name="description">
             <Input.TextArea
               rows={3}
-              placeholder="Mô tả ngắn về quyền"
+              placeholder={t('form.descriptionPlaceholder')}
               className="admin-permission-input rounded-lg"
             />
           </Form.Item>
 
-          <Form.Item label="Nhóm quyền" name="group" rules={[{ required: true, message: 'Vui lòng chọn nhóm quyền' }]}>
+          <div className="admin-permission-form__translation-section">
+            <h3 className="admin-permission-form__translation-title">{t('form.translations.sectionTitle')}</h3>
+
+            <Form.Item label={t('form.translations.name')} name={['translations', 'en', 'title']}>
+              <Input
+                placeholder={t('form.translations.namePlaceholder')}
+                className="admin-permission-input rounded-lg"
+              />
+            </Form.Item>
+
+            <Form.Item label={t('form.translations.description')} name={['translations', 'en', 'description']}>
+              <Input.TextArea
+                rows={3}
+                placeholder={t('form.translations.descriptionPlaceholder')}
+                className="admin-permission-input rounded-lg"
+              />
+            </Form.Item>
+          </div>
+
+          <Form.Item label={t('form.group')} name="group" rules={[{ required: true, message: t('form.groupRequired') }]}>
             <Select
               getPopupContainer={trigger => trigger.parentElement}
               dropdownStyle={{ zIndex: 1238 }}
-              placeholder="Chọn nhóm quyền"
-              options={permissionGroups}
+              placeholder={t('form.groupPlaceholder')}
+              options={permissionGroupOptions}
               allowClear
             />
           </Form.Item>

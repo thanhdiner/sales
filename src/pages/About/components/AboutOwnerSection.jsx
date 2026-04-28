@@ -1,13 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Cpu, Gift, Users, BadgeDollarSign, MessageCircleMore } from 'lucide-react'
-
-const stats = [
-  { icon: Gift, label: 'Giá tốt', offsetX: 0 },
-  { icon: Users, label: 'Hỗ trợ', offsetX: -2 },
-  { icon: BadgeDollarSign, label: 'Dễ mua', offsetX: -1 },
-  { icon: MessageCircleMore, label: 'Tư vấn', offsetX: -2 }
-]
+import { useTranslation } from 'react-i18next'
+import { getArrayValue, getTextValue } from '../utils'
 
 const StatCircle = ({ Icon, label, delay, viewport, offsetX = 0 }) => {
   return (
@@ -46,8 +41,22 @@ const StatCircle = ({ Icon, label, delay, viewport, offsetX = 0 }) => {
   )
 }
 
-const AboutOwnerSection = ({ viewport = { once: true, amount: 0.2 } }) => {
+const AboutOwnerSection = ({ content, viewport = { once: true, amount: 0.2 } }) => {
+  const { t } = useTranslation('clientAbout')
   const [isOwnerImageLoaded, setIsOwnerImageLoaded] = useState(false)
+
+  const stats = [
+    { icon: Gift, label: getTextValue(content?.stats?.goodPrice, t('ownerSection.stats.goodPrice')), offsetX: 0 },
+    { icon: Users, label: getTextValue(content?.stats?.support, t('ownerSection.stats.support')), offsetX: -2 },
+    { icon: BadgeDollarSign, label: getTextValue(content?.stats?.easyBuy, t('ownerSection.stats.easyBuy')), offsetX: -1 },
+    { icon: MessageCircleMore, label: getTextValue(content?.stats?.consulting, t('ownerSection.stats.consulting')), offsetX: -2 }
+  ]
+
+  const paragraphs = getArrayValue(content?.paragraphs, t('ownerSection.paragraphs', { returnObjects: true }))
+  const ownerImageUrl = getTextValue(
+    content?.imageUrl,
+    'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80'
+  )
 
   return (
     <section className="px-4 py-10 md:px-6 md:py-14">
@@ -62,7 +71,7 @@ const AboutOwnerSection = ({ viewport = { once: true, amount: 0.2 } }) => {
           <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.9fr]">
             <div className="about-page__surface-soft bg-white px-6 py-8 md:px-10 md:py-12 lg:px-12">
               <h2 className="about-page__accent mb-10 text-[40px] font-light leading-none tracking-[-0.02em] text-[#1f67c7] md:text-[56px]">
-                Ai đứng sau shop
+                {getTextValue(content?.title, t('ownerSection.title'))}
               </h2>
 
               <div className="about-page__surface mb-14 border border-[#efefef] bg-white shadow-[0_3px_14px_rgba(0,0,0,0.04)]">
@@ -77,14 +86,12 @@ const AboutOwnerSection = ({ viewport = { once: true, amount: 0.2 } }) => {
 
                   <div className="flex items-center px-6 py-8 md:px-8">
                     <div className="about-page__owner-copy max-w-[420px] space-y-4 text-[15px] leading-8 text-[#6f6f6f] md:text-[16px]">
-                      <p>
-                        Mình là người tự học và khá thích công nghệ. Shop này được làm ra như một nguồn thu nhập phụ, đồng thời để bán các
-                        tài khoản game và phần mềm bản quyền với mức giá dễ tiếp cận hơn.
-                      </p>
-                      <p>
-                        Vì shop còn nhỏ nên mình tự xử lý gần như mọi thứ. Có gì mình sẽ tư vấn rõ, hỗ trợ trong khả năng và cố gắng làm gọn
-                        gàng nhất cho từng đơn.
-                      </p>
+                      {Array.isArray(paragraphs) &&
+                        paragraphs.map((paragraph, index) => (
+                          <p key={`${paragraph}-${index}`}>
+                            {paragraph}
+                          </p>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -94,7 +101,16 @@ const AboutOwnerSection = ({ viewport = { once: true, amount: 0.2 } }) => {
                 {stats.map((item, index) => {
                   const Icon = item.icon
 
-                  return <StatCircle key={item.label} Icon={Icon} label={item.label} delay={index * 0.06} viewport={viewport} />
+                  return (
+                    <StatCircle
+                      key={item.label}
+                      Icon={Icon}
+                      label={item.label}
+                      delay={index * 0.06}
+                      viewport={viewport}
+                      offsetX={item.offsetX}
+                    />
+                  )
                 })}
               </div>
             </div>
@@ -105,15 +121,16 @@ const AboutOwnerSection = ({ viewport = { once: true, amount: 0.2 } }) => {
               ) : null}
 
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80"
-                alt="Owner portrait"
+                src={ownerImageUrl}
+                alt={getTextValue(content?.imageAlt, t('ownerSection.imageAlt'))}
                 onLoad={() => setIsOwnerImageLoaded(true)}
                 className={`h-full w-full object-cover transition-opacity duration-300 ${isOwnerImageLoaded ? 'opacity-100' : 'opacity-0'}`}
               />
 
               <div className="about-page__owner-ribbon absolute bottom-14 left-0 right-0 bg-gradient-to-r from-[#1d56a8] to-[#2c86e8] px-8 py-7 text-white md:px-12">
                 <div className="text-[17px] md:text-[19px]">
-                  <span className="font-bold">Shop</span> <span className="font-normal text-white/92">tự vận hành</span>
+                  <span className="font-bold">{getTextValue(content?.ribbon?.brand, t('ownerSection.ribbon.brand'))}</span>{' '}
+                  <span className="font-normal text-white/92">{getTextValue(content?.ribbon?.text, t('ownerSection.ribbon.text'))}</span>
                 </div>
               </div>
             </div>

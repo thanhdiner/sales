@@ -1,10 +1,11 @@
 import { Select } from 'antd'
 import { ArrowLeft, CheckCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
-  ADMIN_ORDER_DETAIL_STATUS_OPTIONS,
-  ADMIN_ORDER_PAYMENT_STATUS_OPTIONS,
   getAdminOrderDetailCode,
-  getAdminOrderDetailStatusInfo
+  getAdminOrderDetailStatusInfo,
+  getAdminOrderDetailStatusOptions,
+  getAdminOrderPaymentStatusOptions
 } from '../utils'
 
 export default function AdminOrderDetailHeaderSection({
@@ -19,26 +20,27 @@ export default function AdminOrderDetailHeaderSection({
   onPaymentStatusChange,
   onUpdateStatus
 }) {
-  const statusInfo = getAdminOrderDetailStatusInfo(order.status)
+  const { t } = useTranslation('adminOrderDetail')
+  const statusInfo = getAdminOrderDetailStatusInfo(order.status, t)
   const StatusIcon = statusInfo.icon
   const hasStatusChanges = status !== order.status || paymentStatus !== order.paymentStatus
-  const buttonLabel = canRetryDigitalDelivery && !hasStatusChanges ? 'Chốt bàn giao' : 'Cập nhật'
+  const buttonLabel = canRetryDigitalDelivery && !hasStatusChanges ? t('actions.completeDelivery') : t('actions.update')
 
   return (
-    <div className="mb-5">
+    <div className="mb-4 sm:mb-5">
       <button
         type="button"
-        className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
+        className="mb-3 inline-flex items-center gap-2 break-words text-left text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)] sm:mb-4"
         onClick={onBack}
       >
         <ArrowLeft className="h-4 w-4" />
-        Quay lại danh sách đơn hàng
+        {t('actions.backToOrders')}
       </button>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-[var(--admin-text)]">
-            Đơn hàng {getAdminOrderDetailCode(order._id)}
+          <h1 className="text-xl font-semibold text-[var(--admin-text)] sm:text-2xl">
+            {t('page.orderTitle', { code: getAdminOrderDetailCode(order._id) })}
           </h1>
 
           <div
@@ -49,22 +51,22 @@ export default function AdminOrderDetailHeaderSection({
           </div>
         </div>
 
-        <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)]">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3 shadow-[var(--admin-shadow)] sm:p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Select
               value={status}
               onChange={onStatusChange}
-              style={{ minWidth: 180, fontFamily: 'inherit' }}
-              className="admin-order-detail-select font-sans text-[var(--admin-text)]"
-              options={ADMIN_ORDER_DETAIL_STATUS_OPTIONS}
+              style={{ width: '100%', fontFamily: 'inherit' }}
+              className="admin-order-detail-select w-full font-sans text-[var(--admin-text)] sm:min-w-[180px] sm:w-auto"
+              options={getAdminOrderDetailStatusOptions(t)}
             />
 
             <Select
               value={paymentStatus}
               onChange={onPaymentStatusChange}
-              style={{ minWidth: 180, fontFamily: 'inherit' }}
-              className="admin-order-detail-select font-sans text-[var(--admin-text)]"
-              options={ADMIN_ORDER_PAYMENT_STATUS_OPTIONS}
+              style={{ width: '100%', fontFamily: 'inherit' }}
+              className="admin-order-detail-select w-full font-sans text-[var(--admin-text)] sm:min-w-[180px] sm:w-auto"
+              options={getAdminOrderPaymentStatusOptions(t)}
             />
 
             <button
@@ -76,7 +78,7 @@ export default function AdminOrderDetailHeaderSection({
               {updating ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                  Đang lưu...
+                  {t('actions.saving')}
                 </>
               ) : (
                 buttonLabel

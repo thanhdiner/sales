@@ -1,13 +1,38 @@
 import { useCallback, useEffect, useState } from 'react'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   deleteAdminPermissionGroup,
   getAdminPermissionGroups,
   toggleAdminPermissionGroupActive
 } from '@/services/permissionGroupsService'
+import { getAdminPermissions } from '@/services/permissionService'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { getPermissionGroupErrorMessage } from '../utils'
 
+function attachPermissionCounts(groups = [], permissions = []) {
+  if (!permissions.length) {
+    return groups
+  }
+
+  const countByGroup = permissions.reduce((counts, permission) => {
+    if (!permission?.group || permission.deleted) {
+      return counts
+    }
+
+    counts[permission.group] = (counts[permission.group] || 0) + 1
+    return counts
+  }, {})
+
+  return groups.map(group => ({
+    ...group,
+    permissionCount: countByGroup[group.value] || 0
+  }))
+}
+
 export function useAdminPermissionGroupsData() {
+  const { t } = useTranslation('adminPermissionGroups')
+  const language = useCurrentLanguage()
   const [groups, setGroups] = useState([])
   const [loading, setLoading] = useState(false)
   const [updatingId, setUpdatingId] = useState(null)
@@ -17,13 +42,20 @@ export function useAdminPermissionGroupsData() {
 
     try {
       const res = await getAdminPermissionGroups()
-      setGroups(res.data || [])
+      const groupList = res.data || []
+
+      try {
+        const permissionRes = await getAdminPermissions()
+        setGroups(attachPermissionCounts(groupList, permissionRes.data || []))
+      } catch {
+        setGroups(groupList)
+      }
     } catch {
-      message.error('Không thể tải nhóm quyền')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     fetchGroups()
@@ -34,10 +66,10 @@ export function useAdminPermissionGroupsData() {
 
     try {
       await deleteAdminPermissionGroup(groupId)
-      message.success('Đã xóa nhóm quyền')
+      message.success(t('messages.deleteSuccess'))
       await fetchGroups()
     } catch (error) {
-      message.error(getPermissionGroupErrorMessage(error, 'Không thể xóa nhóm quyền'))
+      message.error(getPermissionGroupErrorMessage(error, t('messages.deleteError')))
     } finally {
       setLoading(false)
     }
@@ -48,10 +80,10 @@ export function useAdminPermissionGroupsData() {
 
     try {
       await toggleAdminPermissionGroupActive(group._id, !group.isActive)
-      message.success(`${!group.isActive ? 'Đã kích hoạt' : 'Đã tạm dừng'} nhóm quyền`)
+      message.success(!group.isActive ? t('messages.toggleActive') : t('messages.toggleInactive'))
       await fetchGroups()
     } catch (error) {
-      message.error(getPermissionGroupErrorMessage(error, 'Không thể thay đổi trạng thái'))
+      message.error(getPermissionGroupErrorMessage(error, t('messages.toggleError')))
     } finally {
       setUpdatingId(null)
     }

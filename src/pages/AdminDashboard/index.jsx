@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import './AdminDashboard.scss'
@@ -18,6 +19,7 @@ function getValidDateRange(range) {
 }
 
 export default function AdminDashboard() {
+  const { t } = useTranslation('adminDashboard')
   const [searchParams, setSearchParams] = useSearchParams()
   const dateRange = getValidDateRange(searchParams.get('range'))
   const isMobile = useDashboardMobile()
@@ -53,7 +55,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="dashboard-container rounded-xl">
-      <SEO title="Admin – Tổng quan" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <DashboardHeader
         dateRange={dateRange}

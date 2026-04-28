@@ -1,0 +1,68 @@
+{
+  "seo": {
+    "title": "Admin - Đơn hàng"
+  },
+  "page": {
+    "title": "Quản lý đơn hàng",
+    "description": "Theo dõi, tìm kiếm và quản lý tất cả đơn hàng của khách hàng."
+  },
+  "filters": {
+    "searchPlaceholder": "Tìm kiếm theo tên, số điện thoại, mã đơn...",
+    "statusPlaceholder": "Tất cả trạng thái"
+  },
+  "status": {
+    "all": "Tất cả trạng thái",
+    "pending": "Chờ xác nhận",
+    "confirmed": "Đã xác nhận",
+    "shipping": "Đang giao",
+    "completed": "Hoàn thành",
+    "cancelled": "Đã hủy",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "paymentStatus": {
+    "pending": "Chưa thanh toán",
+    "paid": "Đã thanh toán",
+    "failed": "Thanh toán thất bại",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "paymentMethod": {
+    "transfer": "Chuyển khoản",
+    "contact": "Liên hệ sau",
+    "vnpay": "VNPay",
+    "momo": "MoMo",
+    "zalopay": "ZaloPay",
+    "sepay": "Sepay",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "deliveryMethod": {
+    "pickup": "Nhận tại cửa hàng",
+    "contact": "Liên hệ bàn giao",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "table": {
+    "loading": "Đang tải dữ liệu...",
+    "emptyTitle": "Không có đơn hàng nào",
+    "emptyDescription": "Chưa có đơn hàng nào phù hợp với bộ lọc hiện tại.",
+    "columns": {
+      "orderCode": "Mã đơn",
+      "customer": "Khách hàng",
+      "contact": "Liên hệ",
+      "createdAt": "Ngày tạo",
+      "status": "Trạng thái",
+      "total": "Tổng tiền",
+      "actions": "Thao tác"
+    },
+    "viewDetails": "Xem chi tiết",
+    "viewOrderDetails": "Xem chi tiết đơn hàng",
+    "guestCustomer": "Khách vãng lai",
+    "unknownProduct": "Sản phẩm không xác định",
+    "itemsSummary": {
+      "more": "{{summary}} +{{count}} sản phẩm khác"
+    }
+  },
+  "pagination": {
+    "summary": "Hiển thị {{from}} - {{to}} của {{total}} đơn hàng",
+    "previous": "Trước",
+    "next": "Sau"
+  }
+}

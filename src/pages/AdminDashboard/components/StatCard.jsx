@@ -1,6 +1,7 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ArrowDown, ArrowUp } from 'lucide-react'
-import { formatCurrency } from '../utils/dashboardTransforms'
+import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
 
 const sparklinePoints = '0,44 14,28 27,32 41,16 55,14 69,35 83,27 97,8 111,31 125,21 139,2'
 
@@ -10,13 +11,15 @@ export default function StatCard({
   change,
   trend,
   icon,
-  color = '#34d399',
+  color = 'var(--dashboard-success)',
   subInfo = [],
   isCurrency,
   sparkline,
   caption
 }) {
-  const displayValue = isCurrency ? formatCurrency(value) : (Number(value) || 0).toLocaleString('vi-VN')
+  const { t, i18n } = useTranslation('adminDashboard')
+  const locale = getDashboardLocale(i18n.language)
+  const displayValue = isCurrency ? formatCurrency(value, locale) : (Number(value) || 0).toLocaleString(locale)
   const TrendIcon = trend === 'down' ? ArrowDown : ArrowUp
   const normalizedTrend = trend === 'down' ? 'down' : 'up'
   const sparkId = `spark-${title.replace(/[^\w-]+/g, '-')}`
@@ -44,7 +47,7 @@ export default function StatCard({
       {sparkline ? (
         <div className="stat-sparkline-wrap">
           {caption && <span className="stat-caption">{caption}</span>}
-          <svg className="stat-sparkline" viewBox="0 0 139 52" role="img" aria-label={`${title} trend`}>
+          <svg className="stat-sparkline" viewBox="0 0 139 52" role="img" aria-label={t('stats.trendAria', { title })}>
             <defs>
               <linearGradient id={sparkId} x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="var(--dashboard-success)" stopOpacity="0.42" />
@@ -60,7 +63,7 @@ export default function StatCard({
           {subInfo.map((item, index) => (
             <div key={`${item.label}-${index}`} className="stat-sub-info">
               <span>{item.label}:</span>
-              <strong>{(Number(item.value) || 0).toLocaleString('vi-VN')}</strong>
+              <strong>{(Number(item.value) || 0).toLocaleString(locale)}</strong>
             </div>
           ))}
         </div>

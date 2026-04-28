@@ -1,0 +1,50 @@
+{
+  "seo": {
+    "title": "Admin - Cooperation Contact"
+  },
+  "page": {
+    "title": "Cooperation contact content",
+    "description": "Manage the bilingual content displayed on the partnership contact page."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content"
+  },
+  "messages": {
+    "fetchError": "Unable to load cooperation contact content",
+    "saveSuccess": "Cooperation contact content saved",
+    "saveError": "Unable to save cooperation contact content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "sections": {
+    "seo": "SEO",
+    "hero": "Intro content",
+    "contact": "Contact cards",
+    "contactDescription": "Leave email or phone empty to use the global website contact information."
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "description": "Description",
+    "emailLabel": "Email label",
+    "email": "Email override",
+    "phoneLabel": "Phone label",
+    "phone": "Phone override",
+    "note": "Note"
+  },
+  "placeholders": {
+    "email": "Use website email if empty",
+    "phone": "Use website phone if empty"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "seo": {
+    "title": "Admin - Roles"
+  },
+  "page": {
+    "title": "Roles",
+    "description": "Manage roles and access permissions for admin accounts."
+  },
+  "common": {
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "system": "System",
+    "enable": "On",
+    "disable": "Off",
+    "addRole": "Add role",
+    "editRole": "Edit role",
+    "deleteRole": "Delete role"
+  },
+  "table": {
+    "columns": {
+      "role": "Role",
+      "description": "Description",
+      "permissions": "Permissions",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "noDescription": "No description",
+    "noPermissions": "No permissions yet",
+    "morePermissions": "+{{count}} permissions",
+    "englishTranslation": "EN: {{label}}",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} roles",
+    "loading": "Loading data...",
+    "empty": "No roles found",
+    "openActions": "Open role actions"
+  },
+  "status": {
+    "enabled": "On",
+    "disabled": "Off"
+  },
+  "confirm": {
+    "deleteTitle": "Delete this role?",
+    "deleteContent": "This role cannot be deleted if it is still assigned to users."
+  },
+  "form": {
+    "createTitle": "Add role",
+    "editTitle": "Edit role",
+    "roleName": "Role name",
+    "roleNameRequired": "Please enter a role name",
+    "roleNamePlaceholder": "Example: Product manager",
+    "description": "Description",
+    "descriptionPlaceholder": "Short description for this role",
+    "translations": {
+      "sectionTitle": "English translation",
+      "roleName": "English role name",
+      "roleNamePlaceholder": "Enter the role name in English",
+      "description": "English description",
+      "descriptionPlaceholder": "Enter the role description in English"
+    },
+    "permissions": "Permissions",
+    "permissionsPlaceholder": "Select permissions for this role",
+    "status": "Status"
+  },
+  "messages": {
+    "deleteSuccess": "Role deleted",
+    "deleteError": "Unable to delete role",
+    "toggleActive": "Role activated",
+    "toggleInactive": "Role paused",
+    "toggleError": "Unable to change status",
+    "updateSuccess": "Role updated",
+    "createSuccess": "Role created",
+    "saveError": "Unable to save role"
+  }
+}

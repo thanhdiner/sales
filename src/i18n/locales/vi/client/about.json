@@ -1,0 +1,103 @@
+{
+  "seo": {
+    "title": "Về SmartMall",
+    "description": "SmartMall – Shop nhỏ chuyên bán tài khoản game và phần mềm bản quyền. Uy tín, rõ ràng, giá hợp lý, hỗ trợ tận tâm."
+  },
+  "ownerSection": {
+    "title": "Ai đứng sau shop",
+    "paragraphs": [
+      "Mình là người tự học và khá thích công nghệ. Shop này được làm ra như một nguồn thu nhập phụ, đồng thời để bán các tài khoản game và phần mềm bản quyền với mức giá dễ tiếp cận hơn.",
+      "Vì shop còn nhỏ nên mình tự xử lý gần như mọi thứ. Có gì mình sẽ tư vấn rõ, hỗ trợ trong khả năng và cố gắng làm gọn gàng nhất cho từng đơn."
+    ],
+    "stats": {
+      "goodPrice": "Giá tốt",
+      "support": "Hỗ trợ",
+      "easyBuy": "Dễ mua",
+      "consulting": "Tư vấn"
+    },
+    "imageAlt": "Chân dung chủ shop",
+    "ribbon": {
+      "brand": "Shop",
+      "text": "tự vận hành"
+    }
+  },
+  "ctaSection": {
+    "title": "Bạn muốn thử mua?",
+    "description": "Cứ nhắn mình nếu bạn chưa biết chọn gì, mình sẽ cố gắng tư vấn nhanh để bạn tìm được sản phẩm phù hợp.",
+    "button": "Xem sản phẩm"
+  },
+  "featuresSection": {
+    "eyebrow": "SmartMall operation",
+    "titleLines": ["Shop nhỏ", "nhưng vẫn giữ", "trải nghiệm rõ ràng"],
+    "description": "Dù quy mô còn nhỏ, mình vẫn cố gắng giữ quy trình mua hàng đơn giản, giao nhanh và hỗ trợ dễ hiểu để khách yên tâm hơn khi sử dụng.",
+    "button": "Xem sản phẩm",
+    "steps": [
+      {
+        "title": "Bảo mật đơn giản",
+        "description": "Mọi giao dịch đều qua hệ thống ngân hàng và ví điện tử phổ biến."
+      },
+      {
+        "title": "Giao hàng nhanh",
+        "description": "Gửi thông tin tài khoản, phần mềm nhanh nhất có thể, đa phần trong ngày."
+      },
+      {
+        "title": "Hỗ trợ tận tâm",
+        "description": "Có thắc mắc gì, mình trả lời sớm nhất có thể, thường trong giờ hành chính."
+      }
+    ]
+  },
+  "heroSection": {
+    "eyebrow": "Về SmartMall",
+    "titleLines": ["Kho phần", "mềm bản", "quyền"],
+    "description": "SmartMall tập trung vào trải nghiệm mua hàng rõ ràng, hỗ trợ nhanh và làm việc minh bạch. Mục tiêu là giúp khách dễ chọn, dễ mua và yên tâm hơn trong quá trình sử dụng.",
+    "primaryButton": "Xem sản phẩm",
+    "secondaryButton": "Liên hệ ngay",
+    "reviews": "Reviews",
+    "imageAlt": "SmartMall hero"
+  },
+  "benefitsSection": {
+    "title": "Lợi ích khi mua tại SmartMall",
+    "items": [
+      {
+        "title": "Làm việc rõ ràng",
+        "description": "Thông tin sản phẩm được ghi rõ để khách dễ chọn và dễ so sánh."
+      },
+      {
+        "title": "Gửi nhanh",
+        "description": "Sau khi chốt đơn, shop cố gắng gửi tài khoản hoặc phần mềm sớm nhất có thể."
+      },
+      {
+        "title": "Hỗ trợ khi cần",
+        "description": "Nếu có vướng mắc trong quá trình sử dụng, shop vẫn hỗ trợ để khách yên tâm hơn."
+      }
+    ]
+  },
+  "timelineSection": {
+    "items": [
+      {
+        "title": "Khởi đầu",
+        "description": "Lúc đầu mình chỉ bán vài tài khoản game và phần mềm cho bạn bè, người quen là chính."
+      },
+      {
+        "title": "Phát triển",
+        "description": "Sau đó mình làm web riêng để bán cho khách lạ. Hiện tại shop vẫn còn nhỏ, chủ yếu tự vận hành mọi thứ."
+      },
+      {
+        "title": "Tối ưu vận hành",
+        "description": "Bắt đầu chuẩn hóa quy trình bán hàng, hỗ trợ khách nhanh hơn và sắp xếp sản phẩm rõ ràng hơn."
+      },
+      {
+        "title": "Mở rộng khách hàng",
+        "description": "Tệp khách hàng dần rộng hơn, có thêm khách mới từ website và các kênh giới thiệu tự nhiên."
+      },
+      {
+        "title": "Đa dạng sản phẩm",
+        "description": "Bổ sung thêm nhiều dòng sản phẩm phù hợp nhu cầu thực tế để tăng lựa chọn cho khách."
+      },
+      {
+        "title": "Ổn định và phát triển",
+        "description": "Tiếp tục tối ưu trải nghiệm khách hàng, xây dựng nền tảng ổn định để shop phát triển bền hơn."
+      }
+    ]
+  }
+}

@@ -1,41 +1,31 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Landmark, Gift, Newspaper, Users, Tag, ClipboardList } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { getArrayValue } from '../utils'
 
-const timeline = [
+const timelineMeta = [
   {
-    title: 'Khởi đầu',
-    description: 'Lúc đầu mình chỉ bán vài tài khoản game và phần mềm cho bạn bè, người quen là chính.',
     icon: Landmark,
     color: '#f15a24'
   },
   {
-    title: 'Phát triển',
-    description: 'Sau đó mình làm web riêng để bán cho khách lạ. Hiện tại shop vẫn còn nhỏ, chủ yếu tự vận hành mọi thứ.',
     icon: Gift,
     color: '#ff1f6d'
   },
   {
-    title: 'Tối ưu vận hành',
-    description: 'Bắt đầu chuẩn hóa quy trình bán hàng, hỗ trợ khách nhanh hơn và sắp xếp sản phẩm rõ ràng hơn.',
     icon: Newspaper,
     color: '#be35c8'
   },
   {
-    title: 'Mở rộng khách hàng',
-    description: 'Tệp khách hàng dần rộng hơn, có thêm khách mới từ website và các kênh giới thiệu tự nhiên.',
     icon: Users,
     color: '#41c7a0'
   },
   {
-    title: 'Đa dạng sản phẩm',
-    description: 'Bổ sung thêm nhiều dòng sản phẩm phù hợp nhu cầu thực tế để tăng lựa chọn cho khách.',
     icon: Tag,
     color: '#2fa7df'
   },
   {
-    title: 'Ổn định và phát triển',
-    description: 'Tiếp tục tối ưu trải nghiệm khách hàng, xây dựng nền tảng ổn định để shop phát triển bền hơn.',
     icon: ClipboardList,
     color: '#a547f4'
   }
@@ -66,7 +56,9 @@ const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
                     <h3 className="mb-2 text-[18px] font-bold" style={{ color: item.color }}>
                       {item.title}
                     </h3>
-                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">{item.description}</p>
+                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
 
@@ -103,7 +95,9 @@ const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
                     <h3 className="mb-2 text-[18px] font-bold" style={{ color: item.color }}>
                       {item.title}
                     </h3>
-                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">{item.description}</p>
+                    <p className="about-page__timeline-copy text-[15px] leading-8 text-[#666]">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
 
@@ -143,7 +137,9 @@ const MobileTimelineCard = ({ item, index, viewport }) => {
             <h3 className="mb-1 text-[15px] font-bold" style={{ color: item.color }}>
               {item.title}
             </h3>
-            <p className="about-page__timeline-copy text-[13px] leading-5 text-[#666]">{item.description}</p>
+            <p className="about-page__timeline-copy text-[13px] leading-5 text-[#666]">
+              {item.description}
+            </p>
           </div>
 
           <div className="about-page__timeline-icon-cell flex items-center justify-center border-l border-[#e8e8e8]">
@@ -155,7 +151,18 @@ const MobileTimelineCard = ({ item, index, viewport }) => {
   )
 }
 
-const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
+const TimelineSection = ({ content, viewport = { once: true, amount: 0.2 } }) => {
+  const { t } = useTranslation('clientAbout')
+  const timelineItems = getArrayValue(content?.items, t('timelineSection.items', { returnObjects: true }))
+
+  const timeline = Array.isArray(timelineItems)
+    ? timelineItems.map((_, index) => ({
+        ...(timelineMeta[index] || timelineMeta[index % timelineMeta.length]),
+        title: timelineItems[index]?.title || '',
+        description: timelineItems[index]?.description || ''
+      }))
+    : timelineMeta
+
   return (
     <section className="px-4 py-10 md:px-6 md:py-14">
       <div className="mx-auto max-w-7xl">
@@ -167,7 +174,7 @@ const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
               const isLeft = index % 2 === 0
 
               return (
-                <div key={index} className="relative grid grid-cols-2 items-center">
+                <div key={`${item.title}-${index}`} className="relative grid grid-cols-2 items-center">
                   <DesktopTimelineCard item={item} index={index} isLeft={isLeft} viewport={viewport} />
 
                   <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
@@ -181,8 +188,9 @@ const TimelineSection = ({ viewport = { once: true, amount: 0.2 } }) => {
 
         <div className="relative space-y-5 md:hidden">
           <div className="about-page__timeline-line absolute left-4 top-0 h-full w-px bg-[#cfcfcf]" />
+
           {timeline.map((item, index) => (
-            <MobileTimelineCard key={index} item={item} index={index} viewport={viewport} />
+            <MobileTimelineCard key={`${item.title}-${index}`} item={item} index={index} viewport={viewport} />
           ))}
         </div>
       </div>

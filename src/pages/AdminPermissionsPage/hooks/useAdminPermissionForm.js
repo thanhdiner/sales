@@ -8,10 +8,12 @@ import {
 import {
   adminPermissionInitialValues,
   getPermissionErrorMessage,
-  getPermissionSlug
+  getPermissionFormValues,
+  getPermissionSlug,
+  normalizePermissionFormValues
 } from '../utils'
 
-export function useAdminPermissionForm({ onSaved }) {
+export function useAdminPermissionForm({ onSaved, t = key => key }) {
   const [form] = Form.useForm()
   const [modalVisible, setModalVisible] = useState(false)
   const [editingPermission, setEditingPermission] = useState(null)
@@ -35,7 +37,7 @@ export function useAdminPermissionForm({ onSaved }) {
     setEditingPermission(permission || null)
 
     if (permission) {
-      form.setFieldsValue(permission)
+      form.setFieldsValue(getPermissionFormValues(permission))
     } else {
       form.resetFields()
       form.setFieldsValue(adminPermissionInitialValues)
@@ -64,7 +66,10 @@ export function useAdminPermissionForm({ onSaved }) {
     setSubmitLoading(true)
 
     try {
-      const payload = { ...values }
+      const payload = normalizePermissionFormValues({
+        ...values,
+        ...form.getFieldsValue(true)
+      })
 
       if (!editingPermission && payload.title && !payload.name) {
         payload.name = getPermissionSlug(payload.title)
@@ -72,10 +77,10 @@ export function useAdminPermissionForm({ onSaved }) {
 
       if (editingPermission) {
         await updatePermissionById(editingPermission._id, payload)
-        message.success('Đã cập nhật quyền')
+        message.success(t('messages.updateSuccess'))
       } else {
         await createAdminPermissions(payload)
-        message.success('Đã tạo quyền')
+        message.success(t('messages.createSuccess'))
       }
 
       closeModal()
@@ -85,7 +90,7 @@ export function useAdminPermissionForm({ onSaved }) {
         return
       }
 
-      message.error(getPermissionErrorMessage(error, 'Không thể lưu quyền'))
+      message.error(getPermissionErrorMessage(error, t('messages.saveError')))
     } finally {
       setSubmitLoading(false)
     }

@@ -1,11 +1,15 @@
+import { useTranslation } from 'react-i18next'
+import SEO from '@/components/SEO'
 import useAdminChatbotToolLogsPage from './hooks/useAdminChatbotToolLogsPage'
 import AdminChatbotToolLogsFiltersSection from './sections/AdminChatbotToolLogsFiltersSection'
 import AdminChatbotToolLogsHeaderSection from './sections/AdminChatbotToolLogsHeaderSection'
 import AdminChatbotToolLogsLoadingState from './sections/AdminChatbotToolLogsLoadingState'
 import AdminChatbotToolLogsTableSection from './sections/AdminChatbotToolLogsTableSection'
 import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
+import './AdminChatbotToolLogsPage.scss'
 
 export default function AdminChatbotToolLogsPage() {
+  const { t } = useTranslation('adminChatbotToolLogs')
   const {
     loading,
     logsLoading,
@@ -55,6 +59,8 @@ export default function AdminChatbotToolLogsPage() {
 
   return (
     <div className="admin-chatbot-page mx-auto max-w-7xl">
+      <SEO title={t('seo.title')} noIndex />
+
       <AdminChatbotToolLogsHeaderSection
         logsLoading={logsLoading}
         onReload={handleReload}

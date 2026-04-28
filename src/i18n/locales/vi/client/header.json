@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "flashSale": "Flash Sale",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ"
+  },
+  "search": {
+    "placeholder": "Tìm tài khoản, phần mềm, game...",
+    "emptyTitle": "Không tìm thấy sản phẩm phù hợp",
+    "emptyDescription": "Thử tìm với từ khóa khác",
+    "hotRank": "HOT {{rank}}",
+    "mobilePlaceholder": "Tìm sản phẩm...",
+    "inputLabel": "Tìm kiếm sản phẩm",
+    "openMobile": "Mở tìm kiếm",
+    "back": "Quay lại",
+    "clear": "Xóa từ khóa",
+    "submit": "Tìm kiếm",
+    "dropdownLabel": "Gợi ý tìm kiếm",
+    "title": "Tìm kiếm",
+    "suggestionFor": "Gợi ý cho \"{{keyword}}\"",
+    "productsTitle": "Sản phẩm",
+    "relatedTitle": "Từ khóa liên quan",
+    "recentTitle": "Tìm kiếm gần đây",
+    "clearRecentAll": "Xóa tất cả",
+    "removeRecent": "Xóa \"{{keyword}}\" khỏi tìm kiếm gần đây",
+    "popularTitle": "Từ khóa phổ biến",
+    "categoryTitle": "Danh mục gợi ý",
+    "viewAll": "Xem tất cả kết quả cho \"{{keyword}}\""
+  },
+  "notification": {
+    "status": {
+      "pending": "Chờ xử lý",
+      "confirmed": "Đã xác nhận",
+      "shipping": "Đang giao hàng",
+      "completed": "Hoàn thành",
+      "cancelled": "Đã huỷ",
+      "fallback": "Cập nhật"
+    },
+    "orderTitle": "Đơn hàng #{{orderId}}",
+    "orderStatusBody": "Đã chuyển sang trạng thái {{status}}",
+    "desktopBody": "Đơn hàng #{{orderId}} đã chuyển sang {{status}}",
+    "panelTitle": "Thông báo",
+    "panelOrderTitle": "Cập nhật đơn hàng",
+    "allRead": "Tất cả đã đọc",
+    "oneUnread": "1 thông báo chưa đọc",
+    "manyUnread": "{{count}} thông báo chưa đọc",
+    "unreadSummary": "Bạn có {{count}} thông báo chưa đọc",
+    "bellTitle": "Thông báo",
+    "ariaLabel": "Thông báo, {{count}} chưa đọc",
+    "markAllRead": "Đánh dấu đã đọc",
+    "close": "Đóng thông báo",
+    "empty": "Chưa có cập nhật đơn hàng nào",
+    "openNotification": "Mở thông báo",
+    "viewAll": "Xem tất cả thông báo",
+    "pageTitle": "Thông báo",
+    "pageDescription": "Quản lý toàn bộ cập nhật từ đơn hàng, thanh toán, hệ thống và các hoạt động liên quan.",
+    "searchPlaceholder": "Tìm thông báo...",
+    "searchButton": "Tìm kiếm",
+    "emptyList": "Không có thông báo phù hợp",
+    "loadingMore": "Đang tải thêm...",
+    "viewOrder": "Xem đơn hàng",
+    "markRead": "Đánh dấu đã đọc",
+    "filters": {
+      "all": "Tất cả",
+      "unread": "Chưa đọc",
+      "orders": "Đơn hàng",
+      "payments": "Thanh toán",
+      "system": "Hệ thống"
+    },
+    "meta": {
+      "orders": "Trạng thái đơn hàng được cập nhật bởi admin",
+      "payments": "Cập nhật thanh toán",
+      "system": "Cập nhật hệ thống"
+    }
+  },
+  "mobileBottomNav": {
+    "ariaLabel": "Điều hướng chính",
+    "home": "Trang chủ",
+    "products": "Danh mục",
+    "vip": "Smartmall Plus",
+    "orders": "Đơn hàng",
+    "account": "Tài khoản"
+  }
+}

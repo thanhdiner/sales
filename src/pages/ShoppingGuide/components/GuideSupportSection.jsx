@@ -2,20 +2,21 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { shoppingGuideViewport } from '../data'
 
-const GuideSupportSection = ({ websiteConfig, onBrowseProducts, onViewCoupons }) => {
+const GuideSupportSection = ({ content, websiteConfig, onBrowseProducts, onViewCoupons }) => {
+  const section = content || {}
   const phone = websiteConfig?.contactInfo?.phone || '0823387108'
   const email = websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'
 
   return (
     <motion.section
-      className="px-4 py-14 sm:px-6 lg:px-8 lg:py-16"
+      className="shopping-guide-section px-4 py-10 sm:px-6 lg:px-8 lg:py-12"
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
       viewport={shoppingGuideViewport}
     >
       <motion.div
-        className="mx-auto max-w-7xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-8"
+        className="mx-auto max-w-7xl p-2"
         initial={{ opacity: 0, scale: 0.99 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -28,28 +29,25 @@ const GuideSupportSection = ({ websiteConfig, onBrowseProducts, onViewCoupons })
             transition={{ duration: 0.35, ease: 'easeOut' }}
             viewport={shoppingGuideViewport}
           >
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
-              Hỗ trợ
+            <p className="shopping-guide-eyebrow mb-3 text-sm font-semibold uppercase">
+              {section.eyebrow}
             </p>
 
-            <h2 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">
-              Bạn cần trợ giúp thêm?
-            </h2>
+            <h2 className="guide-title text-3xl font-semibold">{section.title}</h2>
 
-            <div className="mt-5 space-y-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            <div className="guide-muted mt-5 space-y-3 text-sm leading-6">
               <p>
-                <span className="font-semibold text-gray-900 dark:text-white">Điện thoại:</span>{' '}
-                {phone}
+                <span className="font-semibold text-[var(--guide-text)]">{section.phoneLabel}</span> {phone}
               </p>
 
               <p>
-                <span className="font-semibold text-gray-900 dark:text-white">Email:</span>{' '}
+                <span className="font-semibold text-[var(--guide-text)]">{section.emailLabel}</span>{' '}
                 <span className="break-all">{email}</span>
               </p>
 
               <p>
-                <span className="font-semibold text-gray-900 dark:text-white">Thời gian:</span>{' '}
-                8:00 - 22:00 (Thứ 2 - Chủ Nhật)
+                <span className="font-semibold text-[var(--guide-text)]">{section.timeLabel}</span>{' '}
+                {section.workingTime}
               </p>
             </div>
           </motion.div>
@@ -61,23 +59,23 @@ const GuideSupportSection = ({ websiteConfig, onBrowseProducts, onViewCoupons })
             transition={{ duration: 0.35, delay: 0.06, ease: 'easeOut' }}
             viewport={shoppingGuideViewport}
           >
-            <p className="text-base leading-7 text-gray-600 dark:text-gray-300">
-              Sẵn sàng bắt đầu mua sắm? Khám phá các sản phẩm và ưu đãi hiện có trên website.
-            </p>
+            <p className="guide-muted text-base leading-7">{section.description}</p>
 
             <div className="mt-6 flex flex-wrap gap-3 md:justify-end">
               <button
+                type="button"
                 onClick={onBrowseProducts}
-                className="rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
+                className="shopping-guide-primary-button px-5 py-3 text-sm font-semibold"
               >
-                Bắt đầu mua sắm
+                {section.browseProducts}
               </button>
 
               <button
+                type="button"
                 onClick={onViewCoupons}
-                className="rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+                className="shopping-guide-secondary-button px-5 py-3 text-sm font-semibold"
               >
-                Xem khuyến mãi
+                {section.viewCoupons}
               </button>
             </div>
           </motion.div>

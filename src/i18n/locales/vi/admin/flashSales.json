@@ -1,0 +1,111 @@
+{
+  "seo": {
+    "title": "Admin - Flash Sale"
+  },
+  "page": {
+    "title": "Quản lý Flash Sale",
+    "description": "Quản lý các chương trình khuyến mãi flash sale"
+  },
+  "actions": {
+    "create": "Tạo Flash Sale mới",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "createSubmit": "Tạo mới",
+    "updateSubmit": "Cập nhật"
+  },
+  "confirmDelete": {
+    "title": "Xác nhận xóa",
+    "content": "Bạn có chắc chắn muốn xóa flash sale này?",
+    "ok": "Xóa",
+    "cancel": "Hủy"
+  },
+  "messages": {
+    "updateSuccess": "Cập nhật thành công",
+    "createSuccess": "Tạo flash sale thành công",
+    "genericError": "Có lỗi xảy ra",
+    "deleteSuccess": "Đã xóa flash sale thành công",
+    "deleteError": "Xóa thất bại"
+  },
+  "stats": {
+    "totalRevenue": "Tổng doanh thu",
+    "activeSales": "Sale đang diễn ra",
+    "totalProductsSold": "Tổng sản phẩm bán",
+    "totalPrograms": "Tổng chương trình"
+  },
+  "table": {
+    "loading": "Đang tải dữ liệu...",
+    "emptyTitle": "Không có dữ liệu",
+    "emptyDescription": "Chưa có chương trình flash sale nào.",
+    "paginationTotal": "{{from}}-{{to}} của {{total}} flash sale",
+    "columns": {
+      "name": "Tên chương trình",
+      "time": "Thời gian",
+      "discount": "Giảm giá",
+      "quantity": "Số lượng",
+      "status": "Trạng thái",
+      "revenue": "Doanh thu",
+      "actions": "Thao tác"
+    },
+    "until": "đến {{date}}",
+    "productCount": "{{count}} sản phẩm",
+    "fallbackName": "Flash Sale",
+    "translationMissing": "Chưa có bản dịch EN"
+  },
+  "status": {
+    "active": "Đang diễn ra",
+    "scheduled": "Đã lên lịch",
+    "completed": "Đã kết thúc",
+    "inactive": "Đã tắt",
+    "unknown": "Không xác định"
+  },
+  "form": {
+    "createTitle": "Tạo Flash Sale mới",
+    "editTitle": "Chỉnh sửa Flash Sale",
+    "fields": {
+      "name": {
+        "label": "Tên chương trình",
+        "placeholder": "Nhập tên chương trình flash sale"
+      },
+      "startAt": {
+        "label": "Ngày & giờ bắt đầu",
+        "placeholder": "Ngày bắt đầu"
+      },
+      "endAt": {
+        "label": "Ngày & giờ kết thúc",
+        "placeholder": "Ngày kết thúc"
+      },
+      "discountPercent": {
+        "label": "Phần trăm giảm giá (%)",
+        "placeholder": "Nhập % giảm giá"
+      },
+      "maxQuantity": {
+        "label": "Số lượng tối đa",
+        "placeholder": "Nhập số lượng"
+      },
+      "products": {
+        "label": "Sản phẩm áp dụng",
+        "placeholder": "Chọn sản phẩm áp dụng",
+        "loading": "Đang tải..."
+      }
+    },
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "sectionDescription": "Dùng khi admin chuyển giao diện sang English. Nếu để trống, hệ thống sẽ dùng tên mặc định.",
+      "name": {
+        "label": "Tên chương trình (English)",
+        "placeholder": "Example: Weekend Flash Deals"
+      }
+    },
+    "validation": {
+      "name": "Vui lòng nhập tên chương trình!",
+      "startAt": "Vui lòng chọn ngày bắt đầu!",
+      "endAt": "Vui lòng chọn ngày kết thúc!",
+      "discountPercent": "Vui lòng nhập phần trăm giảm giá!",
+      "maxQuantity": "Vui lòng nhập số lượng tối đa!",
+      "products": "Vui lòng chọn ít nhất một sản phẩm!",
+      "dateOrder": "Thời gian kết thúc phải sau thời gian bắt đầu!"
+    }
+  }
+}

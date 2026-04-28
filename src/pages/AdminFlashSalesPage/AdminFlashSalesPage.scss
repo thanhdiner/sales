@@ -1,5 +1,311 @@
 .admin-flash-sales-page {
   color: var(--admin-text);
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-flash-sales-page__inner {
+  min-width: 0;
+}
+
+.admin-flash-sales-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.admin-flash-sales-header__mobile-action {
+  flex: 0 0 auto;
+}
+
+.admin-flash-sales-toolbar {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.admin-flash-sales-create-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  border-color: var(--admin-accent) !important;
+  border-radius: 8px;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.admin-flash-sales-create-btn.ant-btn:hover {
+  border-color: var(--admin-accent) !important;
+  filter: brightness(1.06);
+}
+
+.admin-flash-sales-header__mobile-action .admin-flash-sales-create-btn.ant-btn {
+  width: 40px;
+  padding-inline: 0;
+}
+
+.admin-flash-sales-header__mobile-action .admin-flash-sales-create-btn.ant-btn > span:not(.ant-btn-icon) {
+  display: none;
+}
+
+.admin-flash-sales-stat-card {
+  min-width: 0;
+}
+
+.admin-flash-sales-stat-card__label,
+.admin-flash-sales-stat-card__value {
+  overflow-wrap: anywhere;
+}
+
+.admin-flash-sales-table-card {
+  min-width: 0;
+}
+
+.admin-flash-sales-desktop-table,
+.admin-flash-sales-tablet-table {
+  display: none;
+}
+
+.admin-flash-sales-card-list {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.admin-flash-sale-card {
+  min-width: 0;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: var(--admin-surface);
+  padding: 14px;
+  color: var(--admin-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.admin-flash-sale-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admin-flash-sale-card__title {
+  margin: 0;
+  color: var(--admin-text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.admin-flash-sale-card__subtitle {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.admin-flash-sale-card__revenue {
+  margin-top: 14px;
+}
+
+.admin-flash-sale-card__revenue span,
+.admin-flash-sale-card__meta span {
+  display: block;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.admin-flash-sale-card__revenue strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--admin-text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.admin-flash-sale-card__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.admin-flash-sale-card__meta > div {
+  min-width: 0;
+}
+
+.admin-flash-sale-card__meta strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--admin-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.admin-flash-sales-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.admin-flash-sales-action-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-color: var(--admin-border) !important;
+  border-radius: 8px;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-accent) !important;
+  box-shadow: none !important;
+}
+
+.admin-flash-sales-action-btn.ant-btn:hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-accent) !important;
+}
+
+.admin-flash-sales-action-btn--delete.ant-btn {
+  color: #f87171 !important;
+}
+
+.admin-flash-sales-action-btn--delete.ant-btn:hover {
+  border-color: rgba(248, 81, 73, 0.45) !important;
+  background: rgba(248, 81, 73, 0.08) !important;
+  color: #ef4444 !important;
+}
+
+.admin-flash-sales-actions--labeled {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.admin-flash-sales-actions--labeled .admin-flash-sales-action-btn.ant-btn {
+  width: 100%;
+  gap: 6px;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .admin-flash-sales-header__mobile-action {
+    display: none;
+  }
+
+  .admin-flash-sales-toolbar {
+    display: flex;
+  }
+
+  .admin-flash-sales-card-list {
+    display: none;
+  }
+
+  .admin-flash-sales-tablet-table {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .admin-flash-sales-toolbar {
+    justify-content: space-between;
+  }
+
+  .admin-flash-sales-desktop-table {
+    display: block;
+  }
+
+  .admin-flash-sales-tablet-table {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-flash-sales-page {
+    border-radius: 10px;
+  }
+
+  .admin-flash-sales-header {
+    margin-bottom: 16px;
+  }
+
+  .admin-flash-sales-stats {
+    margin-bottom: 14px;
+  }
+
+  .admin-flash-sales-stat-card .flex {
+    gap: 8px;
+  }
+
+  .admin-flash-sales-stat-card__icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .admin-flash-sales-pagination {
+    justify-content: center !important;
+    padding: 12px 10px !important;
+  }
+
+  .admin-flash-sales-pagination .ant-pagination {
+    justify-content: center;
+    row-gap: 8px;
+  }
+
+  .admin-flash-sales-pagination .ant-pagination-total-text {
+    width: 100%;
+    margin-inline-end: 0;
+    text-align: center;
+  }
+
+  .admin-flash-sales-pagination .ant-pagination-options {
+    display: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-flash-sales-page {
+    padding: 10px !important;
+  }
+
+  .admin-flash-sales-stat-card {
+    padding: 10px !important;
+  }
+
+  .admin-flash-sales-stat-card__label {
+    font-size: 11px !important;
+  }
+
+  .admin-flash-sales-stat-card__value {
+    font-size: 16px !important;
+  }
+
+  .admin-flash-sale-card {
+    padding: 12px;
+  }
+
+  .admin-flash-sale-card__meta {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-flash-sales-page .ant-pagination-item,

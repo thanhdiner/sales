@@ -1,0 +1,100 @@
+{
+  "seo": {
+    "title": "Admin - Phiếu nhập hàng"
+  },
+  "page": {
+    "title": "Phiếu nhập hàng",
+    "description": "Theo dõi lịch sử nhập kho, giá vốn và số lượng tồn cho các sản phẩm giao thủ công."
+  },
+  "stats": {
+    "ariaLabel": "Thống kê phiếu nhập hàng",
+    "receipts": "Phiếu nhập",
+    "receiptsHint": "Tất cả phiếu đã ghi nhận",
+    "filteredHint": "Theo bộ lọc hiện tại",
+    "pageQuantity": "SL nhập trang này",
+    "pageQuantityHint": "Tổng số lượng trong trang",
+    "pageValue": "Giá trị trang này",
+    "pageValueHint": "Tổng giá trị phiếu đang hiển thị",
+    "manualProducts": "Sản phẩm thủ công",
+    "manualProductsHint": "{{stock}} sản phẩm đang tồn"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "dash": "-",
+    "cancel": "Hủy"
+  },
+  "actions": {
+    "create": "Tạo phiếu nhập",
+    "createShort": "Tạo phiếu",
+    "search": "Tìm",
+    "searchPlaceholder": "Tìm theo tên sản phẩm",
+    "columns": "Cột hiển thị",
+    "refresh": "Làm mới"
+  },
+  "filters": {
+    "title": "Bộ lọc",
+    "activeCount": "{{count}} lọc đang áp dụng",
+    "productPlaceholder": "Lọc theo sản phẩm",
+    "supplierPlaceholder": "Lọc theo nhà cung cấp",
+    "dateFrom": "Từ ngày",
+    "dateTo": "Đến ngày",
+    "apply": "Áp dụng",
+    "clear": "Xóa lọc"
+  },
+  "columns": {
+    "title": "Chọn cột hiển thị"
+  },
+  "messages": {
+    "loadReceiptsError": "Không lấy được danh sách phiếu nhập",
+    "loadProductsError": "Không lấy được danh sách sản phẩm",
+    "createSuccess": "Đã tạo phiếu nhập hàng",
+    "createError": "Không tạo được phiếu nhập",
+    "columnRequired": "Bảng cần hiển thị ít nhất một cột"
+  },
+  "deliveryTypes": {
+    "manual": "Thủ công",
+    "instant_account": "Tài khoản tức thì"
+  },
+  "table": {
+    "title": "Lịch sử phiếu nhập",
+    "description": "Các phiếu mới nhất được sắp xếp theo thời gian tạo.",
+    "resultCount": "{{count}} kết quả",
+    "product": "Sản phẩm",
+    "currentStock": "Tồn hiện tại: {{stock}}",
+    "quantity": "Số lượng",
+    "unitCost": "Giá nhập",
+    "totalCost": "Tổng tiền",
+    "supplier": "Nhà cung cấp",
+    "createdBy": "Người tạo",
+    "note": "Ghi chú",
+    "createdAt": "Ngày nhập",
+    "visibleSummary": "Tổng trang này",
+    "loading": "Đang tải phiếu nhập...",
+    "empty": "Chưa có phiếu nhập hàng"
+  },
+  "form": {
+    "title": "Tạo phiếu nhập hàng",
+    "subtitle": "Phiếu nhập sẽ tăng tồn kho và cập nhật giá vốn của sản phẩm.",
+    "manualProduct": "Sản phẩm thủ công",
+    "selectProduct": "Chọn sản phẩm",
+    "productLoading": "Đang tải sản phẩm...",
+    "noManualProducts": "Không có sản phẩm thủ công",
+    "productStock": "{{title}} - Tồn: {{stock}} - Giá vốn: {{cost}}",
+    "productRequired": "Vui lòng chọn sản phẩm",
+    "currentStock": "Tồn hiện tại",
+    "currentCost": "Giá vốn hiện tại",
+    "afterStock": "Tồn sau nhập",
+    "productPreviewEmpty": "Chọn sản phẩm để xem tồn kho và giá vốn.",
+    "quantity": "Số lượng nhập",
+    "quantityRequired": "Vui lòng nhập số lượng",
+    "quantityMin": "Số lượng nhập phải lớn hơn 0",
+    "unitCost": "Giá nhập / đơn vị",
+    "unitCostRequired": "Vui lòng nhập giá nhập",
+    "unitCostMin": "Giá nhập không được âm",
+    "totalPreview": "Tổng tiền phiếu nhập",
+    "supplier": "Nhà cung cấp",
+    "supplierPlaceholder": "Tên nhà cung cấp nếu có",
+    "note": "Ghi chú",
+    "notePlaceholder": "Ghi chú nhập hàng"
+  }
+}

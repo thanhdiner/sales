@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import useAdminAccountsPage from './hooks/useAdminAccountsPage'
 import AdminAccountsHeaderSection from './sections/AdminAccountsHeaderSection'
@@ -9,6 +10,7 @@ import './AdminAccountsPage.scss'
 const DEFAULT_PAGE_SIZE = 10
 
 export default function AdminAccountsPage() {
+  const { t } = useTranslation('adminAccounts')
   const {
     data,
     roles,
@@ -36,11 +38,19 @@ export default function AdminAccountsPage() {
     return data.slice(startIndex, startIndex + pageSize)
   }, [currentPage, data, pageSize])
 
-  return (
-    <div className="admin-accounts-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6 text-[var(--admin-text)]">
-      <SEO title="Admin - Tài khoản" noIndex />
+  useEffect(() => {
+    const maxPage = Math.max(1, Math.ceil(data.length / pageSize))
 
-      <div className="mx-auto max-w-7xl space-y-5">
+    if (currentPage > maxPage) {
+      setCurrentPage(maxPage)
+    }
+  }, [currentPage, data.length, pageSize])
+
+  return (
+    <div className="admin-accounts-page min-h-full rounded-xl bg-[var(--admin-bg-soft)] p-3 text-[var(--admin-text)] sm:p-4 lg:p-6">
+      <SEO title={t('seo.title')} noIndex />
+
+      <div className="mx-auto max-w-7xl space-y-4 lg:space-y-5">
         <AdminAccountsHeaderSection onCreate={handleOpenCreate} />
 
         <AdminAccountsTableSection

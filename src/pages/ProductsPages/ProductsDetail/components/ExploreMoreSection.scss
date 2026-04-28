@@ -1,45 +1,87 @@
 .ExploreMoreSection-root {
-  margin-top: 48px;
+  margin-top: 12px;
 
   .ExploreMoreSection-highlights {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    padding: 0 16px 16px;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px 12px;
   }
 
-  .ExploreMoreSection-chip {
+  .ExploreMoreSection-filter-button {
+    appearance: none;
     display: inline-flex;
     align-items: center;
-    min-height: 38px;
-    padding: 0 16px;
-    border-radius: 999px;
-    background: #f5f7fb;
-    color: #5f6675;
-    font-size: 0.95rem;
-    font-weight: 500;
-    border: 1px solid #e3e8f3;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--product-detail-border, #e3e8f3);
+    border-radius: 7px;
+    background: var(--product-detail-surface-2, #f8fafc);
+    color: var(--product-detail-muted, #475569);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      box-shadow 0.18s ease;
 
-    &--primary {
-      background: linear-gradient(135deg, #eaf4ff 0%, #f8fbff 100%);
-      color: #0b74e5;
-      border-color: #b9d7ff;
+    &:hover,
+    &:focus-visible {
+      border-color: rgba(22, 163, 74, 0.28);
+      background: var(--product-detail-success-soft, rgba(22, 163, 74, 0.12));
+      color: var(--product-detail-success, #16a34a);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14);
+    }
+
+    &--active {
+      border-color: rgba(22, 163, 74, 0.42);
+      background: var(--product-detail-success-soft, rgba(22, 163, 74, 0.12));
+      color: var(--product-detail-success, #16a34a);
+    }
+  }
+
+  .ExploreMoreSection-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 32px;
+    padding: 0 2px;
+    color: var(--product-detail-subtle, #64748b);
+    cursor: default;
+    font-size: 13px;
+    font-weight: 600;
+
+    &::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: var(--product-detail-border-strong, rgba(15, 23, 42, 0.16));
     }
   }
 
   .ExploreMoreSection-skeleton {
     overflow: hidden;
-    border-radius: 16px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid var(--product-detail-border, #e5e7eb);
+    background: var(--product-detail-surface, #ffffff);
     padding: 12px;
     animation: exploreMorePulse 1.5s ease-in-out infinite;
   }
 
   .ExploreMoreSection-skeleton__image {
     aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    background: #e5e7eb;
+    border-radius: 7px;
+    background: var(--product-detail-surface-3, #e5e7eb);
   }
 
   .ExploreMoreSection-skeleton__body {
@@ -66,26 +108,26 @@
   .ExploreMoreSection-empty {
     grid-column: span 4;
     min-height: 380px;
-    border-radius: 16px;
-    border: 1px dashed #cbd5e1;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+    border-radius: 8px;
+    border: 1px dashed var(--product-detail-border-strong, #cbd5e1);
+    background: var(--product-detail-surface, #ffffff);
     padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.1);
+    box-shadow: inset 0 1px 0 var(--product-detail-inset-highlight, rgba(255, 255, 255, 0.72));
   }
 
   .ExploreMoreSection-empty__title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #1f2937;
+    color: var(--product-detail-text, #1f2937);
   }
 
   .ExploreMoreSection-empty__description {
     margin-top: 8px;
     max-width: 440px;
-    color: #667085;
+    color: var(--product-detail-muted, #667085);
     line-height: 1.7;
   }
 }
@@ -111,17 +153,22 @@
 
 @media (max-width: 576px) {
   .ExploreMoreSection-root {
-    margin-top: 32px;
+    margin-top: 12px;
 
     .ExploreMoreSection-highlights {
       gap: 8px;
       padding: 0 12px 12px;
     }
 
-    .ExploreMoreSection-chip {
+    .ExploreMoreSection-filter-button {
       min-height: 34px;
       padding: 0 12px;
       font-size: 0.85rem;
+    }
+
+    .ExploreMoreSection-count-badge {
+      min-height: 28px;
+      flex-basis: 100%;
     }
 
     .ExploreMoreSection-empty {

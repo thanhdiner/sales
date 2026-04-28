@@ -1,0 +1,53 @@
+{
+  "seo": {
+    "title": "Admin - Tool Call Logs"
+  },
+  "page": {
+    "title": "Tool Call Logs",
+    "description": "Track which tools the agent called, the inputs used, and the returned results.",
+    "liveChat": "Live Chat",
+    "reload": "Refresh logs"
+  },
+  "stats": {
+    "totalLogs": "Total logs",
+    "errors": "Errors"
+  },
+  "filters": {
+    "toolPlaceholder": "Filter by tool",
+    "sessionPlaceholder": "Filter by session ID"
+  },
+  "table": {
+    "empty": "No tool call logs yet",
+    "loading": "Loading logs...",
+    "footerSummary": "Showing {{count}} logs - page {{page}}/{{totalPages}} - limit {{limit}} - total {{total}}",
+    "pageLoadErrorMessage": "Unable to load the selected logs page",
+    "pageLoadErrorDescription": "The system is showing the nearest log data it could load. Try refreshing or selecting another page.",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} logs",
+    "headings": {
+      "time": "Time",
+      "tool": "Tool",
+      "session": "Session",
+      "outcome": "Outcome",
+      "duration": "Duration",
+      "input": "Input",
+      "preview": "Preview"
+    },
+    "outcomes": {
+      "success": "Success",
+      "not_found": "Not found",
+      "error": "Error"
+    }
+  },
+  "pagination": {
+    "items_per_page": "/ page",
+    "jump_to": "Go to",
+    "jump_to_confirm": "confirm",
+    "page": "page",
+    "prev_page": "Previous page",
+    "next_page": "Next page",
+    "prev_5": "Previous 5 pages",
+    "next_5": "Next 5 pages",
+    "prev_3": "Previous 3 pages",
+    "next_3": "Next 3 pages"
+  }
+}

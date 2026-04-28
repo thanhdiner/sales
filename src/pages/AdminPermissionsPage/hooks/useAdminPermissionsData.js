@@ -3,7 +3,7 @@ import { message } from 'antd'
 import { deleteAdminPermission, getAdminPermissions } from '@/services/permissionService'
 import { getPermissionErrorMessage } from '../utils'
 
-export function useAdminPermissionsData() {
+export function useAdminPermissionsData({ t = key => key } = {}) {
   const [permissionList, setPermissionList] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -14,29 +14,32 @@ export function useAdminPermissionsData() {
       const res = await getAdminPermissions()
       setPermissionList(res.data || [])
     } catch {
-      message.error('Không thể tải danh sách quyền')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
     fetchPermissions()
   }, [fetchPermissions])
 
-  const handleDeletePermission = async permissionId => {
-    setLoading(true)
+  const handleDeletePermission = useCallback(
+    async permissionId => {
+      setLoading(true)
 
-    try {
-      await deleteAdminPermission(permissionId)
-      message.success('Đã xóa quyền')
-      await fetchPermissions()
-    } catch (error) {
-      message.error(getPermissionErrorMessage(error, 'Không thể xóa quyền'))
-    } finally {
-      setLoading(false)
-    }
-  }
+      try {
+        await deleteAdminPermission(permissionId)
+        message.success(t('messages.deleteSuccess'))
+        await fetchPermissions()
+      } catch (error) {
+        message.error(getPermissionErrorMessage(error, t('messages.deleteError')))
+      } finally {
+        setLoading(false)
+      }
+    },
+    [fetchPermissions, t]
+  )
 
   return {
     permissionList,

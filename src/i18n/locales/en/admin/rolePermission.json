@@ -1,0 +1,32 @@
+{
+  "seo": {
+    "title": "Admin - Role Permissions"
+  },
+  "page": {
+    "title": "Role Permissions",
+    "description": "Manage access permissions for each admin role."
+  },
+  "actions": {
+    "saveChanges": "Save changes"
+  },
+  "rolePicker": {
+    "label": "Select role",
+    "placeholder": "Select a role"
+  },
+  "table": {
+    "columns": {
+      "permission": "Permission"
+    },
+    "selectAll": "Select all",
+    "permissionCount": "{{count}} permissions",
+    "permissionCount_one": "{{count}} permission",
+    "permissionCount_other": "{{count}} permissions",
+    "legend": "Legend",
+    "empty": "No permissions yet"
+  },
+  "messages": {
+    "fetchError": "Unable to load data",
+    "updateSuccess": "Role permissions updated successfully!",
+    "updateError": "Unable to save role permissions"
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "seo": {
+    "title": "Contact",
+    "description": "Contact SmartMall via Zalo, Facebook, or email. Fast support and dedicated advice during business hours and beyond."
+  },
+  "highlightsSection": {
+    "eyebrow": "Highlights",
+    "title": "Why customers choose to contact us directly",
+    "description": "Core support commitments that make consultation, order handling, and information responses faster and clearer.",
+    "items": {
+      "responseTime": "Response time",
+      "security": "Information security",
+      "support": "Dedicated support"
+    }
+  },
+  "sellers": {
+    "roles": {
+      "software": "Licensed software specialist",
+      "support": "Order consultation & support"
+    },
+    "actions": {
+      "zalo": "Message on Zalo",
+      "facebook": "Chat on Facebook",
+      "email": "Send email"
+    },
+    "note": "Prefer contacting us through Zalo or Facebook for a faster response."
+  },
+  "workingHours": {
+    "weekday": "Monday - Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "faqs": {
+    "order": {
+      "question": "How can I place an order?",
+      "answer": "You can contact us through Facebook, Zalo, or email. We will provide consultation and detailed guidance."
+    },
+    "payment": {
+      "question": "How do I pay?",
+      "answer": "We support bank transfer and several popular e-wallets."
+    },
+    "delivery": {
+      "question": "How long does delivery take?",
+      "answer": "Usually within the same day, up to 24 hours. For software accounts, processing is often faster."
+    },
+    "warranty": {
+      "question": "Is there a warranty?",
+      "answer": "Warranty availability depends on each product. If available, the warranty period and conditions will be clearly stated in the product description."
+    }
+  },
+  "contactMethodsSection": {
+    "eyebrow": "Direct connection",
+    "title": "Contact SmartMall",
+    "description": "Choose the right channel for product consultation, order support, or questions before buying."
+  },
+  "ctaSection": {
+    "eyebrow": "Need more help?",
+    "title": "Haven’t found the information you need?",
+    "description": "Message me if you are not sure what to choose. I will try to give quick advice so you can find the right product.",
+    "chatButton": "Chat with an advisor",
+    "productsButton": "View featured products"
+  },
+  "faqHelpCard": {
+    "eyebrow": "Need more help?",
+    "title": "Still haven’t found the answer?",
+    "description": "Send us your information through Zalo or email, and our support team will reply as soon as possible.",
+    "zaloButton": "Chat via Zalo",
+    "emailButton": "Send email",
+    "tip": "Tip: Describe your needs clearly and include your order code, if available, for faster support."
+  },
+  "faqSection": {
+    "eyebrow": "Frequently asked questions",
+    "title": "Help center",
+    "description": "Some common questions have been collected so you can quickly check them before contacting us directly."
+  },
+  "formScheduleSection": {
+    "eyebrow": "Send a request",
+    "title": "Send information quickly and get support at the right time",
+    "description": "You can send a request directly through the form or check our working hours to receive a faster response."
+  },
+  "heroSection": {
+    "eyebrow": "Contact support",
+    "titleLine1": "Need help?",
+    "titleLine2": "We’re always ready.",
+    "description": "Message SmartMall when you need product advice, order support, or want to check information before buying.",
+    "zaloButton": "Message on Zalo",
+    "emailButton": "Send email",
+    "topics": {
+      "productAdvice": "Product advice",
+      "orderSupport": "Order support",
+      "quickResponse": "Quick response"
+    },
+    "visual": {
+      "imageAlt": "SmartMall customer support",
+      "badge": "1:1 support from SmartMall",
+      "eyebrow": "Transparent response",
+      "description": "Clear consultation, quick checks, and support before you buy.",
+      "button": "Contact now"
+    }
+  },
+  "workingHoursCard": {
+    "title": "Working hours",
+    "description": "Support and customer response hours.",
+    "noteTitle": "Response note",
+    "noteDescription": "Outside business hours, we still check messages periodically and prioritize urgent requests.",
+    "zaloButton": "Message on Zalo",
+    "emailButton": "Send email"
+  },
+  "cooperationPage": {
+    "seo": {
+      "title": "Business cooperation",
+      "description": "Contact SmartMall for business cooperation and product distribution."
+    },
+    "eyebrow": "Cooperation",
+    "title": "Cooperation contact",
+    "description": "Would you like to cooperate on business, advertising, product distribution, or become a partner? We are always ready to listen to your proposal and grow together.",
+    "emailLabel": "Email",
+    "phoneLabel": "Hotline / Zalo",
+    "note": "Or send your cooperation proposal by email to receive a response within 24–48 hours."
+  },
+  "contactForm": {
+    "subjects": {
+      "product": "Product question",
+      "order": "Place an order",
+      "support": "Technical support",
+      "partnership": "Partnership",
+      "other": "Other"
+    },
+    "validation": {
+      "required": "Please enter your email, subject, and message!"
+    },
+    "message": {
+      "success": "Your message has been sent successfully!",
+      "error": "Something went wrong. Please try again later!"
+    },
+    "title": "Send a message to the shop",
+    "description": "Fill in the information below and the shop will reply as soon as possible.",
+    "successTitle": "Thank you!",
+    "successDescription": "Your message has been sent successfully. I will reply as soon as possible!",
+    "fields": {
+      "name": "Your name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message..."
+    },
+    "submit": "Send message",
+    "submitting": "Sending..."
+  }
+}

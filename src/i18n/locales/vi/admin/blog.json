@@ -1,0 +1,106 @@
+{
+  "seo": {
+    "title": "Admin - Blog / tin tức"
+  },
+  "page": {
+    "eyebrow": "Nội dung",
+    "title": "Quản lý Blog / tin tức",
+    "description": "Tạo và cập nhật bài viết hiển thị ở trang /blog. Mỗi bài có nội dung tiếng Việt và bản dịch tiếng Anh tùy chọn.",
+    "createButton": "Thêm bài viết",
+    "previewButton": "Xem trang blog"
+  },
+  "stats": {
+    "total": "Tổng bài",
+    "published": "Đã xuất bản",
+    "draft": "Bản nháp",
+    "featured": "Nổi bật"
+  },
+  "filters": {
+    "keyword": "Tìm theo tiêu đề, slug, nội dung",
+    "status": "Trạng thái",
+    "category": "Danh mục",
+    "reset": "Đặt lại"
+  },
+  "status": {
+    "draft": "Bản nháp",
+    "published": "Đã xuất bản"
+  },
+  "table": {
+    "columns": {
+      "post": "Bài viết",
+      "category": "Danh mục",
+      "status": "Trạng thái",
+      "featured": "Nổi bật",
+      "publishedAt": "Ngày đăng",
+      "actions": "Thao tác"
+    },
+    "featured": "Nổi bật",
+    "normal": "Thường",
+    "emptyValue": "Chưa có",
+    "notPublished": "Chưa đăng",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} bài viết",
+    "actions": {
+      "edit": "Sửa bài viết",
+      "delete": "Xóa bài viết"
+    }
+  },
+  "form": {
+    "createTitle": "Thêm bài viết",
+    "editTitle": "Sửa bài viết",
+    "createSubmit": "Tạo bài viết",
+    "saveSubmit": "Lưu thay đổi",
+    "cancel": "Hủy",
+    "tabs": {
+      "vi": "Tiếng Việt",
+      "en": "Tiếng Anh"
+    },
+    "title": "Tiêu đề",
+    "titleRequired": "Nhập tiêu đề bài viết",
+    "titlePlaceholder": "Ví dụ: Cách chọn tài khoản game phù hợp",
+    "slug": "Slug",
+    "slugHint": "Để trống khi tạo mới để hệ thống tự sinh từ tiêu đề.",
+    "slugPlaceholder": "cach-chon-tai-khoan-game",
+    "excerpt": "Tóm tắt",
+    "excerptPlaceholder": "Đoạn mô tả ngắn hiển thị trong danh sách blog",
+    "content": "Nội dung",
+    "contentPlaceholder": "Nhập nội dung bài viết",
+    "category": "Danh mục",
+    "categoryPlaceholder": "Tin tức, hướng dẫn, cập nhật...",
+    "tags": "Thẻ",
+    "tagsPlaceholder": "Nhập thẻ rồi Enter",
+    "status": "Trạng thái",
+    "publishedAt": "Ngày đăng",
+    "featured": "Đánh dấu nổi bật",
+    "thumbnail": "Ảnh đại diện",
+    "uploadThumbnail": "Tải ảnh",
+    "translations": {
+      "title": "Tiêu đề (EN)",
+      "titlePlaceholder": "English title",
+      "excerpt": "Tóm tắt (EN)",
+      "excerptPlaceholder": "English excerpt",
+      "content": "Nội dung (EN)",
+      "contentPlaceholder": "English content",
+      "category": "Danh mục (EN)",
+      "categoryPlaceholder": "English category",
+      "tags": "Thẻ (EN)",
+      "tagsPlaceholder": "Enter tags"
+    }
+  },
+  "confirm": {
+    "deleteTitle": "Xóa bài viết này?",
+    "deleteContent": "Bài viết \"{{title}}\" sẽ không còn hiển thị ở trang blog.",
+    "deleteOk": "Xóa",
+    "cancel": "Hủy"
+  },
+  "messages": {
+    "fetchError": "Không tải được danh sách bài viết",
+    "createSuccess": "Đã tạo bài viết",
+    "updateSuccess": "Đã cập nhật bài viết",
+    "deleteSuccess": "Đã xóa bài viết",
+    "deleteError": "Xóa bài viết thất bại",
+    "saveError": "Không lưu được bài viết",
+    "slugExists": "Slug đã tồn tại. Có thể dùng: {{slug}}",
+    "imageOnly": "Chỉ được tải lên file ảnh",
+    "imageTooLarge": "Ảnh phải nhỏ hơn {{size}}MB"
+  }
+}

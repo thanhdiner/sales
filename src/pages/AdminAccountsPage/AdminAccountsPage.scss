@@ -6,74 +6,59 @@
   color: var(--admin-text);
 }
 
-.admin-accounts-table-content .ant-table,
-.admin-accounts-table-content .ant-table-container,
-.admin-accounts-table-content .ant-table-content,
-.admin-accounts-table-content .ant-table-cell {
-  background: transparent !important;
-  color: var(--admin-text) !important;
+.admin-accounts-table {
+  color: var(--admin-text);
 }
 
-.admin-accounts-table-content .ant-table-thead > tr > th {
-  background: var(--admin-surface-2) !important;
-  border-bottom: 1px solid var(--admin-border) !important;
-  color: var(--admin-text-muted) !important;
-  font-weight: 600 !important;
+.admin-accounts-table-grid {
+  grid-template-columns: minmax(180px, 1.12fr) minmax(210px, 1.2fr) minmax(150px, 0.9fr) 120px 120px;
+  align-items: center;
+  gap: 16px;
 }
 
-.admin-accounts-table-content .ant-table-tbody > tr > td {
-  border-bottom: 1px solid var(--admin-border) !important;
-}
-
-.admin-accounts-table-content .ant-table-tbody > tr.ant-table-row:hover > td,
-.admin-accounts-table-content .ant-table-tbody > tr > td.ant-table-cell-row-hover {
-  background: var(--admin-surface-2) !important;
-}
-
-.admin-accounts-table-content .ant-empty-description {
-  color: var(--admin-text-muted) !important;
-}
-
-.admin-accounts-table-content .ant-pagination {
+.admin-accounts-table-head {
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-surface-2);
+  padding: 14px 18px;
   color: var(--admin-text-muted);
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-item {
-  border-color: var(--admin-border) !important;
-  background: var(--admin-surface-2) !important;
+.admin-accounts-row {
+  min-height: 64px;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 12px 18px;
+  transition: background-color 0.2s ease;
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-item a {
-  color: var(--admin-text-muted) !important;
+.admin-accounts-row:last-child {
+  border-bottom: 0;
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-item-active {
-  border-color: var(--admin-accent) !important;
-  background: var(--admin-accent) !important;
+.admin-accounts-row:hover {
+  background: var(--admin-surface-2);
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-item-active a {
-  color: #f4f5f8 !important;
+.admin-accounts-card {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-.admin-accounts-table-content .ant-pagination .ant-pagination-next .ant-pagination-item-link {
-  border-color: var(--admin-border) !important;
-  background: var(--admin-surface-2) !important;
-  color: var(--admin-text-muted) !important;
+.admin-accounts-card:hover {
+  border-color: var(--admin-border-strong);
+  background: var(--admin-surface-3);
 }
 
-.admin-accounts-table-content .ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
-.admin-accounts-table-content .ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
-  border-color: var(--admin-border-strong) !important;
-  background: var(--admin-surface-3) !important;
-  color: var(--admin-text) !important;
+.admin-accounts-status-select {
+  width: 96px;
 }
 
 .admin-accounts-status-select .ant-select-selector {
   border-color: var(--admin-border) !important;
   background: var(--admin-surface-2) !important;
   color: var(--admin-text) !important;
+  min-height: 30px !important;
+  border-radius: 6px !important;
 }
 
 .admin-accounts-status-select.ant-select-focused .ant-select-selector,
@@ -83,7 +68,186 @@
 }
 
 .admin-accounts-action-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 7px !important;
   box-shadow: none !important;
+}
+
+.admin-accounts-actions--compact {
+  gap: 6px;
+}
+
+.admin-accounts-actions--compact .admin-accounts-action-btn.ant-btn {
+  width: 32px;
+  height: 32px;
+}
+
+.admin-accounts-more-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px !important;
+  box-shadow: none !important;
+}
+
+.admin-accounts-actions-popover .ant-popover-inner {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-accounts-actions-popover .ant-popover-inner-content {
+  padding: 8px !important;
+}
+
+.admin-accounts-pagination.ant-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  border-top: 1px solid var(--admin-border);
+  padding: 12px 16px;
+  color: var(--admin-text-muted);
+}
+
+.admin-accounts-pagination .ant-pagination-total-text {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-pagination .ant-pagination-item {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+}
+
+.admin-accounts-pagination .ant-pagination-item a {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-pagination .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+}
+
+.admin-accounts-pagination .ant-pagination-item-active a {
+  color: #f4f5f8 !important;
+}
+
+.admin-accounts-pagination .ant-pagination-prev .ant-pagination-item-link,
+.admin-accounts-pagination .ant-pagination-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
+.admin-accounts-pagination .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-accounts-pagination .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .admin-accounts-table-grid {
+    grid-template-columns: minmax(0, 1.16fr) minmax(0, 1.26fr) minmax(0, 0.86fr) 88px 34px;
+    gap: 10px;
+  }
+
+  .admin-accounts-table-head {
+    padding: 11px 12px;
+    font-size: 11px;
+  }
+
+  .admin-accounts-row {
+    min-height: 58px;
+    padding: 10px 12px;
+  }
+
+  .admin-accounts-row .ant-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+  }
+
+  .admin-accounts-row .admin-accounts-email,
+  .admin-accounts-row .admin-accounts-role {
+    font-size: 12px;
+  }
+
+  .admin-accounts-action-title {
+    visibility: hidden;
+  }
+
+  .admin-accounts-status-select {
+    width: 86px;
+  }
+
+  .admin-accounts-status-select .ant-select-selector {
+    min-height: 28px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-accounts-page {
+    border-radius: 10px;
+  }
+
+  .admin-accounts-table {
+    border-radius: 8px;
+  }
+
+  .admin-accounts-card .ant-avatar {
+    width: 34px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+  }
+
+  .admin-accounts-status-select {
+    width: 92px;
+  }
+
+  .admin-accounts-actions--compact .admin-accounts-action-btn.ant-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .admin-accounts-pagination.ant-pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  .admin-accounts-pagination .ant-pagination-total-text {
+    order: -1;
+    width: 100%;
+    margin-right: 0 !important;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .admin-accounts-pagination .ant-pagination-options {
+    display: none !important;
+  }
+
+  .admin-accounts-pagination .ant-pagination-item,
+  .admin-accounts-pagination .ant-pagination-prev,
+  .admin-accounts-pagination .ant-pagination-next {
+    min-width: 30px;
+    height: 30px;
+    line-height: 28px;
+  }
 }
 
 .admin-accounts-modal .ant-modal-content {
@@ -151,6 +315,21 @@
 .admin-accounts-modal .ant-modal-body .ant-input-password-icon,
 .admin-accounts-modal .ant-modal-body .ant-select-arrow {
   color: var(--admin-text-muted) !important;
+}
+
+.admin-accounts-form__translation-section {
+  margin-bottom: 20px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+}
+
+.admin-accounts-form__translation-title {
+  margin: 0 0 12px;
+  color: var(--admin-text);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .admin-accounts-modal .ant-modal-body input:-webkit-autofill,

@@ -15,6 +15,7 @@ import {
   Trash2
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 import {
@@ -58,6 +59,8 @@ const TWO_FACTOR_PARAM_BY_STEP = {
   3: 'verify'
 }
 
+const getSettingsLocale = language => (String(language || '').startsWith('en') ? 'en-US' : 'vi-VN')
+
 function getSetupStepFromParams(searchParams) {
   if (searchParams.get('twofa') !== 'setup') {
     return 0
@@ -67,6 +70,8 @@ function getSetupStepFromParams(searchParams) {
 }
 
 const TwoFactorAuthPanel = () => {
+  const { t, i18n } = useTranslation('adminSettings')
+  const locale = getSettingsLocale(i18n.language)
   const [searchParams, setSearchParams] = useSearchParams()
   const [enabled, setEnabled] = useState(false)
   const [setupStep, setSetupStep] = useState(() => getSetupStepFromParams(searchParams))
@@ -128,7 +133,7 @@ const TwoFactorAuthPanel = () => {
         }))
         setTrustedDevices(devices)
       } catch (err) {
-        message.error('Không thể lấy trạng thái 2FA')
+        message.error(t('security.twofa.messages.statusError'))
       } finally {
         setLoading(false)
         setStatusLoaded(true)
@@ -136,7 +141,7 @@ const TwoFactorAuthPanel = () => {
     }
 
     check2FAStatus()
-  }, [updateSetupParams])
+  }, [t, updateSetupParams])
 
   const generateSecret = useCallback(async () => {
     setLoading(true)
@@ -146,12 +151,12 @@ const TwoFactorAuthPanel = () => {
       setQrUrl(data.qrUrl)
       return true
     } catch (err) {
-      message.error('Không thể tạo mã xác thực')
+      message.error(t('security.twofa.messages.secretError'))
       return false
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
     if (!statusLoaded || setupStep <= 0 || enabled || qrSecret || loading) {
@@ -169,10 +174,10 @@ const TwoFactorAuthPanel = () => {
     }
 
     Modal.confirm({
-      title: 'Tắt xác thực 2 bước',
-      content: 'Bạn có chắc chắn muốn tắt 2FA? Điều này sẽ làm giảm mức bảo mật của tài khoản quản trị.',
-      okText: 'Tắt 2FA',
-      cancelText: 'Hủy',
+      title: t('security.twofa.modals.disable.title'),
+      content: t('security.twofa.modals.disable.content'),
+      okText: t('security.twofa.modals.disable.ok'),
+      cancelText: t('security.twofa.modals.disable.cancel'),
       okType: 'danger',
       onOk: async () => {
         setLoading(true)
@@ -183,9 +188,9 @@ const TwoFactorAuthPanel = () => {
           setBackupCodes([])
           setQrSecret('')
           setQrUrl('')
-          message.success('Đã tắt xác thực 2 bước')
+          message.success(t('security.twofa.messages.disabledSuccess'))
         } catch (err) {
-          message.error('Không thể tắt xác thực 2FA')
+          message.error(t('security.twofa.messages.disableError'))
         } finally {
           setLoading(false)
         }
@@ -195,7 +200,7 @@ const TwoFactorAuthPanel = () => {
 
   const handleVerifyCode = async () => {
     if (verificationCode.length !== 6) {
-      message.error('Vui lòng nhập đầy đủ 6 chữ số')
+      message.error(t('security.twofa.messages.incompleteCode'))
       return
     }
 
@@ -210,12 +215,12 @@ const TwoFactorAuthPanel = () => {
         setVerificationCode('')
         setQrSecret('')
         setQrUrl('')
-        message.success('Xác thực 2 bước đã được thiết lập thành công')
+        message.success(t('security.twofa.messages.setupSuccess'))
       } else {
-        message.error(data.message || 'Mã xác thực không hợp lệ')
+        message.error(data.message || t('security.twofa.messages.invalidCode'))
       }
     } catch (err) {
-      message.error('Không thể xác thực 2FA')
+      message.error(t('security.twofa.messages.verifyError'))
     } finally {
       setLoading(false)
     }
@@ -223,19 +228,19 @@ const TwoFactorAuthPanel = () => {
 
   const regenerateBackupCodes = () => {
     Modal.confirm({
-      title: 'Tạo mã dự phòng mới',
-      content: 'Các mã cũ sẽ không còn hiệu lực. Bạn có chắc chắn muốn tạo bộ mã mới?',
-      okText: 'Tạo mới',
-      cancelText: 'Hủy',
+      title: t('security.twofa.modals.regenerate.title'),
+      content: t('security.twofa.modals.regenerate.content'),
+      okText: t('security.twofa.modals.regenerate.ok'),
+      cancelText: t('security.twofa.modals.regenerate.cancel'),
       onOk: async () => {
         setLoading(true)
         try {
           const data = await getBackupCodes()
           setBackupCodes(data.codes || [])
           setShowBackupModal(true)
-          message.success('Đã tạo mã dự phòng mới')
+          message.success(t('security.twofa.messages.backupRegenerated'))
         } catch (err) {
-          message.error('Không thể tạo mã dự phòng mới')
+          message.error(t('security.twofa.messages.backupRegenerateError'))
         } finally {
           setLoading(false)
         }
@@ -246,7 +251,7 @@ const TwoFactorAuthPanel = () => {
   const copyToClipboard = async text => {
     try {
       await navigator.clipboard.writeText(text)
-      message.success('Đã sao chép vào clipboard')
+      message.success(t('security.twofa.messages.copied'))
     } catch (err) {
       const textArea = document.createElement('textarea')
       textArea.value = text
@@ -254,7 +259,7 @@ const TwoFactorAuthPanel = () => {
       textArea.select()
       document.execCommand('copy')
       document.body.removeChild(textArea)
-      message.success('Đã sao chép vào clipboard')
+      message.success(t('security.twofa.messages.copied'))
     }
   }
 
@@ -263,9 +268,10 @@ const TwoFactorAuthPanel = () => {
   }
 
   const downloadBackupCodes = () => {
-    const content = `Mã dự phòng xác thực 2 bước - SmartMall Admin\nTạo ngày: ${new Date().toLocaleDateString('vi-VN')}\n\n${backupCodes.join(
+    const createdDate = new Date().toLocaleDateString(locale)
+    const content = `${t('security.twofa.backupFile.title')}\n${t('security.twofa.backupFile.createdAt', { date: createdDate })}\n\n${backupCodes.join(
       '\n'
-    )}\n\nLưu ý: Mỗi mã chỉ sử dụng được một lần. Hãy lưu ở nơi an toàn.`
+    )}\n\n${t('security.twofa.backupFile.note')}`
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -275,24 +281,24 @@ const TwoFactorAuthPanel = () => {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    message.success('Đã tải xuống mã dự phòng')
+    message.success(t('security.twofa.messages.downloaded'))
   }
 
   const removeDevice = deviceId => {
     Modal.confirm({
-      title: 'Xóa thiết bị tin cậy',
-      content: 'Thiết bị này sẽ cần xác thực lại khi đăng nhập lần tiếp theo.',
-      okText: 'Xóa',
-      cancelText: 'Hủy',
+      title: t('security.twofa.modals.removeDevice.title'),
+      content: t('security.twofa.modals.removeDevice.content'),
+      okText: t('security.twofa.modals.removeDevice.ok'),
+      cancelText: t('security.twofa.modals.removeDevice.cancel'),
       okType: 'danger',
       onOk: async () => {
         setLoading(true)
         try {
           await removeTrustedDevice(deviceId)
           setTrustedDevices(prev => prev.filter(device => device.deviceId !== deviceId))
-          message.success('Đã xóa thiết bị khỏi danh sách tin cậy')
+          message.success(t('security.twofa.messages.removeDeviceSuccess'))
         } catch (err) {
-          message.error('Không thể xóa thiết bị')
+          message.error(t('security.twofa.messages.removeDeviceError'))
         } finally {
           setLoading(false)
         }
@@ -302,18 +308,20 @@ const TwoFactorAuthPanel = () => {
 
   const setupSteps = [
     {
-      title: 'Tải ứng dụng',
-      description: 'Cài Google Authenticator hoặc ứng dụng 2FA tương thích.'
+      title: t('security.twofa.setup.steps.app.title'),
+      description: t('security.twofa.setup.steps.app.description')
     },
     {
-      title: 'Quét mã QR',
-      description: 'Thêm tài khoản quản trị vào ứng dụng xác thực.'
+      title: t('security.twofa.setup.steps.qr.title'),
+      description: t('security.twofa.setup.steps.qr.description')
     },
     {
-      title: 'Xác thực',
-      description: 'Nhập mã 6 chữ số để hoàn tất.'
+      title: t('security.twofa.setup.steps.verify.title'),
+      description: t('security.twofa.setup.steps.verify.description')
     }
   ]
+  const translatedSecurityTips = t('security.twofa.tips.items', { returnObjects: true })
+  const securityTipItems = Array.isArray(translatedSecurityTips) ? translatedSecurityTips : []
 
   if (setupStep > 0) {
     return (
@@ -323,9 +331,9 @@ const TwoFactorAuthPanel = () => {
             <QrCode className="h-4 w-4" />
           </div>
           <div>
-            <h2 className="text-base font-semibold text-[var(--admin-text)]">Thiết lập xác thực 2 bước</h2>
+            <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('security.twofa.setup.title')}</h2>
             <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
-              Hoàn tất các bước bên dưới để bật 2FA cho tài khoản quản trị.
+              {t('security.twofa.setup.description')}
             </p>
           </div>
         </div>
@@ -337,8 +345,8 @@ const TwoFactorAuthPanel = () => {
             <Alert
               type="info"
               showIcon
-              message="Bước 1: Tải ứng dụng Authenticator"
-              description="Bạn cần một ứng dụng xác thực để tạo mã đăng nhập. Chọn một ứng dụng bên dưới hoặc dùng ứng dụng 2FA bạn đang có."
+              message={t('security.twofa.setup.appStep.message')}
+              description={t('security.twofa.setup.appStep.description')}
               className={infoAlertClass}
             />
 
@@ -369,7 +377,7 @@ const TwoFactorAuthPanel = () => {
 
             <div className="mt-5 flex justify-end">
               <Button type="primary" onClick={() => setSetupStepWithParams(2)} className={primaryButtonClass}>
-                Tiếp tục
+                {t('security.twofa.setup.appStep.continue')}
               </Button>
             </div>
           </div>
@@ -380,8 +388,8 @@ const TwoFactorAuthPanel = () => {
             <Alert
               type="info"
               showIcon
-              message="Bước 2: Quét mã QR"
-              description="Mở ứng dụng authenticator và quét mã QR để thêm tài khoản."
+              message={t('security.twofa.setup.qrStep.message')}
+              description={t('security.twofa.setup.qrStep.description')}
               className={infoAlertClass}
             />
 
@@ -390,26 +398,26 @@ const TwoFactorAuthPanel = () => {
                 {qrUrl ? <img src={qrUrl} alt="QR Code" className="h-[180px] w-[180px]" /> : <Spin />}
               </div>
               <div>
-                <p className="text-sm font-medium text-[var(--admin-text)]">Không quét được mã?</p>
+                <p className="text-sm font-medium text-[var(--admin-text)]">{t('security.twofa.setup.qrStep.manualTitle')}</p>
                 <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
-                  Nhập thủ công secret key bên dưới vào ứng dụng xác thực.
+                  {t('security.twofa.setup.qrStep.manualDescription')}
                 </p>
                 <button
                   type="button"
                   onClick={() => copyToClipboard(qrSecret)}
                   className="mt-3 block w-full rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-left font-mono text-xs text-[var(--admin-text)] transition hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-accent-soft)]"
                 >
-                  {qrSecret || 'Đang tạo secret key...'}
+                  {qrSecret || t('security.twofa.setup.qrStep.generatingSecret')}
                 </button>
               </div>
             </div>
 
             <div className="mt-5 flex justify-end gap-2">
               <Button onClick={() => setSetupStepWithParams(1)} className={secondaryButtonClass}>
-                Quay lại
+                {t('security.twofa.setup.qrStep.back')}
               </Button>
               <Button type="primary" onClick={() => setSetupStepWithParams(3)} className={primaryButtonClass}>
-                Đã quét xong
+                {t('security.twofa.setup.qrStep.scanned')}
               </Button>
             </div>
           </div>
@@ -420,8 +428,8 @@ const TwoFactorAuthPanel = () => {
             <Alert
               type="info"
               showIcon
-              message="Bước 3: Xác thực"
-              description="Nhập mã 6 chữ số đang hiển thị trong ứng dụng authenticator."
+              message={t('security.twofa.setup.verifyStep.message')}
+              description={t('security.twofa.setup.verifyStep.description')}
               className={infoAlertClass}
             />
 
@@ -438,7 +446,7 @@ const TwoFactorAuthPanel = () => {
 
               <div className="mt-5 flex justify-end gap-2">
                 <Button onClick={() => setSetupStepWithParams(2)} disabled={loading} className={secondaryButtonClass}>
-                  Quay lại
+                  {t('security.twofa.setup.verifyStep.back')}
                 </Button>
                 <Button
                   type="primary"
@@ -447,7 +455,7 @@ const TwoFactorAuthPanel = () => {
                   loading={loading}
                   className={primaryButtonClass}
                 >
-                  Hoàn tất thiết lập
+                  {t('security.twofa.setup.verifyStep.finish')}
                 </Button>
               </div>
             </Form>
@@ -466,7 +474,7 @@ const TwoFactorAuthPanel = () => {
             disabled={loading}
             className={textButtonClass}
           >
-            Hủy thiết lập
+            {t('security.twofa.setup.cancel')}
           </Button>
         </div>
       </section>
@@ -477,7 +485,7 @@ const TwoFactorAuthPanel = () => {
     return (
       <section className={`${panelClass} flex min-h-[240px] flex-col items-center justify-center text-center`}>
         <Spin size="large" />
-        <p className="mt-3 text-sm text-[var(--admin-text-muted)]">Đang kiểm tra trạng thái bảo mật...</p>
+        <p className="mt-3 text-sm text-[var(--admin-text-muted)]">{t('security.twofa.setup.checking')}</p>
       </section>
     )
   }
@@ -491,9 +499,9 @@ const TwoFactorAuthPanel = () => {
               <ShieldCheck className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-[var(--admin-text)]">Xác thực 2 bước</h2>
+              <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('security.twofa.main.title')}</h2>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--admin-text-muted)]">
-                Bật 2FA để yêu cầu mã xác thực từ điện thoại khi đăng nhập vào khu vực quản trị.
+                {t('security.twofa.main.description')}
               </p>
 
               <div className={`mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
@@ -503,7 +511,7 @@ const TwoFactorAuthPanel = () => {
               }`}
               >
                 {enabled ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertTriangle className="h-3.5 w-3.5" />}
-                {enabled ? 'Đang bật' : 'Đang tắt'}
+                {enabled ? t('security.twofa.main.enabled') : t('security.twofa.main.disabled')}
               </div>
             </div>
           </div>
@@ -522,9 +530,9 @@ const TwoFactorAuthPanel = () => {
                     <KeyRound className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-[var(--admin-text)]">Mã dự phòng</h3>
+                    <h3 className="text-sm font-semibold text-[var(--admin-text)]">{t('security.twofa.backup.title')}</h3>
                     <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
-                      Dùng khi bạn không còn thiết bị authenticator.
+                      {t('security.twofa.backup.description')}
                     </p>
                   </div>
                 </div>
@@ -534,13 +542,13 @@ const TwoFactorAuthPanel = () => {
                   onClick={regenerateBackupCodes}
                   className={textButtonClass}
                 >
-                  Tạo mới
+                  {t('security.twofa.backup.regenerate')}
                 </Button>
               </div>
 
               <div className={softPanelClass}>
                 <p className="text-sm text-[var(--admin-text-muted)]">
-                  Còn <span className="font-semibold text-[var(--admin-text)]">{backupCodes.length}</span> mã dự phòng khả dụng.
+                  {t('security.twofa.backup.remaining', { count: backupCodes.length })}
                 </p>
 
                 {showBackupCodes && backupCodes.length > 0 && (
@@ -554,7 +562,7 @@ const TwoFactorAuthPanel = () => {
                       </code>
                     ))}
                     {backupCodes.length > 3 && (
-                      <span className="text-xs text-[var(--admin-text-subtle)]">+{backupCodes.length - 3} mã khác</span>
+                      <span className="text-xs text-[var(--admin-text-subtle)]">{t('security.twofa.backup.more', { count: backupCodes.length - 3 })}</span>
                     )}
                   </div>
                 )}
@@ -567,7 +575,7 @@ const TwoFactorAuthPanel = () => {
                   disabled={backupCodes.length === 0}
                   className={secondaryButtonClass}
                 >
-                  {showBackupCodes ? 'Ẩn' : 'Hiện'}
+                  {showBackupCodes ? t('security.twofa.backup.hide') : t('security.twofa.backup.show')}
                 </Button>
                 <Button
                   icon={<Copy className="h-4 w-4" />}
@@ -575,7 +583,7 @@ const TwoFactorAuthPanel = () => {
                   disabled={backupCodes.length === 0}
                   className={secondaryButtonClass}
                 >
-                  Sao chép
+                  {t('security.twofa.backup.copy')}
                 </Button>
                 <Button
                   type="primary"
@@ -584,7 +592,7 @@ const TwoFactorAuthPanel = () => {
                   disabled={backupCodes.length === 0}
                   className={ghostButtonClass}
                 >
-                  Chi tiết
+                  {t('security.twofa.backup.details')}
                 </Button>
               </div>
             </div>
@@ -595,16 +603,16 @@ const TwoFactorAuthPanel = () => {
                   <MonitorSmartphone className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-[var(--admin-text)]">Thiết bị tin cậy</h3>
+                  <h3 className="text-sm font-semibold text-[var(--admin-text)]">{t('security.twofa.devices.title')}</h3>
                   <p className="mt-1 text-sm text-[var(--admin-text-muted)]">
-                    {trustedDevices.length} thiết bị đã được ghi nhớ sau khi xác thực.
+                    {t('security.twofa.devices.description', { count: trustedDevices.length })}
                   </p>
                 </div>
               </div>
 
               <List
                 dataSource={trustedDevices}
-                locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có thiết bị tin cậy" /> }}
+                locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('security.twofa.devices.empty')} /> }}
                 renderItem={device => (
                   <List.Item
                     className="rounded-lg px-2 transition hover:bg-[var(--admin-surface-2)]"
@@ -618,7 +626,7 @@ const TwoFactorAuthPanel = () => {
                           onClick={() => removeDevice(device.deviceId)}
                           className="rounded-lg"
                         >
-                          Xóa
+                          {t('security.twofa.devices.remove')}
                         </Button>
                       )
                     ].filter(Boolean)}
@@ -626,14 +634,18 @@ const TwoFactorAuthPanel = () => {
                     <List.Item.Meta
                       title={
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-medium text-[var(--admin-text)]">{device.name || 'Thiết bị'}</span>
-                          {device.current && <Tag color="green">Hiện tại</Tag>}
+                          <span className="font-medium text-[var(--admin-text)]">{device.name || t('security.twofa.devices.fallback')}</span>
+                          {device.current && <Tag color="green">{t('security.twofa.devices.current')}</Tag>}
                         </div>
                       }
                       description={
                         <div className="space-y-1 text-xs text-[var(--admin-text-muted)]">
-                          <div className="line-clamp-1">{device.browser || 'Không rõ trình duyệt'}</div>
-                          <div>Lần cuối: {device.lastUsed ? new Date(device.lastUsed).toLocaleString('vi-VN') : 'Chưa có dữ liệu'}</div>
+                          <div className="line-clamp-1">{device.browser || t('security.twofa.devices.unknownBrowser')}</div>
+                          <div>
+                            {t('security.twofa.devices.lastUsed', {
+                              time: device.lastUsed ? new Date(device.lastUsed).toLocaleString(locale) : t('security.twofa.devices.noData')
+                            })}
+                          </div>
                         </div>
                       }
                     />
@@ -647,12 +659,12 @@ const TwoFactorAuthPanel = () => {
             <Alert
               type="info"
               showIcon
-              message="Lời khuyên bảo mật"
+              message={t('security.twofa.tips.title')}
               description={
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
-                  <li>Lưu mã dự phòng ở nơi an toàn, tách biệt với thiết bị chính.</li>
-                  <li>Không chia sẻ mã xác thực hoặc mã dự phòng với bất kỳ ai.</li>
-                  <li>Định kỳ kiểm tra và xóa các thiết bị không còn sử dụng.</li>
+                  {securityTipItems.map(item => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               }
               className={infoAlertClass}
@@ -663,27 +675,27 @@ const TwoFactorAuthPanel = () => {
 
       <Modal
         className="admin-twofa-modal"
-        title="Mã dự phòng xác thực 2 bước"
+        title={t('security.twofa.backupModal.title')}
         open={showBackupModal}
         onCancel={() => setShowBackupModal(false)}
         width={620}
         footer={[
           <Button key="copy" icon={<Copy className="h-4 w-4" />} onClick={copyBackupCodes} className={secondaryButtonClass}>
-            Sao chép tất cả
+            {t('security.twofa.backupModal.copyAll')}
           </Button>,
           <Button key="download" icon={<Download className="h-4 w-4" />} onClick={downloadBackupCodes} className={secondaryButtonClass}>
-            Tải xuống file
+            {t('security.twofa.backupModal.downloadFile')}
           </Button>,
           <Button key="close" type="primary" onClick={() => setShowBackupModal(false)} className={primaryButtonClass}>
-            Đã lưu an toàn
+            {t('security.twofa.backupModal.saved')}
           </Button>
         ]}
       >
         <Alert
           type="warning"
           showIcon
-          message="Lưu ý quan trọng"
-          description="Hãy lưu những mã này ở nơi an toàn. Mỗi mã chỉ có thể sử dụng một lần."
+          message={t('security.twofa.backupModal.warningTitle')}
+          description={t('security.twofa.backupModal.warningDescription')}
           className={warningAlertClass}
         />
         <div className="grid grid-cols-2 gap-2 rounded-xl bg-[var(--admin-surface-2)] p-4 sm:grid-cols-3">

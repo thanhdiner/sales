@@ -1,0 +1,168 @@
+.admin-contact-content-page {
+  min-height: 100vh;
+  padding: 24px;
+  color: var(--admin-text, #111827);
+  background: var(--admin-bg-soft, #f6f7fb);
+}
+
+.admin-contact-content-card {
+  border: 1px solid var(--admin-border, rgba(15, 23, 42, 0.08));
+  border-radius: 14px;
+  background: var(--admin-surface, #ffffff);
+  box-shadow: var(--admin-shadow, 0 20px 45px rgba(15, 23, 42, 0.06));
+  padding: 22px;
+}
+
+.admin-contact-content-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.admin-contact-content-header .ant-typography {
+  margin: 0;
+  color: var(--admin-text, #111827);
+}
+
+.admin-contact-content-header .ant-typography-secondary,
+.admin-contact-content-header span.ant-typography {
+  display: block;
+  margin-top: 4px;
+  color: var(--admin-text-muted, #64748b);
+}
+
+.admin-contact-content-form .ant-tabs-nav {
+  margin-bottom: 18px;
+}
+
+.admin-contact-content-form .ant-tabs-tab {
+  color: var(--admin-text-muted, #64748b);
+}
+
+.admin-contact-content-form .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--admin-accent, #5e6ad2) !important;
+}
+
+.admin-contact-content-form .ant-tabs-ink-bar {
+  background: var(--admin-accent, #5e6ad2);
+}
+
+.admin-contact-content-form .ant-form-item-label > label {
+  color: var(--admin-text-muted, #64748b);
+  font-weight: 600;
+}
+
+.admin-contact-content-form .ant-input,
+.admin-contact-content-form .ant-select-selector {
+  border-color: var(--admin-border, rgba(15, 23, 42, 0.08)) !important;
+  background: var(--admin-surface-2, #f8fafc) !important;
+  color: var(--admin-text, #111827) !important;
+}
+
+.admin-contact-content-form .ant-input::placeholder {
+  color: var(--admin-text-subtle, #94a3b8);
+}
+
+.admin-contact-content-section {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid var(--admin-border, rgba(15, 23, 42, 0.08));
+  border-radius: 12px;
+  background: var(--admin-surface, #ffffff);
+}
+
+.admin-contact-content-section__header {
+  margin-bottom: 14px;
+}
+
+.admin-contact-content-section__header h3,
+.admin-contact-content-list__header h4,
+.admin-contact-content-nested-list__header h5 {
+  margin: 0;
+  color: var(--admin-text, #111827);
+  font-weight: 700;
+}
+
+.admin-contact-content-section__header h3 {
+  font-size: 16px;
+}
+
+.admin-contact-content-section__header p {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted, #64748b);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-contact-content-list,
+.admin-contact-content-nested-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-contact-content-list__header,
+.admin-contact-content-nested-list__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-contact-content-list__header h4 {
+  font-size: 14px;
+}
+
+.admin-contact-content-nested-list__header h5 {
+  font-size: 13px;
+}
+
+.admin-contact-content-list-item,
+.admin-contact-content-method {
+  padding: 14px;
+  border: 1px solid var(--admin-border, rgba(15, 23, 42, 0.08));
+  border-radius: 10px;
+  background: var(--admin-surface-2, #f8fafc);
+}
+
+.admin-contact-content-list-item > .ant-btn,
+.admin-contact-content-method > .ant-btn {
+  padding-left: 0;
+}
+
+.admin-contact-content-method + .admin-contact-content-method {
+  margin-top: 10px;
+}
+
+.admin-contact-content-page .ant-btn-primary {
+  border-color: var(--admin-accent, #5e6ad2) !important;
+  background: var(--admin-accent, #5e6ad2) !important;
+}
+
+html.dark body.admin-layout-active .admin-contact-content-page {
+  background: var(--admin-bg-soft, #0f172a);
+}
+
+html.dark body.admin-layout-active .admin-contact-content-card,
+html.dark body.admin-layout-active .admin-contact-content-section {
+  background: var(--admin-surface, #111827);
+}
+
+@media (max-width: 768px) {
+  .admin-contact-content-page {
+    padding: 12px;
+  }
+
+  .admin-contact-content-card {
+    padding: 14px;
+  }
+
+  .admin-contact-content-header {
+    flex-direction: column;
+  }
+
+  .admin-contact-content-header .ant-space {
+    width: 100%;
+  }
+}

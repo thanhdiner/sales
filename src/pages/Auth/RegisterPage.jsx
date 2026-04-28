@@ -12,27 +12,20 @@ import {
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import { userRegister } from '@/services/userService'
+import { API_URL, APP_NAME } from '@/utils/env'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { getAuthTheme } from './authTheme'
+import AuthLanguageToggle from './AuthLanguageToggle'
 import './RegisterPage.scss'
 
-const C = {
-  primary: '#27389a',
-  primaryContainer: '#4151b3',
-  primaryFixed: '#dee0ff',
-  surface: '#fbf8ff',
-  surfaceContainerLow: '#f4f2fc',
-  surfaceContainerHigh: '#e9e7f0',
-  surfaceContainerHighest: '#e3e1ea',
-  onSurface: '#1a1b22',
-  onSurfaceVariant: '#454652',
-  outline: '#757684',
-  outlineVariant: '#c5c5d4'
-}
-
 const RegisterPage = () => {
+  const { t } = useTranslation('clientAuth')
   const navigate = useNavigate()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const isDarkMode = useSelector(state => !!state.darkMode?.value)
+  const C = getAuthTheme(isDarkMode)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
 
@@ -45,12 +38,12 @@ const RegisterPage = () => {
       if (res.error) {
         message.error(res.error)
       } else {
-        message.success('Đăng ký thành công! 🎉 Vui lòng đăng nhập.')
+        message.success(t('register.messages.success'))
         form.resetFields()
         navigate('/user/login')
       }
     } catch (error) {
-      message.error('Đăng ký thất bại. Vui lòng thử lại!')
+      message.error(t('register.messages.error'))
     } finally {
       setLoading(false)
     }
@@ -58,11 +51,11 @@ const RegisterPage = () => {
 
   const handleSocialRegister = provider => {
     if (provider === 'Google') {
-      window.open(`${process.env.REACT_APP_API_URL}/user/google`, '_self')
+      window.open(`${API_URL}/user/google`, '_self')
     } else if (provider === 'Facebook') {
-      window.open(`${process.env.REACT_APP_API_URL}/user/facebook`, '_self')
+      window.open(`${API_URL}/user/facebook`, '_self')
     } else if (provider === 'GitHub') {
-      window.open(`${process.env.REACT_APP_API_URL}/user/github`, '_self')
+      window.open(`${API_URL}/user/github`, '_self')
     }
   }
 
@@ -71,11 +64,12 @@ const RegisterPage = () => {
       return Promise.resolve()
     }
 
-    return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'))
+    return Promise.reject(new Error(t('register.form.confirmPasswordMismatch')))
   }
 
   return (
     <div
+      className="sovereign-auth-page sovereign-auth-page--register"
       style={{
         minHeight: '100vh',
         background: C.surface,
@@ -85,17 +79,18 @@ const RegisterPage = () => {
         fontFamily: 'Inter, sans-serif'
       }}
     >
-      <SEO title="Đăng ký tài khoản" noIndex />
+      <SEO title={t('register.seoTitle')} noIndex />
 
       <header
+        className="sovereign-auth-header"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           zIndex: 50,
-          background: C.surface,
-          boxShadow: '0px 24px 48px rgba(39,56,154,0.06)'
+          background: C.headerBackground,
+          boxShadow: C.headerShadow
         }}
       >
         <nav
@@ -125,9 +120,9 @@ const RegisterPage = () => {
                   width: '2.25rem',
                   height: '2.25rem',
                   objectFit: 'contain',
-                  background: '#ffffff',
+                  background: C.logoBackground,
                   borderRadius: '0.375rem',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.12)'
+                  boxShadow: C.logoShadow
                 }}
               />
             ) : null}
@@ -142,12 +137,13 @@ const RegisterPage = () => {
               }}
             >
               {websiteConfig?.siteName ||
-                process.env.REACT_APP_NAME_APP ||
+                APP_NAME ||
                 'Sovereign'}
             </span>
           </Link>
 
           <div
+            className="sovereign-auth-nav-actions"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -182,13 +178,17 @@ const RegisterPage = () => {
               >
                 home
               </span>
-              <span>Trang chủ</span>
+              <span>{t('shared.nav.home')}</span>
             </Link>
 
-            {['help', 'info'].map(icon => (
-              <button
+            {[
+              { icon: 'help', to: '/faq' },
+              { icon: 'info', to: '/about' }
+            ].map(({ icon, to }) => (
+              <Link
                 key={icon}
-                type="button"
+                to={to}
+                aria-label={t(`shared.nav.${icon}`)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -199,8 +199,7 @@ const RegisterPage = () => {
                   cursor: 'pointer',
                   fontSize: '0.875rem',
                   fontWeight: 500,
-                  border: 'none',
-                  background: 'transparent',
+                  textDecoration: 'none',
                   transition: 'background 0.3s'
                 }}
                 onMouseEnter={e =>
@@ -216,9 +215,11 @@ const RegisterPage = () => {
                 >
                   {icon}
                 </span>
-                <span>{icon}</span>
-              </button>
+                <span>{t(`shared.nav.${icon}`)}</span>
+              </Link>
             ))}
+
+            <AuthLanguageToggle colors={C} />
           </div>
         </nav>
       </header>
@@ -244,19 +245,19 @@ const RegisterPage = () => {
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'flex-start',
-            background: C.primary
+            background: C.leftPanelBackground
           }}
         >
           <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
-              alt="Sovereign background"
+              alt={t('shared.hero.backgroundAlt')}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                opacity: 0.4,
-                mixBlendMode: 'overlay'
+                opacity: C.heroImageOpacity,
+                mixBlendMode: C.heroImageBlendMode
               }}
             />
 
@@ -264,8 +265,7 @@ const RegisterPage = () => {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background:
-                  'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
+                background: C.heroOverlay
               }}
             />
           </div>
@@ -289,7 +289,7 @@ const RegisterPage = () => {
                 marginBottom: '1.5rem'
               }}
             >
-              Tạo tài khoản mới
+              {t('register.hero.title')}
             </h1>
 
             <p
@@ -302,15 +302,14 @@ const RegisterPage = () => {
                 maxWidth: '28rem'
               }}
             >
-              Đăng ký để bắt đầu hành trình của bạn trong không gian quản trị
-              danh tính số tối cao.
+              {t('register.hero.description')}
             </p>
 
             <div
               style={{
                 position: 'relative',
                 paddingLeft: '2rem',
-                borderLeft: '2px solid rgba(222,224,255,0.3)'
+                borderLeft: `2px solid ${C.quoteBorder}`
               }}
             >
               <span
@@ -320,7 +319,7 @@ const RegisterPage = () => {
                   left: '-1.25rem',
                   top: '-1.5rem',
                   fontSize: '4rem',
-                  color: 'rgba(222,224,255,0.15)',
+                  color: C.quoteMark,
                   userSelect: 'none'
                 }}
               >
@@ -329,14 +328,13 @@ const RegisterPage = () => {
 
               <blockquote
                 style={{
-                  color: '#bbc3ff',
+                  color: C.quoteText,
                   fontStyle: 'italic',
                   fontSize: '1rem',
                   lineHeight: 1.7
                 }}
               >
-                "Kiến trúc an toàn không chỉ là những bức tường lửa, mà là sự
-                minh bạch và chủ quyền đối với từng bit dữ liệu cá nhân."
+                "{t('register.hero.quote')}"
               </blockquote>
 
               <p
@@ -349,7 +347,7 @@ const RegisterPage = () => {
                   textTransform: 'uppercase'
                 }}
               >
-                — Ban Quản Trị {process.env.REACT_APP_NAME_APP || 'Sovereign'}
+                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'Sovereign' })}
               </p>
             </div>
           </div>
@@ -374,12 +372,13 @@ const RegisterPage = () => {
                 color: '#ffffff'
               }}
             >
-              {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar
+              {t('shared.footer.registrar', { appName: APP_NAME || 'Sovereign' })}
             </span>
 
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar.
-              All rights reserved.
+              {t('shared.footer.copyright', { appName: APP_NAME || 'Sovereign' })}
+              {' '}
+              {t('shared.footer.rights')}
             </span>
 
             <div
@@ -391,10 +390,10 @@ const RegisterPage = () => {
               }}
             >
               {[
-                { label: 'Terms of Service', to: '/terms-of-service' },
-                { label: 'Privacy Policy', to: '/privacy-policy' },
-                { label: 'Security', to: '/privacy-policy' },
-                { label: 'Contact', to: '/contact' }
+                { label: t('shared.footer.terms'), to: '/terms-of-service' },
+                { label: t('shared.footer.privacy'), to: '/privacy-policy' },
+                { label: t('shared.footer.security'), to: '/privacy-policy' },
+                { label: t('shared.footer.contact'), to: '/contact' }
               ].map(({ label, to }) => (
                 <Link
                   key={label}
@@ -431,16 +430,17 @@ const RegisterPage = () => {
           }}
         >
           <div
+            className="sovereign-auth-card"
             style={{
               width: '100%',
               maxWidth: '28rem',
-              background: 'rgba(255,255,255,0.88)',
+              background: C.cardBackground,
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
               borderRadius: '2rem',
               padding: '2.5rem',
-              boxShadow: '0px 24px 48px rgba(39,56,154,0.09)',
-              border: '1px solid rgba(197,197,212,0.25)'
+              boxShadow: C.cardShadow,
+              border: C.cardBorder
             }}
           >
             <div style={{ marginBottom: '2rem' }}>
@@ -453,7 +453,7 @@ const RegisterPage = () => {
                   marginBottom: '0.375rem'
                 }}
               >
-                Bắt đầu ngay hôm nay
+                {t('register.form.title')}
               </h2>
 
               <p
@@ -463,7 +463,7 @@ const RegisterPage = () => {
                   margin: 0
                 }}
               >
-                Điền thông tin của bạn để thiết lập tài khoản
+                {t('register.form.description')}
               </p>
             </div>
 
@@ -480,93 +480,93 @@ const RegisterPage = () => {
               >
                 <Form.Item
                   name="fullName"
-                  label="Họ và tên"
+                  label={t('register.form.fullNameLabel')}
                   rules={[
-                    { required: true, message: 'Vui lòng nhập họ và tên!' },
-                    { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự!' }
+                    { required: true, message: t('register.form.fullNameRequired') },
+                    { min: 2, message: t('register.form.fullNameMin') }
                   ]}
                   style={{ marginBottom: '1rem' }}
                 >
                   <Input
                     prefix={<ContactsOutlined />}
-                    placeholder="Nguyễn Văn A"
+                    placeholder={t('register.form.fullNamePlaceholder')}
                     autoComplete="name"
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="username"
-                  label="Tên đăng nhập"
+                  label={t('register.form.usernameLabel')}
                   rules={[
-                    { required: true, message: 'Vui lòng nhập tên đăng nhập!' },
-                    { min: 4, message: 'Tên đăng nhập phải có ít nhất 4 ký tự!' },
-                    { max: 32, message: 'Tên đăng nhập tối đa 32 ký tự!' },
+                    { required: true, message: t('register.form.usernameRequired') },
+                    { min: 4, message: t('register.form.usernameMin') },
+                    { max: 32, message: t('register.form.usernameMax') },
                     {
                       pattern: /^[a-zA-Z0-9_]+$/,
-                      message: 'Tên đăng nhập chỉ được chứa chữ, số, gạch dưới!'
+                      message: t('register.form.usernamePattern')
                     }
                   ]}
                   style={{ marginBottom: '1rem' }}
                 >
                   <Input
                     prefix={<UserOutlined />}
-                    placeholder="nguyenvana123"
+                    placeholder={t('register.form.usernamePlaceholder')}
                     autoComplete="username"
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="email"
-                  label="Địa chỉ email"
+                  label={t('register.form.emailLabel')}
                   rules={[
-                    { required: true, message: 'Vui lòng nhập email!' },
-                    { type: 'email', message: 'Email không hợp lệ!' }
+                    { required: true, message: t('register.form.emailRequired') },
+                    { type: 'email', message: t('register.form.emailInvalid') }
                   ]}
                   style={{ marginBottom: '1rem' }}
                 >
                   <Input
                     prefix={<MailOutlined />}
-                    placeholder="email@example.com"
+                    placeholder={t('register.form.emailPlaceholder')}
                     autoComplete="email"
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="phone"
-                  label="Số điện thoại"
+                  label={t('register.form.phoneLabel')}
                   rules={[
-                    { required: true, message: 'Vui lòng nhập số điện thoại!' },
+                    { required: true, message: t('register.form.phoneRequired') },
                     {
                       pattern: /^[0-9]{10,11}$/,
-                      message: 'Số điện thoại không hợp lệ!'
+                      message: t('register.form.phoneInvalid')
                     }
                   ]}
                   style={{ marginBottom: '1rem' }}
                 >
                   <Input
                     prefix={<PhoneOutlined />}
-                    placeholder="0901 234 567"
+                    placeholder={t('register.form.phonePlaceholder')}
                     autoComplete="tel"
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="password"
-                  label="Mật khẩu"
+                  label={t('register.form.passwordLabel')}
                   rules={[
-                    { required: true, message: 'Vui lòng nhập mật khẩu!' },
-                    { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
+                    { required: true, message: t('register.form.passwordRequired') },
+                    { min: 8, message: t('register.form.passwordMin') },
                     {
                       pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
                       message:
-                        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!'
+                        t('register.form.passwordPattern')
                     }
                   ]}
                   style={{ marginBottom: '1rem' }}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="••••••••"
+                    placeholder={t('register.form.passwordPlaceholder')}
                     iconRender={visible =>
                       visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                     }
@@ -576,12 +576,12 @@ const RegisterPage = () => {
 
                 <Form.Item
                   name="confirmPassword"
-                  label="Xác nhận mật khẩu"
+                  label={t('register.form.confirmPasswordLabel')}
                   dependencies={['password']}
                   rules={[
                     {
                       required: true,
-                      message: 'Vui lòng xác nhận mật khẩu!'
+                      message: t('register.form.confirmPasswordRequired')
                     },
                     { validator: validateConfirmPassword }
                   ]}
@@ -589,7 +589,7 @@ const RegisterPage = () => {
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="••••••••"
+                    placeholder={t('register.form.passwordPlaceholder')}
                     iconRender={visible =>
                       visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                     }
@@ -610,11 +610,11 @@ const RegisterPage = () => {
                   >
                     <span
                       className="material-symbols-outlined"
-                      style={{ fontSize: '0.875rem', color: '#6c3400' }}
+                      style={{ fontSize: '0.875rem', color: C.warningText }}
                     >
                       info
                     </span>
-                    <span>Mật khẩu phải có ít nhất 8 ký tự!</span>
+                    <span>{t('register.form.tipMin')}</span>
                   </div>
 
                   <div
@@ -628,13 +628,12 @@ const RegisterPage = () => {
                   >
                     <span
                       className="material-symbols-outlined"
-                      style={{ fontSize: '0.875rem', color: '#6c3400' }}
+                      style={{ fontSize: '0.875rem', color: C.warningText }}
                     >
                       info
                     </span>
                     <span>
-                      Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1
-                      số!
+                      {t('register.form.tipPattern')}
                     </span>
                   </div>
                 </div>
@@ -649,7 +648,7 @@ const RegisterPage = () => {
                           ? Promise.resolve()
                           : Promise.reject(
                               new Error(
-                                'Vui lòng đồng ý với điều khoản sử dụng!'
+                                t('register.form.agreementRequired')
                               )
                             )
                     }
@@ -663,7 +662,7 @@ const RegisterPage = () => {
                         fontSize: '0.875rem'
                       }}
                     >
-                      Tôi đồng ý với{' '}
+                      {t('register.form.agreementPrefix')}{' '}
                       <Link
                         to="/terms-of-service"
                         style={{
@@ -672,9 +671,9 @@ const RegisterPage = () => {
                           textDecoration: 'none'
                         }}
                       >
-                        Điều khoản sử dụng
+                        {t('register.form.terms')}
                       </Link>{' '}
-                      và{' '}
+                      {t('register.form.agreementAnd')}{' '}
                       <Link
                         to="/privacy-policy"
                         style={{
@@ -683,7 +682,7 @@ const RegisterPage = () => {
                           textDecoration: 'none'
                         }}
                       >
-                        Chính sách bảo mật
+                        {t('register.form.privacy')}
                       </Link>
                     </span>
                   </Checkbox>
@@ -697,15 +696,16 @@ const RegisterPage = () => {
                     className="sovereign-register-btn-primary"
                     style={{ width: '100%', height: '3.25rem', color: '#fff' }}
                   >
-                    {loading ? 'Đang đăng ký...' : 'Đăng ký'}
+                    {loading ? t('register.form.submitting') : t('register.form.submit')}
                   </Button>
                 </Form.Item>
 
                 <Divider style={{ margin: '0.5rem 0 1rem' }}>
-                  HOẶC ĐĂNG KÝ BẰNG
+                  {t('register.form.socialDivider')}
                 </Divider>
 
                 <div
+                  className="sovereign-auth-social-grid"
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr 1fr',
@@ -746,7 +746,7 @@ const RegisterPage = () => {
                           objectFit: 'contain'
                         }}
                       />
-                      <span>{key}</span>
+                      <span>{t(`shared.providers.${key.toLowerCase()}`)}</span>
                     </button>
                   ))}
                 </div>
@@ -759,7 +759,7 @@ const RegisterPage = () => {
                     margin: 0
                   }}
                 >
-                  Đã có tài khoản?{' '}
+                  {t('register.form.hasAccount')}{' '}
                   <Link
                     to="/user/login"
                     style={{
@@ -768,7 +768,7 @@ const RegisterPage = () => {
                       textDecoration: 'none'
                     }}
                   >
-                    Đăng nhập ngay
+                    {t('register.form.loginNow')}
                   </Link>
                 </p>
               </Form>

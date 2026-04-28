@@ -1,0 +1,56 @@
+{
+  "gameAccount": {
+    "seo": {
+      "title": "Tài khoản game – Sắp ra mắt"
+    },
+    "eyebrow": "Sắp ra mắt",
+    "title": "Tài khoản game",
+    "description": "Hiện tại chúng tôi chưa mở bán tài khoản game. Vui lòng quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.",
+    "note": "Dịch vụ sẽ được cập nhật trong thời gian tới."
+  },
+  "specialPackage": {
+    "seo": {
+      "title": "Gói đặc biệt – Sắp ra mắt"
+    },
+    "eyebrow": "Sắp ra mắt",
+    "title": "Gói dịch vụ đặc biệt",
+    "description": "Hiện tại chúng tôi chưa cung cấp các gói dịch vụ đặc biệt. Hãy quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.",
+    "note": "Dịch vụ này sẽ được cập nhật trong thời gian tới."
+  },
+  "gameNews": {
+    "seo": {
+      "title": "Tin tức game – Sắp ra mắt"
+    },
+    "title": "Tin tức game",
+    "description": "Mục tin tức game sẽ cập nhật các sự kiện, khuyến mãi và thông tin mới nhất trong thời gian tới.",
+    "descriptionSecondLine": "Đừng quên quay lại để không bỏ lỡ bất kỳ tin nóng nào!",
+    "status": "Chức năng này sẽ sớm ra mắt!"
+  },
+  "community": {
+    "seo": {
+      "title": "Cộng đồng – Sắp ra mắt"
+    },
+    "title": "Cộng đồng game thủ",
+    "description": "Khu vực giao lưu, chia sẻ kinh nghiệm và kết nối các game thủ sẽ sớm được mở cửa.",
+    "descriptionSecondLine": "Đừng bỏ lỡ cơ hội trở thành thành viên đầu tiên của cộng đồng chúng tôi!",
+    "status": "Tính năng này đang được phát triển!"
+  },
+  "quickSupport": {
+    "seo": {
+      "title": "Hỗ trợ nhanh – Sắp ra mắt"
+    },
+    "title": "Hỗ trợ nhanh",
+    "description": "Tính năng hỗ trợ khách hàng, giải đáp thắc mắc tức thì sẽ sớm ra mắt.",
+    "descriptionSecondLine": "Hãy yên tâm, đội ngũ của chúng tôi luôn sẵn sàng đồng hành cùng bạn!",
+    "status": "Chức năng này sẽ sớm hoạt động!"
+  },
+  "license": {
+    "seo": {
+      "title": "Bản quyền – Sắp ra mắt"
+    },
+    "title": "Bản quyền phần mềm",
+    "description": "Chuyên mục cung cấp phần mềm bản quyền, key chính hãng, cam kết nguồn gốc rõ ràng sẽ được cập nhật trong thời gian tới.",
+    "descriptionSecondLine": "Hãy theo dõi để không bỏ lỡ các ưu đãi độc quyền!",
+    "status": "Tính năng này đang trong quá trình phát triển!"
+  }
+}

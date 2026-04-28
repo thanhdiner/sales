@@ -1,9 +1,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { getTextValue, navigateToAboutLink } from '../utils'
 
-const CTASection = ({ viewport = { once: true, amount: 0.25 } }) => {
+const CTASection = ({ content, viewport = { once: true, amount: 0.25 } }) => {
   const navigate = useNavigate()
+  const { t } = useTranslation('clientAbout')
 
   return (
     <motion.section
@@ -25,18 +28,20 @@ const CTASection = ({ viewport = { once: true, amount: 0.25 } }) => {
           <div className="about-page__cta-decor absolute bottom-6 left-44 h-16 w-px rotate-45 bg-[#2a3e8f]" />
 
           <div className="relative z-10 flex min-h-[230px] flex-col items-center justify-center px-6 py-10 text-center md:px-12">
-            <h2 className="mb-3 text-[24px] font-extrabold leading-tight text-[#3d434d] md:text-[40px]">Bạn muốn thử mua?</h2>
+            <h2 className="mb-3 text-[24px] font-extrabold leading-tight text-[#3d434d] md:text-[40px]">
+              {getTextValue(content?.title, t('ctaSection.title'))}
+            </h2>
 
             <p className="about-page__muted mb-5 max-w-[620px] text-[13px] font-medium text-[#767d87] md:text-[20px]">
-              Cứ nhắn mình nếu bạn chưa biết chọn gì, mình sẽ cố gắng tư vấn nhanh để bạn tìm được sản phẩm phù hợp.
+              {getTextValue(content?.description, t('ctaSection.description'))}
             </p>
 
             <button
               type="button"
-              onClick={() => navigate('/products')}
+              onClick={() => navigateToAboutLink(navigate, content?.buttonLink, '/products')}
               className="about-page__primary-button rounded-[4px] bg-[#4f7df0] px-6 py-2 text-[11px] font-bold text-white shadow-sm transition hover:brightness-105 md:text-[14px]"
             >
-              Xem sản phẩm
+              {getTextValue(content?.button, t('ctaSection.button'))}
             </button>
           </div>
         </div>

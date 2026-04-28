@@ -1,14 +1,13 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { shoppingGuideViewport } from '../data'
+import { shoppingGuideHeroImage, shoppingGuideViewport } from '../data'
 
-const HERO_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuB9JhwkqCqqiKnWbxgjgrNufgJ3lG26LGdj30S8l9871ZNqvv-cvUffVCtx__SttaDpNRbsnRtv3UIJy3YvVnKP5bQgmt6UwQRSCDTVkCTC42iS0MtL183okT4QH2GVnmwJk0ptTylvKeJyf4O4cr5a3Nq7NqUn4iY67ZR6Gy_-6w8Fxt-P2CzlFq8Xj0BZ5m6_vHcz6reuzvWg_8KhAHBzfd_bL0V2TYmoFMosoo4Dpw0mqm6WxApuLzbN4qrRebrNgPqc2_zXpnk'
+const GuideHeroSection = ({ content, onRegister }) => {
+  const hero = content || {}
 
-const GuideHeroSection = ({ onRegister }) => {
   return (
     <motion.section
-      className="px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+      className="shopping-guide-section px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -21,31 +20,28 @@ const GuideHeroSection = ({ onRegister }) => {
           transition={{ duration: 0.45, ease: 'easeOut' }}
           viewport={shoppingGuideViewport}
         >
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
-            Hướng dẫn mua hàng
-          </p>
+          <p className="shopping-guide-eyebrow mb-3 text-sm font-semibold uppercase">{hero.eyebrow}</p>
 
-          <h1 className="max-w-xl text-4xl font-semibold tracking-[-0.04em] text-gray-900 dark:text-white md:text-5xl">
-            Mua sắm dễ dàng và an toàn
+          <h1 className="guide-title max-w-xl text-4xl font-semibold md:text-5xl">
+            {hero.title}
           </h1>
 
-          <p className="mt-5 max-w-xl text-base leading-7 text-gray-600 dark:text-gray-300">
-            Xem các bước đặt hàng, thanh toán và theo dõi đơn hàng để mua sắm thuận tiện hơn trên website.
-          </p>
+          <p className="guide-muted mt-5 max-w-xl text-base leading-7">{hero.description}</p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <button
+              type="button"
               onClick={onRegister}
-              className="rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
+              className="shopping-guide-primary-button px-5 py-3 text-sm font-semibold"
             >
-              Đăng ký tài khoản
+              {hero.registerButton}
             </button>
 
             <a
               href="#shopping-guide-steps"
-              className="rounded-lg border border-gray-200 bg-white px-5 py-3 text-center text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+              className="shopping-guide-secondary-button px-5 py-3 text-center text-sm font-semibold"
             >
-              Xem hướng dẫn
+              {hero.guideButton}
             </a>
           </div>
         </motion.div>
@@ -57,9 +53,9 @@ const GuideHeroSection = ({ onRegister }) => {
           viewport={shoppingGuideViewport}
         >
           <img
-            alt="Shopping online concept"
-            src={HERO_IMAGE}
-            className="h-[300px] w-full rounded-2xl border border-gray-200 object-cover shadow-sm dark:border-gray-700 md:h-[380px]"
+            alt={hero.imageAlt}
+            src={hero.image || shoppingGuideHeroImage}
+            className="shopping-guide-image h-[300px] w-full object-cover md:h-[380px]"
           />
         </motion.div>
       </div>

@@ -1,0 +1,117 @@
+{
+  "seo": {
+    "title": "Admin - Trang giới thiệu"
+  },
+  "page": {
+    "eyebrow": "Nội dung",
+    "title": "Nội dung trang giới thiệu",
+    "description": "Quản lý nội dung song ngữ hiển thị ở trang giới thiệu phía khách hàng."
+  },
+  "languages": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reset": "Đặt lại",
+    "save": "Lưu nội dung",
+    "remove": "Xóa",
+    "addLine": "Thêm dòng",
+    "addBenefit": "Thêm lợi ích",
+    "addStep": "Thêm bước",
+    "addParagraph": "Thêm đoạn",
+    "addTimeline": "Thêm mốc"
+  },
+  "messages": {
+    "loading": "Đang tải nội dung giới thiệu...",
+    "fetchError": "Không thể tải nội dung giới thiệu",
+    "saveSuccess": "Đã lưu nội dung giới thiệu",
+    "saveError": "Không thể lưu nội dung giới thiệu",
+    "resetDone": "Đã đặt lại form"
+  },
+  "sections": {
+    "seo": {
+      "title": "SEO",
+      "description": "Tiêu đề trình duyệt và mô tả meta của trang giới thiệu."
+    },
+    "media": {
+      "title": "Hình ảnh",
+      "description": "URL ảnh dùng cho hero và phần chủ shop."
+    },
+    "hero": {
+      "title": "Hero",
+      "description": "Tiêu đề chính, mô tả mở đầu và nút hành động."
+    },
+    "benefits": {
+      "title": "Lợi ích",
+      "description": "Các lý do ngắn để khách hàng tin tưởng shop."
+    },
+    "features": {
+      "title": "Vận hành",
+      "description": "Tổng quan quy trình và các bước nổi bật."
+    },
+    "owner": {
+      "title": "Chủ shop",
+      "description": "Câu chuyện, ảnh chủ shop và thống kê nhanh."
+    },
+    "timeline": {
+      "title": "Timeline",
+      "description": "Các mốc phát triển hiển thị trên trang giới thiệu."
+    },
+    "cta": {
+      "title": "Kêu gọi hành động",
+      "description": "Khối chuyển đổi cuối trang."
+    }
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "heroImageUrl": "URL ảnh hero",
+    "ownerImageUrl": "URL ảnh chủ shop",
+    "eyebrow": "Nhãn nhỏ",
+    "reviews": "Nhãn đánh giá",
+    "titleLines": "Các dòng tiêu đề",
+    "description": "Mô tả",
+    "primaryButton": "Nút chính",
+    "primaryButtonLink": "Link nút chính",
+    "secondaryButton": "Nút phụ",
+    "secondaryButtonLink": "Link nút phụ",
+    "imageAlt": "Mô tả ảnh",
+    "sectionTitle": "Tiêu đề section",
+    "benefits": "Danh sách lợi ích",
+    "button": "Nội dung nút",
+    "buttonLink": "Link nút",
+    "steps": "Các bước",
+    "ownerTitle": "Tiêu đề phần chủ shop",
+    "paragraphs": "Các đoạn mô tả",
+    "goodPrice": "Thống kê giá tốt",
+    "support": "Thống kê hỗ trợ",
+    "easyBuy": "Thống kê dễ mua",
+    "consulting": "Thống kê tư vấn",
+    "ribbonBrand": "Nhãn ribbon",
+    "ribbonText": "Nội dung ribbon",
+    "timeline": "Các mốc timeline",
+    "ctaTitle": "Tiêu đề CTA"
+  },
+  "placeholders": {
+    "seoTitle": "Về SmartMall",
+    "seoDescription": "Mô tả ngắn cho công cụ tìm kiếm",
+    "eyebrow": "Về SmartMall",
+    "reviews": "Reviews",
+    "titleLine": "Một dòng tiêu đề",
+    "description": "Nhập nội dung",
+    "primaryButton": "Xem sản phẩm",
+    "secondaryButton": "Liên hệ ngay",
+    "imageAlt": "Mô tả hình ảnh",
+    "sectionTitle": "Tiêu đề khu vực",
+    "itemTitle": "Tiêu đề mục",
+    "itemDescription": "Mô tả mục",
+    "button": "Xem sản phẩm",
+    "ownerTitle": "Ai đứng sau shop",
+    "paragraph": "Nội dung đoạn văn",
+    "stat": "Nhãn thống kê",
+    "ribbonBrand": "Shop",
+    "ribbonText": "tự vận hành",
+    "ctaTitle": "Bạn muốn thử mua?"
+  }
+}

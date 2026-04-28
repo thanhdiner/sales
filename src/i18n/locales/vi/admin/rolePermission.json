@@ -1,0 +1,30 @@
+{
+  "seo": {
+    "title": "Admin - Phân quyền vai trò"
+  },
+  "page": {
+    "title": "Phân quyền vai trò",
+    "description": "Quản lý quyền truy cập cho từng vai trò quản trị."
+  },
+  "actions": {
+    "saveChanges": "Lưu thay đổi"
+  },
+  "rolePicker": {
+    "label": "Chọn vai trò",
+    "placeholder": "Chọn vai trò"
+  },
+  "table": {
+    "columns": {
+      "permission": "Quyền"
+    },
+    "selectAll": "Chọn tất cả",
+    "permissionCount": "{{count}} quyền",
+    "legend": "Chú thích",
+    "empty": "Chưa có quyền nào"
+  },
+  "messages": {
+    "fetchError": "Lỗi khi lấy dữ liệu",
+    "updateSuccess": "Cập nhật phân quyền thành công!",
+    "updateError": "Lưu phân quyền thất bại"
+  }
+}

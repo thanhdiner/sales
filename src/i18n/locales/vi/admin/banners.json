@@ -1,0 +1,66 @@
+{
+  "seo": {
+    "title": "Admin - Banner"
+  },
+  "page": {
+    "title": "Quản lý Banner",
+    "description": "Quản lý banner hiển thị trên trang người dùng."
+  },
+  "common": {
+    "banner": "Banner",
+    "create": "Thêm Banner",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "upload": "Upload"
+  },
+  "status": {
+    "active": "Đang hoạt động",
+    "inactive": "Tạm dừng"
+  },
+  "table": {
+    "image": "Ảnh Banner",
+    "title": "Tiêu đề",
+    "link": "Link",
+    "status": "Trạng thái",
+    "actions": "Hành động",
+    "emptyLink": "Không có",
+    "noImage": "Chưa có ảnh",
+    "empty": "Chưa có banner",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} banners",
+    "openActions": "Mở hành động banner",
+    "editTooltip": "Chỉnh sửa banner",
+    "deleteTooltip": "Xóa banner"
+  },
+  "form": {
+    "createTitle": "Thêm Banner mới",
+    "editTitle": "Chỉnh sửa Banner",
+    "title": "Tiêu đề banner",
+    "titleRequired": "Vui lòng nhập tiêu đề",
+    "titlePlaceholder": "Nhập tiêu đề banner",
+    "link": "Liên kết",
+    "linkPlaceholder": "Nhập link chuyển hướng",
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "title": "Tiêu đề banner tiếng Anh",
+      "titlePlaceholder": "Nhập tiêu đề banner bằng tiếng Anh",
+      "link": "Liên kết tiếng Anh",
+      "linkPlaceholder": "Nhập link chuyển hướng cho bản tiếng Anh"
+    },
+    "status": "Trạng thái",
+    "image": "Ảnh banner",
+    "imageRequired": "Vui lòng upload ảnh banner"
+  },
+  "messages": {
+    "fetchError": "Không thể tải danh sách banner",
+    "deleteConfirmTitle": "Xác nhận xóa banner",
+    "deleteConfirmContent": "Bạn có chắc chắn muốn xóa banner này không?",
+    "deleteSuccess": "Đã xóa banner",
+    "deleteError": "Không thể xóa banner",
+    "updateSuccess": "Đã cập nhật banner",
+    "createSuccess": "Đã thêm banner",
+    "saveError": "Không thể lưu banner",
+    "invalidImage": "Chỉ được upload file ảnh"
+  }
+}

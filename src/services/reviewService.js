@@ -11,7 +11,7 @@ export const updateReview = (reviewId, formData) => put(`reviews/${reviewId}`, f
 export const deleteReview = reviewId => del(`reviews/${reviewId}`)
 export const voteReview = reviewId => post(`reviews/${reviewId}/vote`, {})
 
-export const adminReplyReview = (reviewId, content) =>
-  adminPut(`admin/reviews/${reviewId}/reply`, { content })
+export const adminReplyReview = (reviewId, payload) =>
+  adminPut(`admin/reviews/${reviewId}/reply`, typeof payload === 'string' ? { content: payload } : payload)
 export const adminDeleteReply = reviewId => adminDel(`admin/reviews/${reviewId}/reply`)
 export const adminHideReview = (reviewId, payload = {}) => adminPut(`admin/reviews/${reviewId}/hide`, payload)

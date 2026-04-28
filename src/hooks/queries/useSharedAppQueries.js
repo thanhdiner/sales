@@ -6,14 +6,18 @@ import { getClientMe } from '@/services/userService'
 import { getWishlist } from '@/services/wishlistService'
 import { normalizeCartItems } from '@/lib/clientCache'
 import { GUEST_QUERY_SCOPE, queryKeys } from '@/lib/queryKeys'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 const MINUTE = 60 * 1000
 const HOUR = 60 * MINUTE
 
 export function useWebsiteConfigQuery(options = {}) {
+  const language = useCurrentLanguage()
+
   return useQuery({
-    queryKey: queryKeys.websiteConfig,
+    queryKey: queryKeys.websiteConfig(language),
     queryFn: getAdminWebsiteConfig,
+    placeholderData: previousData => previousData,
     staleTime: 30 * MINUTE,
     gcTime: 2 * HOUR,
     ...options
@@ -21,12 +25,15 @@ export function useWebsiteConfigQuery(options = {}) {
 }
 
 export function useCategoriesQuery(options = {}) {
+  const language = useCurrentLanguage()
+
   return useQuery({
-    queryKey: queryKeys.categories,
+    queryKey: queryKeys.categories(language),
     queryFn: async () => {
       const response = await getProductCategoryTree()
       return response?.data || []
     },
+    placeholderData: previousData => previousData,
     staleTime: 30 * MINUTE,
     gcTime: 2 * HOUR,
     ...options

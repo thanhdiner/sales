@@ -1,0 +1,189 @@
+{
+  "seo": {
+    "title": "Privacy policy",
+    "description": "SmartMall privacy policy – our commitment to protecting your personal data."
+  },
+  "summary": {
+    "title": "Quick summary",
+    "description": "We collect the information needed to provide our services, protect data with SSL encryption, do not sell information to third parties, and give you full control over your personal data."
+  },
+  "sections": {
+    "dataCollection": "1. Information collection",
+    "usage": "2. Information usage",
+    "sharing": "3. Information sharing",
+    "security": "4. Information security",
+    "userRights": "5. User rights",
+    "cookies": "6. Cookies and tracking technologies",
+    "contact": "7. Contact information"
+  },
+  "dataTypes": {
+    "personal": {
+      "title": "Personal information",
+      "items": ["Full name", "Phone number", "Email", "Address"]
+    },
+    "payment": {
+      "title": "Payment information",
+      "items": ["Transaction history", "Payment method"]
+    },
+    "technical": {
+      "title": "Technical information",
+      "items": ["IP address", "Browser type", "Operating system", "Cookies"]
+    },
+    "behavior": {
+      "title": "Behavior information",
+      "items": ["Browsing history", "Interested products", "Access time"]
+    }
+  },
+  "usageTimeline": {
+    "service": {
+      "title": "Provide services",
+      "description": "Process orders, delivery, payment, and customer support"
+    },
+    "experience": {
+      "title": "Improve experience",
+      "description": "Personalize content and suggest suitable products"
+    },
+    "marketing": {
+      "title": "Marketing communication",
+      "description": "Send promotions and new product updates only when you agree"
+    },
+    "securityCompliance": {
+      "title": "Security and compliance",
+      "description": "Detect fraud and comply with legal requirements"
+    }
+  },
+  "sharingData": {
+    "allowed": [
+      "With delivery partners to deliver orders",
+      "With banks/payment gateways to process transactions",
+      "With legal authorities when there is a valid request",
+      "With your clear consent"
+    ],
+    "disallowed": [
+      "Sell information to third parties",
+      "Share for other commercial purposes",
+      "Disclose unnecessary sensitive information",
+      "Share without consent"
+    ]
+  },
+  "securityMeasures": {
+    "ssl": {
+      "title": "SSL/TLS encryption",
+      "description": "All data is encrypted during transmission"
+    },
+    "firewall": {
+      "title": "Security firewall",
+      "description": "A multi-layer firewall system protects the server"
+    },
+    "accessControl": {
+      "title": "Access control",
+      "description": "Only authorized employees can access data"
+    },
+    "backup": {
+      "title": "Regular backups",
+      "description": "Data is backed up regularly to ensure safety"
+    }
+  },
+  "userRights": {
+    "know": "The right to know about information collection and usage",
+    "accessEdit": "The right to access and edit personal information",
+    "delete": "The right to delete your account and personal data",
+    "unsubscribe": "The right to opt out of promotional information",
+    "complain": "The right to complain about privacy violations",
+    "copy": "The right to request a copy of personal data"
+  },
+  "cookieCategories": {
+    "essential": {
+      "title": "Essential cookies",
+      "description": "Required for basic website operations such as sign-in, cart, and security. These cookies cannot be disabled."
+    },
+    "performance": {
+      "title": "Performance cookies",
+      "description": "Help us understand how you use the website to improve the experience. Information is collected anonymously."
+    },
+    "marketing": {
+      "title": "Marketing cookies",
+      "description": "Used to show ads that match your interests on other websites. You can refuse this type of cookies."
+    }
+  },
+  "faq": {
+    "whyCollect": {
+      "question": "Why do we need to collect personal information?",
+      "answer": "We collect information to provide better services, process orders, support customers, and improve your shopping experience."
+    },
+    "thirdParty": {
+      "question": "Is my information shared with third parties?",
+      "answer": "We only share information with trusted partners needed to complete services such as delivery and payment, and we require them to protect information to high standards."
+    },
+    "deleteAccount": {
+      "question": "Can I delete my account and data?",
+      "answer": "Yes, you can request account deletion at any time. We will delete all personal data within 30 days, except information required by law."
+    },
+    "cookiesControl": {
+      "question": "How can I control cookies?",
+      "answer": "You can manage cookies through your browser settings. However, disabling cookies may affect some website features."
+    }
+  },
+  "contactSection": {
+    "title": "7. Contact information",
+    "description": "If you have any questions about this policy, please contact us through the channels below.",
+    "email": "Email",
+    "hotline": "Hotline",
+    "website": "Website"
+  },
+  "cookiesSection": {
+    "title": "6. Cookies and tracking technologies",
+    "description": "We use cookies and similar technologies to improve the experience, remember preferences, and support essential website features.",
+    "manageButton": "Manage cookie settings"
+  },
+  "dataCollectionSection": {
+    "title": "1. Information collection",
+    "description": "We collect the following types of information to provide you with the best service:",
+    "importantNoteTitle": "Important note",
+    "importantNoteDescription": "We only collect necessary information with your consent. You may refuse to provide some information, but this may affect service quality."
+  },
+  "informationSharingSection": {
+    "title": "3. Information sharing",
+    "description": "We may share your information in some necessary cases to operate the service, but always within appropriate and transparent limits.",
+    "allowedTitle": "Allowed sharing",
+    "disallowedTitle": "Not allowed to share"
+  },
+  "informationUsageSection": {
+    "title": "2. Information usage"
+  },
+  "contactModal": {
+    "title": "Contact us about privacy",
+    "supportTitle": "We are ready to help",
+    "supportDescription": "All privacy requests will be handled within 72 business hours.",
+    "supportEmail": "Support email",
+    "hotline": "Hotline",
+    "note": "When contacting us, please provide your account information and clearly describe your request so we can support you quickly and accurately."
+  },
+  "faqSection": {
+    "title": "Frequently asked questions"
+  },
+  "pageHeader": {
+    "eyebrow": "Policy",
+    "title": "Privacy policy",
+    "description": "We are committed to protecting your privacy and personal information safely and transparently.",
+    "updatedAt": "Updated: 08/01/2025",
+    "gdpr": "GDPR compliant",
+    "iso": "ISO 27001"
+  },
+  "sidebar": {
+    "title": "Table of contents"
+  },
+  "securitySection": {
+    "title": "4. Information security",
+    "description": "We apply necessary security measures to protect your information while you use our services.",
+    "commitmentTitle": "Security commitment",
+    "commitmentDescription": "We comply with international security standards such as ISO 27001, GDPR, and Vietnamese data protection regulations."
+  },
+  "userRightsSection": {
+    "title": "5. User rights",
+    "description": "You have the following rights regarding your personal information:",
+    "howToTitle": "How to exercise your rights",
+    "howToDescription": "To exercise these rights, please contact us by email or hotline. We will respond within 72 hours.",
+    "contactButton": "Contact now"
+  }
+}

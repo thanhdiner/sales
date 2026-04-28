@@ -1,0 +1,282 @@
+{
+  "seo": {
+    "title": "Return & refund policy",
+    "description": "SmartMall return and refund policy - clear, transparent, and designed to protect customer rights."
+  },
+  "pageHeader": {
+    "eyebrow": "Policy",
+    "title": "Return & refund policy",
+    "description": "We are committed to a convenient shopping experience with a clear, flexible, and easy-to-follow return policy.",
+    "tags": {
+      "freeReturn": "Free returns",
+      "flexibleDeadline": "Deadline varies by product type",
+      "fastRefund": "Fast refunds"
+    },
+    "actions": {
+      "request": "Request a return",
+      "tracking": "Track request"
+    }
+  },
+  "process": {
+    "physical": {
+      "title": "Physical product return process",
+      "noteTitle": "Important note",
+      "noteDescription": "Please keep the product in its original condition and pack it carefully before sending it back so we can process your request quickly.",
+      "steps": {
+        "request": {
+          "title": "Submit request",
+          "description": "Send a request through the website or hotline"
+        },
+        "confirm": {
+          "title": "Request confirmation",
+          "description": "We will confirm within 24 hours"
+        },
+        "ship": {
+          "title": "Send product back",
+          "description": "Pack and return the product"
+        },
+        "inspect": {
+          "title": "Inspect & process",
+          "description": "Inspect the product and process the request"
+        },
+        "complete": {
+          "title": "Complete",
+          "description": "Exchange for a new product or issue a refund"
+        }
+      }
+    },
+    "online": {
+      "title": "Online service / account / software handling process",
+      "noteTitle": "Note",
+      "noteDescriptions": [
+        "Some digital products, licensed software, digital accounts, and online upgrade services only support refunds or replacements when there is a system issue or the service cannot be used.",
+        "After a service has been activated successfully, some products are not eligible for refunds under the publisher's rules."
+      ],
+      "steps": {
+        "request": {
+          "title": "Submit support request",
+          "description": "Contact us through the website, Zalo, or email"
+        },
+        "verify": {
+          "title": "Verify & check",
+          "description": "Check transaction and account status"
+        },
+        "handle": {
+          "title": "Handle & respond",
+          "description": "Fix, reactivate, reissue the service, or refund when eligible"
+        },
+        "complete": {
+          "title": "Complete",
+          "description": "Close the request and confirm with the customer"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "title": "Return conditions",
+    "acceptedTitle": "Accepted",
+    "rejectedTitle": "Not accepted",
+    "physicalTitle": "Physical products",
+    "digitalTitle": "Online services, accounts, and software",
+    "acceptedPhysicalItems": [
+      "Product is intact and unused",
+      "Original packaging, labels, and accessories are included",
+      "A valid purchase invoice is available",
+      "The request is within the return period for that product type",
+      "The reason is valid, such as a technical defect, wrong item, or shipping damage"
+    ],
+    "acceptedDigitalItems": [
+      "Service or account has not been activated, or cannot be used due to a system issue",
+      "Account or license has not been used, or has a technical issue upon receipt",
+      "Wrong service package was delivered or purchased by mistake and has not been activated"
+    ],
+    "rejectedPhysicalItems": [
+      "Product has been used, soiled, or damaged by the user",
+      "Accessories, original packaging, or labels are missing",
+      "The return period has expired",
+      "Custom-made or personalized products",
+      "Underwear, cosmetics, products with opened seals, or products that have been tried"
+    ],
+    "rejectedDigitalItems": [
+      "Service has been activated or used successfully",
+      "Account or service has been transferred, gifted, or resold to another person",
+      "Terms of use were violated, or the account was locked/banned due to user behavior"
+    ]
+  },
+  "refund": {
+    "title": "Refund methods",
+    "popular": "Popular",
+    "timeLabel": "Time",
+    "feeLabel": "Fee"
+  },
+  "refundMethods": {
+    "bankTransfer": {
+      "method": "Bank transfer",
+      "time": "2-3 business hours",
+      "fee": "Free"
+    },
+    "eWallet": {
+      "method": "E-wallet (MoMo, ZaloPay)",
+      "time": "2-3 business hours",
+      "fee": "Free"
+    },
+    "cash": {
+      "method": "Cash at store",
+      "time": "Immediately",
+      "fee": "Free"
+    }
+  },
+  "categories": {
+    "title": "Return period by category",
+    "description": "The return period is counted from the delivery date and may vary by product group.",
+    "columns": {
+      "category": "Product category",
+      "returnPeriod": "Return period",
+      "conditions": "Conditions",
+      "specialNotes": "Special notes"
+    },
+    "extraTitle": "Additional information",
+    "extraDescription": "Products in clearance sale programs may have shorter return periods."
+  },
+  "productCategories": {
+    "electronics": {
+      "category": "Electronics & Technology",
+      "returnPeriod": "1-15 days (varies by item)",
+      "conditions": ["Seal is intact", "All accessories included", "Invoice available"],
+      "specialNotes": "Does not apply to activated software"
+    },
+    "fashion": {
+      "category": "Fashion & Accessories",
+      "returnPeriod": "1-30 days (varies by item)",
+      "conditions": ["Unused", "Original tags attached", "Not dirty or damaged"],
+      "specialNotes": "Underwear and socks are not eligible for return"
+    },
+    "beauty": {
+      "category": "Beauty & Health",
+      "returnPeriod": "1-7 days (varies by item)",
+      "conditions": ["Unopened", "Seal is intact", "No allergy issue caused by use"],
+      "specialNotes": "Only accepted for manufacturer defects"
+    },
+    "homeAppliance": {
+      "category": "Home appliances",
+      "returnPeriod": "1-20 days (varies by item)",
+      "conditions": ["Intact", "All accessories included", "Unused"],
+      "specialNotes": "Glassware must be packed carefully"
+    },
+    "books": {
+      "category": "Books & Stationery",
+      "returnPeriod": "1-14 days (varies by item)",
+      "conditions": ["Not torn or dirty", "No writing or marking", "Intact"],
+      "specialNotes": "E-books are not eligible for return"
+    },
+    "digitalServices": {
+      "category": "Online services / Accounts / Software",
+      "returnPeriod": "1-3 days (varies by item)",
+      "conditions": [
+        "Not activated or not used",
+        "Technical issue prevents usage",
+        "Wrong package delivered or purchased by mistake and not yet used"
+      ],
+      "specialNotes": "No refund/exchange after successful activation or usage. Not applicable when terms of use are violated or the account is locked due to user behavior."
+    }
+  },
+  "reasons": {
+    "title": "Common return reasons",
+    "description": "Common reasons customers choose when creating a return request.",
+    "cardDescription": "Select this reason when creating a return request."
+  },
+  "returnReasons": {
+    "defective": "Product is defective/damaged",
+    "wrongItem": "Wrong product delivered",
+    "notAsDescribed": "Not as described",
+    "sizeIssue": "Size does not fit",
+    "changeMind": "Changed my mind",
+    "damagedShipping": "Damaged during shipping"
+  },
+  "faqSection": {
+    "title": "Frequently asked questions",
+    "description": "Common questions about the return and refund process."
+  },
+  "faq": {
+    "promotion": {
+      "question": "Can I return a promotional product?",
+      "answer": "Yes, promotional products can be returned under the standard policy. However, the refunded amount will be the discounted price, not the original price."
+    },
+    "shippingFee": {
+      "question": "Who pays the shipping fee for returns?",
+      "answer": "If the issue is from us, such as a wrong item or defective product, we will cover the shipping fee. If the return is due to a change of mind, the customer covers the shipping fee."
+    },
+    "exchangeUpgrade": {
+      "question": "Can I exchange for a higher-priced product?",
+      "answer": "Yes, you can exchange for a higher-priced product by paying the price difference. We will calculate and notify you of the additional amount."
+    },
+    "processingTime": {
+      "question": "How long does return processing take?",
+      "answer": "Usually 5-7 business days from the time we receive the product. During peak periods, processing may take 2-3 additional days."
+    },
+    "cancelRequest": {
+      "question": "Can I cancel a submitted return request?",
+      "answer": "Yes, you can cancel before sending the product back. After the product has been shipped, cancellation depends on the processing status."
+    }
+  },
+  "support": {
+    "tipsTitle": "Tips for a successful return",
+    "supportTitle": "Customer support",
+    "hotlineLabel": "Return hotline",
+    "emailLabel": "Support email",
+    "hoursLabel": "Support hours",
+    "tips": {
+      "takePhotos": "Take photos of the product before packing",
+      "keepPackaging": "Keep the original packaging and accessories",
+      "packCarefully": "Pack carefully to avoid damage",
+      "keepReceipt": "Keep the shipping receipt",
+      "trackRequest": "Track status with your request code"
+    }
+  },
+  "footerCta": {
+    "title": "Need more help?",
+    "description": "Our customer care team is ready to support you throughout the return and refund process.",
+    "callButton": "Call hotline",
+    "emailButton": "Send email",
+    "faqButton": "Detailed FAQ"
+  },
+  "requestModal": {
+    "title": "Create Return Request",
+    "successTitle": "Request submitted!",
+    "successContent": "Your request code is RT2025080001. We will contact you within 24 hours.",
+    "orderNumberLabel": "Order number",
+    "orderNumberRequired": "Please enter the order number",
+    "orderNumberPlaceholder": "E.g. ORD2025080001",
+    "emailLabel": "Email",
+    "emailRequired": "Please enter your email",
+    "emailInvalid": "Invalid email",
+    "emailPlaceholder": "your@email.com",
+    "reasonLabel": "Return reason",
+    "reasonRequired": "Please select a reason",
+    "reasonPlaceholder": "Select a return reason",
+    "descriptionLabel": "Detailed description",
+    "descriptionRequired": "Please describe the issue",
+    "descriptionPlaceholder": "Describe the product condition and specific reason...",
+    "imagesLabel": "Product images",
+    "uploadButton": "Upload images",
+    "uploadHint": "Up to 5 images, max 2MB each",
+    "cancelButton": "Cancel",
+    "submitButton": "Submit request"
+  },
+  "tracking": {
+    "modalTitle": "Track Return Status",
+    "searchPlaceholder": "Enter return request code (E.g. RT2025080001)",
+    "searchButton": "Search",
+    "codeLabel": "Request code:",
+    "statusLabel": "Processing",
+    "estimatedTitle": "Estimated completion",
+    "estimatedDescription": "Your request is expected to be completed within the next 2-3 business days.",
+    "statuses": {
+      "received": "Received",
+      "verifying": "Verifying",
+      "waitingWarehouse": "Waiting for product at warehouse",
+      "inspecting": "Inspecting product",
+      "completed": "Processing completed"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client'
+import { SOCKET_URL as DEFAULT_SOCKET_URL } from '@/utils/env'
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:3001'
+const SOCKET_URL = DEFAULT_SOCKET_URL
 
 let socket = null
 let currentRole = null

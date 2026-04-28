@@ -1,0 +1,61 @@
+{
+  "seo": {
+    "title": "Cart",
+    "titleDetail": "Your cart"
+  },
+  "message": {
+    "fetchCartFailed": "Could not load your cart",
+    "removeFailed": "Failed to remove product",
+    "updateQuantityFailed": "Failed to update quantity",
+    "invalidQuantity": "Please enter a valid quantity!",
+    "maxStock": "Only {{count}} products left in stock",
+    "removeSuccess": "Product removed from cart",
+    "promoRequired": "Please enter a promo code",
+    "promoSuccess": "Promo code applied successfully",
+    "promoInvalid": "Invalid promo code",
+    "genericError": "Something went wrong"
+  },
+  "modal": {
+    "removeTitle": "Remove product from cart?",
+    "removeContent": "This product will be removed from your cart.",
+    "okText": "Remove",
+    "cancelText": "Cancel"
+  },
+  "empty": {
+    "title": "Your cart is empty",
+    "description": "You do not have any products in your cart yet.",
+    "button": "Continue shopping"
+  },
+  "page": {
+    "title": "Cart",
+    "itemCount": "You have {{count}} products in your cart",
+    "selectAll": "Select all",
+    "availableCount": "({{selected}}/{{total}} available products)"
+  },
+  "item": {
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "removeTitle": "Remove",
+    "lineTotal": "Subtotal",
+    "lineTotalMobile": "Subtotal: {{amount}}"
+  },
+  "promo": {
+    "title": "Promo code",
+    "placeholder": "Enter code",
+    "apply": "Apply",
+    "percentDescription": "{{value}}% off",
+    "percentMaxDescription": "{{value}}% off, up to {{max}}",
+    "fixedDescription": "{{value}} off"
+  },
+  "summary": {
+    "title": "Order summary",
+    "subtotal": "Subtotal ({{count}} products)",
+    "discount": "Discount",
+    "shipping": "Shipping fee",
+    "freeShipping": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "checkoutWithCount": "Checkout ({{count}})",
+    "selectToCheckout": "Please select products to checkout"
+  }
+}

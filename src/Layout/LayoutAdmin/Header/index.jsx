@@ -1,13 +1,23 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
+import { GlobalOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import NotificationBell from './components/NotificationBell'
+import { setLanguage } from '@/stores/languageSlice'
+import AdminNotificationBell from '@/components/admin/notifications/AdminNotificationBell'
 import UserMenu from './UserMenu'
 import useDarkMode from './useDarkMode'
 
-function Header({ collapsed, setCollapsed, onNewOrder }) {
+function Header({ collapsed, setCollapsed, onNewOrder, canToggleSider = true }) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { t } = useTranslation('adminLayout')
   const { isDarkMode, toggleDarkMode } = useDarkMode()
+  const language = useSelector(state => state.language?.value || 'vi')
+  const nextLanguage = language === 'vi' ? 'en' : 'vi'
+  const languageToggleLabel = t('header.switchLanguage', {
+    language: t(`header.languages.${nextLanguage}`)
+  })
 
   return (
     <header className="admin-header sticky top-0 z-[1234] flex items-center justify-between px-3 py-2 shadow-sm md:px-5 md:py-3 md:shadow-none">
@@ -16,6 +26,8 @@ function Header({ collapsed, setCollapsed, onNewOrder }) {
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setCollapsed(!collapsed)}
+          disabled={!canToggleSider}
+          title={canToggleSider ? t('header.toggleSidebar') : t('header.sidebarLocked')}
           className="admin-header-icon-btn flex h-9 w-9 items-center justify-center rounded-lg"
         />
 
@@ -24,20 +36,32 @@ function Header({ collapsed, setCollapsed, onNewOrder }) {
           onClick={() => navigate('/admin/dashboard')}
           className="admin-header-brand cursor-pointer border-0 bg-transparent p-0 text-base font-semibold md:hidden"
         >
-          Admin
+          {t('brand.admin')}
         </button>
       </div>
 
       <div className="flex items-center gap-1.5 md:gap-2">
         <Button
           type="text"
+          icon={<GlobalOutlined className="text-[18px]" />}
+          onClick={() => dispatch(setLanguage(nextLanguage))}
+          aria-label={languageToggleLabel}
+          title={languageToggleLabel}
+          className="admin-header-icon-btn admin-header-language-btn flex h-10 items-center justify-center rounded-lg"
+        >
+          {language === 'vi' ? 'VI' : 'EN'}
+        </Button>
+
+        <Button
+          type="text"
           icon={isDarkMode ? <SunOutlined className="text-[20px]" /> : <MoonOutlined className="text-[20px]" />}
           onClick={toggleDarkMode}
-          title={isDarkMode ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
+          title={isDarkMode ? t('header.switchToLight') : t('header.switchToDark')}
+          aria-label={isDarkMode ? t('header.switchToLight') : t('header.switchToDark')}
           className="admin-header-icon-btn flex h-10 w-10 items-center justify-center rounded-lg"
         />
 
-        <NotificationBell onNewOrder={onNewOrder} />
+        <AdminNotificationBell onNewOrder={onNewOrder} />
 
         <UserMenu />
       </div>

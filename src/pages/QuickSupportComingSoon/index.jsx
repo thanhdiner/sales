@@ -1,20 +1,37 @@
 import SEO from '@/components/SEO'
 import { Headphones, Clock } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useComingSoonContent } from '@/hooks/useComingSoonContent'
+import { getTextValue } from '@/utils/contentText'
 
-export default function QuickSupportComingSoon() {return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-teal-100 px-4 dark:from-gray-800 dark:to-gray-800 rounded-xl">
-      <SEO title="Hỗ trợ nhanh – Sắp ra mắt" noIndex />
-            <div className="bg-white rounded-2xl shadow p-8 flex flex-col items-center max-w-md w-full dark:bg-gray-800 dark:border-gray-600 dark:border-2 dark:border-solid">
-        <Headphones className="w-14 h-14 text-teal-500 mb-3" aria-hidden="true" />
-        <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">Hỗ trợ nhanh</h1>
-        <p className="text-gray-600 mb-4 text-center dark:text-gray-400">
-          Tính năng hỗ trợ khách hàng, giải đáp thắc mắc tức thì sẽ sớm ra mắt.
+export default function QuickSupportComingSoon() {
+  const { t } = useTranslation('clientComingSoon')
+  const { data: content } = useComingSoonContent('quick-support')
+
+  return (
+    <div className="quick-support-coming-soon-page flex min-h-[60vh] items-center justify-center rounded-xl bg-gradient-to-br from-green-50 via-white to-teal-100 px-4 dark:bg-gray-950 dark:bg-none">
+      <SEO
+        title={getTextValue(content?.seo?.title, t('quickSupport.seo.title'))}
+        description={getTextValue(content?.seo?.description, t('quickSupport.description'))}
+        noIndex
+      />
+
+      <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-white p-8 shadow dark:border dark:border-solid dark:border-gray-800 dark:bg-gray-900">
+        <Headphones className="mb-3 h-14 w-14 text-teal-500" aria-hidden="true" />
+
+        <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+          {getTextValue(content?.title, t('quickSupport.title'))}
+        </h1>
+
+        <p className="mb-4 text-center text-gray-600 dark:text-gray-400">
+          {getTextValue(content?.description, t('quickSupport.description'))}
           <br />
-          Hãy yên tâm, đội ngũ của chúng tôi luôn sẵn sàng đồng hành cùng bạn!
+          {getTextValue(content?.descriptionSecondLine, t('quickSupport.descriptionSecondLine'))}
         </p>
-        <div className="flex items-center gap-2 text-teal-600 text-sm">
-          <Clock className="w-4 h-4" aria-hidden="true" />
-          Chức năng này sẽ sớm hoạt động!
+
+        <div className="flex items-center gap-2 text-sm text-teal-600">
+          <Clock className="h-4 w-4" aria-hidden="true" />
+          {getTextValue(content?.status, t('quickSupport.status'))}
         </div>
       </div>
     </div>

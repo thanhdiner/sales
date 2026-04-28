@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { normalizeWishlistItems } from '@/lib/normalizeWishlistItems'
 import { useSelector } from 'react-redux'
 import NotificationBell from '../components/NotificationBell'
-import SearchSuggest from '../components/SearchSuggest'
 import AccountMenu from './AccountMenu'
+import HeaderSearch from './HeaderSearch'
 
 export default function HeaderActions({ isDesktop, user, notifications, setNotifications }) {
   const cartItems = useSelector(state => state.cart.items) || []
@@ -14,11 +14,15 @@ export default function HeaderActions({ isDesktop, user, notifications, setNotif
   const wishlistActiveColor = '#ff424e'
 
   return (
-    <Col xs={12} sm={16} md={18} lg={10} xl={10} className="flex justify-end items-center gap-1">
+    <Col xs={10} sm={14} md={16} lg={10} xl={10} className="flex justify-end items-center gap-1">
       <div className="header__action">
-        <div className={`header__action__search ${isDesktop ? '' : 'max-w-[160px]'}`}>
-          <SearchSuggest />
-        </div>
+        {isDesktop && (
+          <div className="header__action__search">
+            <HeaderSearch />
+          </div>
+        )}
+
+        {!isDesktop && <HeaderSearch mode="mobile" />}
 
         {isLoggedIn && (
           <div className="header__action__wishlist">

@@ -1,5 +1,157 @@
 .admin-permissions-page {
   color: var(--admin-text);
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-permissions-page__inner,
+.admin-permissions-panel {
+  min-width: 0;
+}
+
+.admin-permissions-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+  min-width: 0;
+}
+
+.admin-permissions-header__title {
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere;
+}
+
+.admin-permissions-header__description {
+  display: block;
+  line-height: 1.45;
+}
+
+.admin-permissions-create-btn.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  box-shadow: none !important;
+}
+
+.admin-permissions-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admin-permissions-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: var(--admin-surface-2);
+  padding: 14px 16px;
+}
+
+.admin-permissions-stat-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.admin-permissions-stat-card--total .admin-permissions-stat-card__icon {
+  background: rgba(94, 106, 210, 0.18);
+  color: #8b7cff;
+}
+
+.admin-permissions-stat-card--active .admin-permissions-stat-card__icon {
+  background: rgba(34, 197, 94, 0.16);
+  color: var(--admin-success-text);
+}
+
+.admin-permissions-stat-card--inactive .admin-permissions-stat-card__icon {
+  background: rgba(239, 68, 68, 0.16);
+  color: var(--admin-danger-text);
+}
+
+.admin-permissions-stat-card__body {
+  min-width: 0;
+}
+
+.admin-permissions-stat-card__label {
+  display: block;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.admin-permissions-stat-card__value {
+  display: block;
+  margin-top: 3px;
+  color: var(--admin-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.admin-permissions-table-wrapper {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.admin-permissions-code-text,
+.admin-permissions-title-text,
+.admin-permissions-muted-text {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.admin-permissions-actions {
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+.admin-permissions-status-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  min-width: 44px;
+  border-radius: 999px;
+  padding: 2px 3px 2px 8px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.admin-permissions-status-switch i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
+}
+
+.admin-permissions-status-switch--active {
+  background: var(--admin-accent);
+}
+
+.admin-permissions-status-switch--inactive {
+  background: #ef4444;
 }
 
 .admin-permissions-table.ant-table-wrapper .ant-table,
@@ -24,6 +176,10 @@
 
 .admin-permissions-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
   background: var(--admin-surface-2) !important;
+}
+
+.admin-permissions-table.ant-table-wrapper .ant-table-cell {
+  min-width: 0;
 }
 
 .admin-permissions-table.ant-table-wrapper .ant-empty-description {
@@ -132,6 +288,164 @@
   border-color: rgba(248, 81, 73, 0.55) !important;
   background: color-mix(in srgb, #ef4444 14%, var(--admin-surface-3)) !important;
   color: #fca5a5 !important;
+}
+
+.admin-permission-form__translation-section {
+  margin-bottom: 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-2);
+  padding: 14px;
+}
+
+.admin-permission-form__translation-title {
+  margin: 0 0 12px;
+  color: var(--admin-text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .admin-permissions-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-permissions-page {
+    border-radius: 10px;
+  }
+
+  .admin-permissions-panel {
+    border-radius: 10px !important;
+    padding: 14px !important;
+  }
+
+  .admin-permissions-header {
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .admin-permissions-header__title {
+    margin-bottom: 4px !important;
+    font-size: 18px !important;
+  }
+
+  .admin-permissions-header__description {
+    font-size: 12px !important;
+  }
+
+  .admin-permissions-create-btn.ant-btn {
+    width: 36px;
+    height: 36px;
+    padding-inline: 0 !important;
+  }
+
+  .admin-permissions-create-btn.ant-btn > span:not(.ant-btn-icon) {
+    display: none;
+  }
+
+  .admin-permissions-stats {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .admin-permissions-stat-card {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .admin-permissions-stat-card__icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+    font-size: 16px;
+  }
+
+  .admin-permissions-stat-card__label {
+    font-size: 10px;
+  }
+
+  .admin-permissions-stat-card__value {
+    font-size: 17px;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-permissions-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding: 10px 6px !important;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-table-thead > tr > th {
+    white-space: nowrap;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-table-cell::before {
+    display: none !important;
+  }
+
+  .admin-permissions-code-text,
+  .admin-permissions-title-text {
+    font-size: 11px !important;
+    line-height: 1.35;
+  }
+
+  .admin-permissions-status-switch {
+    min-width: 38px;
+    height: 18px;
+    padding-left: 6px;
+    font-size: 10px;
+  }
+
+  .admin-permissions-status-switch i {
+    width: 12px;
+    height: 12px;
+  }
+
+  .admin-permissions-actions {
+    gap: 4px !important;
+  }
+
+  .admin-permissions-actions .ant-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0 !important;
+    border-radius: 7px !important;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-pagination {
+    justify-content: center;
+    row-gap: 8px;
+    margin: 12px 0 0 !important;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-pagination-total-text {
+    width: 100%;
+    margin-inline-end: 0;
+    text-align: center;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-pagination-options-quick-jumper {
+    display: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-permissions-page {
+    padding: 10px !important;
+  }
+
+  .admin-permissions-panel {
+    padding: 12px !important;
+  }
+
+  .admin-permissions-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-permissions-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding-inline: 4px !important;
+  }
 }
 
 .admin-permission-modal.ant-modal .ant-modal-content {

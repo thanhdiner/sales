@@ -1,0 +1,126 @@
+.admin-footer-page {
+  min-height: 100%;
+}
+
+.admin-footer-card {
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-footer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid var(--admin-border);
+
+  h2.ant-typography {
+    margin: 0 0 4px;
+    color: var(--admin-text);
+  }
+
+  .ant-typography {
+    color: var(--admin-text-muted);
+  }
+}
+
+.admin-footer-form {
+  padding: 0 24px 24px;
+}
+
+.admin-footer-section {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--admin-border);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.admin-footer-section__header {
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    color: var(--admin-text);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--admin-text-muted);
+    font-size: 13px;
+  }
+}
+
+.admin-footer-list {
+  margin-top: 14px;
+}
+
+.admin-footer-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  h4 {
+    margin: 0;
+    color: var(--admin-text);
+    font-size: 14px;
+    font-weight: 650;
+  }
+}
+
+.admin-footer-list-item {
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.admin-footer-checkbox {
+  padding-top: 30px;
+}
+
+.admin-footer-page {
+  .ant-tabs-tab {
+    color: var(--admin-text-muted);
+  }
+
+  .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--admin-accent);
+  }
+
+  .ant-form-item-label > label,
+  .ant-checkbox-wrapper {
+    color: var(--admin-text-muted);
+  }
+
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-input-outlined {
+    border-color: var(--admin-border);
+    background: var(--admin-surface);
+    color: var(--admin-text);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-footer-header {
+    flex-direction: column;
+  }
+
+  .admin-footer-checkbox {
+    padding-top: 0;
+  }
+}

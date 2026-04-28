@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { Button, Modal, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import FlashSaleFormModal from './components/FlashSaleFormModal'
 import FlashSalesTable from './components/FlashSalesTable'
@@ -17,6 +18,7 @@ const ADMIN_FLASH_SALES_CONFIRM_MASK_STYLE = {
 }
 
 const FlashSaleAdmin = () => {
+  const { t } = useTranslation('adminFlashSales')
   const { flashSales, tableLoading, submitLoading, submitFlashSale, deleteFlashSaleItem } = useAdminFlashSalesData()
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
@@ -42,17 +44,17 @@ const FlashSaleAdmin = () => {
     Modal.confirm({
       className: 'admin-flash-sales-confirm-modal',
       maskStyle: ADMIN_FLASH_SALES_CONFIRM_MASK_STYLE,
-      title: <span>Xác nhận xóa</span>,
-      content: <span>Bạn có chắc chắn muốn xóa flash sale này?</span>,
-      okText: 'Xóa',
-      cancelText: 'Hủy',
+      title: <span>{t('confirmDelete.title')}</span>,
+      content: <span>{t('confirmDelete.content')}</span>,
+      okText: t('confirmDelete.ok'),
+      cancelText: t('confirmDelete.cancel'),
       okType: 'danger',
       onOk: () => deleteFlashSaleItem(id)
     })
   }
 
   const handleSubmit = async () => {
-    const validationError = validateFlashSaleForm(formData)
+    const validationError = validateFlashSaleForm(formData, t)
 
     if (validationError) {
       message.warning(validationError)
@@ -66,31 +68,37 @@ const FlashSaleAdmin = () => {
     }
   }
 
-  return (
-    <div className="admin-flash-sales-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-6">
-      <SEO title="Admin - Flash Sale" noIndex />
+  const renderCreateButton = () => (
+    <Button type="primary" icon={<Plus className="h-4 w-4" />} onClick={openCreate} className="admin-flash-sales-create-btn">
+      <span>{t('actions.create')}</span>
+    </Button>
+  )
 
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-[var(--admin-text)]">Quản Lý Flash Sale</h1>
-          <p className="text-[var(--admin-text-muted)]">Quản lý các chương trình khuyến mãi flash sale</p>
+  return (
+    <div className="admin-flash-sales-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 sm:p-4 lg:p-6">
+      <SEO title={t('seo.title')} noIndex />
+
+      <div className="admin-flash-sales-page__inner mx-auto max-w-7xl">
+        <div className="admin-flash-sales-header mb-6">
+          <div className="min-w-0">
+            <h1 className="mb-2 text-2xl font-bold leading-tight text-[var(--admin-text)] sm:text-3xl">
+              {t('page.title')}
+            </h1>
+            <p className="text-sm text-[var(--admin-text-muted)] sm:text-base">
+              {t('page.description')}
+            </p>
+          </div>
+
+          <div className="admin-flash-sales-header__mobile-action">
+            {renderCreateButton()}
+          </div>
         </div>
 
         <FlashSaleStats flashSales={flashSales} />
 
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap gap-3">{/* Filters sau này */}</div>
-
-          <div>
-            <Button
-              type="primary"
-              icon={<Plus className="h-4 w-4" />}
-              onClick={openCreate}
-              className="w-full sm:w-auto"
-            >
-              Tạo Flash Sale Mới
-            </Button>
-          </div>
+        <div className="admin-flash-sales-toolbar mb-6">
+          <div className="flex flex-wrap gap-3">{/* Future filters */}</div>
+          {renderCreateButton()}
         </div>
 
         <FlashSalesTable

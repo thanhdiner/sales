@@ -1,18 +1,19 @@
+import { useTranslation } from 'react-i18next'
+
 export function OrderSummary({ orderItems, subtotal, discount, shipping, total, formatPrice }) {
+  const { t } = useTranslation('clientCheckout')
+
   return (
     <div className="sticky top-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-          Đơn hàng của bạn
-        </h3>
-        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-          Kiểm tra lại sản phẩm và tổng tiền trước khi xác nhận.
-        </p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{t('orderSummary.title')}</h3>
+
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">{t('orderSummary.description')}</p>
       </div>
 
       <div className="mb-6 space-y-4">
         {orderItems.map(item => (
-          <div key={item.id} className="flex gap-3">
+          <div key={item.id || item.productId} className="flex gap-3">
             <div className="relative shrink-0">
               <img
                 src={item.image}
@@ -26,25 +27,15 @@ export function OrderSummary({ orderItems, subtotal, discount, shipping, total, 
             </div>
 
             <div className="min-w-0 flex-1">
-              <h4 className="line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                {item.name}
-              </h4>
+              <h4 className="line-clamp-2 text-sm font-medium text-gray-900 dark:text-gray-100">{item.name}</h4>
 
-              {item.category && (
-                <p className="mt-1 mb-0 text-xs text-gray-500 dark:text-gray-400">
-                  {item.category}
-                </p>
-              )}
+              {item.category && <p className="mt-1 mb-0 text-xs text-gray-500 dark:text-gray-400">{item.category}</p>}
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                  {formatPrice(item.price)}
-                </span>
+                <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">{formatPrice(item.price)}</span>
 
                 {item.originalPrice > item.price && (
-                  <span className="text-xs text-gray-400 line-through dark:text-gray-500">
-                    {formatPrice(item.originalPrice)}
-                  </span>
+                  <span className="text-xs text-gray-400 line-through dark:text-gray-500">{formatPrice(item.originalPrice)}</span>
                 )}
               </div>
             </div>
@@ -54,38 +45,34 @@ export function OrderSummary({ orderItems, subtotal, discount, shipping, total, 
 
       <div className="space-y-3 border-t border-gray-200 pt-4 dark:border-gray-700">
         <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
-          <span>Tạm tính</span>
+          <span>{t('orderSummary.subtotal')}</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
 
         <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
-          <span>Giảm giá</span>
+          <span>{t('orderSummary.discount')}</span>
           <span>-{formatPrice(discount)}</span>
         </div>
 
         <div className="flex justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
-          <span>Phí vận chuyển</span>
-          <span>{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span>
+          <span>{t('orderSummary.shipping')}</span>
+          <span>{shipping === 0 ? t('orderSummary.freeShipping') : formatPrice(shipping)}</span>
         </div>
 
         <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
           <div className="flex justify-between gap-4">
-            <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
-              Tổng cộng
-            </span>
+            <span className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('orderSummary.total')}</span>
 
-            <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              {formatPrice(total)}
-            </span>
+            <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">{formatPrice(total)}</span>
           </div>
         </div>
       </div>
 
       <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
         <div className="space-y-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-          <p className="mb-0">Bảo hành chính hãng</p>
-          <p className="mb-0">Nhận hàng tại cửa hàng</p>
-          <p className="mb-0">Hỗ trợ khi cần</p>
+          <p className="mb-0">{t('orderSummary.benefits.warranty')}</p>
+          <p className="mb-0">{t('orderSummary.benefits.pickup')}</p>
+          <p className="mb-0">{t('orderSummary.benefits.support')}</p>
         </div>
       </div>
     </div>

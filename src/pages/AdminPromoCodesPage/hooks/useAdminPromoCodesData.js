@@ -10,10 +10,11 @@ import {
 import { useListSearchParams } from '@/hooks/useListSearchParams'
 import {
   DEFAULT_PROMO_CODE_PAGINATION,
+  getPromoCodeServerErrorMessage,
   normalizePromoCodeFormValues
 } from '../utils/promoCodeHelpers'
 
-export function useAdminPromoCodesData() {
+export function useAdminPromoCodesData({ t = key => key, filters = {} } = {}) {
   const { page, setPage, pageSize, setPageSize } = useListSearchParams({
     defaultPage: DEFAULT_PROMO_CODE_PAGINATION.current,
     defaultPageSize: DEFAULT_PROMO_CODE_PAGINATION.pageSize
@@ -35,28 +36,28 @@ export function useAdminPromoCodesData() {
     [page, pageSize, total]
   )
 
-  const fetchPromoCodes = useCallback(async (nextPage = page, nextPageSize = pageSize) => {
+  const fetchPromoCodes = useCallback(async (nextPage = page, nextPageSize = pageSize, nextFilters = {}) => {
     setLoading(true)
 
     try {
-      const res = await getPromoCodes({ page: nextPage, limit: nextPageSize })
+      const res = await getPromoCodes({ page: nextPage, limit: nextPageSize, ...nextFilters })
 
       setPromoCodes(res?.promoCodes || [])
       setTotal(res?.total || 0)
     } catch (err) {
-      message.error('Lỗi khi lấy danh sách mã giảm giá')
+      message.error(getPromoCodeServerErrorMessage(err, t, 'messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [page, pageSize])
+  }, [page, pageSize, t])
 
   useEffect(() => {
-    fetchPromoCodes(page, pageSize)
-  }, [fetchPromoCodes, page, pageSize])
+    fetchPromoCodes(page, pageSize, filters)
+  }, [fetchPromoCodes, filters, page, pageSize])
 
   const refreshCurrentPage = useCallback(() => {
-    return fetchPromoCodes(page, pageSize)
-  }, [fetchPromoCodes, page, pageSize])
+    return fetchPromoCodes(page, pageSize, filters)
+  }, [fetchPromoCodes, filters, page, pageSize])
 
   const handleTableChange = useCallback(
     tablePagination => {
@@ -78,15 +79,15 @@ export function useAdminPromoCodesData() {
 
       try {
         await deletePromoCode(id)
-        message.success('Đã xóa mã giảm giá thành công')
+        message.success(t('messages.deleteSuccess'))
         await refreshCurrentPage()
       } catch (err) {
-        message.error('Xóa mã giảm giá thất bại')
+        message.error(getPromoCodeServerErrorMessage(err, t, 'messages.deleteError'))
       } finally {
         setLoading(false)
       }
     },
-    [refreshCurrentPage]
+    [refreshCurrentPage, t]
   )
 
   const handleSubmitPromoCode = useCallback(
@@ -98,22 +99,22 @@ export function useAdminPromoCodesData() {
 
         if (editingCode) {
           await updatePromoCode(editingCode._id, formData)
-          message.success('Cập nhật mã giảm giá thành công')
+          message.success(t('messages.updateSuccess'))
         } else {
           await createPromoCode(formData)
-          message.success('Tạo mã giảm giá thành công')
+          message.success(t('messages.createSuccess'))
         }
 
         await refreshCurrentPage()
         return true
       } catch (error) {
-        message.error(error?.response?.data?.error || 'Có lỗi xảy ra')
+        message.error(getPromoCodeServerErrorMessage(error, t))
         return false
       } finally {
         setLoading(false)
       }
     },
-    [refreshCurrentPage]
+    [refreshCurrentPage, t]
   )
 
   const handleToggleStatus = useCallback(
@@ -122,15 +123,17 @@ export function useAdminPromoCodesData() {
 
       try {
         await updatePromoCode(record._id, { isActive: !record.isActive })
-        message.success(`Đã ${record.isActive ? 'tắt' : 'bật'} mã giảm giá`)
+        message.success(t('messages.toggleSuccess', {
+          action: record.isActive ? t('messages.toggleOff') : t('messages.toggleOn')
+        }))
         await refreshCurrentPage()
       } catch (err) {
-        message.error('Cập nhật trạng thái thất bại')
+        message.error(getPromoCodeServerErrorMessage(err, t, 'messages.statusUpdateError'))
       } finally {
         setLoading(false)
       }
     },
-    [refreshCurrentPage]
+    [refreshCurrentPage, t]
   )
 
   const showDetail = useCallback(async record => {
@@ -141,11 +144,11 @@ export function useAdminPromoCodesData() {
       setSelectedCode(res?.promoCode || null)
       setDetailModalVisible(true)
     } catch (err) {
-      message.error('Không lấy được chi tiết mã')
+      message.error(getPromoCodeServerErrorMessage(err, t, 'messages.detailError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   const closeDetail = useCallback(() => {
     setDetailModalVisible(false)
@@ -158,6 +161,8 @@ export function useAdminPromoCodesData() {
     selectedCode,
     detailModalVisible,
     fetchPromoCodes,
+    refreshCurrentPage,
+    setPage,
     handleTableChange,
     handleDelete,
     handleSubmitPromoCode,

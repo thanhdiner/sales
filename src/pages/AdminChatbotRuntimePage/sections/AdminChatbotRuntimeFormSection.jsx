@@ -1,4 +1,5 @@
 import { Alert, Button, Form, Input, InputNumber, Select, Slider, Tooltip } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -16,13 +17,14 @@ export default function AdminChatbotRuntimeFormSection({
   onProviderChange,
   onTest
 }) {
+  const { t } = useTranslation('adminChatbotRuntime')
   const isNineRouter = selectedProvider === '9router'
 
   return (
     <>
       <Form form={form} layout="vertical">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <Form.Item name="aiProvider" label="AI provider">
+          <Form.Item name="aiProvider" label={t('form.provider')}>
             <Select
               options={providerOptions.map(item => ({ value: item.value, label: item.label }))}
               onChange={onProviderChange}
@@ -32,13 +34,13 @@ export default function AdminChatbotRuntimeFormSection({
           {isNineRouter ? (
             <Form.Item
               name="model"
-              label="Model"
-              extra="9Router có thể dùng model custom nếu gateway local hỗ trợ."
+              label={t('form.model')}
+              extra={t('form.nineRouterExtra')}
             >
-              <Input list="ninerouter-models" placeholder="Ví dụ: gemini-2.5-flash" />
+              <Input list="ninerouter-models" placeholder={t('form.nineRouterPlaceholder')} />
             </Form.Item>
           ) : (
-            <Form.Item name="model" label="Model">
+            <Form.Item name="model" label={t('form.model')}>
               <Select options={currentModels.map(item => ({ value: item, label: item }))} />
             </Form.Item>
           )}
@@ -53,7 +55,7 @@ export default function AdminChatbotRuntimeFormSection({
         )}
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-          <Form.Item name="maxTokens" label="Max tokens">
+          <Form.Item name="maxTokens" label={t('form.maxTokens')}>
             <InputNumber min={100} max={4000} step={100} className="w-full" />
           </Form.Item>
 
@@ -61,8 +63,8 @@ export default function AdminChatbotRuntimeFormSection({
             name="temperature"
             label={(
               <span>
-                Temperature{' '}
-                <Tooltip title="0 = ổn định hơn, 1 = sáng tạo hơn">
+                {t('form.temperature')}{' '}
+                <Tooltip title={t('form.temperatureTooltip')}>
                   <InfoCircleOutlined />
                 </Tooltip>
               </span>
@@ -71,18 +73,18 @@ export default function AdminChatbotRuntimeFormSection({
             <Slider min={0} max={1} step={0.1} />
           </Form.Item>
 
-          <Form.Item name="maxMessagesPerMinute" label="Max messages/phút">
+          <Form.Item name="maxMessagesPerMinute" label={t('form.maxMessagesPerMinute')}>
             <InputNumber min={1} max={60} className="w-full" />
           </Form.Item>
 
-          <Form.Item name="maxMessagesPerSession" label="Max messages/phiên">
+          <Form.Item name="maxMessagesPerSession" label={t('form.maxMessagesPerSession')}>
             <InputNumber min={10} max={500} className="w-full" />
           </Form.Item>
         </div>
       </Form>
 
       <Button icon={<ThunderboltOutlined />} onClick={onTest} loading={testing} className="admin-chatbot-action-btn">
-        Test kết nối
+        {t('form.testConnection')}
       </Button>
 
       {testResult && (
@@ -92,18 +94,18 @@ export default function AdminChatbotRuntimeFormSection({
           showIcon
           closable
           icon={testResult.success ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
-          message={testResult.success ? 'Kết nối thành công' : 'Kết nối thất bại'}
+          message={testResult.success ? t('test.success') : t('test.failed')}
           description={(
             testResult.success ? (
               <div>
                 <p>
-                  <strong>Provider:</strong> {testResult.data?.provider}
+                  <strong>{t('test.provider')}:</strong> {testResult.data?.provider}
                 </p>
                 <p>
-                  <strong>Model:</strong> {testResult.data?.model}
+                  <strong>{t('test.model')}:</strong> {testResult.data?.model}
                 </p>
                 <p className="mt-2">
-                  <strong>Bot trả lời:</strong>
+                  <strong>{t('test.botResponse')}:</strong>
                 </p>
                 <div className="admin-chatbot-runtime-response mt-1 rounded-lg p-3 text-sm">
                   {testResult.data?.response}

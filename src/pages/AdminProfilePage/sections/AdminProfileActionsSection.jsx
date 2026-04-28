@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 
-export default function AdminProfileActionsSection({ loading, onCancel }) {
+export default function AdminProfileActionsSection({ loading, onCancel, t }) {
   return (
     <div className="mt-6 text-right">
       <Button
@@ -9,7 +9,7 @@ export default function AdminProfileActionsSection({ loading, onCancel }) {
         onClick={onCancel}
         disabled={loading}
       >
-        Cancel
+        {t('actions.cancel')}
       </Button>
 
       <Button
@@ -17,7 +17,7 @@ export default function AdminProfileActionsSection({ loading, onCancel }) {
         htmlType="submit"
         loading={loading}
       >
-        Save
+        {t('actions.save')}
       </Button>
     </div>
   )

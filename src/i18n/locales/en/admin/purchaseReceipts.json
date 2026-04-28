@@ -1,0 +1,100 @@
+{
+  "seo": {
+    "title": "Admin - Purchase Receipts"
+  },
+  "page": {
+    "title": "Purchase Receipts",
+    "description": "Track stock intake history, unit cost, and inventory for manual-delivery products."
+  },
+  "stats": {
+    "ariaLabel": "Purchase receipt statistics",
+    "receipts": "Receipts",
+    "receiptsHint": "All recorded receipts",
+    "filteredHint": "With current filters",
+    "pageQuantity": "Page quantity",
+    "pageQuantityHint": "Total units on this page",
+    "pageValue": "Page value",
+    "pageValueHint": "Total value currently shown",
+    "manualProducts": "Manual products",
+    "manualProductsHint": "{{stock}} units in stock"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "dash": "-",
+    "cancel": "Cancel"
+  },
+  "actions": {
+    "create": "Create receipt",
+    "createShort": "Create",
+    "search": "Search",
+    "searchPlaceholder": "Search by product name",
+    "columns": "Visible columns",
+    "refresh": "Refresh"
+  },
+  "filters": {
+    "title": "Filters",
+    "activeCount": "{{count}} active",
+    "productPlaceholder": "Filter by product",
+    "supplierPlaceholder": "Filter by supplier",
+    "dateFrom": "From date",
+    "dateTo": "To date",
+    "apply": "Apply",
+    "clear": "Clear"
+  },
+  "columns": {
+    "title": "Choose visible columns"
+  },
+  "messages": {
+    "loadReceiptsError": "Failed to load purchase receipts",
+    "loadProductsError": "Failed to load products",
+    "createSuccess": "Purchase receipt created",
+    "createError": "Failed to create purchase receipt",
+    "columnRequired": "The table must show at least one column"
+  },
+  "deliveryTypes": {
+    "manual": "Manual",
+    "instant_account": "Instant account"
+  },
+  "table": {
+    "title": "Receipt History",
+    "description": "Latest receipts are sorted by creation time.",
+    "resultCount": "{{count}} results",
+    "product": "Product",
+    "currentStock": "Current stock: {{stock}}",
+    "quantity": "Quantity",
+    "unitCost": "Unit cost",
+    "totalCost": "Total cost",
+    "supplier": "Supplier",
+    "createdBy": "Created by",
+    "note": "Note",
+    "createdAt": "Receipt date",
+    "visibleSummary": "Current page total",
+    "loading": "Loading purchase receipts...",
+    "empty": "No purchase receipts yet"
+  },
+  "form": {
+    "title": "Create purchase receipt",
+    "subtitle": "The receipt increases stock and updates the product cost price.",
+    "manualProduct": "Manual product",
+    "selectProduct": "Select product",
+    "productLoading": "Loading products...",
+    "noManualProducts": "No manual products",
+    "productStock": "{{title}} - Stock: {{stock}} - Cost: {{cost}}",
+    "productRequired": "Please select a product",
+    "currentStock": "Current stock",
+    "currentCost": "Current cost",
+    "afterStock": "Stock after receipt",
+    "productPreviewEmpty": "Select a product to view stock and cost.",
+    "quantity": "Receipt quantity",
+    "quantityRequired": "Please enter quantity",
+    "quantityMin": "Quantity must be greater than 0",
+    "unitCost": "Unit cost",
+    "unitCostRequired": "Please enter unit cost",
+    "unitCostMin": "Unit cost cannot be negative",
+    "totalPreview": "Receipt total",
+    "supplier": "Supplier",
+    "supplierPlaceholder": "Supplier name if available",
+    "note": "Note",
+    "notePlaceholder": "Purchase receipt note"
+  }
+}

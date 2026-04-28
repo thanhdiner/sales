@@ -14,6 +14,8 @@ body.admin-layout-active .admin-role-permission-page {
 
 .admin-role-permission-page {
   min-height: 100%;
+  width: 100%;
+  min-width: 0;
   border-radius: 12px;
   background: var(--admin-bg-soft);
   color: var(--rp-text);
@@ -23,9 +25,12 @@ body.admin-layout-active .admin-role-permission-page {
 .admin-role-permission-page__inner {
   max-width: 1320px;
   margin: 0 auto;
+  min-width: 0;
 }
 
 .admin-role-permission-card {
+  position: relative;
+  min-width: 0;
   border: 1px solid var(--rp-border);
   border-radius: 14px;
   background: var(--rp-surface);
@@ -36,8 +41,14 @@ body.admin-layout-active .admin-role-permission-page {
 .admin-role-permission-header {
   margin-bottom: 16px;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
+  min-width: 0;
+}
+
+.admin-role-permission-header__content {
+  min-width: 0;
 }
 
 .admin-role-permission-header__title.ant-typography {
@@ -46,9 +57,11 @@ body.admin-layout-active .admin-role-permission-page {
   font-size: 28px !important;
   font-weight: 700 !important;
   line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .admin-role-permission-header__description.ant-typography {
+  display: block;
   margin-top: 6px;
   color: var(--rp-text-muted);
   font-size: 14px;
@@ -62,6 +75,15 @@ body.admin-layout-active .admin-role-permission-page {
   color: var(--rp-text-muted) !important;
   font-weight: 600;
   box-shadow: none !important;
+}
+
+.admin-role-permission-btn--primary.ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  height: 40px;
+  padding-inline: 14px;
 }
 
 .admin-role-permission-btn.ant-btn .anticon {
@@ -88,9 +110,73 @@ body.admin-layout-active .admin-role-permission-page {
   color: #f4f5f8 !important;
 }
 
+.admin-role-permission-role-picker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 320px);
+  margin-bottom: 18px;
+  border: 1px solid var(--rp-border);
+  border-radius: 10px;
+  background: var(--rp-surface);
+  padding: 10px 12px;
+}
+
+.admin-role-permission-role-picker__label {
+  flex: 0 0 auto;
+  color: var(--rp-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.admin-role-permission-role-picker__select.ant-select {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.admin-role-permission-role-picker__select .ant-select-selector {
+  height: 36px !important;
+  border-color: var(--rp-border) !important;
+  border-radius: 8px !important;
+  background: var(--rp-surface-2) !important;
+  color: var(--rp-text) !important;
+  box-shadow: none !important;
+}
+
+.admin-role-permission-role-picker__select .ant-select-selection-item {
+  color: var(--rp-text) !important;
+  font-weight: 600;
+  line-height: 34px !important;
+}
+
+.admin-role-permission-role-picker__select .ant-select-arrow {
+  color: var(--rp-text-muted) !important;
+}
+
+.admin-role-permission-role-picker__popup.ant-select-dropdown {
+  border: 1px solid var(--rp-border) !important;
+  background: var(--rp-surface-2) !important;
+  box-shadow: var(--rp-shadow) !important;
+}
+
+.admin-role-permission-role-picker__popup .ant-select-item {
+  color: var(--rp-text-muted) !important;
+}
+
+.admin-role-permission-role-picker__popup .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: var(--rp-surface-3) !important;
+  color: var(--rp-text) !important;
+}
+
+.admin-role-permission-role-picker__popup .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: var(--rp-accent-soft) !important;
+  color: var(--rp-text) !important;
+}
+
 .admin-role-permission-table-wrap {
   width: 100%;
-  overflow-x: auto;
+  min-width: 0;
+  overflow: hidden;
   border: 1px solid var(--rp-border);
   border-radius: 12px;
   background: var(--rp-surface);
@@ -134,6 +220,15 @@ body.admin-layout-active .admin-role-permission-page {
   font-weight: 700;
 }
 
+.admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th,
+.admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 12px 14px !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-scrollbar {
+  box-shadow: none !important;
+}
+
 .admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
   border-color: var(--rp-border) !important;
   background: var(--rp-surface) !important;
@@ -148,6 +243,23 @@ body.admin-layout-active .admin-role-permission-page {
 .admin-role-permission-table.ant-table-wrapper .ant-table-cell-fix-left,
 .admin-role-permission-table.ant-table-wrapper .ant-table-cell-fix-left-last {
   background: var(--rp-surface) !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table-ping-left .ant-table-cell-fix-left-last::after,
+.admin-role-permission-table.ant-table-wrapper .ant-table-ping-left .ant-table-cell-fix-left-first::after,
+.admin-role-permission-table.ant-table-wrapper .ant-table-ping-right .ant-table-cell-fix-right-first::after,
+.admin-role-permission-table.ant-table-wrapper .ant-table-ping-right .ant-table-cell-fix-right-last::after {
+  box-shadow: none !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container {
+  border-inline-start: 0 !important;
+  border-top: 0 !important;
+}
+
+.admin-role-permission-table.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container::before,
+.admin-role-permission-table.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container::after {
+  display: none !important;
 }
 
 .admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-fix-left,
@@ -173,18 +285,60 @@ body.admin-layout-active .admin-role-permission-page {
 }
 
 .admin-role-permission-table__role-label {
+  display: block;
   color: var(--rp-text);
   font-weight: 700;
+  line-height: 1.25;
+}
+
+.admin-role-permission-table__role-heading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.admin-role-permission-table__role-badge {
+  max-width: 120px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--rp-surface-3);
+  color: var(--rp-text-muted);
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-role-permission-table__role-abbr {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--rp-accent-soft);
+  color: var(--rp-accent);
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .admin-role-permission-table__title {
   display: inline-flex;
+  min-width: 0;
   flex-direction: column;
   gap: 2px;
   color: var(--rp-text);
 }
 
 .admin-role-permission-table__title--all {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   font-size: 15px;
   font-weight: 700;
 }
@@ -198,6 +352,77 @@ body.admin-layout-active .admin-role-permission-page {
   color: var(--rp-text-subtle);
   font-size: 12px;
   font-weight: 500;
+}
+
+.admin-role-permission-table__group-trigger {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-role-permission-table__group-copy {
+  min-width: 0;
+}
+
+.admin-role-permission-table__chevron {
+  color: var(--rp-text-muted);
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.admin-role-permission-table__chevron.is-expanded {
+  transform: rotate(180deg);
+}
+
+.admin-role-permission-table__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 8px;
+  color: #f4f5f8;
+  font-size: 15px;
+}
+
+.admin-role-permission-table__icon--all,
+.admin-role-permission-table__icon--default {
+  background: var(--rp-surface-3);
+  color: var(--rp-text-muted);
+}
+
+.admin-role-permission-table__icon--products,
+.admin-role-permission-table__icon--product-category {
+  background: rgba(94, 106, 210, 0.72);
+}
+
+.admin-role-permission-table__icon--orders {
+  background: rgba(34, 197, 94, 0.72);
+}
+
+.admin-role-permission-table__icon--promo {
+  background: rgba(202, 138, 4, 0.78);
+}
+
+.admin-role-permission-table__icon--flash {
+  background: rgba(220, 38, 38, 0.72);
+}
+
+.admin-role-permission-table__icon--banners {
+  background: rgba(59, 130, 246, 0.72);
+}
+
+.admin-role-permission-row--permission .admin-role-permission-table__title {
+  padding-left: 42px;
 }
 
 .admin-role-permission-checkbox .ant-checkbox-inner {
@@ -220,24 +445,216 @@ body.admin-layout-active .admin-role-permission-page {
   color: var(--rp-text-subtle) !important;
 }
 
-@media (min-width: 992px) {
-  .admin-role-permission-header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.admin-role-permission-legend {
+  display: none;
+  margin-top: 12px;
+  border: 1px solid var(--rp-border);
+  border-radius: 10px;
+  background: var(--rp-surface);
+  padding: 12px;
+}
+
+.admin-role-permission-legend h3 {
+  margin: 0 0 10px;
+  color: var(--rp-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-role-permission-legend p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  color: var(--rp-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.admin-role-permission-legend span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 20px;
+  flex: 0 0 24px;
+  border-radius: 999px;
+  background: var(--rp-accent-soft);
+  color: var(--rp-accent);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+@media (max-width: 1279px) {
+  .admin-role-permission-page {
+    padding: 16px;
+  }
+
+  .admin-role-permission-card {
+    padding: 18px;
+  }
+
+  .admin-role-permission-header__title.ant-typography {
+    font-size: 24px !important;
+  }
+
+  .admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding: 11px 10px !important;
+  }
+
+  .admin-role-permission-table__role-badge {
+    max-width: 92px;
   }
 }
 
 @media (max-width: 768px) {
   .admin-role-permission-page {
-    padding: 14px;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .admin-role-permission-card {
-    padding: 14px;
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .admin-role-permission-header {
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .admin-role-permission-header__content {
+    width: 100%;
   }
 
   .admin-role-permission-header__title.ant-typography {
-    font-size: 24px !important;
+    font-size: 18px !important;
+  }
+
+  .admin-role-permission-header__description.ant-typography {
+    margin-top: 4px;
+    font-size: 12px;
+  }
+
+  .admin-role-permission-btn--primary.ant-btn {
+    height: 36px;
+    max-width: 120px;
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+
+  .admin-role-permission-btn--primary.ant-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .admin-role-permission-role-picker {
+    width: 100%;
+    min-height: 54px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+  }
+
+  .admin-role-permission-role-picker__label {
+    font-size: 11px;
+  }
+
+  .admin-role-permission-role-picker__select .ant-select-selector {
+    height: 32px !important;
+  }
+
+  .admin-role-permission-role-picker__select .ant-select-selection-item {
+    line-height: 30px !important;
+    font-size: 12px;
+  }
+
+  .admin-role-permission-table-wrap {
+    border-radius: 10px;
+  }
+
+  .admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding: 8px 5px !important;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .admin-role-permission-table__role-label,
+  .admin-role-permission-table__role-badge {
+    display: none;
+  }
+
+  .admin-role-permission-table__role-abbr {
+    display: inline-flex;
+  }
+
+  .admin-role-permission-table__title {
+    font-size: 11px;
+  }
+
+  .admin-role-permission-table__title--all,
+  .admin-role-permission-table__title--group {
+    font-size: 11px;
+  }
+
+  .admin-role-permission-table__subtitle {
+    display: none;
+  }
+
+  .admin-role-permission-table__group-trigger {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 7px;
+  }
+
+  .admin-role-permission-table__icon {
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  .admin-role-permission-row--permission .admin-role-permission-table__title {
+    padding-left: 29px;
+  }
+
+  .admin-role-permission-checkbox .ant-checkbox-inner {
+    width: 13px;
+    height: 13px;
+  }
+
+  .admin-role-permission-table__chevron {
+    font-size: 10px;
+  }
+
+  .admin-role-permission-legend {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-role-permission-page {
+    padding: 8px;
+  }
+
+  .admin-role-permission-card {
+    padding: 10px;
+  }
+
+  .admin-role-permission-btn--primary.ant-btn {
+    max-width: 108px;
+  }
+
+  .admin-role-permission-role-picker {
+    width: 100%;
+  }
+
+  .admin-role-permission-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-role-permission-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding-inline: 4px !important;
   }
 }

@@ -1,0 +1,143 @@
+{
+  "seo": {
+    "title": "Admin - Live Chat"
+  },
+  "page": {
+    "title": "Live Chat",
+    "description": "Theo dõi, phân luồng và phản hồi hội thoại khách hàng theo thời gian thực.",
+    "refresh": "Làm mới",
+    "refreshing": "Đang tải"
+  },
+  "tabs": {
+    "unassigned": "Chờ xử lý",
+    "mine": "Của tôi",
+    "open": "Đang mở",
+    "resolved": "Đã xong"
+  },
+  "status": {
+    "unassigned": "Chờ xử lý",
+    "open": "Đang mở",
+    "resolved": "Đã giải quyết"
+  },
+  "sidebar": {
+    "title": "Hộp thư",
+    "countFiltered": "{{visible}}/{{total}} hội thoại đang hiển thị",
+    "countVisible": "{{count}} hội thoại đang hiển thị",
+    "startWithFilter": "Chọn bộ lọc để bắt đầu",
+    "searchPlaceholder": "Tìm khách hàng, mã phiên, nội dung",
+    "loadingMore": "Đang tải thêm",
+    "loadMore": "Tải thêm",
+    "emptySearchTitle": "Không tìm thấy hội thoại",
+    "emptyTitle": "Không có cuộc trò chuyện",
+    "emptySearchDescription": "Thử tìm bằng tên khách, mã phiên hoặc nội dung khác.",
+    "emptyDescription": "Danh sách này sẽ tự cập nhật khi có tin nhắn mới."
+  },
+  "conversation": {
+    "anonymousCustomer": "Khách ẩn danh",
+    "newSession": "Phiên mới",
+    "backToList": "Quay lại danh sách hội thoại",
+    "assigning": "Đang nhận",
+    "assign": "Nhận chat",
+    "assignShort": "Nhận",
+    "resolving": "Đang lưu",
+    "resolve": "Giải quyết",
+    "resolveShort": "Xong",
+    "resolved": "Đã giải quyết",
+    "emptyTitle": "Chưa có tin nhắn",
+    "emptyDescription": "Khi khách hàng nhắn tin, lịch sử sẽ xuất hiện tại đây.",
+    "scrollLatest": "Cuộn tới tin nhắn mới nhất",
+    "typingCustomer": "Khách đang soạn..."
+  },
+  "composer": {
+    "resolvedNotice": "Hội thoại đã được đánh dấu giải quyết.",
+    "replyMode": "Phản hồi",
+    "noteMode": "Ghi chú nội bộ",
+    "attachedImage": "Ảnh đính kèm",
+    "attachedImageDescription": "Ảnh sẽ được gửi cùng phản hồi.",
+    "removeAttachedImage": "Xóa ảnh đính kèm",
+    "attachImage": "Đính kèm ảnh",
+    "changeImage": "Đổi ảnh đính kèm",
+    "replyImageOnly": "Chỉ gửi ảnh ở chế độ phản hồi",
+    "takeChatPlaceholder": "Nhận chat để phản hồi khách hàng",
+    "notePlaceholder": "Ghi chú nội bộ, chỉ agent thấy...",
+    "imagePlaceholder": "Thêm lời nhắn cho ảnh...",
+    "replyPlaceholder": "Nhập phản hồi...",
+    "sendNote": "Gửi ghi chú",
+    "sendReply": "Gửi phản hồi",
+    "assignFirst": "Nhận chat trước khi phản hồi khách hàng."
+  },
+  "quickReplies": {
+    "button": "Mẫu câu",
+    "title": "Mẫu câu trả lời nhanh",
+    "searchPlaceholder": "Tìm mẫu câu...",
+    "all": "Tất cả",
+    "insert": "Chèn",
+    "manage": "Quản lý mẫu câu",
+    "empty": "Không tìm thấy mẫu câu",
+    "categories": {
+      "greeting": "Chào hỏi",
+      "info": "Xin thông tin",
+      "order": "Đơn hàng",
+      "payment": "Thanh toán",
+      "shipping": "Vận chuyển",
+      "warranty": "Bảo hành",
+      "product": "Sản phẩm",
+      "closing": "Kết thúc",
+      "other": "Khác"
+    }
+  },
+  "details": {
+    "conversationInfo": "Thông tin hội thoại",
+    "startedAt": "Bắt đầu",
+    "firstReply": "Phản hồi đầu tiên",
+    "messageCount": "Số tin nhắn",
+    "currentPage": "Trang hiện tại",
+    "assignedAgent": "Agent phụ trách",
+    "unassigned": "Chưa được phân công",
+    "quickActions": "Hành động nhanh",
+    "assigningConversation": "Đang nhận cuộc trò chuyện",
+    "assignConversation": "Nhận cuộc trò chuyện",
+    "savingStatus": "Đang lưu trạng thái",
+    "markResolved": "Đánh dấu đã giải quyết"
+  },
+  "emptyState": {
+    "title": "Chọn cuộc trò chuyện",
+    "description": "Chọn một hội thoại từ danh sách để xem lịch sử và phản hồi khách hàng."
+  },
+  "message": {
+    "youPrefix": "Bạn: ",
+    "empty": "Chưa có tin nhắn",
+    "image": "[Ảnh]",
+    "imageAlt": "Ảnh chat",
+    "internalNote": "Ghi chú nội bộ",
+    "customer": "Khách",
+    "agent": "Agent",
+    "react": "Thả cảm xúc",
+    "reactWith": "Thả {{emoji}}",
+    "removeReaction": "Bỏ {{emoji}}"
+  },
+  "imagePreview": {
+    "title": "Xem ảnh",
+    "close": "Đóng xem ảnh",
+    "open": "Mở ảnh",
+    "download": "Tải ảnh",
+    "metadata": "Ảnh từ {{senderName}} · {{time}}",
+    "unknownSender": "chat"
+  },
+  "system": {
+    "agentJoined": "{{agentName}} đã tham gia cuộc trò chuyện",
+    "agentResolved": "{{agentName}} đã đánh dấu cuộc trò chuyện là đã giải quyết",
+    "botReturned": "Trợ lý AI SmartMall Bot đã quay trở lại. Bạn cần tôi giúp gì?",
+    "requestedHuman": "Khách hàng yêu cầu nói chuyện với nhân viên hỗ trợ",
+    "resolved": "Cuộc trò chuyện đã được đánh dấu giải quyết",
+    "reopened": "Cuộc trò chuyện được mở lại"
+  },
+  "errors": {
+    "restoreConversation": "Không thể khôi phục hội thoại từ URL",
+    "missingAgent": "Không tìm thấy thông tin agent",
+    "assignFailed": "Không thể nhận chat",
+    "resolveFailed": "Không thể đánh dấu đã giải quyết",
+    "uploadImageFailed": "Không thể tải ảnh lên",
+    "reactionFailed": "Không thể thả cảm xúc"
+  }
+}

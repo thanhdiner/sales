@@ -1,0 +1,54 @@
+{
+  "seo": {
+    "title": "Admin - Home Why Choose Us"
+  },
+  "page": {
+    "title": "Home Why Choose Us",
+    "description": "Manage the bilingual content for the reason cards on the homepage."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content",
+    "remove": "Remove",
+    "addPhrase": "Add phrase"
+  },
+  "messages": {
+    "fetchError": "Unable to load Why Choose Us content",
+    "saveSuccess": "Why Choose Us content saved",
+    "saveError": "Unable to save Why Choose Us content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "sections": {
+    "header": "Heading",
+    "descPhrases": "Typewriter phrases",
+    "descPhrasesDescription": "Phrases displayed under the section title.",
+    "cards": "Reason cards",
+    "cardsDescription": "The six cards keep the current icons and layout on the homepage."
+  },
+  "fields": {
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "cta": "CTA text",
+    "phrase": "Phrase {{index}}",
+    "phrasePlaceholder": "Enter phrase",
+    "cardTitle": "Card title",
+    "cardDescription": "Card description"
+  },
+  "itemLabels": {
+    "fastActivation": "Fast activation",
+    "fastDelivery": "Fast delivery",
+    "flexiblePayment": "Flexible payment",
+    "clearWarranty": "Clear warranty",
+    "regularOffers": "Regular offers",
+    "dedicatedSupport": "Dedicated support"
+  }
+}

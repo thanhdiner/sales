@@ -1,46 +1,51 @@
 import './Home.scss'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import Widgets from '@/components/Widgets'
 import HeroBanner from '@/components/HeroBanner'
-import TopDealSession from '@/components/TopDealSession'
-import FeaturedProductsSession from '@/components/FeaturedProductsSession'
-import FlashSaleSession from '@/components/FlashSaleSession'
+import TopDealSection from '@/components/TopDealSection'
+import FeaturedProductsSection from '@/components/FeaturedProductsSection'
+import FlashSaleSection from '@/components/FlashSaleSection'
 import WhyChooseUs from '@/components/WhyChooseUs'
-import DailySuggestionsSession from '@/components/DailySuggestionsSession'
+import DailySuggestionsSection from '@/components/DailySuggestionsSection'
 
 import LazySection from '@/components/LazyLoad/LazySection'
 import SliderSkeleton from '@/components/LazyLoad/SliderSkeleton'
 import GridSkeleton from '@/components/LazyLoad/GridSkeleton'
-import FlashSaleSkeleton from '@/components/FlashSaleSession/FlashSale/FlashSaleSkeleton'
+import FlashSaleSkeleton from '@/components/FlashSaleSection/FlashSale/FlashSaleSkeleton'
+import WhyChooseUsSkeleton from '@/components/WhyChooseUs/WhyChooseUsSkeleton'
 
 function Home() {
+  const { t } = useTranslation('clientHome')
+
   return (
     <div className="home">
       <SEO
-        title="Trang chủ"
-        description="SmartMall – Mua tài khoản game, phần mềm bản quyền chính hãng, giá cực tốt. Flash sale hàng ngày, giao hàng nhanh, hỗ trợ 24/7."
+        title={t('seo.title')}
+        description={t('seo.description')}
         url="https://smartmall.site"
       />
+
       <HeroBanner />
       <Widgets />
-      
+
       <LazySection placeholder={<FlashSaleSkeleton />} rootMargin="600px">
-        <FlashSaleSession />
+        <FlashSaleSection />
       </LazySection>
 
       <LazySection placeholder={<SliderSkeleton />} rootMargin="300px">
-        <TopDealSession />
+        <TopDealSection />
       </LazySection>
 
       <LazySection placeholder={<SliderSkeleton />} rootMargin="300px">
-        <FeaturedProductsSession />
+        <FeaturedProductsSection />
       </LazySection>
 
       <LazySection placeholder={<GridSkeleton />} rootMargin="300px">
-        <DailySuggestionsSession />
+        <DailySuggestionsSection />
       </LazySection>
 
-      <LazySection placeholder={<div style={{ height: '300px' }} />} rootMargin="200px">
+      <LazySection placeholder={<WhyChooseUsSkeleton />} rootMargin="200px">
         <WhyChooseUs />
       </LazySection>
     </div>

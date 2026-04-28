@@ -1,0 +1,141 @@
+{
+  "seo": {
+    "title": "Admin - Thông báo"
+  },
+  "page": {
+    "eyebrow": "Admin notifications",
+    "title": "Notifications",
+    "description": "Theo dõi các cập nhật quan trọng trong hệ thống và xử lý nhanh những việc cần ưu tiên."
+  },
+  "dropdown": {
+    "title": "Notifications",
+    "summary": "{{unread}} unread · {{urgent}} urgent",
+    "markRead": "Mark read",
+    "urgent": "Gấp",
+    "viewAll": "View all notifications",
+    "total": "{{count}} total",
+    "emptyTitle": "Không có thông báo",
+    "emptyDescription": "Các cập nhật quan trọng sẽ xuất hiện ở đây.",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread",
+      "urgent": "Urgent"
+    }
+  },
+  "actions": {
+    "markAllRead": "Đọc tất cả",
+    "settings": "Notification settings",
+    "markRead": "Đánh dấu đã đọc",
+    "archive": "Lưu trữ",
+    "delete": "Xóa",
+    "viewOrder": "Xem đơn",
+    "viewPayment": "Xem thanh toán",
+    "viewProduct": "Xem sản phẩm",
+    "viewReview": "Xem đánh giá",
+    "viewRefund": "Xem hoàn tiền",
+    "viewUser": "Xem khách hàng",
+    "viewSystem": "Xem hệ thống"
+  },
+  "stats": {
+    "total": {
+      "label": "Tất cả",
+      "description": "Tổng số thông báo đang hiển thị."
+    },
+    "unread": {
+      "label": "Chưa đọc",
+      "description": "Thông báo mới cần kiểm tra."
+    },
+    "actionRequired": {
+      "label": "Cần xử lý",
+      "description": "Việc cần admin phản hồi hoặc xử lý."
+    },
+    "today": {
+      "label": "Hôm nay",
+      "description": "Cập nhật phát sinh trong ngày."
+    }
+  },
+  "tabs": {
+    "all": "Tất cả",
+    "unread": "Chưa đọc",
+    "actionRequired": "Cần xử lý",
+    "order": "Đơn hàng",
+    "payment": "Thanh toán",
+    "inventory": "Kho",
+    "review": "Đánh giá"
+  },
+  "filters": {
+    "searchPlaceholder": "Search notification...",
+    "allTypes": "Tất cả loại",
+    "allPriorities": "Tất cả ưu tiên",
+    "clear": "Xóa lọc"
+  },
+  "selection": {
+    "selected": "Đã chọn {{count}} thông báo",
+    "markRead": "Đọc đã chọn",
+    "archive": "Lưu trữ",
+    "delete": "Xóa",
+    "clear": "Bỏ chọn"
+  },
+  "list": {
+    "title": "Danh sách thông báo",
+    "description": "Dạng table-card để scan nhanh trên desktop và chuyển thành card gọn trên mobile.",
+    "count": "{{count}} thông báo",
+    "empty": "Không có thông báo phù hợp."
+  },
+  "pagination": {
+    "total": "Tổng {{count}} thông báo"
+  },
+  "meta": {
+    "type": "Type",
+    "priority": "Priority",
+    "status": "Status",
+    "actionRequired": "Cần xử lý"
+  },
+  "groups": {
+    "order": "Order",
+    "payment": "Payment",
+    "inventory": "Inventory",
+    "review": "Review",
+    "refund": "Refund",
+    "user": "User",
+    "system": "System"
+  },
+  "types": {
+    "order_created": "Đơn hàng mới",
+    "order_cancelled": "Đơn hàng bị hủy",
+    "payment_success": "Thanh toán thành công",
+    "payment_failed": "Thanh toán thất bại",
+    "low_stock": "Sản phẩm sắp hết hàng",
+    "out_of_stock": "Hết hàng",
+    "review_created": "Đánh giá mới",
+    "refund_requested": "Yêu cầu hoàn tiền",
+    "user_registered": "Khách hàng mới",
+    "system_alert": "Cảnh báo hệ thống"
+  },
+  "priorities": {
+    "high": "High",
+    "normal": "Normal",
+    "low": "Low"
+  },
+  "statuses": {
+    "all": "Tất cả trạng thái",
+    "read": "Read",
+    "unread": "Unread",
+    "actionRequired": "Cần xử lý"
+  },
+  "messages": {
+    "newCustomer": "Khách hàng mới",
+    "allRead": "Đã đánh dấu tất cả là đã đọc.",
+    "markRead": "Đã đánh dấu thông báo là đã đọc.",
+    "archived": "Đã lưu trữ thông báo.",
+    "deleted": "Đã xóa thông báo.",
+    "selectedRead": "Đã đánh dấu các thông báo đã chọn là đã đọc.",
+    "selectedArchived": "Đã lưu trữ các thông báo đã chọn.",
+    "selectedDeleted": "Đã xóa các thông báo đã chọn.",
+    "settingsComing": "Notification settings sẽ được nối khi có cấu hình backend."
+  },
+  "socket": {
+    "orderTitle": "Đơn hàng mới #{{orderId}}",
+    "orderMessage": "{{customerName}} vừa đặt đơn {{total}}."
+  }
+}

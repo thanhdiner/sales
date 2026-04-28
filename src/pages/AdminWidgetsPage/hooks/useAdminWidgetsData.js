@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Modal, message } from 'antd'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { deleteWidgetById, getAdminWidgets } from '@/services/adminWidgetsService'
 import { normalizeWidgetActiveValue } from '../utils'
 
-export function useAdminWidgetsData() {
+export function useAdminWidgetsData({ t = key => key } = {}) {
+  const language = useCurrentLanguage()
   const [widgets, setWidgets] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -19,36 +21,39 @@ export function useAdminWidgetsData() {
         }))
       )
     } catch {
-      message.error('Không thể tải danh sách widget')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     fetchWidgets()
   }, [fetchWidgets])
 
-  const handleDeleteWidget = widgetId => {
-    Modal.confirm({
-      className: 'admin-widgets-confirm-modal',
-      wrapClassName: 'admin-widgets-confirm-modal',
-      title: 'Xác nhận xóa widget',
-      content: 'Bạn có chắc chắn muốn xóa widget này không?',
-      okText: 'Xóa',
-      cancelText: 'Hủy',
-      okType: 'danger',
-      onOk: async () => {
-        try {
-          await deleteWidgetById(widgetId)
-          message.success('Đã xóa widget')
-          fetchWidgets()
-        } catch {
-          message.error('Không thể xóa widget')
+  const handleDeleteWidget = useCallback(
+    widgetId => {
+      Modal.confirm({
+        className: 'admin-widgets-confirm-modal',
+        wrapClassName: 'admin-widgets-confirm-modal',
+        title: t('confirm.deleteTitle'),
+        content: t('confirm.deleteContent'),
+        okText: t('confirm.deleteOk'),
+        cancelText: t('confirm.cancel'),
+        okType: 'danger',
+        onOk: async () => {
+          try {
+            await deleteWidgetById(widgetId)
+            message.success(t('messages.deleteSuccess'))
+            fetchWidgets()
+          } catch {
+            message.error(t('messages.deleteError'))
+          }
         }
-      }
-    })
-  }
+      })
+    },
+    [fetchWidgets, t]
+  )
 
   return {
     widgets,

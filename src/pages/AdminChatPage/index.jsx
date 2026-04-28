@@ -1,6 +1,9 @@
+import { useCallback, useState } from 'react'
 import SEO from '@/components/SEO'
 import { CheckCircle, Inbox, MessageCircle, RefreshCw, UserCheck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAdminChatPage } from './hooks/useAdminChatPage'
+import ImagePreviewModal from './components/ImagePreviewModal'
 import AdminChatConversationPane from './sections/AdminChatConversationPane'
 import AdminChatDetailsPane from './sections/AdminChatDetailsPane'
 import AdminChatEmptyState from './sections/AdminChatEmptyState'
@@ -9,30 +12,32 @@ import AdminChatSidebar from './sections/AdminChatSidebar'
 const CHAT_FILTERS = [
   {
     key: 'unassigned',
-    label: 'Chờ xử lý',
+    labelKey: 'tabs.unassigned',
     Icon: Inbox
   },
   {
     key: 'mine',
-    label: 'Của tôi',
+    labelKey: 'tabs.mine',
     Icon: UserCheck
   },
   {
     key: 'open',
-    label: 'Đang mở',
+    labelKey: 'tabs.open',
     Icon: MessageCircle
   },
   {
     key: 'resolved',
-    label: 'Đã xong',
+    labelKey: 'tabs.resolved',
     Icon: CheckCircle
   }
 ]
 
 function AdminChatFilters({ activeTab, counts, onTabChange }) {
+  const { t } = useTranslation('adminChat')
+
   return (
     <div className="flex flex-wrap gap-2">
-      {CHAT_FILTERS.map(({ key, label, Icon }) => {
+      {CHAT_FILTERS.map(({ key, labelKey, Icon }) => {
         const isActive = activeTab === key
 
         return (
@@ -48,7 +53,7 @@ function AdminChatFilters({ activeTab, counts, onTabChange }) {
             }`}
           >
             <Icon className="h-4 w-4" strokeWidth={1.8} />
-            <span>{label}</span>
+            <span>{t(labelKey)}</span>
             <span
               className={`rounded-full px-1.5 py-0.5 text-[11px] font-semibold ${
                 isActive
@@ -66,6 +71,8 @@ function AdminChatFilters({ activeTab, counts, onTabChange }) {
 }
 
 export default function AdminChatPage() {
+  const { t } = useTranslation('adminChat')
+  const [previewImage, setPreviewImage] = useState(null)
   const {
     activeTab,
     assigning,
@@ -89,6 +96,9 @@ export default function AdminChatPage() {
     messagesLoading,
     messagesViewportRef,
     pendingImage,
+    quickReplies,
+    quickRepliesLoading,
+    reactionActor,
     resolving,
     refreshing,
     searchQuery,
@@ -99,9 +109,11 @@ export default function AdminChatPage() {
     handleBackToList,
     handleComposerChange,
     handleImageChange,
+    handleInsertQuickReply,
     handleKeyDown,
     handleLoadMoreConversations,
     handleRefresh,
+    handleReactToMessage,
     handleResolve,
     handleSearchChange,
     handleSelectConversation,
@@ -112,16 +124,24 @@ export default function AdminChatPage() {
     switchToReplyMode
   } = useAdminChatPage()
 
+  const handleOpenImagePreview = useCallback(image => {
+    setPreviewImage(image)
+  }, [])
+
+  const handleCloseImagePreview = useCallback(() => {
+    setPreviewImage(null)
+  }, [])
+
   return (
     <div className="admin-chat-page flex h-full min-h-0 overflow-hidden rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text)] shadow-[var(--admin-shadow)]">
-      <SEO title="Admin - Live Chat" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="flex min-h-0 flex-1 flex-col">
         <div className="flex shrink-0 flex-col gap-3 border-b border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 xl:flex-row xl:items-center xl:justify-between">
           <div className="min-w-0">
-            <h1 className="text-xl font-semibold text-[var(--admin-text)]">Live Chat</h1>
+            <h1 className="text-xl font-semibold text-[var(--admin-text)]">{t('page.title')}</h1>
             <p className="mt-0.5 text-sm text-[var(--admin-text-muted)]">
-              Theo dõi, phân luồng và phản hồi hội thoại khách hàng theo thời gian thực.
+              {t('page.description')}
             </p>
           </div>
 
@@ -135,7 +155,7 @@ export default function AdminChatPage() {
               className="inline-flex h-10 w-fit items-center gap-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-4 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-3)] hover:text-[var(--admin-text)] disabled:cursor-wait disabled:opacity-70"
             >
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} strokeWidth={1.8} />
-              {refreshing ? 'Đang tải' : 'Làm mới'}
+              {refreshing ? t('page.refreshing') : t('page.refresh')}
             </button>
           </div>
         </div>
@@ -172,6 +192,9 @@ export default function AdminChatPage() {
               messagesLoading={messagesLoading}
               messagesViewportRef={messagesViewportRef}
               pendingImage={pendingImage}
+              quickReplies={quickReplies}
+              quickRepliesLoading={quickRepliesLoading}
+              reactionActor={reactionActor}
               resolving={resolving}
               selectedConversation={selectedConversation}
               onAssign={handleAssign}
@@ -179,8 +202,11 @@ export default function AdminChatPage() {
               onClearPendingImage={clearPendingImage}
               onComposerChange={handleComposerChange}
               onImageChange={handleImageChange}
+              onInsertQuickReply={handleInsertQuickReply}
               onKeyDown={handleKeyDown}
+              onOpenImagePreview={handleOpenImagePreview}
               onOpenImagePicker={openImagePicker}
+              onReactToMessage={handleReactToMessage}
               onResolve={handleResolve}
               onSendReply={sendReply}
               onSwitchToNoteMode={switchToNoteMode}
@@ -202,6 +228,8 @@ export default function AdminChatPage() {
           />
         </div>
       </div>
+
+      <ImagePreviewModal image={previewImage} onClose={handleCloseImagePreview} />
     </div>
   )
 }

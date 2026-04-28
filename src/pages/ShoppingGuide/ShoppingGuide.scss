@@ -1,0 +1,129 @@
+.shopping-guide-page {
+  --guide-bg: #f6f7fb;
+  --guide-surface: #ffffff;
+  --guide-surface-2: #f8fafc;
+  --guide-surface-3: #eef2f7;
+  --guide-border: rgba(15, 23, 42, 0.09);
+  --guide-border-strong: rgba(15, 23, 42, 0.16);
+  --guide-text: #111827;
+  --guide-text-muted: #475569;
+  --guide-text-subtle: #64748b;
+  --guide-accent: #16a34a;
+  --guide-accent-soft: rgba(22, 163, 74, 0.12);
+  --guide-surface-glint: rgba(255, 255, 255, 0.72);
+  --guide-inset-highlight: rgba(255, 255, 255, 0.72);
+
+  min-height: 100vh;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(94, 106, 210, 0.045), transparent 180px),
+    var(--guide-bg);
+  color: var(--guide-text);
+  overflow: hidden;
+}
+
+html.dark .shopping-guide-page {
+  --guide-bg: #070809;
+  --guide-surface: #101213;
+  --guide-surface-2: #151719;
+  --guide-surface-3: #202327;
+  --guide-border: rgba(255, 255, 255, 0.08);
+  --guide-border-strong: rgba(255, 255, 255, 0.14);
+  --guide-text: #f4f6f8;
+  --guide-text-muted: #a8b0ba;
+  --guide-text-subtle: #707983;
+  --guide-accent: #22c55e;
+  --guide-accent-soft: rgba(34, 197, 94, 0.13);
+  --guide-surface-glint: rgba(255, 255, 255, 0.025);
+  --guide-inset-highlight: rgba(255, 255, 255, 0.035);
+}
+
+.shopping-guide-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.shopping-guide-section {
+  border: 1px solid var(--guide-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--guide-surface-glint), rgba(255, 255, 255, 0.01)),
+    var(--guide-surface);
+  box-shadow: inset 0 1px 0 var(--guide-inset-highlight);
+  overflow: hidden;
+}
+
+.shopping-guide-panel {
+  border: 1px solid var(--guide-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--guide-surface-glint), rgba(255, 255, 255, 0.01)),
+    var(--guide-surface);
+  box-shadow: inset 0 1px 0 var(--guide-inset-highlight);
+}
+
+.shopping-guide-card {
+  border: 1px solid var(--guide-border);
+  border-radius: 8px;
+  background: var(--guide-surface-2);
+}
+
+.shopping-guide-image {
+  border: 1px solid var(--guide-border);
+  border-radius: 8px;
+  background: var(--guide-surface-3);
+}
+
+.shopping-guide-eyebrow {
+  color: var(--guide-accent);
+  letter-spacing: 0.16em;
+}
+
+.shopping-guide-page .guide-title {
+  color: var(--guide-text);
+  letter-spacing: 0;
+}
+
+.shopping-guide-page .guide-muted {
+  color: var(--guide-text-muted);
+}
+
+.shopping-guide-page .guide-subtle {
+  color: var(--guide-text-subtle);
+}
+
+.shopping-guide-primary-button {
+  border-radius: 7px;
+  background: var(--guide-accent);
+  color: #ffffff;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.shopping-guide-primary-button:hover {
+  filter: brightness(0.94);
+}
+
+.shopping-guide-secondary-button {
+  border: 1px solid var(--guide-border);
+  border-radius: 7px;
+  background: var(--guide-surface-2);
+  color: var(--guide-text);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.shopping-guide-secondary-button:hover {
+  border-color: var(--guide-border-strong);
+  background: var(--guide-surface-3);
+}
+
+@media (max-width: 760px) {
+  .shopping-guide-main {
+    padding: 8px;
+  }
+
+  .shopping-guide-page {
+    overflow: visible;
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "seo": {
+    "title": "Admin - Tổng quan"
+  },
+  "header": {
+    "title": "Trung tâm điều khiển",
+    "online": "Trực tuyến",
+    "today": "Hôm nay: {{date}}"
+  },
+  "dateRanges": {
+    "7days": "7 ngày qua",
+    "30days": "30 ngày qua",
+    "90days": "3 tháng qua"
+  },
+  "common": {
+    "viewAll": "Xem tất cả",
+    "unknown": "Không rõ",
+    "noData": "Chưa có dữ liệu"
+  },
+  "status": {
+    "completed": "Hoàn thành",
+    "pending": "Chờ xác nhận",
+    "confirmed": "Đã xác nhận",
+    "processing": "Đang xử lý",
+    "shipping": "Đang giao",
+    "cancelled": "Đã hủy",
+    "active": "Hoạt động",
+    "visible": "Hiển thị"
+  },
+  "stats": {
+    "trendAria": "Xu hướng {{title}}",
+    "comparison": "So với tuần trước",
+    "subInfo": {
+      "active": "Đang hoạt động",
+      "inactive": "Dừng hoạt động",
+      "newThisWeek": "Mới tuần này",
+      "pending": "Chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "shipping": "Đang giao",
+      "completed": "Hoàn thành",
+      "cancelled": "Đã hủy",
+      "visible": "Đang hiển thị",
+      "hidden": "Đã ẩn"
+    },
+    "cards": {
+      "totalUsers": "Tổng khách hàng",
+      "totalAdmins": "Tổng quản trị viên",
+      "totalOrders": "Tổng đơn hàng",
+      "revenue": "Doanh thu",
+      "profit": "Lợi nhuận",
+      "products": "Sản phẩm",
+      "categories": "Danh mục sản phẩm"
+    }
+  },
+  "charts": {
+    "quickOverview": "Tổng quan nhanh",
+    "orderStatus": "Đơn hàng theo trạng thái",
+    "totalOrders": "Tổng đơn",
+    "todayActivity": "Hoạt động hôm nay",
+    "empty": "Chưa có dữ liệu",
+    "rows": {
+      "customers": "Khách hàng",
+      "orders": "Đơn hàng",
+      "revenue": "Doanh thu",
+      "profit": "Lợi nhuận",
+      "products": "Sản phẩm",
+      "categories": "Danh mục"
+    },
+    "activity": {
+      "newOrders": "Đơn hàng mới được tạo",
+      "newCustomers": "Khách hàng mới đăng ký",
+      "newProducts": "Sản phẩm mới được thêm",
+      "todayRevenue": "Doanh thu hôm nay",
+      "newThisWeek": "Mới tuần này: {{count}}"
+    }
+  },
+  "activity": {
+    "topCustomers": "Khách hàng nổi bật",
+    "recentOrders": "Đơn hàng gần nhất",
+    "emptyCustomers": "Chưa có dữ liệu khách hàng",
+    "emptyOrders": "Chưa có đơn hàng gần đây",
+    "fallbackCustomer": "Khách hàng",
+    "customerOrders": "{{amount}} - {{count}} đơn"
+  },
+  "topProducts": {
+    "productsTitle": "Sản phẩm nổi bật",
+    "categoriesTitle": "Phân bổ danh mục",
+    "emptyProducts": "Chưa có dữ liệu sản phẩm nổi bật",
+    "emptyCategories": "Chưa có dữ liệu danh mục",
+    "sold": "Đã bán: {{count}} - {{revenue}}",
+    "categoryFallback": "Danh mục {{number}}",
+    "categoryProductCount": "Sản phẩm: {{count}}",
+    "trends": {
+      "down": "Giảm",
+      "equal": "Ổn định",
+      "up": "Tăng"
+    }
+  },
+  "legacyTopCustomers": {
+    "title": "Top khách hàng tiêu biểu",
+    "totalSpent": "Tổng chi:"
+  },
+  "ordersSkeleton": {
+    "order": "Đơn hàng",
+    "customer": "Khách hàng",
+    "value": "Giá trị",
+    "status": "Trạng thái",
+    "time": "Thời gian"
+  },
+  "salesChart": {
+    "last7Days": "Doanh thu 7 ngày qua",
+    "last30Days": "Doanh thu 30 ngày qua",
+    "last3Months": "Doanh thu 3 tháng qua"
+  }
+}

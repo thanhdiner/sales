@@ -13,6 +13,18 @@ body.admin-layout-active {
 
 .admin-product-edit {
   color: var(--product-edit-text);
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-product-edit__form,
+.admin-product-edit__card {
+  min-width: 0;
+}
+
+.admin-product-edit .ant-row,
+.admin-product-edit .ant-col {
+  min-width: 0;
 }
 
 .admin-product-edit__card {
@@ -41,6 +53,13 @@ body.admin-layout-active {
 .admin-product-edit__picker,
 .admin-product-edit__textarea {
   width: 100%;
+}
+
+.admin-product-edit__editor,
+.admin-product-edit__editor .tiptap-editor,
+.admin-product-edit__upload,
+.admin-product-edit .ant-upload-wrapper {
+  max-width: 100%;
 }
 
 .admin-product-edit__input,
@@ -226,9 +245,35 @@ body.admin-layout-active {
   background: var(--product-edit-surface-2) !important;
 }
 
+.admin-product-edit__translation-section {
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--product-edit-border);
+}
+
+.admin-product-edit__translation-header {
+  margin-bottom: 14px;
+}
+
+.admin-product-edit__translation-title {
+  margin: 0;
+  color: var(--product-edit-text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .admin-product-edit__actions.ant-form-item {
+  margin-top: 8px;
   margin-bottom: 0;
   text-align: right;
+}
+
+.admin-product-edit__actions .ant-form-item-control-input-content {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .admin-layout-content .admin-product-edit__btn.ant-btn {
@@ -243,7 +288,6 @@ body.admin-layout-active {
   border-color: var(--product-edit-border) !important;
   background: var(--product-edit-surface-2) !important;
   color: var(--product-edit-text-muted) !important;
-  margin-right: 8px;
 }
 
 .admin-layout-content .admin-product-edit__btn--cancel.ant-btn:hover,
@@ -326,5 +370,28 @@ body.admin-layout-active {
 @media (max-width: 992px) {
   .admin-product-edit__card {
     padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-product-edit__card {
+    padding: 12px;
+  }
+
+  .admin-product-edit__feature-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-product-edit__remove-feature-btn.ant-btn.ant-btn-text {
+    align-self: flex-end;
+  }
+
+  .admin-product-edit__actions .ant-form-item-control-input-content {
+    justify-content: stretch;
+  }
+
+  .admin-layout-content .admin-product-edit__btn.ant-btn {
+    flex: 1 1 150px;
   }
 }

@@ -1,0 +1,44 @@
+{
+  "seo": {
+    "title": "Admin - Profile"
+  },
+  "loading": {
+    "profile": "Loading profile..."
+  },
+  "header": {
+    "title": "Basic Information"
+  },
+  "avatar": {
+    "label": "Avatar",
+    "alt": "Avatar",
+    "remove": "Remove picture"
+  },
+  "fields": {
+    "fullName": "Full name",
+    "fullNameRequired": "Please enter your full name!",
+    "email": "Email",
+    "username": "Username",
+    "role": "Role",
+    "status": "Status",
+    "lastLogin": "Last login",
+    "noLastLogin": "None"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "message": {
+    "imageOnly": "Only image files are allowed!",
+    "imageMaxSize": "Image must be smaller than 2MB!",
+    "avatarUpdated": "Avatar updated!",
+    "avatarUpdateFailed": "Upload failed!",
+    "avatarRemoved": "Avatar removed!",
+    "avatarRemoveFailed": "Remove avatar failed!",
+    "updateSuccess": "Updated successfully!",
+    "updateFailed": "Update failed!"
+  }
+}

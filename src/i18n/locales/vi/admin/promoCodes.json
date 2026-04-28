@@ -1,0 +1,262 @@
+{
+  "seo": {
+    "title": "Admin - Mã giảm giá"
+  },
+  "page": {
+    "title": "Promo code manager",
+    "subtitle": "Create and manage discount codes for customers"
+  },
+  "common": {
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "create": "Tạo mã",
+    "update": "Cập nhật",
+    "noLimit": "Không giới hạn",
+    "allCustomers": "Tất cả khách hàng",
+    "notAvailable": "N/A",
+    "infinity": "vô hạn",
+    "yes": "Có",
+    "no": "Không"
+  },
+  "actions": {
+    "create": "Create promo code",
+    "export": "Export",
+    "refresh": "Refresh"
+  },
+  "categories": {
+    "all": "General",
+    "new": "New customers",
+    "flash": "Flash Sale",
+    "shipping": "Free shipping",
+    "vip": "VIP",
+    "weekend": "Weekend",
+    "student": "Students"
+  },
+  "audience": {
+    "allCustomers": "All customers",
+    "newCustomers": "New customers",
+    "specificCustomers": "Specific customers",
+    "customerGroups": "Customer groups",
+    "all_customers": "All customers",
+    "new_customers": "New customers",
+    "specific_customers": "Specific customers",
+    "customer_groups": "Customer groups"
+  },
+  "messages": {
+    "copySuccess": "Đã sao chép promo code",
+    "copyError": "Không thể sao chép promo code",
+    "fetchError": "Không thể tải promo code",
+    "deleteSuccess": "Đã xóa promo code",
+    "deleteError": "Không thể xóa promo code",
+    "updateSuccess": "Đã cập nhật promo code",
+    "createSuccess": "Đã tạo promo code",
+    "genericError": "Có lỗi xảy ra",
+    "toggleSuccess": "Promo code đã được {{action}}",
+    "toggleOn": "bật",
+    "toggleOff": "tắt",
+    "statusUpdateError": "Không thể cập nhật trạng thái",
+    "detailError": "Không thể tải chi tiết promo code",
+    "duplicateReady": "Đã mở bản sao dưới dạng draft đang tắt",
+    "exportEmpty": "Không có promo code để export",
+    "exportSuccess": "Đã export promo code"
+  },
+  "stats": {
+    "total": "Total codes",
+    "active": "Active",
+    "expired": "Expired",
+    "usage": "Usage count"
+  },
+  "status": {
+    "disabled": "Disabled",
+    "expired": "Expired",
+    "usageLimitReached": "Limit reached",
+    "active": "Active"
+  },
+  "discount": {
+    "percent": "{{value}}% off",
+    "amount": "{{value}} off",
+    "freeShipping": "Free shipping",
+    "types": {
+      "percent": "Percentage discount",
+      "fixed": "Fixed amount discount",
+      "freeShipping": "Free shipping"
+    }
+  },
+  "filters": {
+    "searchPlaceholder": "Search by promo code / campaign",
+    "clear": "Clear",
+    "statusOptions": {
+      "all": "All statuses",
+      "active": "Active",
+      "expired": "Expired",
+      "disabled": "Disabled"
+    },
+    "discountTypeOptions": {
+      "all": "All discount types",
+      "percent": "Percentage",
+      "fixed": "Fixed amount",
+      "free_shipping": "Free shipping"
+    },
+    "audienceOptions": {
+      "all": "All audiences",
+      "all_customers": "All customers",
+      "new_customers": "New customers",
+      "specific_customers": "Specific customers",
+      "customer_groups": "Customer groups"
+    },
+    "dateFields": {
+      "expiresAt": "Expires at",
+      "createdAt": "Created at"
+    }
+  },
+  "table": {
+    "title": "Promo code list",
+    "description": "Review campaigns, limits, audience, schedule, and quick actions.",
+    "createButton": "Create new code",
+    "paginationSummary": "Showing {{rangeStart}} - {{rangeEnd}} of {{total}} promo codes",
+    "visibleCount": "{{count}} codes on this page",
+    "empty": "Chưa có promo code",
+    "noConditions": "No conditions",
+    "conditionSeparator": " - ",
+    "minOrder": "Min: {{amount}}",
+    "maxDiscount": "Max: {{amount}}",
+    "usage": "Usage",
+    "usageValue": "{{used}} / {{limit}}",
+    "expiry": "Expires",
+    "audience": "Audience",
+    "createdAt": "Created",
+    "usedByCount": "{{count}} customers used",
+    "fallbackCampaignTitle": "Code {{code}}",
+    "deleteConfirmTitle": "Bạn có chắc muốn xóa promo code này?",
+    "mobile": {
+      "discount": "Discount",
+      "type": "Type",
+      "conditions": "Conditions",
+      "usage": "Usage",
+      "audience": "Audience",
+      "expires": "Expires",
+      "created": "Created"
+    },
+    "columns": {
+      "code": "Promo code",
+      "campaign": "Campaign",
+      "discountType": "Discount type",
+      "conditions": "Conditions",
+      "usage": "Usage",
+      "expiresAt": "Expires at",
+      "audience": "Audience",
+      "createdAt": "Created at",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "viewDetail": "View details",
+      "viewUsageHistory": "View usage history",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "extendExpiry": "Extend expiry",
+      "enable": "Enable",
+      "disable": "Disable",
+      "enableCode": "Enable promo code",
+      "disableCode": "Disable promo code",
+      "deleteCode": "Delete code"
+    }
+  },
+  "form": {
+    "titleCreate": "Create promo code",
+    "titleEdit": "Edit promo code",
+    "sections": {
+      "basic": "Basic information",
+      "discount": "Discount settings",
+      "conditions": "Conditions",
+      "usage": "Usage limits",
+      "audience": "Audience",
+      "schedule": "Schedule"
+    },
+    "code": "Promo code",
+    "codeRequired": "Vui lòng nhập promo code",
+    "codePlaceholder": "Example: WELCOME20",
+    "title": "Campaign title",
+    "campaignName": "Campaign name",
+    "campaignPlaceholder": "Example: New customer offer",
+    "titlePlaceholder": "Example: New customer offer",
+    "description": "Description",
+    "descriptionPlaceholder": "Shortly describe this code's benefit or condition",
+    "category": "Code group",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English campaign title",
+      "titlePlaceholder": "Enter English campaign title",
+      "description": "English description",
+      "descriptionPlaceholder": "Enter English campaign description"
+    },
+    "discountType": "Discount type",
+    "discountTypeRequired": "Please select a discount type",
+    "discountTypes": {
+      "percent": "Percentage",
+      "amount": "Fixed amount",
+      "freeShipping": "Free shipping"
+    },
+    "discountValue": "Discount value",
+    "discountValueRequired": "Please enter a discount value",
+    "freeShippingValuePlaceholder": "No value needed",
+    "maxDiscount": "Max discount amount",
+    "minOrder": "Minimum order amount",
+    "applicableProducts": "Applicable products",
+    "applicableProductsPlaceholder": "Type product names or IDs",
+    "applicableCategories": "Applicable categories",
+    "applicableCategoriesPlaceholder": "Type category names",
+    "excludedProducts": "Excluded products",
+    "excludedProductsPlaceholder": "Type excluded product names or IDs",
+    "usageLimit": "Total usage limit",
+    "usageLimitPlaceholder": "Leave blank = no limit",
+    "usagePerCustomer": "Usage per customer",
+    "usagePerCustomerPlaceholder": "Default 1",
+    "newCustomersOnly": "New customers only",
+    "audienceType": "Audience type",
+    "specificCustomers": "Specific customers",
+    "specificCustomersPlaceholder": "Type customer emails or IDs",
+    "customerGroups": "Customer groups",
+    "customerGroupsPlaceholder": "Type customer group names",
+    "startsAt": "Start date",
+    "startsAtPlaceholder": "Select start date",
+    "expiresAt": "End date",
+    "expiresAtPlaceholder": "Select end date",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Disabled",
+    "saveDraft": "Save draft",
+    "savePromoCode": "Save promo code"
+  },
+  "detail": {
+    "title": "Promo code details",
+    "fallbackTitle": "Code {{code}}",
+    "category": "Code group",
+    "discountType": "Discount type",
+    "minOrder": "Minimum order",
+    "maxDiscount": "Max discount",
+    "used": "Used",
+    "usedBy": "Customers used",
+    "audience": "Applies to",
+    "usedByList": "Used by",
+    "expiresAt": "Expires at",
+    "status": "Status",
+    "createdAt": "Created at"
+  },
+  "serverErrors": {
+    "duplicate": "Promo code đã tồn tại",
+    "notFound": "Không tìm thấy promo code",
+    "invalidId": "ID promo code không hợp lệ",
+    "createFailed": "Không thể tạo promo code",
+    "updateFailed": "Không thể cập nhật promo code",
+    "deleteFailed": "Không thể xóa promo code",
+    "listFailed": "Không thể tải promo code",
+    "detailFailed": "Không thể tải chi tiết promo code",
+    "codeAlphanum": "Promo code chỉ được gồm chữ và số",
+    "codeMin": "Promo code phải có ít nhất 2 ký tự",
+    "codeRequired": "Promo code là bắt buộc",
+    "discountTypeInvalid": "Discount type phải là percentage hoặc fixed amount",
+    "discountTypeRequired": "Discount type là bắt buộc",
+    "discountValueRequired": "Discount value là bắt buộc"
+  }
+}

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { notification } from 'antd'
 import { Package } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { connectSocket, disconnectSocket, getSocket } from '@/services/socketService'
 import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 import {
+  CLIENT_NOTIFICATIONS_UPDATED_EVENT,
+  CLIENT_NOTIFICATIONS_STORAGE_KEY,
   clearStoredNotifications,
   createOrderStatusNotification,
   getDesktopNotificationBody,
@@ -13,6 +16,7 @@ import {
 } from '../components/NotificationBell/notificationUtils'
 
 export default function useClientNotifications(user) {
+  const { t } = useTranslation('clientHeader')
   const [notifications, setNotifications] = useState(() => loadStoredNotifications())
   const [notifApi, notifContextHolder] = notification.useNotification()
 
@@ -26,6 +30,27 @@ export default function useClientNotifications(user) {
 
     saveStoredNotifications(notifications)
   }, [notifications])
+
+  useEffect(() => {
+    const handleNotificationsUpdated = event => {
+      const nextNotifications = event.detail?.notifications
+      setNotifications(Array.isArray(nextNotifications) ? nextNotifications : loadStoredNotifications())
+    }
+
+    const handleStorage = event => {
+      if (event.key === CLIENT_NOTIFICATIONS_STORAGE_KEY) {
+        setNotifications(loadStoredNotifications())
+      }
+    }
+
+    window.addEventListener(CLIENT_NOTIFICATIONS_UPDATED_EVENT, handleNotificationsUpdated)
+    window.addEventListener('storage', handleStorage)
+
+    return () => {
+      window.removeEventListener(CLIENT_NOTIFICATIONS_UPDATED_EVENT, handleNotificationsUpdated)
+      window.removeEventListener('storage', handleStorage)
+    }
+  }, [])
 
   useEffect(() => {
     const token = getClientAccessToken() || getClientAccessTokenSession()
@@ -42,13 +67,13 @@ export default function useClientNotifications(user) {
 
     const handleStatusUpdate = ({ _id, status }) => {
       const orderUpdate = { _id, status }
-      const notificationItem = createOrderStatusNotification(orderUpdate)
+      const notificationItem = createOrderStatusNotification(orderUpdate, t)
 
       setNotifications(prev => prependNotification(prev, notificationItem))
 
       notifApi.open({
-        message: 'Cập nhật đơn hàng',
-        description: getDesktopNotificationBody(orderUpdate),
+        message: t('notification.panelOrderTitle'),
+        description: getDesktopNotificationBody(orderUpdate, t),
         icon: <Package className="text-blue-500" />,
         placement: 'topRight',
         duration: 6
@@ -61,7 +86,7 @@ export default function useClientNotifications(user) {
       socket.off('order_status_updated', handleStatusUpdate)
       disconnectSocket()
     }
-  }, [notifApi, user?._id])
+  }, [notifApi, t, user?._id])
 
   return {
     notifications,

@@ -2,18 +2,35 @@ import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useSelector } from 'react-redux'
 import { buildAdminMenuItems, getSelectedAdminMenuKey } from './adminMenuUtils'
 
-function SiderLayout({ collapsed, setCollapsed, location }) {
+function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = false }) {
   const navigate = useNavigate()
+  const { t } = useTranslation('adminLayout')
   const [stateOpenKeys, setStateOpenKeys] = useState([])
   const permissions = useAdminPermissions()
 
+  const adminUser = useSelector(state => state.adminUser.user)
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const shouldPreservePermissionItems = !Array.isArray(adminUser?.role_id?.permissions)
 
-  const menuItems = useMemo(() => buildAdminMenuItems(permissions), [permissions])
+  const menuItems = useMemo(
+    () => buildAdminMenuItems(permissions, t, {
+      preservePermissionItems: shouldPreservePermissionItems,
+      compactGroups: compactChatMenu
+        ? {
+            'live-chat': {
+              key: 'chat',
+              labelKey: 'routes.live-chat'
+            }
+          }
+        : undefined
+    }),
+    [compactChatMenu, permissions, shouldPreservePermissionItems, t]
+  )
 
   const getLevelKeys = items1 => {
     const key = {}
@@ -29,6 +46,11 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
   const levelKeys = getLevelKeys(menuItems)
 
   useEffect(() => {
+    if (compactChatMenu) {
+      setStateOpenKeys([])
+      return
+    }
+
     const openKeys = []
     menuItems.forEach(item => {
       if (item.children) {
@@ -39,7 +61,7 @@ function SiderLayout({ collapsed, setCollapsed, location }) {
     })
     setStateOpenKeys(openKeys)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname])
+  }, [compactChatMenu, location.pathname])
 
   const onOpenChange = openKeys => {
     const currentOpenKey = openKeys.find(key => stateOpenKeys.indexOf(key) === -1)

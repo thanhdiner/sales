@@ -1,0 +1,117 @@
+{
+  "seo": {
+    "title": "Admin - About Page"
+  },
+  "page": {
+    "eyebrow": "Content",
+    "title": "About page content",
+    "description": "Manage the bilingual content displayed on the customer About page."
+  },
+  "languages": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reset": "Reset",
+    "save": "Save content",
+    "remove": "Remove",
+    "addLine": "Add line",
+    "addBenefit": "Add benefit",
+    "addStep": "Add step",
+    "addParagraph": "Add paragraph",
+    "addTimeline": "Add milestone"
+  },
+  "messages": {
+    "loading": "Loading about content...",
+    "fetchError": "Unable to load about content",
+    "saveSuccess": "About content saved",
+    "saveError": "Unable to save about content",
+    "resetDone": "Form reset"
+  },
+  "sections": {
+    "seo": {
+      "title": "SEO",
+      "description": "Browser title and meta description for the About page."
+    },
+    "media": {
+      "title": "Media",
+      "description": "Image URLs used by the hero and owner sections."
+    },
+    "hero": {
+      "title": "Hero",
+      "description": "Main headline, intro copy, and action buttons."
+    },
+    "benefits": {
+      "title": "Benefits",
+      "description": "Short reasons customers should trust the shop."
+    },
+    "features": {
+      "title": "Operation",
+      "description": "Process overview and feature steps."
+    },
+    "owner": {
+      "title": "Owner",
+      "description": "Story, owner image, and quick stats."
+    },
+    "timeline": {
+      "title": "Timeline",
+      "description": "Milestones shown in the About page timeline."
+    },
+    "cta": {
+      "title": "Call to action",
+      "description": "Final conversion block at the bottom of the page."
+    }
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "heroImageUrl": "Hero image URL",
+    "ownerImageUrl": "Owner image URL",
+    "eyebrow": "Eyebrow",
+    "reviews": "Reviews label",
+    "titleLines": "Title lines",
+    "description": "Description",
+    "primaryButton": "Primary button",
+    "primaryButtonLink": "Primary button link",
+    "secondaryButton": "Secondary button",
+    "secondaryButtonLink": "Secondary button link",
+    "imageAlt": "Image alt text",
+    "sectionTitle": "Section title",
+    "benefits": "Benefit items",
+    "button": "Button text",
+    "buttonLink": "Button link",
+    "steps": "Steps",
+    "ownerTitle": "Owner section title",
+    "paragraphs": "Paragraphs",
+    "goodPrice": "Good price stat",
+    "support": "Support stat",
+    "easyBuy": "Easy buy stat",
+    "consulting": "Consulting stat",
+    "ribbonBrand": "Ribbon brand",
+    "ribbonText": "Ribbon text",
+    "timeline": "Timeline items",
+    "ctaTitle": "CTA title"
+  },
+  "placeholders": {
+    "seoTitle": "About SmartMall",
+    "seoDescription": "Short description for search engines",
+    "eyebrow": "About SmartMall",
+    "reviews": "Reviews",
+    "titleLine": "Headline line",
+    "description": "Enter content",
+    "primaryButton": "View products",
+    "secondaryButton": "Contact now",
+    "imageAlt": "Image description",
+    "sectionTitle": "Section heading",
+    "itemTitle": "Item title",
+    "itemDescription": "Item description",
+    "button": "View products",
+    "ownerTitle": "Who is behind the shop",
+    "paragraph": "Paragraph content",
+    "stat": "Stat label",
+    "ribbonBrand": "Shop",
+    "ribbonText": "self-operated",
+    "ctaTitle": "Want to try shopping with us?"
+  }
+}

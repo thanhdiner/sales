@@ -1,10 +1,10 @@
 export const REVIEW_LIMIT = 10
 
 export const REVIEW_SORT_OPTIONS = [
-  { value: 'newest', label: 'Mới nhất' },
-  { value: 'helpful', label: 'Hữu ích nhất' },
-  { value: 'highRating', label: 'Cao nhất' },
-  { value: 'lowRating', label: 'Thấp nhất' }
+  { value: 'newest', labelKey: 'productDetail.reviewSort.newest' },
+  { value: 'helpful', labelKey: 'productDetail.reviewSort.helpful' },
+  { value: 'highRating', labelKey: 'productDetail.reviewSort.highRating' },
+  { value: 'lowRating', labelKey: 'productDetail.reviewSort.lowRating' }
 ]
 
 export const DEFAULT_REVIEW_SUMMARY = {
@@ -13,22 +13,26 @@ export const DEFAULT_REVIEW_SUMMARY = {
   ratingDist: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
 }
 
-export const timeAgo = dateStr => {
+export const getReviewLocale = language => {
+  return language?.startsWith('en') ? 'en-US' : 'vi-VN'
+}
+
+export const timeAgo = (dateStr, t, language = 'vi') => {
   if (!dateStr) return ''
 
   const diff = Date.now() - new Date(dateStr)
   const m = Math.floor(diff / 60000)
 
-  if (m < 1) return 'Vừa xong'
-  if (m < 60) return `${m} phút trước`
+  if (m < 1) return t('productDetail.reviewTime.justNow')
+  if (m < 60) return t('productDetail.reviewTime.minutesAgo', { count: m })
 
   const h = Math.floor(m / 60)
-  if (h < 24) return `${h} giờ trước`
+  if (h < 24) return t('productDetail.reviewTime.hoursAgo', { count: h })
 
   const d = Math.floor(h / 24)
-  if (d < 30) return `${d} ngày trước`
+  if (d < 30) return t('productDetail.reviewTime.daysAgo', { count: d })
 
-  return new Date(dateStr).toLocaleDateString('vi-VN')
+  return new Date(dateStr).toLocaleDateString(getReviewLocale(language))
 }
 
 export const getReviewMedia = review => [
@@ -48,9 +52,7 @@ export const recalcReviewSummary = (prevSummary, addRating, removeRating) => {
   }
 
   const totalCount = Object.values(dist).reduce((sum, count) => sum + count, 0)
-  const avg = totalCount
-    ? Object.entries(dist).reduce((sum, [rating, count]) => sum + Number(rating) * count, 0) / totalCount
-    : 0
+  const avg = totalCount ? Object.entries(dist).reduce((sum, [rating, count]) => sum + Number(rating) * count, 0) / totalCount : 0
 
   return {
     avgRating: Math.round(avg * 10) / 10,

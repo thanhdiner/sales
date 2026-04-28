@@ -1,99 +1,74 @@
 import { Alert, Badge, Tag, Tooltip, Typography } from 'antd'
+import { Trans, useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
+function EnvStatusBadge({ label, envKey, configured }) {
+  const { t } = useTranslation('adminChatbotRuntime')
+
+  return (
+    <Tooltip title={t('status.envTooltip', { key: envKey })}>
+      <Badge
+        status={configured ? 'success' : 'error'}
+        text={(
+          <span>
+            {label}{' '}
+            {configured ? (
+              <Tag color="green">{t('status.configured')}</Tag>
+            ) : (
+              <Tag color="red">{t('status.missing')}</Tag>
+            )}
+          </span>
+        )}
+      />
+    </Tooltip>
+  )
+}
+
 export default function AdminChatbotRuntimeStatusSection({ config }) {
+  const { t } = useTranslation('adminChatbotRuntime')
+  const runtimeProvider = config?.runtimeProvider || '--'
+  const runtimeModel = config?.runtimeModel || '--'
+
   return (
     <>
       <div className="mb-4 flex flex-wrap gap-3">
-        <Tooltip title="Đặt trong file .env: OPENAI_API_KEY">
-          <Badge
-            status={config?.hasOpenaiKey ? 'success' : 'error'}
-            text={(
-              <span>
-                OpenAI{' '}
-                {config?.hasOpenaiKey ? (
-                  <Tag color="green">Đã cấu hình</Tag>
-                ) : (
-                  <Tag color="red">Chưa có</Tag>
-                )}
-              </span>
-            )}
-          />
-        </Tooltip>
-
-        <Tooltip title="Đặt trong file .env: DEEPSEEK_API_KEY">
-          <Badge
-            status={config?.hasDeepseekKey ? 'success' : 'error'}
-            text={(
-              <span>
-                DeepSeek{' '}
-                {config?.hasDeepseekKey ? (
-                  <Tag color="green">Đã cấu hình</Tag>
-                ) : (
-                  <Tag color="red">Chưa có</Tag>
-                )}
-              </span>
-            )}
-          />
-        </Tooltip>
-
-        <Tooltip title="Đặt trong file .env: GROQ_API_KEY">
-          <Badge
-            status={config?.hasGroqKey ? 'success' : 'error'}
-            text={(
-              <span>
-                Groq{' '}
-                {config?.hasGroqKey ? (
-                  <Tag color="green">Đã cấu hình</Tag>
-                ) : (
-                  <Tag color="red">Chưa có</Tag>
-                )}
-              </span>
-            )}
-          />
-        </Tooltip>
-
-        <Tooltip title="Đặt trong file .env: NINEROUTER_API_KEY">
-          <Badge
-            status={config?.has9routerKey ? 'success' : 'error'}
-            text={(
-              <span>
-                9Router{' '}
-                {config?.has9routerKey ? (
-                  <Tag color="green">Đã cấu hình</Tag>
-                ) : (
-                  <Tag color="red">Chưa có</Tag>
-                )}
-              </span>
-            )}
-          />
-        </Tooltip>
+        <EnvStatusBadge label="OpenAI" envKey="OPENAI_API_KEY" configured={config?.hasOpenaiKey} />
+        <EnvStatusBadge label="DeepSeek" envKey="DEEPSEEK_API_KEY" configured={config?.hasDeepseekKey} />
+        <EnvStatusBadge label="Groq" envKey="GROQ_API_KEY" configured={config?.hasGroqKey} />
+        <EnvStatusBadge label="9Router" envKey="NINEROUTER_API_KEY" configured={config?.has9routerKey} />
       </div>
 
       <Alert
         className="admin-chatbot-alert mb-4"
         type="warning"
         showIcon
-        message="Runtime thực tế vẫn ưu tiên đọc provider/model từ server"
-        description="Admin page lưu cấu hình trong database để orchestrator dùng và để quản trị dễ hơn. API key vẫn phải đặt ở file .env."
+        message={t('status.warningTitle')}
+        description={t('status.warningDescription')}
       />
 
       <div className="admin-chatbot-runtime-summary mb-4 rounded-2xl p-4">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Tag color={config?.runtimeEnabled ? 'green' : 'red'}>
-            Runtime: {config?.runtimeEnabled ? 'Bật' : 'Tắt'}
+            {t('status.runtime')}: {config?.runtimeEnabled ? t('status.enabled') : t('status.disabled')}
           </Tag>
-          <Tag color="blue">Provider: {config?.runtimeProvider || '--'}</Tag>
-          <Tag color="geekblue">Model: {config?.runtimeModel || '--'}</Tag>
+          <Tag color="blue">{t('status.provider')}: {runtimeProvider}</Tag>
+          <Tag color="geekblue">{t('status.model')}: {runtimeModel}</Tag>
           <Tag color={config?.runtimeBaseUrl ? 'cyan' : 'default'}>
-            Base URL: {config?.runtimeBaseUrl || 'Mặc định'}
+            {t('status.baseUrl')}: {config?.runtimeBaseUrl || t('status.defaultBaseUrl')}
           </Tag>
         </div>
 
         <Text>
-          Agent runtime hiện dùng provider <strong>{config?.runtimeProvider || '--'}</strong>{' '}
-          với model <strong>{config?.runtimeModel || '--'}</strong>.
+          <Trans
+            i18nKey="status.summary"
+            ns="adminChatbotRuntime"
+            values={{ provider: runtimeProvider, model: runtimeModel }}
+            components={{
+              provider: <strong />,
+              model: <strong />
+            }}
+          />
         </Text>
       </div>
 
@@ -102,7 +77,7 @@ export default function AdminChatbotRuntimeStatusSection({ config }) {
           className="admin-chatbot-alert mb-4"
           type="error"
           showIcon
-          message="Runtime env chưa hợp lệ"
+          message={t('status.envInvalidTitle')}
           description={config.runtimeConfigError}
         />
       )}

@@ -10,6 +10,7 @@ const GATEWAY_NAMES = {
   vnpay: 'VNPay',
   momo: 'MoMo',
   zalopay: 'ZaloPay',
+  sepay: 'Sepay',
 }
 
 export default function OrderSuccessPage() {

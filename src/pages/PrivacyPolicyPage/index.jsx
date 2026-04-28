@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Alert, Col, Row } from 'antd'
-import SEO from '@/components/SEO'
+import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
+import SEO from '@/components/SEO'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { getPrivacyPolicyContent } from '@/services/privacyPolicyContentService'
 import PolicyPageHeader from './components/PolicyPageHeader'
 import PolicySidebar from './components/PolicySidebar'
 import DataCollectionSection from './components/DataCollectionSection'
@@ -13,29 +16,36 @@ import CookiesSection from './components/CookiesSection'
 import PolicyFaqSection from './components/PolicyFaqSection'
 import ContactSection from './components/ContactSection'
 import PolicyContactModal from './components/PolicyContactModal'
+import { normalizePrivacyPolicyContent } from './privacyPolicyContent'
 
 const PrivacyPolicyPage = () => {
+  const language = useCurrentLanguage()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const [contactModalVisible, setContactModalVisible] = useState(false)
+  const { data: privacyPolicyData } = useQuery({
+    queryKey: ['privacy-policy-content', language],
+    queryFn: async () => {
+      const response = await getPrivacyPolicyContent()
+      return response?.data || null
+    },
+    staleTime: 5 * 60 * 1000,
+    retry: false
+  })
+  const content = useMemo(
+    () => normalizePrivacyPolicyContent(privacyPolicyData, language),
+    [privacyPolicyData, language]
+  )
 
   return (
-    <div className="min-h-screen rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 py-8 dark:from-gray-800 dark:to-gray-800">
-      <SEO
-        title="Chính sách bảo mật"
-        description="Chính sách bảo mật thông tin của SmartMall – cam kết bảo vệ dữ liệu cá nhân của bạn."
-      />
+    <div className="privacy-policy-page min-h-screen rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 py-8 dark:bg-gray-950 dark:bg-none">
+      <SEO title={content.seo.title} description={content.seo.description} />
 
       <div className="mx-auto max-w-7xl px-4">
-        <PolicyPageHeader />
+        <PolicyPageHeader content={content.pageHeader} />
 
         <Alert
-          message={<span className="dark:text-gray-100">Tóm tắt nhanh</span>}
-          description={
-            <span className="dark:text-gray-300">
-              Chúng tôi thu thập thông tin cần thiết để cung cấp dịch vụ, bảo vệ dữ liệu bằng mã hóa SSL, không bán
-              thông tin cho bên thứ ba, và bạn có toàn quyền kiểm soát dữ liệu cá nhân.
-            </span>
-          }
+          message={<span className="dark:text-gray-100">{content.summary.title}</span>}
+          description={<span className="dark:text-gray-300">{content.summary.description}</span>}
           type="info"
           showIcon
           className="mb-8 rounded-lg dark:bg-gray-800"
@@ -43,24 +53,29 @@ const PrivacyPolicyPage = () => {
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={6}>
-            <PolicySidebar />
+            <PolicySidebar title={content.sidebar.title} sections={content.sections} />
           </Col>
 
           <Col xs={24} lg={18}>
             <div className="space-y-8">
-              <DataCollectionSection />
-              <InformationUsageSection />
-              <InformationSharingSection />
-              <SecuritySection />
-              <UserRightsSection onOpenContactModal={() => setContactModalVisible(true)} />
-              <CookiesSection />
-              <PolicyFaqSection />
-              <ContactSection websiteConfig={websiteConfig} />
+              <DataCollectionSection section={content.dataCollectionSection} />
+              <InformationUsageSection section={content.informationUsageSection} />
+              <InformationSharingSection section={content.informationSharingSection} />
+              <SecuritySection section={content.securitySection} />
+              <UserRightsSection section={content.userRightsSection} onOpenContactModal={() => setContactModalVisible(true)} />
+              <CookiesSection section={content.cookiesSection} />
+              <PolicyFaqSection section={content.faqSection} />
+              <ContactSection section={content.contactSection} websiteConfig={websiteConfig} />
             </div>
           </Col>
         </Row>
 
-        <PolicyContactModal open={contactModalVisible} onClose={() => setContactModalVisible(false)} />
+        <PolicyContactModal
+          content={content.contactModal}
+          open={contactModalVisible}
+          websiteConfig={websiteConfig}
+          onClose={() => setContactModalVisible(false)}
+        />
       </div>
     </div>
   )

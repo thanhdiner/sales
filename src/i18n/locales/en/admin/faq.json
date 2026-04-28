@@ -1,0 +1,46 @@
+{
+  "seo": {
+    "title": "Admin - FAQ"
+  },
+  "page": {
+    "title": "FAQ Content",
+    "description": "Manage customer-facing FAQ content and English translation."
+  },
+  "tabs": {
+    "vi": "Vietnamese content",
+    "en": "English translation"
+  },
+  "actions": {
+    "save": "Save",
+    "reload": "Reload",
+    "remove": "Remove",
+    "addItem": "Add question"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Page header",
+    "items": "FAQ items",
+    "itemsDescription": "Use {{phone}} in answers when you want to show the configured support phone.",
+    "support": "Support footer"
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "description": "Description",
+    "id": "ID",
+    "question": "Question",
+    "answer": "Answer",
+    "supportText": "Support text",
+    "supportLink": "Support link label"
+  },
+  "messages": {
+    "fetchError": "Unable to load FAQ content",
+    "saveSuccess": "FAQ content saved",
+    "saveError": "Unable to save FAQ content"
+  },
+  "validation": {
+    "required": "This field is required"
+  }
+}

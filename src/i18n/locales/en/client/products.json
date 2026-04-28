@@ -1,0 +1,466 @@
+{
+  "sort": {
+    "newest": "Newest",
+    "soldDesc": "Best sellers",
+    "rateDesc": "Highest rated",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "nameAsc": "Name A-Z",
+    "nameDesc": "Name Z-A"
+  },
+  "pricePreset": {
+    "all": "All",
+    "under100k": "Under 100k",
+    "from100kTo500k": "100k - 500k",
+    "from500kTo1m": "500k - 1M",
+    "from1mTo5m": "1M - 5M",
+    "over5m": "Over 5M"
+  },
+  "filter": {
+    "title": "Filters",
+    "advancedTitle": "Advanced filters",
+    "filtering": "Filtering",
+    "resetAll": "Clear all filters",
+    "reset": "Clear filters",
+    "category": "Category",
+    "allCategories": "All categories",
+    "priceRange": "Price range",
+    "minRating": "Minimum rating",
+    "productType": "Product type",
+    "all": "All",
+    "topDeal": "🔥 Top Deal",
+    "featured": "⭐ Featured",
+    "ratingUp": "and up ({{value}}★)",
+    "activeDot": "●"
+  },
+  "page": {
+    "title": "Product list",
+    "totalProducts": "({{count}} products)",
+    "searchPlaceholder": "Search products...",
+    "emptyTitle": "No products found",
+    "emptyDescription": "Try changing your filters or search keyword",
+    "loadMore": "Load more ({{current}}/{{total}})"
+  },
+  "list": {
+    "loading": "Loading products...",
+    "empty": "No products found"
+  },
+  "card": {
+    "topDeal": "Top Deal",
+    "featured": "Featured",
+    "removeWishlist": "Remove from wishlist",
+    "addWishlist": "Add to wishlist",
+    "compare": "Compare product",
+    "addToCart": "Add to cart"
+  },
+  "productItem": {
+    "addingToCart": "Adding...",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart",
+    "removeWishlist": "Remove from wishlist",
+    "addWishlist": "Add to wishlist",
+    "compare": "Compare product",
+    "soldOut": "Out of stock",
+    "onlyLeft": "Only {{count}} left",
+    "hotDeal": "Hot Deal",
+    "featured": "Featured",
+    "stockLeft": "In stock",
+    "soldCount": "Sold {{count}}",
+    "saving": "Save {{amount}}₫",
+    "deliveryInDays": "Delivery in {{count}} days"
+  },
+  "categoryPage": {
+    "seo": {
+      "fallbackTitle": "Product category",
+      "fallbackDescription": "View all products in the {{categoryTitle}} category at SmartMall."
+    },
+    "error": {
+      "notFound": "Category not found or something went wrong."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "categories": "Categories"
+    },
+    "discovery": {
+      "title": "Explore by category"
+    },
+    "children": {
+      "title": "Child categories",
+      "productCount": "{{count}} products"
+    },
+    "content": {
+      "title": "About this category"
+    },
+    "products": {
+      "title": "Products in this category",
+      "count": "{{count}} products",
+      "filteredCount": "{{count}} products found",
+      "searchPlaceholder": "Search in category",
+      "sortLabel": "Sort products",
+      "clearSearch": "Clear search",
+      "showing": "Showing {{shown}} / {{total}} products",
+      "sort": {
+        "recommended": "Best recommended",
+        "newest": "Newest",
+        "soldDesc": "Best sellers",
+        "rateDesc": "Highest rated",
+        "priceAsc": "Price: low to high",
+        "priceDesc": "Price: high to low",
+        "nameAsc": "Name A-Z",
+        "nameDesc": "Name Z-A"
+      }
+    },
+    "errorState": {
+      "seoTitle": "Product category",
+      "eyebrow": "Product category",
+      "title": "Could not load category page",
+      "fallbackMessage": "This category was not found or something went wrong while loading data.",
+      "retry": "Try again"
+    },
+    "filters": {
+      "title": "All products",
+      "description": "Explore quality digital account products with fast delivery and 24/7 support.",
+      "searchPlaceholder": "Search products",
+      "reset": "Reset",
+      "activeLabel": "Filtering by:",
+      "clear": "Clear filters",
+      "sort": {
+        "name": "Popular",
+        "priceLow": "Low price",
+        "priceHigh": "High price"
+      },
+      "quickFilters": {
+        "autoDelivery": "Automatic delivery",
+        "licensed": "Licensed accounts",
+        "support": "24/7 support",
+        "featured": "Featured"
+      }
+    },
+    "grid": {
+      "emptySearchTitle": "No matching products found",
+      "emptyCategoryTitle": "This category has no products yet",
+      "emptySearchDescription": "Try a shorter keyword, remove accents, or use different wording so the system can find better matches.",
+      "emptyCategoryDescription": "Products in this category will appear here as soon as they are updated in the system.",
+      "showing": "Showing {{shown}} / {{total}} products"
+    },
+    "hero": {
+      "eyebrow": "Product category",
+      "productsCount": "{{count}} products",
+      "childCategoriesCount": "{{count}} child categories",
+      "viewProducts": "View products",
+      "viewChildren": "Child categories",
+      "imageAlt": "{{categoryTitle}} category banner",
+      "noImage": "This category does not have an image yet."
+    }
+  },
+  "productsPage": {
+    "seo": {
+      "title": "All products",
+      "description": "Explore hundreds of products at SmartMall – game accounts, licensed software, good prices, and fast delivery."
+    }
+  },
+  "productDetail": {
+    "seo": {
+      "title": "Product details"
+    },
+    "message": {
+      "loadFailed": "Something went wrong while loading the product.",
+      "loginRequiredAddCart": "You need to sign in to add products to your cart!",
+      "loginRequiredBuyNow": "You need to sign in to buy this product!",
+      "maxAddToCart": "You can only add up to {{count}} of this product to your cart!",
+      "addCartSuccess": "Added to cart!",
+      "addCartFailed": "Failed to add product to cart!",
+      "buyNowFailed": "Buy now failed!",
+      "shareSuccess": "Product shared",
+      "shareCopySuccess": "Product link copied",
+      "shareFailed": "Unable to share this product. Please copy the link manually.",
+      "notifyEmailInvalid": "Invalid email format",
+      "notifySuccess": "Back-in-stock notification registered.",
+      "notifyFailed": "Unable to register the notification. Please try again."
+    },
+    "shareText": "View {{title}} on SmartMall",
+    "loading": "Loading product...",
+    "breadcrumb": {
+      "label": "Product breadcrumb",
+      "home": "Home",
+      "products": "Products"
+    },
+    "exploreMore": {
+      "fallbackCategory": "Explore",
+      "fallbackTitle": "Explore more",
+      "fallbackSubtitle": "More featured choices in the {{categoryTitle}} category.",
+      "sectionTitle": "Explore more",
+      "sameCategory": "Same category",
+      "recommended": "Recommended for you",
+      "loadingProducts": "Loading products",
+      "featuredCount": "{{count}} featured products",
+      "emptyTitle": "No additional recommendations are available right now.",
+      "emptyDescription": "You can click the card on the left to explore more products in the same category."
+    },
+    "gallery": {
+      "sampleImages": "Sample images",
+      "imageCount": "{{count}} images",
+      "imageAlt": "{{title}} image {{index}}",
+      "thumbnailAlt": "{{title}} thumbnail {{index}}",
+      "sampleAlt": "{{title}} sample {{index}}",
+      "openGallery": "Open image gallery",
+      "closeGallery": "Close image gallery",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "like": "Add product to favorites",
+      "unlike": "Remove product from favorites",
+      "share": "Share product"
+    },
+    "shareModal": {
+      "title": "Copy product link",
+      "description": "Your browser did not allow automatic copying. Select the link below and copy it manually."
+    },
+    "notifyModal": {
+      "title": "Notify when back in stock",
+      "description": "Enter your email and SmartMall will notify you when this product is available again.",
+      "emailPlaceholder": "Notification email",
+      "submit": "Register",
+      "cancel": "Cancel"
+    },
+    "infoSections": {
+      "featuresTitle": "Highlights",
+      "promotionTime": "Promotion period",
+      "promotionRange": "From {{start}} to {{end}}",
+      "descriptionTitle": "Product description",
+      "contentTitle": "Product details",
+      "supportCards": {
+        "warranty": {
+          "title": "Warranty",
+          "description": "Full package"
+        },
+        "delivery": {
+          "title": "Delivery",
+          "description": "Free"
+        },
+        "support": {
+          "title": "Support",
+          "description": "24/7 advice"
+        }
+      }
+    },
+    "digitalInfo": {
+      "eyebrow": "Digital product",
+      "title": "Account information",
+      "accountType": "Account type",
+      "duration": "Duration",
+      "devices": "Devices",
+      "warranty": "Warranty",
+      "delivery": "Delivery",
+      "support": "Support",
+      "values": {
+        "automaticDelivery": "Automatic after payment",
+        "staffProcessing": "Staff processing",
+        "accountUpgrade": "Owner account upgrade",
+        "privateAccount": "Private account",
+        "digitalAccount": "Digital account / key",
+        "byProductPackage": "By product package",
+        "standardWarranty": "7 days",
+        "liveSupport": "Live chat / ticket"
+      }
+    },
+    "purchasePanel": {
+      "quantity": "Quantity",
+      "maxAdded": "You have added all remaining stock to your cart",
+      "outOfStockHint": "This product is out of stock",
+      "buyNow": "Buy now",
+      "addToCart": "Add to cart",
+      "notifyWhenBackInStock": "Notify when back",
+      "addToWishlist": "Add to wishlist",
+      "removeFromWishlist": "Wishlisted",
+      "decreaseQuantity": "Decrease quantity",
+      "increaseQuantity": "Increase quantity"
+    },
+    "summaryPanel": {
+      "topDeal": "Top deal",
+      "featured": "Featured",
+      "noRating": "No reviews yet",
+      "stock": "{{count}} products left",
+      "reviewCount": "{{count}} reviews",
+      "soldCount": "Sold {{count}}",
+      "inStockWithCount": "In stock {{count}}",
+      "outOfStock": "Out of stock",
+      "saving": "Save {{amount}}"
+    },
+    "tabs": {
+      "eyebrow": "Details",
+      "title": "Product information",
+      "description": "Description",
+      "specifications": "Specifications",
+      "reviews": "Reviews",
+      "policy": "Policy",
+      "emptyDescription": "This product does not have detailed content yet.",
+      "category": "Category",
+      "stock": "Stock"
+    },
+    "policy": {
+      "delivery": {
+        "title": "Delivery",
+        "description": "Account, key, or login information is processed after successful payment."
+      },
+      "warranty": {
+        "title": "Warranty",
+        "description": "We help check and resolve issues within the warranty period listed for the product."
+      },
+      "usage": {
+        "title": "Usage notes",
+        "description": "Do not change passwords, share against terms, or skip the post-purchase instructions."
+      },
+      "support": {
+        "title": "Support channel",
+        "description": "Contact us through live chat or ticket when you need activation and usage support."
+      },
+      "security": {
+        "title": "Secure payment",
+        "description": "Orders are recorded in the system for reconciliation and after-sales support."
+      }
+    },
+    "stickyActions": {
+      "price": "Price"
+    },
+    "reviewSection": {
+      "ownerNote": {
+        "canEdit": "You have edited {{count}}/2 times.",
+        "editLimitReached": "You have used all 2/2 edit attempts for this review."
+      },
+      "message": {
+        "loginRequiredReview": "Please sign in to write a review",
+        "createSuccess": "Your review has been submitted!",
+        "createFailed": "Failed to submit review",
+        "updateSuccess": "Review updated!",
+        "updateFailed": "Update failed",
+        "deleteSuccess": "Review deleted",
+        "deleteFailed": "Delete failed",
+        "loginRequiredVote": "Please sign in to vote",
+        "voteFailed": "Vote failed",
+        "replySuccess": "Reply sent",
+        "replyFailed": "Failed to send reply",
+        "deleteReplySuccess": "Reply deleted",
+        "deleteReplyFailed": "Failed to delete reply"
+      },
+      "modal": {
+        "deleteReviewTitle": "Delete review",
+        "deleteReviewContent": "Are you sure you want to delete this review?",
+        "deleteReplyTitle": "Delete reply",
+        "deleteReplyContent": "Delete the shop reply?",
+        "okDelete": "Delete",
+        "cancel": "Cancel"
+      },
+      "loginRequired": {
+        "title": "Sign in to check review eligibility",
+        "description": "You need to sign in to see whether you can review this product.",
+        "button": "Sign in"
+      },
+      "notPurchased": {
+        "title": "Only customers who purchased this product can review it",
+        "description": "Reviews are only available for accounts with orders containing this product."
+      },
+      "orderNotCompleted": {
+        "title": "You can review after your order is completed",
+        "description": "Your order contains this product but is not completed yet."
+      },
+      "form": {
+        "createTitle": "Write your review",
+        "editTitle": "Edit review"
+      },
+      "myReview": {
+        "title": "Your review",
+        "description": "You can edit each review up to 2 times.",
+        "editCount": "Edited {{count}}/2 times"
+      }
+    },
+    "reviewCard": {
+      "anonymousCustomer": "Customer",
+      "menu": {
+        "more": "Open review menu",
+        "edit": "Edit",
+        "delete": "Delete review"
+      },
+      "hiddenNotice": "This review is hidden by an administrator and is not publicly visible.",
+      "media": {
+        "open": "Open review media",
+        "imageAlt": "Review image {{index}}"
+      },
+      "vote": {
+        "ownerDisabled": "You cannot vote for your own review",
+        "loginRequired": "Sign in to vote",
+        "helpful": "Helpful",
+        "helpfulWithCount": "Helpful ({{count}})"
+      },
+      "sellerReply": {
+        "title": "Reply from Shop",
+        "edit": "Edit reply",
+        "delete": "Delete reply",
+        "placeholder": "Enter the Shop reply...",
+        "send": "Send reply",
+        "update": "Update reply",
+        "cancel": "Cancel",
+        "replyAsShop": "Reply as Shop"
+      }
+    },
+    "reviewForm": {
+      "starLabels": {
+        "1": "Very bad",
+        "2": "Bad",
+        "3": "Average",
+        "4": "Good",
+        "5": "Excellent"
+      },
+      "message": {
+        "ratingRequired": "Please select a star rating"
+      },
+      "ratingLabel": "Choose rating",
+      "ratingButton": "Choose {{count}} stars",
+      "titlePlaceholder": "Review title (optional)",
+      "contentPlaceholder": "Share your experience with this product...",
+      "currentMedia": "Current images/videos",
+      "removeImage": "Remove current image",
+      "removeVideo": "Remove current video",
+      "update": "Update",
+      "submit": "Submit review",
+      "cancel": "Cancel"
+    },
+    "reviewList": {
+      "emptyTitle": "No reviews yet",
+      "emptyDescription": "Be the first to review this product.",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{page}}"
+    },
+    "reviewMedia": {
+      "close": "Close media viewer",
+      "previous": "Previous media",
+      "next": "Next media",
+      "imageAlt": "Review image {{index}}",
+      "videoLabel": "Review video {{index}}",
+      "removeFile": "Remove selected file",
+      "galleryTitle": "Customer photos & videos",
+      "fileCount": "{{count}} files",
+      "openMedia": "Open review media",
+      "showMore": "Show {{count}} more files",
+      "upload": "Add photo / video"
+    },
+    "reviewSummary": {
+      "title": "Product reviews",
+      "description": "See real feedback from customers who have used this product.",
+      "reviewCount": "{{count}} reviews",
+      "starFilter": "{{count}} stars"
+    },
+    "reviewSort": {
+      "newest": "Newest",
+      "helpful": "Most helpful",
+      "highRating": "Highest rated",
+      "lowRating": "Lowest rated"
+    },
+    "reviewTime": {
+      "justNow": "Just now",
+      "minutesAgo": "{{count}} minutes ago",
+      "hoursAgo": "{{count}} hours ago",
+      "daysAgo": "{{count}} days ago"
+    }
+  }
+}

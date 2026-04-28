@@ -11,10 +11,11 @@ import {
 import {
   ADMIN_BANK_INFO_FORM_INITIAL_VALUES,
   buildBankInfoFormData,
-  getBankInfoQrFileList
+  getBankInfoQrFileList,
+  getBankInfoTranslationValues
 } from '../utils'
 
-export default function useAdminBankInfoPage() {
+export default function useAdminBankInfoPage({ t = key => key } = {}) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
@@ -34,7 +35,7 @@ export default function useAdminBankInfoPage() {
       const response = await getBankInfos({ page: 1, limit: 100 })
       setData(response?.bankInfos || [])
     } catch (error) {
-      message.error(error?.message || 'Lỗi tải danh sách thông tin ngân hàng')
+      message.error(error?.message || t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
@@ -69,6 +70,7 @@ export default function useAdminBankInfoPage() {
     setIsRemoveQR(false)
     form.setFieldsValue({
       ...record,
+      translations: getBankInfoTranslationValues(record),
       qrCode: getBankInfoQrFileList(record)
     })
     setOpen(true)
@@ -93,10 +95,10 @@ export default function useAdminBankInfoPage() {
 
       if (editing) {
         await updateBankInfo(editing._id, formData)
-        message.success('Đã cập nhật thông tin ngân hàng')
+        message.success(t('messages.updateSuccess'))
       } else {
         await createBankInfo(formData)
-        message.success('Đã tạo tài khoản ngân hàng')
+        message.success(t('messages.createSuccess'))
       }
 
       resetModalState()
@@ -104,7 +106,7 @@ export default function useAdminBankInfoPage() {
     } catch (error) {
       if (error?.errorFields) return
 
-      message.error(error?.message || error?.response?.message || 'Có lỗi xảy ra')
+      message.error(error?.message || error?.response?.message || t('messages.saveError'))
     } finally {
       setSubmitLoading(false)
     }
@@ -113,10 +115,10 @@ export default function useAdminBankInfoPage() {
   const handleDelete = async id => {
     try {
       await deleteBankInfo(id)
-      message.success('Đã xóa tài khoản ngân hàng')
+      message.success(t('messages.deleteSuccess'))
       await load()
     } catch (error) {
-      message.error(error?.message || 'Xóa tài khoản thất bại')
+      message.error(error?.message || t('messages.deleteError'))
     }
   }
 
@@ -125,7 +127,7 @@ export default function useAdminBankInfoPage() {
       const otherActiveCount = data.filter(item => item.isActive && item._id !== record._id).length
 
       if (otherActiveCount === 0) {
-        message.info('Cần ít nhất 1 tài khoản đang dùng. Hãy kích hoạt tài khoản khác trước.')
+        message.info(t('messages.needActiveAccount'))
         return
       }
     }
@@ -134,10 +136,10 @@ export default function useAdminBankInfoPage() {
 
     try {
       await activateBankInfo(record._id, { active: checked })
-      message.success(checked ? 'Đã đặt làm tài khoản đang dùng' : 'Đã tắt kích hoạt')
+      message.success(checked ? t('messages.activateSuccess') : t('messages.deactivateSuccess'))
       await load()
     } catch (error) {
-      message.error(error?.message || 'Cập nhật trạng thái thất bại')
+      message.error(error?.message || t('messages.statusError'))
     } finally {
       setActivateLoadingId(null)
     }
@@ -150,11 +152,11 @@ export default function useAdminBankInfoPage() {
     const isLt5M = file.size / 1024 / 1024 < 5
 
     if (!isImage) {
-      message.error('Chỉ được upload file ảnh')
+      message.error(t('messages.imageOnly'))
     }
 
     if (!isLt5M) {
-      message.error('Ảnh phải nhỏ hơn 5MB')
+      message.error(t('messages.imageTooLarge'))
     }
 
     return isImage && isLt5M ? false : Upload.LIST_IGNORE

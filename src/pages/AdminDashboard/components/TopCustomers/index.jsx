@@ -1,10 +1,15 @@
 import { Avatar, Card, List, Skeleton, Tag, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
+import { formatCurrency, getDashboardLocale } from '../../utils/dashboardTransforms'
 
 const { Text } = Typography
 
 export default function TopCustomers({ customers = [], loading }) {
+  const { t, i18n } = useTranslation('adminDashboard')
+  const locale = getDashboardLocale(i18n.language)
+
   return (
-    <Card title="Top khách hàng tiêu biểu" className="chart-card">
+    <Card title={t('legacyTopCustomers.title')} className="chart-card">
       {loading ? (
         <List
           itemLayout="horizontal"
@@ -36,9 +41,9 @@ export default function TopCustomers({ customers = [], loading }) {
                 }
                 description={
                   <Text type="secondary">
-                    <span className="dashboard-customer-meta">Tổng chi: </span>
+                    <span className="dashboard-customer-meta">{t('legacyTopCustomers.totalSpent')} </span>
                     <Tag color="success" style={{ fontWeight: 600 }}>
-                      {user.total.toLocaleString('vi-VN')} đ
+                      {formatCurrency(user.total, locale)}
                     </Tag>
                   </Text>
                 }

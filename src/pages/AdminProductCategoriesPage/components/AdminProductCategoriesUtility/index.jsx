@@ -4,8 +4,36 @@ import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 import DropdownToggleColumns from './DropdownToggleColumns'
 import ColumnMenu from './ColumnMenu'
+import {
+  getLocalizedProductCategoryParentTitle,
+  getLocalizedProductCategoryTitle
+} from '../../utils/productCategoryLocalization'
+import { useTranslation } from 'react-i18next'
 
-const exportToExcel = (productCategories, columnsVisible) => {
+const getUserLabel = value => value?.by?.fullName || value?.by?.email || value?.account_id || ''
+
+const getLastUpdate = value => (Array.isArray(value) && value.length ? value[value.length - 1] : null)
+
+const getExportValue = (productCategory, key, language, t) => {
+  switch (key) {
+    case 'title':
+      return getLocalizedProductCategoryTitle(productCategory, language, productCategory.title || '')
+    case 'parent':
+      return getLocalizedProductCategoryParentTitle(productCategory, language, t('table.rootCategory'))
+    case 'status':
+      return t(`status.${productCategory.status}`, { defaultValue: productCategory.status })
+    case 'createdBy':
+      return getUserLabel(productCategory.createdBy)
+    case 'updateBy':
+      return getUserLabel(getLastUpdate(productCategory.updateBy))
+    case 'updateAt':
+      return getLastUpdate(productCategory.updateBy)?.at || productCategory.updatedAt || ''
+    default:
+      return productCategory[key]
+  }
+}
+
+const exportToExcel = (productCategories, columnsVisible, sheetName, fileName, language, t) => {
   if (!productCategories || productCategories.length === 0) return
 
   const visibleKeys = Object.keys(columnsVisible).filter(k => columnsVisible[k] && !['actions', 'thumbnail'].includes(k))
@@ -13,32 +41,35 @@ const exportToExcel = (productCategories, columnsVisible) => {
   const data = productCategories.map(productCategory => {
     const row = {}
     visibleKeys.forEach(key => {
-      row[key] = productCategory[key]
+      row[key] = getExportValue(productCategory, key, language, t)
     })
     return row
   })
 
   const worksheet = XLSX.utils.json_to_sheet(data)
   const workbook = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Product Categories')
+  XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
 
   const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
   const file = new Blob([excelBuffer], { type: 'application/octet-stream' })
-  saveAs(file, 'product_categories_export.xlsx')
+  saveAs(file, fileName)
 }
 
 function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories }) {
+  const { t, i18n } = useTranslation('adminProductCategories')
+  const language = i18n.resolvedLanguage || i18n.language
+
   const allColumns = [
-    { label: 'ID', value: '_id' },
-    { label: 'Title', value: 'title' },
-    { label: 'Position', value: 'position' },
-    { label: 'Status', value: 'status' },
-    { label: 'Thumbnail *', value: 'thumbnail', required: true },
-    { label: 'Actions *', value: 'actions', required: true },
-    { label: 'Created By', value: 'createdBy' },
-    { label: 'Created At', value: 'createdAt' },
-    { label: 'Updated By', value: 'updateBy' },
-    { label: 'Updated At', value: 'updateAt' }
+    { label: t('columns.id'), value: '_id' },
+    { label: t('columns.title'), value: 'title' },
+    { label: t('columns.position'), value: 'position' },
+    { label: t('columns.status'), value: 'status' },
+    { label: t('columns.thumbnailRequired'), value: 'thumbnail', required: true },
+    { label: t('columns.actionsRequired'), value: 'actions', required: true },
+    { label: t('columns.createdBy'), value: 'createdBy' },
+    { label: t('columns.createdAt'), value: 'createdAt' },
+    { label: t('columns.updatedBy'), value: 'updateBy' },
+    { label: t('columns.updatedAt'), value: 'updateAt' }
   ]
   const columnMenu = <ColumnMenu {...{ columnsVisible, setColumnsVisible, allColumns }} />
 
@@ -46,21 +77,22 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
     {
       key: 'export',
       icon: <FileExcelOutlined />,
-      label: 'Export Product Categories',
+      label: t('utility.exportProductCategories'),
+      mobileLabel: t('utility.exportMobile'),
       className: '',
-      onClick: () => exportToExcel(productCategories, columnsVisible)
+      onClick: () => exportToExcel(productCategories, columnsVisible, t('utility.sheetName'), t('utility.fileName'), language, t)
     },
     {
       key: 'toggle-columns',
-      dropdown: <DropdownToggleColumns {...{ columnMenu }} />,
+      dropdown: <DropdownToggleColumns {...{ columnMenu }} label={t('utility.toggleColumns')} />,
       icon: <TableOutlined />,
-      label: 'Toggle Columns',
+      label: t('utility.toggleColumns'),
       className: ''
     },
     {
       key: 'filter',
       icon: <FilterOutlined />,
-      label: 'Filter',
+      label: t('utility.filter'),
       onClick: handleToggleFilter
     }
   ]
@@ -69,11 +101,18 @@ function AdminProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVi
     <div className="product-categories-utility">
       {utilityButtons(handleToggleFilter).map(btn =>
         btn.dropdown ? (
-          <div key={btn.key}>{btn.dropdown}</div>
+          <div key={btn.key} className={`admin-product-categories-utility-item admin-product-categories-utility-item--${btn.key}`}>
+            {btn.dropdown}
+          </div>
         ) : (
-          <Button key={btn.key} onClick={btn.onClick} className={`admin-product-categories-btn ${btn.className || ''}`.trim()}>
+          <Button
+            key={btn.key}
+            onClick={btn.onClick}
+            className={`admin-product-categories-btn admin-product-categories-utility-item admin-product-categories-utility-item--${btn.key} ${btn.className || ''}`.trim()}
+          >
             {btn.icon}
-            {btn.label}
+            <span className="admin-product-categories-btn__label">{btn.label}</span>
+            <span className="admin-product-categories-btn__label-mobile">{btn.mobileLabel || btn.label}</span>
           </Button>
         )
       )}

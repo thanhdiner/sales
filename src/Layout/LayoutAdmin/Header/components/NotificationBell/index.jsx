@@ -1,27 +1,30 @@
 import { useState, useEffect, useRef } from 'react'
 import { Bell } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import NotificationPanel from './NotificationPanel'
 import { MAX_NOTIFICATIONS, createOrderNotification } from './notificationUtils'
 
 export default function NotificationBell({ onNewOrder }) {
+  const { t, i18n } = useTranslation('adminLayout')
   const [notifications, setNotifications] = useState([])
   const [open, setOpen] = useState(false)
   const [hasNew, setHasNew] = useState(false)
   const panelRef = useRef(null)
   const navigate = useNavigate()
+  const language = i18n.resolvedLanguage || i18n.language
 
   useEffect(() => {
     if (!onNewOrder) return
 
     const handler = order => {
-      const notif = createOrderNotification(order)
+      const notif = createOrderNotification(order, t, language)
 
       setNotifications(prev => [notif, ...prev].slice(0, MAX_NOTIFICATIONS))
       setHasNew(true)
 
       if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('SmartMall - Đơn hàng mới', {
+        new Notification(t('notifications.browserTitle'), {
           body: notif.body,
           icon: '/favicon.ico'
         })
@@ -35,7 +38,7 @@ export default function NotificationBell({ onNewOrder }) {
         unsubscribe()
       }
     }
-  }, [onNewOrder])
+  }, [language, onNewOrder, t])
 
   useEffect(() => {
     const handle = e => {
@@ -77,7 +80,8 @@ export default function NotificationBell({ onNewOrder }) {
           setHasNew(false)
         }}
         className="admin-notification-btn relative flex h-10 w-10 items-center justify-center rounded-lg"
-        title="Thông báo"
+        title={t('notifications.title')}
+        aria-label={t('notifications.title')}
       >
         <Bell className="h-5 w-5" />
 

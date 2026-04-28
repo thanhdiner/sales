@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Form, Upload, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { createProductCategory, getAdminProductCategoryTree } from '@/services/adminProductCategoryService'
+import { useTranslation } from 'react-i18next'
 
 export function useAdminProductCategoryCreate() {
+  const { t } = useTranslation('adminProductCategories')
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [treeData, setTreeData] = useState([])
@@ -15,38 +17,49 @@ export function useAdminProductCategoryCreate() {
         const response = await getAdminProductCategoryTree()
         if (response) setTreeData(response)
       } catch {
-        message.error('❌ Failed to load category tree data')
+        message.error(t('formMessages.loadTreeError'))
       }
     }
 
     fetchTreeData()
-  }, [])
+  }, [t])
 
   const handleSubmit = async values => {
+    const submitValues = {
+      ...values,
+      ...form.getFieldsValue(true)
+    }
+
     setLoading(true)
 
     try {
       const formData = new FormData()
-      const file = values.thumbnail?.[0]?.originFileObj
+      const file = submitValues.thumbnail?.[0]?.originFileObj
       if (file) formData.append('thumbnail', file)
-      formData.append('title', values.title)
-      formData.append('parent_id', values.parent_id || '')
-      formData.append('description', values.description || '')
-      formData.append('status', values.status || 'active')
-      formData.append('position', values?.position)
-      formData.append('slug', values.slug || '')
+      if (submitValues.translations != null) {
+        formData.append('translations', JSON.stringify(submitValues.translations))
+      }
+      formData.append('title', submitValues.title)
+      formData.append('parent_id', submitValues.parent_id || '')
+      formData.append('description', submitValues.description || '')
+      formData.append('content', submitValues.content || '')
+      formData.append('status', submitValues.status || 'active')
+      formData.append('position', submitValues?.position)
+      formData.append('slug', submitValues.slug || '')
 
       await createProductCategory(formData)
 
-      message.success('🎉 Product Category created successfully!')
+      message.success(t('formMessages.createSuccess'))
       navigate('/admin/product-categories')
     } catch (err) {
       const response = err?.response || {}
 
       if (response?.error === 'Slug already exists') {
-        message.error(`❌ Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: ${response.suggestedSlug || ''}`)
+        message.error(t('formMessages.slugExists', { suggestedSlug: response.suggestedSlug || '' }))
         if (response.suggestedSlug) form.setFieldsValue({ slug: response.suggestedSlug })
-      } else message.error('❌ Failed to create product category!')
+      } else {
+        message.error(t('formMessages.createError'))
+      }
     } finally {
       setLoading(false)
     }
@@ -54,7 +67,7 @@ export function useAdminProductCategoryCreate() {
 
   const beforeUploadImage = file => {
     const isImage = file.type.startsWith('image/')
-    if (!isImage) message.error('You can only upload image files!')
+    if (!isImage) message.error(t('formMessages.imageOnly'))
     return isImage ? false : Upload.LIST_IGNORE
   }
 

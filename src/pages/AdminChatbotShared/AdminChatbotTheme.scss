@@ -233,6 +233,42 @@ html.dark .admin-chatbot-page .ant-card {
   border-radius: 10px;
 }
 
+.admin-chatbot-tools-card.ant-card {
+  overflow: hidden;
+}
+
+.admin-chatbot-tools-table.ant-table-wrapper {
+  min-width: 0;
+}
+
+.admin-chatbot-tools-table__tool-cell {
+  min-width: 0;
+}
+
+.admin-chatbot-tools-table__tool-name {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.admin-chatbot-tools-table__mobile-description.ant-typography {
+  display: none;
+  color: var(--chatbot-text-muted) !important;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.admin-chatbot-tools-table__mobile-meta {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.admin-chatbot-tools-table__toggle-col {
+  white-space: nowrap;
+}
+
 .admin-chatbot-page .ant-table-wrapper .ant-table-thead > tr > th {
   border-bottom: 1px solid var(--chatbot-border) !important;
   background: var(--chatbot-surface-2) !important;
@@ -316,4 +352,74 @@ html.dark .admin-chatbot-page .ant-card {
 
 .admin-chatbot-logs-footer {
   border-top: 1px solid var(--chatbot-border);
+}
+
+@media (max-width: 767px) {
+  .admin-chatbot-tools-card.ant-card .ant-card-head {
+    min-height: auto;
+    padding: 12px 14px;
+  }
+
+  .admin-chatbot-tools-card.ant-card .ant-card-head-wrapper {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .admin-chatbot-tools-card.ant-card .ant-card-extra {
+    margin-inline-start: 0;
+  }
+
+  .admin-chatbot-tools-card.ant-card .ant-card-body {
+    padding: 14px !important;
+  }
+
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding: 10px 8px !important;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .admin-chatbot-tools-table__tool-col {
+    width: auto;
+  }
+
+  .admin-chatbot-tools-table__toggle-col {
+    width: 70px !important;
+  }
+
+  .admin-chatbot-tools-table__mobile-description.ant-typography {
+    display: block;
+  }
+
+  .admin-chatbot-tools-table__mobile-meta {
+    display: flex;
+  }
+
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-pagination {
+    justify-content: center;
+    row-gap: 8px;
+    margin: 12px 0 0 !important;
+  }
+
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-pagination-total-text {
+    width: 100%;
+    margin-inline-end: 0;
+    text-align: center;
+  }
+
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-pagination-options-quick-jumper {
+    display: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-chatbot-tools-card.ant-card .ant-card-body {
+    padding: 12px !important;
+  }
+
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-table-thead > tr > th,
+  .admin-chatbot-tools-table.ant-table-wrapper .ant-table-tbody > tr > td {
+    padding-inline: 6px !important;
+  }
 }

@@ -1,19 +1,20 @@
 import React from 'react'
 import { Button, Col, Form, Input, Modal, Row, Select, Space, Typography, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { returnPolicyReturnReasons } from '../data'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 const { TextArea } = Input
 
-const ReturnRequestModal = ({ open, onClose }) => {
+const ReturnRequestModal = ({ open, onClose, reasons = [] }) => {
+  const { t } = useTranslation('clientReturnPolicy')
   const [form] = Form.useForm()
 
   const handleSubmit = values => {
     console.log('Return request:', values)
     Modal.success({
-      title: 'Yêu cầu đã được gửi!',
-      content: 'Mã yêu cầu của bạn là RT2025080001. Chúng tôi sẽ liên hệ trong vòng 24h.',
+      title: t('requestModal.successTitle'),
+      content: t('requestModal.successContent'),
     })
     form.resetFields()
     onClose()
@@ -25,36 +26,40 @@ const ReturnRequestModal = ({ open, onClose }) => {
   }
 
   return (
-    <Modal title="Tạo Yêu Cầu Đổi Trả" open={open} onCancel={handleCancel} footer={null} width={700}>
+    <Modal title={t('requestModal.title')} open={open} onCancel={handleCancel} footer={null} width={700}>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>
             <Form.Item
               name="orderNumber"
-              label="Mã đơn hàng"
-              rules={[{ required: true, message: 'Vui lòng nhập mã đơn hàng' }]}
+              label={t('requestModal.orderNumberLabel')}
+              rules={[{ required: true, message: t('requestModal.orderNumberRequired') }]}
             >
-              <Input placeholder="VD: ORD2025080001" />
+              <Input placeholder={t('requestModal.orderNumberPlaceholder')} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
             <Form.Item
               name="email"
-              label="Email"
+              label={t('requestModal.emailLabel')}
               rules={[
-                { required: true, message: 'Vui lòng nhập email' },
-                { type: 'email', message: 'Email không hợp lệ' },
+                { required: true, message: t('requestModal.emailRequired') },
+                { type: 'email', message: t('requestModal.emailInvalid') },
               ]}
             >
-              <Input placeholder="your@email.com" />
+              <Input placeholder={t('requestModal.emailPlaceholder')} />
             </Form.Item>
           </Col>
         </Row>
 
-        <Form.Item name="reason" label="Lý do đổi trả" rules={[{ required: true, message: 'Vui lòng chọn lý do' }]}>
+        <Form.Item
+          name="reason"
+          label={t('requestModal.reasonLabel')}
+          rules={[{ required: true, message: t('requestModal.reasonRequired') }]}
+        >
           <Select
-            placeholder="Chọn lý do đổi trả"
-            options={returnPolicyReturnReasons.map(reason => ({
+            placeholder={t('requestModal.reasonPlaceholder')}
+            options={reasons.map(reason => ({
               value: reason.value,
               label: reason.label,
             }))}
@@ -63,26 +68,26 @@ const ReturnRequestModal = ({ open, onClose }) => {
 
         <Form.Item
           name="description"
-          label="Mô tả chi tiết"
-          rules={[{ required: true, message: 'Vui lòng mô tả chi tiết' }]}
+          label={t('requestModal.descriptionLabel')}
+          rules={[{ required: true, message: t('requestModal.descriptionRequired') }]}
         >
-          <TextArea rows={4} placeholder="Mô tả tình trạng sản phẩm, lý do cụ thể..." />
+          <TextArea rows={4} placeholder={t('requestModal.descriptionPlaceholder')} />
         </Form.Item>
 
-        <Form.Item name="images" label="Hình ảnh sản phẩm">
+        <Form.Item name="images" label={t('requestModal.imagesLabel')}>
           <Upload listType="picture" multiple beforeUpload={() => false}>
-            <Button icon={<UploadOutlined />}>Tải lên hình ảnh</Button>
+            <Button icon={<UploadOutlined />}>{t('requestModal.uploadButton')}</Button>
           </Upload>
           <Text type="secondary" className="mt-1 block text-xs">
-            Tối đa 5 ảnh, mỗi ảnh không quá 2MB
+            {t('requestModal.uploadHint')}
           </Text>
         </Form.Item>
 
         <Form.Item>
           <Space className="w-full justify-end">
-            <Button onClick={handleCancel}>Hủy</Button>
+            <Button onClick={handleCancel}>{t('requestModal.cancelButton')}</Button>
             <Button type="primary" htmlType="submit">
-              Gửi yêu cầu
+              {t('requestModal.submitButton')}
             </Button>
           </Space>
         </Form.Item>

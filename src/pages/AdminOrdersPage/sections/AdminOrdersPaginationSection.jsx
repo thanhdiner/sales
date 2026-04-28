@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import { getAdminOrdersPageNumbers, getAdminOrdersSummary } from '../utils'
 
 export default function AdminOrdersPaginationSection({ page, limit, total, totalPages, onPageChange, visible }) {
+  const { t } = useTranslation('adminOrders')
+
   if (!visible) {
     return null
   }
@@ -9,24 +12,22 @@ export default function AdminOrdersPaginationSection({ page, limit, total, total
   const pageNumbers = getAdminOrdersPageNumbers({ page, total, limit })
 
   return (
-    <div className="mt-5 flex flex-col gap-3 border-t border-[var(--admin-border)] pt-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="text-sm text-[var(--admin-text-muted)]">
-        Hiển thị <span className="font-medium text-[var(--admin-text)]">{summary.from}</span> -{' '}
-        <span className="font-medium text-[var(--admin-text)]">{summary.to}</span> của{' '}
-        <span className="font-medium text-[var(--admin-text)]">{total}</span> đơn hàng
+    <div className="mt-5 flex flex-col gap-3 border-t border-[var(--admin-border)] pt-4 sm:flex-row sm:items-start sm:justify-between lg:items-center">
+      <div className="text-sm leading-6 text-[var(--admin-text-muted)]">
+        {t('pagination.summary', { from: summary.from, to: summary.to, total })}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
         <button
           type="button"
           disabled={page <= 1}
           onClick={() => onPageChange(page - 1)}
           className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Trước
+          {t('pagination.previous')}
         </button>
 
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1 sm:justify-center">
           {pageNumbers.map(pageNumber => (
             <button
               key={pageNumber}
@@ -49,7 +50,7 @@ export default function AdminOrdersPaginationSection({ page, limit, total, total
           onClick={() => onPageChange(page + 1)}
           className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Sau
+          {t('pagination.next')}
         </button>
       </div>
     </div>

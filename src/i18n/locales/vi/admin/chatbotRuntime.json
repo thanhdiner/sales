@@ -1,0 +1,60 @@
+{
+  "seo": {
+    "title": "Admin - Runtime & Provider"
+  },
+  "page": {
+    "title": "Runtime & Provider",
+    "description": "Quản lý provider, model, rate limit và kiểm tra kết nối AI runtime.",
+    "openAgentSettings": "Mở Cài đặt Agent",
+    "reload": "Tải lại",
+    "save": "Lưu runtime"
+  },
+  "content": {
+    "title": "Runtime và provider"
+  },
+  "form": {
+    "provider": "AI provider",
+    "model": "Model",
+    "nineRouterExtra": "9Router có thể dùng model custom nếu gateway local hỗ trợ.",
+    "nineRouterPlaceholder": "Ví dụ: gemini-2.5-flash",
+    "maxTokens": "Max tokens",
+    "temperature": "Temperature",
+    "temperatureTooltip": "0 = ổn định hơn, 1 = sáng tạo hơn",
+    "maxMessagesPerMinute": "Max messages/phút",
+    "maxMessagesPerSession": "Max messages/phiên",
+    "testConnection": "Test kết nối"
+  },
+  "status": {
+    "envTooltip": "Đặt trong file .env: {{key}}",
+    "configured": "Đã cấu hình",
+    "missing": "Chưa có",
+    "warningTitle": "Runtime thực tế vẫn ưu tiên đọc provider/model từ server",
+    "warningDescription": "Admin page lưu cấu hình trong database để orchestrator dùng và để quản trị dễ hơn. API key vẫn phải đặt ở file .env.",
+    "runtime": "Runtime",
+    "enabled": "Bật",
+    "disabled": "Tắt",
+    "provider": "Provider",
+    "model": "Model",
+    "baseUrl": "Base URL",
+    "defaultBaseUrl": "Mặc định",
+    "summary": "Agent runtime hiện dùng provider <provider>{{provider}}</provider> với model <model>{{model}}</model>.",
+    "envInvalidTitle": "Runtime env chưa hợp lệ"
+  },
+  "test": {
+    "success": "Kết nối thành công",
+    "failed": "Kết nối thất bại",
+    "provider": "Provider",
+    "model": "Model",
+    "botResponse": "Bot trả lời",
+    "connectionError": "Lỗi kết nối"
+  },
+  "messages": {
+    "loadFailed": "Không thể tải cấu hình runtime AI",
+    "updateSuccess": "Cập nhật runtime thành công",
+    "updateFailed": "Cập nhật runtime thất bại",
+    "updateError": "Có lỗi xảy ra khi cập nhật runtime",
+    "testSuccess": "Kết nối thành công",
+    "testFailed": "Kết nối thất bại",
+    "connectionError": "Lỗi kết nối"
+  }
+}

@@ -1,7 +1,10 @@
 import { FileImageOutlined, PictureOutlined } from '@ant-design/icons'
 import { extractFileName } from '@/utils/extractFileName'
+import { useTranslation } from 'react-i18next'
 
 function ProductCategoryThumbnail({ thumbnail, title }) {
+  const { t } = useTranslation('adminProductCategories')
+
   return (
     <section className="admin-product-category-thumb">
       <div className="admin-product-category-thumb__head">
@@ -10,8 +13,8 @@ function ProductCategoryThumbnail({ thumbnail, title }) {
         </div>
 
         <div>
-          <h2 className="admin-product-category-thumb__title">Ảnh đại diện danh mục</h2>
-          <p className="admin-product-category-thumb__description">Xem nhanh ảnh đang dùng cho danh mục này.</p>
+          <h2 className="admin-product-category-thumb__title">{t('details.thumbnail.title')}</h2>
+          <p className="admin-product-category-thumb__description">{t('details.thumbnail.description')}</p>
         </div>
       </div>
 
@@ -19,7 +22,7 @@ function ProductCategoryThumbnail({ thumbnail, title }) {
         {thumbnail ? (
           <>
             <div className="admin-product-category-thumb__image-frame">
-              <img className="admin-product-category-thumb__image" src={thumbnail} alt={title || 'Product category thumbnail'} />
+              <img className="admin-product-category-thumb__image" src={thumbnail} alt={title || t('details.thumbnail.alt')} />
             </div>
 
             <div className="admin-product-category-thumb__meta">
@@ -29,7 +32,7 @@ function ProductCategoryThumbnail({ thumbnail, title }) {
                 </div>
 
                 <div>
-                  <p className="admin-product-category-thumb__meta-label">Tên file</p>
+                  <p className="admin-product-category-thumb__meta-label">{t('details.thumbnail.fileName')}</p>
                   <p className="admin-product-category-thumb__meta-value">{extractFileName(thumbnail)}</p>
                 </div>
               </div>
@@ -37,7 +40,7 @@ function ProductCategoryThumbnail({ thumbnail, title }) {
           </>
         ) : (
           <div className="admin-product-category-thumb__empty">
-            <p className="admin-product-category-thumb__empty-text">Danh mục này chưa có ảnh đại diện.</p>
+            <p className="admin-product-category-thumb__empty-text">{t('details.thumbnail.empty')}</p>
           </div>
         )}
       </div>

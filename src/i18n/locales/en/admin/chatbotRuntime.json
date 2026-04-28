@@ -1,0 +1,60 @@
+{
+  "seo": {
+    "title": "Admin - Runtime & Provider"
+  },
+  "page": {
+    "title": "Runtime & Provider",
+    "description": "Manage provider, model, rate limits, and test the AI runtime connection.",
+    "openAgentSettings": "Open Agent Settings",
+    "reload": "Reload",
+    "save": "Save runtime"
+  },
+  "content": {
+    "title": "Runtime and provider"
+  },
+  "form": {
+    "provider": "AI provider",
+    "model": "Model",
+    "nineRouterExtra": "9Router can use a custom model if the local gateway supports it.",
+    "nineRouterPlaceholder": "Example: gemini-2.5-flash",
+    "maxTokens": "Max tokens",
+    "temperature": "Temperature",
+    "temperatureTooltip": "0 = more stable, 1 = more creative",
+    "maxMessagesPerMinute": "Max messages/minute",
+    "maxMessagesPerSession": "Max messages/session",
+    "testConnection": "Test connection"
+  },
+  "status": {
+    "envTooltip": "Set in .env: {{key}}",
+    "configured": "Configured",
+    "missing": "Missing",
+    "warningTitle": "The real runtime still prioritizes provider/model from the server",
+    "warningDescription": "The admin page stores configuration in the database for the orchestrator and easier management. API keys must still be set in the .env file.",
+    "runtime": "Runtime",
+    "enabled": "On",
+    "disabled": "Off",
+    "provider": "Provider",
+    "model": "Model",
+    "baseUrl": "Base URL",
+    "defaultBaseUrl": "Default",
+    "summary": "The agent runtime currently uses provider <provider>{{provider}}</provider> with model <model>{{model}}</model>.",
+    "envInvalidTitle": "Runtime env is invalid"
+  },
+  "test": {
+    "success": "Connection successful",
+    "failed": "Connection failed",
+    "provider": "Provider",
+    "model": "Model",
+    "botResponse": "Bot response",
+    "connectionError": "Connection error"
+  },
+  "messages": {
+    "loadFailed": "Unable to load AI runtime configuration",
+    "updateSuccess": "Runtime updated successfully",
+    "updateFailed": "Runtime update failed",
+    "updateError": "An error occurred while updating runtime",
+    "testSuccess": "Connection successful",
+    "testFailed": "Connection failed",
+    "connectionError": "Connection error"
+  }
+}

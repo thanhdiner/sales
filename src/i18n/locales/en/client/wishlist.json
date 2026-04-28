@@ -1,0 +1,78 @@
+{
+  "seo": {
+    "title": "Wishlist",
+    "titleDetail": "Wishlist",
+    "titleWithCount": "Wishlist ({{count}})"
+  },
+  "filters": {
+    "all": "All",
+    "inStock": "In stock",
+    "deal": "On sale",
+    "outStock": "Out of stock"
+  },
+  "sorts": {
+    "newest": "Newest saved",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "discountDesc": "Highest discount"
+  },
+  "message": {
+    "loadMoreFailed": "Failed to load more products",
+    "removeSuccess": "Removed from wishlist",
+    "removeFailed": "Failed to remove. Please try again",
+    "clearSuccess": "Wishlist cleared",
+    "genericError": "Something went wrong. Please try again",
+    "outOfStock": "This product is out of stock",
+    "addToCartSuccess": "Added to cart",
+    "addToCartFailed": "Failed to add to cart",
+    "noInStockItems": "No in-stock products available",
+    "addAllPartial": "Added {{added}} products. {{skipped}} remaining products exceed the cart limit of {{limit}} unique products.",
+    "addAllSuccess": "Added {{count}} products to cart",
+    "addAllFailed": "Something went wrong while adding products to cart"
+  },
+  "modal": {
+    "removeTitle": "Remove from wishlist?",
+    "clearTitle": "Clear entire wishlist?",
+    "clearContent": "All products will be removed from your wishlist.",
+    "okRemove": "Remove",
+    "okClear": "Clear all",
+    "cancel": "Cancel"
+  },
+  "empty": {
+    "title": "No favorite products yet",
+    "description": "Save products you care about so you can find them faster later.",
+    "button": "Explore products"
+  },
+  "page": {
+    "title": "My Wishlist",
+    "loadedPartial": "{{loaded}}/{{total}} products loaded",
+    "loadedTotal": "{{total}} products",
+    "inStockCount": "{{count}} in stock",
+    "clearAll": "Clear all",
+    "showing": "Showing {{visible}} products • Loaded {{loaded}}/{{total}}",
+    "addAllToCart": "Add all to cart"
+  },
+  "table": {
+    "productName": "Product name",
+    "unitPrice": "Unit price",
+    "stockStatus": "Stock status",
+    "action": "Action"
+  },
+  "item": {
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "inStockBadge": "In Stock",
+    "outOfStockBadge": "Out Stock",
+    "addToCart": "Add to Cart",
+    "removeTitle": "Remove from wishlist"
+  },
+  "noResult": {
+    "title": "No matching products",
+    "description": "Try another filter.",
+    "button": "Clear filter"
+  },
+  "loadMore": {
+    "loading": "Loading...",
+    "default": "Load more"
+  }
+}

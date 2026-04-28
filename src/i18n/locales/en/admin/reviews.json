@@ -1,0 +1,83 @@
+{
+  "seo": {
+    "title": "Admin - Reviews"
+  },
+  "page": {
+    "title": "Review Management",
+    "description": "View, reply to, and moderate product reviews.",
+    "refresh": "Refresh"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "customer": "Customer",
+    "hidden": "Hidden",
+    "star": "star"
+  },
+  "stats": {
+    "total": "Total reviews",
+    "totalSub": "all products",
+    "average": "Average rating",
+    "averageSub": "out of 5 stars",
+    "replied": "Replied",
+    "replyRate": "{{rate}}% reply rate",
+    "unreplied": "Not replied",
+    "unrepliedSub": "needs attention",
+    "distribution": "Rating distribution",
+    "clearRating": "Clear {{rating}}-star filter"
+  },
+  "filters": {
+    "searchPlaceholder": "Search by customer name or content...",
+    "resultCount": "{{count}} results",
+    "resultCount_one": "{{count}} result",
+    "resultCount_other": "{{count}} results"
+  },
+  "list": {
+    "empty": "No reviews found"
+  },
+  "row": {
+    "sellerReply": "Shop reply",
+    "hiddenNotice": "This review is hidden from the product page.",
+    "reply": "Reply",
+    "editReply": "Edit reply",
+    "deleteReply": "Delete reply",
+    "hideReview": "Hide review",
+    "mediaImageAlt": "Review image {{index}}",
+    "mediaVideoLabel": "Review video {{index}}"
+  },
+  "replyModal": {
+    "editTitle": "Edit shop reply",
+    "createTitle": "Reply as Shop",
+    "placeholder": "Enter the shop reply...",
+    "sending": "Sending...",
+    "update": "Update",
+    "send": "Send reply",
+    "close": "Close reply modal",
+    "translations": {
+      "enContent": "English shop reply",
+      "enContentPlaceholder": "Enter the English version of the shop reply..."
+    }
+  },
+  "confirm": {
+    "deleteReplyTitle": "Delete reply",
+    "deleteReplyContent": "Are you sure you want to delete the shop reply?",
+    "hideTitle": "Hide review",
+    "hideContent": "Hide this review from the product page? The customer will still see their review, but other customers will not.",
+    "hideOk": "Hide",
+    "deleteReviewTitle": "Delete review",
+    "deleteReviewContent": "Permanently delete this review? This action cannot be undone."
+  },
+  "messages": {
+    "fetchError": "Unable to load reviews",
+    "replyRequired": "Please enter a reply",
+    "replyUpdated": "Reply updated",
+    "replySent": "Reply sent",
+    "replyFailed": "Failed to send reply",
+    "deleteReplySuccess": "Reply deleted",
+    "deleteReplyFailed": "Failed to delete reply",
+    "hideSuccess": "Review hidden",
+    "hideFailed": "Failed to hide review",
+    "deleteSuccess": "Review deleted",
+    "deleteFailed": "Delete failed"
+  }
+}

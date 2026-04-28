@@ -1,0 +1,58 @@
+{
+  "seo": {
+    "title": "Admin - Footer"
+  },
+  "page": {
+    "title": "Footer Content",
+    "description": "Manage footer links, contact information, social networks, payment methods, and service content."
+  },
+  "tabs": {
+    "vi": "Vietnamese content",
+    "en": "English translation"
+  },
+  "actions": {
+    "save": "Save",
+    "reload": "Reload",
+    "remove": "Remove",
+    "addLink": "Add link",
+    "addService": "Add service",
+    "addPayment": "Add payment",
+    "addSocial": "Add social link"
+  },
+  "sections": {
+    "general": "General",
+    "customerSupport": "Customer support",
+    "customerSupportDescription": "Hotline, email, and support links shown in the first footer column.",
+    "customerLinks": "Support links",
+    "about": "About us",
+    "aboutLinks": "About links",
+    "services": "Services & products",
+    "serviceLinks": "Service links",
+    "payment": "Payment methods",
+    "paymentMethods": "Payment list",
+    "social": "Social networks",
+    "socialLinks": "Social link list"
+  },
+  "fields": {
+    "easterEgg": "Moving icon tooltip",
+    "sectionTitle": "Column title",
+    "hotlineLabel": "Hotline label",
+    "phone": "Phone",
+    "workingTime": "Working time",
+    "supportEmailLabel": "Support email label",
+    "email": "Email",
+    "label": "Display label",
+    "url": "URL",
+    "external": "Open new tab",
+    "icon": "Icon path",
+    "enabled": "Visible"
+  },
+  "messages": {
+    "fetchError": "Unable to load footer content",
+    "saveSuccess": "Footer content saved",
+    "saveError": "Unable to save footer content"
+  },
+  "validation": {
+    "required": "This field is required"
+  }
+}

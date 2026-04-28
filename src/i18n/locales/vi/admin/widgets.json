@@ -1,0 +1,76 @@
+{
+  "seo": {
+    "title": "Admin - Widgets"
+  },
+  "page": {
+    "title": "Qu\u1ea3n l\u00fd Widgets",
+    "subtitle": "Qu\u1ea3n l\u00fd c\u00e1c widget hi\u1ec3n th\u1ecb tr\u00ean trang ch\u1ee7.",
+    "createButton": "Th\u00eam Widget"
+  },
+  "stats": {
+    "total": "T\u1ed5ng",
+    "active": "Ho\u1ea1t \u0111\u1ed9ng",
+    "inactive": "T\u1ea1m d\u1eebng"
+  },
+  "table": {
+    "summary": "{{rangeStart}}-{{rangeEnd}} c\u1ee7a {{total}} widgets",
+    "widgetOrder": "Th\u1ee9 t\u1ef1: {{order}}",
+    "noLink": "Kh\u00f4ng c\u00f3 li\u00ean k\u1ebft",
+    "loading": "\u0110ang t\u1ea3i danh s\u00e1ch widget...",
+    "empty": "Ch\u01b0a c\u00f3 widget",
+    "pageSize": "{{count}} / trang",
+    "columns": {
+      "widget": "Widget",
+      "link": "Li\u00ean k\u1ebft",
+      "status": "Tr\u1ea1ng th\u00e1i",
+      "actions": "H\u00e0nh \u0111\u1ed9ng"
+    },
+    "actions": {
+      "edit": "S\u1eeda",
+      "delete": "X\u00f3a",
+      "editTooltip": "Ch\u1ec9nh s\u1eeda widget",
+      "deleteTooltip": "X\u00f3a widget"
+    }
+  },
+  "status": {
+    "active": "\u0110ang ho\u1ea1t \u0111\u1ed9ng",
+    "inactive": "T\u1ea1m d\u1eebng"
+  },
+  "form": {
+    "titleCreate": "Th\u00eam Widget m\u1edbi",
+    "titleEdit": "Ch\u1ec9nh s\u1eeda Widget",
+    "save": "L\u01b0u",
+    "cancel": "H\u1ee7y",
+    "widgetTitle": "Ti\u00eau \u0111\u1ec1 widget",
+    "widgetTitleRequired": "Vui l\u00f2ng nh\u1eadp ti\u00eau \u0111\u1ec1",
+    "widgetTitlePlaceholder": "Nh\u1eadp ti\u00eau \u0111\u1ec1 cho widget",
+    "translations": {
+      "sectionTitle": "B\u1ea3n d\u1ecbch ti\u1ebfng Anh",
+      "title": "Ti\u00eau \u0111\u1ec1 ti\u1ebfng Anh",
+      "titlePlaceholder": "Nh\u1eadp ti\u00eau \u0111\u1ec1 widget b\u1eb1ng ti\u1ebfng Anh"
+    },
+    "icon": "Icon",
+    "iconRequired": "Vui l\u00f2ng upload icon",
+    "upload": "Upload",
+    "link": "Li\u00ean k\u1ebft",
+    "linkPlaceholder": "https://example.com",
+    "order": "Th\u1ee9 t\u1ef1 hi\u1ec3n th\u1ecb",
+    "orderPlaceholder": "0",
+    "status": "Tr\u1ea1ng th\u00e1i"
+  },
+  "confirm": {
+    "deleteTitle": "X\u00e1c nh\u1eadn x\u00f3a widget",
+    "deleteContent": "B\u1ea1n c\u00f3 ch\u1eafc ch\u1eafn mu\u1ed1n x\u00f3a widget n\u00e0y kh\u00f4ng?",
+    "deleteOk": "X\u00f3a",
+    "cancel": "H\u1ee7y"
+  },
+  "messages": {
+    "fetchError": "Kh\u00f4ng th\u1ec3 t\u1ea3i danh s\u00e1ch widget",
+    "deleteSuccess": "\u0110\u00e3 x\u00f3a widget",
+    "deleteError": "Kh\u00f4ng th\u1ec3 x\u00f3a widget",
+    "updateSuccess": "\u0110\u00e3 c\u1eadp nh\u1eadt widget",
+    "createSuccess": "\u0110\u00e3 th\u00eam widget",
+    "saveError": "Kh\u00f4ng th\u1ec3 l\u01b0u widget",
+    "imageOnly": "Ch\u1ec9 \u0111\u01b0\u1ee3c upload file \u1ea3nh"
+  }
+}

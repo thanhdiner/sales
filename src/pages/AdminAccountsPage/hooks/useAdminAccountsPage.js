@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Form, Upload, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { getAdminRoles } from '@/services/rolesService'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import {
   changeStatusAdminAccount,
@@ -17,6 +19,8 @@ import {
 } from '../utils'
 
 export default function useAdminAccountsPage() {
+  const { t } = useTranslation('adminAccounts')
+  const language = useCurrentLanguage()
   const [data, setData] = useState([])
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
@@ -41,11 +45,11 @@ export default function useAdminAccountsPage() {
       setData(Array.isArray(accountsResponse?.data) ? accountsResponse.data : [])
       setRoles(Array.isArray(rolesResponse?.data) ? rolesResponse.data : [])
     } catch (error) {
-      message.error('Không thể tải danh sách tài khoản.')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     void fetchData()
@@ -86,6 +90,11 @@ export default function useAdminAccountsPage() {
     setIsRemoveAvatar(false)
     form.setFieldsValue({
       ...account,
+      translations: {
+        en: {
+          fullName: account.translations?.en?.fullName || ''
+        }
+      },
       role_id: getAdminAccountRoleId(account),
       avatarUrl: getAdminAccountAvatarFileList(account)
     })
@@ -115,12 +124,12 @@ export default function useAdminAccountsPage() {
         setData(prev =>
           prev.map(account => (account._id === response?.data?._id ? response.data : account))
         )
-        message.success('Cập nhật tài khoản thành công!')
+        message.success(t('messages.updateSuccess'))
       } else {
         const response = await createAdminAccount(formData)
 
         setData(prev => [...prev, response.data])
-        message.success('Tạo tài khoản mới thành công!')
+        message.success(t('messages.createSuccess'))
       }
 
       resetModalState()
@@ -130,7 +139,7 @@ export default function useAdminAccountsPage() {
       if (error?.status === 400 && error?.response?.message) {
         message.error(error.response.message)
       } else {
-        message.error('Failed to save account')
+        message.error(t('messages.saveError'))
       }
     } finally {
       setSubmitLoading(false)
@@ -141,7 +150,8 @@ export default function useAdminAccountsPage() {
     form,
     isRemoveAvatar,
     oldAvatar,
-    resetModalState
+    resetModalState,
+    t
   ])
 
   const handleDelete = useCallback(async (id) => {
@@ -150,17 +160,17 @@ export default function useAdminAccountsPage() {
     try {
       await deleteAdminAccount(id)
       setData(prev => prev.filter(account => account._id !== id))
-      message.success('Đã xoá tài khoản.')
+      message.success(t('messages.deleteSuccess'))
     } catch (error) {
       if (error?.response?.message) {
         message.error(error.response.message)
       } else {
-        message.error('Xoá thất bại!')
+        message.error(t('messages.deleteError'))
       }
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   const handleChangeStatus = useCallback(async (id, newStatus) => {
     setLoading(true)
@@ -172,17 +182,17 @@ export default function useAdminAccountsPage() {
           account._id === id ? { ...account, status: newStatus } : account
         ))
       )
-      message.success('Cập nhật trạng thái thành công!')
+      message.success(t('messages.statusSuccess'))
     } catch (error) {
       if (error?.response?.message) {
         message.error(error.response.message)
       } else {
-        message.error('Cập nhật trạng thái thất bại!')
+        message.error(t('messages.statusError'))
       }
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   const handleAvatarBeforeUpload = useCallback((file) => {
     setIsRemoveAvatar(false)
@@ -190,11 +200,11 @@ export default function useAdminAccountsPage() {
     const isImage = file.type?.startsWith('image/')
 
     if (!isImage) {
-      message.error('You can only upload avatar image files!')
+      message.error(t('messages.invalidAvatar'))
     }
 
     return isImage ? false : Upload.LIST_IGNORE
-  }, [])
+  }, [t])
 
   const handleAvatarRemove = useCallback(() => {
     setAvatarToDelete(oldAvatar || avatarToDelete)

@@ -1,6 +1,9 @@
 import { Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function AdminReviewsFiltersSection({ search, total, onSearchChange }) {
+  const { t } = useTranslation('adminReviews')
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div className="relative flex-1">
@@ -11,14 +14,14 @@ export default function AdminReviewsFiltersSection({ search, total, onSearchChan
 
         <input
           type="text"
-          placeholder="Tìm theo tên khách hàng, nội dung..."
+          placeholder={t('filters.searchPlaceholder')}
           value={search}
           onChange={event => onSearchChange(event.target.value)}
           className="w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] py-2.5 pl-9 pr-4 text-sm text-[var(--admin-text)] shadow-sm outline-none transition-colors placeholder:text-[var(--admin-text-subtle)] focus:border-[var(--admin-accent)]"
         />
       </div>
 
-      <span className="text-sm text-[var(--admin-text-muted)]">{total} kết quả</span>
+      <span className="text-sm text-[var(--admin-text-muted)]">{t('filters.resultCount', { count: total })}</span>
     </div>
   )
 }

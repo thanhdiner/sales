@@ -1,0 +1,213 @@
+{
+  "seo": {
+    "title": "Thanh toán đơn hàng"
+  },
+  "header": {
+    "backToCart": "Quay lại giỏ hàng",
+    "eyebrow": "Thanh toán",
+    "title": "Hoàn tất đơn hàng",
+    "description": "Kiểm tra thông tin nhận hàng, phương thức thanh toán và xác nhận đơn hàng của bạn."
+  },
+  "button": {
+    "back": "Quay lại",
+    "continue": "Tiếp tục"
+  },
+  "validation": {
+    "requiredContact": "Vui lòng nhập đầy đủ Họ, Tên và Số điện thoại!",
+    "invalidPhone": "Số điện thoại không hợp lệ!",
+    "requiredAddress": "Vui lòng chọn đầy đủ Tỉnh/Thành, Quận/Huyện, Phường/Xã và nhập địa chỉ chi tiết!"
+  },
+  "deliveryOptions": {
+    "pickup": {
+      "name": "Nhận hàng tại Website",
+      "time": "Trong ngày",
+      "description": "Đến cửa hàng để nhận hàng và thanh toán trực tiếp"
+    },
+    "contact": {
+      "name": "Liên hệ riêng",
+      "time": "Tùy thỏa thuận",
+      "description": "Chúng tôi sẽ liên hệ để thỏa thuận cách thức giao nhận"
+    }
+  },
+  "paymentMethods": {
+    "transfer": {
+      "name": "Chuyển khoản ngân hàng",
+      "description": "Chuyển khoản trước, nhận hàng sau"
+    },
+    "vnpay": {
+      "name": "VNPay",
+      "description": "Thanh toán qua cổng VNPay (ATM, Visa, QR)"
+    },
+    "momo": {
+      "name": "Ví MoMo",
+      "description": "Thanh toán qua Ví điện tử MoMo"
+    },
+    "zalopay": {
+      "name": "ZaloPay",
+      "description": "Thanh toán qua ứng dụng ZaloPay"
+    },
+    "sepay": {
+      "name": "Sepay",
+      "description": "Chuyển khoản ngân hàng tự động xác nhận qua Sepay"
+    },
+    "contact": {
+      "name": "Thỏa thuận khi liên hệ",
+      "description": "Sẽ thống nhất phương thức thanh toán khi liên hệ"
+    }
+  },
+  "contactForm": {
+    "title": "Thông tin liên hệ",
+    "description": "Nhập thông tin để shop có thể xác nhận và xử lý đơn hàng của bạn.",
+    "fields": {
+      "firstName": "Họ",
+      "lastName": "Tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "optional": "tùy chọn",
+      "notes": "Ghi chú"
+    },
+    "address": {
+      "title": "Địa chỉ nhận hàng",
+      "description": "Chọn theo từng cấp để hạn chế nhập sai địa chỉ. Nếu đơn của bạn không cần giao vật lý, có thể để trống phần này.",
+      "loadError": "Không tải được danh sách địa chỉ Việt Nam. Bạn có thể nhập tạm địa chỉ thủ công.",
+      "manualLabel": "Địa chỉ / thông tin nhận hàng",
+      "manualPlaceholder": "Ví dụ: số nhà, đường, phường/xã, quận/huyện, tỉnh/thành...",
+      "province": "Tỉnh / Thành phố",
+      "district": "Quận / Huyện",
+      "ward": "Phường / Xã",
+      "provincePlaceholder": "Chọn Tỉnh / Thành phố",
+      "districtPlaceholder": "Chọn Quận / Huyện",
+      "districtPlaceholderDisabled": "Chọn Tỉnh / Thành phố trước",
+      "wardPlaceholder": "Chọn Phường / Xã",
+      "wardPlaceholderDisabled": "Chọn Quận / Huyện trước",
+      "detail": "Địa chỉ chi tiết",
+      "detailPlaceholder": "Số nhà, tên đường, tòa nhà, hẻm...",
+      "fullAddress": "Địa chỉ đầy đủ:"
+    },
+    "placeholders": {
+      "firstName": "Nguyen",
+      "lastName": "Van A",
+      "phone": "0123456789",
+      "email": "your@email.com",
+      "notes": "Mô tả sản phẩm cần mua, thời gian mong muốn nhận hàng hoặc yêu cầu đặc biệt..."
+    },
+    "delivery": {
+      "title": "Cách thức nhận hàng",
+      "free": "Miễn phí"
+    },
+    "storeInfo": {
+      "title": "Thông tin cửa hàng",
+      "email": "Email:",
+      "hotline": "Hotline:",
+      "openingHours": "Giờ mở cửa:",
+      "openingHoursValue": "8:00 - 21:00 hàng ngày"
+    }
+  },
+  "orderSummary": {
+    "title": "Đơn hàng của bạn",
+    "description": "Kiểm tra lại sản phẩm và tổng tiền trước khi xác nhận.",
+    "subtotal": "Tạm tính",
+    "discount": "Giảm giá",
+    "shipping": "Phí vận chuyển",
+    "freeShipping": "Miễn phí",
+    "total": "Tổng cộng",
+    "benefits": {
+      "warranty": "Bảo hành chính hãng",
+      "pickup": "Nhận hàng tại cửa hàng",
+      "support": "Hỗ trợ khi cần"
+    }
+  },
+  "paymentForm": {
+    "title": "Phương thức thanh toán",
+    "description": "Chọn cách thanh toán phù hợp để hoàn tất đơn hàng.",
+    "message": {
+      "bankLoadFailed": "Không lấy được thông tin ngân hàng",
+      "copySuccess": "Đã copy",
+      "copyFailed": "Copy thất bại"
+    },
+    "transfer": {
+      "title": "Thông tin chuyển khoản",
+      "description": "Vui lòng chuyển khoản theo thông tin bên dưới để shop xác nhận đơn hàng.",
+      "loading": "Đang tải thông tin ngân hàng...",
+      "bankName": "Ngân hàng",
+      "accountNumber": "Số tài khoản",
+      "accountHolder": "Chủ tài khoản",
+      "note": "Nội dung chuyển khoản",
+      "copy": "Copy",
+      "copied": "Đã copy",
+      "qrAlt": "QR chuyển khoản",
+      "openQr": "Mở ảnh QR",
+      "afterTransferNote": "Sau khi chuyển khoản, bạn có thể tiếp tục đặt hàng. Shop sẽ liên hệ qua số điện thoại đã đăng ký để xác nhận thanh toán.",
+      "empty": "Chưa có thông tin chuyển khoản."
+    },
+    "card": {
+      "title": "Thông tin thẻ",
+      "cardNumber": "Số thẻ",
+      "cardName": "Tên trên thẻ",
+      "expiryDate": "Ngày hết hạn",
+      "cvv": "CVV",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "cardNamePlaceholder": "NGUYEN VAN A",
+      "expiryDatePlaceholder": "MM/YY",
+      "cvvPlaceholder": "123"
+    },
+    "securityNote": "Thanh toán được xử lý qua kết nối bảo mật để bảo vệ thông tin của bạn."
+  },
+  "reviewOrder": {
+    "message": {
+      "createOrderFailed": "Không tạo được đơn hàng",
+      "redirectingPayment": "Đang chuyển đến cổng thanh toán...",
+      "orderSuccess": "Đặt hàng thành công!",
+      "genericError": "Có lỗi xảy ra!",
+      "sepayOrderCreated": "Đã tạo đơn Sepay. Vui lòng chuyển khoản đúng nội dung.",
+      "sepaySimulateSuccess": "Đã giả lập thanh toán Sepay thành công!",
+      "sepaySimulateFailed": "Giả lập thanh toán Sepay thất bại"
+    },
+    "title": "Xác nhận đơn hàng",
+    "description": "Kiểm tra lại thông tin trước khi gửi yêu cầu đặt hàng.",
+    "contactInfo": {
+      "title": "Thông tin liên hệ",
+      "fullName": "Họ tên:",
+      "phone": "Số điện thoại:",
+      "email": "Email:",
+      "address": "Địa chỉ:",
+      "notes": "Ghi chú:"
+    },
+    "payment": {
+      "title": "Phương thức thanh toán",
+      "autoRedirect": "Tự động chuyển hướng",
+      "waitingWebhook": "Chờ webhook",
+      "onlineNote": "Bạn sẽ được chuyển đến trang thanh toán {{name}} sau khi xác nhận. Vui lòng không đóng trình duyệt trong quá trình thanh toán.",
+      "sepayNote": "Sau khi tạo đơn, hãy chuyển khoản đúng số tiền và nội dung mã đơn. Sepay webhook sẽ tự xác nhận khi giao dịch vào."
+    },
+    "delivery": {
+      "title": "Cách thức nhận hàng",
+      "nameWithTime": "{{name}} - {{time}}"
+    },
+    "button": {
+      "redirecting": "Đang chuyển đến cổng thanh toán...",
+      "creatingSepay": "Đang tạo yêu cầu Sepay...",
+      "submitting": "Đang gửi...",
+      "payWith": "Thanh toán qua {{name}}",
+      "createSepay": "Tạo đơn thanh toán Sepay",
+      "sendContactRequest": "Gửi yêu cầu liên hệ",
+      "confirmOrder": "Xác nhận đặt hàng"
+    },
+    "sepay": {
+      "title": "Thanh toán Sepay",
+      "reference": "Nội dung chuyển khoản:",
+      "amount": "Số tiền:",
+      "bankName": "Ngân hàng",
+      "accountNumber": "Số tài khoản",
+      "accountHolder": "Chủ tài khoản",
+      "loadingBank": "Đang tải thông tin chuyển khoản...",
+      "missingBankInfo": "Chưa có thông tin ngân hàng đang hoạt động. Vui lòng cấu hình Bank Info trong admin hoặc dùng nút giả lập ở môi trường dev.",
+      "description": "Khi nhận webhook Sepay khớp mã đơn và số tiền, đơn sẽ tự chuyển sang đã thanh toán.",
+      "qrAlt": "QR chuyển khoản Sepay",
+      "openQr": "Mở ảnh QR",
+      "noQr": "Chưa có ảnh QR. Vui lòng chuyển khoản thủ công theo thông tin bên cạnh.",
+      "simulateButton": "Giả lập đã thanh toán",
+      "simulating": "Đang giả lập..."
+    }
+  }
+}

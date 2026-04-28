@@ -1,20 +1,40 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { formatVND } from '../../../helpers/formatCurrency'
 
 export default function ProductPrice({ priceNew, price, discountVal, savings, deliveryEstimateDays }) {
+  const { t } = useTranslation('clientProducts')
+
   return (
-    <div className="space-y-1 mt-auto">
-      <div className="flex items-baseline gap-2">
-        <span className="text-lg font-bold text-red-600">{priceNew}₫</span>
-        {discountVal > 0 && <span className="text-sm text-gray-400 line-through">{price}₫</span>}
+    <div className="mt-auto min-h-[58px] space-y-1.5 pt-1">
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+        <span className="text-[15px] font-bold leading-tight text-red-600 sm:text-lg">
+          {priceNew}
+          {'\u20ab'}
+        </span>
+
+        {discountVal > 0 && (
+          <span className="text-[11px] text-slate-400 line-through sm:text-xs">
+            {price}
+            {'\u20ab'}
+          </span>
+        )}
       </div>
-      <div className="min-h-[20px] flex flex-col justify-end">
+
+      <div className="flex min-h-[20px] flex-col justify-end">
         <div>
-          {savings > 0 && <span className="mt-0 text-green-600 font-medium text-xs">Tiết kiệm {formatVND(savings)}₫</span>}
+          {savings > 0 && (
+            <span className="mt-0 text-[11px] font-medium leading-4 text-slate-500 sm:text-xs dark:text-slate-400">
+              {t('productItem.saving', { amount: formatVND(savings) })}
+            </span>
+          )}
         </div>
+
         <div>
           {deliveryEstimateDays > 0 && (
-            <p className="text-xs text-green-600 font-medium">🚚 Giao hàng trong {deliveryEstimateDays} ngày</p>
+            <p className="text-[11px] font-medium leading-4 text-slate-500 sm:text-xs dark:text-slate-400">
+              {t('productItem.deliveryInDays', { count: deliveryEstimateDays })}
+            </p>
           )}
         </div>
       </div>

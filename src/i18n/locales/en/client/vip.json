@@ -1,0 +1,185 @@
+{
+  "seo": {
+    "title": "VIP Membership - SmartMall",
+    "description": "Become a SmartMall VIP member for exclusive discounts, higher points, free shipping, and priority support."
+  },
+  "hero": {
+    "eyebrow": "VIP Membership",
+    "title": "More status - more rewards",
+    "description": "Become a VIP member to unlock exclusive offers, higher points, priority support, and a better SmartMall shopping experience.",
+    "status": "Benefits activate after successful payment",
+    "primaryButton": "Register now",
+    "primaryButtonLink": "#vip-pricing",
+    "secondaryButton": "View benefits",
+    "secondaryButtonLink": "#vip-comparison",
+    "imageUrl": "/icons/cardWalletPromotions.webp",
+    "imageAlt": "SmartMall VIP membership card"
+  },
+  "stats": [
+    {
+      "value": "15%",
+      "label": "Maximum discount"
+    },
+    {
+      "value": "x2",
+      "label": "Highest points"
+    },
+    {
+      "value": "24/7",
+      "label": "Priority support"
+    }
+  ],
+  "quickBenefits": [
+    {
+      "title": "Exclusive discounts",
+      "description": "Special offers for VIP members."
+    },
+    {
+      "title": "Higher points",
+      "description": "Earn more reward points on every order."
+    },
+    {
+      "title": "Nationwide freeship",
+      "description": "Shipping benefits based on your plan."
+    },
+    {
+      "title": "24/7 priority support",
+      "description": "Requests are handled faster."
+    }
+  ],
+  "plansSection": {
+    "eyebrow": "Membership plans",
+    "title": "Choose the right VIP plan",
+    "description": "Compare Silver, Gold, and Diamond quickly to choose the plan that fits your shopping needs."
+  },
+  "plans": [
+    {
+      "name": "Silver",
+      "badge": "",
+      "price": "99,000đ",
+      "period": "/ month",
+      "description": "A good starting plan for customers beginning with VIP benefits.",
+      "features": ["5% order discount", "Points x1.2", "Priority support"],
+      "ctaLabel": "Choose Silver",
+      "ctaLink": "#vip-pricing",
+      "highlighted": false
+    },
+    {
+      "name": "Gold",
+      "badge": "Popular",
+      "price": "199,000đ",
+      "period": "/ month",
+      "description": "Balanced benefits across savings, reward points, and shipping.",
+      "features": ["10% order discount", "Points x1.5", "Nationwide freeship"],
+      "ctaLabel": "Choose Gold",
+      "ctaLink": "#vip-pricing",
+      "highlighted": true
+    },
+    {
+      "name": "Diamond",
+      "badge": "",
+      "price": "399,000đ",
+      "period": "/ month",
+      "description": "For frequent shoppers who want the highest VIP benefit level.",
+      "features": ["15% order discount", "Points x2", "Birthday gift", "24/7 support"],
+      "ctaLabel": "Choose Diamond",
+      "ctaLink": "#vip-pricing",
+      "highlighted": false
+    }
+  ],
+  "comparisonSection": {
+    "eyebrow": "Comparison",
+    "title": "Compare benefits",
+    "description": "A summary of key benefits by VIP membership level."
+  },
+  "comparisonRows": [
+    {
+      "benefit": "Order discount",
+      "silver": "5%",
+      "gold": "10%",
+      "diamond": "15%"
+    },
+    {
+      "benefit": "Reward points",
+      "silver": "x1.2",
+      "gold": "x1.5",
+      "diamond": "x2"
+    },
+    {
+      "benefit": "Nationwide freeship",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "24/7 priority support",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "Birthday gift",
+      "silver": "—",
+      "gold": "—",
+      "diamond": "✓"
+    },
+    {
+      "benefit": "Exclusive offers",
+      "silver": "—",
+      "gold": "✓",
+      "diamond": "✓"
+    }
+  ],
+  "benefitsSection": {
+    "eyebrow": "Benefits",
+    "title": "Featured VIP benefits",
+    "description": "Benefits designed to make shopping faster, more rewarding, and better supported."
+  },
+  "benefits": [
+    {
+      "title": "Exclusive discounts",
+      "description": "Receive member-only offers in eligible SmartMall campaigns."
+    },
+    {
+      "title": "Higher points",
+      "description": "Earn rewards faster and redeem benefits sooner."
+    },
+    {
+      "title": "Nationwide freeship",
+      "description": "Save shipping costs on eligible orders."
+    },
+    {
+      "title": "24/7 support",
+      "description": "Get priority help for advice, order checks, or issue handling."
+    }
+  ],
+  "faqSection": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "description": "Key information before choosing and paying for a VIP plan."
+  },
+  "faqs": [
+    {
+      "question": "What is VIP Membership?",
+      "answer": "VIP Membership is a paid member program that gives you shopping discounts, higher points, and priority SmartMall support."
+    },
+    {
+      "question": "How do I become a VIP member?",
+      "answer": "Choose a plan, sign in, create a VIP plan order, and complete payment."
+    },
+    {
+      "question": "Can I upgrade or downgrade my VIP plan?",
+      "answer": "You can request a plan change when SmartMall opens VIP plan management for accounts."
+    },
+    {
+      "question": "Do VIP benefits apply to promotional products?",
+      "answer": "Some benefits may not stack with other promotions. Specific conditions will appear during payment."
+    }
+  ],
+  "cta": {
+    "title": "Become a VIP member today",
+    "description": "Enjoy a premium shopping experience and stronger benefits reserved for VIP members.",
+    "button": "Register now",
+    "buttonLink": "#vip-pricing"
+  }
+}

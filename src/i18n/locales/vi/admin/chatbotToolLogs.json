@@ -1,0 +1,53 @@
+{
+  "seo": {
+    "title": "Admin - Nhật ký gọi công cụ"
+  },
+  "page": {
+    "title": "Nhật ký gọi công cụ",
+    "description": "Theo dõi agent đã gọi tool nào, với input gì và kết quả trả về ra sao.",
+    "liveChat": "Live Chat",
+    "reload": "Làm mới logs"
+  },
+  "stats": {
+    "totalLogs": "Tổng logs",
+    "errors": "Lỗi"
+  },
+  "filters": {
+    "toolPlaceholder": "Lọc theo tool",
+    "sessionPlaceholder": "Lọc theo session ID"
+  },
+  "table": {
+    "empty": "Chưa có log gọi công cụ",
+    "loading": "Đang tải logs...",
+    "footerSummary": "Hiển thị {{count}} logs - page {{page}}/{{totalPages}} - limit {{limit}} - tổng {{total}}",
+    "pageLoadErrorMessage": "Không thể tải đúng trang logs đã chọn",
+    "pageLoadErrorDescription": "Hệ thống đang hiển thị dữ liệu gần nhất có thể tải được. Hãy thử làm mới hoặc chọn trang khác.",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} logs",
+    "headings": {
+      "time": "Thời gian",
+      "tool": "Tool",
+      "session": "Session",
+      "outcome": "Kết quả",
+      "duration": "Thời lượng",
+      "input": "Input",
+      "preview": "Preview"
+    },
+    "outcomes": {
+      "success": "Thành công",
+      "not_found": "Không tìm thấy",
+      "error": "Lỗi"
+    }
+  },
+  "pagination": {
+    "items_per_page": "/ trang",
+    "jump_to": "Đến",
+    "jump_to_confirm": "xác nhận",
+    "page": "trang",
+    "prev_page": "Trang trước",
+    "next_page": "Trang sau",
+    "prev_5": "Lùi 5 trang",
+    "next_5": "Tiến 5 trang",
+    "prev_3": "Lùi 3 trang",
+    "next_3": "Tiến 3 trang"
+  }
+}

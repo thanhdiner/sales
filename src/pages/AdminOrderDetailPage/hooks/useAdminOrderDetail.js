@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { message as antdMessage } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { getOrderDetailAdmin, updateOrderStatus } from '@/services/adminOrdersService'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 const SUCCESS_MESSAGE_DURATION_MS = 2500
 
 export function useAdminOrderDetail(id) {
+  const { t } = useTranslation('adminOrderDetail')
+  const language = useCurrentLanguage()
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
   const [status, setStatus] = useState('')
@@ -43,7 +47,7 @@ export function useAdminOrderDetail(id) {
     } finally {
       setLoading(false)
     }
-  }, [id])
+  }, [id, language])
 
   useEffect(() => {
     fetchOrder()
@@ -69,11 +73,13 @@ export function useAdminOrderDetail(id) {
 
       if (response?.success) {
         const nextOrder = response.order || (order ? { ...order, status, paymentStatus } : null)
+        const successText = t('messages.updateSuccess')
+
         setOrder(nextOrder)
         setStatus(nextOrder?.status || status)
         setPaymentStatus(nextOrder?.paymentStatus || paymentStatus)
-        setSuccessMessage('Cập nhật trạng thái thành công!')
-        antdMessage.success('Cập nhật trạng thái thành công!')
+        setSuccessMessage(successText)
+        antdMessage.success(successText)
 
         clearSuccessTimeout()
         successTimeoutRef.current = setTimeout(() => {
@@ -82,7 +88,7 @@ export function useAdminOrderDetail(id) {
         }, SUCCESS_MESSAGE_DURATION_MS)
       }
     } catch (error) {
-      antdMessage.error(error?.response?.error || error?.response?.message || error?.message || 'Không thể cập nhật đơn hàng.')
+      antdMessage.error(error?.response?.error || error?.response?.message || error?.message || t('messages.updateError'))
     } finally {
       setUpdating(false)
     }

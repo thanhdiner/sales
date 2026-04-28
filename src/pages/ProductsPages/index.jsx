@@ -1,12 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import Products from '@/components/Products'
 import SEO from '@/components/SEO'
 
 function ProductsPages() {
+  const { t } = useTranslation('clientProducts')
+
   return (
-    <div className="bg-white pt-5 rounded-tl-[8px] rounded-tr-[8px] shadow dark:bg-gray-800">
-      <SEO title="Tất cả sản phẩm"
-        description="Khám phá hàng trăm sản phẩm tại SmartMall – tài khoản game, phần mềm bản quyền chính hãng, giá tốt, giao hàng nhanh." />
-      <div className="dark:bg-gray-800 pb-10">
+    <div className="rounded-tl-[8px] rounded-tr-[8px] bg-white pt-5 shadow dark:bg-gray-800">
+      <SEO title={t('productsPage.seo.title')} description={t('productsPage.seo.description')} />
+
+      <div className="pb-10 dark:bg-gray-800">
         <Products />
       </div>
     </div>

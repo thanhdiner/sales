@@ -1,0 +1,27 @@
+{
+  "seo": {
+    "title": "Blog / News - SmartMall",
+    "description": "Latest news, buying guides, and product tips from SmartMall."
+  },
+  "page": {
+    "eyebrow": "Blog / News",
+    "title": "Latest updates from SmartMall",
+    "description": "Read product updates, buying guides, and practical notes for a better shopping experience."
+  },
+  "filters": {
+    "keyword": "Search posts",
+    "category": "Blog category",
+    "all": "All"
+  },
+  "labels": {
+    "featured": "Featured"
+  },
+  "actions": {
+    "read": "Read post"
+  },
+  "messages": {
+    "loading": "Loading posts...",
+    "fetchError": "Failed to load blog posts",
+    "empty": "No matching posts yet"
+  }
+}

@@ -7,15 +7,16 @@ import {
   getProductCredentials,
   revealProductCredential
 } from '@/services/adminProductCredentialService'
+import { useTranslation } from 'react-i18next'
 import './ProductCredentialManager.scss'
 
 const CREDENTIAL_FIELD_ORDER = ['username', 'password', 'email', 'licenseKey', 'loginUrl', 'notes']
 
-const STATUS_META = {
-  available: { label: 'Có sẵn', className: 'admin-product-credential__status admin-product-credential__status--available' },
-  reserved: { label: 'Đang giữ', className: 'admin-product-credential__status admin-product-credential__status--reserved' },
-  sold: { label: 'Đã bán', className: 'admin-product-credential__status admin-product-credential__status--sold' },
-  disabled: { label: 'Đã tắt', className: 'admin-product-credential__status admin-product-credential__status--disabled' }
+const STATUS_CLASS_NAMES = {
+  available: 'admin-product-credential__status admin-product-credential__status--available',
+  reserved: 'admin-product-credential__status admin-product-credential__status--reserved',
+  sold: 'admin-product-credential__status admin-product-credential__status--sold',
+  disabled: 'admin-product-credential__status admin-product-credential__status--disabled'
 }
 
 const getErrorMessage = (error, fallback) =>
@@ -78,6 +79,7 @@ const parseBulkCredentials = value => {
 }
 
 export default function ProductCredentialManager({ productId, enabled }) {
+  const { t } = useTranslation('adminProducts')
   const [form] = Form.useForm()
   const [credentials, setCredentials] = useState([])
   const [availableCount, setAvailableCount] = useState(0)
@@ -95,7 +97,7 @@ export default function ProductCredentialManager({ productId, enabled }) {
       setCredentials(response.credentials || [])
       setAvailableCount(response.availableCount || 0)
     } catch (error) {
-      message.error(getErrorMessage(error, 'Không tải được kho tài khoản.'))
+      message.error(getErrorMessage(error, t('credentials.messages.loadError')))
     } finally {
       setLoading(false)
     }
@@ -108,18 +110,18 @@ export default function ProductCredentialManager({ productId, enabled }) {
 
   const createCredentials = async payloads => {
     if (!payloads.length) {
-      message.warning('Nhập ít nhất một thông tin tài khoản hoặc license.')
+      message.warning(t('credentials.messages.missingInput'))
       return false
     }
 
     setSubmitting(true)
     try {
       await createProductCredentials(productId, payloads)
-      message.success(`Đã thêm ${payloads.length} tài khoản/license vào kho.`)
+      message.success(t('credentials.messages.addSuccess', { count: payloads.length }))
       await fetchCredentials()
       return true
     } catch (error) {
-      message.error(getErrorMessage(error, 'Thêm credential thất bại.'))
+      message.error(getErrorMessage(error, t('credentials.messages.addError')))
       throw error
     } finally {
       setSubmitting(false)
@@ -147,7 +149,7 @@ export default function ProductCredentialManager({ productId, enabled }) {
       const data = response.credential?.data || {}
 
       Modal.info({
-        title: 'Thông tin credential',
+        title: t('credentials.modal.revealTitle'),
         width: 640,
         className: 'admin-product-credential-modal',
         content: (
@@ -164,21 +166,21 @@ export default function ProductCredentialManager({ productId, enabled }) {
         )
       })
     } catch (error) {
-      message.error(getErrorMessage(error, 'Không xem được credential.'))
+      message.error(getErrorMessage(error, t('credentials.messages.revealError')))
     }
   }
 
   const handleDisable = credentialId => {
     Modal.confirm({
       className: 'admin-product-credential-modal',
-      title: 'Vô hiệu hóa credential này?',
-      content: 'Credential đã tắt sẽ không được bán cho đơn mới.',
-      okText: 'Vô hiệu hóa',
+      title: t('credentials.modal.disableTitle'),
+      content: t('credentials.modal.disableContent'),
+      okText: t('credentials.modal.disable'),
       okButtonProps: { danger: true },
-      cancelText: 'Hủy',
+      cancelText: t('credentials.modal.cancel'),
       onOk: async () => {
         await disableProductCredential(credentialId)
-        message.success('Đã vô hiệu hóa credential.')
+        message.success(t('credentials.messages.disableSuccess'))
         fetchCredentials()
       }
     })
@@ -188,35 +190,32 @@ export default function ProductCredentialManager({ productId, enabled }) {
 
   const columns = [
     {
-      title: 'Thông tin',
+      title: t('credentials.columns.info'),
       dataIndex: 'summary',
       render: summary => (
         <div className="admin-product-credential__summary">
-          <div>Username: {summary?.username || '-'}</div>
-          <div>Email: {summary?.email || '-'}</div>
-          <div>Key: {summary?.licenseKey || '-'}</div>
-          {summary?.loginUrl && <div className="admin-product-credential__summary-url">URL: {summary.loginUrl}</div>}
+          <div>{t('credentials.summary.username')}: {summary?.username || '-'}</div>
+          <div>{t('credentials.summary.email')}: {summary?.email || '-'}</div>
+          <div>{t('credentials.summary.key')}: {summary?.licenseKey || '-'}</div>
+          {summary?.loginUrl && <div className="admin-product-credential__summary-url">{t('credentials.summary.url')}: {summary.loginUrl}</div>}
         </div>
       )
     },
     {
-      title: 'Trạng thái',
+      title: t('credentials.columns.status'),
       dataIndex: 'status',
       width: 150,
       render: status => {
-        const statusMeta = STATUS_META[status] || {
-          label: status,
-          className: 'admin-product-credential__status admin-product-credential__status--disabled'
-        }
-        return <Tag className={statusMeta.className}>{statusMeta.label}</Tag>
+        const className = STATUS_CLASS_NAMES[status] || STATUS_CLASS_NAMES.disabled
+        return <Tag className={className}>{t(`credentials.statuses.${status}`, { defaultValue: status })}</Tag>
       }
     },
     {
-      title: 'Thao tác',
+      title: t('credentials.columns.actions'),
       width: 140,
       render: (_, record) => (
         <Space>
-          <Tooltip title="Xem credential">
+          <Tooltip title={t('credentials.tooltips.view')}>
             <Button
               size="small"
               className="admin-product-credential__action-btn"
@@ -225,7 +224,7 @@ export default function ProductCredentialManager({ productId, enabled }) {
             />
           </Tooltip>
           {record.status === 'available' && (
-            <Tooltip title="Vô hiệu hóa">
+            <Tooltip title={t('credentials.tooltips.disable')}>
               <Button
                 size="small"
                 className="admin-product-credential__action-btn admin-product-credential__action-btn--danger"
@@ -242,28 +241,28 @@ export default function ProductCredentialManager({ productId, enabled }) {
   return (
     <Card
       className="admin-product-credential mt-6"
-      title={<span className="admin-product-credential__title">Kho tài khoản/license giao ngay</span>}
-      extra={<Tag className="admin-product-credential__available-tag">Còn sẵn: {availableCount}</Tag>}
+      title={<span className="admin-product-credential__title">{t('credentials.title')}</span>}
+      extra={<Tag className="admin-product-credential__available-tag">{t('credentials.availableCount', { count: availableCount })}</Tag>}
     >
       <Form form={form} layout="vertical" onFinish={handleAdd}>
         <div className="admin-product-credential__grid">
-          <Form.Item name="username" label="Username">
-            <Input placeholder="username" autoComplete="off" />
+          <Form.Item name="username" label={t('credentials.fields.username')}>
+            <Input placeholder={t('credentials.fields.usernamePlaceholder')} autoComplete="off" />
           </Form.Item>
-          <Form.Item name="password" label="Password">
-            <Input.Password placeholder="password" autoComplete="new-password" />
+          <Form.Item name="password" label={t('credentials.fields.password')}>
+            <Input.Password placeholder={t('credentials.fields.passwordPlaceholder')} autoComplete="new-password" />
           </Form.Item>
-          <Form.Item name="email" label="Email">
-            <Input placeholder="email đăng nhập" autoComplete="off" />
+          <Form.Item name="email" label={t('credentials.fields.email')}>
+            <Input placeholder={t('credentials.fields.emailPlaceholder')} autoComplete="off" />
           </Form.Item>
-          <Form.Item name="licenseKey" label="License key">
-            <Input placeholder="key / mã kích hoạt" autoComplete="off" />
+          <Form.Item name="licenseKey" label={t('credentials.fields.licenseKey')}>
+            <Input placeholder={t('credentials.fields.licenseKeyPlaceholder')} autoComplete="off" />
           </Form.Item>
-          <Form.Item name="loginUrl" label="Link đăng nhập">
-            <Input placeholder="https://..." autoComplete="off" />
+          <Form.Item name="loginUrl" label={t('credentials.fields.loginUrl')}>
+            <Input placeholder={t('credentials.fields.loginUrlPlaceholder')} autoComplete="off" />
           </Form.Item>
-          <Form.Item name="notes" label="Ghi chú">
-            <Input placeholder="ghi chú/hướng dẫn riêng" autoComplete="off" />
+          <Form.Item name="notes" label={t('credentials.fields.notes')}>
+            <Input placeholder={t('credentials.fields.notesPlaceholder')} autoComplete="off" />
           </Form.Item>
         </div>
 
@@ -275,14 +274,14 @@ export default function ProductCredentialManager({ productId, enabled }) {
             htmlType="submit"
             loading={submitting}
           >
-            Thêm vào kho
+            {t('credentials.buttons.add')}
           </Button>
           <Button
             className="admin-product-credential__btn"
             icon={<Upload className="h-4 w-4" />}
             onClick={() => setBulkModalOpen(true)}
           >
-            Nhập hàng loạt
+            {t('credentials.buttons.bulk')}
           </Button>
         </Space>
       </Form>
@@ -298,11 +297,11 @@ export default function ProductCredentialManager({ productId, enabled }) {
 
       <Modal
         className="admin-product-credential-modal"
-        title="Nhập hàng loạt"
+        title={t('credentials.modal.bulkTitle')}
         open={bulkModalOpen}
         confirmLoading={submitting}
-        okText="Thêm vào kho"
-        cancelText="Hủy"
+        okText={t('credentials.modal.addToStock')}
+        cancelText={t('credentials.modal.cancel')}
         onOk={handleBulkAdd}
         onCancel={() => setBulkModalOpen(false)}
       >
@@ -311,9 +310,7 @@ export default function ProductCredentialManager({ productId, enabled }) {
           rows={10}
           value={bulkText}
           onChange={event => setBulkText(event.target.value)}
-          placeholder={`username|password|email|licenseKey|loginUrl|ghi chú
-license-key-only
-{"username":"user1","password":"pass1","email":"user1@example.com"}`}
+          placeholder={t('credentials.bulkPlaceholder')}
         />
       </Modal>
     </Card>

@@ -2,6 +2,11 @@ import dayjs from 'dayjs'
 
 export const EMPTY_FLASH_SALE_FORM = {
   name: '',
+  translations: {
+    en: {
+      name: ''
+    }
+  },
   startAt: null,
   endAt: null,
   discountPercent: '',
@@ -9,14 +14,89 @@ export const EMPTY_FLASH_SALE_FORM = {
   products: []
 }
 
-export function formatCurrency(amount) {
-  return new Intl.NumberFormat('vi-VN', {
+export const getFlashSalesLocale = language => (String(language || '').startsWith('en') ? 'en-US' : 'vi-VN')
+
+const isEnglishLanguage = language => String(language || '').toLowerCase().startsWith('en')
+
+const hasText = value => typeof value === 'string' && value.trim().length > 0
+
+export const getLocalizedFlashSaleName = (sale, language, fallback = '') => {
+  const translatedName = isEnglishLanguage(language) ? sale?.translations?.en?.name : null
+
+  if (hasText(translatedName)) return translatedName
+  if (hasText(sale?.name)) return sale.name
+
+  return fallback
+}
+
+export const hasLocalizedFlashSaleName = (sale, language) => {
+  if (!isEnglishLanguage(language)) return true
+  return hasText(sale?.translations?.en?.name)
+}
+
+export const getLocalizedProductTitle = (product, language, fallback = '') => {
+  const translatedTitle = isEnglishLanguage(language) ? product?.translations?.en?.title : null
+
+  if (hasText(translatedTitle)) return translatedTitle
+  if (hasText(product?.title)) return product.title
+
+  return fallback
+}
+
+const formatNumber = (value, locale = 'vi-VN') =>
+  new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(Number(value) || 0)
+
+export function formatCurrency(amount, locale = 'vi-VN') {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: 'VND'
   }).format(Number(amount) || 0)
 }
 
-export function getFlashSaleStatusMeta(status) {
+export function formatFlashSaleDateTime(date, locale = 'vi-VN') {
+  if (!date) return '--'
+
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(new Date(date))
+  } catch {
+    return dayjs(date).format('YYYY-MM-DD HH:mm')
+  }
+}
+
+export function formatFlashSaleDateRange(sale, locale = 'vi-VN') {
+  const formatter = value => {
+    if (!value) return '--'
+
+    try {
+      return new Intl.DateTimeFormat(locale, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(new Date(value))
+    } catch {
+      return dayjs(value).format('DD/MM/YYYY')
+    }
+  }
+
+  return `${formatter(sale?.startAt)} - ${formatter(sale?.endAt)}`
+}
+
+export function formatFlashSaleDiscount(discountPercent, locale = 'vi-VN') {
+  return `-${formatNumber(discountPercent, locale)}%`
+}
+
+export function formatFlashSaleQuantity(sale, locale = 'vi-VN') {
+  return `${formatNumber(sale?.soldQuantity, locale)}/${formatNumber(sale?.maxQuantity, locale)}`
+}
+
+export function getFlashSaleStatusMeta(status, t) {
   const activeClassName =
     'border border-[var(--admin-success-border)] bg-[var(--admin-success-bg-soft)] text-[var(--admin-success-text)]'
   const scheduledClassName =
@@ -26,13 +106,15 @@ export function getFlashSaleStatusMeta(status) {
 
   switch (status) {
     case 'active':
-      return { className: activeClassName, label: 'Đang diễn ra' }
+      return { className: activeClassName, label: t?.('status.active') || 'Active' }
     case 'scheduled':
-      return { className: scheduledClassName, label: 'Đã lên lịch' }
+      return { className: scheduledClassName, label: t?.('status.scheduled') || 'Scheduled' }
     case 'completed':
-      return { className: completedClassName, label: 'Đã kết thúc' }
+      return { className: completedClassName, label: t?.('status.completed') || 'Completed' }
+    case 'inactive':
+      return { className: completedClassName, label: t?.('status.inactive') || 'Inactive' }
     default:
-      return { className: completedClassName, label: 'Không xác định' }
+      return { className: completedClassName, label: t?.('status.unknown') || 'Unknown' }
   }
 }
 
@@ -55,6 +137,11 @@ export function getFlashSaleStats(flashSales) {
 export function mapFlashSaleToFormData(item) {
   return {
     name: item?.name || '',
+    translations: {
+      en: {
+        name: item?.translations?.en?.name || ''
+      }
+    },
     startAt: item?.startAt ? dayjs(item.startAt) : null,
     endAt: item?.endAt ? dayjs(item.endAt) : null,
     discountPercent: item?.discountPercent ?? '',
@@ -66,6 +153,11 @@ export function mapFlashSaleToFormData(item) {
 export function serializeFlashSaleForm(formData) {
   return {
     name: formData.name,
+    translations: {
+      en: {
+        name: formData.translations?.en?.name?.trim() || ''
+      }
+    },
     startAt: formData.startAt.toISOString(),
     endAt: formData.endAt.toISOString(),
     discountPercent: parseInt(formData.discountPercent, 10),
@@ -74,28 +166,28 @@ export function serializeFlashSaleForm(formData) {
   }
 }
 
-export function validateFlashSaleForm(formData) {
-  if (!formData.name?.trim()) return 'Vui lòng nhập tên chương trình!'
-  if (!formData.startAt) return 'Vui lòng chọn ngày bắt đầu!'
-  if (!formData.endAt) return 'Vui lòng chọn ngày kết thúc!'
-  if (!formData.discountPercent) return 'Vui lòng nhập phần trăm giảm giá!'
-  if (!formData.maxQuantity) return 'Vui lòng nhập số lượng tối đa!'
+export function validateFlashSaleForm(formData, t) {
+  if (!formData.name?.trim()) return t?.('form.validation.name') || 'Please enter the program name!'
+  if (!formData.startAt) return t?.('form.validation.startAt') || 'Please select a start date!'
+  if (!formData.endAt) return t?.('form.validation.endAt') || 'Please select an end date!'
+  if (!formData.discountPercent) return t?.('form.validation.discountPercent') || 'Please enter the discount percent!'
+  if (!formData.maxQuantity) return t?.('form.validation.maxQuantity') || 'Please enter the maximum quantity!'
   if (!Array.isArray(formData.products) || formData.products.length === 0) {
-    return 'Vui lòng chọn ít nhất một sản phẩm!'
+    return t?.('form.validation.products') || 'Please select at least one product!'
   }
   if (dayjs(formData.endAt).isBefore(dayjs(formData.startAt))) {
-    return 'Thời gian kết thúc phải sau thời gian bắt đầu!'
+    return t?.('form.validation.dateOrder') || 'End time must be after start time!'
   }
   return null
 }
 
-export function mergeProductOptions(products, selectedIds, existingProducts = []) {
+export function mergeProductOptions(products, selectedIds, existingProducts = [], loadingTitle = 'Loading...') {
   const mergedProducts = [...(products || [])]
   const existingMap = new Map((existingProducts || []).map(product => [product._id, product]))
 
   ;(selectedIds || []).forEach(id => {
     if (!mergedProducts.find(product => product._id === id)) {
-      mergedProducts.push(existingMap.get(id) || { _id: id, title: 'Đang tải...' })
+      mergedProducts.push(existingMap.get(id) || { _id: id, title: loadingTitle })
     }
   })
 

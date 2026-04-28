@@ -3,8 +3,10 @@ import AdminTitle from '@/components/AdminTitle'
 import AdminProductsUtility from '../AdminProductsUtility'
 import AdminProductsFilter from '../AdminProductsFilter'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, products }) {
+  const { t } = useTranslation('adminProducts')
   const [isFilterVisible, setIsFilterVisible] = useState(false)
 
   const handleFilter = values => {
@@ -21,7 +23,7 @@ function AdminProductsHeader({ setCurrentPage, setLimitItems, setFilterValues, f
   return (
     <>
       <div className="products-wrap admin-products-title-wrap text-base">
-        <AdminTitle icon={<UnorderedListOutlined />} title="Product Manager" />
+        <AdminTitle icon={<UnorderedListOutlined />} title={t('page.title')} />
         <AdminProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products }} />
       </div>
       {isFilterVisible && <AdminProductsFilter onFilter={handleFilter} initialValues={filterInitialValues} />}

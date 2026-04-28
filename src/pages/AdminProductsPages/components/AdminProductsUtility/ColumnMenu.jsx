@@ -1,10 +1,13 @@
 import { Checkbox } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
+  const { t } = useTranslation('adminProducts')
+
   return (
     <>
       <div className="admin-products-column-menu p-3 min-w-[240px] rounded-[8px]">
-        <div className="admin-products-column-menu__title mb-1 border-b pb-2 text-base font-semibold">Toggle Columns</div>
+        <div className="admin-products-column-menu__title mb-1 border-b pb-2 text-base font-semibold">{t('columnMenu.title')}</div>
 
         <Checkbox.Group
           value={Object.keys(columnsVisible).filter(key => columnsVisible[key])}
@@ -32,7 +35,7 @@ function ColumnMenu({ columnsVisible, setColumnsVisible, allColumns }) {
           </div>
         </Checkbox.Group>
         <p className="admin-products-column-menu__note mt-1 border-t pt-2 text-[12px]">
-          * These columns are required and cannot be hidden.
+          {t('columnMenu.requiredNote')}
         </p>
       </div>
     </>

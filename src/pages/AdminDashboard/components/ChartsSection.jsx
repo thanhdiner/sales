@@ -1,15 +1,16 @@
 import React from 'react'
 import { Skeleton } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { CircleDollarSign, PackagePlus, ShieldCheck, UserPlus } from 'lucide-react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts'
-import { formatCurrency } from '../utils/dashboardTransforms'
+import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
 
 const ORDER_STATUS_ITEMS = [
-  { key: 'pending', label: 'Chờ xác nhận', color: '#22c55e' },
-  { key: 'confirmed', label: 'Đã xác nhận', color: '#3b82f6' },
-  { key: 'shipping', label: 'Đang giao', color: '#facc15' },
-  { key: 'completed', label: 'Hoàn thành', color: '#94a3b8' },
-  { key: 'cancelled', label: 'Đã hủy', color: '#ef4444' }
+  { key: 'pending', labelKey: 'status.pending', color: 'var(--dashboard-success)' },
+  { key: 'confirmed', labelKey: 'status.confirmed', color: 'var(--dashboard-info)' },
+  { key: 'shipping', labelKey: 'status.shipping', color: 'var(--dashboard-warning)' },
+  { key: 'completed', labelKey: 'status.completed', color: '#94a3b8' },
+  { key: 'cancelled', labelKey: 'status.cancelled', color: 'var(--dashboard-danger)' }
 ]
 
 const extractClock = value => {
@@ -21,71 +22,77 @@ const clampPercent = value => Math.max(0, Math.min(100, Number(value) || 0))
 
 const percentOf = (value, target) => clampPercent(((Number(value) || 0) / target) * 100)
 
-const formatNumber = value => (Number(value) || 0).toLocaleString('vi-VN')
+const formatNumber = (value, locale) => (Number(value) || 0).toLocaleString(locale)
 
-function buildOverviewRows(statsData) {
+function buildOverviewRows(statsData, t, locale) {
   return [
     {
-      label: 'Khách hàng',
-      value: `${formatNumber(statsData.totalUsers.value)}/1000`,
+      label: t('charts.rows.customers'),
+      value: `${formatNumber(statsData.totalUsers.value, locale)}/1000`,
       percent: percentOf(statsData.totalUsers.value, 1000)
     },
     {
-      label: 'Đơn hàng',
-      value: `${formatNumber(statsData.order.all.total)}/1000`,
+      label: t('charts.rows.orders'),
+      value: `${formatNumber(statsData.order.all.total, locale)}/1000`,
       percent: percentOf(statsData.order.all.total, 1000)
     },
     {
-      label: 'Doanh thu',
-      value: formatCurrency(statsData.totalRevenue.value),
+      label: t('charts.rows.revenue'),
+      value: formatCurrency(statsData.totalRevenue.value, locale),
       percent: clampPercent(statsData.totalRevenue.change)
     },
     {
-      label: 'Lợi nhuận',
-      value: formatCurrency(statsData.profit.value),
+      label: t('charts.rows.profit'),
+      value: formatCurrency(statsData.profit.value, locale),
       percent: clampPercent(statsData.profit.change)
     },
     {
-      label: 'Sản phẩm',
-      value: `${formatNumber(statsData.product.total)}/1000`,
+      label: t('charts.rows.products'),
+      value: `${formatNumber(statsData.product.total, locale)}/1000`,
       percent: percentOf(statsData.product.total, 1000)
     },
     {
-      label: 'Danh mục',
-      value: `${formatNumber(statsData.category.total)}/100`,
+      label: t('charts.rows.categories'),
+      value: `${formatNumber(statsData.category.total, locale)}/100`,
       percent: percentOf(statsData.category.total, 100)
     }
   ]
 }
 
-function buildActivityItems(statsData, recentOrders) {
+function buildActivityItems(statsData, recentOrders, t, locale) {
   const latestOrderTime = extractClock(recentOrders?.[0]?.time)
 
   return [
     {
-      title: 'Đơn hàng mới được tạo',
-      detail: `Mới tuần này: ${formatNumber(statsData.order.all.new.current)}`,
+      title: t('charts.activity.newOrders'),
+      detail: t('charts.activity.newThisWeek', {
+        count: formatNumber(statsData.order.all.new.current, locale)
+      }),
       time: latestOrderTime,
       icon: <ShieldCheck size={18} />,
       tone: 'green'
     },
     {
-      title: 'Khách hàng mới đăng ký',
-      detail: `Mới tuần này: ${formatNumber(statsData.totalUsers.new.current)}`,
+      title: t('charts.activity.newCustomers'),
+      detail: t('charts.activity.newThisWeek', {
+        count: formatNumber(statsData.totalUsers.new.current, locale)
+      }),
       time: '09:15',
       icon: <UserPlus size={18} />,
       tone: 'blue'
     },
     {
-      title: 'Sản phẩm mới được thêm',
-      detail: `Mới tuần này: ${formatNumber(statsData.product.new.current)}`,
+      title: t('charts.activity.newProducts'),
+      detail: t('charts.activity.newThisWeek', {
+        count: formatNumber(statsData.product.new.current, locale)
+      }),
       time: '08:42',
       icon: <PackagePlus size={18} />,
       tone: 'purple'
     },
     {
-      title: 'Doanh thu hôm nay',
-      detail: formatCurrency(statsData.totalRevenue.value),
+      title: t('charts.activity.todayRevenue'),
+      detail: formatCurrency(statsData.totalRevenue.value, locale),
       time: '00:01',
       icon: <CircleDollarSign size={18} />,
       tone: 'green'
@@ -94,20 +101,23 @@ function buildActivityItems(statsData, recentOrders) {
 }
 
 export default function ChartsSection({ recentOrders, recentOrdersLoading, statsData, statsLoading }) {
-  const overviewRows = buildOverviewRows(statsData)
+  const { t, i18n } = useTranslation('adminDashboard')
+  const locale = getDashboardLocale(i18n.language)
+  const overviewRows = buildOverviewRows(statsData, t, locale)
   const orderStatusData = ORDER_STATUS_ITEMS.map(item => ({
     ...item,
+    label: t(item.labelKey),
     value: Number(statsData.order[item.key]?.total) || 0
   }))
   const orderTotal = Number(statsData.order.all.total) || 0
-  const chartData = orderTotal > 0 ? orderStatusData : [{ key: 'empty', label: 'Chưa có dữ liệu', value: 1, color: '#2a2d31' }]
-  const activityItems = buildActivityItems(statsData, recentOrders)
+  const chartData = orderTotal > 0 ? orderStatusData : [{ key: 'empty', label: t('charts.empty'), value: 1, color: 'var(--dashboard-surface-3)' }]
+  const activityItems = buildActivityItems(statsData, recentOrders, t, locale)
 
   return (
     <section className="dashboard-overview-grid">
       <div className="dashboard-panel dashboard-quick-panel">
         <div className="dashboard-panel-header">
-          <h2>Tổng quan nhanh</h2>
+          <h2>{t('charts.quickOverview')}</h2>
         </div>
 
         {statsLoading ? (
@@ -136,7 +146,7 @@ export default function ChartsSection({ recentOrders, recentOrdersLoading, stats
 
       <div className="dashboard-panel dashboard-order-panel">
         <div className="dashboard-panel-header">
-          <h2>Đơn hàng theo trạng thái</h2>
+          <h2>{t('charts.orderStatus')}</h2>
         </div>
 
         {statsLoading ? (
@@ -162,7 +172,7 @@ export default function ChartsSection({ recentOrders, recentOrdersLoading, stats
                     ))}
                   </Pie>
                   <RechartsTooltip
-                    formatter={(value, name, props) => [formatNumber(value), props?.payload?.label || name]}
+                    formatter={(value, name, props) => [formatNumber(value, locale), props?.payload?.label || name]}
                     contentStyle={{
                       backgroundColor: 'var(--dashboard-surface-2)',
                       border: '1px solid var(--dashboard-border-strong)',
@@ -173,8 +183,8 @@ export default function ChartsSection({ recentOrders, recentOrdersLoading, stats
                 </PieChart>
               </ResponsiveContainer>
               <div className="dashboard-donut-center">
-                <strong>{formatNumber(orderTotal)}</strong>
-                <span>Tổng đơn</span>
+                <strong>{formatNumber(orderTotal, locale)}</strong>
+                <span>{t('charts.totalOrders')}</span>
               </div>
             </div>
 
@@ -187,7 +197,7 @@ export default function ChartsSection({ recentOrders, recentOrdersLoading, stats
                     <span className="dashboard-status-dot" style={{ background: item.color }} />
                     <span>{item.label}</span>
                     <strong>
-                      {formatNumber(item.value)} <em>({percent}%)</em>
+                      {formatNumber(item.value, locale)} <em>({percent}%)</em>
                     </strong>
                   </div>
                 )
@@ -199,7 +209,7 @@ export default function ChartsSection({ recentOrders, recentOrdersLoading, stats
 
       <div className="dashboard-panel dashboard-activity-panel">
         <div className="dashboard-panel-header">
-          <h2>Hoạt động hôm nay</h2>
+          <h2>{t('charts.todayActivity')}</h2>
         </div>
 
         {recentOrdersLoading ? (

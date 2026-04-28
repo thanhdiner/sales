@@ -1,0 +1,88 @@
+{
+  "seo": {
+    "title": "Admin - Bank Info"
+  },
+  "page": {
+    "title": "Bank information manager",
+    "description": "Configure receiving accounts shown during checkout transfer payment.",
+    "createButton": "Add account"
+  },
+  "stats": {
+    "total": "Total accounts",
+    "active": "Active",
+    "inactive": "Inactive",
+    "withQr": "With QR"
+  },
+  "common": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "table": {
+    "title": "Receiving account list",
+    "description": "The active record is used as the transfer information for customers on the checkout page.",
+    "columns": {
+      "bank": "Bank",
+      "accountNumber": "Account number",
+      "accountHolder": "Account holder",
+      "noteTemplate": "Note template",
+      "qrCode": "QR Code",
+      "actions": "Actions"
+    },
+    "bankSubtitle": "{{bankName}} bank",
+    "defaultBankSubtitle": "Transfer receiving bank",
+    "noQr": "None",
+    "notConfigured": "Not configured",
+    "empty": "No bank accounts yet",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} accounts",
+    "editTooltip": "Edit information",
+    "deleteTooltip": "Delete account",
+    "deleteConfirmTitle": "Delete this account?",
+    "deleteConfirmDescription": "Deleted accounts will no longer appear on the checkout page."
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Disabled"
+  },
+  "form": {
+    "createTitle": "Add bank account",
+    "editTitle": "Edit bank information",
+    "subtitle": "Update transfer data for the checkout step.",
+    "createSubmit": "Create account",
+    "saveSubmit": "Save changes",
+    "close": "Close",
+    "bankName": "Bank",
+    "bankNameRequired": "Enter a bank name",
+    "accountNumber": "Account number",
+    "accountNumberRequired": "Enter an account number",
+    "accountHolder": "Account holder",
+    "accountHolderRequired": "Enter an account holder",
+    "noteTemplate": "Transfer note template",
+    "noteTemplateRequired": "Enter a note template",
+    "qrCode": "QR Code image",
+    "uploadQr": "Upload QR",
+    "translations": {
+      "sectionTitle": "English translation",
+      "bankName": "Bank name (EN)",
+      "bankNamePlaceholder": "Bank name in English",
+      "accountHolder": "Account holder (EN)",
+      "accountHolderPlaceholder": "Account holder in English",
+      "noteTemplate": "Note template (EN)",
+      "noteTemplatePlaceholder": "Transfer note template in English"
+    },
+    "hint": "Supports QR images under 5MB. When changing the image, the old image will be removed from the system."
+  },
+  "messages": {
+    "fetchError": "Failed to load bank information",
+    "updateSuccess": "Bank information updated",
+    "createSuccess": "Bank account created",
+    "saveError": "Something went wrong",
+    "deleteSuccess": "Bank account deleted",
+    "deleteError": "Failed to delete account",
+    "needActiveAccount": "At least 1 account must stay active. Activate another account first.",
+    "activateSuccess": "Account set as active",
+    "deactivateSuccess": "Account deactivated",
+    "statusError": "Failed to update status",
+    "imageOnly": "Only image files can be uploaded",
+    "imageTooLarge": "Image must be smaller than 5MB"
+  }
+}

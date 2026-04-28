@@ -1,11 +1,13 @@
 import { Button, Form, Input, Spin, Upload, message } from 'antd'
 import {
   BarChart3,
+  BookOpen,
   Eye,
   Globe2,
   ImagePlus,
   Mail,
   MapPin,
+  Package,
   Phone,
   RefreshCw,
   Save,
@@ -16,13 +18,18 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 import { editAdminWebsiteConfig } from '@/services/adminWebsiteConfigService'
 import { fetchWebsiteConfig } from '@/stores/websiteConfigSlice'
+import ShoppingGuideConfigFields from './ShoppingGuideConfigFields'
+import { getShoppingGuideInitialValues } from './shoppingGuideConfig'
+import SpecialPackageConfigFields from './SpecialPackageConfigFields'
+import { getSpecialPackageInitialValues } from './specialPackageConfig'
 
 const { TextArea } = Input
-const WEBSITE_CONFIG_TAB_KEYS = ['basic', 'contact', 'seo']
+const WEBSITE_CONFIG_TAB_KEYS = ['basic', 'contact', 'seo', 'shopping-guide', 'special-package']
 const inputClass =
   'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
 const secondaryButtonClass =
@@ -46,6 +53,8 @@ function getInitial(data) {
   if (!data) return {}
   return {
     ...data,
+    shoppingGuide: getShoppingGuideInitialValues(data.shoppingGuide),
+    specialPackage: getSpecialPackageInitialValues(data.specialPackage),
     logo: urlToFileList(data.logoUrl, 'logo.png'),
     favicon: urlToFileList(data.faviconUrl, 'favicon.png')
   }
@@ -55,9 +64,9 @@ function getFileListFromEvent(e) {
   return Array.isArray(e) ? e : e?.fileList
 }
 
-function beforeImageUpload(file) {
+function beforeImageUpload(file, t) {
   const isImage = file.type.startsWith('image/')
-  if (!isImage) message.error('Chỉ hỗ trợ file hình ảnh')
+  if (!isImage) message.error(t('website.messages.imageOnly'))
   return isImage ? false : Upload.LIST_IGNORE
 }
 
@@ -80,7 +89,7 @@ function SettingsPanel({ title, description, Icon, children, className = '' }) {
   )
 }
 
-function UploadField({ name, label, requiredMessage }) {
+function UploadField({ name, label, requiredMessage, t }) {
   return (
     <Form.Item
       name={name}
@@ -89,10 +98,10 @@ function UploadField({ name, label, requiredMessage }) {
       getValueFromEvent={getFileListFromEvent}
       rules={[{ required: true, message: requiredMessage }]}
     >
-      <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={beforeImageUpload}>
+      <Upload listType="picture-card" maxCount={1} accept="image/*" beforeUpload={file => beforeImageUpload(file, t)}>
         <div className="flex flex-col items-center gap-2 text-[var(--admin-text-muted)]">
           <UploadCloud className="h-5 w-5" />
-          <span className="text-xs">Tải lên</span>
+          <span className="text-xs">{t('website.upload.label')}</span>
         </div>
       </Upload>
     </Form.Item>
@@ -100,33 +109,48 @@ function UploadField({ name, label, requiredMessage }) {
 }
 
 export default function WebsiteConfigTab() {
+  const { t, i18n } = useTranslation('adminSettings')
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const dispatch = useDispatch()
   const activeTab = WEBSITE_CONFIG_TAB_KEYS.includes(searchParams.get('tab')) ? searchParams.get('tab') : 'basic'
+  const isEnglish = String(i18n.resolvedLanguage || i18n.language || '').toLowerCase().startsWith('en')
+  const defaultText = (vi, en) => (isEnglish ? en : vi)
 
   const configTabs = useMemo(() => ([
     {
       key: 'basic',
-      label: 'Thông tin',
-      description: 'Tên, mô tả, nhận diện',
+      label: t('website.tabs.basic.label'),
+      description: t('website.tabs.basic.description'),
       Icon: Store
     },
     {
       key: 'contact',
-      label: 'Liên hệ',
-      description: 'Kênh hỗ trợ và mạng xã hội',
+      label: t('website.tabs.contact.label'),
+      description: t('website.tabs.contact.description'),
       Icon: Phone
     },
     {
       key: 'seo',
-      label: 'SEO',
-      description: 'Meta và analytics',
+      label: t('website.tabs.seo.label'),
+      description: t('website.tabs.seo.description'),
       Icon: Search
+    },
+    {
+      key: 'shopping-guide',
+      label: t('website.tabs.shoppingGuide.label', { defaultValue: defaultText('Hướng dẫn mua hàng', 'Shopping guide') }),
+      description: t('website.tabs.shoppingGuide.description', { defaultValue: defaultText('Nội dung trang /shopping-guide', '/shopping-guide content') }),
+      Icon: BookOpen
+    },
+    {
+      key: 'special-package',
+      label: t('website.tabs.specialPackage.label', { defaultValue: defaultText('Gói đặc biệt', 'Special package') }),
+      description: t('website.tabs.specialPackage.description', { defaultValue: defaultText('Nội dung trang /special-package', '/special-package content') }),
+      Icon: Package
     }
-  ]), [])
+  ]), [defaultText, t])
 
   const handleTabChange = key => {
     const nextParams = new URLSearchParams(searchParams)
@@ -172,22 +196,24 @@ export default function WebsiteConfigTab() {
       formData.append('description', values.description)
       formData.append('contactInfo', JSON.stringify(values.contactInfo || {}))
       formData.append('seoSettings', JSON.stringify(values.seoSettings || {}))
+      formData.append('shoppingGuide', JSON.stringify(values.shoppingGuide || getShoppingGuideInitialValues()))
+      formData.append('specialPackage', JSON.stringify(values.specialPackage || getSpecialPackageInitialValues()))
 
       await editAdminWebsiteConfig(formData)
-      message.success('Cấu hình đã được lưu thành công')
+      message.success(t('website.messages.saveSuccess'))
       dispatch(fetchWebsiteConfig())
     } catch (e) {
-      message.error('Lưu cấu hình thất bại')
+      message.error(t('website.messages.saveError'))
     } finally {
       setLoading(false)
     }
   }
 
-  const handlePreview = () => message.info('Tính năng xem trước sẽ được bổ sung')
+  const handlePreview = () => message.info(t('website.messages.previewComing'))
 
   const handleReset = () => {
     form.setFieldsValue(getInitial(websiteConfig))
-    message.info('Đã hoàn tác các thay đổi')
+    message.info(t('website.messages.resetDone'))
   }
 
   if (!websiteConfig) {
@@ -195,7 +221,7 @@ export default function WebsiteConfigTab() {
       <div className="flex min-h-[320px] items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] shadow-[var(--admin-shadow)]">
         <div className="text-center">
           <Spin />
-          <p className="mt-3 text-sm">Đang tải cấu hình...</p>
+          <p className="mt-3 text-sm">{t('website.messages.loading')}</p>
         </div>
       </div>
     )
@@ -203,7 +229,7 @@ export default function WebsiteConfigTab() {
 
   return (
     <div className="space-y-5">
-      <div className="grid gap-2 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-1.5 shadow-[var(--admin-shadow)] md:grid-cols-3">
+      <div className="grid gap-2 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-1.5 shadow-[var(--admin-shadow)] md:grid-cols-5">
         {configTabs.map(({ key, label, description, Icon }) => {
           const active = activeTab === key
 
@@ -248,30 +274,30 @@ export default function WebsiteConfigTab() {
         {activeTab === 'basic' && (
           <div className="grid gap-5 lg:grid-cols-2">
             <SettingsPanel
-              title="Thông tin website"
-              description="Các nội dung xuất hiện ở tiêu đề, footer và metadata cơ bản."
+              title={t('website.panels.websiteInfo.title')}
+              description={t('website.panels.websiteInfo.description')}
               Icon={Globe2}
             >
-              <Form.Item name="siteName" label="Tên website" rules={[{ required: true, message: 'Vui lòng nhập tên website' }]}>
-                <Input className={inputClass} placeholder="Nhập tên website" size="large" />
+              <Form.Item name="siteName" label={t('website.fields.siteName.label')} rules={[{ required: true, message: t('website.fields.siteName.required') }]}>
+                <Input className={inputClass} placeholder={t('website.fields.siteName.placeholder')} size="large" />
               </Form.Item>
 
-              <Form.Item label="Slogan / Tagline" name="tagline">
-                <Input className={inputClass} placeholder="Nhập slogan của website" size="large" />
+              <Form.Item label={t('website.fields.tagline.label')} name="tagline">
+                <Input className={inputClass} placeholder={t('website.fields.tagline.placeholder')} size="large" />
               </Form.Item>
 
-              <Form.Item label="Mô tả website" name="description">
-                <TextArea className={inputClass} rows={5} placeholder="Nhập mô tả ngắn về website" />
+              <Form.Item label={t('website.fields.description.label')} name="description">
+                <TextArea className={inputClass} rows={5} placeholder={t('website.fields.description.placeholder')} />
               </Form.Item>
             </SettingsPanel>
 
-            <SettingsPanel title="Logo & favicon" description="Tải lên file hình ảnh dùng cho nhận diện website." Icon={ImagePlus}>
+            <SettingsPanel title={t('website.panels.branding.title')} description={t('website.panels.branding.description')} Icon={ImagePlus}>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                <UploadField name="logo" label="Logo website" requiredMessage="Vui lòng upload logo" />
-                <UploadField name="favicon" label="Favicon" requiredMessage="Vui lòng upload favicon" />
+                <UploadField name="logo" label={t('website.fields.logo.label')} requiredMessage={t('website.fields.logo.required')} t={t} />
+                <UploadField name="favicon" label={t('website.fields.favicon.label')} requiredMessage={t('website.fields.favicon.required')} t={t} />
               </div>
               <p className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-3 py-2 text-xs leading-5 text-[var(--admin-text-muted)]">
-                Khuyến nghị dùng ảnh nền trong suốt cho logo và favicon vuông để hiển thị tốt trên tab trình duyệt.
+                {t('website.panels.branding.hint')}
               </p>
             </SettingsPanel>
           </div>
@@ -279,54 +305,54 @@ export default function WebsiteConfigTab() {
 
         {activeTab === 'contact' && (
           <div className="grid gap-5 lg:grid-cols-2">
-            <SettingsPanel title="Thông tin liên hệ" description="Thông tin khách hàng nhìn thấy khi cần hỗ trợ." Icon={Phone}>
-              <Form.Item label="Số điện thoại" name={['contactInfo', 'phone']}>
+            <SettingsPanel title={t('website.panels.contact.title')} description={t('website.panels.contact.description')} Icon={Phone}>
+              <Form.Item label={t('website.fields.phone.label')} name={['contactInfo', 'phone']}>
                 <Input
                   className={inputClass}
                   prefix={<Phone className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
-                  placeholder="Nhập số điện thoại"
+                  placeholder={t('website.fields.phone.placeholder')}
                   size="large"
                 />
               </Form.Item>
 
-              <Form.Item label="Email" name={['contactInfo', 'email']} rules={[{ type: 'email', message: 'Email không hợp lệ' }]}>
+              <Form.Item label={t('website.fields.email.label')} name={['contactInfo', 'email']} rules={[{ type: 'email', message: t('website.fields.email.invalid') }]}>
                 <Input
                   className={inputClass}
                   prefix={<Mail className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
-                  placeholder="support@example.com"
+                  placeholder={t('website.fields.email.placeholder')}
                   size="large"
                 />
               </Form.Item>
 
-              <Form.Item label="Địa chỉ" name={['contactInfo', 'address']}>
-                <TextArea className={inputClass} rows={4} placeholder="Nhập địa chỉ công ty / tổ chức" />
+              <Form.Item label={t('website.fields.address.label')} name={['contactInfo', 'address']}>
+                <TextArea className={inputClass} rows={4} placeholder={t('website.fields.address.placeholder')} />
               </Form.Item>
 
-              <Form.Item label="Website" name={['contactInfo', 'website']}>
+              <Form.Item label={t('website.fields.website.label')} name={['contactInfo', 'website']}>
                 <Input
                   className={inputClass}
                   prefix={<MapPin className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
-                  placeholder="https://example.com"
+                  placeholder={t('website.fields.website.placeholder')}
                   size="large"
                 />
               </Form.Item>
             </SettingsPanel>
 
-            <SettingsPanel title="Mạng xã hội" description="Liên kết tới các kênh truyền thông chính thức." Icon={Share2}>
-              <Form.Item label="Facebook" name={['contactInfo', 'socialMedia', 'facebook']}>
-                <Input className={inputClass} placeholder="https://facebook.com/yourpage" size="large" />
+            <SettingsPanel title={t('website.panels.social.title')} description={t('website.panels.social.description')} Icon={Share2}>
+              <Form.Item label={t('website.fields.facebook.label')} name={['contactInfo', 'socialMedia', 'facebook']}>
+                <Input className={inputClass} placeholder={t('website.fields.facebook.placeholder')} size="large" />
               </Form.Item>
 
-              <Form.Item label="Twitter / X" name={['contactInfo', 'socialMedia', 'twitter']}>
-                <Input className={inputClass} placeholder="https://x.com/youraccount" size="large" />
+              <Form.Item label={t('website.fields.twitter.label')} name={['contactInfo', 'socialMedia', 'twitter']}>
+                <Input className={inputClass} placeholder={t('website.fields.twitter.placeholder')} size="large" />
               </Form.Item>
 
-              <Form.Item label="Instagram" name={['contactInfo', 'socialMedia', 'instagram']}>
-                <Input className={inputClass} placeholder="https://instagram.com/youraccount" size="large" />
+              <Form.Item label={t('website.fields.instagram.label')} name={['contactInfo', 'socialMedia', 'instagram']}>
+                <Input className={inputClass} placeholder={t('website.fields.instagram.placeholder')} size="large" />
               </Form.Item>
 
-              <Form.Item label="LinkedIn" name={['contactInfo', 'socialMedia', 'linkedin']}>
-                <Input className={inputClass} placeholder="https://linkedin.com/company/yourcompany" size="large" />
+              <Form.Item label={t('website.fields.linkedin.label')} name={['contactInfo', 'socialMedia', 'linkedin']}>
+                <Input className={inputClass} placeholder={t('website.fields.linkedin.placeholder')} size="large" />
               </Form.Item>
             </SettingsPanel>
           </div>
@@ -334,27 +360,31 @@ export default function WebsiteConfigTab() {
 
         {activeTab === 'seo' && (
           <div className="grid gap-5 lg:grid-cols-2">
-            <SettingsPanel title="Cài đặt SEO" description="Tối ưu nội dung hiển thị trên công cụ tìm kiếm." Icon={Search}>
-              <Form.Item label="Meta title" name={['seoSettings', 'metaTitle']}>
-                <Input className={inputClass} placeholder="Tiêu đề hiển thị trên Google" size="large" showCount maxLength={60} />
+            <SettingsPanel title={t('website.panels.seo.title')} description={t('website.panels.seo.description')} Icon={Search}>
+              <Form.Item label={t('website.fields.metaTitle.label')} name={['seoSettings', 'metaTitle']}>
+                <Input className={inputClass} placeholder={t('website.fields.metaTitle.placeholder')} size="large" showCount maxLength={60} />
               </Form.Item>
 
-              <Form.Item label="Meta description" name={['seoSettings', 'metaDescription']}>
-                <TextArea className={inputClass} rows={4} placeholder="Mô tả hiển thị trên kết quả tìm kiếm" showCount maxLength={160} />
+              <Form.Item label={t('website.fields.metaDescription.label')} name={['seoSettings', 'metaDescription']}>
+                <TextArea className={inputClass} rows={4} placeholder={t('website.fields.metaDescription.placeholder')} showCount maxLength={160} />
               </Form.Item>
 
-              <Form.Item label="Keywords" name={['seoSettings', 'keywords']}>
-                <Input className={inputClass} placeholder="từ khóa 1, từ khóa 2, từ khóa 3" size="large" />
+              <Form.Item label={t('website.fields.keywords.label')} name={['seoSettings', 'keywords']}>
+                <Input className={inputClass} placeholder={t('website.fields.keywords.placeholder')} size="large" />
               </Form.Item>
             </SettingsPanel>
 
-            <SettingsPanel title="Analytics & tracking" description="Thông tin dùng cho theo dõi hiệu quả website." Icon={BarChart3}>
-              <Form.Item label="Google Analytics ID" name={['seoSettings', 'googleAnalytics']}>
-                <Input className={inputClass} placeholder="G-XXXXXXXXXX" size="large" />
+            <SettingsPanel title={t('website.panels.analytics.title')} description={t('website.panels.analytics.description')} Icon={BarChart3}>
+              <Form.Item label={t('website.fields.googleAnalytics.label')} name={['seoSettings', 'googleAnalytics']}>
+                <Input className={inputClass} placeholder={t('website.fields.googleAnalytics.placeholder')} size="large" />
               </Form.Item>
             </SettingsPanel>
           </div>
         )}
+
+        {activeTab === 'shopping-guide' && <ShoppingGuideConfigFields />}
+
+        {activeTab === 'special-package' && <SpecialPackageConfigFields />}
 
         <div className="mt-5 flex flex-col gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3 shadow-[var(--admin-shadow)] sm:flex-row sm:items-center sm:justify-between">
           <Button
@@ -364,7 +394,7 @@ export default function WebsiteConfigTab() {
             disabled={loading}
             className={secondaryButtonClass}
           >
-            Xem trước
+            {t('website.actions.preview')}
           </Button>
 
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -375,7 +405,7 @@ export default function WebsiteConfigTab() {
               onClick={handleReset}
               className={secondaryButtonClass}
             >
-              Hoàn tác
+              {t('website.actions.reset')}
             </Button>
 
             <Button
@@ -386,7 +416,7 @@ export default function WebsiteConfigTab() {
               loading={loading}
               className={primaryButtonClass}
             >
-              Lưu cấu hình
+              {t('website.actions.save')}
             </Button>
           </div>
         </div>

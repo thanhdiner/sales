@@ -1,0 +1,204 @@
+{
+  "seo": {
+    "title": "Admin - Product categories",
+    "detailsTitle": "Admin - Category details"
+  },
+  "page": {
+    "title": "Product Categories Manager"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back"
+  },
+  "filters": {
+    "categoryName": "Category name",
+    "categoryNamePlaceholder": "Category name",
+    "status": "Status",
+    "all": "All",
+    "show": "Show",
+    "perPage": "{{count}} per page",
+    "position": "Position",
+    "positionPlaceholder": "Position",
+    "filter": "Filter",
+    "clear": "Clear"
+  },
+  "bulk": {
+    "selected": "Selected {{count}} items",
+    "choiceAction": "Choose action",
+    "add": "Add",
+    "actions": {
+      "delete": "Delete",
+      "changePosition": "Change position",
+      "changeStatus": "Change status"
+    },
+    "messages": {
+      "selectFirst": "Please select product categories first.",
+      "chooseAction": "Please choose an action.",
+      "deleteSuccess": "Deleted {{count}} product categories successfully!",
+      "deleteError": "Failed to delete selected product categories.",
+      "statusSuccess": "Status updated to {{status}} for {{count}} product categories",
+      "statusError": "Failed to change status.",
+      "positionSuccess": "Changed position for {{count}} product categories",
+      "positionError": "Failed to change positions.",
+      "unsupported": "This action is not supported yet."
+    },
+    "modals": {
+      "deleteTitle": "Confirm deletion",
+      "deleteContent": "Are you sure you want to delete {{count}} selected product categories?",
+      "statusTitle": "Confirm status change",
+      "statusContent": "Change status of {{count}} product categories to \"{{status}}\"?",
+      "positionTitle": "Confirm position change",
+      "positionContent": "Change position of {{count}} product categories?"
+    }
+  },
+  "utility": {
+    "exportProductCategories": "Export product categories",
+    "exportMobile": "Export",
+    "toggleColumns": "Toggle columns",
+    "filter": "Filter",
+    "sheetName": "Product Categories",
+    "fileName": "product_categories_export.xlsx"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Category name",
+    "position": "Position",
+    "status": "Status",
+    "thumbnail": "Thumbnail",
+    "thumbnailRequired": "Thumbnail *",
+    "actions": "Actions",
+    "actionsRequired": "Actions *",
+    "createdBy": "Created by",
+    "createdAt": "Created at",
+    "updatedBy": "Updated by",
+    "updatedAt": "Updated at",
+    "parent": "Parent category",
+    "slug": "Slug"
+  },
+  "columnMenu": {
+    "title": "Toggle columns",
+    "requiredNote": "* These columns are required and cannot be hidden."
+  },
+  "table": {
+    "rootCategory": "Root category",
+    "loading": "Loading product categories...",
+    "empty": "No product categories found",
+    "deleteTitle": "Confirm delete",
+    "deleteContent": "Are you sure you want to delete product category \"{{title}}\"?",
+    "deleteSuccess": "Product category deleted successfully!",
+    "deleteError": "Failed to delete product category.",
+    "changeStatusTitle": "Change product category status",
+    "changeStatusContent": "Are you sure you want to change status of \"{{title}}\" from \"{{from}}\" to \"{{to}}\"?",
+    "statusUpdated": "Status updated to {{status}}",
+    "statusUpdateError": "Failed to update status",
+    "parent": "Parent",
+    "position": "Position",
+    "updated": "Updated"
+  },
+  "pagination": {
+    "summary": "Total {{total}} categories, Page {{current}} of {{pages}}"
+  },
+  "form": {
+    "categoryName": "Category name",
+    "categoryNamePlaceholder": "Category name",
+    "parentCategory": "Parent category",
+    "parentCategoryPlaceholder": "Select parent category (optional)",
+    "slug": "Slug URL",
+    "slugPlaceholder": "Auto-generated from category name, or edit manually",
+    "status": "Status",
+    "position": "Position",
+    "positionPlaceholder": "Position",
+    "shortDescription": "Short description",
+    "content": "Detailed content",
+    "thumbnail": "Thumbnail",
+    "thumbnailRequired": "Please upload an image!",
+    "addImage": "Add image",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English category name",
+      "titlePlaceholder": "Enter English category name",
+      "description": "English short description",
+      "content": "English detailed content"
+    },
+    "cancel": "Cancel",
+    "create": "Create category",
+    "creating": "Creating...",
+    "save": "Save changes",
+    "saving": "Saving..."
+  },
+  "formMessages": {
+    "loadTreeError": "Failed to load category tree data",
+    "createSuccess": "Product category created successfully!",
+    "createError": "Failed to create product category!",
+    "slugExists": "Slug already exists, please choose another slug. Suggestion: {{suggestedSlug}}",
+    "imageOnly": "You can only upload image files!",
+    "loadError": "Failed to load product category",
+    "updateSuccess": "Product category updated successfully!",
+    "updateError": "Failed to update product category!"
+  },
+  "details": {
+    "emptyLabel": "Product category",
+    "notFound": "Category not found",
+    "loadError": "Failed to load category data",
+    "emptyDescription": "Check the URL or return to the category manager to choose another record.",
+    "backToList": "Back to list",
+    "backToCategoryList": "Back to category list",
+    "overviewEyebrow": "Product category overview",
+    "parentLabel": "Parent category",
+    "noneParent": "None",
+    "categoryList": "Category list",
+    "editCategory": "Edit category",
+    "editNow": "Edit now",
+    "overview": {
+      "status": "Status",
+      "position": "Display position",
+      "createdAt": "Created at",
+      "updatedAt": "Latest update"
+    },
+    "blocks": {
+      "overviewTitle": "Overview",
+      "overviewSubtitle": "Identity and display status information for this category.",
+      "descriptionTitle": "Description",
+      "descriptionSubtitle": "Introductory content shown for this product category.",
+      "contentTitle": "Detailed content",
+      "contentSubtitle": "Extended content when this category has extra configuration.",
+      "historyTitle": "Update history",
+      "historySubtitle": "Track recent edits made to this category.",
+      "adminTitle": "Admin information",
+      "adminSubtitle": "Internal metadata for tracking this record.",
+      "quickTitle": "Quick actions",
+      "quickSubtitle": "Fast links to related admin pages."
+    },
+    "meta": {
+      "categoryName": "Category name",
+      "slug": "Slug",
+      "parent": "Parent category",
+      "position": "Position",
+      "createdBy": "Created by",
+      "createdAt": "Created at",
+      "updatedAt": "Latest update"
+    },
+    "emptyDescriptionText": "This category does not have a short description yet.",
+    "emptyContentText": "This category does not have detailed content yet.",
+    "historyUserNote": "Account that performed the update",
+    "emptyHistoryText": "No update history has been recorded yet.",
+    "thumbnail": {
+      "title": "Category thumbnail",
+      "description": "Preview the image currently used for this category.",
+      "fileName": "File name",
+      "empty": "This category does not have a thumbnail yet.",
+      "alt": "Product category thumbnail"
+    }
+  }
+}

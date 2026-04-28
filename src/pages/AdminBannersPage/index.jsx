@@ -1,4 +1,5 @@
 import { Card } from 'antd'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import { useAdminBannerForm } from './hooks/useAdminBannerForm'
 import { useAdminBannersData } from './hooks/useAdminBannersData'
@@ -8,12 +9,13 @@ import AdminBannersTableSection from './sections/AdminBannersTableSection'
 import './AdminBannersPage.scss'
 
 export default function AdminBannersPage() {
+  const { t } = useTranslation('adminBanners')
   const { banners, loading, fetchBanners, handleDeleteBanner } = useAdminBannersData()
   const bannerForm = useAdminBannerForm({ onSaved: fetchBanners })
 
   return (
     <div className="admin-banners-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
-      <SEO title="Admin - Banners" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <Card className="admin-banners-card rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]">
         <AdminBannersHeaderSection onCreateBanner={() => bannerForm.openModal()} />

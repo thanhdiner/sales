@@ -1,0 +1,65 @@
+{
+  "page": {
+    "seo": {
+      "title": "Mã giảm giá",
+      "description": "Khám phá các mã giảm giá và ưu đãi độc quyền tại SmartMall."
+    }
+  },
+  "message": {
+    "loadFailed": "Lỗi khi lấy danh sách mã giảm giá",
+    "copySuccess": "Đã copy mã: {{code}}"
+  },
+  "tabs": {
+    "all": "Tất cả",
+    "new": "Khách mới",
+    "flash": "Flash Sale",
+    "shipping": "Free Ship",
+    "vip": "VIP",
+    "weekend": "Cuối tuần",
+    "student": "Sinh viên"
+  },
+  "tips": {
+    "checkCondition": {
+      "title": "Kiểm tra điều kiện",
+      "description": "Đọc kỹ điều kiện áp dụng và giá trị đơn hàng tối thiểu"
+    },
+    "deadline": {
+      "title": "Chú ý thời hạn",
+      "description": "Sử dụng mã trước khi hết hạn để không bỏ lỡ ưu đãi"
+    },
+    "combine": {
+      "title": "Kết hợp thông minh",
+      "description": "Một số mã có thể kết hợp với khuyến mãi khác để tiết kiệm tối đa"
+    }
+  },
+  "tipsSection": {
+    "title": "Mẹo sử dụng mã giảm giá",
+    "description": "Một vài lưu ý nhỏ giúp bạn chọn và sử dụng mã giảm giá hiệu quả hơn."
+  },
+  "search": {
+    "placeholder": "Tìm mã giảm giá...",
+    "foundPrefix": "Tìm thấy",
+    "foundSuffix": "mã giảm giá"
+  },
+  "hero": {
+    "eyebrow": "Ưu đãi",
+    "title": "Kho mã giảm giá",
+    "description": "Khám phá các mã giảm giá hiện có và chọn ưu đãi phù hợp để tiết kiệm hơn khi mua sắm."
+  },
+  "empty": {
+    "noCoupons": "Không tìm thấy mã giảm giá nào"
+  },
+  "card": {
+    "maxDiscount": "Giảm tối đa {{amount}}",
+    "fallbackTitle": "Mã: {{code}}",
+    "fallbackDescription": "Áp dụng theo điều kiện hệ thống",
+    "codeLabel": "Mã giảm giá:",
+    "copied": "Đã copy",
+    "copy": "Copy",
+    "minOrder": "Đơn tối thiểu: {{amount}}",
+    "usage": "Đã dùng: {{used}} / {{limit}}",
+    "usageUnlimited": "∞",
+    "remainingTime": "Còn {{days}}d {{hours}}h {{minutes}}m",
+    "useNow": "Dùng ngay"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "theme": {
+    "darkMode": "Dark mode"
+  },
+  "language": {
+    "label": "Language",
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "account": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "profile": "Profile",
+    "orders": "My orders",
+    "wishlist": "Wishlist",
+    "settings": "Settings",
+    "logout": "Logout",
+    "logoutSuccess": "Logged out successfully!",
+    "logoutWarning": "Something went wrong while logging out. You will still be logged out."
+  }
+}

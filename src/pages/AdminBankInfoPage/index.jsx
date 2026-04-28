@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import useAdminBankInfoPage from './hooks/useAdminBankInfoPage'
 import AdminBankInfoFormModalSection from './sections/AdminBankInfoFormModalSection'
@@ -7,6 +8,7 @@ import AdminBankInfoTableSection from './sections/AdminBankInfoTableSection'
 import './AdminBankInfoPage.scss'
 
 export default function AdminBankInfoPage() {
+  const { t } = useTranslation('adminBankInfo')
   const {
     data,
     loading,
@@ -16,37 +18,35 @@ export default function AdminBankInfoPage() {
     bodyStyle,
     contentRef,
     submitLoading,
-    activateLoadingId,
     handleCreate,
     handleEdit,
     handleClose,
     handleSubmit,
     handleDelete,
-    handleActivate,
     handleQrBeforeUpload,
     handleQrRemove
-  } = useAdminBankInfoPage()
+  } = useAdminBankInfoPage({ t })
 
   return (
     <div className="admin-bank-info-page min-h-screen rounded-xl p-6">
-      <SEO title="Admin - Ngân hàng" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="admin-bank-info-page__inner mx-auto max-w-7xl space-y-5">
-        <AdminBankInfoHeaderSection onCreate={handleCreate} />
+        <AdminBankInfoHeaderSection t={t} onCreate={handleCreate} />
 
-        <AdminBankInfoStatsSection bankInfos={data} />
+        <AdminBankInfoStatsSection t={t} bankInfos={data} />
 
         <AdminBankInfoTableSection
+          t={t}
           data={data}
           loading={loading}
-          activateLoadingId={activateLoadingId}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onActivate={handleActivate}
         />
       </div>
 
       <AdminBankInfoFormModalSection
+        t={t}
         open={open}
         editing={editing}
         form={form}
@@ -61,4 +61,3 @@ export default function AdminBankInfoPage() {
     </div>
   )
 }
-

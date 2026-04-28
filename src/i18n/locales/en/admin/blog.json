@@ -1,0 +1,106 @@
+{
+  "seo": {
+    "title": "Admin - Blog / News"
+  },
+  "page": {
+    "eyebrow": "Content",
+    "title": "Blog / news manager",
+    "description": "Create and update posts shown on /blog. Each post supports Vietnamese content and an optional English translation.",
+    "createButton": "Add post",
+    "previewButton": "View blog page"
+  },
+  "stats": {
+    "total": "Total posts",
+    "published": "Published",
+    "draft": "Drafts",
+    "featured": "Featured"
+  },
+  "filters": {
+    "keyword": "Search title, slug, content",
+    "status": "Status",
+    "category": "Category",
+    "reset": "Reset"
+  },
+  "status": {
+    "draft": "Draft",
+    "published": "Published"
+  },
+  "table": {
+    "columns": {
+      "post": "Post",
+      "category": "Category",
+      "status": "Status",
+      "featured": "Featured",
+      "publishedAt": "Published at",
+      "actions": "Actions"
+    },
+    "featured": "Featured",
+    "normal": "Normal",
+    "emptyValue": "None",
+    "notPublished": "Not published",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} posts",
+    "actions": {
+      "edit": "Edit post",
+      "delete": "Delete post"
+    }
+  },
+  "form": {
+    "createTitle": "Add post",
+    "editTitle": "Edit post",
+    "createSubmit": "Create post",
+    "saveSubmit": "Save changes",
+    "cancel": "Cancel",
+    "tabs": {
+      "vi": "Vietnamese",
+      "en": "English"
+    },
+    "title": "Title",
+    "titleRequired": "Enter a post title",
+    "titlePlaceholder": "Example: How to choose the right game account",
+    "slug": "Slug",
+    "slugHint": "Leave empty when creating a new post to auto-generate it from the title.",
+    "slugPlaceholder": "how-to-choose-a-game-account",
+    "excerpt": "Excerpt",
+    "excerptPlaceholder": "Short description shown in the blog list",
+    "content": "Content",
+    "contentPlaceholder": "Enter post content",
+    "category": "Category",
+    "categoryPlaceholder": "News, guides, updates...",
+    "tags": "Tags",
+    "tagsPlaceholder": "Enter tags",
+    "status": "Status",
+    "publishedAt": "Published at",
+    "featured": "Mark as featured",
+    "thumbnail": "Thumbnail",
+    "uploadThumbnail": "Upload",
+    "translations": {
+      "title": "Title (EN)",
+      "titlePlaceholder": "English title",
+      "excerpt": "Excerpt (EN)",
+      "excerptPlaceholder": "English excerpt",
+      "content": "Content (EN)",
+      "contentPlaceholder": "English content",
+      "category": "Category (EN)",
+      "categoryPlaceholder": "English category",
+      "tags": "Tags (EN)",
+      "tagsPlaceholder": "Enter tags"
+    }
+  },
+  "confirm": {
+    "deleteTitle": "Delete this post?",
+    "deleteContent": "Post \"{{title}}\" will no longer appear on the blog page.",
+    "deleteOk": "Delete",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "fetchError": "Failed to load blog posts",
+    "createSuccess": "Post created",
+    "updateSuccess": "Post updated",
+    "deleteSuccess": "Post deleted",
+    "deleteError": "Failed to delete post",
+    "saveError": "Failed to save post",
+    "slugExists": "Slug already exists. You can use: {{slug}}",
+    "imageOnly": "Only image files can be uploaded",
+    "imageTooLarge": "Image must be smaller than {{size}}MB"
+  }
+}

@@ -1,9 +1,18 @@
 import { useState } from 'react'
 import { Form, Upload, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { createBanner, updateBannerById } from '@/services/adminBannersService'
 import { getBannerFileList, normalizeBannerActiveValue } from '../utils'
 
+const getBannerTranslations = banner => ({
+  en: {
+    title: banner?.translations?.en?.title || '',
+    link: banner?.translations?.en?.link || ''
+  }
+})
+
 export function useAdminBannerForm({ onSaved }) {
+  const { t } = useTranslation('adminBanners')
   const [form] = Form.useForm()
   const [modalVisible, setModalVisible] = useState(false)
   const [editingBanner, setEditingBanner] = useState(null)
@@ -26,13 +35,14 @@ export function useAdminBannerForm({ onSaved }) {
       form.setFieldsValue({
         ...banner,
         isActive: normalizeBannerActiveValue(banner.isActive),
+        translations: getBannerTranslations(banner),
         img: bannerFileList
       })
     } else {
       setOldImg('')
       setFileList([])
       form.resetFields()
-      form.setFieldsValue({ isActive: true })
+      form.setFieldsValue({ isActive: true, translations: getBannerTranslations() })
     }
 
     setModalVisible(true)
@@ -49,15 +59,24 @@ export function useAdminBannerForm({ onSaved }) {
   }
 
   const handleSubmit = async values => {
+    const submitValues = {
+      ...values,
+      ...form.getFieldsValue(true)
+    }
+
     setSubmitLoading(true)
 
     try {
       const formData = new FormData()
-      formData.append('title', values.title)
-      formData.append('link', values.link || '')
-      formData.append('isActive', values.isActive ? 'true' : 'false')
+      formData.append('title', submitValues.title)
+      formData.append('link', submitValues.link || '')
+      formData.append('isActive', submitValues.isActive ? 'true' : 'false')
 
-      const file = values.img?.[0]?.originFileObj
+      if (submitValues.translations != null) {
+        formData.append('translations', JSON.stringify(submitValues.translations))
+      }
+
+      const file = submitValues.img?.[0]?.originFileObj
 
       if (file) {
         formData.append('img', file)
@@ -72,16 +91,16 @@ export function useAdminBannerForm({ onSaved }) {
 
       if (editingBanner) {
         await updateBannerById(editingBanner._id, formData)
-        message.success('Đã cập nhật banner')
+        message.success(t('messages.updateSuccess'))
       } else {
         await createBanner(formData)
-        message.success('Đã thêm banner')
+        message.success(t('messages.createSuccess'))
       }
 
       closeModal()
       onSaved?.()
     } catch (err) {
-      message.error(err.message || 'Không thể lưu banner')
+      message.error(err.message || t('messages.saveError'))
     } finally {
       setSubmitLoading(false)
     }
@@ -96,7 +115,7 @@ export function useAdminBannerForm({ onSaved }) {
 
     const isImage = file.type.startsWith('image/')
     if (!isImage) {
-      message.error('Chỉ được upload file ảnh')
+      message.error(t('messages.invalidImage'))
     }
 
     return isImage ? false : Upload.LIST_IGNORE
@@ -104,7 +123,6 @@ export function useAdminBannerForm({ onSaved }) {
 
   const handleRemoveUpload = () => {
     setImgToDelete(oldImg)
-    setOldImg('')
     setIsRemoveImg(true)
     return true
   }

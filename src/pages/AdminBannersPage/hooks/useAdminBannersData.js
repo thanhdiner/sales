@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Modal, message } from 'antd'
+import { useTranslation } from 'react-i18next'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { deleteBannerById, getBanners } from '@/services/adminBannersService'
 import { normalizeBannerActiveValue } from '../utils'
 
 export function useAdminBannersData() {
+  const { t } = useTranslation('adminBanners')
+  const language = useCurrentLanguage()
   const [banners, setBanners] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -19,11 +23,11 @@ export function useAdminBannersData() {
         }))
       )
     } catch {
-      message.error('Không thể tải danh sách banner')
+      message.error(t('messages.fetchError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [language, t])
 
   useEffect(() => {
     fetchBanners()
@@ -33,18 +37,18 @@ export function useAdminBannersData() {
     Modal.confirm({
       className: 'admin-banners-confirm-modal',
       rootClassName: 'admin-banners-confirm-modal',
-      title: 'Xác nhận xóa banner',
-      content: 'Bạn có chắc chắn muốn xóa banner này không?',
-      okText: 'Xóa',
-      cancelText: 'Hủy',
+      title: t('messages.deleteConfirmTitle'),
+      content: t('messages.deleteConfirmContent'),
+      okText: t('common.delete'),
+      cancelText: t('common.cancel'),
       okType: 'danger',
       onOk: async () => {
         try {
           await deleteBannerById(bannerId)
-          message.success('Đã xóa banner')
+          message.success(t('messages.deleteSuccess'))
           fetchBanners()
         } catch {
-          message.error('Không thể xóa banner')
+          message.error(t('messages.deleteError'))
         }
       }
     })

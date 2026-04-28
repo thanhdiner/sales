@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { ContactForm } from './ContactForm'
 import { StepIndicator } from './StepIndicator'
 import { PaymentForm } from './PaymentForm'
@@ -10,12 +11,7 @@ import { OrderSummary } from './OrderSummary'
 import SEO from '@/components/SEO'
 import { syncCartFromServer } from '@/lib/clientCache'
 import { buildCheckoutFormDefaults } from '@/lib/checkoutProfile'
-import {
-  clearCheckoutDraft,
-  normalizeCheckoutStep,
-  readCheckoutDraft,
-  writeCheckoutDraft
-} from '@/lib/checkoutDraft'
+import { clearCheckoutDraft, normalizeCheckoutStep, readCheckoutDraft, writeCheckoutDraft } from '@/lib/checkoutDraft'
 import {
   hasAnyStructuredVietnamAddressInput,
   hasCompleteStructuredVietnamAddress,
@@ -24,51 +20,6 @@ import {
 } from '@/lib/vietnamAddress'
 import useVietnamAddress from '@/hooks/useVietnamAddress'
 import { removeManyCartItems } from '@/services/cartsService'
-
-const deliveryOptions = [
-  {
-    id: 'pickup',
-    name: 'Nhận hàng tại Website',
-    time: 'Trong ngày',
-    price: 0,
-    description: 'Đến cửa hàng để nhận hàng và thanh toán trực tiếp'
-  },
-  {
-    id: 'contact',
-    name: 'Liên hệ riêng',
-    time: 'Tùy thỏa thuận',
-    price: 0,
-    description: 'Chúng tôi sẽ liên hệ để thỏa thuận cách thức giao nhận'
-  }
-]
-
-const paymentMethods = [
-  {
-    id: 'transfer',
-    name: 'Chuyển khoản ngân hàng',
-    description: 'Chuyển khoản trước, nhận hàng sau'
-  },
-  {
-    id: 'vnpay',
-    name: 'VNPay',
-    description: 'Thanh toán qua cổng VNPay (ATM, Visa, QR)'
-  },
-  {
-    id: 'momo',
-    name: 'Ví MoMo',
-    description: 'Thanh toán qua Ví điện tử MoMo'
-  },
-  {
-    id: 'zalopay',
-    name: 'ZaloPay',
-    description: 'Thanh toán qua ứng dụng ZaloPay'
-  },
-  {
-    id: 'contact',
-    name: 'Thỏa thuận khi liên hệ',
-    description: 'Sẽ thống nhất phương thức thanh toán khi liên hệ'
-  }
-]
 
 const EMPTY_FORM_DATA = {
   email: '',
@@ -87,27 +38,27 @@ const EMPTY_FORM_DATA = {
 }
 
 const PHONE_REGEX = /^(0|\+?84)(\d{9})$/
+const ONLINE_PAYMENT_METHODS = ['vnpay', 'momo', 'zalopay', 'sepay']
+const normalizeCheckoutPaymentMethod = value =>
+  ONLINE_PAYMENT_METHODS.includes(value) ? value : 'vnpay'
 
-const getStepOneError = formData => {
+const getStepOneErrorKey = formData => {
   if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.phone.trim()) {
-    return 'Vui lòng nhập đầy đủ Họ, Tên và Số điện thoại!'
+    return 'validation.requiredContact'
   }
 
   if (!PHONE_REGEX.test(formData.phone.trim())) {
-    return 'Số điện thoại không hợp lệ!'
+    return 'validation.invalidPhone'
   }
 
-  if (
-    hasAnyStructuredVietnamAddressInput(formData) &&
-    !hasCompleteStructuredVietnamAddress(formData)
-  ) {
-    return 'Vui lòng chọn đầy đủ Tỉnh/Thành, Quận/Huyện, Phường/Xã và nhập địa chỉ chi tiết!'
+  if (hasAnyStructuredVietnamAddressInput(formData) && !hasCompleteStructuredVietnamAddress(formData)) {
+    return 'validation.requiredAddress'
   }
 
   return ''
 }
 
-const getHighestAllowedStep = formData => (getStepOneError(formData) ? 1 : 3)
+const getHighestAllowedStep = formData => (getStepOneErrorKey(formData) ? 1 : 3)
 
 const getIncomingPromo = (locationState, draft) => {
   if (locationState?.__fromCart) return locationState.promo || null
@@ -119,6 +70,7 @@ const getIncomingPromo = (locationState, draft) => {
 }
 
 export default function CheckoutPage() {
+  const { t, i18n } = useTranslation('clientCheckout')
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -131,13 +83,60 @@ export default function CheckoutPage() {
   const { tree: addressTree } = useVietnamAddress()
   const queryStep = searchParams.get('step')
 
+  const deliveryOptions = useMemo(
+    () => [
+      {
+        id: 'pickup',
+        name: t('deliveryOptions.pickup.name'),
+        time: t('deliveryOptions.pickup.time'),
+        price: 0,
+        description: t('deliveryOptions.pickup.description')
+      },
+      {
+        id: 'contact',
+        name: t('deliveryOptions.contact.name'),
+        time: t('deliveryOptions.contact.time'),
+        price: 0,
+        description: t('deliveryOptions.contact.description')
+      }
+    ],
+    [t]
+  )
+
+  const paymentMethods = useMemo(
+    () => [
+      {
+        id: 'vnpay',
+        name: t('paymentMethods.vnpay.name'),
+        description: t('paymentMethods.vnpay.description')
+      },
+      {
+        id: 'momo',
+        name: t('paymentMethods.momo.name'),
+        description: t('paymentMethods.momo.description')
+      },
+      {
+        id: 'zalopay',
+        name: t('paymentMethods.zalopay.name'),
+        description: t('paymentMethods.zalopay.description')
+      },
+      {
+        id: 'sepay',
+        name: t('paymentMethods.sepay.name'),
+        description: t('paymentMethods.sepay.description')
+      }
+    ],
+    [t]
+  )
+
   const initialDraft = initialDraftRef.current
   const initialLocationState = location.state || {}
-  const initialOrderItems = Array.isArray(initialLocationState.orderItems) && initialLocationState.orderItems.length > 0
-    ? initialLocationState.orderItems
-    : Array.isArray(initialDraft?.orderItems)
-      ? initialDraft.orderItems
-      : []
+  const initialOrderItems =
+    Array.isArray(initialLocationState.orderItems) && initialLocationState.orderItems.length > 0
+      ? initialLocationState.orderItems
+      : Array.isArray(initialDraft?.orderItems)
+        ? initialDraft.orderItems
+        : []
 
   const [orderItems, setOrderItems] = useState(initialOrderItems)
   const [promo, setPromo] = useState(getIncomingPromo(initialLocationState, initialDraft))
@@ -145,7 +144,7 @@ export default function CheckoutPage() {
     if (searchParams.has('step')) return normalizeCheckoutStep(searchParams.get('step'))
     return normalizeCheckoutStep(initialDraft?.step || 1)
   })
-  const [paymentMethod, setPaymentMethod] = useState(initialDraft?.paymentMethod || 'transfer')
+  const [paymentMethod, setPaymentMethod] = useState(() => normalizeCheckoutPaymentMethod(initialDraft?.paymentMethod))
   const [deliveryMethod, setDeliveryMethod] = useState(initialDraft?.deliveryMethod || 'pickup')
   const [formData, setFormData] = useState({
     ...EMPTY_FORM_DATA,
@@ -167,7 +166,7 @@ export default function CheckoutPage() {
     const defaults = buildCheckoutFormDefaults(clientUser)
     const hasProfileDefaults = Object.entries(defaults).some(([key, value]) => {
       if (key === 'deliveryMethod') return value === 'contact'
-      if (key === 'paymentMethod') return value !== 'transfer'
+      if (key === 'paymentMethod') return value !== 'vnpay'
       return typeof value === 'string' && value.length > 0
     })
 
@@ -193,7 +192,7 @@ export default function CheckoutPage() {
       notes: prev.notes || defaults.notes
     }))
     setDeliveryMethod(prev => (prev === 'pickup' ? defaults.deliveryMethod : prev))
-    setPaymentMethod(prev => (prev === 'transfer' ? defaults.paymentMethod : prev))
+    setPaymentMethod(prev => (prev === 'vnpay' ? normalizeCheckoutPaymentMethod(defaults.paymentMethod) : normalizeCheckoutPaymentMethod(prev)))
     checkoutAddressAutofillAttemptedRef.current = false
     checkoutDefaultsHydratedRef.current = true
   }, [clientUser])
@@ -289,7 +288,7 @@ export default function CheckoutPage() {
   const total = subtotal - discount + shipping
 
   const formatPrice = price =>
-    new Intl.NumberFormat('vi-VN', {
+    new Intl.NumberFormat(i18n.language === 'en' ? 'en-US' : 'vi-VN', {
       style: 'currency',
       currency: 'VND'
     }).format(price)
@@ -324,9 +323,9 @@ export default function CheckoutPage() {
 
   const handleNextStep = () => {
     if (step === 1) {
-      const errorMessage = getStepOneError(formData)
-      if (errorMessage) {
-        message.error(errorMessage)
+      const errorKey = getStepOneErrorKey(formData)
+      if (errorKey) {
+        message.error(t(errorKey))
         return
       }
     }
@@ -340,7 +339,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-white px-4 py-10 dark:bg-gray-900">
-      <SEO title="Thanh toán đơn hàng" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-7xl">
         <header className="mb-8">
@@ -349,20 +348,14 @@ export default function CheckoutPage() {
             className="mb-5 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             onClick={() => navigate('/cart')}
           >
-            Quay lại giỏ hàng
+            {t('header.backToCart')}
           </button>
 
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
-            Thanh toán
-          </p>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">{t('header.eyebrow')}</p>
 
-          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white md:text-4xl">
-            Hoàn tất đơn hàng
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white md:text-4xl">{t('header.title')}</h1>
 
-          <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300">
-            Kiểm tra thông tin nhận hàng, phương thức thanh toán và xác nhận đơn hàng của bạn.
-          </p>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300">{t('header.description')}</p>
         </header>
 
         <StepIndicator step={step} />
@@ -415,7 +408,7 @@ export default function CheckoutPage() {
                   onClick={handlePreviousStep}
                   className="rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
                 >
-                  Quay lại
+                  {t('button.back')}
                 </button>
               ) : (
                 <span />
@@ -427,7 +420,7 @@ export default function CheckoutPage() {
                   onClick={handleNextStep}
                   className="rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
                 >
-                  Tiếp tục
+                  {t('button.continue')}
                 </button>
               )}
             </div>

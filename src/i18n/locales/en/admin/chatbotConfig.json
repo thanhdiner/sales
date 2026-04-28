@@ -1,0 +1,49 @@
+{
+  "seo": {
+    "title": "Admin - Agent Settings"
+  },
+  "page": {
+    "title": "Agent Settings",
+    "description": "Manage the main agent profile and active status.",
+    "reload": "Reload",
+    "save": "Save configuration"
+  },
+  "stats": {
+    "agentStatus": "Agent status",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "runtimeProvider": "Runtime provider",
+    "enabledTools": "Enabled tools"
+  },
+  "overview": {
+    "message": "Specialized configuration sections have been separated",
+    "runtime": "Runtime & Provider",
+    "rules": "Agent Rules",
+    "tools": "Agent Tools",
+    "toolLogs": "Tool Call Logs"
+  },
+  "form": {
+    "profileTitle": "Agent profile",
+    "agentName": "Agent name",
+    "agentNamePlaceholder": "Example: Shopping assistant",
+    "agentTone": "Tone",
+    "agentTonePlaceholder": "Example: friendly, concise",
+    "isEnabled": "Enable agent",
+    "enabled": "On",
+    "disabled": "Off",
+    "agentRole": "Role",
+    "agentRoleExtra": "Briefly describe what this agent is allowed to help with.",
+    "agentRolePlaceholder": "Help find products, advise customers, look up promotions..."
+  },
+  "defaults": {
+    "agentName": "Shopping assistant"
+  },
+  "messages": {
+    "updateProfileSuccess": "Agent profile updated successfully",
+    "loadToolLogsFailed": "Unable to load tool call history",
+    "loadConfigFailed": "Unable to load AI configuration",
+    "updateSuccess": "Updated successfully",
+    "updateFailed": "Update failed",
+    "updateError": "An error occurred while updating"
+  }
+}

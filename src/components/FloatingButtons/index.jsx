@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { FaFacebookMessenger, FaPhoneAlt, FaComments, FaTimes, FaArrowUp } from 'react-icons/fa'
 import { SiZalo } from 'react-icons/si'
+import { useTranslation } from 'react-i18next'
 
 const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
+  const { t } = useTranslation('clientChat')
   const [showScroll, setShowScroll] = useState(false)
   const [openContact, setOpenContact] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -29,26 +31,28 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
 
   const contactButtons = [
     ...(onOpenSupport
-      ? [{
-          onClick: onOpenSupport,
-          icon: <FaComments className="text-lg" />,
-          label: 'SmartMall Support',
-          bgColor: 'bg-violet-600',
-          shadowColor: 'shadow-violet-500/30',
-          badge: supportUnread
-        }]
+      ? [
+          {
+            onClick: onOpenSupport,
+            icon: <FaComments className="text-lg" />,
+            label: t('floating.support'),
+            bgColor: 'bg-violet-600',
+            shadowColor: 'shadow-violet-500/30',
+            badge: supportUnread
+          }
+        ]
       : []),
     {
       href: 'tel:0823387108',
       icon: <FaPhoneAlt className="text-lg" />,
-      label: 'Gọi ngay',
+      label: t('floating.callNow'),
       bgColor: 'bg-emerald-500',
       shadowColor: 'shadow-emerald-500/30'
     },
     {
       href: 'https://zalo.me/0823387108',
       icon: <SiZalo size={18} />,
-      label: 'Chat Zalo',
+      label: t('floating.zalo'),
       bgColor: 'bg-[#0b74e5]',
       shadowColor: 'shadow-blue-500/30',
       target: '_blank'
@@ -56,7 +60,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
     {
       href: 'https://m.me/lunashop.business.official',
       icon: <FaFacebookMessenger className="text-lg" />,
-      label: 'Messenger',
+      label: t('floating.messenger'),
       bgColor: 'bg-[#1877f2]',
       shadowColor: 'shadow-blue-500/30',
       target: '_blank'
@@ -65,7 +69,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end pointer-events-none">
+      <div className="fixed bottom-[calc(106px+env(safe-area-inset-bottom))] right-4 z-[1040] flex flex-col items-end pointer-events-none sm:right-5 lg:bottom-8 lg:right-8">
         <div className="flex flex-col items-end gap-3">
           {contactButtons.map((button, index) => (
             <div
@@ -76,17 +80,13 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                   : 'translate-y-10 opacity-0 scale-0 pointer-events-none'
               }`}
               style={{
-                transitionDelay: openContact
-                  ? `${index * 80}ms`
-                  : `${(contactButtons.length - index - 1) * 60}ms`
+                transitionDelay: openContact ? `${index * 80}ms` : `${(contactButtons.length - index - 1) * 60}ms`
               }}
             >
               <div className="group relative flex items-center">
                 <div
                   className={`mr-3 px-4 py-2 rounded-full bg-white text-gray-700 text-sm font-medium whitespace-nowrap shadow-md border border-gray-100 transform transition-all duration-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/40 ${
-                    openContact
-                      ? 'opacity-100 translate-x-0 scale-100'
-                      : 'opacity-0 translate-x-6 scale-75'
+                    openContact ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-6 scale-75'
                   }`}
                   style={{
                     transitionDelay: openContact ? `${index * 80 + 120}ms` : '0ms'
@@ -103,9 +103,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                     rel={button.target ? 'noopener noreferrer' : undefined}
                     className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto dark:ring-1 dark:ring-white/10`}
                   >
-                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
-                      {button.icon}
-                    </div>
+                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">{button.icon}</div>
                     {button.badge > 0 && (
                       <span className="absolute -right-1 -top-1 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
                         {button.badge > 9 ? '9+' : button.badge}
@@ -121,9 +119,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
                     }}
                     className={`relative w-12 h-12 flex items-center justify-center rounded-full ${button.bgColor} text-white shadow-xl ${button.shadowColor} transform transition-all duration-300 hover:scale-110 active:scale-95 group pointer-events-auto dark:ring-1 dark:ring-white/10`}
                   >
-                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">
-                      {button.icon}
-                    </div>
+                    <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-200">{button.icon}</div>
                     {button.badge > 0 && (
                       <span className="absolute -right-1 -top-1 z-10 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
                         {button.badge > 9 ? '9+' : button.badge}
@@ -139,15 +135,11 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
             <button
               onClick={() => setOpenContact(!openContact)}
               className={`relative w-12 h-12 flex items-center justify-center rounded-full pointer-events-auto text-white shadow-xl transform transition-all duration-300 hover:scale-110 active:scale-95 dark:ring-1 dark:ring-white/10 ${
-                openContact
-                  ? 'bg-[#ff424e] shadow-red-500/30'
-                  : 'bg-[#0b74e5] shadow-blue-500/30'
+                openContact ? 'bg-[#ff424e] shadow-red-500/30' : 'bg-[#0b74e5] shadow-blue-500/30'
               }`}
-              aria-label={openContact ? 'Đóng liên hệ' : 'Mở liên hệ'}
+              aria-label={openContact ? t('actions.closeContact') : t('actions.openContact')}
             >
-              <div className="relative z-10">
-                {openContact ? <FaTimes size={18} /> : <FaComments size={18} />}
-              </div>
+              <div className="relative z-10">{openContact ? <FaTimes size={18} /> : <FaComments size={18} />}</div>
 
               {!openContact && (
                 <span className="absolute -inset-1 rounded-full border border-[#0b74e5]/30 animate-ping pointer-events-none" />
@@ -163,16 +155,12 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
 
         <div
           className={`transition-all duration-500 ${
-            showScroll
-              ? 'mt-4 max-h-16 opacity-100 overflow-visible'
-              : 'mt-0 max-h-0 opacity-0 overflow-hidden'
+            showScroll ? 'mt-4 max-h-16 opacity-100 overflow-visible' : 'mt-0 max-h-0 opacity-0 overflow-hidden'
           }`}
         >
           <div
             className={`group relative transform transition-all duration-500 ${
-              showScroll
-                ? 'translate-y-0 scale-100 pointer-events-auto'
-                : 'translate-y-8 scale-0 pointer-events-none'
+              showScroll ? 'translate-y-0 scale-100 pointer-events-auto' : 'translate-y-8 scale-0 pointer-events-none'
             }`}
           >
             <button
@@ -180,7 +168,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
               className={`relative w-12 h-12 rounded-full flex items-center justify-center pointer-events-auto transition-all duration-300 ${
                 showScroll ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
               }`}
-              aria-label="Cuộn lên đầu trang"
+              aria-label={t('actions.scrollTop')}
             >
               <span
                 className="absolute inset-0 rounded-full"

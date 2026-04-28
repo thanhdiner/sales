@@ -1,16 +1,19 @@
 import React from 'react'
 import { Alert, Divider, Input, Modal, Tag, Timeline, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { returnPolicyTrackingStatuses } from '../data'
 
 const { Text } = Typography
 
 const ReturnTrackingModal = ({ open, onClose }) => {
+  const { t } = useTranslation('clientReturnPolicy')
+
   return (
-    <Modal title="Tra Cứu Trạng Thái Đổi Trả" open={open} onCancel={onClose} footer={null} width={600}>
+    <Modal title={t('tracking.modalTitle')} open={open} onCancel={onClose} footer={null} width={600}>
       <div className="mb-4">
         <Input.Search
-          placeholder="Nhập mã yêu cầu đổi trả (VD: RT2025080001)"
-          enterButton="Tra cứu"
+          placeholder={t('tracking.searchPlaceholder')}
+          enterButton={t('tracking.searchButton')}
           size="large"
         />
       </div>
@@ -18,10 +21,10 @@ const ReturnTrackingModal = ({ open, onClose }) => {
       <Divider />
 
       <div className="mb-4">
-        <Text strong>Mã yêu cầu: </Text>
+        <Text strong>{t('tracking.codeLabel')} </Text>
         <Text code>RT2025080001</Text>
         <Tag color="processing" className="ml-2">
-          Đang xử lý
+          {t('tracking.statusLabel')}
         </Tag>
       </div>
 
@@ -30,9 +33,7 @@ const ReturnTrackingModal = ({ open, onClose }) => {
           color: status.time ? 'green' : 'gray',
           children: (
             <div>
-              <Text strong>
-                {status.icon} {status.status}
-              </Text>
+              <Text strong>{t(status.statusKey)}</Text>
               {status.time ? (
                 <>
                   <br />
@@ -47,10 +48,9 @@ const ReturnTrackingModal = ({ open, onClose }) => {
       />
 
       <Alert
-        message="Ước tính hoàn tất"
-        description="Yêu cầu của bạn dự kiến được hoàn tất trong 2-3 ngày làm việc tới."
+        message={t('tracking.estimatedTitle')}
+        description={t('tracking.estimatedDescription')}
         type="info"
-        showIcon
         className="mt-4"
       />
     </Modal>

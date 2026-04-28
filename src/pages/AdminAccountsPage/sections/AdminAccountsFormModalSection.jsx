@@ -1,8 +1,11 @@
 import { Form, Input, Modal, Select, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   ADMIN_ACCOUNT_FORM_INITIAL_VALUES,
-  ADMIN_ACCOUNT_STATUS_OPTIONS
+  getLocalizedAdminRoleLabel,
+  getAdminAccountStatusOptions
 } from '../utils'
 
 const { Option } = Select
@@ -45,12 +48,17 @@ export default function AdminAccountsFormModalSection({
   onAvatarBeforeUpload,
   onAvatarRemove
 }) {
+  const { t } = useTranslation('adminAccounts')
+  const language = useCurrentLanguage()
+
   return (
     <Modal
       open={open}
-      title={<span className={modalTitleClass}>{editing ? 'Sửa tài khoản' : 'Thêm tài khoản'}</span>}
+      title={<span className={modalTitleClass}>{editing ? t('form.editTitle') : t('form.createTitle')}</span>}
       onCancel={onClose}
       onOk={onSubmit}
+      okText={editing ? t('common.save') : t('common.submitCreate')}
+      cancelText={t('common.cancel')}
       rootClassName={modalRootClass}
       wrapClassName={modalRootClass}
       destroyOnClose
@@ -71,69 +79,87 @@ export default function AdminAccountsFormModalSection({
         <Form form={form} layout="vertical" initialValues={ADMIN_ACCOUNT_FORM_INITIAL_VALUES}>
           <Form.Item
             name="username"
-            label={<span className={formLabelClass}>Username</span>}
+            label={<span className={formLabelClass}>{t('form.username')}</span>}
             rules={[
-              { required: true, min: 4 },
+              { required: true, message: t('form.usernameRequired') },
+              { min: 4, message: t('form.usernameMin') },
               {
                 pattern: /^[a-zA-Z0-9_]+$/,
-                message: 'Chỉ nhập chữ cái, số, hoặc dấu _; không dùng ký tự đặc biệt!'
+                message: t('form.usernamePattern')
               }
             ]}
           >
-            <Input className={inputClass} autoFocus disabled={!!editing} placeholder="Nhập tên người dùng" />
+            <Input className={inputClass} autoFocus disabled={!!editing} placeholder={t('form.usernamePlaceholder')} />
           </Form.Item>
 
           <Form.Item
             name="email"
-            label={<span className={formLabelClass}>Email</span>}
-            rules={[{ required: true, type: 'email' }]}
+            label={<span className={formLabelClass}>{t('form.email')}</span>}
+            rules={[
+              { required: true, message: t('form.emailRequired') },
+              { type: 'email', message: t('form.emailInvalid') }
+            ]}
           >
-            <Input className={inputClass} placeholder="Nhập email" />
+            <Input className={inputClass} placeholder={t('form.emailPlaceholder')} />
           </Form.Item>
 
           {editing ? (
             <Form.Item
               name="newPassword"
-              label={<span className={formLabelClass}>New Password</span>}
-              rules={[{ min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+              label={<span className={formLabelClass}>{t('form.newPassword')}</span>}
+              rules={[{ min: 6, message: t('form.passwordMin') }]}
             >
               <Input.Password
                 className={inputClass}
-                placeholder="Nhập mật khẩu mới (không bắt buộc)"
+                placeholder={t('form.newPasswordPlaceholder')}
                 autoComplete="new-password"
               />
             </Form.Item>
           ) : (
             <Form.Item
               name="password"
-              label={<span className={formLabelClass}>Password</span>}
-              rules={[{ required: true, min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' }]}
+              label={<span className={formLabelClass}>{t('form.password')}</span>}
+              rules={[
+                { required: true, message: t('form.passwordRequired') },
+                { min: 6, message: t('form.passwordMin') }
+              ]}
             >
-              <Input.Password className={inputClass} placeholder="Nhập mật khẩu" />
+              <Input.Password className={inputClass} placeholder={t('form.passwordPlaceholder')} />
             </Form.Item>
           )}
 
           <Form.Item
             name="fullName"
-            label={<span className={formLabelClass}>Full Name</span>}
-            rules={[{ required: true, message: 'Tên đầy đủ là bắt buộc!' }]}
+            label={<span className={formLabelClass}>{t('form.fullName')}</span>}
+            rules={[{ required: true, message: t('form.fullNameRequired') }]}
           >
-            <Input className={inputClass} placeholder="Nhập tên đầy đủ" />
+            <Input className={inputClass} placeholder={t('form.fullNamePlaceholder')} />
           </Form.Item>
+
+          <div className="admin-accounts-form__translation-section">
+            <h3 className="admin-accounts-form__translation-title">{t('form.translations.sectionTitle')}</h3>
+            <Form.Item
+              name={['translations', 'en', 'fullName']}
+              label={<span className={formLabelClass}>{t('form.translations.fullName')}</span>}
+            >
+              <Input className={inputClass} placeholder={t('form.translations.fullNamePlaceholder')} />
+            </Form.Item>
+          </div>
 
           <Form.Item
             name="role_id"
-            label={<span className={formLabelClass}>Role</span>}
-            rules={[{ required: true }]}
+            label={<span className={formLabelClass}>{t('form.role')}</span>}
+            rules={[{ required: true, message: t('form.roleRequired') }]}
           >
             <Select
               className={selectClass}
               popupClassName={selectDropdownClass}
               getPopupContainer={getPopupContainer}
+              placeholder={t('form.roleRequired')}
             >
               {roles.map(role => (
                 <Option key={role._id} value={role._id}>
-                  {role.label || role.name}
+                  {getLocalizedAdminRoleLabel(role, language, t('common.unknownRole'))}
                 </Option>
               ))}
             </Select>
@@ -141,15 +167,16 @@ export default function AdminAccountsFormModalSection({
 
           <Form.Item
             name="status"
-            label={<span className={formLabelClass}>Status</span>}
-            rules={[{ required: true }]}
+            label={<span className={formLabelClass}>{t('form.status')}</span>}
+            rules={[{ required: true, message: t('form.statusRequired') }]}
           >
             <Select
               className={selectClass}
               popupClassName={selectDropdownClass}
               getPopupContainer={getPopupContainer}
+              placeholder={t('form.statusRequired')}
             >
-              {ADMIN_ACCOUNT_STATUS_OPTIONS.map(option => (
+              {getAdminAccountStatusOptions(t).map(option => (
                 <Option key={option.value} value={option.value}>
                   {option.label}
                 </Option>
@@ -159,7 +186,7 @@ export default function AdminAccountsFormModalSection({
 
           <Form.Item
             name="avatarUrl"
-            label={<span className={formLabelClass}>Avatar Image</span>}
+            label={<span className={formLabelClass}>{t('form.avatar')}</span>}
             valuePropName="fileList"
             getValueFromEvent={getFormFileList}
           >
@@ -173,7 +200,7 @@ export default function AdminAccountsFormModalSection({
             >
               <div>
                 <PlusOutlined />
-                <div className={uploadTextClass}>Add Avatar</div>
+                <div className={uploadTextClass}>{t('form.addAvatar')}</div>
               </div>
             </Upload>
           </Form.Item>

@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { ChevronLeft, ChevronRight, Heart, Share2, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const MAX_DIRECT_IMAGES = 6
 
 function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }) {
+  const { t } = useTranslation('clientProducts')
   const totalImages = images.length
 
   useEffect(() => {
@@ -36,10 +39,10 @@ function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }
     }
   }, [currentIndex, onClose, onSelectImage, totalImages])
 
-  if (!totalImages) return null
+  if (!totalImages || typeof document === 'undefined') return null
 
-  return (
-    <div className="fixed inset-0 z-[1200] bg-black/90 backdrop-blur-sm" onClick={onClose}>
+  return createPortal(
+    <div className="fixed inset-0 z-[1300] bg-black/90 backdrop-blur-sm" onClick={onClose}>
       <div className="flex h-full flex-col px-4 py-4 sm:px-6 sm:py-5" onClick={event => event.stopPropagation()}>
         <div className="mb-4 flex items-center justify-between gap-4 text-white">
           <div className="min-w-0">
@@ -52,6 +55,8 @@ function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }
           <button
             type="button"
             onClick={onClose}
+            aria-label={t('productDetail.gallery.closeGallery')}
+            title={t('productDetail.gallery.closeGallery')}
             className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20"
           >
             <X className="h-5 w-5" />
@@ -63,6 +68,8 @@ function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }
             <button
               type="button"
               onClick={() => onSelectImage((currentIndex - 1 + totalImages) % totalImages)}
+              aria-label={t('productDetail.gallery.previousImage')}
+              title={t('productDetail.gallery.previousImage')}
               className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-4"
             >
               <ChevronLeft className="h-6 w-6" />
@@ -70,13 +77,22 @@ function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }
           )}
 
           <div className="flex h-full w-full items-center justify-center px-12 sm:px-20">
-            <img src={images[currentIndex]} alt={`${title} ${currentIndex + 1}`} className="max-h-full max-w-full rounded-2xl object-contain shadow-2xl" />
+            <img
+              src={images[currentIndex]}
+              alt={t('productDetail.gallery.imageAlt', {
+                title,
+                index: currentIndex + 1
+              })}
+              className="max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
+            />
           </div>
 
           {totalImages > 1 && (
             <button
               type="button"
               onClick={() => onSelectImage((currentIndex + 1) % totalImages)}
+              aria-label={t('productDetail.gallery.nextImage')}
+              title={t('productDetail.gallery.nextImage')}
               className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-4"
             >
               <ChevronRight className="h-6 w-6" />
@@ -92,20 +108,32 @@ function GalleryLightbox({ title, images, currentIndex, onClose, onSelectImage }
                   type="button"
                   key={`${image}-${index}`}
                   onClick={() => onSelectImage(index)}
+                  aria-label={t('productDetail.gallery.thumbnailAlt', {
+                    title,
+                    index: index + 1
+                  })}
                   className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border transition-all sm:h-20 sm:w-20 ${
                     currentIndex === index
                       ? 'border-white opacity-100 ring-2 ring-white/40'
                       : 'border-white/10 opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={image} alt={`${title} thumb ${index + 1}`} className="h-full w-full object-cover" />
+                  <img
+                    src={image}
+                    alt={t('productDetail.gallery.thumbnailAlt', {
+                      title,
+                      index: index + 1
+                    })}
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
@@ -117,8 +145,10 @@ function ProductGallery({
   discountPercent,
   isLiked,
   onSelectImage,
+  onShare,
   onToggleLike
 }) {
+  const { t } = useTranslation('clientProducts')
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
 
   const hasOverflowImages = galleryImages.length > MAX_DIRECT_IMAGES
@@ -146,33 +176,44 @@ function ProductGallery({
 
   return (
     <>
-      <div className="space-y-4">
-        <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <div className="relative overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-800">
-            <button type="button" onClick={() => openGallery(selectedImage)} className="block w-full cursor-zoom-in">
-              <div className="aspect-[16/9] max-h-[430px]">
+      <div className="product-detail-gallery-stack">
+        <div className="product-detail-card product-detail-gallery-card">
+          <div className="product-detail-gallery-frame">
+            <button
+              type="button"
+              onClick={() => openGallery(selectedImage)}
+              aria-label={t('productDetail.gallery.openGallery')}
+              title={t('productDetail.gallery.openGallery')}
+              className="block w-full cursor-zoom-in"
+            >
+              <div className="product-detail-gallery-canvas">
                 <img src={currentImage} alt={title} className="h-full w-full object-contain" />
               </div>
             </button>
 
             {discountPercent > 0 && (
-              <div className="absolute left-3 top-3 rounded-full bg-gray-900 px-3 py-1 text-sm font-semibold text-white dark:bg-white dark:text-gray-900">
+              <div className="product-detail-gallery-discount">
                 -{discountPercent}%
               </div>
             )}
 
-            <div className="absolute right-3 top-3 flex gap-2">
+            <div className="product-detail-gallery-tools">
               <button
                 type="button"
                 onClick={onToggleLike}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                aria-label={isLiked ? t('productDetail.gallery.unlike') : t('productDetail.gallery.like')}
+                title={isLiked ? t('productDetail.gallery.unlike') : t('productDetail.gallery.like')}
+                className="product-detail-icon-button"
               >
                 <Heart className={`h-[18px] w-[18px] ${isLiked ? 'fill-gray-900 text-gray-900 dark:fill-white dark:text-white' : ''}`} />
               </button>
 
               <button
                 type="button"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                onClick={onShare}
+                aria-label={t('productDetail.gallery.share')}
+                title={t('productDetail.gallery.share')}
+                className="product-detail-icon-button"
               >
                 <Share2 className="h-[18px] w-[18px]" />
               </button>
@@ -181,13 +222,20 @@ function ProductGallery({
         </div>
 
         {galleryImages.length > 1 && (
-          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Mẫu ảnh</p>
-              <span className="text-xs text-gray-400">{galleryImages.length} ảnh</span>
+          <div className="product-detail-card product-detail-gallery-thumbs">
+            <div className="product-detail-panel-header product-detail-panel-header--compact">
+              <p>
+                {t('productDetail.gallery.sampleImages')}
+              </p>
+
+              <span>
+                {t('productDetail.gallery.imageCount', {
+                  count: galleryImages.length
+                })}
+              </span>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto pb-1">
+            <div className="product-detail-thumb-strip">
               {visibleImages.map((image, index) => {
                 const isSummaryImage = hasOverflowImages && index === MAX_DIRECT_IMAGES
                 const isSelected = isSummaryImage ? selectedImage >= MAX_DIRECT_IMAGES : selectedImage === index
@@ -197,11 +245,20 @@ function ProductGallery({
                     type="button"
                     key={`${image}-${index}`}
                     onClick={() => handleThumbnailClick(index)}
-                    className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border bg-white transition-colors dark:bg-gray-900 ${
-                      isSelected ? 'border-gray-900 dark:border-white' : 'border-gray-200 opacity-70 hover:opacity-100 dark:border-gray-700'
-                    }`}
+                    aria-label={t('productDetail.gallery.sampleAlt', {
+                      title,
+                      index: index + 1
+                    })}
+                    className={`product-detail-thumb ${isSelected ? 'product-detail-thumb--active' : ''}`}
                   >
-                    <img src={image} alt={`${title} mẫu ${index + 1}`} className="h-full w-full object-cover" />
+                    <img
+                      src={image}
+                      alt={t('productDetail.gallery.sampleAlt', {
+                        title,
+                        index: index + 1
+                      })}
+                      className="h-full w-full object-cover"
+                    />
 
                     {isSummaryImage && (
                       <span className="absolute inset-0 flex items-center justify-center bg-black/55 text-sm font-semibold text-white">

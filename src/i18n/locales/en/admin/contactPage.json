@@ -1,0 +1,105 @@
+{
+  "seo": {
+    "title": "Admin - Contact Page"
+  },
+  "page": {
+    "title": "Contact Page Content",
+    "description": "Manage the customer contact page content and English translation."
+  },
+  "tabs": {
+    "vi": "Vietnamese content",
+    "en": "English translation"
+  },
+  "actions": {
+    "save": "Save",
+    "reload": "Reload",
+    "remove": "Remove",
+    "addTopic": "Add topic",
+    "addHighlight": "Add highlight",
+    "addSeller": "Add seller",
+    "addMethod": "Add method",
+    "addWorkingHour": "Add working hour",
+    "addFaq": "Add FAQ"
+  },
+  "sections": {
+    "seo": "SEO",
+    "links": "Global links",
+    "linksDescription": "Used by hero, schedule, FAQ help, and CTA buttons.",
+    "hero": "Hero",
+    "heroTopics": "Hero topics",
+    "highlights": "Highlights",
+    "highlightsItems": "Highlight items",
+    "contactMethods": "Contact methods",
+    "sellers": "Sellers",
+    "sellerMethods": "Seller contact channels",
+    "schedule": "Form and working hours",
+    "workingHoursItems": "Working hour rows",
+    "faq": "FAQ and help card",
+    "faqItems": "FAQ items",
+    "cta": "Bottom CTA",
+    "translationIntro": "English translation",
+    "translationDescription": "Only enter text that should replace the Vietnamese content when the site is switched to English."
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "zaloUrl": "Zalo URL",
+    "emailUrl": "Email URL",
+    "productsUrl": "Products URL",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "titleLine1": "Title line 1",
+    "titleLine2": "Title line 2",
+    "description": "Description",
+    "zaloButton": "Zalo button",
+    "emailButton": "Email button",
+    "imageUrl": "Image URL",
+    "imageAlt": "Image alt",
+    "topic": "Topic",
+    "visualBadge": "Visual badge",
+    "visualEyebrow": "Visual eyebrow",
+    "visualButton": "Visual button",
+    "visualDescription": "Visual description",
+    "value": "Value",
+    "label": "Label",
+    "note": "Note",
+    "sellerName": "Seller name",
+    "sellerRole": "Seller role",
+    "avatar": "Avatar URL",
+    "methodType": "Method type",
+    "methodTitle": "Method title",
+    "methodValue": "Method value",
+    "actionLabel": "Action label",
+    "link": "Link",
+    "workingTitle": "Working hours title",
+    "workingDescription": "Working hours description",
+    "noteTitle": "Note title",
+    "noteDescription": "Note description",
+    "type": "Type",
+    "day": "Day",
+    "time": "Time",
+    "question": "Question",
+    "answer": "Answer",
+    "helpEyebrow": "Help eyebrow",
+    "helpTitle": "Help title",
+    "helpDescription": "Help description",
+    "tip": "Tip",
+    "chatButton": "Chat button",
+    "productsButton": "Products button"
+  },
+  "methodTypes": {
+    "zalo": "Zalo",
+    "facebook": "Facebook",
+    "email": "Email",
+    "phone": "Phone",
+    "link": "Link"
+  },
+  "messages": {
+    "fetchError": "Unable to load contact page content",
+    "saveSuccess": "Contact page content saved",
+    "saveError": "Unable to save contact page content"
+  },
+  "validation": {
+    "required": "This field is required"
+  }
+}

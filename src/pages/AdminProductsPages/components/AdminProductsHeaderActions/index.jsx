@@ -3,6 +3,7 @@ import ApplyButton from './ApplyButton'
 import SelectedItems from './SelectedItems'
 import SelectList from './SelectList'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
+import { useTranslation } from 'react-i18next'
 
 function AdminProductsHeaderActions({
   selectedRowKeys,
@@ -18,21 +19,22 @@ function AdminProductsHeaderActions({
   setCurrentPage,
   fetchData
 }) {
+  const { t } = useTranslation('adminProducts')
   const permissions = useAdminPermissions()
 
   const treeData = [
-    permissions.includes('delete_product') && { title: 'Delete', value: 'delete' },
+    permissions.includes('delete_product') && { title: t('bulk.actions.delete'), value: 'delete' },
     permissions.includes('edit_product') && {
-      title: 'Change Position',
+      title: t('bulk.actions.changePosition'),
       value: 'change-position'
     },
     permissions.includes('edit_product') && {
-      title: 'Change Status',
+      title: t('bulk.actions.changeStatus'),
       value: 'change-status',
       disabled: true,
       children: [
-        { title: 'Active', value: 'status-active' },
-        { title: 'Inactive', value: 'status-inactive' }
+        { title: t('status.active'), value: 'status-active' },
+        { title: t('status.inactive'), value: 'status-inactive' }
       ]
     }
   ].filter(Boolean)

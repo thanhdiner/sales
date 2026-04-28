@@ -132,7 +132,7 @@ sales/
 |  |- routes/            # cấu hình route
 |  |- hooks/             # custom hooks
 |  |- helpers/           # formatter/helpers riêng
-|- craco.config.js       # alias @ -> src
+|- vite.config.mjs       # Vite config, alias @ -> src
 |- tailwind.config.js
 |- package.json
 ```
@@ -148,15 +148,15 @@ sales/
 Tạo file `.env` trong thư mục `sales`:
 
 ```env
-REACT_APP_API_URL=http://localhost:3001/api/v1
-REACT_APP_SOCKET_URL=http://localhost:3001
-REACT_APP_CLIENT_URL=http://localhost:3000
+VITE_API_URL=http://localhost:3001/api/v1
+VITE_SOCKET_URL=http://localhost:3001
+VITE_CLIENT_URL=http://localhost:3000
 ```
 
 Lưu ý:
 
-- `REACT_APP_API_URL` phải bao gồm hậu tố `/api/v1`.
-- Nên khai báo đủ 3 biến, vì một số luồng OAuth đọc trực tiếp `process.env.REACT_APP_API_URL`.
+- `VITE_API_URL` phải bao gồm hậu tố `/api/v1`.
+- `vite.config.mjs` vẫn hỗ trợ fallback từ các biến cũ `REACT_APP_*` để tránh vỡ các luồng đang đọc `process.env.REACT_APP_*`.
 - Backend đang dùng `credentials: 'include'`, nên `CLIENT_URL` phía API phải khớp với domain frontend.
 
 ## Cài đặt và chạy local
@@ -204,14 +204,14 @@ npm start
 
 ## Scripts
 
-- `npm start`: chạy môi trường development.
-- `npm run build`: build production vào thư mục `build/`.
-- `npm test`: chạy test bằng `craco test`.
+- `npm start` hoặc `npm run dev`: chạy Vite development server.
+- `npm run build`: build production vào thư mục `dist/`.
+- `npm run preview`: preview bản build Vite.
 
 ## Tích hợp với backend
 
-- Base API frontend: `REACT_APP_API_URL`
-- Base socket frontend: `REACT_APP_SOCKET_URL`
+- Base API frontend: `VITE_API_URL`
+- Base socket frontend: `VITE_SOCKET_URL`
 - Swagger backend: `http://localhost:3001/api-docs` hoặc `http://localhost:3001/docs`
 - Health check backend: `http://localhost:3001/health`
 

@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
 import { message } from 'antd'
 import { Send, Star, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { FilePreview, MediaUploadButton } from './ReviewMediaPreview'
 
-const STAR_LABELS = ['', 'Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Xuất sắc']
-
 export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
+  const { t } = useTranslation('clientProducts')
   const [rating, setRating] = useState(initial?.rating || 5)
   const [hoverRating, setHoverRating] = useState(0)
   const [title, setTitle] = useState(initial?.title || '')
@@ -25,7 +25,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
     event.preventDefault()
 
     if (!rating) {
-      message.warning('Vui lòng chọn số sao')
+      message.warning(t('productDetail.reviewForm.message.ratingRequired'))
       return
     }
 
@@ -45,7 +45,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">Chọn số sao</p>
+        <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t('productDetail.reviewForm.ratingLabel')}</p>
 
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex gap-1">
@@ -56,6 +56,8 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
                 onClick={() => setRating(star)}
+                aria-label={t('productDetail.reviewForm.ratingButton', { count: star })}
+                title={t('productDetail.reviewForm.ratingButton', { count: star })}
                 className="rounded-md p-1 transition-transform hover:scale-110 focus:outline-none"
               >
                 <Star
@@ -68,7 +70,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
 
           {displayRating > 0 && (
             <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-              {STAR_LABELS[displayRating]}
+              {t(`productDetail.reviewForm.starLabels.${displayRating}`)}
             </span>
           )}
         </div>
@@ -76,7 +78,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
 
       <input
         type="text"
-        placeholder="Tiêu đề đánh giá (tuỳ chọn)"
+        placeholder={t('productDetail.reviewForm.titlePlaceholder')}
         value={title}
         onChange={event => setTitle(event.target.value)}
         maxLength={200}
@@ -85,7 +87,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
 
       <div>
         <textarea
-          placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
+          placeholder={t('productDetail.reviewForm.contentPlaceholder')}
           value={content}
           onChange={event => setContent(event.target.value)}
           maxLength={2000}
@@ -98,19 +100,18 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
 
       {(keepImages.length > 0 || keepVideos.length > 0) && (
         <div>
-          <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">Ảnh/video hiện tại</p>
+          <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">{t('productDetail.reviewForm.currentMedia')}</p>
 
           <div className="flex flex-wrap gap-2">
             {keepImages.map((url, index) => (
-              <div
-                key={url}
-                className="group relative h-16 w-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700"
-              >
+              <div key={url} className="group relative h-16 w-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
                 <img src={url} alt="" className="h-full w-full object-cover" />
 
                 <button
                   type="button"
                   onClick={() => setKeepImages(prevImages => prevImages.filter((_, itemIndex) => itemIndex !== index))}
+                  aria-label={t('productDetail.reviewForm.removeImage')}
+                  title={t('productDetail.reviewForm.removeImage')}
                   className="absolute inset-0 flex items-center justify-center bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100"
                 >
                   <X size={16} />
@@ -119,15 +120,14 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
             ))}
 
             {keepVideos.map((url, index) => (
-              <div
-                key={url}
-                className="group relative h-16 w-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700"
-              >
+              <div key={url} className="group relative h-16 w-16 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
                 <video src={url} className="h-full w-full object-cover" muted />
 
                 <button
                   type="button"
                   onClick={() => setKeepVideos(prevVideos => prevVideos.filter((_, itemIndex) => itemIndex !== index))}
+                  aria-label={t('productDetail.reviewForm.removeVideo')}
+                  title={t('productDetail.reviewForm.removeVideo')}
                   className="absolute inset-0 flex items-center justify-center bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100"
                 >
                   <X size={16} />
@@ -141,16 +141,12 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
       <div>
         <MediaUploadButton onClick={() => fileInputRef.current?.click()} />
 
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          accept="image/*,video/*"
-          className="hidden"
-          onChange={handleFiles}
-        />
+        <input ref={fileInputRef} type="file" multiple accept="image/*,video/*" className="hidden" onChange={handleFiles} />
 
-        <FilePreview files={newFiles} onRemove={index => setNewFiles(prevFiles => prevFiles.filter((_, itemIndex) => itemIndex !== index))} />
+        <FilePreview
+          files={newFiles}
+          onRemove={index => setNewFiles(prevFiles => prevFiles.filter((_, itemIndex) => itemIndex !== index))}
+        />
       </div>
 
       <div className="flex flex-wrap gap-3 pt-1">
@@ -168,7 +164,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
             <Send size={16} />
           )}
 
-          {initial ? 'Cập nhật' : 'Gửi đánh giá'}
+          {initial ? t('productDetail.reviewForm.update') : t('productDetail.reviewForm.submit')}
         </button>
 
         {onCancel && (
@@ -177,7 +173,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel, loading }) {
             onClick={onCancel}
             className="rounded-xl border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
           >
-            Huỷ
+            {t('productDetail.reviewForm.cancel')}
           </button>
         )}
       </div>

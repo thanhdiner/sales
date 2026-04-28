@@ -25,13 +25,14 @@ import GameAccountComingSoon from '@/pages/GameAccountComingSoon'
 import SpecialPackageComingSoon from '@/pages/SpecialPackageComingSoon'
 import ProductCategoryPage from '@/pages/ProductCategoryPage'
 import GameNewsComingSoon from '@/pages/GameNewsComingSoon'
-import VipComingSoon from '@/pages/VipComingSoon'
+import VipPage from '@/pages/VipComingSoon'
 import CommunityComingSoon from '@/pages/CommunityComingSoon'
 import QuickSupportComingSoon from '@/pages/QuickSupportComingSoon'
 import LicenseComingSoon from '@/pages/LicenseComingSoon'
 import SettingsPage from '@/pages/SettingsPage'
 import WishlistPage from '@/pages/WishlistPage'
 import ComparePage from '@/pages/ComparePage'
+import NotificationsPage from '@/pages/NotificationsPage'
 
 export const clientRoutes = [
   {
@@ -46,7 +47,14 @@ export const clientRoutes = [
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/blog', element: <Blog /> },
-      { path: '/user/profile', element: <ProfilePage /> },
+      {
+        path: '/user/profile',
+        element: (
+          <RequireAuth>
+            <ProfilePage />
+          </RequireAuth>
+        )
+      },
       {
         path: '/cart',
         element: (
@@ -76,6 +84,14 @@ export const clientRoutes = [
         element: (
           <RequireAuth>
             <OrdersPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/notifications',
+        element: (
+          <RequireAuth>
+            <NotificationsPage />
           </RequireAuth>
         )
       },
@@ -121,7 +137,7 @@ export const clientRoutes = [
       { path: '/game-account', element: <GameAccountComingSoon /> },
       { path: '/special-package', element: <SpecialPackageComingSoon /> },
       { path: '/game-news', element: <GameNewsComingSoon /> },
-      { path: '/vip', element: <VipComingSoon /> },
+      { path: '/vip', element: <VipPage /> },
       { path: '/community', element: <CommunityComingSoon /> },
       { path: '/quick-support', element: <QuickSupportComingSoon /> },
       { path: '/license', element: <LicenseComingSoon /> },

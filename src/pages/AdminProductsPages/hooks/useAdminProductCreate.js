@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { createProduct } from '@/services/adminProductService'
 import { getAdminProductCategoryTree } from '@/services/adminProductCategoryService'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
+import { useTranslation } from 'react-i18next'
 
 const summarizeFile = file => ({
   name: file?.name,
@@ -58,6 +59,7 @@ const logFormDataDebug = (values, formData) => {
 }
 
 export function useAdminProductCreate() {
+  const { t } = useTranslation('adminProducts')
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
   const [treeData, setTreeData] = useState([])
@@ -81,71 +83,80 @@ export function useAdminProductCreate() {
           response: error?.response
         })
 
-        message.error('Không thể tải danh mục sản phẩm')
+        message.error(t('formMessages.loadTreeError'))
       }
     }
 
     fetchTreeData()
-  }, [])
+  }, [t])
 
   const handleSubmit = async values => {
+    const submitValues = {
+      ...values,
+      ...form.getFieldsValue(true)
+    }
+
     console.group('🐛 [CreateProduct] handleSubmit')
-    console.log('📋 Raw form values:', JSON.parse(JSON.stringify(values)))
+    console.log('📋 Raw form values:', JSON.parse(JSON.stringify(submitValues)))
 
     setLoading(true)
 
     try {
       const formData = new FormData()
-      const thumbnailFile = values.thumbnail?.[0]?.originFileObj
+      const thumbnailFile = submitValues.thumbnail?.[0]?.originFileObj
 
       if (thumbnailFile) {
         formData.append('thumbnail', thumbnailFile)
       }
 
-      const imageFiles = values.images || []
+      const imageFiles = submitValues.images || []
       imageFiles.forEach(fileItem => {
         const file = fileItem.originFileObj
         if (file) formData.append('images', file)
       })
 
-      if (values.features && values.features.length > 0) {
-        values.features.forEach(feature => {
+      if (submitValues.features && submitValues.features.length > 0) {
+        submitValues.features.forEach(feature => {
           formData.append('features', feature)
         })
       }
 
-      formData.append('title', values.title)
-      formData.append('titleNoAccent', removeVietnameseTones(values.title))
-      formData.append('productCategory', values.productCategory)
-      formData.append('price', values.price)
-      formData.append('costPrice', values.costPrice)
-      formData.append('discountPercentage', values.discountPercentage || 0)
-      formData.append('stock', values.stock || 0)
-      formData.append('deliveryType', values.deliveryType || 'manual')
-      formData.append('deliveryInstructions', values.deliveryInstructions || '')
-      formData.append('description', values.description || '')
-      formData.append('status', values.status || 'active')
-      formData.append('slug', values.slug || '')
-      formData.append('content', values.content || '')
-      formData.append('isTopDeal', values.isTopDeal ? 'true' : 'false')
-      formData.append('isFeatured', values.isFeatured ? 'true' : 'false')
-      formData.append('deliveryEstimateDays', values.deliveryEstimateDays || 0)
-
-      if (values.position !== undefined && values.position !== null && values.position !== '') {
-        formData.append('position', values.position)
+      if (submitValues.translations != null) {
+        formData.append('translations', JSON.stringify(submitValues.translations))
       }
 
-      const [timeStart, timeFinish] = values.timeRange || []
+      formData.append('title', submitValues.title)
+      formData.append('titleNoAccent', removeVietnameseTones(submitValues.title))
+      formData.append('productCategory', submitValues.productCategory)
+      formData.append('price', submitValues.price)
+      formData.append('costPrice', submitValues.costPrice)
+      formData.append('discountPercentage', submitValues.discountPercentage || 0)
+      formData.append('stock', submitValues.stock || 0)
+      formData.append('deliveryType', submitValues.deliveryType || 'manual')
+      formData.append('deliveryInstructions', submitValues.deliveryInstructions || '')
+      formData.append('description', submitValues.description || '')
+      formData.append('status', submitValues.status || 'active')
+      formData.append('slug', submitValues.slug || '')
+      formData.append('content', submitValues.content || '')
+      formData.append('isTopDeal', submitValues.isTopDeal ? 'true' : 'false')
+      formData.append('isFeatured', submitValues.isFeatured ? 'true' : 'false')
+      formData.append('deliveryEstimateDays', submitValues.deliveryEstimateDays || 0)
+
+      if (submitValues.position !== undefined && submitValues.position !== null && submitValues.position !== '') {
+        formData.append('position', submitValues.position)
+      }
+
+      const [timeStart, timeFinish] = submitValues.timeRange || []
       if (timeStart) formData.append('timeStart', timeStart.toISOString())
       if (timeFinish) formData.append('timeFinish', timeFinish.toISOString())
 
-      logFormDataDebug(values, formData)
+      logFormDataDebug(submitValues, formData)
 
       const response = await createProduct(formData)
 
       console.info('[AdminProductCreate] Create success', response)
 
-      message.success('Tạo sản phẩm thành công!')
+      message.success(t('formMessages.createSuccess'))
       navigate('/admin/products')
     } catch (err) {
       const response = err?.response || {}
@@ -154,11 +165,11 @@ export function useAdminProductCreate() {
         message: err?.message || String(err),
         status: err?.status,
         response,
-        values: summarizeCreateValues(values)
+        values: summarizeCreateValues(submitValues)
       })
 
       if (response?.error === 'Slug already exists') {
-        message.error(`Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: ${response.suggestedSlug || ''}`)
+        message.error(t('formMessages.slugExists', { suggestedSlug: response.suggestedSlug || '' }))
 
         if (response.suggestedSlug) {
           form.setFieldsValue({ slug: response.suggestedSlug })
@@ -166,7 +177,7 @@ export function useAdminProductCreate() {
       } else if (response?.details?.length) {
         message.error(response.details.join(' | '))
       } else {
-        message.error(response?.error || response?.message || 'Tạo sản phẩm thất bại!')
+        message.error(response?.error || response?.message || t('formMessages.createError'))
       }
     } finally {
       setLoading(false)
@@ -183,7 +194,7 @@ export function useAdminProductCreate() {
     const isImage = file.type.startsWith('image/')
 
     if (!isImage) {
-      message.error('Chỉ được upload file ảnh!')
+      message.error(t('formMessages.imageOnly'))
       return Upload.LIST_IGNORE
     }
 

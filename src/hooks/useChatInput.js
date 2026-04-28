@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { message as antdMessage } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 import { getSocket } from '@/services/socketService'
 import { chatService } from '@/services/chatService'
@@ -21,6 +22,7 @@ const createPendingImage = (file) => ({
 })
 
 export function useChatInput({ sessionId, clientUser, setMessages, isResolved = false, onResolvedSendAttempt }) {
+  const { t } = useTranslation('clientChat')
   const [input, setInput] = useState('')
   const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [pendingImages, setPendingImages] = useState([])
@@ -29,8 +31,8 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
   const typingSocketTimer = useRef(null)
   const pendingImagesRef = useRef([])
 
-  const senderName = clientUser?.fullName || clientUser?.name || 'Khách'
-  const senderAvatar = clientUser?.avatar || null
+  const senderName = clientUser?.fullName || clientUser?.name || t('defaults.guest')
+  const senderAvatar = clientUser?.avatarUrl || clientUser?.avatar || null
   const senderId = clientUser?._id || null
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
         window.clearTimeout(timer)
 
         if (response.success === false) {
-          const err = new Error(response.message || 'Không thể gửi tin nhắn')
+          const err = new Error(response.message || t('messages.sendFailed'))
           err.code = response.code
           err.conversation = response.conversation
           reject(err)
@@ -164,11 +166,11 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
   const handleSendError = (err) => {
     if (err?.code === 'CHAT_RESOLVED') {
       onResolvedSendAttempt?.(err.conversation)
-      antdMessage.info('Cuộc trò chuyện đã đóng. Vui lòng bắt đầu cuộc trò chuyện mới.')
+      antdMessage.info(t('messages.conversationClosed'))
       return
     }
 
-    antdMessage.error(err.message || 'Không thể gửi tin nhắn')
+    antdMessage.error(err.message || t('messages.sendFailed'))
   }
 
   const sendMessage = async (text, currentPageOrOptions = window.location.pathname, sessionOverride = null) => {
@@ -179,7 +181,7 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
 
     if (isResolved && targetSessionId === sessionId) {
       onResolvedSendAttempt?.()
-      antdMessage.info('Cuộc trò chuyện đã đóng. Vui lòng bắt đầu cuộc trò chuyện mới.')
+      antdMessage.info(t('messages.conversationClosed'))
       return
     }
 
@@ -249,13 +251,13 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
     setPendingImages(prev => {
       const remainingSlots = MAX_CHAT_IMAGES - prev.length
       if (remainingSlots <= 0) {
-        antdMessage.warning(`Tối đa ${MAX_CHAT_IMAGES} ảnh mỗi lần gửi`)
+        antdMessage.warning(t('messages.maxImagesPerSend', { count: MAX_CHAT_IMAGES }))
         return prev
       }
 
       const acceptedFiles = files.slice(0, remainingSlots)
       if (acceptedFiles.length < files.length) {
-        antdMessage.warning(`Chỉ giữ tối đa ${MAX_CHAT_IMAGES} ảnh trong một tin nhắn`)
+        antdMessage.warning(t('messages.maxImagesPerMessage', { count: MAX_CHAT_IMAGES }))
       }
 
       return [...prev, ...acceptedFiles.map(createPendingImage)]

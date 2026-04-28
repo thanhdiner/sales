@@ -1,0 +1,44 @@
+{
+  "seo": {
+    "title": "Admin - Hồ sơ"
+  },
+  "loading": {
+    "profile": "Đang tải hồ sơ..."
+  },
+  "header": {
+    "title": "Thông tin cơ bản"
+  },
+  "avatar": {
+    "label": "Ảnh đại diện",
+    "alt": "Ảnh đại diện",
+    "remove": "Xóa ảnh"
+  },
+  "fields": {
+    "fullName": "Họ và tên",
+    "fullNameRequired": "Nhập họ tên!",
+    "email": "Email",
+    "username": "Tên đăng nhập",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "lastLogin": "Lần đăng nhập cuối",
+    "noLastLogin": "Chưa có"
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động"
+  },
+  "actions": {
+    "cancel": "Hủy",
+    "save": "Lưu"
+  },
+  "message": {
+    "imageOnly": "Chỉ chấp nhận tệp hình ảnh!",
+    "imageMaxSize": "Ảnh phải nhỏ hơn 2MB!",
+    "avatarUpdated": "Đã cập nhật ảnh đại diện!",
+    "avatarUpdateFailed": "Tải ảnh lên thất bại!",
+    "avatarRemoved": "Đã xóa ảnh đại diện!",
+    "avatarRemoveFailed": "Xóa ảnh đại diện thất bại!",
+    "updateSuccess": "Cập nhật thành công!",
+    "updateFailed": "Cập nhật thất bại!"
+  }
+}

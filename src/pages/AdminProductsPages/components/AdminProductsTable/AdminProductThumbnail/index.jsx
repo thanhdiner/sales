@@ -1,4 +1,4 @@
-import { extractFileName } from '../../utils/extractFileName'
+import { extractFileName } from '@/utils/extractFileName'
 import './AdminProductThumbnail.scss'
 
 function ProductThumbnail({ thumbnail, title }) {

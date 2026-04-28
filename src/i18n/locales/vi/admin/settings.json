@@ -1,0 +1,305 @@
+{
+  "seo": {
+    "title": "Admin - Cài đặt"
+  },
+  "page": {
+    "eyebrow": "Admin settings",
+    "title": "Cài đặt hệ thống",
+    "description": "Quản lý bảo mật tài khoản quản trị và thông tin hiển thị của website."
+  },
+  "tabs": {
+    "security": {
+      "label": "Bảo mật",
+      "description": "Mật khẩu, 2FA và thiết bị tin cậy"
+    },
+    "configuration": {
+      "label": "Cấu hình website",
+      "description": "Thông tin, liên hệ và SEO"
+    }
+  },
+  "website": {
+    "tabs": {
+      "basic": {
+        "label": "Thông tin",
+        "description": "Tên, mô tả, nhận diện"
+      },
+      "contact": {
+        "label": "Liên hệ",
+        "description": "Kênh hỗ trợ và mạng xã hội"
+      },
+      "seo": {
+        "label": "SEO",
+        "description": "Meta và analytics"
+      }
+    },
+    "messages": {
+      "imageOnly": "Chỉ hỗ trợ file hình ảnh",
+      "saveSuccess": "Cấu hình đã được lưu thành công",
+      "saveError": "Lưu cấu hình thất bại",
+      "previewComing": "Tính năng xem trước sẽ được bổ sung",
+      "resetDone": "Đã hoàn tác các thay đổi",
+      "loading": "Đang tải cấu hình..."
+    },
+    "upload": {
+      "label": "Tải lên"
+    },
+    "panels": {
+      "websiteInfo": {
+        "title": "Thông tin website",
+        "description": "Các nội dung xuất hiện ở tiêu đề, footer và metadata cơ bản."
+      },
+      "branding": {
+        "title": "Logo & favicon",
+        "description": "Tải lên file hình ảnh dùng cho nhận diện website.",
+        "hint": "Khuyến nghị dùng ảnh nền trong suốt cho logo và favicon vuông để hiển thị tốt trên tab trình duyệt."
+      },
+      "contact": {
+        "title": "Thông tin liên hệ",
+        "description": "Thông tin khách hàng nhìn thấy khi cần hỗ trợ."
+      },
+      "social": {
+        "title": "Mạng xã hội",
+        "description": "Liên kết tới các kênh truyền thông chính thức."
+      },
+      "seo": {
+        "title": "Cài đặt SEO",
+        "description": "Tối ưu nội dung hiển thị trên công cụ tìm kiếm."
+      },
+      "analytics": {
+        "title": "Analytics & tracking",
+        "description": "Thông tin dùng cho theo dõi hiệu quả website."
+      }
+    },
+    "fields": {
+      "siteName": {
+        "label": "Tên website",
+        "required": "Vui lòng nhập tên website",
+        "placeholder": "Nhập tên website"
+      },
+      "tagline": {
+        "label": "Slogan / Tagline",
+        "placeholder": "Nhập slogan của website"
+      },
+      "description": {
+        "label": "Mô tả website",
+        "placeholder": "Nhập mô tả ngắn về website"
+      },
+      "logo": {
+        "label": "Logo website",
+        "required": "Vui lòng upload logo"
+      },
+      "favicon": {
+        "label": "Favicon",
+        "required": "Vui lòng upload favicon"
+      },
+      "phone": {
+        "label": "Số điện thoại",
+        "placeholder": "Nhập số điện thoại"
+      },
+      "email": {
+        "label": "Email",
+        "invalid": "Email không hợp lệ",
+        "placeholder": "support@example.com"
+      },
+      "address": {
+        "label": "Địa chỉ",
+        "placeholder": "Nhập địa chỉ công ty / tổ chức"
+      },
+      "website": {
+        "label": "Website",
+        "placeholder": "https://example.com"
+      },
+      "facebook": {
+        "label": "Facebook",
+        "placeholder": "https://facebook.com/yourpage"
+      },
+      "twitter": {
+        "label": "Twitter / X",
+        "placeholder": "https://x.com/youraccount"
+      },
+      "instagram": {
+        "label": "Instagram",
+        "placeholder": "https://instagram.com/youraccount"
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "placeholder": "https://linkedin.com/company/yourcompany"
+      },
+      "metaTitle": {
+        "label": "Meta title",
+        "placeholder": "Tiêu đề hiển thị trên Google"
+      },
+      "metaDescription": {
+        "label": "Meta description",
+        "placeholder": "Mô tả hiển thị trên kết quả tìm kiếm"
+      },
+      "keywords": {
+        "label": "Keywords",
+        "placeholder": "từ khóa 1, từ khóa 2, từ khóa 3"
+      },
+      "googleAnalytics": {
+        "label": "Google Analytics ID",
+        "placeholder": "G-XXXXXXXXXX"
+      }
+    },
+    "actions": {
+      "preview": "Xem trước",
+      "reset": "Hoàn tác",
+      "save": "Lưu cấu hình"
+    }
+  },
+  "security": {
+    "password": {
+      "messages": {
+        "success": "Đã đổi mật khẩu thành công",
+        "error": "Không thể đổi mật khẩu"
+      },
+      "title": "Đổi mật khẩu",
+      "description": "Cập nhật mật khẩu quản trị định kỳ để giảm rủi ro truy cập trái phép.",
+      "fields": {
+        "currentPassword": {
+          "label": "Mật khẩu hiện tại",
+          "required": "Vui lòng nhập mật khẩu hiện tại"
+        },
+        "newPassword": {
+          "label": "Mật khẩu mới",
+          "required": "Vui lòng nhập mật khẩu mới"
+        },
+        "confirmPassword": {
+          "label": "Xác nhận mật khẩu mới",
+          "required": "Vui lòng xác nhận mật khẩu mới",
+          "mismatch": "Mật khẩu xác nhận không khớp"
+        }
+      },
+      "warning": "Không chia sẻ mật khẩu quản trị. Sau khi đổi mật khẩu, hãy kiểm tra lại các thiết bị đang đăng nhập.",
+      "submit": "Cập nhật mật khẩu"
+    },
+    "twofa": {
+      "messages": {
+        "statusError": "Không thể lấy trạng thái 2FA",
+        "secretError": "Không thể tạo mã xác thực",
+        "disabledSuccess": "Đã tắt xác thực 2 bước",
+        "disableError": "Không thể tắt xác thực 2FA",
+        "incompleteCode": "Vui lòng nhập đầy đủ 6 chữ số",
+        "setupSuccess": "Xác thực 2 bước đã được thiết lập thành công",
+        "invalidCode": "Mã xác thực không hợp lệ",
+        "verifyError": "Không thể xác thực 2FA",
+        "backupRegenerated": "Đã tạo mã dự phòng mới",
+        "backupRegenerateError": "Không thể tạo mã dự phòng mới",
+        "copied": "Đã sao chép vào clipboard",
+        "downloaded": "Đã tải xuống mã dự phòng",
+        "removeDeviceSuccess": "Đã xóa thiết bị khỏi danh sách tin cậy",
+        "removeDeviceError": "Không thể xóa thiết bị"
+      },
+      "modals": {
+        "disable": {
+          "title": "Tắt xác thực 2 bước",
+          "content": "Bạn có chắc chắn muốn tắt 2FA? Điều này sẽ làm giảm mức bảo mật của tài khoản quản trị.",
+          "ok": "Tắt 2FA",
+          "cancel": "Hủy"
+        },
+        "regenerate": {
+          "title": "Tạo mã dự phòng mới",
+          "content": "Các mã cũ sẽ không còn hiệu lực. Bạn có chắc chắn muốn tạo bộ mã mới?",
+          "ok": "Tạo mới",
+          "cancel": "Hủy"
+        },
+        "removeDevice": {
+          "title": "Xóa thiết bị tin cậy",
+          "content": "Thiết bị này sẽ cần xác thực lại khi đăng nhập lần tiếp theo.",
+          "ok": "Xóa",
+          "cancel": "Hủy"
+        }
+      },
+      "setup": {
+        "title": "Thiết lập xác thực 2 bước",
+        "description": "Hoàn tất các bước bên dưới để bật 2FA cho tài khoản quản trị.",
+        "steps": {
+          "app": {
+            "title": "Tải ứng dụng",
+            "description": "Cài Google Authenticator hoặc ứng dụng 2FA tương thích."
+          },
+          "qr": {
+            "title": "Quét mã QR",
+            "description": "Thêm tài khoản quản trị vào ứng dụng xác thực."
+          },
+          "verify": {
+            "title": "Xác thực",
+            "description": "Nhập mã 6 chữ số để hoàn tất."
+          }
+        },
+        "appStep": {
+          "message": "Bước 1: Tải ứng dụng Authenticator",
+          "description": "Bạn cần một ứng dụng xác thực để tạo mã đăng nhập. Chọn một ứng dụng bên dưới hoặc dùng ứng dụng 2FA bạn đang có.",
+          "continue": "Tiếp tục"
+        },
+        "qrStep": {
+          "message": "Bước 2: Quét mã QR",
+          "description": "Mở ứng dụng authenticator và quét mã QR để thêm tài khoản.",
+          "manualTitle": "Không quét được mã?",
+          "manualDescription": "Nhập thủ công secret key bên dưới vào ứng dụng xác thực.",
+          "generatingSecret": "Đang tạo secret key...",
+          "back": "Quay lại",
+          "scanned": "Đã quét xong"
+        },
+        "verifyStep": {
+          "message": "Bước 3: Xác thực",
+          "description": "Nhập mã 6 chữ số đang hiển thị trong ứng dụng authenticator.",
+          "back": "Quay lại",
+          "finish": "Hoàn tất thiết lập"
+        },
+        "cancel": "Hủy thiết lập",
+        "checking": "Đang kiểm tra trạng thái bảo mật..."
+      },
+      "main": {
+        "title": "Xác thực 2 bước",
+        "description": "Bật 2FA để yêu cầu mã xác thực từ điện thoại khi đăng nhập vào khu vực quản trị.",
+        "enabled": "Đang bật",
+        "disabled": "Đang tắt"
+      },
+      "backup": {
+        "title": "Mã dự phòng",
+        "description": "Dùng khi bạn không còn thiết bị authenticator.",
+        "regenerate": "Tạo mới",
+        "remaining": "Còn {{count}} mã dự phòng khả dụng.",
+        "more": "+{{count}} mã khác",
+        "show": "Hiện",
+        "hide": "Ẩn",
+        "copy": "Sao chép",
+        "details": "Chi tiết"
+      },
+      "devices": {
+        "title": "Thiết bị tin cậy",
+        "description": "{{count}} thiết bị đã được ghi nhớ sau khi xác thực.",
+        "empty": "Chưa có thiết bị tin cậy",
+        "fallback": "Thiết bị",
+        "current": "Hiện tại",
+        "unknownBrowser": "Không rõ trình duyệt",
+        "lastUsed": "Lần cuối: {{time}}",
+        "noData": "Chưa có dữ liệu",
+        "remove": "Xóa"
+      },
+      "tips": {
+        "title": "Lời khuyên bảo mật",
+        "items": [
+          "Lưu mã dự phòng ở nơi an toàn, tách biệt với thiết bị chính.",
+          "Không chia sẻ mã xác thực hoặc mã dự phòng với bất kỳ ai.",
+          "Định kỳ kiểm tra và xóa các thiết bị không còn sử dụng."
+        ]
+      },
+      "backupModal": {
+        "title": "Mã dự phòng xác thực 2 bước",
+        "copyAll": "Sao chép tất cả",
+        "downloadFile": "Tải xuống file",
+        "saved": "Đã lưu an toàn",
+        "warningTitle": "Lưu ý quan trọng",
+        "warningDescription": "Hãy lưu những mã này ở nơi an toàn. Mỗi mã chỉ có thể sử dụng một lần."
+      },
+      "backupFile": {
+        "title": "Mã dự phòng xác thực 2 bước - SmartMall Admin",
+        "createdAt": "Tạo ngày: {{date}}",
+        "note": "Lưu ý: Mỗi mã chỉ sử dụng được một lần. Hãy lưu ở nơi an toàn."
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "seo": {
+    "title": "Home",
+    "description": "SmartMall – Buy game accounts and genuine licensed software at great prices. Daily flash sales, fast delivery, and 24/7 support."
+  },
+  "heroBanner": {
+    "empty": "No banners available",
+    "ariaLabel": "Featured banners"
+  },
+  "widgets": {
+    "empty": "No widgets available"
+  },
+  "flashSaleSection": {
+    "title": "Flash Sale",
+    "viewAll": "View all",
+    "countdownLabel": "Ends in:",
+    "dayUnit": "{{count}} days"
+  },
+  "topDealSection": {
+    "titleAlt": "TOP DEAL - SUPER SAVINGS",
+    "viewAll": "View all"
+  },
+  "featuredProductsSection": {
+    "title": "Featured products",
+    "viewAll": "View all"
+  },
+  "dailySuggestionsSection": {
+    "title": "Today’s suggestions",
+    "loadMore": "Load more",
+    "tabs": {
+      "forYou": "For you",
+      "deal": "Super deals",
+      "new": "New arrivals"
+    },
+    "heroBanner": {
+      "seeMore": "See more"
+    }
+  },
+  "whyChooseUsSection": {
+    "eyebrow": "Why choose us",
+    "title": "Fast shopping, clear support, and a more confident experience",
+    "descPhrases": [
+      "We focus on what matters most: fast processing, convenient payment, clear policies, and support when you need it.",
+      "We are committed to delivering a great shopping experience with many offers and dedicated customer care.",
+      "Modern security systems help keep your transactions and personal information safe.",
+      "Fast delivery keeps us by your side throughout every online shopping journey."
+    ],
+    "cta": "Explore now",
+    "items": {
+      "fastActivation": {
+        "title": "Fast activation",
+        "desc": "Quick order processing, <em>same-day</em> support, and someone ready to <em>respond</em> when needed."
+      },
+      "fastDelivery": {
+        "title": "Fast delivery",
+        "desc": "<em>Fast nationwide delivery</em> with <em>real-time</em> order tracking anytime."
+      },
+      "flexiblePayment": {
+        "title": "Flexible payment",
+        "desc": "Support for multiple convenient <em>payment methods</em> that fit your needs."
+      },
+      "clearWarranty": {
+        "title": "Clear warranty",
+        "desc": "<em>Committed support</em> if issues occur during use."
+      },
+      "regularOffers": {
+        "title": "Regular offers",
+        "desc": "<em>Flash sales</em>, discount vouchers, and attractive <em>reward programs</em>."
+      },
+      "dedicatedSupport": {
+        "title": "Dedicated support",
+        "desc": "<em>Fast, clear advice</em> and support throughout your <em>shopping</em> process."
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "categoryMenu": {
+    "title": "Product categories",
+    "allPrefix": "All {{category}}"
+  }
+}

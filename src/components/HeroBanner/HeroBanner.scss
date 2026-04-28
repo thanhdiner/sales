@@ -64,6 +64,10 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
 }
 
+.HeroBanner-mobile-stack {
+  display: none;
+}
+
 .dark .swiper-pagination-custom .swiper-pagination-bullet {
   background: #3a4047;
 }
@@ -123,6 +127,7 @@
   position: absolute;
   bottom: 32px;
   left: 42px;
+  max-width: min(520px, calc(100% - 84px));
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -131,8 +136,9 @@
 
 .HeroBanner-title {
   color: #fff;
-  font-size: 2.2rem;
+  font-size: clamp(1.35rem, 2.2vw, 2.2rem);
   font-weight: bold;
+  line-height: 1.18;
   text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.44);
   background: rgba(0, 0, 0, 0.18);
   padding: 12px 32px;
@@ -140,6 +146,7 @@
   border: 2px solid rgba(255, 255, 255, 0.16);
   display: inline-block;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.11);
+  overflow-wrap: anywhere;
 }
 
 .skeleton-root {
@@ -265,6 +272,7 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
   .skeleton-content-wrap {
     bottom: 24px;
     left: 28px;
+    max-width: calc(100% - 56px);
   }
 
   .skeleton-title {
@@ -275,25 +283,38 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
 
 @media (max-width: 767.98px) {
   .HeroBanner-root {
-    padding: 12px 12px 28px;
-    border-radius: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .HeroBanner-swiper {
+    display: none;
+  }
+
+  .HeroBanner-mobile-stack {
+    display: grid;
+    gap: 12px;
   }
 
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
-    aspect-ratio: 2/1;
+    aspect-ratio: 16/9;
   }
 
   .HeroBanner-title {
-    font-size: 1.55rem;
-    padding: 10px 22px;
+    font-size: 1.25rem;
+    padding: 8px 14px;
   }
 
   .HeroBanner-title-wrap,
   .skeleton-content-wrap {
     bottom: 20px;
     left: 20px;
+    max-width: calc(100% - 40px);
   }
 
   .skeleton-title {
@@ -302,18 +323,42 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
   }
 
   .HeroBanner-overlay {
-    background: linear-gradient(60deg, rgba(0, 0, 0, 0.55) 10%, rgba(0, 0, 0, 0.25) 55%, transparent 100%);
+    background: linear-gradient(60deg, rgba(0, 0, 0, 0.26) 10%, rgba(0, 0, 0, 0.08) 55%, transparent 100%);
   }
 
   .custom-dots {
     bottom: 12px !important;
   }
+
+  .skeleton-root {
+    padding: 12px;
+  }
+
+  .skeleton-track {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .skeleton-banner {
+    width: 100%;
+    min-height: 148px;
+    border-radius: 18px;
+  }
+
+  .skeleton-banner--desktop {
+    display: none;
+  }
+
+  .skeleton-dots {
+    display: none;
+  }
 }
 
 @media (max-width: 575.98px) {
   .HeroBanner-root {
-    padding: 10px 10px 24px;
-    border-radius: 18px;
+    padding: 0;
+    border-radius: 0;
   }
 
   .swiper-pagination-custom {
@@ -347,19 +392,20 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
-    aspect-ratio: 21/9;
+    aspect-ratio: 16/9;
   }
 
   .HeroBanner-title {
-    font-size: 1.3rem;
-    padding: 8px 18px;
+    font-size: 0.95rem;
+    padding: 6px 10px;
     border-width: 1px;
   }
 
   .HeroBanner-title-wrap,
   .skeleton-content-wrap {
-    bottom: 16px;
-    left: 16px;
+    bottom: 14px;
+    left: 14px;
+    max-width: calc(100% - 28px);
   }
 
   .skeleton-title {
@@ -369,6 +415,20 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
 
   .HeroBanner-banner {
     border-width: 1px;
-    border-radius: 12px;
+    border-radius: 20px;
+  }
+
+  .HeroBanner-mobile-stack .HeroBanner-banner:not(:first-child),
+  .HeroBanner-mobile-stack .HeroBanner-banner:not(:first-child) .HeroBanner-img {
+    aspect-ratio: 21/8;
+  }
+
+  .HeroBanner-mobile-stack .HeroBanner-banner:not(:first-child) .HeroBanner-title-wrap {
+    bottom: 12px;
+  }
+
+  .layout-default--home .HeroBanner-title-wrap,
+  .layout-default--home .HeroBanner-overlay {
+    display: none;
   }
 }

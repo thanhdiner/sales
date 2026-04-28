@@ -1,5 +1,142 @@
 .admin-permission-groups-page {
+  min-height: 100%;
+  border-radius: 12px;
+  background: var(--admin-bg-soft);
   color: var(--admin-text);
+  padding: 24px;
+}
+
+.admin-permission-groups-page,
+.admin-permission-groups-page * {
+  box-sizing: border-box;
+}
+
+.admin-permission-groups-page__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.admin-permission-groups-card {
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+  padding: 20px;
+}
+
+.admin-permission-groups-header {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-permission-groups-header__content {
+  min-width: 0;
+}
+
+.admin-permission-groups-header__title.ant-typography {
+  margin: 0 0 4px !important;
+  color: var(--admin-text) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+
+.admin-permission-groups-header__description.ant-typography {
+  display: block;
+  color: var(--admin-text-muted) !important;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-permission-groups-create-btn.ant-btn,
+.admin-permission-groups-create-btn.ant-btn.ant-btn-primary {
+  height: 38px;
+  border: 0 !important;
+  border-radius: 8px;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.admin-permission-groups-create-btn.ant-btn:hover,
+.admin-permission-groups-create-btn.ant-btn.ant-btn-primary:hover {
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+  filter: brightness(1.06);
+}
+
+.admin-permission-groups-stats {
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-permission-groups-stat-card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface);
+  padding: 12px 14px;
+}
+
+.admin-permission-groups-stat-card__icon {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--admin-accent);
+  background: var(--admin-accent-soft);
+  font-size: 20px;
+}
+
+.admin-permission-groups-stat-card--active .admin-permission-groups-stat-card__icon {
+  color: var(--admin-success-text);
+  background: var(--admin-success-bg-soft);
+}
+
+.admin-permission-groups-stat-card--inactive .admin-permission-groups-stat-card__icon {
+  color: var(--admin-danger-text);
+  background: var(--admin-danger-bg-soft);
+}
+
+.admin-permission-groups-stat-card__content {
+  min-width: 0;
+}
+
+.admin-permission-groups-stat-card__label {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.admin-permission-groups-stat-card__value {
+  margin: 4px 0 0;
+  color: var(--admin-text);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.admin-permission-groups-table-wrap {
+  overflow: hidden;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
 }
 
 .admin-permission-groups-table.ant-table-wrapper .ant-table,
@@ -28,6 +165,68 @@
 
 .admin-permission-groups-table.ant-table-wrapper .ant-empty-description {
   color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-groups-table.ant-table-wrapper .ant-pagination {
+  margin: 14px 0 0;
+  padding: 0 2px;
+}
+
+.admin-permission-groups-name-cell {
+  min-width: 0;
+}
+
+.admin-permission-groups-name-cell__label {
+  display: block;
+  color: var(--admin-text);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.admin-permission-groups-count {
+  display: block;
+  margin-top: 2px;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.admin-permission-groups-code {
+  color: var(--admin-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.admin-permission-groups-description {
+  color: var(--admin-text-muted);
+}
+
+.admin-permission-groups-action-btn.ant-btn {
+  height: 32px;
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+  box-shadow: none !important;
+}
+
+.admin-permission-groups-action-btn.ant-btn:hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-action-btn.admin-permission-groups-delete-btn.ant-btn,
+.admin-permission-groups-action-btn.admin-permission-groups-delete-btn.ant-btn.ant-btn-dangerous {
+  border-color: rgba(248, 81, 73, 0.35) !important;
+  background: rgba(248, 81, 73, 0.08) !important;
+  color: #f87171 !important;
+}
+
+.admin-permission-groups-action-btn.admin-permission-groups-delete-btn.ant-btn:hover,
+.admin-permission-groups-action-btn.admin-permission-groups-delete-btn.ant-btn.ant-btn-dangerous:hover {
+  border-color: rgba(248, 81, 73, 0.55) !important;
+  background: rgba(248, 81, 73, 0.14) !important;
+  color: #fca5a5 !important;
 }
 
 .admin-permission-groups-table.ant-table-wrapper .ant-pagination-item,
@@ -88,6 +287,163 @@
 
 .admin-permission-groups-table .admin-permission-groups-delete-btn.ant-btn.ant-btn-text.ant-btn-dangerous {
   color: #f87171 !important;
+}
+
+.admin-permission-groups-mobile {
+  display: none;
+}
+
+.admin-permission-groups-mobile-list {
+  overflow: hidden;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface);
+}
+
+.admin-permission-groups-mobile-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto 30px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+}
+
+.admin-permission-groups-mobile-item + .admin-permission-groups-mobile-item {
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-permission-groups-mobile-item__icon {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--admin-accent);
+  color: #f4f5f8;
+  font-size: 15px;
+}
+
+.admin-permission-groups-mobile-item__content {
+  min-width: 0;
+}
+
+.admin-permission-groups-mobile-item__title {
+  margin: 0;
+  overflow: hidden;
+  color: var(--admin-text);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-permission-groups-mobile-item__status {
+  min-width: 0;
+}
+
+.admin-permission-groups-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.admin-permission-groups-status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.admin-permission-groups-status--active {
+  color: var(--admin-success-text);
+  background: var(--admin-success-bg-soft);
+}
+
+.admin-permission-groups-status--inactive {
+  color: var(--admin-danger-text);
+  background: var(--admin-danger-bg-soft);
+}
+
+.admin-permission-groups-menu-btn.ant-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-permission-groups-menu-btn.ant-btn:hover,
+.admin-permission-groups-menu-btn.ant-btn:focus-visible {
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-permission-groups-mobile-menu {
+  min-width: 132px;
+  padding: 6px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-permission-groups-mobile-menu__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--admin-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 9px;
+  text-align: left;
+}
+
+.admin-permission-groups-mobile-menu__item:hover {
+  background: var(--admin-surface-3);
+  color: var(--admin-text);
+}
+
+.admin-permission-groups-mobile-menu__item--danger {
+  color: #f87171;
+}
+
+.admin-permission-groups-mobile-pagination.ant-pagination {
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.admin-permission-groups-mobile-pagination.ant-pagination .ant-pagination-total-text {
+  width: 100%;
+  color: var(--admin-text-muted);
+}
+
+.admin-permission-groups-empty-state {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface);
+}
+
+.admin-permission-groups-empty-state .ant-empty-description {
+  color: var(--admin-text-muted) !important;
 }
 
 .admin-permission-groups-page .ant-switch {
@@ -158,6 +514,22 @@
   box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
 }
 
+.admin-permission-group-modal__translation-section {
+  margin: 4px 0 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+  padding: 14px;
+}
+
+.admin-permission-group-modal__translation-title {
+  margin: 0 0 12px;
+  color: var(--admin-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .admin-permission-groups-popconfirm.ant-popover .ant-popover-inner {
   border: 1px solid var(--admin-border) !important;
   background: var(--admin-surface-2) !important;
@@ -196,4 +568,138 @@
   border-color: var(--admin-accent) !important;
   background: var(--admin-accent) !important;
   color: #ffffff !important;
+}
+
+@media (max-width: 1024px) {
+  .admin-permission-groups-page {
+    padding: 16px;
+  }
+
+  .admin-permission-groups-card {
+    padding: 18px;
+  }
+
+  .admin-permission-groups-header {
+    align-items: center;
+  }
+
+  .admin-permission-groups-header__title.ant-typography {
+    font-size: 20px !important;
+  }
+
+  .admin-permission-groups-stats {
+    gap: 10px;
+  }
+
+  .admin-permission-groups-stat-card {
+    padding: 10px 12px;
+  }
+
+  .admin-permission-groups-stat-card__icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-permission-groups-page {
+    min-height: auto;
+    padding: 0;
+    background: transparent;
+  }
+
+  .admin-permission-groups-card {
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .admin-permission-groups-header {
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+
+  .admin-permission-groups-header__title.ant-typography {
+    font-size: 18px !important;
+  }
+
+  .admin-permission-groups-header__description.ant-typography {
+    font-size: 12px;
+  }
+
+  .admin-permission-groups-create-btn.ant-btn {
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
+  }
+
+  .admin-permission-groups-create-btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .admin-permission-groups-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-permission-groups-stat-card {
+    padding: 10px;
+  }
+
+  .admin-permission-groups-stat-card--inactive {
+    grid-column: 1 / -1;
+  }
+
+  .admin-permission-groups-stat-card__icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    font-size: 18px;
+  }
+
+  .admin-permission-groups-stat-card__value {
+    font-size: 20px;
+  }
+
+  .admin-permission-groups-table-wrap {
+    display: none;
+  }
+
+  .admin-permission-groups-mobile {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-permission-groups-card {
+    padding: 12px;
+  }
+
+  .admin-permission-groups-mobile-item {
+    grid-template-columns: 34px minmax(0, 1fr) 30px;
+    grid-template-areas:
+      'icon content menu'
+      'icon status menu';
+    gap: 4px 9px;
+  }
+
+  .admin-permission-groups-mobile-item__icon {
+    grid-area: icon;
+  }
+
+  .admin-permission-groups-mobile-item__content {
+    grid-area: content;
+  }
+
+  .admin-permission-groups-mobile-item__status {
+    grid-area: status;
+  }
+
+  .admin-permission-groups-menu-btn {
+    grid-area: menu;
+  }
 }

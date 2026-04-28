@@ -1,0 +1,85 @@
+{
+  "seo": {
+    "title": "Admin - Accounts"
+  },
+  "page": {
+    "title": "Accounts Management"
+  },
+  "common": {
+    "create": "Add account",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "submitCreate": "Create",
+    "cancel": "Cancel",
+    "unknownAccount": "Unknown Account",
+    "unknownRole": "Unknown Role"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "banned": "Banned"
+  },
+  "table": {
+    "columns": {
+      "userName": "User Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "action": "Action"
+    },
+    "loading": "Loading data...",
+    "empty": "No accounts found",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} accounts",
+    "editAccount": "Edit account",
+    "deleteAccount": "Delete account",
+    "openActions": "Open account actions",
+    "deleteConfirmTitle": "Are you sure you want to delete?",
+    "deleteConfirmOk": "Delete",
+    "deleteConfirmCancel": "Cancel"
+  },
+  "form": {
+    "createTitle": "Add account",
+    "editTitle": "Edit account",
+    "username": "Username",
+    "usernameRequired": "Please enter a username",
+    "usernameMin": "Username must be at least 4 characters",
+    "usernamePattern": "Only use letters, numbers, or underscores; special characters are not allowed!",
+    "usernamePlaceholder": "Enter username",
+    "email": "Email",
+    "emailRequired": "Please enter an email",
+    "emailInvalid": "Email is invalid",
+    "emailPlaceholder": "Enter email",
+    "password": "Password",
+    "newPassword": "New Password",
+    "passwordRequired": "Please enter a password",
+    "passwordMin": "Password must be at least 6 characters!",
+    "passwordPlaceholder": "Enter password",
+    "newPasswordPlaceholder": "Enter new password (optional)",
+    "fullName": "Full Name",
+    "fullNameRequired": "Full name is required!",
+    "fullNamePlaceholder": "Enter full name",
+    "translations": {
+      "sectionTitle": "English translation",
+      "fullName": "English full name",
+      "fullNamePlaceholder": "Enter the display name in English"
+    },
+    "role": "Role",
+    "roleRequired": "Please select a role",
+    "status": "Status",
+    "statusRequired": "Please select a status",
+    "avatar": "Avatar Image",
+    "addAvatar": "Add Avatar"
+  },
+  "messages": {
+    "fetchError": "Unable to load account list.",
+    "updateSuccess": "Account updated successfully!",
+    "createSuccess": "New account created successfully!",
+    "saveError": "Failed to save account",
+    "deleteSuccess": "Account deleted.",
+    "deleteError": "Delete failed!",
+    "statusSuccess": "Status updated successfully!",
+    "statusError": "Failed to update status!",
+    "invalidAvatar": "You can only upload avatar image files!"
+  }
+}

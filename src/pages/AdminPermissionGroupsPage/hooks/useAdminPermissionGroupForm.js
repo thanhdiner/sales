@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Form, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   createAdminPermissionGroup,
   updateAdminPermissionGroupById
@@ -11,6 +12,7 @@ import {
 } from '../utils'
 
 export function useAdminPermissionGroupForm({ onSaved }) {
+  const { t } = useTranslation('adminPermissionGroups')
   const [form] = Form.useForm()
   const [modalVisible, setModalVisible] = useState(false)
   const [editingGroup, setEditingGroup] = useState(null)
@@ -18,11 +20,20 @@ export function useAdminPermissionGroupForm({ onSaved }) {
 
   const openModal = group => {
     setEditingGroup(group || null)
+    form.resetFields()
 
     if (group) {
-      form.setFieldsValue(group)
+      form.setFieldsValue({
+        ...adminPermissionGroupInitialValues,
+        ...group,
+        translations: {
+          en: {
+            ...adminPermissionGroupInitialValues.translations.en,
+            ...(group.translations?.en || {})
+          }
+        }
+      })
     } else {
-      form.resetFields()
       form.setFieldsValue(adminPermissionGroupInitialValues)
     }
 
@@ -49,7 +60,15 @@ export function useAdminPermissionGroupForm({ onSaved }) {
     setSubmitLoading(true)
 
     try {
-      const payload = { ...values }
+      const payload = {
+        ...values,
+        translations: {
+          en: {
+            label: values.translations?.en?.label?.trim() || '',
+            description: values.translations?.en?.description || ''
+          }
+        }
+      }
 
       if (!editingGroup && payload.label && !payload.value) {
         payload.value = getPermissionGroupSlug(payload.label)
@@ -57,10 +76,10 @@ export function useAdminPermissionGroupForm({ onSaved }) {
 
       if (editingGroup) {
         await updateAdminPermissionGroupById(editingGroup._id, payload)
-        message.success('Đã cập nhật nhóm quyền')
+        message.success(t('messages.updateSuccess'))
       } else {
         await createAdminPermissionGroup(payload)
-        message.success('Đã tạo nhóm quyền')
+        message.success(t('messages.createSuccess'))
       }
 
       closeModal()
@@ -70,7 +89,7 @@ export function useAdminPermissionGroupForm({ onSaved }) {
         return
       }
 
-      message.error(getPermissionGroupErrorMessage(error, 'Không thể lưu nhóm quyền'))
+      message.error(getPermissionGroupErrorMessage(error, t('messages.saveError')))
     } finally {
       setSubmitLoading(false)
     }

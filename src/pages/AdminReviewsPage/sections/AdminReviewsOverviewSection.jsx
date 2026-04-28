@@ -1,4 +1,5 @@
 import { Star, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 function StatCard({ label, value, sub }) {
   return (
@@ -16,19 +17,21 @@ export default function AdminReviewsOverviewSection({
   ratingFilter,
   onRatingFilterChange
 }) {
+  const { t } = useTranslation('adminReviews')
+
   return (
     <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard label="Tổng đánh giá" value={stats.total} sub="tất cả sản phẩm" />
-        <StatCard label="Điểm trung bình" value={stats.avg} sub="trên thang 5 sao" />
-        <StatCard label="Đã phản hồi" value={stats.replied} sub={`${replyRate}% tỷ lệ phản hồi`} />
-        <StatCard label="Chưa phản hồi" value={stats.total - stats.replied} sub="cần xử lý" />
+        <StatCard label={t('stats.total')} value={stats.total} sub={t('stats.totalSub')} />
+        <StatCard label={t('stats.average')} value={stats.avg} sub={t('stats.averageSub')} />
+        <StatCard label={t('stats.replied')} value={stats.replied} sub={t('stats.replyRate', { rate: replyRate })} />
+        <StatCard label={t('stats.unreplied')} value={stats.total - stats.replied} sub={t('stats.unrepliedSub')} />
       </div>
 
       {stats.total > 0 && (
         <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)]">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)]">
-            Phân bổ đánh giá
+            {t('stats.distribution')}
           </p>
 
           <div className="space-y-2">
@@ -71,7 +74,7 @@ export default function AdminReviewsOverviewSection({
               className="mt-3 flex items-center gap-1 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
             >
               <X size={11} strokeWidth={1.8} />
-              Bỏ lọc {ratingFilter} sao
+              {t('stats.clearRating', { rating: ratingFilter })}
             </button>
           )}
         </div>

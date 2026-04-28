@@ -1,0 +1,75 @@
+{
+  "seo": {
+    "title": "Admin - Vai tr\u00f2"
+  },
+  "page": {
+    "title": "Vai tr\u00f2",
+    "description": "Qu\u1ea3n l\u00fd vai tr\u00f2 v\u00e0 ph\u00e2n quy\u1ec1n truy c\u1eadp cho t\u00e0i kho\u1ea3n qu\u1ea3n tr\u1ecb."
+  },
+  "common": {
+    "create": "T\u1ea1o",
+    "save": "L\u01b0u",
+    "cancel": "H\u1ee7y",
+    "delete": "X\u00f3a",
+    "system": "H\u1ec7 th\u1ed1ng",
+    "enable": "B\u1eadt",
+    "disable": "T\u1eaft",
+    "addRole": "Th\u00eam vai tr\u00f2",
+    "editRole": "S\u1eeda vai tr\u00f2",
+    "deleteRole": "X\u00f3a vai tr\u00f2"
+  },
+  "table": {
+    "columns": {
+      "role": "Vai tr\u00f2",
+      "description": "M\u00f4 t\u1ea3",
+      "permissions": "Quy\u1ec1n",
+      "status": "Tr\u1ea1ng th\u00e1i",
+      "actions": "H\u00e0nh \u0111\u1ed9ng"
+    },
+    "noDescription": "Kh\u00f4ng c\u00f3 m\u00f4 t\u1ea3",
+    "noPermissions": "Ch\u01b0a c\u00f3 quy\u1ec1n",
+    "morePermissions": "+{{count}} quy\u1ec1n",
+    "englishTranslation": "EN: {{label}}",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} c\u1ee7a {{total}} vai tr\u00f2",
+    "loading": "\u0110ang t\u1ea3i d\u1eef li\u1ec7u...",
+    "empty": "Kh\u00f4ng c\u00f3 vai tr\u00f2 n\u00e0o",
+    "openActions": "M\u1edf h\u00e0nh \u0111\u1ed9ng vai tr\u00f2"
+  },
+  "status": {
+    "enabled": "B\u1eadt",
+    "disabled": "T\u1eaft"
+  },
+  "confirm": {
+    "deleteTitle": "X\u00f3a vai tr\u00f2 n\u00e0y?",
+    "deleteContent": "Kh\u00f4ng th\u1ec3 x\u00f3a n\u1ebfu vai tr\u00f2 v\u1eabn \u0111ang \u0111\u01b0\u1ee3c g\u00e1n cho ng\u01b0\u1eddi d\u00f9ng."
+  },
+  "form": {
+    "createTitle": "Th\u00eam vai tr\u00f2",
+    "editTitle": "Ch\u1ec9nh s\u1eeda vai tr\u00f2",
+    "roleName": "T\u00ean vai tr\u00f2",
+    "roleNameRequired": "Vui l\u00f2ng nh\u1eadp t\u00ean vai tr\u00f2",
+    "roleNamePlaceholder": "V\u00ed d\u1ee5: Qu\u1ea3n tr\u1ecb s\u1ea3n ph\u1ea9m",
+    "description": "M\u00f4 t\u1ea3",
+    "descriptionPlaceholder": "M\u00f4 t\u1ea3 ng\u1eafn v\u1ec1 vai tr\u00f2",
+    "translations": {
+      "sectionTitle": "B\u1ea3n d\u1ecbch ti\u1ebfng Anh",
+      "roleName": "T\u00ean vai tr\u00f2 ti\u1ebfng Anh",
+      "roleNamePlaceholder": "Nh\u1eadp t\u00ean vai tr\u00f2 b\u1eb1ng ti\u1ebfng Anh",
+      "description": "M\u00f4 t\u1ea3 ti\u1ebfng Anh",
+      "descriptionPlaceholder": "Nh\u1eadp m\u00f4 t\u1ea3 vai tr\u00f2 b\u1eb1ng ti\u1ebfng Anh"
+    },
+    "permissions": "Quy\u1ec1n h\u1ea1n",
+    "permissionsPlaceholder": "Ch\u1ecdn quy\u1ec1n cho vai tr\u00f2 n\u00e0y",
+    "status": "Tr\u1ea1ng th\u00e1i"
+  },
+  "messages": {
+    "deleteSuccess": "\u0110\u00e3 x\u00f3a vai tr\u00f2",
+    "deleteError": "Kh\u00f4ng th\u1ec3 x\u00f3a vai tr\u00f2",
+    "toggleActive": "\u0110\u00e3 k\u00edch ho\u1ea1t vai tr\u00f2",
+    "toggleInactive": "\u0110\u00e3 t\u1ea1m d\u1eebng vai tr\u00f2",
+    "toggleError": "Kh\u00f4ng th\u1ec3 thay \u0111\u1ed5i tr\u1ea1ng th\u00e1i",
+    "updateSuccess": "\u0110\u00e3 c\u1eadp nh\u1eadt vai tr\u00f2",
+    "createSuccess": "\u0110\u00e3 t\u1ea1o vai tr\u00f2",
+    "saveError": "Kh\u00f4ng th\u1ec3 l\u01b0u vai tr\u00f2"
+  }
+}

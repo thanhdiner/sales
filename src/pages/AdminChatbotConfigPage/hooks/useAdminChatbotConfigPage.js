@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
 import { Form } from 'antd'
+import { useTranslation } from 'react-i18next'
 import useAdminChatbotConfigData from '@/pages/AdminChatbotShared/hooks/useAdminChatbotConfigData'
 
 export default function useAdminChatbotConfigPage() {
+  const { t } = useTranslation('adminChatbotConfig')
   const [form] = Form.useForm()
   const {
     config,
@@ -19,16 +21,16 @@ export default function useAdminChatbotConfigPage() {
     if (!config) return
 
     form.setFieldsValue({
-      agentName: config.agentName || 'Trợ lý mua hàng',
+      agentName: config.agentName || t('defaults.agentName'),
       agentRole: config.agentRole || '',
       agentTone: config.agentTone || '',
       isEnabled: config.isEnabled
     })
-  }, [config, form])
+  }, [config, form, t])
 
   const handleSave = async () => {
     const values = form.getFieldsValue(true)
-    await saveConfig(values, 'Cập nhật hồ sơ agent thành công')
+    await saveConfig(values, t('messages.updateProfileSuccess'))
   }
 
   return {

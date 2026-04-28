@@ -1,0 +1,97 @@
+{
+  "seo": {
+    "title": "Admin - Chi tiết đơn"
+  },
+  "page": {
+    "orderTitle": "Đơn hàng {{code}}"
+  },
+  "actions": {
+    "backToOrders": "Quay lại danh sách đơn hàng",
+    "backToList": "Quay lại danh sách",
+    "update": "Cập nhật",
+    "saving": "Đang lưu...",
+    "completeDelivery": "Chốt bàn giao"
+  },
+  "states": {
+    "loading": "Đang tải đơn hàng...",
+    "notFound": "Không tìm thấy đơn hàng"
+  },
+  "status": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Đã xác nhận",
+    "shipping": "Đang giao",
+    "completed": "Hoàn thành",
+    "cancelled": "Đã hủy",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "paymentStatus": {
+    "pending": "Chưa thanh toán",
+    "paid": "Đã thanh toán",
+    "failed": "Thanh toán thất bại",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "paymentMethod": {
+    "transfer": "Chuyển khoản",
+    "contact": "Liên hệ sau",
+    "vnpay": "VNPay",
+    "momo": "MoMo",
+    "zalopay": "ZaloPay",
+    "sepay": "Sepay",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "deliveryMethod": {
+    "pickup": "Nhận tại cửa hàng",
+    "contact": "Liên hệ bàn giao",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "deliveryType": {
+    "manual": "Bàn giao thủ công",
+    "instant_account": "Tài khoản tự động",
+    "unknown": "Không xác định: {{value}}"
+  },
+  "customer": {
+    "title": "Thông tin khách hàng",
+    "guest": "Khách vãng lai"
+  },
+  "items": {
+    "title": "Sản phẩm đã đặt",
+    "deliveryType": "Bàn giao: {{type}}",
+    "deliveredCount": "Đã bàn giao {{count}} tài khoản/license"
+  },
+  "digitalDelivery": {
+    "title": "Bàn giao tài khoản",
+    "pendingPaid": "Đã thanh toán nhưng chưa có dữ liệu bàn giao",
+    "pendingPayment": "Chờ thanh toán để bàn giao",
+    "fields": {
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "email": "Email",
+      "licenseKey": "License key",
+      "loginUrl": "Link đăng nhập",
+      "instructions": "Hướng dẫn",
+      "notes": "Ghi chú"
+    }
+  },
+  "summary": {
+    "title": "Tổng quan đơn hàng",
+    "payment": "Trạng thái thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "deliveryMethod": "Phương thức bàn giao",
+    "subtotal": "Tạm tính",
+    "discount": "Giảm giá",
+    "shipping": "Phí vận chuyển",
+    "freeShipping": "Miễn phí",
+    "total": "Tổng cộng"
+  },
+  "transfer": {
+    "title": "Thông tin chuyển khoản",
+    "bank": "Ngân hàng",
+    "accountNumber": "Số tài khoản",
+    "accountName": "Chủ tài khoản",
+    "content": "Nội dung chuyển khoản"
+  },
+  "messages": {
+    "updateSuccess": "Cập nhật trạng thái thành công!",
+    "updateError": "Không thể cập nhật đơn hàng."
+  }
+}

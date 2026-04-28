@@ -1,16 +1,19 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import useAdminPermissions from '@/hooks/useAdminPermissions'
 import { useAdminPermissionGroupForm } from './hooks/useAdminPermissionGroupForm'
 import { useAdminPermissionGroupsData } from './hooks/useAdminPermissionGroupsData'
 import AdminPermissionGroupFormModal from './sections/AdminPermissionGroupFormModal'
 import AdminPermissionGroupsHeaderSection from './sections/AdminPermissionGroupsHeaderSection'
+import AdminPermissionGroupsStatsSection from './sections/AdminPermissionGroupsStatsSection'
 import AdminPermissionGroupsTableSection from './sections/AdminPermissionGroupsTableSection'
 import './AdminPermissionGroupsPage.scss'
 
 const DEFAULT_PAGE_SIZE = 10
 
 export default function AdminPermissionGroupsPage() {
+  const { t } = useTranslation('adminPermissionGroups')
   const permissions = useAdminPermissions()
   const { groups, loading, updatingId, fetchGroups, handleDeleteGroup, handleToggleGroupActive } =
     useAdminPermissionGroupsData()
@@ -23,16 +26,26 @@ export default function AdminPermissionGroupsPage() {
     return groups.slice(startIndex, startIndex + pageSize)
   }, [currentPage, groups, pageSize])
 
-  return (
-    <div className="admin-permission-groups-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-6">
-      <SEO title="Admin – Nhóm quyền" noIndex />
+  useEffect(() => {
+    const maxPage = Math.max(1, Math.ceil(groups.length / pageSize))
 
-      <div className="mx-auto max-w-7xl">
-        <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
+    if (currentPage > maxPage) {
+      setCurrentPage(maxPage)
+    }
+  }, [currentPage, groups.length, pageSize])
+
+  return (
+    <div className="admin-permission-groups-page">
+      <SEO title={t('seo.title')} noIndex />
+
+      <div className="admin-permission-groups-page__inner">
+        <section className="admin-permission-groups-card">
           <AdminPermissionGroupsHeaderSection
             canCreateGroup={permissions.includes('create_permission_group')}
             onCreateGroup={() => groupForm.openModal()}
           />
+
+          <AdminPermissionGroupsStatsSection groups={groups} />
 
           <AdminPermissionGroupsTableSection
             groups={paginatedGroups}
@@ -51,7 +64,7 @@ export default function AdminPermissionGroupsPage() {
             onDeleteGroup={handleDeleteGroup}
             onToggleGroupActive={handleToggleGroupActive}
           />
-        </div>
+        </section>
 
         <AdminPermissionGroupFormModal {...groupForm} />
       </div>

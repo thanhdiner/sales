@@ -1,127 +1,264 @@
-import { Eye, Package } from 'lucide-react'
+import { Calendar, Eye, Package, Phone, Tag } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   formatAdminOrderDate,
   formatAdminOrderTotal,
   getAdminOrderCode,
   getAdminOrderCustomerName,
+  getAdminOrderItemsSummary,
+  getAdminOrderPaymentMethodLabel,
+  getAdminOrderPaymentStatusLabel,
   getAdminOrderStatusConfig
 } from '../utils'
 
 function AdminOrdersLoadingState() {
+  const { t } = useTranslation('adminOrders')
+
   return (
     <div className="flex items-center justify-center py-16">
       <div className="flex flex-col items-center gap-3">
         <div className="h-9 w-9 animate-spin rounded-full border-2 border-[var(--admin-border)] border-t-[var(--admin-accent)]" />
-        <p className="text-sm font-medium text-[var(--admin-text-muted)]">Đang tải dữ liệu...</p>
+        <p className="text-sm font-medium text-[var(--admin-text-muted)]">{t('table.loading')}</p>
       </div>
     </div>
   )
 }
 
 function AdminOrdersEmptyState() {
+  const { t } = useTranslation('adminOrders')
+
   return (
     <div className="flex items-center justify-center py-16">
       <div className="text-center">
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text-subtle)]">
           <Package className="h-6 w-6" />
         </div>
-        <h3 className="mb-1 text-base font-semibold text-[var(--admin-text)]">Không có đơn hàng nào</h3>
-        <p className="text-sm text-[var(--admin-text-muted)]">Chưa có đơn hàng nào phù hợp với bộ lọc hiện tại.</p>
+        <h3 className="mb-1 text-base font-semibold text-[var(--admin-text)]">{t('table.emptyTitle')}</h3>
+        <p className="text-sm text-[var(--admin-text-muted)]">{t('table.emptyDescription')}</p>
       </div>
     </div>
   )
 }
 
-function AdminOrdersTableRow({ order, onViewOrder }) {
-  const statusConfig = getAdminOrderStatusConfig(order.status)
+function AdminOrdersDesktopRow({ order, onViewOrder }) {
+  const { t, i18n } = useTranslation('adminOrders')
+  const language = i18n.resolvedLanguage || i18n.language
+  const statusConfig = getAdminOrderStatusConfig(order.status, t)
   const StatusIcon = statusConfig.icon
+  const customerName = getAdminOrderCustomerName(order, t('table.guestCustomer'))
+  const itemsSummary = getAdminOrderItemsSummary(order, language, t)
+  const paymentMeta = [
+    order.paymentStatus ? getAdminOrderPaymentStatusLabel(order.paymentStatus, t) : '',
+    order.paymentMethod ? getAdminOrderPaymentMethodLabel(order.paymentMethod, t) : ''
+  ].filter(Boolean).join(' · ')
 
   return (
     <div
-      className="group cursor-pointer px-4 py-4 transition-colors hover:bg-[var(--admin-surface-2)] md:px-5"
+      className="group hidden cursor-pointer grid-cols-12 items-center gap-4 px-5 py-3 transition-colors hover:bg-[var(--admin-surface-2)] xl:grid"
       onClick={() => onViewOrder(order._id)}
     >
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:items-center md:gap-4">
-        <div className="md:col-span-2">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Mã đơn</div>
-          <div className="inline-flex rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-2.5 py-1 font-mono text-xs font-semibold text-[var(--admin-text)]">
-            {getAdminOrderCode(order._id)}
-          </div>
+      <div className="col-span-2">
+        <div className="inline-flex rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-2.5 py-1 font-mono text-xs font-semibold text-[var(--admin-text)]">
+          {getAdminOrderCode(order._id)}
+        </div>
+      </div>
+
+      <div className="col-span-2 min-w-0">
+        <div className="truncate text-sm font-medium text-[var(--admin-text)]">{customerName}</div>
+        {itemsSummary && <div className="mt-1 truncate text-xs text-[var(--admin-text-subtle)]">{itemsSummary}</div>}
+      </div>
+      <div className="col-span-2 break-words text-sm text-[var(--admin-text-muted)]">{order.contact?.phone || '--'}</div>
+      <div className="col-span-2 text-sm text-[var(--admin-text-muted)]">{formatAdminOrderDate(order.createdAt, language)}</div>
+
+      <div className="col-span-2">
+        <div className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${statusConfig.badgeClassName}`}>
+          <StatusIcon className={`h-3.5 w-3.5 ${statusConfig.iconClassName}`} />
+          {statusConfig.label}
+        </div>
+      </div>
+
+      <div className="col-span-1">
+        <div className="text-sm font-semibold text-[var(--admin-text)]">{formatAdminOrderTotal(order.total, language)}</div>
+        {paymentMeta && <div className="mt-1 text-xs font-medium text-[var(--admin-text-muted)]">{paymentMeta}</div>}
+      </div>
+
+      <div className="col-span-1 text-center">
+        <button
+          type="button"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
+          onClick={event => {
+            event.stopPropagation()
+            onViewOrder(order._id)
+          }}
+          aria-label={t('table.viewOrderDetails')}
+        >
+          <Eye className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function AdminOrdersTabletRow({ order, onViewOrder }) {
+  const { t, i18n } = useTranslation('adminOrders')
+  const language = i18n.resolvedLanguage || i18n.language
+  const statusConfig = getAdminOrderStatusConfig(order.status, t)
+  const StatusIcon = statusConfig.icon
+  const customerName = getAdminOrderCustomerName(order, t('table.guestCustomer'))
+  const itemsSummary = getAdminOrderItemsSummary(order, language, t)
+  const paymentMeta = [
+    order.paymentStatus ? getAdminOrderPaymentStatusLabel(order.paymentStatus, t) : '',
+    order.paymentMethod ? getAdminOrderPaymentMethodLabel(order.paymentMethod, t) : ''
+  ].filter(Boolean).join(' · ')
+
+  return (
+    <div
+      className="group hidden cursor-pointer rounded-xl border border-transparent px-4 py-3.5 transition-colors hover:border-[var(--admin-border)] hover:bg-[var(--admin-surface-2)] md:block xl:hidden"
+      onClick={() => onViewOrder(order._id)}
+    >
+      <div className="grid grid-cols-12 items-center gap-3">
+        <div className="col-span-3 min-w-0">
+          <div className="truncate text-[15px] font-semibold leading-5 text-[var(--admin-text)]">{customerName}</div>
+          {itemsSummary && <div className="mt-1 truncate text-xs text-[var(--admin-text-subtle)]">{itemsSummary}</div>}
         </div>
 
-        <div className="md:col-span-2">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Khách hàng</div>
-          <div className="truncate text-sm font-medium text-[var(--admin-text)]">{getAdminOrderCustomerName(order)}</div>
-        </div>
-
-        <div className="md:col-span-2">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Liên hệ</div>
-          <div className="text-sm text-[var(--admin-text-muted)]">{order.contact?.phone || '--'}</div>
-        </div>
-
-        <div className="md:col-span-2">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Ngày tạo</div>
-          <div className="text-sm text-[var(--admin-text-muted)]">{formatAdminOrderDate(order.createdAt)}</div>
-        </div>
-
-        <div className="md:col-span-2">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Trạng thái</div>
-          <div
-            className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium ${statusConfig.badgeClassName}`}
-          >
+        <div className="col-span-3">
+          <div className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${statusConfig.badgeClassName}`}>
             <StatusIcon className={`h-3.5 w-3.5 ${statusConfig.iconClassName}`} />
             {statusConfig.label}
           </div>
         </div>
 
-        <div className="md:col-span-1">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Tổng tiền</div>
-          <div className="text-sm font-semibold text-[var(--admin-text)]">{formatAdminOrderTotal(order.total)}</div>
+        <div className="col-span-3">
+          <div className="text-base font-semibold text-[var(--admin-text)]">{formatAdminOrderTotal(order.total, language)}</div>
+          {paymentMeta && <div className="mt-1 text-xs font-medium text-[var(--admin-text-muted)]">{paymentMeta}</div>}
         </div>
 
-        <div className="text-left md:col-span-1 md:text-center">
-          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)] md:hidden">Thao tác</div>
+        <div className="col-span-3 flex justify-end">
           <button
             type="button"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
             onClick={event => {
               event.stopPropagation()
               onViewOrder(order._id)
             }}
-            aria-label="Xem chi tiết đơn hàng"
+            aria-label={t('table.viewOrderDetails')}
           >
             <Eye className="h-4 w-4" />
           </button>
         </div>
       </div>
+
+      <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-[var(--admin-text-muted)]">
+        <span className="inline-flex items-center gap-1">
+          <Tag className="h-3.5 w-3.5" />
+          {getAdminOrderCode(order._id)}
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <Phone className="h-3.5 w-3.5" />
+          {order.contact?.phone || '--'}
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <Calendar className="h-3.5 w-3.5" />
+          {formatAdminOrderDate(order.createdAt, language)}
+        </span>
+      </div>
     </div>
   )
 }
 
-export default function AdminOrdersTableSection({ loading, orders, onViewOrder }) {
+function AdminOrdersMobileCard({ order, onViewOrder }) {
+  const { t, i18n } = useTranslation('adminOrders')
+  const language = i18n.resolvedLanguage || i18n.language
+  const statusConfig = getAdminOrderStatusConfig(order.status, t)
+  const StatusIcon = statusConfig.icon
+  const customerName = getAdminOrderCustomerName(order, t('table.guestCustomer'))
+  const itemsSummary = getAdminOrderItemsSummary(order, language, t)
+  const paymentMeta = [
+    order.paymentStatus ? getAdminOrderPaymentStatusLabel(order.paymentStatus, t) : '',
+    order.paymentMethod ? getAdminOrderPaymentMethodLabel(order.paymentMethod, t) : ''
+  ].filter(Boolean).join(' · ')
+
   return (
-    <div className="overflow-hidden rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]">
+    <article className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3.5 shadow-[var(--admin-shadow)] md:hidden">
+      <div className="mb-2 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="truncate text-[17px] font-semibold leading-6 text-[var(--admin-text)]">{customerName}</h3>
+          <p className="mt-1 font-mono text-xs text-[var(--admin-text-subtle)]">{getAdminOrderCode(order._id)}</p>
+          {itemsSummary && <p className="mt-1 line-clamp-2 text-sm text-[var(--admin-text-muted)]">{itemsSummary}</p>}
+        </div>
+
+        <div className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${statusConfig.badgeClassName}`}>
+          <StatusIcon className={`h-3.5 w-3.5 ${statusConfig.iconClassName}`} />
+          {statusConfig.label}
+        </div>
+      </div>
+
+      <p className="mb-1 text-[30px] font-semibold leading-8 text-[var(--admin-text)]">{formatAdminOrderTotal(order.total, language)}</p>
+      {paymentMeta && <p className="mb-3 text-sm font-medium text-[var(--admin-text-muted)]">{paymentMeta}</p>}
+
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--admin-text-muted)]">
+        <p className="inline-flex items-center gap-2 whitespace-nowrap">
+          <Calendar className="h-4 w-4" />
+          {formatAdminOrderDate(order.createdAt, language)}
+        </p>
+        <p className="inline-flex items-center gap-2.5 whitespace-nowrap">
+          <Phone className="h-4 w-4" />
+          {order.contact?.phone || '--'}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_14%,var(--admin-surface))] px-4 py-2.5 text-sm font-semibold text-[var(--admin-accent)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--admin-accent)_22%,transparent)] transition-colors hover:bg-[color-mix(in_srgb,var(--admin-accent)_20%,var(--admin-surface))]"
+        onClick={() => onViewOrder(order._id)}
+      >
+        <Eye className="h-4 w-4" />
+        {t('table.viewDetails')}
+      </button>
+    </article>
+  )
+}
+
+export default function AdminOrdersTableSection({ loading, orders, onViewOrder }) {
+  const { t } = useTranslation('adminOrders')
+
+  return (
+    <div className="overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)] sm:rounded-xl">
       {loading ? (
         <AdminOrdersLoadingState />
       ) : orders.length === 0 ? (
         <AdminOrdersEmptyState />
       ) : (
         <>
-          <div className="hidden border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-5 py-3 md:block">
+          <div className="hidden border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-5 py-3 xl:block">
             <div className="grid grid-cols-12 gap-4 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)]">
-              <div className="col-span-2">Mã đơn</div>
-              <div className="col-span-2">Khách hàng</div>
-              <div className="col-span-2">Liên hệ</div>
-              <div className="col-span-2">Ngày tạo</div>
-              <div className="col-span-2">Trạng thái</div>
-              <div className="col-span-1">Tổng tiền</div>
-              <div className="col-span-1 text-center">Thao tác</div>
+              <div className="col-span-2">{t('table.columns.orderCode')}</div>
+              <div className="col-span-2">{t('table.columns.customer')}</div>
+              <div className="col-span-2">{t('table.columns.contact')}</div>
+              <div className="col-span-2">{t('table.columns.createdAt')}</div>
+              <div className="col-span-2">{t('table.columns.status')}</div>
+              <div className="col-span-1">{t('table.columns.total')}</div>
+              <div className="col-span-1 text-center">{t('table.columns.actions')}</div>
+            </div>
+          </div>
+
+          <div className="hidden border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)] md:block xl:hidden">
+            <div className="grid grid-cols-12 gap-3">
+              <div className="col-span-3">{t('table.columns.customer')}</div>
+              <div className="col-span-3">{t('table.columns.status')}</div>
+              <div className="col-span-3">{t('table.columns.total')}</div>
+              <div className="col-span-3 text-right">{t('table.columns.actions')}</div>
             </div>
           </div>
 
           <div className="divide-y divide-[var(--admin-border)]">
             {orders.map(order => (
-              <AdminOrdersTableRow key={order._id} order={order} onViewOrder={onViewOrder} />
+              <div key={order._id} className="px-2 py-2 sm:px-3 md:px-0 md:py-0">
+                <AdminOrdersDesktopRow order={order} onViewOrder={onViewOrder} />
+                <AdminOrdersTabletRow order={order} onViewOrder={onViewOrder} />
+                <AdminOrdersMobileCard order={order} onViewOrder={onViewOrder} />
+              </div>
             ))}
           </div>
         </>

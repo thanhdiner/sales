@@ -1,0 +1,6 @@
+{
+  "categoryMenu": {
+    "title": "Danh mục sản phẩm",
+    "allPrefix": "Tất cả {{category}}"
+  }
+}

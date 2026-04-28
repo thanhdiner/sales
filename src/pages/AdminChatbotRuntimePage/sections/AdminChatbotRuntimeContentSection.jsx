@@ -1,5 +1,6 @@
 import { Card } from 'antd'
 import { ApiOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 import AdminChatbotRuntimeFormSection from './AdminChatbotRuntimeFormSection'
 import AdminChatbotRuntimeStatusSection from './AdminChatbotRuntimeStatusSection'
 
@@ -14,11 +15,13 @@ export default function AdminChatbotRuntimeContentSection({
   onProviderChange,
   onTest
 }) {
+  const { t } = useTranslation('adminChatbotRuntime')
+
   return (
     <Card
       title={(
         <span className="flex items-center gap-2">
-          <ApiOutlined /> Runtime và provider
+          <ApiOutlined /> {t('content.title')}
         </span>
       )}
       className="admin-chatbot-card"

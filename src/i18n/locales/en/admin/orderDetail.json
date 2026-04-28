@@ -1,0 +1,97 @@
+{
+  "seo": {
+    "title": "Admin - Order detail"
+  },
+  "page": {
+    "orderTitle": "Order {{code}}"
+  },
+  "actions": {
+    "backToOrders": "Back to order list",
+    "backToList": "Back to list",
+    "update": "Update",
+    "saving": "Saving...",
+    "completeDelivery": "Complete delivery"
+  },
+  "states": {
+    "loading": "Loading order...",
+    "notFound": "Order not found"
+  },
+  "status": {
+    "pending": "Pending confirmation",
+    "confirmed": "Confirmed",
+    "shipping": "Shipping",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "unknown": "Unknown: {{value}}"
+  },
+  "paymentStatus": {
+    "pending": "Unpaid",
+    "paid": "Paid",
+    "failed": "Payment failed",
+    "unknown": "Unknown: {{value}}"
+  },
+  "paymentMethod": {
+    "transfer": "Bank transfer",
+    "contact": "Contact later",
+    "vnpay": "VNPay",
+    "momo": "MoMo",
+    "zalopay": "ZaloPay",
+    "sepay": "Sepay",
+    "unknown": "Unknown: {{value}}"
+  },
+  "deliveryMethod": {
+    "pickup": "Store pickup",
+    "contact": "Contact for delivery",
+    "unknown": "Unknown: {{value}}"
+  },
+  "deliveryType": {
+    "manual": "Manual delivery",
+    "instant_account": "Instant account",
+    "unknown": "Unknown: {{value}}"
+  },
+  "customer": {
+    "title": "Customer information",
+    "guest": "Guest customer"
+  },
+  "items": {
+    "title": "Ordered products",
+    "deliveryType": "Delivery: {{type}}",
+    "deliveredCount": "Delivered {{count}} account/license"
+  },
+  "digitalDelivery": {
+    "title": "Account delivery",
+    "pendingPaid": "Paid but delivery data is not available yet",
+    "pendingPayment": "Waiting for payment before delivery",
+    "fields": {
+      "username": "Username",
+      "password": "Password",
+      "email": "Email",
+      "licenseKey": "License key",
+      "loginUrl": "Login link",
+      "instructions": "Instructions",
+      "notes": "Notes"
+    }
+  },
+  "summary": {
+    "title": "Order summary",
+    "payment": "Payment status",
+    "paymentMethod": "Payment method",
+    "deliveryMethod": "Delivery method",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping fee",
+    "freeShipping": "Free",
+    "total": "Total"
+  },
+  "transfer": {
+    "title": "Bank transfer information",
+    "bank": "Bank",
+    "accountNumber": "Account number",
+    "accountName": "Account holder",
+    "content": "Transfer content"
+  },
+  "messages": {
+    "updateSuccess": "Order status updated successfully!",
+    "updateError": "Unable to update the order."
+  }
+}

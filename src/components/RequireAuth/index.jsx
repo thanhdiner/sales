@@ -1,12 +1,15 @@
 import { Navigate, useLocation } from 'react-router-dom'
+import useClientAuthStatus from '@/hooks/useClientAuthStatus'
 
 export default function RequireAuth({ children }) {
-  const isLoggedIn = Boolean(localStorage.getItem('clientAccessToken')) || Boolean(sessionStorage.getItem('clientAccessToken'))
-
   const location = useLocation()
+  const { isAuthenticated, isChecking } = useClientAuthStatus()
 
-  if (!isLoggedIn) {
+  if (isChecking) return null
+
+  if (!isAuthenticated) {
     return <Navigate to="/user/login" state={{ from: location }} replace />
   }
+
   return children
 }

@@ -1,4 +1,5 @@
 import { Form } from 'antd'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import useAdminProfilePage from './hooks/useAdminProfilePage'
 import AdminProfileActionsSection from './sections/AdminProfileActionsSection'
@@ -8,6 +9,8 @@ import AdminProfileHeaderSection from './sections/AdminProfileHeaderSection'
 import AdminProfileLoadingState from './sections/AdminProfileLoadingState'
 
 export default function AdminProfilePage() {
+  const { t, i18n } = useTranslation('adminProfile')
+  const language = i18n.resolvedLanguage || i18n.language
   const {
     profile,
     form,
@@ -15,23 +18,24 @@ export default function AdminProfilePage() {
     inputRef,
     avatarPreview,
     roleLabel,
+    statusLabel,
     lastLoginLabel,
     initialLetterAvatar,
     handleFileChange,
     handleRemoveAvatar,
     handleReset,
     handleSave
-  } = useAdminProfilePage()
+  } = useAdminProfilePage({ language, t })
 
   if (!profile) {
-    return <AdminProfileLoadingState />
+    return <AdminProfileLoadingState t={t} />
   }
 
   return (
     <div className="mx-auto max-w-[1200px] rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-8 shadow-[var(--admin-shadow)]">
-      <SEO title="Admin – Hồ sơ" noIndex />
+      <SEO title={t('seo.title')} noIndex />
 
-      <AdminProfileHeaderSection />
+      <AdminProfileHeaderSection t={t} />
 
       <Form form={form} layout="vertical" onFinish={handleSave}>
         <AdminProfileAvatarSection
@@ -40,15 +44,18 @@ export default function AdminProfilePage() {
           inputRef={inputRef}
           onFileChange={handleFileChange}
           onRemove={handleRemoveAvatar}
+          t={t}
         />
 
         <AdminProfileFieldsSection
           loading={loading}
           roleLabel={roleLabel}
+          statusLabel={statusLabel}
           lastLoginLabel={lastLoginLabel}
+          t={t}
         />
 
-        <AdminProfileActionsSection loading={loading} onCancel={handleReset} />
+        <AdminProfileActionsSection loading={loading} onCancel={handleReset} t={t} />
       </Form>
     </div>
   )

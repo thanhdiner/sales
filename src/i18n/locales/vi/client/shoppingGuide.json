@@ -1,0 +1,127 @@
+{
+  "seo": {
+    "title": "Hướng dẫn mua hàng",
+    "description": "Hướng dẫn mua hàng tại SmartMall từ A đến Z: tìm sản phẩm, thanh toán, nhận hàng."
+  },
+  "steps": {
+    "chooseProduct": {
+      "title": "Chọn sản phẩm",
+      "content": "Tìm kiếm và lựa chọn sản phẩm bạn muốn mua"
+    },
+    "login": {
+      "title": "Đăng nhập/Đăng ký",
+      "content": "Tạo tài khoản hoặc đăng nhập để tiếp tục"
+    },
+    "payment": {
+      "title": "Thanh toán",
+      "content": "Chọn phương thức thanh toán và hoàn tất đơn hàng"
+    },
+    "delivery": {
+      "title": "Giao hàng",
+      "content": "Theo dõi đơn hàng và nhận sản phẩm"
+    }
+  },
+  "paymentMethods": {
+    "wallet": {
+      "name": "Ví điện tử",
+      "desc": "Hỗ trợ các ví điện tử hàng đầu tại Việt Nam."
+    },
+    "bankTransfer": {
+      "name": "Chuyển khoản",
+      "desc": "Internet Banking & Mobile Banking nhanh chóng."
+    }
+  },
+  "detailedSteps": {
+    "search": {
+      "id": "BƯỚC 01",
+      "title": "Tìm kiếm sản phẩm",
+      "description": "Sử dụng thanh tìm kiếm thông minh tại đầu trang hoặc duyệt qua các danh mục được phân loại rõ ràng để tìm thấy sản phẩm phù hợp với nhu cầu của bạn.",
+      "chips": ["Tìm kiếm", "Danh mục"]
+    },
+    "cart": {
+      "id": "BƯỚC 02",
+      "title": "Thêm vào giỏ hàng",
+      "description": "Chọn số lượng, màu sắc, kích thước và nhấn nút 'Thêm vào giỏ hàng'. Bạn có thể tiếp tục mua sắm hoặc đi đến giỏ hàng để thanh toán ngay.",
+      "checks": ["Chọn biến thể sản phẩm", "Kiểm tra tồn kho thời gian thực"]
+    },
+    "checkout": {
+      "id": "BƯỚC 03 & 04",
+      "title": "Kiểm tra & Điền thông tin",
+      "description": "Xem lại sản phẩm trong giỏ hàng. Nhập chính xác địa chỉ giao hàng và số điện thoại để chúng tôi có thể phục vụ bạn tốt nhất.",
+      "note": "Mẹo: Lưu địa chỉ trong tài khoản để thanh toán nhanh hơn ở lần sau."
+    }
+  },
+  "smartTips": {
+    "comparePrice": "So sánh giá trước khi mua để luôn có lựa chọn tốt nhất.",
+    "returnPolicy": "Kiểm tra chính sách đổi trả cụ thể của từng loại sản phẩm.",
+    "checkInfo": "Luôn kiểm tra kỹ thông tin sản phẩm và đánh giá từ người mua trước.",
+    "flashSale": "Tận dụng các chương trình flash sale khung giờ vàng.",
+    "coupons": "Sử dụng tối đa các mã giảm giá và voucher tích lũy sẵn có."
+  },
+  "faq": {
+    "trackOrder": {
+      "question": "Làm thế nào để theo dõi đơn hàng?",
+      "answer": "Bạn có thể theo dõi đơn hàng bằng cách đăng nhập vào tài khoản và vào mục \"Đơn hàng của tôi\" hoặc sử dụng mã đơn hàng được gửi qua email/SMS."
+    },
+    "deliveryTime": {
+      "question": "Thời gian giao hàng mất bao lâu?",
+      "answer": "Thời gian giao hàng thông thường là 2-3 tiếng làm việc."
+    },
+    "returnProduct": {
+      "question": "Có thể đổi trả hàng không?",
+      "answer": "Chính sách đổi trả áp dụng tùy theo từng loại sản phẩm. Vui lòng xem chi tiết chính sách đổi trả của từng sản phẩm trên trang thông tin sản phẩm."
+    },
+    "shippingFee": {
+      "question": "Phí giao hàng được tính như thế nào?",
+      "answer": "- Sản phẩm giao dịch online (phần mềm, mã kích hoạt, tài khoản, v.v.): luôn miễn phí giao hàng. Sản phẩm sẽ được gửi qua email hoặc tin nhắn.\n- Sản phẩm vật lý: Phí giao hàng được tính dựa trên khu vực và trọng lượng. Đơn hàng từ 500.000đ trở lên sẽ được miễn phí giao hàng.\n"
+    }
+  },
+  "detailedStepsSection": {
+    "eyebrow": "Hướng dẫn chi tiết",
+    "title": "Chi tiết từng bước"
+  },
+  "faqSection": {
+    "eyebrow": "FAQ",
+    "title": "Câu hỏi thường gặp",
+    "toggle": "Mở / đóng câu hỏi"
+  },
+  "hero": {
+    "eyebrow": "Hướng dẫn mua hàng",
+    "title": "Mua sắm dễ dàng và an toàn",
+    "description": "Xem các bước đặt hàng, thanh toán và theo dõi đơn hàng để mua sắm thuận tiện hơn trên website.",
+    "registerButton": "Đăng ký tài khoản",
+    "guideButton": "Xem hướng dẫn",
+    "imageAlt": "Minh hoạ mua sắm trực tuyến"
+  },
+  "paymentSection": {
+    "eyebrow": "Thanh toán",
+    "title": "Phương thức thanh toán",
+    "description": "Chọn phương thức phù hợp để hoàn tất đơn hàng nhanh chóng và an toàn.",
+    "popular": "Phổ biến",
+    "securityNote": "Tất cả giao dịch được xử lý qua kết nối bảo mật, giúp thông tin thanh toán của bạn an toàn hơn."
+  },
+  "processSection": {
+    "eyebrow": "Các bước thực hiện",
+    "title": "Quy trình mua sắm",
+    "previous": "Quay lại",
+    "next": "Tiếp theo",
+    "stepAria": "Xem bước {{step}}: {{title}}"
+  },
+  "supportSection": {
+    "eyebrow": "Hỗ trợ",
+    "title": "Bạn cần trợ giúp thêm?",
+    "phoneLabel": "Điện thoại:",
+    "emailLabel": "Email:",
+    "timeLabel": "Thời gian:",
+    "workingTime": "8:00 - 22:00 (Thứ 2 - Chủ Nhật)",
+    "description": "Sẵn sàng bắt đầu mua sắm? Khám phá các sản phẩm và ưu đãi hiện có trên website.",
+    "browseProducts": "Bắt đầu mua sắm",
+    "viewCoupons": "Xem khuyến mãi"
+  },
+  "tipsSection": {
+    "eyebrow": "Mẹo mua hàng",
+    "title": "Mua hàng thông minh hơn",
+    "description": "Một vài lưu ý nhỏ giúp bạn chọn sản phẩm phù hợp và đặt hàng thuận tiện hơn.",
+    "imageAlt": "Mua sắm thông minh"
+  }
+}

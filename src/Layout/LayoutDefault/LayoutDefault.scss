@@ -47,7 +47,9 @@
     column-gap: 12px;
     &__search {
       margin-right: 12px;
-      flex: 0 1 480px;
+      width: clamp(280px, 24vw, 420px);
+      flex: 0 0 clamp(280px, 24vw, 420px);
+      min-width: 0;
     }
 
     .header-search-input.ant-input-affix-wrapper {
@@ -595,6 +597,10 @@
       }
     }
   }
+
+  &__mobile-search {
+    display: none;
+  }
 }
 
 .layout-default {
@@ -773,6 +779,9 @@ h1 {
   .layout-default__sider {
     display: none;
   }
+  .layout-default__body {
+    padding-top: 74px;
+  }
   .layout-default__content {
     margin-left: 0;
     padding: 0 20px 20px;
@@ -783,10 +792,33 @@ h1 {
   }
   .header {
     padding: 8px 0;
+
+    > .ant-row {
+      padding: 0 10px;
+    }
+  }
+  .header__mobile-search {
+    display: none;
+  }
+  .header__nav-mobile {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .header__action,
   .header-skeleton__actions {
-    margin-right: 12px;
+    width: 100%;
+    margin-right: 0;
+    column-gap: 6px;
+    align-items: center;
+  }
+  .header__site-name {
+    display: none !important;
+  }
+  .header-skeleton__search {
+    display: none !important;
   }
   .header-skeleton__site-name {
     display: none !important;
@@ -798,12 +830,52 @@ h1 {
 
 @media (max-width: 575.98px) {
   /* xs */
+  .layout-default__body {
+    padding-top: 66px;
+  }
   .layout-default__content {
     padding: 0 14px 20px;
   }
-  .header__action__search,
-  .header-skeleton__search {
-    max-width: 150px;
+  .header {
+    padding-top: 6px;
+  }
+  .header__hamburger.ant-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+  }
+  .header__action,
+  .header-skeleton__actions {
+    column-gap: 4px;
+  }
+  .header__action__cart,
+  .header__action__wishlist,
+  .header__action__notification,
+  .header__action__account {
+    width: 32px;
+    flex: 0 0 32px;
+  }
+  .header__action__wishlist {
+    display: none;
+  }
+  .header__action__cart--btn,
+  .header__action__wishlist--btn,
+  .header__action__notification--btn,
+  .header__action__account--btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px;
+    padding: 0;
+  }
+  .header__action__cart--icon,
+  .header__action__notification--icon {
+    font-size: 18px;
+  }
+  .header__action__wishlist--icon {
+    font-size: 17px;
+  }
+  .header__action__account .anticon {
+    font-size: 18px !important;
   }
   .footer {
     padding: 24px 14px 16px;
@@ -927,5 +999,199 @@ html.dark .header-account-dropdown {
       background: rgba(239, 68, 68, 0.14);
       color: #fca5a5;
     }
+  }
+}
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .mobile-bottom-nav {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    z-index: 998;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    padding: 8px 8px 7px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 18px;
+    background: rgba(3, 12, 27, 0.92);
+    box-shadow: 0 -10px 34px rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: rgba(226, 232, 240, 0.72);
+    text-decoration: none;
+  }
+
+  .mobile-bottom-nav__icon {
+    font-size: 21px;
+  }
+
+  .mobile-bottom-nav__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .mobile-bottom-nav__item--active {
+    color: #1890ff;
+  }
+
+  .layout-default__content {
+    padding-bottom: 96px;
+  }
+
+  html.dark body:not(.admin-layout-active) .mobile-bottom-nav {
+    border-color: var(--client-dark-border, rgba(255, 255, 255, 0.08));
+    background: var(--client-dark-surface, #101213);
+    box-shadow: 0 -10px 34px rgba(0, 0, 0, 0.34);
+  }
+
+  html.dark body:not(.admin-layout-active) .mobile-bottom-nav__item {
+    color: var(--client-dark-muted, #a8b0ba);
+  }
+
+  html.dark body:not(.admin-layout-active) .mobile-bottom-nav__item--active {
+    color: var(--client-dark-primary, #22c55e);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .layout-default--home,
+  .layout-default--home .layout-default__body,
+  .layout-default--home .layout-default__body--sub,
+  .layout-default--home .layout-default__content {
+    background:
+      radial-gradient(circle at 50% -120px, rgba(0, 102, 255, 0.24), transparent 360px),
+      linear-gradient(180deg, #020815 0%, #061225 48%, #07101d 100%) !important;
+    color: #f8fafc;
+  }
+
+  .layout-default--home .layout-default__body {
+    padding-top: 70px;
+  }
+
+  .layout-default--home .layout-default__content {
+    padding-right: 12px;
+    padding-left: 12px;
+    padding-bottom: 100px;
+  }
+
+  .layout-default--home .footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+
+  .layout-default--home .header {
+    background: #020815;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+
+  .layout-default--home .header > .ant-row {
+    padding: 0 12px;
+  }
+
+  .layout-default--home .header__logo--wrap {
+    min-width: 0;
+    column-gap: 8px;
+  }
+
+  .layout-default--home .header__logo--wrap img {
+    width: 42px !important;
+    height: 42px !important;
+    margin-left: 0 !important;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .layout-default--home .header__site-name {
+    display: inline-block !important;
+    max-width: min(170px, 42vw);
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #f8fafc !important;
+    letter-spacing: 0;
+  }
+
+  .layout-default--home .header__hamburger.ant-btn {
+    margin-right: 4px;
+    color: #f8fafc;
+  }
+
+  .layout-default--home .header__action {
+    column-gap: 10px;
+  }
+
+  .layout-default--home .header__action__wishlist,
+  .layout-default--home .header__action__account {
+    display: none;
+  }
+
+  .layout-default--home .header__action__cart,
+  .layout-default--home .header__action__notification {
+    color: #f8fafc;
+  }
+
+  .layout-default--home .header-search__mobile-trigger {
+    color: #f8fafc;
+  }
+
+  .layout-default--home .header__action__cart--btn,
+  .layout-default--home .header__action__notification--btn {
+    width: 36px !important;
+    height: 36px !important;
+    color: #f8fafc !important;
+  }
+
+  .layout-default--home .header__action__cart--icon,
+  .layout-default--home .header__action__notification--icon {
+    color: #f8fafc !important;
+    stroke: #f8fafc !important;
+    font-size: 23px;
+  }
+
+  html.dark body:not(.admin-layout-active) .layout-default--home,
+  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__body,
+  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__body--sub,
+  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__content {
+    background: var(--client-dark-bg, #070809) !important;
+    color: var(--client-dark-text, #f4f6f8);
+  }
+
+  html.dark body:not(.admin-layout-active) .layout-default--home .header {
+    background: var(--client-dark-bg, #070809);
+    border-bottom: 1px solid var(--client-dark-border, rgba(255, 255, 255, 0.08));
+    box-shadow: none;
+  }
+
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__site-name,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__hamburger.ant-btn,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart--btn,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification--btn,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart--icon,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification--icon,
+  html.dark body:not(.admin-layout-active) .layout-default--home .header-search__mobile-trigger {
+    color: var(--client-dark-text, #f4f6f8) !important;
+    stroke: var(--client-dark-text, #f4f6f8) !important;
   }
 }

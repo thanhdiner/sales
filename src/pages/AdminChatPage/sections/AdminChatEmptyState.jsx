@@ -1,6 +1,9 @@
 import { MessageCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function AdminChatEmptyState() {
+  const { t } = useTranslation('adminChat')
+
   return (
     <div className="hidden flex-1 items-center justify-center bg-[var(--admin-bg-soft)] md:flex">
       <div className="max-w-sm text-center">
@@ -9,10 +12,10 @@ export default function AdminChatEmptyState() {
         </div>
 
         <h3 className="mb-1 text-base font-semibold text-[var(--admin-text)]">
-          Chọn cuộc trò chuyện
+          {t('emptyState.title')}
         </h3>
         <p className="text-sm text-[var(--admin-text-muted)]">
-          Chọn một hội thoại từ danh sách để xem lịch sử và phản hồi khách hàng.
+          {t('emptyState.description')}
         </p>
       </div>
     </div>

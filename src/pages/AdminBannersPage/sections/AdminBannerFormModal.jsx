@@ -1,5 +1,6 @@
 import { Divider, Form, Input, Modal, Switch, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 
 export default function AdminBannerFormModal({
   form,
@@ -13,19 +14,21 @@ export default function AdminBannerFormModal({
   handleBeforeUpload,
   handleRemoveUpload
 }) {
+  const { t } = useTranslation('adminBanners')
+
   return (
     <Modal
       title={
         <span className="text-base font-semibold text-[var(--admin-text)]">
-          {editingBanner ? 'Chỉnh sửa Banner' : 'Thêm Banner mới'}
+          {editingBanner ? t('form.editTitle') : t('form.createTitle')}
         </span>
       }
       open={modalVisible}
       onCancel={closeModal}
       onOk={() => form.submit()}
-      okText="Lưu"
-      cancelText="Hủy"
-      width={600}
+      okText={t('common.save')}
+      cancelText={t('common.cancel')}
+      width={720}
       style={{ top: 50, maxWidth: '95%' }}
       wrapClassName="admin-banners-modal"
       okButtonProps={{
@@ -42,33 +45,55 @@ export default function AdminBannerFormModal({
     >
       <Divider className="my-4 !border-[var(--admin-border)]" />
 
-      <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true }}>
-        <Form.Item label="Tiêu đề banner" name="title" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
+      <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true, translations: { en: { title: '', link: '' } } }}>
+        <Form.Item label={t('form.title')} name="title" rules={[{ required: true, message: t('form.titleRequired') }]}>
           <Input
-            placeholder="Nhập tiêu đề banner"
+            placeholder={t('form.titlePlaceholder')}
             size="large"
             className="admin-banners-input rounded-lg"
           />
         </Form.Item>
 
-        <Form.Item label="Liên kết" name="link">
+        <Form.Item label={t('form.link')} name="link">
           <Input
-            placeholder="Nhập link chuyển hướng"
+            placeholder={t('form.linkPlaceholder')}
             size="large"
             className="admin-banners-input rounded-lg"
           />
         </Form.Item>
 
-        <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
+        <div className="admin-banners-translation-section">
+          <div className="admin-banners-translation-section__header">
+            <h3 className="admin-banners-translation-section__title">{t('form.translations.sectionTitle')}</h3>
+          </div>
+
+          <Form.Item label={t('form.translations.title')} name={['translations', 'en', 'title']}>
+            <Input
+              placeholder={t('form.translations.titlePlaceholder')}
+              size="large"
+              className="admin-banners-input rounded-lg"
+            />
+          </Form.Item>
+
+          <Form.Item label={t('form.translations.link')} name={['translations', 'en', 'link']}>
+            <Input
+              placeholder={t('form.translations.linkPlaceholder')}
+              size="large"
+              className="admin-banners-input rounded-lg"
+            />
+          </Form.Item>
+        </div>
+
+        <Form.Item label={t('form.status')} name="isActive" valuePropName="checked">
           <Switch />
         </Form.Item>
 
         <Form.Item
-          label="Ảnh banner"
+          label={t('form.image')}
           name="img"
           valuePropName="fileList"
           getValueFromEvent={event => (Array.isArray(event) ? event : event?.fileList)}
-          rules={[{ required: !editingBanner, message: 'Vui lòng upload ảnh banner' }]}
+          rules={[{ required: true, message: t('form.imageRequired') }]}
         >
           <Upload
             listType="picture-card"
@@ -82,7 +107,7 @@ export default function AdminBannerFormModal({
             {fileList.length < 1 && (
               <div>
                 <PlusOutlined />
-                <div className="mt-2">Upload</div>
+                <div className="mt-2">{t('common.upload')}</div>
               </div>
             )}
           </Upload>

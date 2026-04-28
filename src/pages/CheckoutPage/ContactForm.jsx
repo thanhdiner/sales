@@ -1,12 +1,8 @@
 import { Select } from 'antd'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import useVietnamAddress from '@/hooks/useVietnamAddress'
-import {
-  getDistrictOptions,
-  getProvinceOptions,
-  getWardOptions,
-  hasCompleteStructuredVietnamAddress
-} from '@/lib/vietnamAddress'
+import { getDistrictOptions, getProvinceOptions, getWardOptions, hasCompleteStructuredVietnamAddress } from '@/lib/vietnamAddress'
 
 const toSelectOptions = items =>
   items.map(item => ({
@@ -21,14 +17,8 @@ const sharedSelectProps = {
   size: 'large'
 }
 
-export function ContactForm({
-  formData,
-  handleInputChange,
-  handleAddressChange,
-  deliveryMethod,
-  setDeliveryMethod,
-  deliveryOptions
-}) {
+export function ContactForm({ formData, handleInputChange, handleAddressChange, deliveryMethod, setDeliveryMethod, deliveryOptions }) {
+  const { t } = useTranslation('clientCheckout')
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const contactInfo = websiteConfig?.contactInfo
   const { tree, loading, error } = useVietnamAddress()
@@ -77,18 +67,14 @@ export function ContactForm({
   return (
     <div className="space-y-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-          Thông tin liên hệ
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-          Nhập thông tin để shop có thể xác nhận và xử lý đơn hàng của bạn.
-        </p>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.title')}</h2>
+        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">{t('contactForm.description')}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Họ <span className="text-gray-400">*</span>
+            {t('contactForm.fields.firstName')} <span className="text-gray-400">*</span>
           </label>
           <input
             type="text"
@@ -96,13 +82,13 @@ export function ContactForm({
             required
             onChange={e => handleInputChange('firstName', e.target.value)}
             className={inputClassName}
-            placeholder="Nguyen"
+            placeholder={t('contactForm.placeholders.firstName')}
           />
         </div>
 
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Tên <span className="text-gray-400">*</span>
+            {t('contactForm.fields.lastName')} <span className="text-gray-400">*</span>
           </label>
           <input
             type="text"
@@ -110,7 +96,7 @@ export function ContactForm({
             value={formData.lastName}
             onChange={e => handleInputChange('lastName', e.target.value)}
             className={inputClassName}
-            placeholder="Van A"
+            placeholder={t('contactForm.placeholders.lastName')}
           />
         </div>
       </div>
@@ -118,58 +104,54 @@ export function ContactForm({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Số điện thoại <span className="text-gray-400">*</span>
+            {t('contactForm.fields.phone')} <span className="text-gray-400">*</span>
           </label>
           <input
             type="tel"
             value={formData.phone}
             onChange={e => handleInputChange('phone', e.target.value)}
             className={inputClassName}
-            placeholder="0123456789"
+            placeholder={t('contactForm.placeholders.phone')}
             required
           />
         </div>
 
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Email <span className="text-gray-400">(tùy chọn)</span>
+            {t('contactForm.fields.email')} <span className="text-gray-400">({t('contactForm.fields.optional')})</span>
           </label>
           <input
             type="email"
             value={formData.email}
             onChange={e => handleInputChange('email', e.target.value)}
             className={inputClassName}
-            placeholder="your@email.com"
+            placeholder={t('contactForm.placeholders.email')}
           />
         </div>
       </div>
 
       <div className="space-y-4 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
         <div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-            Địa chỉ nhận hàng
-          </h3>
-          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-            Chọn theo từng cấp để hạn chế nhập sai địa chỉ. Nếu đơn của bạn không cần giao vật lý, có thể để trống phần này.
-          </p>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.address.title')}</h3>
+          <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">{t('contactForm.address.description')}</p>
         </div>
 
         {error ? (
           <div className="space-y-3">
             <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
-              Không tải được danh sách địa chỉ Việt Nam. Bạn có thể nhập tạm địa chỉ thủ công.
+              {t('contactForm.address.loadError')}
             </div>
 
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Địa chỉ / thông tin nhận hàng
+                {t('contactForm.address.manualLabel')}
               </label>
               <textarea
                 value={formData.address}
                 onChange={e => handleInputChange('address', e.target.value)}
                 rows={3}
                 className={`${inputClassName} resize-none`}
-                placeholder="Ví dụ: số nhà, đường, phường/xã, quận/huyện, tỉnh/thành..."
+                placeholder={t('contactForm.address.manualPlaceholder')}
               />
             </div>
           </div>
@@ -178,7 +160,7 @@ export function ContactForm({
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Tỉnh / Thành phố
+                  {t('contactForm.address.province')}
                 </label>
                 <Select
                   {...sharedSelectProps}
@@ -186,7 +168,7 @@ export function ContactForm({
                   value={formData.provinceCode || undefined}
                   onChange={handleProvinceSelect}
                   options={toSelectOptions(provinceOptions)}
-                  placeholder="Chọn Tỉnh / Thành phố"
+                  placeholder={t('contactForm.address.provincePlaceholder')}
                   className="w-full"
                   getPopupContainer={node => node.parentElement}
                 />
@@ -194,7 +176,7 @@ export function ContactForm({
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Quận / Huyện
+                  {t('contactForm.address.district')}
                 </label>
                 <Select
                   {...sharedSelectProps}
@@ -203,16 +185,18 @@ export function ContactForm({
                   value={formData.districtCode || undefined}
                   onChange={handleDistrictSelect}
                   options={toSelectOptions(districtOptions)}
-                  placeholder={formData.provinceCode ? 'Chọn Quận / Huyện' : 'Chọn Tỉnh / Thành phố trước'}
+                  placeholder={
+                    formData.provinceCode
+                      ? t('contactForm.address.districtPlaceholder')
+                      : t('contactForm.address.districtPlaceholderDisabled')
+                  }
                   className="w-full"
                   getPopupContainer={node => node.parentElement}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Phường / Xã
-                </label>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">{t('contactForm.address.ward')}</label>
                 <Select
                   {...sharedSelectProps}
                   loading={loading}
@@ -220,7 +204,9 @@ export function ContactForm({
                   value={formData.wardCode || undefined}
                   onChange={handleWardSelect}
                   options={toSelectOptions(wardOptions)}
-                  placeholder={formData.districtCode ? 'Chọn Phường / Xã' : 'Chọn Quận / Huyện trước'}
+                  placeholder={
+                    formData.districtCode ? t('contactForm.address.wardPlaceholder') : t('contactForm.address.wardPlaceholderDisabled')
+                  }
                   className="w-full"
                   getPopupContainer={node => node.parentElement}
                 />
@@ -228,21 +214,19 @@ export function ContactForm({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Địa chỉ chi tiết
-              </label>
+              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">{t('contactForm.address.detail')}</label>
               <input
                 type="text"
                 value={formData.addressLine1}
                 onChange={e => handleAddressChange({ addressLine1: e.target.value })}
                 className={inputClassName}
-                placeholder="Số nhà, tên đường, tòa nhà, hẻm..."
+                placeholder={t('contactForm.address.detailPlaceholder')}
               />
             </div>
 
             {structuredAddressReady && formData.address && (
               <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm leading-6 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                <span className="font-medium text-gray-900 dark:text-gray-100">Địa chỉ đầy đủ:</span>{' '}
+                <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.address.fullAddress')}</span>{' '}
                 {formData.address}
               </div>
             )}
@@ -251,22 +235,18 @@ export function ContactForm({
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Ghi chú
-        </label>
+        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">{t('contactForm.fields.notes')}</label>
         <textarea
           value={formData.notes}
           onChange={e => handleInputChange('notes', e.target.value)}
           rows={3}
           className={`${inputClassName} resize-none`}
-          placeholder="Mô tả sản phẩm cần mua, thời gian mong muốn nhận hàng hoặc yêu cầu đặc biệt..."
+          placeholder={t('contactForm.placeholders.notes')}
         />
       </div>
 
       <div>
-        <h3 className="mb-4 text-base font-semibold text-gray-900 dark:text-gray-100">
-          Cách thức nhận hàng
-        </h3>
+        <h3 className="mb-4 text-base font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.delivery.title')}</h3>
 
         <div className="space-y-3">
           {deliveryOptions.map(option => {
@@ -291,22 +271,14 @@ export function ContactForm({
                 />
 
                 <div className="min-w-0 flex-1">
-                  <div className="font-semibold text-gray-900 dark:text-gray-100">
-                    {option.name}
-                  </div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">{option.name}</div>
 
-                  <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {option.time}
-                  </div>
+                  <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">{option.time}</div>
 
-                  <div className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-                    {option.description}
-                  </div>
+                  <div className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">{option.description}</div>
                 </div>
 
-                <div className="shrink-0 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                  Miễn phí
-                </div>
+                <div className="shrink-0 text-sm font-semibold text-gray-700 dark:text-gray-200">{t('contactForm.delivery.free')}</div>
               </label>
             )
           })}
@@ -314,24 +286,22 @@ export function ContactForm({
       </div>
 
       <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
-        <h4 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-          Thông tin cửa hàng
-        </h4>
+        <h4 className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.title')}</h4>
 
         <div className="mt-3 space-y-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
           <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">Email:</span>{' '}
+            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.email')}</span>{' '}
             {contactInfo?.email || 'lunashop.business.official@gmail.com'}
           </p>
 
           <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">Hotline:</span>{' '}
+            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.hotline')}</span>{' '}
             {contactInfo?.phone || '0923387108'}
           </p>
 
           <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">Giờ mở cửa:</span>{' '}
-            8:00 - 21:00 hàng ngày
+            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.openingHours')}</span>{' '}
+            {t('contactForm.storeInfo.openingHoursValue')}
           </p>
         </div>
       </div>

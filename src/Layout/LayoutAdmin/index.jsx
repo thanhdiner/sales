@@ -3,21 +3,44 @@ import { Breadcrumb, Layout } from 'antd'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import Header from './Header'
 import SiderLayout from './Sider'
 import { connectSocket, getSocket } from '@/services/socketService'
-import { adminRouteLabels } from './Sider/adminMenuUtils'
+import { adminRouteLabelKeys } from './Sider/adminMenuUtils'
 
 const { Content } = Layout
+const CHAT_DESKTOP_SIDEBAR_LOCK_QUERY = '(min-width: 1280px)'
 
 function LayoutAdmin() {
+  const { t } = useTranslation('adminLayout')
   const [collapsed, setCollapsed] = useState(false)
+  const [isChatDesktopViewport, setIsChatDesktopViewport] = useState(() => (
+    typeof window === 'undefined' ? false : window.matchMedia(CHAT_DESKTOP_SIDEBAR_LOCK_QUERY).matches
+  ))
   const location = useLocation()
   const user = useSelector(state => state.adminUser.user)
   const newOrderHandlerRef = useRef(null)
   const isAdminChatPage = location.pathname === '/admin/chat'
   const isAdminDashboardPage = location.pathname === '/admin/dashboard' || location.pathname === '/admin'
-  const effectiveCollapsed = isAdminChatPage ? true : collapsed
+  const shouldLockChatSidebar = isAdminChatPage && isChatDesktopViewport
+  const effectiveCollapsed = shouldLockChatSidebar ? true : collapsed
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(CHAT_DESKTOP_SIDEBAR_LOCK_QUERY)
+    const handleChange = event => setIsChatDesktopViewport(event.matches)
+
+    setIsChatDesktopViewport(mediaQuery.matches)
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
+  useEffect(() => {
+    if (shouldLockChatSidebar) {
+      setCollapsed(true)
+    }
+  }, [shouldLockChatSidebar])
 
   // Khởi động socket khi admin vào layout — KHÔNG disconnect khi unmount vì socket phải persistent
   useEffect(() => {
@@ -50,7 +73,8 @@ function LayoutAdmin() {
   const breadcrumbItems = pathSnippets.map((segment, i) => {
     const url = `/${pathSnippets.slice(0, i + 1).join('/')}`
     const isLast = i === pathSnippets.length - 1
-    const label = adminRouteLabels[segment] || segment
+    const labelKey = adminRouteLabelKeys[segment]
+    const label = labelKey ? t(labelKey) : segment
 
     return {
       title: isLast ? (
@@ -69,9 +93,19 @@ function LayoutAdmin() {
         {!effectiveCollapsed && (
           <div onClick={() => setCollapsed(true)} className="fixed inset-0 bg-black/40 backdrop-blur-[1px] z-20 md:hidden animate-fadeIn" />
         )}
-        <SiderLayout collapsed={effectiveCollapsed} setCollapsed={setCollapsed} location={location} />
+        <SiderLayout
+          collapsed={effectiveCollapsed}
+          setCollapsed={setCollapsed}
+          location={location}
+          compactChatMenu={shouldLockChatSidebar}
+        />
         <Layout className="admin-layout-shell flex flex-col overflow-hidden transition-colors">
-          <Header collapsed={effectiveCollapsed} setCollapsed={setCollapsed} onNewOrder={onNewOrder} />
+          <Header
+            collapsed={effectiveCollapsed}
+            setCollapsed={setCollapsed}
+            onNewOrder={onNewOrder}
+            canToggleSider={!shouldLockChatSidebar}
+          />
           {!isAdminChatPage && !isAdminDashboardPage && (
             <Breadcrumb className="admin-layout-breadcrumb mt-2.5 mx-2 md:mx-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
           )}

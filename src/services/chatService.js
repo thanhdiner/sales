@@ -1,4 +1,6 @@
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+import { API_URL } from '@/utils/env'
+
+const API_BASE = API_URL
 
 const parseJson = async (res) => {
   const data = await res.json()
@@ -27,6 +29,15 @@ export const chatService = {
   },
   getConversation: async (sessionId) => {
     const res = await fetch(`${API_BASE}/chat/conversation/${sessionId}`, { credentials: 'include' })
+    const data = await parseJson(res)
+    return data.data
+  },
+  resolveConversation: async (sessionId) => {
+    const res = await fetch(`${API_BASE}/chat/resolve/${sessionId}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    })
     const data = await parseJson(res)
     return data.data
   },

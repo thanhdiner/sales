@@ -1,0 +1,78 @@
+{
+  "seo": {
+    "title": "Yêu thích",
+    "titleDetail": "Danh sách yêu thích",
+    "titleWithCount": "Yêu thích ({{count}})"
+  },
+  "filters": {
+    "all": "Tất cả",
+    "inStock": "Còn hàng",
+    "deal": "Đang giảm giá",
+    "outStock": "Hết hàng"
+  },
+  "sorts": {
+    "newest": "Mới lưu nhất",
+    "priceAsc": "Giá thấp đến cao",
+    "priceDesc": "Giá cao đến thấp",
+    "discountDesc": "Giảm giá nhiều nhất"
+  },
+  "message": {
+    "loadMoreFailed": "Tải thêm sản phẩm thất bại",
+    "removeSuccess": "Đã xóa khỏi danh sách yêu thích",
+    "removeFailed": "Xóa thất bại, vui lòng thử lại",
+    "clearSuccess": "Đã xóa toàn bộ danh sách yêu thích",
+    "genericError": "Có lỗi xảy ra, vui lòng thử lại",
+    "outOfStock": "Sản phẩm đã hết hàng",
+    "addToCartSuccess": "Đã thêm vào giỏ hàng",
+    "addToCartFailed": "Thêm vào giỏ hàng thất bại",
+    "noInStockItems": "Không có sản phẩm nào còn hàng",
+    "addAllPartial": "Đã thêm {{added}} sản phẩm. {{skipped}} sản phẩm còn lại vượt giới hạn {{limit}} sản phẩm khác nhau trong giỏ hàng.",
+    "addAllSuccess": "Đã thêm {{count}} sản phẩm vào giỏ hàng",
+    "addAllFailed": "Có lỗi xảy ra khi thêm vào giỏ hàng"
+  },
+  "modal": {
+    "removeTitle": "Xóa khỏi danh sách yêu thích?",
+    "clearTitle": "Xóa toàn bộ danh sách yêu thích?",
+    "clearContent": "Tất cả sản phẩm sẽ bị xóa khỏi danh sách.",
+    "okRemove": "Xóa",
+    "okClear": "Xóa tất cả",
+    "cancel": "Hủy"
+  },
+  "empty": {
+    "title": "Chưa có sản phẩm yêu thích",
+    "description": "Hãy lưu sản phẩm bạn quan tâm để xem lại nhanh hơn.",
+    "button": "Khám phá sản phẩm"
+  },
+  "page": {
+    "title": "My Wishlist",
+    "loadedPartial": "{{loaded}}/{{total}} sản phẩm đã tải",
+    "loadedTotal": "{{total}} sản phẩm",
+    "inStockCount": "{{count}} còn hàng",
+    "clearAll": "Xóa tất cả",
+    "showing": "Đang hiển thị {{visible}} sản phẩm • Đã tải {{loaded}}/{{total}}",
+    "addAllToCart": "Thêm tất cả vào giỏ hàng"
+  },
+  "table": {
+    "productName": "Tên sản phẩm",
+    "unitPrice": "Đơn giá",
+    "stockStatus": "Tình trạng",
+    "action": "Thao tác"
+  },
+  "item": {
+    "inStock": "Còn hàng",
+    "outOfStock": "Hết hàng",
+    "inStockBadge": "Còn hàng",
+    "outOfStockBadge": "Hết hàng",
+    "addToCart": "Thêm vào giỏ",
+    "removeTitle": "Xóa khỏi yêu thích"
+  },
+  "noResult": {
+    "title": "Không có sản phẩm phù hợp",
+    "description": "Thử đổi bộ lọc khác.",
+    "button": "Xóa bộ lọc"
+  },
+  "loadMore": {
+    "loading": "Đang tải...",
+    "default": "Xem thêm"
+  }
+}

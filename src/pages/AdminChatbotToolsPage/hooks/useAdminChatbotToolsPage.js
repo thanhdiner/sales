@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import useAdminChatbotConfigData from '@/pages/AdminChatbotShared/hooks/useAdminChatbotConfigData'
 import { buildToolSettingsPayload } from '@/pages/AdminChatbotShared/utils'
 
 export default function useAdminChatbotToolsPage() {
+  const { t } = useTranslation('adminChatbotTools')
   const {
     loading,
     saving,
@@ -29,7 +31,7 @@ export default function useAdminChatbotToolsPage() {
       {
         toolSettings: buildToolSettingsPayload(toolRegistry)
       },
-      'Cập nhật agent tools thành công'
+      t('messages.updateSuccess')
     )
   }
 

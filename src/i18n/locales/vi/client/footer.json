@@ -1,0 +1,32 @@
+{
+  "easterEgg": "Cố lên!",
+  "customerSupport": {
+    "title": "Hỗ trợ khách hàng",
+    "hotline": "Hotline:",
+    "workingTime": "(8h - 22h hằng ngày)",
+    "shoppingGuide": "Hướng dẫn mua hàng",
+    "privacyPolicy": "Chính sách bảo mật",
+    "returnPolicy": "Chính sách đổi trả & hoàn tiền",
+    "faq": "Câu hỏi thường gặp (FAQ)",
+    "supportEmail": "Hỗ trợ khách hàng:"
+  },
+  "about": {
+    "title": "Thông tin về chúng tôi",
+    "aboutUs": "Giới thiệu chúng tôi",
+    "terms": "Điều khoản sử dụng",
+    "cooperation": "Liên hệ hợp tác"
+  },
+  "services": {
+    "title": "Dịch vụ & sản phẩm",
+    "gameAccount": "Tài khoản game",
+    "licenseUpgrade": "Nâng cấp bản quyền",
+    "coupons": "Thẻ cào & Voucher",
+    "specialPackage": "Gói dịch vụ đặc biệt"
+  },
+  "payment": {
+    "title": "Phương thức thanh toán"
+  },
+  "social": {
+    "title": "Kết nối với chúng tôi"
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getAdminProducts } from '@/services/adminProductService'
 import { useAsyncListData } from '@/hooks/useAsyncListData'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useFilterInitialValues } from '@/hooks/useListFilterHelpers'
 import { numberFilter, stringFilter, useListSearchParams } from '@/hooks/useListSearchParams'
 
@@ -15,6 +16,7 @@ const productFilterParsers = {
 }
 
 export function useAdminProductsPage() {
+  const language = useCurrentLanguage()
   const {
     page: currentPage,
     setPage: setCurrentPage,
@@ -93,7 +95,7 @@ export function useAdminProductsPage() {
         total: result?.total
       }
     },
-    [listQuery]
+    [listQuery, language]
   )
   return {
     columnsVisible,

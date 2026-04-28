@@ -1,12 +1,15 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import ProductCard from './ProductCard'
 import './ProductList.scss'
 
 function ProductList({ products = [], loading = false, className = '' }) {
+  const { t } = useTranslation('clientProducts')
+
   if (loading) {
     return (
       <div className={`w-full flex justify-center items-center py-12 ${className}`}>
-        <div className="text-gray-500">Loading products...</div>
+        <div className="text-gray-500">{t('list.loading')}</div>
       </div>
     )
   }
@@ -14,7 +17,7 @@ function ProductList({ products = [], loading = false, className = '' }) {
   if (!products.length) {
     return (
       <div className={`w-full flex justify-center items-center py-12 ${className}`}>
-        <div className="text-gray-500">No products found</div>
+        <div className="text-gray-500">{t('list.empty')}</div>
       </div>
     )
   }

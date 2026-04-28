@@ -1,4 +1,5 @@
 import { Button, Space, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   ReloadOutlined,
   RobotOutlined,
@@ -8,6 +9,8 @@ import {
 const { Title, Text } = Typography
 
 export default function AdminChatbotConfigHeaderSection({ saving, onReload, onSave }) {
+  const { t } = useTranslation('adminChatbotConfig')
+
   return (
     <div className="admin-chatbot-page-header mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
@@ -17,18 +20,18 @@ export default function AdminChatbotConfigHeaderSection({ saving, onReload, onSa
 
         <div>
           <Title level={4} className="admin-chatbot-page-title !mb-0">
-            Agent Settings
+            {t('page.title')}
           </Title>
 
           <Text type="secondary" className="admin-chatbot-page-subtitle">
-            Quản lý hồ sơ và trạng thái hoạt động của agent chính.
+            {t('page.description')}
           </Text>
         </div>
       </div>
 
       <Space wrap>
         <Button icon={<ReloadOutlined />} onClick={onReload} className="admin-chatbot-action-btn">
-          Tải lại
+          {t('page.reload')}
         </Button>
 
         <Button
@@ -38,7 +41,7 @@ export default function AdminChatbotConfigHeaderSection({ saving, onReload, onSa
           loading={saving}
           className="admin-chatbot-primary-btn"
         >
-          Lưu cấu hình
+          {t('page.save')}
         </Button>
       </Space>
     </div>

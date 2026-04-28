@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Form, message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   getChatbotConfig,
   testChatbotConnection,
@@ -13,6 +14,7 @@ import {
 } from '../utils'
 
 export default function useAdminChatbotRuntimePage() {
+  const { t } = useTranslation('adminChatbotRuntime')
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -46,11 +48,11 @@ export default function useAdminChatbotRuntimePage() {
         })
       }
     } catch (error) {
-      message.error(error?.message || 'Không thể tải cấu hình runtime AI')
+      message.error(error?.message || t('messages.loadFailed'))
     } finally {
       setLoading(false)
     }
-  }, [form])
+  }, [form, t])
 
   useEffect(() => {
     loadConfig()
@@ -72,13 +74,13 @@ export default function useAdminChatbotRuntimePage() {
       const response = await updateChatbotConfig(values)
 
       if (response?.success) {
-        message.success(response.message || 'Cập nhật runtime thành công')
+        message.success(response.message || t('messages.updateSuccess'))
         await loadConfig()
       } else {
-        message.error(response?.message || 'Cập nhật runtime thất bại')
+        message.error(response?.message || t('messages.updateFailed'))
       }
     } catch (error) {
-      message.error(error?.message || 'Có lỗi xảy ra khi cập nhật runtime')
+      message.error(error?.message || t('messages.updateError'))
     } finally {
       setSaving(false)
     }
@@ -95,13 +97,13 @@ export default function useAdminChatbotRuntimePage() {
       setTestResult(response)
 
       if (response?.success) {
-        message.success('Kết nối thành công')
+        message.success(t('messages.testSuccess'))
       } else {
-        message.error(response?.message || 'Kết nối thất bại')
+        message.error(response?.message || t('messages.testFailed'))
       }
     } catch (error) {
-      setTestResult({ success: false, message: error.message || 'Lỗi kết nối' })
-      message.error(error?.message || 'Lỗi kết nối')
+      setTestResult({ success: false, message: error.message || t('messages.connectionError') })
+      message.error(error?.message || t('messages.connectionError'))
     } finally {
       setTesting(false)
     }

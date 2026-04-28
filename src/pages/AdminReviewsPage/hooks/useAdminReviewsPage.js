@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { message, Modal } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { useAsyncListData } from '@/hooks/useAsyncListData'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { del, get } from '@/utils/request'
 import { useDebouncedFilterSync } from '@/hooks/useListFilterHelpers'
 import { stringFilter, useListSearchParams } from '@/hooks/useListSearchParams'
@@ -15,10 +17,13 @@ import {
   ADMIN_REVIEWS_STATS_LIMIT,
   calculateReviewStats,
   createEmptyReviewStats,
-  getAdminReviewsQueryParams
+  getAdminReviewsQueryParams,
+  normalizeReviewReplyPayload
 } from '../utils'
 
 export default function useAdminReviewsPage() {
+  const { t } = useTranslation('adminReviews')
+  const language = useCurrentLanguage()
   const { page, setPage, filters, setFilters } = useListSearchParams({
     defaultPage: 1,
     filterParsers: {
@@ -61,7 +66,7 @@ export default function useAdminReviewsPage() {
     }
 
     return null
-  }, [])
+  }, [language])
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -83,10 +88,10 @@ export default function useAdminReviewsPage() {
         total: response?.total
       }
     } catch (error) {
-      message.error('Không thể tải đánh giá')
+      message.error(t('messages.fetchError'))
       throw error
     }
-  }, [normalizedSearch, page, ratingFilter, refreshStats])
+  }, [language, normalizedSearch, page, ratingFilter, refreshStats, t])
 
   const {
     items: reviews,
@@ -136,13 +141,18 @@ export default function useAdminReviewsPage() {
   }, [replySubmitting])
 
   const handleReplySubmit = useCallback(
-    async content => {
-      const trimmedContent = content.trim()
+    async values => {
+      const payload = normalizeReviewReplyPayload(
+        typeof values === 'string'
+          ? { content: values }
+          : values
+      )
+      const trimmedContent = payload.content
 
       if (!replyTarget) return false
 
       if (!trimmedContent) {
-        message.warning('Vui lòng nhập nội dung phản hồi')
+        message.warning(t('messages.replyRequired'))
         return false
       }
 
@@ -151,7 +161,7 @@ export default function useAdminReviewsPage() {
       setReplySubmitting(true)
 
       try {
-        await adminReplyReview(replyTarget._id, trimmedContent)
+        await adminReplyReview(replyTarget._id, payload)
 
         setReviews(prevReviews =>
           prevReviews.map(review =>
@@ -160,6 +170,7 @@ export default function useAdminReviewsPage() {
                   ...review,
                   sellerReply: {
                     content: trimmedContent,
+                    translations: payload.translations,
                     repliedAt: new Date().toISOString()
                   }
                 }
@@ -168,28 +179,28 @@ export default function useAdminReviewsPage() {
         )
 
         setReplyTarget(null)
-        message.success(isEdit ? 'Đã cập nhật phản hồi' : 'Đã gửi phản hồi')
+        message.success(isEdit ? t('messages.replyUpdated') : t('messages.replySent'))
         void refreshStats()
         return true
       } catch (error) {
-        message.error(error.message || 'Gửi phản hồi thất bại')
+        message.error(error.message || t('messages.replyFailed'))
         return false
       } finally {
         setReplySubmitting(false)
       }
     },
-    [refreshStats, replyTarget, setReviews]
+    [refreshStats, replyTarget, setReviews, t]
   )
 
   const handleDeleteReply = useCallback(
     reviewId => {
       Modal.confirm({
         className: 'admin-reviews-confirm-modal',
-        title: 'Xoá phản hồi',
-        content: 'Bạn có chắc muốn xoá phản hồi của Shop không?',
-        okText: 'Xoá',
+        title: t('confirm.deleteReplyTitle'),
+        content: t('confirm.deleteReplyContent'),
+        okText: t('common.delete'),
         okType: 'danger',
-        cancelText: 'Huỷ',
+        cancelText: t('common.cancel'),
         okButtonProps: {
           className: 'admin-reviews-confirm-ok admin-reviews-confirm-ok--danger'
         },
@@ -207,6 +218,11 @@ export default function useAdminReviewsPage() {
                       ...review,
                       sellerReply: {
                         content: '',
+                        translations: {
+                          en: {
+                            content: ''
+                          }
+                        },
                         repliedAt: null
                       }
                     }
@@ -221,6 +237,11 @@ export default function useAdminReviewsPage() {
                       ...prevTarget,
                       sellerReply: {
                         content: '',
+                        translations: {
+                          en: {
+                            content: ''
+                          }
+                        },
                         repliedAt: null
                       }
                     }
@@ -228,25 +249,24 @@ export default function useAdminReviewsPage() {
               )
             }
 
-            message.success('Đã xoá phản hồi')
+            message.success(t('messages.deleteReplySuccess'))
             void refreshStats()
           } catch (error) {
-            message.error(error.message || 'Xoá phản hồi thất bại')
+            message.error(error.message || t('messages.deleteReplyFailed'))
           }
         }
       })
     },
-    [refreshStats, replyTarget?._id, setReviews]
+    [refreshStats, replyTarget?._id, setReviews, t]
   )
 
   const handleHide = useCallback(reviewId => {
     Modal.confirm({
       className: 'admin-reviews-confirm-modal',
-      title: 'Ẩn đánh giá',
-      content:
-        'Ẩn review này khỏi trang sản phẩm? Người dùng vẫn thấy review của họ nhưng khách khác sẽ không thấy.',
-      okText: 'Ẩn',
-      cancelText: 'Huỷ',
+      title: t('confirm.hideTitle'),
+      content: t('confirm.hideContent'),
+      okText: t('confirm.hideOk'),
+      cancelText: t('common.cancel'),
       okButtonProps: {
         className: 'admin-reviews-confirm-ok'
       },
@@ -269,23 +289,23 @@ export default function useAdminReviewsPage() {
             )
           )
 
-          message.success('Đã ẩn review')
+          message.success(t('messages.hideSuccess'))
         } catch (error) {
-          message.error(error.message || 'Ẩn review thất bại')
+          message.error(error.message || t('messages.hideFailed'))
         }
       }
     })
-  }, [setReviews])
+  }, [setReviews, t])
 
   const handleDelete = useCallback(
     reviewId => {
       Modal.confirm({
         className: 'admin-reviews-confirm-modal',
-        title: 'Xoá đánh giá',
-        content: 'Xoá vĩnh viễn đánh giá này? Hành động không thể hoàn tác.',
-        okText: 'Xoá',
+        title: t('confirm.deleteReviewTitle'),
+        content: t('confirm.deleteReviewContent'),
+        okText: t('common.delete'),
         okType: 'danger',
-        cancelText: 'Huỷ',
+        cancelText: t('common.cancel'),
         okButtonProps: {
           className: 'admin-reviews-confirm-ok admin-reviews-confirm-ok--danger'
         },
@@ -302,15 +322,15 @@ export default function useAdminReviewsPage() {
               prevTarget?._id === reviewId ? null : prevTarget
             )
 
-            message.success('Đã xoá đánh giá')
+            message.success(t('messages.deleteSuccess'))
             void refreshStats()
           } catch (error) {
-            message.error(error.message || 'Xoá thất bại')
+            message.error(error.message || t('messages.deleteFailed'))
           }
         }
       })
     },
-    [refreshStats, setReviews, setTotal]
+    [refreshStats, setReviews, setTotal, t]
   )
 
   return {

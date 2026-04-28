@@ -12,11 +12,11 @@ export const OUTCOME_COLORS = {
   error: 'red'
 }
 
-export const formatDateTime = value => {
+export const formatDateTime = (value, locale = 'vi-VN') => {
   if (!value) return '--'
 
   try {
-    return new Intl.DateTimeFormat('vi-VN', {
+    return new Intl.DateTimeFormat(locale, {
       dateStyle: 'short',
       timeStyle: 'short'
     }).format(new Date(value))

@@ -1,0 +1,378 @@
+{
+  "seo": {
+    "title": "Admin - Agent Tools"
+  },
+  "page": {
+    "title": "Agent Tools",
+    "description": "Enable or disable the built-in tools the agent can call at runtime.",
+    "openAgentSettings": "Agent Settings",
+    "reload": "Reload",
+    "save": "Save tools"
+  },
+  "stats": {
+    "totalTools": "Total tools",
+    "enabledTools": "Enabled",
+    "disabledTools": "Disabled"
+  },
+  "table": {
+    "title": "Built-in tools",
+    "backendBadge": "Hard-coded in backend",
+    "alertMessage": "Admin only manages tool enablement",
+    "alertDescription": "Tool definitions, schemas, and executors still live in the backend. This page only decides which tools are allowed in the agent runtime.",
+    "columns": {
+      "tool": "Tool",
+      "description": "Description",
+      "group": "Group",
+      "permission": "Permission",
+      "enabled": "Enabled"
+    }
+  },
+  "confirmation": {
+    "requiredShort": "Requires confirmation",
+    "noneShort": "No confirmation",
+    "requiredUser": "Requires user confirmation",
+    "none": "No confirmation required"
+  },
+  "risk": {
+    "safe": "Safe",
+    "write": "Writes data",
+    "dangerous": "Dangerous",
+    "caution": "Use caution",
+    "restricted": "Restricted"
+  },
+  "groups": {
+    "catalog": "Catalog",
+    "orders": "Orders",
+    "promotions": "Promotions",
+    "membership": "Membership",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "account": "Account",
+    "checkout": "Checkout",
+    "payments": "Payments",
+    "policies": "Policies",
+    "content": "Content",
+    "reviews": "Reviews",
+    "support": "Support"
+  },
+  "tools": {
+    "searchProducts": {
+      "label": "Search products",
+      "description": "Search and filter SmartMall products by keyword, category, price range, rating, stock, and sort order."
+    },
+    "getProductDetail": {
+      "label": "Product details",
+      "description": "Get details for a specific product. Prefer the slug from searchProducts results; otherwise use the product name."
+    },
+    "checkProductAvailability": {
+      "label": "Check stock",
+      "description": "Quickly check stock availability for one or more products, optionally with requested quantity."
+    },
+    "compareProducts": {
+      "label": "Compare products",
+      "description": "Compare 2-4 products by price, stock, rating, sales, discount, and feature signals."
+    },
+    "checkOrderStatus": {
+      "label": "Check order status",
+      "description": "Check an order by order ID. Use when customers ask about order status, delivery, or payment."
+    },
+    "listMyOrders": {
+      "label": "My orders",
+      "description": "Get the customer's recent orders while they are signed in, with optional status filtering."
+    },
+    "getOrderDetail": {
+      "label": "Order details",
+      "description": "Get the details of one order for a signed-in customer by orderId or order code."
+    },
+    "getOrderInvoice": {
+      "label": "Order invoice/receipt",
+      "description": "Get the invoice or receipt link for an order. If no generated file exists, return the order detail link and instructions for saving it as a receipt."
+    },
+    "reorderPreviousOrder": {
+      "label": "Reorder previous order",
+      "description": "Create a new payment order from products in a previous order. Requires clear customer confirmation."
+    },
+    "trackOrderByCode": {
+      "label": "Track by code",
+      "description": "Track an order by its code and the phone number used at checkout."
+    },
+    "cancelOrder": {
+      "label": "Cancel order",
+      "description": "Cancel a pending order for the signed-in customer. This is dangerous and requires clear confirmation."
+    },
+    "updateOrderAddress": {
+      "label": "Update order address",
+      "description": "Update the delivery address on a signed-in customer's pending order. Requires clear confirmation."
+    },
+    "updateOrderContact": {
+      "label": "Update order contact",
+      "description": "Update the phone number, email, or notes on a signed-in customer's pending order. Requires clear confirmation."
+    },
+    "updatePendingOrderItems": {
+      "label": "Update pending order items",
+      "description": "Update products or quantities on a signed-in customer's unpaid pending order. Requires clear confirmation."
+    },
+    "checkPaymentStatus": {
+      "label": "Check payment status",
+      "description": "Check whether an order is pending, paid, failed, or expired for VNPay, MoMo, ZaloPay, and Sepay payments."
+    },
+    "resumePayment": {
+      "label": "Resume payment",
+      "description": "Create a fresh payment link for a signed-in customer's pending order. Supports VNPay, MoMo, ZaloPay, and Sepay instructions."
+    },
+    "getBankInfo": {
+      "label": "Bank transfer info",
+      "description": "Get the active bank account and transfer QR. If a pending order is provided, also returns the amount and required transfer content."
+    },
+    "verifyBankTransfer": {
+      "label": "Verify bank transfer",
+      "description": "Check whether a bank transfer/Sepay payment has been recorded by orderCode or paymentReference."
+    },
+    "getFlashSales": {
+      "label": "Flash sale",
+      "description": "Get the list of products currently on discount."
+    },
+    "getAvailablePromoCodes": {
+      "label": "Available promo codes",
+      "description": "Get public or customer-specific promo codes that are still valid and have remaining usage."
+    },
+    "checkPromoCode": {
+      "label": "Validate promo code",
+      "description": "Check whether a promo code is still valid for the current customer. If subtotal is provided, estimate the discount."
+    },
+    "getVipBenefits": {
+      "label": "VIP benefits",
+      "description": "Get VIP Membership/SmartMall Plus content, including benefits, membership plans, comparison rows, and FAQ."
+    },
+    "getLoyaltyStatus": {
+      "label": "Loyalty status",
+      "description": "View the signed-in customer's points, current member tier, and progress toward the next tier."
+    },
+    "getCart": {
+      "label": "View cart",
+      "description": "Get the current customer's cart, including items, quantities, backend-calculated prices, and subtotal."
+    },
+    "addToCart": {
+      "label": "Add to cart",
+      "description": "Add a product to the current customer's cart. Use only when the customer wants to add or keep it in the cart; for direct purchase requests, use Place order."
+    },
+    "updateCartQuantity": {
+      "label": "Update cart quantity",
+      "description": "Update the quantity of a product already in the cart."
+    },
+    "removeFromCart": {
+      "label": "Remove from cart",
+      "description": "Remove a product from the current customer's cart."
+    },
+    "applyPromoCodeToCart": {
+      "label": "Apply promo to cart",
+      "description": "Apply and save a valid promo code to the current customer's cart."
+    },
+    "validateCart": {
+      "label": "Validate cart",
+      "description": "Check whether the current cart has out-of-stock items, over-limit quantities, changed prices, or an invalid promo code."
+    },
+    "removePromoCodeFromCart": {
+      "label": "Remove promo code from cart",
+      "description": "Clear the promo code currently being considered for the cart and return the cart without promo validation."
+    },
+    "getCheckoutProfile": {
+      "label": "Default checkout profile",
+      "description": "Get the current customer's saved checkout details, including contact information, address, delivery method, and payment method."
+    },
+    "getDeliveryOptions": {
+      "label": "Delivery options",
+      "description": "Get available pickup/delivery methods, ETA, and fee estimates when available for a product, cart, or subtotal."
+    },
+    "getUserProfile": {
+      "label": "Customer profile",
+      "description": "Read the signed-in customer's basic profile, including username, full name, email, phone, avatar, and account status."
+    },
+    "requestPasswordReset": {
+      "label": "Request password reset",
+      "description": "Send a password reset code or instructions by email after customer confirmation. Never change passwords directly in chat."
+    },
+    "getNotificationPreferences": {
+      "label": "Notification preferences",
+      "description": "Read the customer's notification preferences, including channels and order, payment, promotion, restock, wishlist, and support topics."
+    },
+    "updateUserProfile": {
+      "label": "Update customer profile",
+      "description": "Update the signed-in customer's basic profile fields such as full name, phone, or avatar. Requires clear confirmation."
+    },
+    "requestEmailChange": {
+      "label": "Request email OTP",
+      "description": "Send an OTP to the customer's new email address. This does not update the email yet."
+    },
+    "verifyEmailChange": {
+      "label": "Verify email change",
+      "description": "Verify the OTP and update the account email. Do not use updateUserProfile for email changes."
+    },
+    "requestAccountDeletion": {
+      "label": "Request account deletion",
+      "description": "Create an account deletion request ticket for the signed-in customer. Requires confirmation and does not delete the account immediately in chat."
+    },
+    "updateCheckoutProfile": {
+      "label": "Update checkout profile",
+      "description": "Save or edit the current customer's default checkout details. This writes account data and requires clear customer confirmation."
+    },
+    "updateNotificationPreferences": {
+      "label": "Update notifications",
+      "description": "Save the customer's notification preferences. This writes account data and requires clear customer confirmation."
+    },
+    "placeOrder": {
+      "label": "Place order",
+      "description": "Create a pending payment order from the cart or selected products after the customer clearly confirms. Only supports online payment through VNPay, MoMo, or ZaloPay."
+    },
+    "clearCart": {
+      "label": "Clear cart",
+      "description": "Clear the current customer's entire cart. Only execute after the customer clearly confirms."
+    },
+    "getWishlist": {
+      "label": "View wishlist",
+      "description": "Get the current customer's wishlist, including product names, prices, stock, links, and pagination."
+    },
+    "addToWishlist": {
+      "label": "Add to wishlist",
+      "description": "Add a product to the current customer's wishlist. Use when the customer wants to save, revisit, or favorite a product."
+    },
+    "removeFromWishlist": {
+      "label": "Remove from wishlist",
+      "description": "Remove a product from the current customer's wishlist."
+    },
+    "toggleWishlist": {
+      "label": "Toggle wishlist",
+      "description": "Toggle a product in the current customer's wishlist. If it is already saved, remove it; otherwise add it."
+    },
+    "clearWishlist": {
+      "label": "Clear wishlist",
+      "description": "Clear the current customer's entire wishlist. Only execute after the customer clearly confirms."
+    },
+    "searchPolicies": {
+      "label": "Search policies/FAQ",
+      "description": "Search FAQ, return policy, privacy policy, and terms content managed by admins. Use for questions about rules, returns, refunds, privacy, accounts, or terms."
+    },
+    "getReturnPolicy": {
+      "label": "Return policy",
+      "description": "Get the admin-managed return/refund policy. Can filter by the customer's topic."
+    },
+    "getPrivacyPolicy": {
+      "label": "Privacy policy",
+      "description": "Get the admin-managed privacy policy for questions about personal data, cookies, account security, or privacy rights."
+    },
+    "getTermsOfService": {
+      "label": "Terms of service",
+      "description": "Get the admin-managed terms of service for questions about site rules, accounts, responsibilities, restrictions, or purchase terms."
+    },
+    "getFAQ": {
+      "label": "FAQ",
+      "description": "Get admin-managed frequently asked questions. Can search by the customer's question."
+    },
+    "searchBlogPosts": {
+      "label": "Blog posts",
+      "description": "Search published blog posts by keyword, category, or tag so the agent can advise from existing content."
+    },
+    "getBuyingGuides": {
+      "label": "Buying guides",
+      "description": "Get the shopping guide content from website config for questions about buying flow, payment, order tracking, and shopping tips."
+    },
+    "browseByCategory": {
+      "label": "Browse by category",
+      "description": "Browse products by category or topic. Use when customers ask broadly about an area or want suggestions."
+    },
+    "getPersonalizedRecommendations": {
+      "label": "Personalized recommendations",
+      "description": "Get product recommendations from the recommendations system. Use when customers want suitable product advice; prefer this over popular products unless they specifically ask for best sellers."
+    },
+    "getRecentViewedProducts": {
+      "label": "Recently viewed products",
+      "description": "Get products the customer recently viewed plus related suggestions for context-aware product advice."
+    },
+    "getRelatedProducts": {
+      "label": "Related products",
+      "description": "Get related products based on a product the customer is viewing or asking about. Use to suggest similar options after the source product is identified."
+    },
+    "getPopularProducts": {
+      "label": "Popular products",
+      "description": "Get the best-selling or most-liked products. Use when customers ask for best sellers or quick recommendations."
+    },
+    "getProductReviewSummary": {
+      "label": "Product review summary",
+      "description": "Get the average rating, total review count, and selected review highlights for a product by name or slug."
+    },
+    "getProductReviews": {
+      "label": "Product reviews",
+      "description": "Get the real public review list for a product by rating, sort, page, and limit."
+    },
+    "createReview": {
+      "label": "Create product review",
+      "description": "Create a public text review for a purchased product after clear customer confirmation."
+    },
+    "updateReview": {
+      "label": "Update product review",
+      "description": "Edit the signed-in customer's own product review after clear confirmation."
+    },
+    "deleteReview": {
+      "label": "Delete product review",
+      "description": "Delete the signed-in customer's own product review after clear confirmation."
+    },
+    "voteReview": {
+      "label": "Vote helpful review",
+      "description": "Toggle a helpful vote on another customer's public review after confirmation."
+    },
+    "getStoreConfig": {
+      "label": "Store configuration",
+      "description": "Get store identity and contact details from website configuration."
+    },
+    "getSupportInfo": {
+      "label": "Support info",
+      "description": "Get support phone, email, hours, website, and social links from website configuration."
+    },
+    "getStoreLocations": {
+      "label": "Store locations",
+      "description": "Get store addresses, branches, pickup points, and map links from website configuration."
+    },
+    "submitContactRequest": {
+      "label": "Submit contact request",
+      "description": "Create a support contact request when a customer leaves an email or phone number and wants help outside the chat."
+    },
+    "scheduleCallback": {
+      "label": "Schedule callback",
+      "description": "Schedule a staff callback for the customer using their phone number and preferred time window."
+    },
+    "createSupportTicket": {
+      "label": "Create support ticket",
+      "description": "Create an asynchronous support ticket with category and priority for staff follow-up."
+    },
+    "getSupportTicketStatus": {
+      "label": "Check ticket status",
+      "description": "Check the status of a support ticket created by the chatbot using its ticket ID."
+    },
+    "reportBugOrIssue": {
+      "label": "Report bug or issue",
+      "description": "Record a website, payment, product, or order issue from chat for staff follow-up."
+    },
+    "getRefundStatus": {
+      "label": "Check refund/return status",
+      "description": "Check the status of a recorded return, exchange, or refund request on an order."
+    },
+    "requestReturnOrRefund": {
+      "label": "Request return/refund",
+      "description": "Create a return, exchange, or refund support ticket from chat after clear customer confirmation."
+    },
+    "handoffToHuman": {
+      "label": "Handoff to human",
+      "description": "Let the AI transfer the conversation to a support agent and record a specific escalation reason."
+    },
+    "requestHumanAgent": {
+      "label": "Request human agent",
+      "description": "Alias of handoffToHuman. Use when the conversation needs a real support agent to take over."
+    }
+  },
+  "pagination": {
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} tools"
+  },
+  "messages": {
+    "updateSuccess": "Agent tools updated successfully"
+  }
+}

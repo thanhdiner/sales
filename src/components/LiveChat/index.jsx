@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Bot, X } from 'lucide-react'
@@ -13,26 +14,43 @@ import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 import ChatResolved from './ChatResolved'
 import OrderTrackingModal from './OrderTrackingModal'
+import ImagePreviewModal from './ImagePreviewModal'
 
 // Helpers & Hooks
-import { QUICK_ACTIONS } from '@/helpers/chatConstants'
-import { groupMessages } from '@/utils/chatMessage'
+import { getQuickActions } from '@/helpers/chatConstants'
+import { applyLocalChatReaction, groupMessages, mergeChatReactionUpdate } from '@/utils/chatMessage'
 import { isSessionResolved, markSessionResolved, useChatSession } from '@/hooks/useChatSession'
 import { useChatData } from '@/hooks/useChatData'
 import { useChatInput } from '@/hooks/useChatInput'
 import { useChatSocket } from '@/hooks/useChatSocket'
 import { useAutoScroll } from '@/hooks/useAutoScroll'
 import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
+import { getSocket } from '@/services/socketService'
+import { chatService } from '@/services/chatService'
+
+const getAgentInitials = name =>
+  String(name || 'A')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(part => part[0])
+    .join('')
+    .toUpperCase() || 'A'
 
 export default function LiveChat() {
+  const { t, i18n } = useTranslation('clientChat')
   const clientUser = useSelector(state => state.clientUser?.user)
   const navigate = useNavigate()
+  const quickActions = useMemo(() => getQuickActions(t), [t, i18n.language])
 
   // 1. Session State
   const { open, setOpen, view, setView, sessionId, startNewConversation } = useChatSession()
   const [unread, setUnread] = useState(0)
   const [isMinimized, setIsMinimized] = useState(() => localStorage.getItem('chatVisible') === 'true')
   const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState(null)
+  const [isStartingNewConversation, setIsStartingNewConversation] = useState(false)
+  const isChatViewVisible = open && !isMinimized && view === 'chat'
 
   // 2. Data State & Handlers
   const { 
@@ -40,7 +58,7 @@ export default function LiveChat() {
     historyLoaded, setHistoryLoaded, 
     conversation, setConversation, 
     isResolved, setIsResolved 
-  } = useChatData(sessionId, open, view, setUnread)
+  } = useChatData(sessionId, isChatViewVisible, view, setUnread)
   const currentConversationResolved = isResolved || conversation?.status === 'resolved' || isSessionResolved(sessionId)
 
   const handleResolvedSendAttempt = (closedConversation) => {
@@ -75,32 +93,74 @@ export default function LiveChat() {
   // 4. Socket State (Typing indicators)
   const [isTypingAgent, setIsTypingAgent] = useState(false)
   const [isBotTyping, setIsBotTyping] = useState(false)
+  const [botActivity, setBotActivity] = useState([])
 
   // 5. Connect Socket & Specific Actions
   const { requestHumanAgent, switchToBot } = useChatSocket({
-    sessionId, open, setMessages, setUnread, setIsBotTyping, setConversation, setIsTypingAgent, setIsResolved
+    sessionId, open: isChatViewVisible, setMessages, setUnread, setIsBotTyping, setBotActivity, setConversation, setIsTypingAgent, setIsResolved
   })
 
   // 6. Scroll on new messages
   const {
     bottomRef,
     containerRef,
+    handleScroll,
     showScrollToBottom,
+    newIncomingCount,
     scrollToBottom
   } = useAutoScroll({
-    dependencies: [messages, isTypingAgent, isBotTyping],
-    open,
+    messages,
+    dependencies: [isTypingAgent, isBotTyping, botActivity],
+    open: isChatViewVisible,
     view
   })
 
   // 7. Event Handlers
-  const handleStartNewConversation = () => (
-    startNewConversation({ setMessages, setConversation, setIsResolved, setHistoryLoaded })
-  )
+  const startNewConversationSession = () => {
+    setUnread(0)
+    return startNewConversation({ setMessages, setConversation, setIsResolved, setHistoryLoaded })
+  }
+
+  const resolveCurrentConversationBeforeNew = async (closingSessionId) => {
+    if (currentConversationResolved || isSessionResolved(closingSessionId)) return null
+
+    if (conversation?._id || messages.some(item => item.type !== 'system')) {
+      return chatService.resolveConversation(closingSessionId)
+    }
+
+    if (historyLoaded) return null
+
+    const loadedConversation = await chatService.getConversation(closingSessionId)
+    if (!loadedConversation || loadedConversation.status === 'resolved') return null
+
+    return chatService.resolveConversation(closingSessionId)
+  }
+
+  const handleStartNewConversation = async () => {
+    if (isStartingNewConversation) return null
+
+    const closingSessionId = sessionId
+    setIsStartingNewConversation(true)
+
+    try {
+      const closedConversation = await resolveCurrentConversationBeforeNew(closingSessionId)
+      if (closedConversation) {
+        markSessionResolved(closingSessionId)
+        setConversation(closedConversation)
+        setIsResolved(true)
+      }
+      return startNewConversationSession()
+    } catch (error) {
+      message.error(error?.message || t('messages.newConversationFailed'))
+      return null
+    } finally {
+      setIsStartingNewConversation(false)
+    }
+  }
 
   const sendMessageToActiveConversation = (text, currentPage = window.location.pathname) => {
     const targetSessionId = (currentConversationResolved || isSessionResolved(sessionId))
-      ? handleStartNewConversation()
+      ? startNewConversationSession()
       : sessionId
     return sendMessage(text, { currentPage, sessionId: targetSessionId })
   }
@@ -115,7 +175,7 @@ export default function LiveChat() {
 
     if (isLoggedIn) return true
 
-    message.info('Vui lòng đăng nhập để sử dụng chat hỗ trợ!')
+    message.info(t('auth.loginRequired'))
     closeChat()
     setView('home')
     navigate('/user/login')
@@ -160,10 +220,56 @@ export default function LiveChat() {
     openChat()
     setTimeout(() => sendMessageToActiveConversation(qa.text), 200)
   }
+
+  const handleOpenImagePreview = useCallback(image => {
+    setPreviewImage(image)
+  }, [])
+
+  const handleCloseImagePreview = useCallback(() => {
+    setPreviewImage(null)
+  }, [])
   
   // 8. Derived Data
   const groupedMessages = groupMessages(messages)
   const assignedAgent = conversation?.assignedAgent?.agentName ? conversation.assignedAgent : null
+  const reactionActor = useMemo(() => ({
+    reactorType: 'customer',
+    reactorId: String(clientUser?._id || clientUser?.id || sessionId)
+  }), [clientUser?._id, clientUser?.id, sessionId])
+  const reactorName = clientUser?.fullName || clientUser?.name || t('defaults.you')
+
+  const handleReactToMessage = useCallback((targetMessage, emoji) => {
+    if (!targetMessage?._id || targetMessage.isOptimistic) return
+
+    let previousTargetMessage = null
+    setMessages(prev => {
+      previousTargetMessage = prev.find(message =>
+        message?._id?.toString() === targetMessage._id?.toString()
+      )
+      return applyLocalChatReaction(prev, targetMessage, emoji, reactionActor, reactorName)
+    })
+
+    getSocket().emit('chat:reaction', {
+      sessionId: targetMessage.sessionId || sessionId,
+      messageId: targetMessage._id,
+      emoji,
+      reactorType: reactionActor.reactorType,
+      reactorId: reactionActor.reactorId,
+      reactorName
+    }, response => {
+      if (response?.success === false) {
+        if (previousTargetMessage) {
+          setMessages(prev => mergeChatReactionUpdate(prev, previousTargetMessage))
+        }
+        message.error(response.message || t('messages.reactionFailed'))
+        return
+      }
+
+      if (response?.message) {
+        setMessages(prev => mergeChatReactionUpdate(prev, response.message))
+      }
+    })
+  }, [reactionActor, reactorName, sessionId, setMessages, t])
 
   return (
     <>
@@ -191,20 +297,25 @@ export default function LiveChat() {
               type="button"
               onClick={restoreChat}
               className="flex min-w-0 flex-1 items-center gap-3 text-left"
-              aria-label="Mở lại chat"
-              title="Mở lại chat"
+              aria-label={t('actions.restore')}
+              title={t('actions.restore')}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600">
-                <Bot className="h-4.5 w-4.5 text-white" />
+                {assignedAgent?.agentAvatar
+                  ? <img src={assignedAgent.agentAvatar} alt="" className="h-full w-full rounded-full object-cover" />
+                  : assignedAgent
+                    ? <span className="text-[11px] font-semibold text-white">{getAgentInitials(assignedAgent.agentName)}</span>
+                    : <Bot className="h-4.5 w-4.5 text-white" />
+                }
               </span>
 
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-sm font-semibold text-gray-900 dark:text-white">
-                  {assignedAgent ? assignedAgent.agentName : 'SmartMall Support'}
+                  {assignedAgent ? assignedAgent.agentName : t('agent.defaultName')}
                 </span>
                 <span className="mt-0.5 flex items-center gap-1 text-xs text-green-500">
                   <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                  {currentConversationResolved ? 'Đã giải quyết' : 'Đang hoạt động'}
+                  {currentConversationResolved ? t('status.resolved') : t('status.active')}
                 </span>
               </span>
 
@@ -219,8 +330,8 @@ export default function LiveChat() {
               type="button"
               onClick={closeChat}
               className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
-              aria-label="Đóng chat"
-              title="Đóng chat"
+              aria-label={t('actions.close')}
+              title={t('actions.close')}
             >
               <X className="h-4 w-4" />
             </button>
@@ -246,8 +357,10 @@ export default function LiveChat() {
                 assignedAgent={assignedAgent}
                 messages={messages}
                 unread={unread}
-                quickActions={QUICK_ACTIONS}
+                quickActions={quickActions}
                 onQuickAction={handleQuickAction}
+                onStartNewConversation={handleStartNewConversation}
+                isStartingNewConversation={isStartingNewConversation}
               />
             )}
 
@@ -260,20 +373,29 @@ export default function LiveChat() {
                   onClose={closeChat}
                   assignedAgent={assignedAgent}
                   isResolved={currentConversationResolved}
+                  onStartNewConversation={handleStartNewConversation}
+                  isStartingNewConversation={isStartingNewConversation}
                 />
 
                 <MessageList 
                   historyLoaded={historyLoaded}
                   messages={messages}
-                  quickActions={QUICK_ACTIONS}
+                  assignedAgent={assignedAgent}
+                  quickActions={quickActions}
                   onSendMessage={sendMessageToActiveConversation}
                   groupedMessages={groupedMessages}
                   isTypingAgent={isTypingAgent}
                   isBotTyping={isBotTyping}
+                  botActivity={botActivity}
                   containerRef={containerRef}
+                  onScroll={handleScroll}
                   bottomRef={bottomRef}
                   showScrollToBottom={showScrollToBottom}
+                  newIncomingCount={newIncomingCount}
                   onScrollToBottom={scrollToBottom}
+                  onOpenImagePreview={handleOpenImagePreview}
+                  reactionActor={reactionActor}
+                  onReactToMessage={handleReactToMessage}
                 />
 
                 {currentConversationResolved && (
@@ -313,6 +435,8 @@ export default function LiveChat() {
         isOpen={isOrderTrackingOpen} 
         onClose={() => setIsOrderTrackingOpen(false)} 
       />
+
+      <ImagePreviewModal image={previewImage} onClose={handleCloseImagePreview} />
     </>
   )
 }

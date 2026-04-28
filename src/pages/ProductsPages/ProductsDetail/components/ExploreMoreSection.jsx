@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
-import '@/components/DailySuggestionsSession/DailySuggestionsSession.scss'
-import HeroBannerCard from '@/components/DailySuggestionsSession/HeroBannerCard'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import '@/components/DailySuggestionsSection/DailySuggestionsSection.scss'
+import HeroBannerCard from '@/components/DailySuggestionsSection/HeroBannerCard'
 import ProductItem from '@/components/Products/ProductItem'
 import { getExploreMoreProducts, getRecommendations } from '@/services/clientProductService'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import './ExploreMoreSection.scss'
 
 function normalizeProductsResponse(data) {
@@ -10,13 +12,7 @@ function normalizeProductsResponse(data) {
     return data
   }
 
-  const candidates = [
-    data?.products,
-    data?.data,
-    data?.data?.products,
-    data?.items,
-    data?.data?.items
-  ]
+  const candidates = [data?.products, data?.data, data?.data?.products, data?.items, data?.data?.items]
 
   return candidates.find(Array.isArray) || []
 }
@@ -36,17 +32,24 @@ async function getFallbackProducts(productId) {
     .slice(0, 8)
 }
 
-function getHeroBannerConfig(product) {
-  const categoryTitle = product?.productCategory?.title || 'Khám phá'
+const EXPLORE_MORE_MODES = {
+  SAME_CATEGORY: 'same-category',
+  RECOMMENDED: 'recommended'
+}
+
+function getHeroBannerConfig(product, t) {
+  const categoryTitle = product?.productCategory?.title || t('productDetail.exploreMore.fallbackCategory')
   const categorySlug = product?.productCategory?.slug
   const subtitle =
     getPlainText(product?.description).slice(0, 72) ||
-    `Thêm nhiều lựa chọn nổi bật trong danh mục ${categoryTitle.toLowerCase()}.`
+    t('productDetail.exploreMore.fallbackSubtitle', {
+      categoryTitle: categoryTitle.toLowerCase()
+    })
 
   return {
     leftText: 'SMARTMALL',
     rightText: categoryTitle.toUpperCase(),
-    title: product?.title || 'Khám phá thêm',
+    title: product?.title || t('productDetail.exploreMore.fallbackTitle'),
     subtitle,
     imageUrl: product?.thumbnail,
     link: categorySlug ? `/product-categories/${categorySlug}` : '/products'
@@ -54,9 +57,13 @@ function getHeroBannerConfig(product) {
 }
 
 function ExploreMoreSection({ productId, product }) {
+  const { t } = useTranslation('clientProducts')
+  const language = useCurrentLanguage()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-  const heroBannerConfig = getHeroBannerConfig(product)
+  const [activeMode, setActiveMode] = useState(EXPLORE_MORE_MODES.SAME_CATEGORY)
+  const previousRequestKeyRef = useRef('')
+  const heroBannerConfig = getHeroBannerConfig(product, t)
 
   useEffect(() => {
     if (!productId) {
@@ -66,21 +73,21 @@ function ExploreMoreSection({ productId, product }) {
     }
 
     let isCancelled = false
+    const requestKey = `${language}:${productId}:${activeMode}`
+    const requestChanged = previousRequestKeyRef.current !== requestKey
+    previousRequestKeyRef.current = requestKey
 
     const fetchExploreMore = async () => {
+      if (requestChanged) setProducts([])
       setLoading(true)
 
       try {
-        const data = await getExploreMoreProducts(productId, { limit: 8 })
-        let nextProducts = normalizeProductsResponse(data)
+        const nextProducts =
+          activeMode === EXPLORE_MORE_MODES.RECOMMENDED
+            ? await getFallbackProducts(productId)
+            : normalizeProductsResponse(await getExploreMoreProducts(productId, { limit: 8 }))
 
-        if (nextProducts.length === 0) {
-          nextProducts = await getFallbackProducts(productId)
-        }
-
-        const filteredProducts = nextProducts
-          .filter(item => item && String(item._id || item.id || '') !== String(productId))
-          .slice(0, 8)
+        const filteredProducts = nextProducts.filter(item => item && String(item._id || item.id || '') !== String(productId)).slice(0, 8)
 
         if (!isCancelled) {
           setProducts(filteredProducts)
@@ -109,21 +116,45 @@ function ExploreMoreSection({ productId, product }) {
     return () => {
       isCancelled = true
     }
-  }, [productId])
+  }, [activeMode, language, productId])
 
   if (!productId) return null
 
   return (
     <section className="DailySuggestions-root ExploreMoreSection-root">
       <div className="Suggestions-header-block">
-        <div className="Suggestions-title">Khám phá thêm</div>
+        <div className="Suggestions-title">{t('productDetail.exploreMore.sectionTitle')}</div>
 
         <div className="ExploreMoreSection-highlights">
-          <div className="ExploreMoreSection-chip ExploreMoreSection-chip--primary">Cùng danh mục</div>
-          <div className="ExploreMoreSection-chip">Gợi ý dành cho bạn</div>
-          <div className="ExploreMoreSection-chip">
-            {loading ? 'Đang tải sản phẩm' : `${products.length} sản phẩm nổi bật`}
-          </div>
+          <button
+            type="button"
+            className={`ExploreMoreSection-filter-button ${
+              activeMode === EXPLORE_MORE_MODES.SAME_CATEGORY ? 'ExploreMoreSection-filter-button--active' : ''
+            }`}
+            aria-pressed={activeMode === EXPLORE_MORE_MODES.SAME_CATEGORY}
+            onClick={() => setActiveMode(EXPLORE_MORE_MODES.SAME_CATEGORY)}
+          >
+            {t('productDetail.exploreMore.sameCategory')}
+          </button>
+
+          <button
+            type="button"
+            className={`ExploreMoreSection-filter-button ${
+              activeMode === EXPLORE_MORE_MODES.RECOMMENDED ? 'ExploreMoreSection-filter-button--active' : ''
+            }`}
+            aria-pressed={activeMode === EXPLORE_MORE_MODES.RECOMMENDED}
+            onClick={() => setActiveMode(EXPLORE_MORE_MODES.RECOMMENDED)}
+          >
+            {t('productDetail.exploreMore.recommended')}
+          </button>
+
+          <span className="ExploreMoreSection-count-badge" aria-live="polite">
+            {loading
+              ? t('productDetail.exploreMore.loadingProducts')
+              : t('productDetail.exploreMore.featuredCount', {
+                  count: products.length
+                })}
+          </span>
         </div>
       </div>
 
@@ -151,13 +182,9 @@ function ExploreMoreSection({ productId, product }) {
           ))
         ) : (
           <div className="ExploreMoreSection-empty">
-            <div className="ExploreMoreSection-empty__title">
-              Chưa có thêm sản phẩm gợi ý ở thời điểm này.
-            </div>
+            <div className="ExploreMoreSection-empty__title">{t('productDetail.exploreMore.emptyTitle')}</div>
 
-            <p className="ExploreMoreSection-empty__description">
-              Bạn có thể bấm vào thẻ bên trái để khám phá thêm sản phẩm cùng danh mục.
-            </p>
+            <p className="ExploreMoreSection-empty__description">{t('productDetail.exploreMore.emptyDescription')}</p>
           </div>
         )}
       </div>

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { faqs, viewport } from '../constants'
+import { viewport } from '../constants'
 import FAQHelpCard from './FAQHelpCard'
 import FAQItem from './FAQItem'
 import SectionHeader from './SectionHeader'
 
-const FAQSection = () => {
+const FAQSection = ({ section = {}, helpCard = {}, links = {} }) => {
   const [openIndex, setOpenIndex] = useState(null)
+  const faqs = section.items || []
 
   return (
     <motion.section
@@ -18,9 +19,9 @@ const FAQSection = () => {
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeader
-          eyebrow="Câu hỏi thường gặp"
-          title="Trung tâm trợ giúp"
-          description="Một số thắc mắc phổ biến đã được tổng hợp sẵn để bạn tra cứu nhanh trước khi liên hệ trực tiếp."
+          eyebrow={section.eyebrow}
+          title={section.title}
+          description={section.description}
           eyebrowClassName="text-violet-600"
         />
 
@@ -36,7 +37,7 @@ const FAQSection = () => {
               <div className="contact-faq-list space-y-3 rounded-[22px] bg-gradient-to-br from-violet-50/30 via-white to-blue-50/20 p-4 md:p-5 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
                 {faqs.map((faq, index) => (
                   <FAQItem
-                    key={index}
+                    key={`${faq.question}-${index}`}
                     faq={faq}
                     index={index}
                     isOpen={openIndex === index}
@@ -54,7 +55,7 @@ const FAQSection = () => {
             transition={{ duration: 0.5, delay: 0.08, ease: 'easeOut' }}
             viewport={viewport}
           >
-            <FAQHelpCard />
+            <FAQHelpCard content={helpCard} links={links} />
           </motion.div>
         </div>
       </div>

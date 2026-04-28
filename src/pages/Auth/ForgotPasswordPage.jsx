@@ -12,24 +12,21 @@ import {
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import { forgotPassword, verifyResetCode, resetPassword } from '@/services/userService'
+import { APP_NAME } from '@/utils/env'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { getAuthTheme } from './authTheme'
+import AuthLanguageToggle from './AuthLanguageToggle'
 import './ForgotPasswordPage.scss'
 
 const { Title, Text } = Typography
 const { Step } = Steps
 
-const C = {
-  primary: '#27389a',
-  primaryContainer: '#4151b3',
-  primaryFixed: '#dee0ff',
-  surface: '#fbf8ff',
-  surfaceContainerLow: '#f4f2fc',
-  onSurface: '#1a1b22',
-  onSurfaceVariant: '#454652'
-}
-
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation('clientAuth')
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const isDarkMode = useSelector(state => !!state.darkMode?.value)
+  const C = getAuthTheme(isDarkMode)
   const [loading, setLoading] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [email, setEmail] = useState('')
@@ -40,12 +37,12 @@ const ForgotPasswordPage = () => {
     setLoading(true)
     try {
       const res = await forgotPassword({ email: values.email })
-      if (res.status !== 200) throw new Error(res.message || 'Gửi email thất bại!')
+      if (res.status !== 200) throw new Error(res.message || t('forgot.messages.emailSendError'))
       setEmail(values.email)
       setCurrentStep(1)
-      message.success('Email khôi phục đã được gửi! Vui lòng kiểm tra hộp thư của bạn.')
+      message.success(t('forgot.messages.emailSent'))
     } catch (error) {
-      message.error(error.message || 'Gửi email thất bại. Vui lòng thử lại!')
+      message.error(error.message || t('forgot.messages.emailSendRetryError'))
     } finally {
       setLoading(false)
     }
@@ -55,12 +52,12 @@ const ForgotPasswordPage = () => {
     setLoading(true)
     try {
       const res = await verifyResetCode({ email, code: values.verificationCode })
-      if (res.status !== 200) throw new Error(res.message || 'Mã xác thực không hợp lệ!')
+      if (res.status !== 200) throw new Error(res.message || t('forgot.messages.codeInvalid'))
       setVerificationCode(values.verificationCode)
       setCurrentStep(2)
-      message.success('Mã xác thực hợp lệ!')
+      message.success(t('forgot.messages.codeValid'))
     } catch (error) {
-      message.error(error.message || 'Mã xác thực không hợp lệ. Vui lòng thử lại!')
+      message.error(error.message || t('forgot.messages.codeInvalidRetry'))
     } finally {
       setLoading(false)
     }
@@ -75,11 +72,11 @@ const ForgotPasswordPage = () => {
         newPassword: values.newPassword
       })
 
-      if (res.status !== 200) throw new Error(res.message || 'Đặt lại mật khẩu thất bại!')
+      if (res.status !== 200) throw new Error(res.message || t('forgot.messages.resetError'))
       setCurrentStep(3)
-      message.success('Mật khẩu đã được đặt lại thành công! 🎉')
+      message.success(t('forgot.messages.resetSuccess'))
     } catch (error) {
-      message.error(error.message || 'Đặt lại mật khẩu thất bại. Vui lòng thử lại!')
+      message.error(error.message || t('forgot.messages.resetRetryError'))
     } finally {
       setLoading(false)
     }
@@ -90,17 +87,17 @@ const ForgotPasswordPage = () => {
       return Promise.resolve()
     }
 
-    return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'))
+    return Promise.reject(new Error(t('forgot.resetForm.confirmPasswordMismatch')))
   }
 
   const resendEmail = async () => {
     setLoading(true)
     try {
       const res = await forgotPassword({ email })
-      if (res.status !== 200) throw new Error(res.message || 'Gửi lại email thất bại!')
-      message.success('Email khôi phục đã được gửi lại!')
+      if (res.status !== 200) throw new Error(res.message || t('forgot.messages.resendError'))
+      message.success(t('forgot.messages.resendSuccess'))
     } catch (error) {
-      message.error(error.message || 'Gửi lại email thất bại!')
+      message.error(error.message || t('forgot.messages.resendError'))
     } finally {
       setLoading(false)
     }
@@ -118,17 +115,17 @@ const ForgotPasswordPage = () => {
             size="middle"
           >
             <Form.Item
-              label="Địa chỉ email"
+              label={t('forgot.emailForm.label')}
               name="email"
               rules={[
-                { required: true, message: 'Vui lòng nhập email!' },
-                { type: 'email', message: 'Email không hợp lệ!' }
+                { required: true, message: t('forgot.emailForm.required') },
+                { type: 'email', message: t('forgot.emailForm.invalid') }
               ]}
               style={{ marginBottom: '1rem' }}
             >
               <Input
                 prefix={<MailOutlined />}
-                placeholder="Nhập địa chỉ email của bạn"
+                placeholder={t('forgot.emailForm.placeholder')}
                 autoComplete="email"
               />
             </Form.Item>
@@ -141,7 +138,7 @@ const ForgotPasswordPage = () => {
                 className="sovereign-forgot-btn-primary"
                 style={{ width: '100%', height: '3.25rem' }}
               >
-                {loading ? 'Đang gửi...' : 'Gửi Email Khôi Phục'}
+                {loading ? t('forgot.emailForm.submitting') : t('forgot.emailForm.submit')}
               </Button>
             </Form.Item>
           </Form>
@@ -163,22 +160,22 @@ const ForgotPasswordPage = () => {
                 fontSize: '0.9rem'
               }}
             >
-              Chúng tôi đã gửi mã xác thực đến email{' '}
+              {t('forgot.verifyForm.sentTo')}{' '}
               <strong style={{ color: C.onSurface }}>{email}</strong>
             </div>
 
             <Form.Item
-              label="Mã xác thực"
+              label={t('forgot.verifyForm.label')}
               name="verificationCode"
               rules={[
-                { required: true, message: 'Vui lòng nhập mã xác thực!' },
-                { len: 6, message: 'Mã xác thực phải có 6 chữ số!' }
+                { required: true, message: t('forgot.verifyForm.required') },
+                { len: 6, message: t('forgot.verifyForm.length') }
               ]}
               style={{ marginBottom: '1rem' }}
             >
               <Input
                 prefix={<KeyOutlined />}
-                placeholder="Nhập mã xác thực 6 chữ số"
+                placeholder={t('forgot.verifyForm.placeholder')}
                 maxLength={6}
                 className="sovereign-forgot-code-input"
               />
@@ -192,20 +189,20 @@ const ForgotPasswordPage = () => {
                 className="sovereign-forgot-btn-primary"
                 style={{ width: '100%', height: '3.25rem' }}
               >
-                {loading ? 'Đang xác thực...' : 'Xác Thực'}
+                {loading ? t('forgot.verifyForm.submitting') : t('forgot.verifyForm.submit')}
               </Button>
             </Form.Item>
 
             <div style={{ textAlign: 'center' }}>
               <Text style={{ color: C.onSurfaceVariant }}>
-                Không nhận được mã?{' '}
+                {t('forgot.verifyForm.noCode')}{' '}
                 <Button
                   type="link"
                   onClick={resendEmail}
                   className="sovereign-forgot-link-btn"
                   disabled={loading}
                 >
-                  Gửi lại
+                  {t('forgot.verifyForm.resend')}
                 </Button>
               </Text>
             </div>
@@ -222,39 +219,39 @@ const ForgotPasswordPage = () => {
             size="middle"
           >
             <Form.Item
-              label="Mật khẩu mới"
+              label={t('forgot.resetForm.newPasswordLabel')}
               name="newPassword"
               rules={[
-                { required: true, message: 'Vui lòng nhập mật khẩu mới!' },
-                { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
+                { required: true, message: t('forgot.resetForm.newPasswordRequired') },
+                { min: 8, message: t('forgot.resetForm.passwordMin') },
                 {
                   pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                  message: 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số!'
+                  message: t('forgot.resetForm.passwordPattern')
                 }
               ]}
               style={{ marginBottom: '1rem' }}
             >
               <Input.Password
                 prefix={<LockOutlined />}
-                placeholder="Nhập mật khẩu mới"
+                placeholder={t('forgot.resetForm.newPasswordPlaceholder')}
                 iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                 autoComplete="new-password"
               />
             </Form.Item>
 
             <Form.Item
-              label="Xác nhận mật khẩu mới"
+              label={t('forgot.resetForm.confirmPasswordLabel')}
               name="confirmNewPassword"
               dependencies={['newPassword']}
               rules={[
-                { required: true, message: 'Vui lòng xác nhận mật khẩu mới!' },
+                { required: true, message: t('forgot.resetForm.confirmPasswordRequired') },
                 { validator: validateConfirmPassword }
               ]}
               style={{ marginBottom: '1rem' }}
             >
               <Input.Password
                 prefix={<LockOutlined />}
-                placeholder="Xác nhận mật khẩu mới"
+                placeholder={t('forgot.resetForm.confirmPasswordPlaceholder')}
                 iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                 autoComplete="new-password"
               />
@@ -268,7 +265,7 @@ const ForgotPasswordPage = () => {
                 className="sovereign-forgot-btn-primary"
                 style={{ width: '100%', height: '3.25rem' }}
               >
-                {loading ? 'Đang đặt lại...' : 'Đặt Lại Mật Khẩu'}
+                {loading ? t('forgot.resetForm.submitting') : t('forgot.resetForm.submit')}
               </Button>
             </Form.Item>
           </Form>
@@ -278,12 +275,12 @@ const ForgotPasswordPage = () => {
         return (
           <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: '1rem' }}>
-              <CheckCircleOutlined style={{ fontSize: '3rem', color: '#52c41a' }} />
+              <CheckCircleOutlined style={{ fontSize: '3rem', color: C.successText }} />
               <Title level={4} style={{ marginBottom: '0.5rem' }}>
-                Thành công!
+                {t('forgot.done.title')}
               </Title>
               <Text style={{ color: C.onSurfaceVariant }}>
-                Mật khẩu của bạn đã được đặt lại thành công.
+                {t('forgot.done.description')}
               </Text>
             </div>
 
@@ -293,7 +290,7 @@ const ForgotPasswordPage = () => {
                 className="sovereign-forgot-btn-primary"
                 style={{ width: '100%', height: '3.25rem' }}
               >
-                Về Trang Đăng Nhập
+                {t('forgot.done.backToLogin')}
               </Button>
             </Link>
           </div>
@@ -307,35 +304,36 @@ const ForgotPasswordPage = () => {
   const getStepTitle = () => {
     switch (currentStep) {
       case 0:
-        return 'Quên mật khẩu?'
+        return t('forgot.steps.email.title')
       case 1:
-        return 'Xác thực email'
+        return t('forgot.steps.verify.title')
       case 2:
-        return 'Đặt mật khẩu mới'
+        return t('forgot.steps.reset.title')
       case 3:
-        return 'Hoàn thành'
+        return t('forgot.steps.done.title')
       default:
-        return 'Quên mật khẩu?'
+        return t('forgot.steps.email.title')
     }
   }
 
   const getStepDescription = () => {
     switch (currentStep) {
       case 0:
-        return 'Nhập email để nhận mã khôi phục mật khẩu'
+        return t('forgot.steps.email.description')
       case 1:
-        return 'Nhập mã xác thực được gửi đến email của bạn'
+        return t('forgot.steps.verify.description')
       case 2:
-        return 'Tạo mật khẩu mới cho tài khoản của bạn'
+        return t('forgot.steps.reset.description')
       case 3:
-        return 'Mật khẩu đã được đặt lại thành công'
+        return t('forgot.steps.done.description')
       default:
-        return 'Nhập email để nhận mã khôi phục mật khẩu'
+        return t('forgot.steps.email.description')
     }
   }
 
   return (
     <div
+      className="sovereign-auth-page sovereign-auth-page--forgot"
       style={{
         minHeight: '100vh',
         background: C.surface,
@@ -345,17 +343,18 @@ const ForgotPasswordPage = () => {
         fontFamily: 'Inter, sans-serif'
       }}
     >
-      <SEO title="Quên mật khẩu" noIndex />
+      <SEO title={t('forgot.seoTitle')} noIndex />
 
       <header
+        className="sovereign-auth-header"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           zIndex: 50,
-          background: C.surface,
-          boxShadow: '0px 24px 48px rgba(39,56,154,0.06)'
+          background: C.headerBackground,
+          boxShadow: C.headerShadow
         }}
       >
         <nav
@@ -385,9 +384,9 @@ const ForgotPasswordPage = () => {
                   width: '2.25rem',
                   height: '2.25rem',
                   objectFit: 'contain',
-                  background: '#ffffff',
+                  background: C.logoBackground,
                   borderRadius: '0.375rem',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.12)'
+                  boxShadow: C.logoShadow
                 }}
               />
             ) : null}
@@ -401,11 +400,14 @@ const ForgotPasswordPage = () => {
                 letterSpacing: '-0.04em'
               }}
             >
-              {websiteConfig?.siteName || process.env.REACT_APP_NAME_APP || 'Sovereign'}
+              {websiteConfig?.siteName || APP_NAME || 'Sovereign'}
             </span>
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <div
+            className="sovereign-auth-nav-actions"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+          >
             <Link
               to="/"
               style={{
@@ -434,13 +436,17 @@ const ForgotPasswordPage = () => {
               >
                 home
               </span>
-              <span>Trang chủ</span>
+              <span>{t('shared.nav.home')}</span>
             </Link>
 
-            {['help', 'info'].map(icon => (
-              <button
+            {[
+              { icon: 'help', to: '/faq' },
+              { icon: 'info', to: '/about' }
+            ].map(({ icon, to }) => (
+              <Link
                 key={icon}
-                type="button"
+                to={to}
+                aria-label={t(`shared.nav.${icon}`)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -451,8 +457,7 @@ const ForgotPasswordPage = () => {
                   cursor: 'pointer',
                   fontSize: '0.875rem',
                   fontWeight: 500,
-                  border: 'none',
-                  background: 'transparent',
+                  textDecoration: 'none',
                   transition: 'background 0.3s'
                 }}
                 onMouseEnter={e =>
@@ -468,9 +473,11 @@ const ForgotPasswordPage = () => {
                 >
                   {icon}
                 </span>
-                <span>{icon}</span>
-              </button>
+                <span>{t(`shared.nav.${icon}`)}</span>
+              </Link>
             ))}
+
+            <AuthLanguageToggle colors={C} />
           </div>
         </nav>
       </header>
@@ -496,19 +503,19 @@ const ForgotPasswordPage = () => {
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'flex-start',
-            background: C.primary
+            background: C.leftPanelBackground
           }}
         >
           <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
-              alt="Sovereign background"
+              alt={t('shared.hero.backgroundAlt')}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                opacity: 0.4,
-                mixBlendMode: 'overlay'
+                opacity: C.heroImageOpacity,
+                mixBlendMode: C.heroImageBlendMode
               }}
             />
 
@@ -516,8 +523,7 @@ const ForgotPasswordPage = () => {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background:
-                  'linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)'
+                background: C.heroOverlay
               }}
             />
           </div>
@@ -541,9 +547,12 @@ const ForgotPasswordPage = () => {
                 marginBottom: '1.2rem'
               }}
             >
-              Khôi phục
-              <br />
-              tài khoản
+              {t('forgot.hero.title').split('\n').map((line, index) => (
+                <React.Fragment key={line}>
+                  {index > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              ))}
             </h1>
 
             <p
@@ -556,15 +565,14 @@ const ForgotPasswordPage = () => {
                 maxWidth: '27rem'
               }}
             >
-              Thực hiện các bước xác minh để đặt lại mật khẩu và truy cập lại tài
-              khoản của bạn một cách an toàn.
+              {t('forgot.hero.description')}
             </p>
 
             <div
               style={{
                 position: 'relative',
                 paddingLeft: '2rem',
-                borderLeft: '2px solid rgba(222,224,255,0.3)'
+                borderLeft: `2px solid ${C.quoteBorder}`
               }}
             >
               <span
@@ -574,7 +582,7 @@ const ForgotPasswordPage = () => {
                   left: '-1.25rem',
                   top: '-1.5rem',
                   fontSize: '4rem',
-                  color: 'rgba(222,224,255,0.15)',
+                  color: C.quoteMark,
                   userSelect: 'none'
                 }}
               >
@@ -583,14 +591,13 @@ const ForgotPasswordPage = () => {
 
               <blockquote
                 style={{
-                  color: '#bbc3ff',
+                  color: C.quoteText,
                   fontStyle: 'italic',
                   fontSize: '1rem',
                   lineHeight: 1.7
                 }}
               >
-                "Bảo mật tốt bắt đầu từ việc xác minh đúng người dùng, đúng thời
-                điểm, đúng quyền truy cập."
+                "{t('forgot.hero.quote')}"
               </blockquote>
 
               <p
@@ -603,7 +610,7 @@ const ForgotPasswordPage = () => {
                   textTransform: 'uppercase'
                 }}
               >
-                — Ban Quản Trị {process.env.REACT_APP_NAME_APP || 'Sovereign'}
+                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'Sovereign' })}
               </p>
             </div>
           </div>
@@ -628,12 +635,13 @@ const ForgotPasswordPage = () => {
                 color: '#ffffff'
               }}
             >
-              {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar
+              {t('shared.footer.registrar', { appName: APP_NAME || 'Sovereign' })}
             </span>
 
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              © 2024 {process.env.REACT_APP_NAME_APP || 'Sovereign'} Registrar.
-              All rights reserved.
+              {t('shared.footer.copyright', { appName: APP_NAME || 'Sovereign' })}
+              {' '}
+              {t('shared.footer.rights')}
             </span>
 
             <div
@@ -645,10 +653,10 @@ const ForgotPasswordPage = () => {
               }}
             >
               {[
-                { label: 'Terms of Service', to: '/terms-of-service' },
-                { label: 'Privacy Policy', to: '/privacy-policy' },
-                { label: 'Security', to: '/privacy-policy' },
-                { label: 'Contact', to: '/contact' }
+                { label: t('shared.footer.terms'), to: '/terms-of-service' },
+                { label: t('shared.footer.privacy'), to: '/privacy-policy' },
+                { label: t('shared.footer.security'), to: '/privacy-policy' },
+                { label: t('shared.footer.contact'), to: '/contact' }
               ].map(({ label, to }) => (
                 <Link
                   key={label}
@@ -685,16 +693,17 @@ const ForgotPasswordPage = () => {
           }}
         >
           <div
+            className="sovereign-auth-card"
             style={{
               width: '100%',
               maxWidth: '28rem',
-              background: 'rgba(255,255,255,0.88)',
+              background: C.cardBackground,
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
               borderRadius: '2rem',
               padding: '2.5rem',
-              boxShadow: '0px 24px 48px rgba(39,56,154,0.09)',
-              border: '1px solid rgba(197,197,212,0.25)'
+              boxShadow: C.cardShadow,
+              border: C.cardBorder
             }}
           >
             <div style={{ marginBottom: '1.25rem' }}>
@@ -726,6 +735,7 @@ const ForgotPasswordPage = () => {
                 <Steps
                   current={currentStep}
                   size="small"
+                  responsive={false}
                   className="sovereign-forgot-steps"
                 >
                   <Step />
@@ -751,7 +761,7 @@ const ForgotPasswordPage = () => {
                   }}
                 >
                   <ArrowLeftOutlined />
-                  Quay lại đăng nhập
+                  {t('forgot.backToLogin')}
                 </Link>
               </div>
             )}

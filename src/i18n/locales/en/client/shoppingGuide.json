@@ -1,0 +1,127 @@
+{
+  "seo": {
+    "title": "Shopping guide",
+    "description": "A complete shopping guide for SmartMall: find products, make payment, and receive your order."
+  },
+  "steps": {
+    "chooseProduct": {
+      "title": "Choose a product",
+      "content": "Search for and choose the product you want to buy"
+    },
+    "login": {
+      "title": "Sign in / Sign up",
+      "content": "Create an account or sign in to continue"
+    },
+    "payment": {
+      "title": "Payment",
+      "content": "Choose a payment method and complete your order"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "content": "Track your order and receive your product"
+    }
+  },
+  "paymentMethods": {
+    "wallet": {
+      "name": "E-wallet",
+      "desc": "Supports leading e-wallets in Vietnam."
+    },
+    "bankTransfer": {
+      "name": "Bank transfer",
+      "desc": "Fast Internet Banking and Mobile Banking."
+    }
+  },
+  "detailedSteps": {
+    "search": {
+      "id": "STEP 01",
+      "title": "Search for products",
+      "description": "Use the smart search bar at the top of the page or browse clearly organized categories to find the product that fits your needs.",
+      "chips": ["Search", "Categories"]
+    },
+    "cart": {
+      "id": "STEP 02",
+      "title": "Add to cart",
+      "description": "Choose quantity, color, size, then click 'Add to cart'. You can continue shopping or go to your cart to check out right away.",
+      "checks": ["Choose product variants", "Check real-time stock"]
+    },
+    "checkout": {
+      "id": "STEP 03 & 04",
+      "title": "Review & fill in information",
+      "description": "Review the products in your cart. Enter the correct delivery address and phone number so we can serve you better.",
+      "note": "Tip: Save your address in your account for faster checkout next time."
+    }
+  },
+  "smartTips": {
+    "comparePrice": "Compare prices before buying to always make the best choice.",
+    "returnPolicy": "Check the return policy for each product type.",
+    "checkInfo": "Always carefully check product information and buyer reviews first.",
+    "flashSale": "Take advantage of golden-hour flash sale campaigns.",
+    "coupons": "Make the most of available discount codes and accumulated vouchers."
+  },
+  "faq": {
+    "trackOrder": {
+      "question": "How can I track my order?",
+      "answer": "You can track your order by signing in to your account and opening \"My orders\", or by using the order code sent via email/SMS."
+    },
+    "deliveryTime": {
+      "question": "How long does delivery take?",
+      "answer": "The usual delivery time is 2-3 working hours."
+    },
+    "returnProduct": {
+      "question": "Can I return or exchange products?",
+      "answer": "Return and exchange policies depend on each product type. Please check the detailed policy on the product information page."
+    },
+    "shippingFee": {
+      "question": "How is the shipping fee calculated?",
+      "answer": "- Online delivery products such as software, activation codes, accounts, etc. always have free delivery. Products will be sent by email or message.\n- Physical products: Shipping fees are calculated based on region and weight. Orders from 500,000đ and above receive free shipping.\n"
+    }
+  },
+  "detailedStepsSection": {
+    "eyebrow": "Detailed guide",
+    "title": "Step-by-step details"
+  },
+  "faqSection": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "toggle": "Open / close question"
+  },
+  "hero": {
+    "eyebrow": "Shopping guide",
+    "title": "Shop easily and safely",
+    "description": "View the steps for ordering, payment, and order tracking to shop more conveniently on the website.",
+    "registerButton": "Create an account",
+    "guideButton": "View guide",
+    "imageAlt": "Online shopping concept"
+  },
+  "paymentSection": {
+    "eyebrow": "Payment",
+    "title": "Payment methods",
+    "description": "Choose the right method to complete your order quickly and safely.",
+    "popular": "Popular",
+    "securityNote": "All transactions are processed through a secure connection, helping keep your payment information safer."
+  },
+  "processSection": {
+    "eyebrow": "Steps",
+    "title": "Shopping process",
+    "previous": "Back",
+    "next": "Next",
+    "stepAria": "View step {{step}}: {{title}}"
+  },
+  "supportSection": {
+    "eyebrow": "Support",
+    "title": "Need more help?",
+    "phoneLabel": "Phone:",
+    "emailLabel": "Email:",
+    "timeLabel": "Hours:",
+    "workingTime": "8:00 - 22:00 (Monday - Sunday)",
+    "description": "Ready to start shopping? Explore available products and offers on the website.",
+    "browseProducts": "Start shopping",
+    "viewCoupons": "View promotions"
+  },
+  "tipsSection": {
+    "eyebrow": "Shopping tips",
+    "title": "Shop smarter",
+    "description": "A few small notes to help you choose the right products and place orders more conveniently.",
+    "imageAlt": "Smart shopping"
+  }
+}

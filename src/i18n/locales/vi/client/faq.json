@@ -1,0 +1,72 @@
+{
+  "seo": {
+    "title": "Câu hỏi thường gặp",
+    "description": "Giải đáp mọi thắc mắc về SmartMall: cách mua hàng, thanh toán, bảo hành, giao hàng và hỗ trợ khách hàng."
+  },
+  "page": {
+    "eyebrow": "FAQ",
+    "title": "Câu hỏi thường gặp",
+    "description": "Một số câu hỏi phổ biến về mua hàng, giao hàng, đổi trả và hỗ trợ khách hàng."
+  },
+  "items": [
+    {
+      "id": "order-placement",
+      "question": "Làm thế nào để đặt hàng?",
+      "answer": "Chọn sản phẩm, thêm vào giỏ, nhập thông tin và xác nhận thanh toán. Hỗ trợ qua Zalo/Hotline nếu cần."
+    },
+    {
+      "id": "return-window",
+      "question": "Tôi có thể đổi trả trong bao lâu?",
+      "answer": "Thời hạn đổi trả tùy từng sản phẩm. Thông thường từ 7-30 ngày kể từ khi nhận hàng. Xem chi tiết tại trang Chính sách đổi trả."
+    },
+    {
+      "id": "delivery-time",
+      "question": "Thời gian nhận hàng là bao lâu?",
+      "answer": "Thông thường 1-3 ngày tại nội thành, 3-7 ngày với tỉnh/thành khác. Lễ/tết có thể chậm hơn."
+    },
+    {
+      "id": "order-tracking",
+      "question": "Làm sao kiểm tra tình trạng đơn hàng?",
+      "answer": "Vào mục \"Đơn hàng của tôi\" trên web hoặc liên hệ hotline/Zalo để được hỗ trợ tra cứu."
+    },
+    {
+      "id": "defective-product",
+      "question": "Nếu sản phẩm bị lỗi tôi phải làm sao?",
+      "answer": "Vui lòng liên hệ hỗ trợ trong vòng 24h kể từ khi nhận hàng, gửi hình ảnh/clip để được xử lý đổi/trả nhanh nhất."
+    },
+    {
+      "id": "shipping-fee",
+      "question": "Phí giao hàng như thế nào?",
+      "answer": "Phí ship được tính tùy khu vực và đơn vị vận chuyển."
+    },
+    {
+      "id": "warranty-policy",
+      "question": "Chính sách bảo hành ra sao?",
+      "answer": "Tùy từng sản phẩm sẽ có bảo hành 1-12 tháng. Chi tiết xem trên từng sản phẩm hoặc liên hệ shop."
+    },
+    {
+      "id": "promotions",
+      "question": "Có chương trình khuyến mãi không?",
+      "answer": "Chúng tôi thường xuyên cập nhật ưu đãi trên banner trang chủ, hoặc trong mục \"Mã giảm giá\"."
+    },
+    {
+      "id": "retail-support",
+      "question": "Có hỗ trợ khách lẻ không?",
+      "answer": "Có, chúng tôi bán cả sỉ và lẻ. Khách sỉ vui lòng liên hệ để nhận báo giá tốt nhất."
+    },
+    {
+      "id": "support-hours",
+      "question": "Thời gian hỗ trợ khách hàng?",
+      "answer": "Từ 8h00 đến 21h00 mỗi ngày (cả Thứ 7, CN). Hỗ trợ ngoài giờ qua Zalo/Inbox sẽ phản hồi sớm nhất."
+    },
+    {
+      "id": "support-contact",
+      "question": "Liên hệ hỗ trợ ở đâu?",
+      "answer": "Gọi hotline hoặc nhắn Zalo {{phone}}. Fanpage, email cũng luôn sẵn sàng hỗ trợ bạn."
+    }
+  ],
+  "support": {
+    "text": "Chưa tìm thấy câu trả lời?",
+    "link": "Liên hệ với chúng tôi"
+  }
+}

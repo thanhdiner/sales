@@ -1,4 +1,5 @@
 import { Inbox, Loader2, Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import ConversationItem from '../components/ConversationItem'
 
@@ -32,12 +33,13 @@ export default function AdminChatSidebar({
   onSelectConversation,
   showChatPane
 }) {
+  const { t } = useTranslation('adminChat')
   const hasConversations = filteredConversations.length > 0
   const conversationCountText = totalConversations > filteredConversations.length
-    ? `${filteredConversations.length}/${totalConversations} hội thoại đang hiển thị`
+    ? t('sidebar.countFiltered', { visible: filteredConversations.length, total: totalConversations })
     : hasConversations
-      ? `${filteredConversations.length} hội thoại đang hiển thị`
-      : 'Chọn bộ lọc để bắt đầu'
+      ? t('sidebar.countVisible', { count: filteredConversations.length })
+      : t('sidebar.startWithFilter')
 
   const handleConversationScroll = event => {
     if (!hasMore || loading || loadingMore) return
@@ -59,7 +61,7 @@ export default function AdminChatSidebar({
       <div className="shrink-0 border-b border-[var(--admin-border)] px-4 py-4">
         <div className="mb-3">
           <div>
-            <h2 className="text-base font-semibold text-[var(--admin-text)]">Hộp thư</h2>
+            <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('sidebar.title')}</h2>
             <p className="text-xs text-[var(--admin-text-muted)]">
               {conversationCountText}
             </p>
@@ -70,7 +72,7 @@ export default function AdminChatSidebar({
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--admin-text-subtle)]" />
           <input
             type="text"
-            placeholder="Tìm khách hàng, mã phiên, nội dung"
+            placeholder={t('sidebar.searchPlaceholder')}
             value={searchQuery}
             onChange={onSearchChange}
             className="h-10 w-full rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] pl-9 pr-3 text-sm text-[var(--admin-text)] outline-none transition-colors placeholder-[var(--admin-text-subtle)] focus:border-[var(--admin-accent)] focus:bg-[var(--admin-surface)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)]"
@@ -96,7 +98,7 @@ export default function AdminChatSidebar({
                 {loadingMore ? (
                   <div className="inline-flex items-center gap-2 text-xs font-medium text-[var(--admin-text-muted)]">
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                    Đang tải thêm
+                    {t('sidebar.loadingMore')}
                   </div>
                 ) : (
                   <button
@@ -104,7 +106,7 @@ export default function AdminChatSidebar({
                     onClick={onLoadMore}
                     className="inline-flex h-8 items-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
                   >
-                    Tải thêm
+                    {t('sidebar.loadMore')}
                   </button>
                 )}
               </div>
@@ -116,10 +118,10 @@ export default function AdminChatSidebar({
               <Inbox className="h-6 w-6" strokeWidth={1.8} />
             </div>
             <p className="text-sm font-medium text-[var(--admin-text)]">
-              {searchQuery ? 'Không tìm thấy hội thoại' : 'Không có cuộc trò chuyện'}
+              {searchQuery ? t('sidebar.emptySearchTitle') : t('sidebar.emptyTitle')}
             </p>
             <p className="mt-1 text-xs text-[var(--admin-text-muted)]">
-              {searchQuery ? 'Thử tìm bằng tên khách, mã phiên hoặc nội dung khác.' : 'Danh sách này sẽ tự cập nhật khi có tin nhắn mới.'}
+              {searchQuery ? t('sidebar.emptySearchDescription') : t('sidebar.emptyDescription')}
             </p>
           </div>
         )}

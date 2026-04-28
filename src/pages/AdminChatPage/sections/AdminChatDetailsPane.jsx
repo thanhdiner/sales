@@ -1,5 +1,7 @@
 import { CheckCircle, Clock, ExternalLink, Globe, MessageCircle, UserCheck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
+import ChatAvatar, { getAvatarSrc, getInitials } from '../components/ChatAvatar'
 import StatusBadge from '../components/StatusBadge'
 import { dayjs } from '../utils'
 
@@ -15,9 +17,9 @@ function DetailRow({ icon: Icon, label, children }) {
   )
 }
 
-function getSessionLabel(sessionId) {
+function getSessionLabel(sessionId, t) {
   if (!sessionId) {
-    return 'Phiên mới'
+    return t('conversation.newSession')
   }
 
   return `#${sessionId.slice(-8).toUpperCase()}`
@@ -33,21 +35,40 @@ export default function AdminChatDetailsPane({
   onAssign,
   onResolve
 }) {
+  const { t, i18n } = useTranslation('adminChat')
+
   if (!selectedConversation) {
     return null
   }
 
-  const customerName = selectedConversation.customer?.name || 'Khách ẩn danh'
+  const dayjsLocale = i18n.resolvedLanguage === 'en' ? 'en' : 'vi'
+  const customerName = selectedConversation.customer?.name || t('conversation.anonymousCustomer')
+  const customerAvatar = getAvatarSrc(
+    selectedConversation.customer?.avatar,
+    selectedConversation.customer?.avatarUrl,
+    selectedConversation.customer?.photoURL,
+    selectedConversation.customer?.photoUrl,
+    selectedConversation.customer?.picture
+  )
+  const assignedAgentAvatar = getAvatarSrc(
+    selectedConversation.assignedAgent?.agentAvatar,
+    selectedConversation.assignedAgent?.avatarUrl,
+    selectedConversation.assignedAgent?.avatar
+  )
   const currentPage = selectedConversation.customer?.currentPage
 
   return (
     <aside className="hidden h-full w-[280px] shrink-0 overflow-y-auto border-l border-[var(--admin-border)] bg-[var(--admin-surface)] xl:block">
       <div className="border-b border-[var(--admin-border)] px-5 py-6 text-center">
-        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-[var(--admin-surface-2)] text-xl font-semibold text-[var(--admin-text)]">
-          {customerName[0].toUpperCase()}
-        </div>
+        <ChatAvatar
+          src={customerAvatar}
+          alt=""
+          className="mx-auto mb-3 h-14 w-14 rounded-xl bg-[var(--admin-surface-2)] text-xl font-semibold text-[var(--admin-text)]"
+        >
+          {getInitials(customerName, 'K')}
+        </ChatAvatar>
         <p className="font-semibold text-[var(--admin-text)]">{customerName}</p>
-        <p className="mt-1 font-mono text-xs text-[var(--admin-text-subtle)]">{getSessionLabel(selectedConversation.sessionId)}</p>
+        <p className="mt-1 font-mono text-xs text-[var(--admin-text-subtle)]">{getSessionLabel(selectedConversation.sessionId, t)}</p>
         <div className="mt-3">
           <StatusBadge status={selectedConversation.status} />
         </div>
@@ -56,26 +77,26 @@ export default function AdminChatDetailsPane({
       <div className="space-y-5 p-5">
         <section>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
-            Thông tin hội thoại
+            {t('details.conversationInfo')}
           </p>
 
           <div className="space-y-4">
-            <DetailRow icon={Clock} label="Bắt đầu">
+            <DetailRow icon={Clock} label={t('details.startedAt')}>
               {dayjs(selectedConversation.createdAt).format('DD/MM/YYYY HH:mm')}
             </DetailRow>
 
             {selectedConversation.firstReplyAt && (
-              <DetailRow icon={CheckCircle} label="Phản hồi đầu tiên">
+              <DetailRow icon={CheckCircle} label={t('details.firstReply')}>
                 {dayjs(selectedConversation.firstReplyAt).format('DD/MM/YYYY HH:mm')}
               </DetailRow>
             )}
 
-            <DetailRow icon={MessageCircle} label="Số tin nhắn">
+            <DetailRow icon={MessageCircle} label={t('details.messageCount')}>
               {selectedConversation.messageCount || messages.length}
             </DetailRow>
 
             {currentPage && (
-              <DetailRow icon={Globe} label="Trang hiện tại">
+              <DetailRow icon={Globe} label={t('details.currentPage')}>
                 <a
                   href={currentPage}
                   target="_blank"
@@ -93,27 +114,31 @@ export default function AdminChatDetailsPane({
 
         <section className="border-t border-[var(--admin-border)] pt-5">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
-            Agent phụ trách
+            {t('details.assignedAgent')}
           </p>
 
           {selectedConversation.assignedAgent?.agentName ? (
             <div className="flex items-center gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--admin-accent)] text-sm font-semibold text-[#f4f5f8]">
-                {selectedConversation.assignedAgent.agentName[0]?.toUpperCase()}
-              </div>
+              <ChatAvatar
+                src={assignedAgentAvatar}
+                alt=""
+                className="h-9 w-9 rounded-lg bg-[var(--admin-accent)] text-sm font-semibold text-[#f4f5f8]"
+              >
+                {getInitials(selectedConversation.assignedAgent.agentName, 'A')}
+              </ChatAvatar>
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-[var(--admin-text)]">
                   {selectedConversation.assignedAgent.agentName}
                 </p>
                 <p className="text-xs text-[var(--admin-text-muted)]">
-                  {dayjs(selectedConversation.assignedAgent.assignedAt).fromNow()}
+                  {dayjs(selectedConversation.assignedAgent.assignedAt).locale(dayjsLocale).fromNow()}
                 </p>
               </div>
             </div>
           ) : (
             <div className="flex items-center gap-2 rounded-xl border border-dashed border-[var(--admin-border-strong)] bg-[var(--admin-surface-2)] p-3 text-[var(--admin-text-muted)]">
               <UserCheck className="h-4 w-4" strokeWidth={1.8} />
-              <span className="text-sm">Chưa được phân công</span>
+              <span className="text-sm">{t('details.unassigned')}</span>
             </div>
           )}
         </section>
@@ -121,7 +146,7 @@ export default function AdminChatDetailsPane({
         {!isResolved && (
           <section className="space-y-2 border-t border-[var(--admin-border)] pt-5">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-subtle)]">
-              Hành động nhanh
+              {t('details.quickActions')}
             </p>
 
             {selectedConversation.status === 'unassigned' && (
@@ -132,7 +157,7 @@ export default function AdminChatDetailsPane({
                 className="flex w-full items-center gap-2 rounded-lg bg-[var(--admin-accent)] px-3 py-2.5 text-left text-sm font-medium text-[#f4f5f8] transition-colors hover:bg-[color-mix(in_srgb,var(--admin-accent)_88%,#000000)] disabled:cursor-wait disabled:opacity-70"
               >
                 <UserCheck className="h-4 w-4" strokeWidth={1.8} />
-                {assigning ? 'Đang nhận cuộc trò chuyện' : 'Nhận cuộc trò chuyện'}
+                {assigning ? t('details.assigningConversation') : t('details.assignConversation')}
               </button>
             )}
 
@@ -144,7 +169,7 @@ export default function AdminChatDetailsPane({
                 className="flex w-full items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2.5 text-left text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-70"
               >
                 <CheckCircle className="h-4 w-4" strokeWidth={1.8} />
-                {resolving ? 'Đang lưu trạng thái' : 'Đánh dấu đã giải quyết'}
+                {resolving ? t('details.savingStatus') : t('details.markResolved')}
               </button>
             )}
           </section>

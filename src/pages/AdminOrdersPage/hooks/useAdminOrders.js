@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { getAllOrders } from '@/services/adminOrdersService'
 import { useAsyncListData } from '@/hooks/useAsyncListData'
 import { stringFilter, useListSearchParams } from '@/hooks/useListSearchParams'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   ADMIN_ORDERS_PAGE_LIMIT,
   ADMIN_ORDERS_SEARCH_DEBOUNCE_MS,
@@ -14,6 +15,7 @@ const ORDER_FILTER_PARSERS = {
 }
 
 export function useAdminOrders() {
+  const language = useCurrentLanguage()
   const { page, setPage, filters, setFilters } = useListSearchParams({
     defaultPage: 1,
     filterParsers: ORDER_FILTER_PARSERS
@@ -69,7 +71,7 @@ export function useAdminOrders() {
         total: 0
       }
     },
-    [debouncedKeyword, status, page]
+    [debouncedKeyword, status, page, language]
   )
 
   const totalPages = Math.max(1, Math.ceil(total / ADMIN_ORDERS_PAGE_LIMIT))

@@ -1,10 +1,11 @@
 import React from 'react'
 import { Empty, Skeleton } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Folder, Package, TrendingDown, TrendingUp } from 'lucide-react'
-import { formatCurrency } from '../utils/dashboardTransforms'
+import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
 
-const formatNumber = value => (Number(value) || 0).toLocaleString('vi-VN')
+const formatNumber = (value, locale) => (Number(value) || 0).toLocaleString(locale)
 
 function ProductThumb({ product }) {
   if (product.image) {
@@ -18,7 +19,7 @@ function ProductThumb({ product }) {
   )
 }
 
-function ProductList({ loading, topProducts }) {
+function ProductList({ loading, locale, topProducts, t }) {
   if (loading) {
     return (
       <div className="dashboard-list">
@@ -30,7 +31,7 @@ function ProductList({ loading, topProducts }) {
   }
 
   if (!topProducts?.length) {
-    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có dữ liệu sản phẩm nổi bật" />
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('topProducts.emptyProducts')} />
   }
 
   return (
@@ -39,14 +40,16 @@ function ProductList({ loading, topProducts }) {
         const trendState = product.trend === 'down' ? 'down' : product.trend === 'equal' ? 'equal' : 'up'
         const TrendIcon = trendState === 'down' ? TrendingDown : TrendingUp
         const trendClass = trendState === 'down' ? 'danger' : trendState === 'equal' ? 'neutral' : 'success'
-        const trendLabel = trendState === 'down' ? 'Giảm' : trendState === 'equal' ? 'Ổn định' : 'Tăng'
+        const trendLabel = t(`topProducts.trends.${trendState}`)
+        const soldCount = formatNumber(product.sales, locale)
+        const revenue = formatCurrency(product.revenue, locale)
 
         return (
           <div className="dashboard-list-row dashboard-product-row" key={product._id || `${product.name}-${index}`}>
             <ProductThumb product={product} />
             <div className="dashboard-row-copy">
               <strong>{product.name}</strong>
-              <span>Đã bán: {formatNumber(product.sales)} - {formatCurrency(product.revenue)}</span>
+              <span>{t('topProducts.sold', { count: soldCount, revenue })}</span>
             </div>
             <span className={`dashboard-status-badge ${trendClass}`}>
               <TrendIcon size={13} />
@@ -59,7 +62,7 @@ function ProductList({ loading, topProducts }) {
   )
 }
 
-function CategoryList({ categoryData, loading }) {
+function CategoryList({ categoryData, loading, locale, t }) {
   if (loading) {
     return (
       <div className="dashboard-list">
@@ -71,7 +74,7 @@ function CategoryList({ categoryData, loading }) {
   }
 
   if (!categoryData?.length) {
-    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có dữ liệu danh mục" />
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('topProducts.emptyCategories')} />
   }
 
   return (
@@ -82,10 +85,10 @@ function CategoryList({ categoryData, loading }) {
             <Folder size={17} />
           </span>
           <div className="dashboard-row-copy">
-            <strong>{category.name || `Danh mục ${index + 1}`}</strong>
-            <span>Sản phẩm: {formatNumber(category.value)}</span>
+            <strong>{category.name || t('topProducts.categoryFallback', { number: index + 1 })}</strong>
+            <span>{t('topProducts.categoryProductCount', { count: formatNumber(category.value, locale) })}</span>
           </div>
-          <span className="dashboard-status-badge success">Hiển thị</span>
+          <span className="dashboard-status-badge success">{t('status.visible')}</span>
         </div>
       ))}
     </div>
@@ -93,22 +96,25 @@ function CategoryList({ categoryData, loading }) {
 }
 
 export default function TopProductsSection({ categoryData, categoryLoading, loading, topProducts }) {
+  const { t, i18n } = useTranslation('adminDashboard')
+  const locale = getDashboardLocale(i18n.language)
+
   return (
     <section className="dashboard-bottom-grid dashboard-bottom-grid--half">
       <div className="dashboard-panel">
         <div className="dashboard-panel-header dashboard-panel-header--action">
-          <h2>Sản phẩm nổi bật</h2>
-          <Link to="/admin/products">Xem tất cả</Link>
+          <h2>{t('topProducts.productsTitle')}</h2>
+          <Link to="/admin/products">{t('common.viewAll')}</Link>
         </div>
-        <ProductList loading={loading} topProducts={topProducts} />
+        <ProductList loading={loading} locale={locale} topProducts={topProducts} t={t} />
       </div>
 
       <div className="dashboard-panel">
         <div className="dashboard-panel-header dashboard-panel-header--action">
-          <h2>Phân bổ danh mục</h2>
-          <Link to="/admin/product-categories">Xem tất cả</Link>
+          <h2>{t('topProducts.categoriesTitle')}</h2>
+          <Link to="/admin/product-categories">{t('common.viewAll')}</Link>
         </div>
-        <CategoryList categoryData={categoryData} loading={categoryLoading} />
+        <CategoryList categoryData={categoryData} loading={categoryLoading} locale={locale} t={t} />
       </div>
     </section>
   )

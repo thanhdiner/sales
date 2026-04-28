@@ -1,0 +1,63 @@
+{
+  "seoTitle": "Account settings",
+  "eyebrow": "Settings",
+  "title": "Account settings",
+  "description": "Manage your appearance, language and account security.",
+  "appearance": {
+    "title": "Appearance",
+    "currentMode": "Current mode: {{mode}}",
+    "light": "Light",
+    "dark": "Dark",
+    "toggleLabel": "Toggle appearance mode"
+  },
+  "language": {
+    "title": "Language",
+    "description": "Choose the display language for the website interface.",
+    "current": "Current language: {{language}}",
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "password": {
+    "changeTitle": "Change password",
+    "setupTitle": "Set up password",
+    "changeDescription": "Update your password to protect your account.",
+    "setupDescription": "Set up a password for your social login account.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "currentPlaceholder": "Enter your current password",
+    "newPlaceholder": "Enter your new password",
+    "confirmPlaceholder": "Confirm your new password",
+    "confirmMismatch": "The confirmation password does not match.",
+    "processing": "Processing...",
+    "changeButton": "Change password",
+    "setupButton": "Set up password",
+    "cancel": "Cancel",
+    "showCurrentLabel": "Show or hide current password",
+    "showNewLabel": "Show or hide new password",
+    "showConfirmLabel": "Show or hide confirmation password"
+  },
+  "validation": {
+    "required": "Please fill in all required information!",
+    "confirmMismatch": "The confirmation password does not match!",
+    "weakPassword": "The password does not meet the security requirements!",
+    "success": "Password changed successfully!",
+    "error": "Something went wrong, please try again!"
+  },
+  "rules": {
+    "minLength": "At least 6 characters",
+    "uppercase": "Contains uppercase letter",
+    "lowercase": "Contains lowercase letter",
+    "number": "Contains number"
+  },
+  "security": {
+    "title": "Security notes",
+    "description": "A few tips to help you create a stronger and safer password.",
+    "tips": [
+      "Use a strong password with at least 8 characters.",
+      "Combine uppercase letters, lowercase letters, numbers and special characters.",
+      "Do not use personal information that is easy to guess.",
+      "Change your password regularly to keep your account secure."
+    ]
+  }
+}

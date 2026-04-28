@@ -1,0 +1,41 @@
+{
+  "seo": {
+    "title": "Admin - Game News"
+  },
+  "page": {
+    "title": "Game news page content",
+    "description": "Manage bilingual content shown on the customer /game-news page."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content"
+  },
+  "messages": {
+    "fetchError": "Unable to load game news page content",
+    "saveSuccess": "Game news page content saved",
+    "saveError": "Unable to save game news page content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "This field is required"
+  },
+  "sections": {
+    "seo": "SEO",
+    "content": "Coming soon content",
+    "contentDescription": "These fields are used directly on the /game-news page."
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "title": "Title",
+    "description": "Description",
+    "descriptionSecondLine": "Second description line",
+    "status": "Status"
+  }
+}

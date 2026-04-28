@@ -1,13 +1,18 @@
 import { CloseOutlined, SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Form, message, TreeSelect, InputNumber } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getAdminProductCategoryTree } from '@/services/adminProductCategoryService'
+import { getLocalizedProductCategoryTree } from '@/pages/AdminProductCategoriesPage/utils/productCategoryLocalization'
+import { useTranslation } from 'react-i18next'
 
 const { Option } = Select
 
 function AdminProductsFilter({ onFilter, initialValues }) {
+  const { t, i18n } = useTranslation('adminProducts')
   const [form] = Form.useForm()
   const [treeData, setTreeData] = useState([])
+  const language = i18n.resolvedLanguage || i18n.language
+  const localizedTreeData = useMemo(() => getLocalizedProductCategoryTree(treeData, language), [language, treeData])
 
   useEffect(() => {
     const fetchTreeData = async () => {
@@ -15,12 +20,12 @@ function AdminProductsFilter({ onFilter, initialValues }) {
         const response = await getAdminProductCategoryTree()
         if (response) setTreeData(response)
       } catch (error) {
-        message.error('❌ Failed to load category tree data')
+        message.error(t('filters.loadCategoryError'))
       }
     }
 
     fetchTreeData()
-  }, [])
+  }, [t])
 
   //# handler
   const handleSubmit = async values => {
@@ -46,56 +51,58 @@ function AdminProductsFilter({ onFilter, initialValues }) {
         layout="vertical"
         className="products-filter-form admin-products-filter-form"
       >
-        <Form.Item name="productName" label={<span className="admin-products-filter-label">Product Name</span>}>
-          <Input placeholder="Product Name" className="admin-products-input" />
+        <Form.Item name="productName" label={<span className="admin-products-filter-label">{t('filters.productName')}</span>}>
+          <Input placeholder={t('filters.productNamePlaceholder')} className="admin-products-input" />
         </Form.Item>
-        <Form.Item name="price" label={<span className="admin-products-filter-label">Price</span>}>
-          <InputNumber min={0} step={1000} className="admin-products-input w-full" placeholder="Price" />
+        <Form.Item name="price" label={<span className="admin-products-filter-label">{t('filters.price')}</span>}>
+          <InputNumber min={0} step={1000} className="admin-products-input w-full" placeholder={t('filters.pricePlaceholder')} />
         </Form.Item>
-        <Form.Item name="product_category" label={<span className="admin-products-filter-label">Product Category</span>}>
+        <Form.Item name="product_category" label={<span className="admin-products-filter-label">{t('filters.productCategory')}</span>}>
           <TreeSelect
             className="admin-products-select"
             popupClassName="admin-products-popup"
             dropdownClassName="admin-products-popup"
-            treeData={treeData}
-            placeholder="Select category"
+            treeData={localizedTreeData}
+            placeholder={t('filters.selectCategory')}
             allowClear
             treeDefaultExpandAll
+            showSearch
+            filterTreeNode={(input, treeNode) => String(treeNode.title || '').toLowerCase().includes(input.toLowerCase())}
           />
         </Form.Item>
-        <Form.Item name="stock" label={<span className="admin-products-filter-label">Stock</span>}>
-          <InputNumber min={0} className="admin-products-input w-full" placeholder="Stock" />
+        <Form.Item name="stock" label={<span className="admin-products-filter-label">{t('filters.stock')}</span>}>
+          <InputNumber min={0} className="admin-products-input w-full" placeholder={t('filters.stockPlaceholder')} />
         </Form.Item>
-        <Form.Item name="status" label={<span className="admin-products-filter-label">Status</span>}>
+        <Form.Item name="status" label={<span className="admin-products-filter-label">{t('filters.status')}</span>}>
           <Select className="admin-products-select" popupClassName="admin-products-popup">
-            <Option value="all">All</Option>
-            <Option value="active">Active</Option>
-            <Option value="inactive">Inactive</Option>
+            <Option value="all">{t('filters.all')}</Option>
+            <Option value="active">{t('status.active')}</Option>
+            <Option value="inactive">{t('status.inactive')}</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="show" label={<span className="admin-products-filter-label">Show</span>}>
+        <Form.Item name="show" label={<span className="admin-products-filter-label">{t('filters.show')}</span>}>
           <Select className="admin-products-select" popupClassName="admin-products-popup">
-            <Option value="10">10 per page</Option>
-            <Option value="20">20 per page</Option>
-            <Option value="50">50 per page</Option>
-            <Option value="100">100 per page</Option>
+            <Option value="10">{t('filters.perPage', { count: 10 })}</Option>
+            <Option value="20">{t('filters.perPage', { count: 20 })}</Option>
+            <Option value="50">{t('filters.perPage', { count: 50 })}</Option>
+            <Option value="100">{t('filters.perPage', { count: 100 })}</Option>
           </Select>
         </Form.Item>
-        <Form.Item name="position" label={<span className="admin-products-filter-label">Position</span>}>
-          <InputNumber placeholder="Position" className="admin-products-input w-full" />
+        <Form.Item name="position" label={<span className="admin-products-filter-label">{t('filters.position')}</span>}>
+          <InputNumber placeholder={t('filters.positionPlaceholder')} className="admin-products-input w-full" />
         </Form.Item>
-        <Form.Item name="discountPercentage" label={<span className="admin-products-filter-label">Discount (%)</span>}>
-          <InputNumber className="admin-products-input w-full" min={0} max={100} placeholder="Discount %" />
+        <Form.Item name="discountPercentage" label={<span className="admin-products-filter-label">{t('filters.discount')}</span>}>
+          <InputNumber className="admin-products-input w-full" min={0} max={100} placeholder={t('filters.discountPlaceholder')} />
         </Form.Item>
         <Form.Item>
           <div className="product-filter">
             <Button type="primary" htmlType="submit" className="admin-products-btn admin-products-btn--apply">
               <SearchOutlined />
-              Filter
+              {t('filters.filter')}
             </Button>
             <Button danger onClick={handleClear} className="admin-products-btn admin-products-btn--clear">
               <CloseOutlined />
-              Clear
+              {t('filters.clear')}
             </Button>
           </div>
         </Form.Item>

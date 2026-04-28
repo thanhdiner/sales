@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -13,43 +13,44 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
-import { useNavigate } from "react-router-dom";
 import { clearClientSessionState } from "@/lib/clientCache";
+import useClientAuthStatus from "@/hooks/useClientAuthStatus";
 import { userLogin } from "@/services/userService";
 import { setUser } from "@/stores/user";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import {
   clearClientTokens,
   clearClientTokensSession,
+  getClientPostLoginPath,
   setClientAccessToken,
   setClientAccessTokenSession,
 } from "@/utils/auth";
+import { API_URL, APP_NAME } from "@/utils/env";
+import { getAuthTheme } from "./authTheme";
+import AuthLanguageToggle from "./AuthLanguageToggle";
 import "./LoginPage.scss";
 
-/* ─── Sovereign Design Tokens ─── */
-const C = {
-  primary: "#27389a",
-  primaryContainer: "#4151b3",
-  primaryFixed: "#dee0ff",
-  surface: "#fbf8ff",
-  surfaceContainerLow: "#f4f2fc",
-  surfaceContainerHigh: "#e9e7f0",
-  surfaceContainerHighest: "#e3e1ea",
-  onSurface: "#1a1b22",
-  onSurfaceVariant: "#454652",
-  outline: "#757684",
-  outlineVariant: "#c5c5d4",
-};
-
 const LoginPage = () => {
+  const { t } = useTranslation("clientAuth");
   const dispatch = useDispatch();
   const websiteConfig = useSelector((state) => state.websiteConfig.data);
+  const isDarkMode = useSelector((state) => !!state.darkMode?.value);
+  const C = getAuthTheme(isDarkMode);
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [isHoverForgot, setIsHoverForgot] = useState(false);
+  const { isAuthenticated, isChecking } = useClientAuthStatus();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(getClientPostLoginPath(location.state?.from), { replace: true });
+    }
+  }, [isAuthenticated, location.state, navigate]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -60,7 +61,7 @@ const LoginPage = () => {
       if (res.error) {
         message.error(res.error);
       } else {
-        message.success("Đăng nhập thành công! 🎉");
+        message.success(t("login.messages.success"));
 
         clearClientTokens();
         clearClientTokensSession();
@@ -76,10 +77,10 @@ const LoginPage = () => {
 
         dispatch(setUser({ user: res.user, token: res.clientAccessToken }));
 
-        navigate("/");
+        navigate(getClientPostLoginPath(location.state?.from), { replace: true });
       }
     } catch {
-      message.error("Đăng nhập thất bại. Vui lòng thử lại!");
+      message.error(t("login.messages.error"));
     } finally {
       setLoading(false);
     }
@@ -87,16 +88,19 @@ const LoginPage = () => {
 
   const handleSocialLogin = (provider) => {
     if (provider === "Google") {
-      window.open(`${process.env.REACT_APP_API_URL}/user/google`, "_self");
+      window.open(`${API_URL}/user/google`, "_self");
     } else if (provider === "Facebook") {
-      window.open(`${process.env.REACT_APP_API_URL}/user/facebook`, "_self");
+      window.open(`${API_URL}/user/facebook`, "_self");
     } else if (provider === "GitHub") {
-      window.open(`${process.env.REACT_APP_API_URL}/user/github`, "_self");
+      window.open(`${API_URL}/user/github`, "_self");
     }
   };
 
+  if (isChecking || isAuthenticated) return null;
+
   return (
     <div
+      className="sovereign-auth-page sovereign-auth-page--login"
       style={{
         minHeight: "100vh",
         background: C.surface,
@@ -106,17 +110,18 @@ const LoginPage = () => {
         fontFamily: "Inter, sans-serif",
       }}
     >
-      <SEO title="Đăng nhập" noIndex />
+      <SEO title={t("login.seoTitle")} noIndex />
 
       <header
+        className="sovereign-auth-header"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           zIndex: 50,
-          background: C.surface,
-          boxShadow: "0px 24px 48px rgba(39,56,154,0.06)",
+          background: C.headerBackground,
+          boxShadow: C.headerShadow,
         }}
       >
         <nav
@@ -146,9 +151,9 @@ const LoginPage = () => {
                   width: "2.25rem",
                   height: "2.25rem",
                   objectFit: "contain",
-                  background: "#ffffff",
+                  background: C.logoBackground,
                   borderRadius: "0.375rem",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+                  boxShadow: C.logoShadow,
                 }}
               />
             ) : null}
@@ -163,12 +168,13 @@ const LoginPage = () => {
               }}
             >
               {websiteConfig?.siteName ||
-                process.env.REACT_APP_NAME_APP ||
+                APP_NAME ||
                 "Sovereign"}
             </span>
           </Link>
 
           <div
+            className="sovereign-auth-nav-actions"
             style={{
               display: "flex",
               alignItems: "center",
@@ -203,13 +209,17 @@ const LoginPage = () => {
               >
                 home
               </span>
-              <span>Trang chủ</span>
+              <span>{t("shared.nav.home")}</span>
             </Link>
 
-            {["help", "info"].map((icon) => (
-              <button
+            {[
+              { icon: "help", to: "/faq" },
+              { icon: "info", to: "/about" },
+            ].map(({ icon, to }) => (
+              <Link
                 key={icon}
-                type="button"
+                to={to}
+                aria-label={t(`shared.nav.${icon}`)}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -238,9 +248,11 @@ const LoginPage = () => {
                 >
                   {icon}
                 </span>
-                <span>{icon}</span>
-              </button>
+                <span>{t(`shared.nav.${icon}`)}</span>
+              </Link>
             ))}
+
+            <AuthLanguageToggle colors={C} />
           </div>
         </nav>
       </header>
@@ -266,19 +278,19 @@ const LoginPage = () => {
             overflow: "hidden",
             display: "flex",
             alignItems: "flex-start",
-            background: C.primary,
+            background: C.leftPanelBackground,
           }}
         >
           <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
-              alt="Sovereign background"
+              alt={t("shared.hero.backgroundAlt")}
               style={{
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                opacity: 0.4,
-                mixBlendMode: "overlay",
+                opacity: C.heroImageOpacity,
+                mixBlendMode: C.heroImageBlendMode,
               }}
             />
 
@@ -286,8 +298,7 @@ const LoginPage = () => {
               style={{
                 position: "absolute",
                 inset: 0,
-                background:
-                  "linear-gradient(135deg, rgba(39,56,154,0.85) 0%, rgba(65,81,179,0.45) 60%, transparent 100%)",
+                background: C.heroOverlay,
               }}
             />
           </div>
@@ -311,9 +322,12 @@ const LoginPage = () => {
                 marginBottom: "1.5rem",
               }}
             >
-              Chào mừng
-              <br />
-              trở lại
+              {t("login.hero.title").split("\n").map((line, index) => (
+                <React.Fragment key={line}>
+                  {index > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              ))}
             </h1>
 
             <p
@@ -326,15 +340,14 @@ const LoginPage = () => {
                 maxWidth: "28rem",
               }}
             >
-              Đăng nhập để tiếp tục hành trình quản trị trong không gian danh
-              tính số tối cao của bạn.
+              {t("login.hero.description")}
             </p>
 
             <div
               style={{
                 position: "relative",
                 paddingLeft: "2rem",
-                borderLeft: `2px solid rgba(222,224,255,0.3)`,
+                borderLeft: `2px solid ${C.quoteBorder}`,
               }}
             >
               <span
@@ -344,7 +357,7 @@ const LoginPage = () => {
                   left: "-1.25rem",
                   top: "-1.5rem",
                   fontSize: "4rem",
-                  color: "rgba(222,224,255,0.15)",
+                  color: C.quoteMark,
                   userSelect: "none",
                 }}
               >
@@ -353,14 +366,13 @@ const LoginPage = () => {
 
               <blockquote
                 style={{
-                  color: "#bbc3ff",
+                  color: C.quoteText,
                   fontStyle: "italic",
                   fontSize: "1rem",
                   lineHeight: 1.7,
                 }}
               >
-                "Kiến trúc an toàn không chỉ là những bức tường lửa, mà là sự
-                minh bạch và chủ quyền đối với từng bit dữ liệu cá nhân."
+                "{t("login.hero.quote")}"
               </blockquote>
 
               <p
@@ -373,7 +385,7 @@ const LoginPage = () => {
                   textTransform: "uppercase",
                 }}
               >
-                — Ban Quản Trị {process.env.REACT_APP_NAME_APP || "Sovereign"}
+                {t("shared.hero.quoteAuthor", { appName: APP_NAME || "Sovereign" })}
               </p>
             </div>
           </div>
@@ -398,12 +410,13 @@ const LoginPage = () => {
                 color: "#ffffff",
               }}
             >
-              {process.env.REACT_APP_NAME_APP || "Sovereign"} Registrar
+              {t("shared.footer.registrar", { appName: APP_NAME || "Sovereign" })}
             </span>
 
             <span style={{ fontSize: "0.8125rem", color: C.primaryFixed }}>
-              © 2024 {process.env.REACT_APP_NAME_APP || "Sovereign"} Registrar.
-              All rights reserved.
+              {t("shared.footer.copyright", { appName: APP_NAME || "Sovereign" })}
+              {" "}
+              {t("shared.footer.rights")}
             </span>
 
             <div
@@ -415,10 +428,10 @@ const LoginPage = () => {
               }}
             >
               {[
-                { label: "Terms of Service", to: "/terms-of-service" },
-                { label: "Privacy Policy", to: "/privacy-policy" },
-                { label: "Security", to: "/privacy-policy" },
-                { label: "Contact", to: "/contact" },
+                { label: t("shared.footer.terms"), to: "/terms-of-service" },
+                { label: t("shared.footer.privacy"), to: "/privacy-policy" },
+                { label: t("shared.footer.security"), to: "/privacy-policy" },
+                { label: t("shared.footer.contact"), to: "/contact" },
               ].map(({ label, to }) => (
                 <Link
                   key={label}
@@ -455,16 +468,17 @@ const LoginPage = () => {
           }}
         >
           <div
+            className="sovereign-auth-card"
             style={{
               width: "100%",
               maxWidth: "28rem",
-              background: "rgba(255,255,255,0.88)",
+              background: C.cardBackground,
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
               borderRadius: "2rem",
               padding: "2.5rem",
-              boxShadow: "0px 24px 48px rgba(39,56,154,0.09)",
-              border: `1px solid rgba(197,197,212,0.25)`,
+              boxShadow: C.cardShadow,
+              border: C.cardBorder,
             }}
           >
             <div style={{ marginBottom: "2rem" }}>
@@ -477,7 +491,7 @@ const LoginPage = () => {
                   marginBottom: "0.375rem",
                 }}
               >
-                Đăng nhập tài khoản
+                {t("login.form.title")}
               </h2>
 
               <p
@@ -487,7 +501,7 @@ const LoginPage = () => {
                   margin: 0,
                 }}
               >
-                Nhập thông tin đăng nhập của bạn bên dưới
+                {t("login.form.description")}
               </p>
             </div>
 
@@ -503,35 +517,35 @@ const LoginPage = () => {
                 size="middle"
               >
                 <Form.Item
-                  label="Email hoặc tên đăng nhập"
+                  label={t("login.form.identityLabel")}
                   name="identity"
                   rules={[
                     {
                       required: true,
-                      message: "Vui lòng nhập email hoặc tên đăng nhập!",
+                      message: t("login.form.identityRequired"),
                     },
                   ]}
                   style={{ marginBottom: "1.25rem" }}
                 >
                   <Input
                     prefix={<UserOutlined />}
-                    placeholder="email@example.com hoặc username"
+                    placeholder={t("login.form.identityPlaceholder")}
                     autoComplete="username"
                   />
                 </Form.Item>
 
                 <Form.Item
-                  label="Mật khẩu"
+                  label={t("login.form.passwordLabel")}
                   name="password"
                   rules={[
-                    { required: true, message: "Vui lòng nhập mật khẩu!" },
-                    { min: 6, message: "Mật khẩu phải có ít nhất 6 ký tự!" },
+                    { required: true, message: t("login.form.passwordRequired") },
+                    { min: 6, message: t("login.form.passwordMin") },
                   ]}
                   style={{ marginBottom: "1rem" }}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="••••••••"
+                    placeholder={t("login.form.passwordPlaceholder")}
                     iconRender={(visible) =>
                       visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                     }
@@ -540,6 +554,7 @@ const LoginPage = () => {
                 </Form.Item>
 
                 <div
+                  className="sovereign-login-options-row"
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -559,7 +574,7 @@ const LoginPage = () => {
                           fontSize: "0.875rem",
                         }}
                       >
-                        Ghi nhớ đăng nhập
+                        {t("login.form.remember")}
                       </span>
                     </Checkbox>
                   </Form.Item>
@@ -576,7 +591,7 @@ const LoginPage = () => {
                       transition: "all 0.2s ease",
                     }}
                   >
-                    Quên mật khẩu?
+                    {t("login.form.forgotPassword")}
                   </Link>
                 </div>
 
@@ -592,15 +607,16 @@ const LoginPage = () => {
                       color: "#ffffff",
                     }}
                   >
-                    {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                    {loading ? t("login.form.submitting") : t("login.form.submit")}
                   </Button>
                 </Form.Item>
 
                 <Divider style={{ margin: "0.5rem 0 1rem" }}>
-                  HOẶC ĐĂNG NHẬP BẰNG
+                  {t("login.form.socialDivider")}
                 </Divider>
 
                 <div
+                  className="sovereign-auth-social-grid"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
@@ -641,7 +657,7 @@ const LoginPage = () => {
                           objectFit: "contain",
                         }}
                       />
-                      <span>{key}</span>
+                      <span>{t(`shared.providers.${key.toLowerCase()}`)}</span>
                     </button>
                   ))}
                 </div>
@@ -654,7 +670,7 @@ const LoginPage = () => {
                     margin: 0,
                   }}
                 >
-                  Chưa có tài khoản?{" "}
+                  {t("login.form.noAccount")}{" "}
                   <Link
                     to="/user/register"
                     style={{
@@ -663,7 +679,7 @@ const LoginPage = () => {
                       textDecoration: "none",
                     }}
                   >
-                    Đăng ký ngay
+                    {t("login.form.registerNow")}
                   </Link>
                 </p>
               </Form>

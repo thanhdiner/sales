@@ -1,38 +1,36 @@
 import React from 'react'
 import { Card, Col, Input, Row, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
 const CouponsSearchCard = ({ searchText, onSearchChange, resultCount }) => {
+  const { t } = useTranslation('clientCoupons')
+  const resultSuffix = t(resultCount === 1 ? 'search.foundSuffixSingular' : 'search.foundSuffix', {
+    defaultValue: t('search.foundSuffix')
+  })
+
   return (
-    <Card className="mb-8 rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} md={14}>
-          <Input
-            value={searchText}
-            placeholder="Tìm mã giảm giá..."
-            allowClear
-            size="large"
-            onChange={event => onSearchChange(event.target.value)}
-            className="w-full rounded-lg border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
-          />
+    <Card className="coupons-search-card mb-6 rounded-xl border border-gray-200 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+      <Row gutter={[16, 12]} align="middle">
+        <Col xs={24} md={16}>
+          <div className="w-full max-w-xl">
+            <Input
+              value={searchText}
+              placeholder={t('search.placeholder')}
+              allowClear
+              size="large"
+              onChange={event => onSearchChange(event.target.value)}
+              className="coupon-search-input h-11 w-full rounded-lg border-gray-300 bg-white text-sm text-gray-900 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-100"
+            />
+          </div>
         </Col>
 
-        <Col xs={24} md={10}>
+        <Col xs={24} md={8}>
           <div className="flex justify-start md:justify-end">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-700 dark:bg-gray-900/30">
-              <Text className="!text-sm !text-gray-600 dark:!text-gray-300">
-                Tìm thấy
-              </Text>
-
-              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                {resultCount}
-              </span>
-
-              <Text className="!text-sm !text-gray-600 dark:!text-gray-300">
-                mã giảm giá
-              </Text>
-            </div>
+            <Text className="!text-sm !text-gray-600 dark:!text-slate-300">
+              {t('search.foundPrefix')} <span className="font-semibold text-gray-900 dark:text-slate-100">{resultCount}</span> {resultSuffix}
+            </Text>
           </div>
         </Col>
       </Row>

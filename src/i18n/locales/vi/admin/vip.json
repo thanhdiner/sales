@@ -1,0 +1,92 @@
+{
+  "seo": {
+    "title": "Admin - VIP"
+  },
+  "page": {
+    "title": "Nội dung trang VIP",
+    "description": "Quản lý nội dung song ngữ hiển thị ở trang /vip phía khách hàng."
+  },
+  "tabs": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reload": "Tải lại",
+    "reset": "Đặt lại",
+    "save": "Lưu nội dung",
+    "remove": "Xóa",
+    "addStat": "Thêm thống kê",
+    "addQuickBenefit": "Thêm lợi ích nhanh",
+    "addBenefit": "Thêm quyền lợi",
+    "addPlan": "Thêm gói",
+    "addFeature": "Thêm tính năng",
+    "addComparisonRow": "Thêm dòng so sánh",
+    "addFaq": "Thêm FAQ"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung trang VIP",
+    "saveSuccess": "Đã lưu nội dung trang VIP",
+    "saveError": "Không thể lưu nội dung trang VIP",
+    "resetDone": "Đã đặt lại form"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  },
+  "sections": {
+    "seo": "SEO",
+    "hero": "Hero",
+    "heroDescription": "Nội dung đầu trang và các nút điều hướng chính.",
+    "stats": "Thống kê nhanh",
+    "quickBenefits": "Lợi ích nhanh dưới hero",
+    "quickBenefitItems": "Danh sách lợi ích nhanh",
+    "benefits": "Quyền lợi VIP nổi bật",
+    "benefitItems": "Danh sách quyền lợi nổi bật",
+    "plans": "Gói VIP",
+    "planItems": "Danh sách gói VIP",
+    "planItem": "Gói #{{index}}",
+    "planFeatures": "Tính năng trong gói",
+    "comparison": "So sánh quyền lợi",
+    "comparisonRows": "Dòng trong bảng so sánh",
+    "comparisonRow": "Dòng #{{index}}",
+    "faq": "FAQ",
+    "faqItems": "Câu hỏi thường gặp",
+    "cta": "CTA cuối trang"
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "primaryButton": "Nút chính",
+    "primaryButtonLink": "Link nút chính",
+    "secondaryButton": "Nút phụ",
+    "secondaryButtonLink": "Link nút phụ",
+    "imageUrl": "URL ảnh",
+    "imageAlt": "Mô tả ảnh",
+    "statValue": "Giá trị",
+    "statLabel": "Nhãn",
+    "sectionTitle": "Tiêu đề section",
+    "sectionDescription": "Mô tả section",
+    "itemTitle": "Tiêu đề mục",
+    "itemDescription": "Mô tả mục",
+    "planName": "Tên gói",
+    "badge": "Badge",
+    "highlighted": "Làm nổi bật",
+    "price": "Giá",
+    "period": "Chu kỳ",
+    "ctaLabel": "Nhãn CTA",
+    "ctaLink": "Link CTA",
+    "feature": "Tính năng",
+    "comparisonBenefit": "Quyền lợi",
+    "silver": "Silver",
+    "gold": "Gold",
+    "diamond": "Diamond",
+    "question": "Câu hỏi",
+    "answer": "Câu trả lời",
+    "button": "Nút",
+    "buttonLink": "Link nút"
+  }
+}

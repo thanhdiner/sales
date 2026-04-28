@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+import SEO from '@/components/SEO'
 import useAdminChatbotRulesPage from './hooks/useAdminChatbotRulesPage'
 import AdminChatbotRulesContentSection from './sections/AdminChatbotRulesContentSection'
 import AdminChatbotRulesHeaderSection from './sections/AdminChatbotRulesHeaderSection'
@@ -6,6 +8,7 @@ import AdminChatbotRulesStatsSection from './sections/AdminChatbotRulesStatsSect
 import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 
 export default function AdminChatbotRulesPage() {
+  const { t } = useTranslation('adminChatbotRules')
   const {
     form,
     loading,
@@ -31,6 +34,8 @@ export default function AdminChatbotRulesPage() {
 
   return (
     <div className="admin-chatbot-page mx-auto max-w-7xl">
+      <SEO title={t('seo.title')} noIndex />
+
       <AdminChatbotRulesHeaderSection
         saving={saving}
         onReload={handleReload}

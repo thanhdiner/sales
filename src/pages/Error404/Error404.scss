@@ -1,9 +1,10 @@
 .error-page {
-  background-color: #fff;
+  background: transparent;
+  color: #111827;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  min-height: 64vh;
   padding: 40px 60px;
   gap: 60px;
 
@@ -11,12 +12,14 @@
     &__heading {
       font-size: 50px;
       font-weight: 700;
+      color: inherit;
     }
     &__desc {
       margin-top: 20px;
       font-size: 20px;
       width: 500px;
       line-height: 1.5;
+      color: #4b5563;
     }
     &__back {
       &--btn {
@@ -27,14 +30,14 @@
         cursor: pointer;
         color: #fff;
         padding: 10px 20px;
-        background-color: #50a3fd;
+        background-color: #4f8df7;
         border-radius: 20px;
-        border: 2px solid #50a3fd;
+        border: 2px solid #4f8df7;
         transition: background-color 0.15s, color 0.15s;
       }
       &--btn:hover {
         background-color: #fff;
-        color: #50a3fd;
+        color: #4f8df7;
         transition: background-color 0.15s, color 0.15s;
       }
       &--icon {
@@ -46,6 +49,39 @@
       }
     }
   }
+}
+
+body.admin-layout-active .error-page {
+  min-height: 64vh;
+  background: var(--admin-surface);
+  color: var(--admin-text);
+}
+
+body.admin-layout-active .error-page__left__desc {
+  color: var(--admin-text-muted);
+}
+
+body.admin-layout-active .error-page__left__back--btn {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+}
+
+body.admin-layout-active .error-page__left__back--btn:hover {
+  background: var(--admin-surface-2);
+  color: var(--admin-accent);
+}
+
+html.dark body:not(.admin-layout-active) .error-page {
+  background: var(--client-dark-bg, #070809);
+  color: var(--client-dark-text, #f9fafb);
+}
+
+html.dark body:not(.admin-layout-active) .error-page__left__desc {
+  color: var(--client-dark-muted, #d1d5db);
+}
+
+html.dark body:not(.admin-layout-active) .error-page__left__back--btn:hover {
+  background: var(--client-dark-surface, #111827);
 }
 
 /* ============= Responsive ============= */
@@ -83,7 +119,6 @@
   .error-page {
     flex-direction: column-reverse;
     text-align: center;
-    height: auto;
     padding: 60px 24px 80px;
     gap: 32px;
   }

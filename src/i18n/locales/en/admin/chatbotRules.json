@@ -1,0 +1,46 @@
+{
+  "seo": {
+    "title": "Admin - Agent Rules"
+  },
+  "page": {
+    "title": "Agent Rules",
+    "description": "Manage prompts, system rules, fallback messages, and auto-escalate keywords.",
+    "openAgentSettings": "Open Agent Settings",
+    "reload": "Reload",
+    "save": "Save rules"
+  },
+  "stats": {
+    "systemRules": "System rules",
+    "escalateKeywords": "Escalation keywords",
+    "promptOverride": "Prompt override",
+    "overrideEnabled": "Enabled",
+    "defaultPrompt": "Default"
+  },
+  "alert": {
+    "message": "Rules should only contain behavior policies and guardrails",
+    "description": "Use Runtime & Provider for model/provider configuration. Use Agent Tools for tool enablement permissions."
+  },
+  "content": {
+    "title": "Prompt, rules, and fallback"
+  },
+  "form": {
+    "brandVoice": "Brand voice",
+    "brandVoiceExtra": "Guide how the agent should communicate with customers.",
+    "brandVoicePlaceholder": "Example: Friendly, use we/you, concise, avoid rambling...",
+    "systemPromptOverride": "System prompt override",
+    "systemPromptOverrideExtra": "If filled in, this prompt replaces the default dynamic prompt.",
+    "systemPromptOverridePlaceholder": "Leave blank to use the default prompt...",
+    "fallbackMessage": "Fallback message",
+    "fallbackMessageExtra": "Message returned when AI encounters an error or cannot handle the request.",
+    "fallbackMessagePlaceholder": "Sorry, we are having a temporary issue...",
+    "systemRules": "System rules",
+    "systemRulesPlaceholder": "Add a rule, such as: Do not create an order unless the customer has confirmed",
+    "addRule": "Add rule",
+    "autoEscalateKeywords": "Auto-escalate keywords",
+    "autoEscalateKeywordsPlaceholder": "Example: refund, cancel order, talk to staff",
+    "add": "Add"
+  },
+  "messages": {
+    "updateSuccess": "Agent rules updated successfully"
+  }
+}

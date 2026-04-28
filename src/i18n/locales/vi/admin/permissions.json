@@ -1,0 +1,81 @@
+{
+  "seo": {
+    "title": "Admin - Quy\u1ec1n h\u1ea1n"
+  },
+  "page": {
+    "title": "Quy\u1ec1n h\u1ea1n",
+    "description": "Qu\u1ea3n l\u00fd c\u00e1c quy\u1ec1n truy c\u1eadp v\u00e0 ph\u00e2n lo\u1ea1i quy\u1ec1n theo nh\u00f3m."
+  },
+  "common": {
+    "create": "Th\u00eam quy\u1ec1n",
+    "edit": "S\u1eeda",
+    "delete": "X\u00f3a",
+    "save": "L\u01b0u",
+    "submitCreate": "T\u1ea1o",
+    "cancel": "H\u1ee7y",
+    "enable": "B\u1eadt",
+    "disable": "T\u1eaft",
+    "noActions": "--"
+  },
+  "stats": {
+    "total": "T\u1ed5ng",
+    "active": "\u0110ang ho\u1ea1t \u0111\u1ed9ng",
+    "inactive": "T\u1ea1m d\u1eebng"
+  },
+  "status": {
+    "active": "\u0110ang ho\u1ea1t \u0111\u1ed9ng",
+    "inactive": "T\u1ea1m d\u1eebng",
+    "enabled": "B\u1eadt",
+    "disabled": "T\u1eaft"
+  },
+  "table": {
+    "columns": {
+      "code": "M\u00e3 quy\u1ec1n",
+      "name": "T\u00ean quy\u1ec1n",
+      "description": "M\u00f4 t\u1ea3",
+      "group": "Nh\u00f3m quy\u1ec1n",
+      "status": "Tr\u1ea1ng th\u00e1i",
+      "actions": "H\u00e0nh \u0111\u1ed9ng"
+    },
+    "noDescription": "Kh\u00f4ng c\u00f3 m\u00f4 t\u1ea3",
+    "noGroup": "Ch\u01b0a c\u00f3 nh\u00f3m",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} c\u1ee7a {{total}} quy\u1ec1n",
+    "deleteConfirmTitle": "X\u00f3a quy\u1ec1n n\u00e0y?",
+    "deleteConfirmDescription": "B\u1ea1n c\u00f3 ch\u1eafc ch\u1eafn mu\u1ed1n x\u00f3a quy\u1ec1n n\u00e0y kh\u00f4ng?",
+    "editPermission": "Ch\u1ec9nh s\u1eeda quy\u1ec1n",
+    "deletePermission": "X\u00f3a quy\u1ec1n"
+  },
+  "form": {
+    "createTitle": "Th\u00eam quy\u1ec1n",
+    "editTitle": "Ch\u1ec9nh s\u1eeda quy\u1ec1n",
+    "name": "T\u00ean quy\u1ec1n",
+    "nameRequired": "Vui l\u00f2ng nh\u1eadp t\u00ean quy\u1ec1n",
+    "nameMin": "T\u00ean quy\u1ec1n ph\u1ea3i c\u00f3 \u00edt nh\u1ea5t 3 k\u00fd t\u1ef1",
+    "namePlaceholder": "V\u00ed d\u1ee5: Xem s\u1ea3n ph\u1ea9m",
+    "code": "M\u00e3 quy\u1ec1n",
+    "codeRequired": "Vui l\u00f2ng nh\u1eadp m\u00e3 quy\u1ec1n",
+    "codeMin": "M\u00e3 quy\u1ec1n ph\u1ea3i c\u00f3 \u00edt nh\u1ea5t 3 k\u00fd t\u1ef1",
+    "codePattern": "Ch\u1ec9 d\u00f9ng a-z, 0-9 v\u00e0 d\u1ea5u _",
+    "codePlaceholder": "V\u00ed d\u1ee5: view_products",
+    "description": "M\u00f4 t\u1ea3",
+    "descriptionPlaceholder": "M\u00f4 t\u1ea3 ng\u1eafn v\u1ec1 quy\u1ec1n",
+    "translations": {
+      "sectionTitle": "B\u1ea3n d\u1ecbch ti\u1ebfng Anh",
+      "name": "T\u00ean quy\u1ec1n ti\u1ebfng Anh",
+      "namePlaceholder": "Nh\u1eadp t\u00ean quy\u1ec1n b\u1eb1ng ti\u1ebfng Anh",
+      "description": "M\u00f4 t\u1ea3 ti\u1ebfng Anh",
+      "descriptionPlaceholder": "Nh\u1eadp m\u00f4 t\u1ea3 quy\u1ec1n b\u1eb1ng ti\u1ebfng Anh"
+    },
+    "group": "Nh\u00f3m quy\u1ec1n",
+    "groupRequired": "Vui l\u00f2ng ch\u1ecdn nh\u00f3m quy\u1ec1n",
+    "groupPlaceholder": "Ch\u1ecdn nh\u00f3m quy\u1ec1n"
+  },
+  "messages": {
+    "fetchError": "Kh\u00f4ng th\u1ec3 t\u1ea3i danh s\u00e1ch quy\u1ec1n",
+    "deleteSuccess": "\u0110\u00e3 x\u00f3a quy\u1ec1n",
+    "deleteError": "Kh\u00f4ng th\u1ec3 x\u00f3a quy\u1ec1n",
+    "updateSuccess": "\u0110\u00e3 c\u1eadp nh\u1eadt quy\u1ec1n",
+    "createSuccess": "\u0110\u00e3 t\u1ea1o quy\u1ec1n",
+    "saveError": "Kh\u00f4ng th\u1ec3 l\u01b0u quy\u1ec1n"
+  }
+}

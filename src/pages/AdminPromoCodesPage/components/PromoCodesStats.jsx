@@ -1,49 +1,49 @@
-import { CalendarOutlined, PercentageOutlined, UserOutlined } from '@ant-design/icons'
-import { Card, Col, Row, Statistic } from 'antd'
-import { getPromoCodeStats } from '../utils/promoCodeHelpers'
+import { CalendarOutlined, PlayCircleOutlined, TagOutlined, TeamOutlined } from '@ant-design/icons'
+import { Col, Row } from 'antd'
+import { formatNumber, getPromoCodeStats } from '../utils/promoCodeHelpers'
 
-export default function PromoCodesStats({ promoCodes }) {
+export default function PromoCodesStats({ promoCodes, language, t }) {
   const stats = getPromoCodeStats(promoCodes)
 
   const statItems = [
     {
-      title: 'Tổng số mã',
-      value: stats.total,
-      icon: <PercentageOutlined />
+      title: t('stats.total'),
+      value: formatNumber(stats.total, language),
+      icon: <TagOutlined />,
+      variant: 'total'
     },
     {
-      title: 'Đang hoạt động',
-      value: stats.active,
-      icon: <PercentageOutlined />
+      title: t('stats.active'),
+      value: formatNumber(stats.active, language),
+      icon: <PlayCircleOutlined />,
+      variant: 'active'
     },
     {
-      title: 'Đã hết hạn',
-      value: stats.expired,
-      icon: <CalendarOutlined />
+      title: t('stats.expired'),
+      value: formatNumber(stats.expired, language),
+      icon: <CalendarOutlined />,
+      variant: 'expired'
     },
     {
-      title: 'Lượt sử dụng',
-      value: stats.totalUsed,
-      icon: <UserOutlined />
+      title: t('stats.usage'),
+      value: formatNumber(stats.totalUsed, language),
+      icon: <TeamOutlined />,
+      variant: 'usage'
     }
   ]
 
   return (
-    <Row gutter={[16, 16]} className="mb-6">
+    <Row gutter={[16, 16]} className="admin-promo-stats">
       {statItems.map(item => (
-        <Col xs={24} sm={12} lg={6} key={item.title}>
-          <Card className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]">
-            <Statistic
-              title={<span className="text-[var(--admin-text-muted)]">{item.title}</span>}
-              value={item.value}
-              prefix={item.icon}
-              valueStyle={{
-                color: 'inherit',
-                fontWeight: 600
-              }}
-              className="text-[var(--admin-text)]"
-            />
-          </Card>
+        <Col xs={12} lg={6} key={item.title}>
+          <div className={`admin-promo-stat-card admin-promo-stat-card--${item.variant}`}>
+            <span className="admin-promo-stat-card__icon">{item.icon}</span>
+
+            <div className="admin-promo-stat-card__content">
+              <p className="admin-promo-stat-card__label">{item.title}</p>
+              <p className="admin-promo-stat-card__value">{item.value}</p>
+            </div>
+          </div>
         </Col>
       ))}
     </Row>

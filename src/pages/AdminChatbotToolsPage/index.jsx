@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import SEO from '@/components/SEO'
 import AdminChatbotToolsLoadingState from './sections/AdminChatbotToolsLoadingState'
 import AdminChatbotToolsHeaderSection from './sections/AdminChatbotToolsHeaderSection'
 import AdminChatbotToolsStatsSection from './sections/AdminChatbotToolsStatsSection'
@@ -9,6 +11,7 @@ import '@/pages/AdminChatbotShared/AdminChatbotTheme.scss'
 const DEFAULT_PAGE_SIZE = 10
 
 export default function AdminChatbotToolsPage() {
+  const { t } = useTranslation('adminChatbotTools')
   const {
     loading,
     saving,
@@ -33,6 +36,8 @@ export default function AdminChatbotToolsPage() {
 
   return (
     <div className="admin-chatbot-page mx-auto max-w-7xl">
+      <SEO title={t('seo.title')} noIndex />
+
       <AdminChatbotToolsHeaderSection
         saving={saving}
         onReload={handleReload}

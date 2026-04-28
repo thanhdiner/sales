@@ -1,5 +1,70 @@
 .admin-promo-codes-page {
+  min-height: 100%;
+  border-radius: 12px;
+  background: var(--admin-bg-soft);
+  padding: 24px;
   color: var(--admin-text);
+}
+
+.admin-promo-codes-page__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.admin-promo-stat-card {
+  min-height: 96px;
+}
+
+.admin-promo-stat-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+}
+
+.admin-promo-stat-card__label {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.admin-promo-stat-card__value {
+  margin: 4px 0 0;
+  color: var(--admin-text);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-promo-stat-card--total .admin-promo-stat-card__icon {
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.14);
+}
+
+.admin-promo-stat-card--active .admin-promo-stat-card__icon {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.14);
+}
+
+.admin-promo-stat-card--expired .admin-promo-stat-card__icon {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.admin-promo-stat-card--usage .admin-promo-stat-card__icon {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.admin-promo-mobile-section {
+  display: none;
 }
 
 .admin-promo-table.ant-table-wrapper .ant-table,
@@ -20,6 +85,7 @@
   border-color: var(--admin-border) !important;
   background: var(--admin-surface) !important;
   color: var(--admin-text) !important;
+  vertical-align: top;
 }
 
 .admin-promo-table.ant-table-wrapper .ant-table-tbody > tr.ant-table-placeholder:hover > td,
@@ -31,38 +97,73 @@
   color: var(--admin-text-subtle) !important;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-item,
-.admin-promo-table.ant-table-wrapper .ant-pagination-prev .ant-pagination-item-link,
-.admin-promo-table.ant-table-wrapper .ant-pagination-next .ant-pagination-item-link,
-.admin-promo-table.ant-table-wrapper .ant-pagination-jump-prev .ant-pagination-item-link,
-.admin-promo-table.ant-table-wrapper .ant-pagination-jump-next .ant-pagination-item-link {
+.admin-promo-pagination.ant-pagination .ant-pagination-item,
+.admin-promo-pagination.ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.admin-promo-pagination.ant-pagination .ant-pagination-next .ant-pagination-item-link,
+.admin-promo-pagination.ant-pagination .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-promo-pagination.ant-pagination .ant-pagination-jump-next .ant-pagination-item-link {
   border-color: var(--admin-border) !important;
   background: var(--admin-surface) !important;
   color: var(--admin-text-muted) !important;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-item a {
+.admin-promo-pagination.ant-pagination .ant-pagination-item a {
   color: inherit !important;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-item-active {
+.admin-promo-pagination.ant-pagination .ant-pagination-item-active {
   border-color: var(--admin-accent) !important;
   background: var(--admin-accent-soft) !important;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-item-active a {
+.admin-promo-pagination.ant-pagination .ant-pagination-item-active a {
   color: var(--admin-accent) !important;
   font-weight: 600;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-options .ant-select-selector {
+.admin-promo-pagination.ant-pagination .ant-select-selector {
   border-color: var(--admin-border) !important;
   background: var(--admin-surface-2) !important;
   color: var(--admin-text) !important;
 }
 
-.admin-promo-table.ant-table-wrapper .ant-pagination-options .ant-select-arrow {
+.admin-promo-pagination.ant-pagination .ant-select-arrow {
   color: var(--admin-text-muted) !important;
+}
+
+.admin-promo-mobile-card__copy.ant-btn {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-promo-mobile-card__copy.ant-btn:hover {
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-promo-mobile-dropdown.ant-dropdown .ant-dropdown-menu {
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 10px !important;
+  background: var(--admin-surface-2) !important;
+  box-shadow: var(--admin-shadow) !important;
+  padding: 6px !important;
+}
+
+.admin-promo-mobile-dropdown.ant-dropdown .ant-dropdown-menu-item {
+  border-radius: 8px;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-promo-mobile-dropdown.ant-dropdown .ant-dropdown-menu-item:hover {
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-promo-mobile-dropdown.ant-dropdown .ant-dropdown-menu-item-danger {
+  color: #ef4444 !important;
+}
+
+.admin-promo-mobile-dropdown.ant-dropdown .ant-dropdown-menu-item-divider {
+  border-color: var(--admin-border) !important;
 }
 
 .admin-promo-form-modal.ant-modal .ant-modal-content,
@@ -85,6 +186,8 @@
 
 .admin-promo-form-modal.ant-modal .ant-modal-body,
 .admin-promo-detail-modal.ant-modal .ant-modal-body {
+  max-height: min(76vh, 820px);
+  overflow: auto;
   color: var(--admin-text);
 }
 
@@ -99,8 +202,44 @@
   background: var(--admin-surface-3);
 }
 
+.admin-promo-form-section {
+  margin-bottom: 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-2);
+  padding: 14px;
+}
+
+.admin-promo-form-section__title,
+.admin-promo-form-modal__translation-title {
+  margin: 0 0 12px;
+  color: var(--admin-text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.admin-promo-form-modal__translation-section {
+  margin-top: 6px;
+  border-top: 1px solid var(--admin-border);
+  padding-top: 14px;
+}
+
+.admin-promo-form-actions {
+  position: sticky;
+  bottom: -1px;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  padding-top: 14px;
+}
+
 .admin-promo-input-number.ant-input-number,
 .admin-promo-select .ant-select-selector,
+.admin-promo-filter-select .ant-select-selector,
 .admin-promo-date-picker.ant-picker,
 .admin-promo-form-modal .ant-input {
   border-color: var(--admin-border) !important;
@@ -109,9 +248,17 @@
   box-shadow: none !important;
 }
 
+.admin-promo-form-section .admin-promo-input-number.ant-input-number,
+.admin-promo-form-section .admin-promo-select .ant-select-selector,
+.admin-promo-form-section .admin-promo-date-picker.ant-picker,
+.admin-promo-form-section .ant-input {
+  background: var(--admin-surface) !important;
+}
+
 .admin-promo-form-modal .ant-input::placeholder,
 .admin-promo-input-number.ant-input-number .ant-input-number-input::placeholder,
 .admin-promo-select .ant-select-selection-placeholder,
+.admin-promo-filter-select .ant-select-selection-placeholder,
 .admin-promo-date-picker.ant-picker .ant-picker-input > input::placeholder {
   color: var(--admin-text-subtle) !important;
 }
@@ -122,7 +269,9 @@
 .admin-promo-input-number.ant-input-number:hover,
 .admin-promo-input-number.ant-input-number-focused,
 .admin-promo-select.ant-select-focused .ant-select-selector,
+.admin-promo-filter-select.ant-select-focused .ant-select-selector,
 .admin-promo-select .ant-select-selector:hover,
+.admin-promo-filter-select .ant-select-selector:hover,
 .admin-promo-date-picker.ant-picker:hover,
 .admin-promo-date-picker.ant-picker-focused {
   border-color: var(--admin-accent) !important;
@@ -131,28 +280,22 @@
 
 .admin-promo-input-number.ant-input-number .ant-input-number-input,
 .admin-promo-input-number.ant-input-number .ant-input-number-input-wrap input,
-.admin-promo-date-picker.ant-picker input {
+.admin-promo-date-picker.ant-picker input,
+.admin-promo-select .ant-select-selection-item,
+.admin-promo-filter-select .ant-select-selection-item {
   color: var(--admin-text) !important;
   background: transparent !important;
 }
 
-.admin-promo-input-number.ant-input-number .ant-input-number-handler-wrap {
-  border-inline-start: 1px solid var(--admin-border) !important;
-  background: var(--admin-surface-3) !important;
-}
-
-.admin-promo-input-number.ant-input-number .ant-input-number-handler {
-  border-color: var(--admin-border) !important;
-  color: var(--admin-text-muted) !important;
-}
-
-.admin-promo-input-number.ant-input-number .ant-input-number-handler:hover {
-  background: var(--admin-surface-3) !important;
-  color: var(--admin-text) !important;
+.admin-promo-select .ant-select-selection-item,
+.admin-promo-filter-select .ant-select-selection-item {
+  line-height: 1.35;
 }
 
 .admin-promo-select .ant-select-arrow,
 .admin-promo-select .ant-select-clear,
+.admin-promo-filter-select .ant-select-arrow,
+.admin-promo-filter-select .ant-select-clear,
 .admin-promo-date-picker.ant-picker .ant-picker-suffix,
 .admin-promo-date-picker.ant-picker .ant-picker-clear {
   color: var(--admin-text-muted) !important;
@@ -186,73 +329,70 @@
   background: var(--admin-accent) !important;
 }
 
-.admin-promo-date-popup.ant-picker-dropdown .ant-picker-now-btn {
-  color: var(--admin-accent) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-inner {
+.admin-promo-mobile-confirm.ant-modal .ant-modal-content {
   border: 1px solid var(--admin-border) !important;
-  background: var(--admin-surface-2) !important;
+  background: var(--admin-surface) !important;
   box-shadow: var(--admin-shadow) !important;
 }
 
-.admin-promo-popconfirm.ant-popover .ant-popover-title {
-  border-bottom: 1px solid var(--admin-border) !important;
+.admin-promo-mobile-confirm.ant-modal .ant-modal-confirm-title,
+.admin-promo-mobile-confirm.ant-modal .ant-modal-confirm-content {
   color: var(--admin-text) !important;
 }
 
-.admin-promo-popconfirm.ant-popover .ant-popover-inner-content {
-  color: var(--admin-text-muted) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-inner-content,
-.admin-promo-popconfirm.ant-popover .ant-popover-inner-content * {
-  color: var(--admin-text) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-message,
-.admin-promo-popconfirm.ant-popover .ant-popover-message-title {
-  color: var(--admin-text) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-message-title {
-  color: var(--admin-text) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-message > .anticon,
-.admin-promo-popconfirm.ant-popover .ant-popover-message-icon {
-  color: var(--admin-text-subtle) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popconfirm-message-title,
-.admin-promo-popconfirm.ant-popover .ant-popconfirm-title,
-.admin-promo-popconfirm.ant-popover .ant-popconfirm-description {
-  color: var(--admin-text) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popconfirm-message-icon,
-.admin-promo-popconfirm.ant-popover .ant-popconfirm-message-icon .anticon {
-  color: var(--admin-text-subtle) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-popover-arrow::before {
-  background: var(--admin-surface-2) !important;
-}
-
-.admin-promo-popconfirm.ant-popover .ant-btn-default {
+.admin-promo-mobile-confirm.ant-modal .ant-btn-default {
   border-color: var(--admin-border) !important;
-  background: var(--admin-surface) !important;
+  background: var(--admin-surface-2) !important;
   color: var(--admin-text-muted) !important;
 }
 
-.admin-promo-popconfirm.ant-popover .ant-btn-default:hover {
+.admin-promo-mobile-confirm.ant-modal .ant-btn-default:hover {
   border-color: var(--admin-border-strong) !important;
   background: var(--admin-surface-3) !important;
   color: var(--admin-text) !important;
 }
 
-.admin-promo-popconfirm.ant-popover .ant-btn-primary {
-  border-color: var(--admin-accent) !important;
-  background: var(--admin-accent) !important;
-  color: #ffffff !important;
+@media (max-width: 991px) {
+  .admin-promo-codes-page {
+    padding: 14px;
+  }
+
+  .admin-promo-codes-page__inner {
+    gap: 14px;
+  }
+
+  .admin-promo-table-section {
+    display: none;
+  }
+
+  .admin-promo-mobile-section {
+    display: block;
+  }
+
+  .admin-promo-stat-card {
+    min-height: 84px;
+    padding: 12px;
+  }
+
+  .admin-promo-stat-card__icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  .admin-promo-stat-card__label {
+    font-size: 12px;
+  }
+
+  .admin-promo-stat-card__value {
+    font-size: 26px;
+  }
+
+  .admin-promo-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-promo-form-actions .ant-btn {
+    width: 100%;
+  }
 }

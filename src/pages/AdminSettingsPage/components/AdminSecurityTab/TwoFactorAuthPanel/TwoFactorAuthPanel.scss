@@ -1,6 +1,7 @@
 .admin-twofa-steps.ant-steps {
   .ant-steps-item-title {
     color: var(--admin-text) !important;
+    font-weight: 600;
   }
 
   .ant-steps-item-description {
@@ -45,23 +46,43 @@
 
 .admin-twofa-modal.ant-modal {
   .ant-modal-content {
+    overflow: hidden;
     border: 1px solid var(--admin-border);
+    border-radius: 12px;
     background: var(--admin-surface);
     box-shadow: var(--admin-shadow);
   }
 
   .ant-modal-header {
+    margin-bottom: 0;
     border-bottom: 1px solid var(--admin-border);
     background: var(--admin-surface);
+    padding: 16px 20px;
   }
 
   .ant-modal-title {
     color: var(--admin-text);
+    font-weight: 600;
+  }
+
+  .ant-modal-body {
+    padding: 20px;
   }
 
   .ant-modal-footer {
+    margin-top: 0;
     border-top: 1px solid var(--admin-border);
     background: var(--admin-surface);
+    padding: 12px 20px;
+  }
+
+  .ant-modal-close {
+    color: var(--admin-text-muted);
+
+    &:hover {
+      color: var(--admin-text);
+      background: var(--admin-surface-2);
+    }
   }
 }
 
@@ -69,9 +90,15 @@
 .admin-twofa-code-input.ant-input:focus,
 .admin-twofa-code-input.ant-input-focused {
   border-color: var(--admin-border) !important;
-  background: var(--admin-surface-2) !important;
+  background: #ffffff !important;
   color: var(--admin-text) !important;
   box-shadow: none !important;
+}
+
+.dark .admin-twofa-code-input.ant-input,
+.dark .admin-twofa-code-input.ant-input:focus,
+.dark .admin-twofa-code-input.ant-input-focused {
+  background: var(--admin-surface-2) !important;
 }
 
 .admin-twofa-code-input.ant-input:hover {

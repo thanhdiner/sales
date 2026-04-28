@@ -7,12 +7,25 @@ import {
 import { userRefreshToken } from '../services/userService'
 import { store } from '../stores'
 import { setUser } from '../stores/user'
+import { API_URL } from './env'
 
-const API_DOMAIN = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+const API_DOMAIN = API_URL
 
 let refreshingPromise = null
 
 const getAuthHeaders = clientAccessToken => (clientAccessToken ? { Authorization: `Bearer ${clientAccessToken}` } : {})
+const getCurrentLanguage = () => {
+  try {
+    return localStorage.getItem('language') === 'en' ? 'en' : 'vi'
+  } catch {
+    return 'vi'
+  }
+}
+
+const getLanguageHeaders = () => ({
+  'Accept-Language': getCurrentLanguage()
+})
+
 const hasStoredClientUserMarker = () => Boolean(
   store.getState().clientUser.user ||
   localStorage.getItem('user') ||
@@ -80,6 +93,7 @@ const requestWithAuth = async (method, path, data) => {
 
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...getLanguageHeaders(),
     ...getAuthHeaders(clientAccessToken)
   }
 
@@ -110,6 +124,7 @@ const requestWithAuth = async (method, path, data) => {
 
       headers = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        ...getLanguageHeaders(),
         Authorization: `Bearer ${newToken}`
       }
 

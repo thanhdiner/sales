@@ -1,4 +1,5 @@
 import { Form, Input, Modal, Switch } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { useModalBodyScroll } from '@/hooks/useModalBodyScroll'
 import { adminPermissionGroupInitialValues } from '../utils'
 
@@ -17,20 +18,21 @@ export default function AdminPermissionGroupFormModal({
   handleSubmit,
   handleLabelChange
 }) {
+  const { t } = useTranslation('adminPermissionGroups')
   const { bodyStyle, contentRef } = useModalBodyScroll(modalVisible)
 
   return (
     <Modal
       title={
         <span className="text-base font-semibold text-[var(--admin-text)]">
-          {editingGroup ? 'Chỉnh sửa nhóm quyền' : 'Thêm nhóm quyền'}
+          {editingGroup ? t('form.editTitle') : t('form.createTitle')}
         </span>
       }
       open={modalVisible}
       onCancel={closeModal}
       onOk={() => form.submit()}
-      okText={editingGroup ? 'Lưu' : 'Tạo'}
-      cancelText="Hủy"
+      okText={editingGroup ? t('common.save') : t('common.submitCreate')}
+      cancelText={t('common.cancel')}
       destroyOnClose
       confirmLoading={submitLoading}
       centered
@@ -53,33 +55,49 @@ export default function AdminPermissionGroupFormModal({
           className="[&_.ant-form-item-label>label]:text-[var(--admin-text-muted)]"
         >
           <Form.Item
-            label="Tên nhóm"
+            label={t('form.name')}
             name="label"
             rules={[
-              { required: true, message: 'Vui lòng nhập tên nhóm' },
-              { min: 3, message: 'Tên nhóm phải có ít nhất 3 ký tự' }
+              { required: true, message: t('form.nameRequired') },
+              { min: 3, message: t('form.nameMin') }
             ]}
           >
-            <Input placeholder="Ví dụ: Quản lý sản phẩm" className={inputClass} onChange={handleLabelChange} />
+            <Input placeholder={t('form.namePlaceholder')} className={inputClass} onChange={handleLabelChange} />
           </Form.Item>
 
           <Form.Item
-            label="Mã nhóm"
+            label={t('form.code')}
             name="value"
             rules={[
-              { required: true, message: 'Vui lòng nhập mã nhóm' },
-              { pattern: /^[a-z0-9_]+$/, message: 'Chỉ dùng a-z, 0-9 và dấu _' }
+              { required: true, message: t('form.codeRequired') },
+              { pattern: /^[a-z0-9_]+$/, message: t('form.codePattern') }
             ]}
           >
-            <Input placeholder="Ví dụ: product" disabled={!!editingGroup} className={inputClass} />
+            <Input placeholder={t('form.codePlaceholder')} disabled={!!editingGroup} className={inputClass} />
           </Form.Item>
 
-          <Form.Item label="Mô tả" name="description" rules={[{ max: 300, message: 'Mô tả tối đa 300 ký tự' }]}>
-            <Input.TextArea rows={3} placeholder="Mô tả ngắn về nhóm quyền" className={inputClass} />
+          <Form.Item label={t('form.description')} name="description" rules={[{ max: 300, message: t('form.descriptionMax') }]}>
+            <Input.TextArea rows={3} placeholder={t('form.descriptionPlaceholder')} className={inputClass} />
           </Form.Item>
 
-          <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
-            <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
+          <div className="admin-permission-group-modal__translation-section">
+            <h3 className="admin-permission-group-modal__translation-title">{t('form.translations.sectionTitle')}</h3>
+
+            <Form.Item label={t('form.translations.label')} name={['translations', 'en', 'label']}>
+              <Input placeholder={t('form.translations.labelPlaceholder')} className={inputClass} />
+            </Form.Item>
+
+            <Form.Item
+              label={t('form.translations.description')}
+              name={['translations', 'en', 'description']}
+              rules={[{ max: 300, message: t('form.descriptionMax') }]}
+            >
+              <Input.TextArea rows={3} placeholder={t('form.translations.descriptionPlaceholder')} className={inputClass} />
+            </Form.Item>
+          </div>
+
+          <Form.Item label={t('form.status')} name="isActive" valuePropName="checked">
+            <Switch checkedChildren={t('common.enable')} unCheckedChildren={t('common.disable')} />
           </Form.Item>
         </Form>
       </div>

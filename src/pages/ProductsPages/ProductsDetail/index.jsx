@@ -1,37 +1,81 @@
-import { useEffect, useState } from 'react'
-import { message, Spin } from 'antd'
+import { useEffect, useRef, useState } from 'react'
+import { Input, message, Modal, Spin } from 'antd'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import Error404 from '@/pages/Error404'
-import ReviewSection from './components/ReviewSection'
 import { syncCartFromServer } from '@/lib/clientCache'
 import { getCartUniqueItemLimitMessage, hasReachedCartUniqueItemLimit } from '@/lib/cartLimits'
 import { addToCart } from '@/services/cartsService'
-import { getProductDetail } from '@/services/clientProductService'
-import titles from '@/utils/titles'
+import { getProductDetail, subscribeBackInStock } from '@/services/clientProductService'
+import SEO from '@/components/SEO'
 import ProductGallery from './components/ProductGallery'
 import ExploreMoreSection from './components/ExploreMoreSection'
+import ProductBreadcrumbSection from './components/ProductBreadcrumbSection'
 import ProductInfoSections from './components/ProductInfoSections'
 import ProductPurchasePanel from './components/ProductPurchasePanel'
 import ProductSummaryPanel from './components/ProductSummaryPanel'
-import { getGalleryImages, getMaxAvailable, getProductFeatures, getProductId, getProductPricing } from './helpers'
+import ProductTabsSection from './components/ProductTabsSection'
+import { formatPrice, getGalleryImages, getMaxAvailable, getProductFeatures, getProductId, getProductPricing } from './helpers'
 import { getStoredClientAccessToken } from '@/utils/auth'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import './ProductsDetail.scss'
 
 const EMPTY_CART_ITEMS = []
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const isMobileDevice = () => {
+  if (typeof navigator === 'undefined') return false
+
+  if (typeof navigator.userAgentData?.mobile === 'boolean') {
+    return navigator.userAgentData.mobile
+  }
+
+  const userAgent = navigator.userAgent || ''
+  const platform = navigator.platform || ''
+  const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1
+
+  return isIPadOS || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
+}
+
+const writeTextToClipboard = async text => {
+  if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+    throw new Error('Clipboard API is unavailable')
+  }
+
+  await navigator.clipboard.writeText(text)
+}
+
+const canUseNativeProductShare = shareData => {
+  if (!isMobileDevice() || typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
+    return false
+  }
+
+  if (typeof navigator.canShare !== 'function') {
+    return true
+  }
+
+  try {
+    return navigator.canShare(shareData)
+  } catch {
+    return false
+  }
+}
 
 function ProductsDetail() {
-  titles('Chi tiết sản phẩm')
-
+  const { t, i18n } = useTranslation('clientProducts')
   const { slug } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+  const language = useCurrentLanguage()
   const cartItems = useSelector(state => state.cart.items ?? EMPTY_CART_ITEMS)
+  const clientUser = useSelector(state => state.clientUser.user)
+  const previousSlugRef = useRef('')
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [errorKey, setErrorKey] = useState('')
   const [notFound, setNotFound] = useState(false)
   const [selectedImage, setSelectedImage] = useState(0)
   const [isLiked, setIsLiked] = useState(false)
@@ -39,6 +83,11 @@ function ProductsDetail() {
   const [maxAvailable, setMaxAvailable] = useState(0)
   const [addCartLoading, setAddCartLoading] = useState(false)
   const [buyNowLoading, setBuyNowLoading] = useState(false)
+  const [notifyLoading, setNotifyLoading] = useState(false)
+  const [notifyEmail, setNotifyEmail] = useState('')
+  const [notifyModalOpen, setNotifyModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('description')
+  const [manualShareUrl, setManualShareUrl] = useState('')
 
   const flashSaleInfo = location.state?.flashSaleInfo || null
   const productId = getProductId(product)
@@ -46,12 +95,22 @@ function ProductsDetail() {
   const currentImage = galleryImages[selectedImage] || product?.thumbnail
   const features = getProductFeatures(product)
   const { priceOrigin, priceNew, discountPercent, savings, isFlashSale } = getProductPricing(product, flashSaleInfo)
+  const isOutOfStock = Number(product?.stock || 0) <= 0
 
   useEffect(() => {
     const fetchProduct = async () => {
+      const slugChanged = previousSlugRef.current !== slug
+      const shouldShowLoading = slugChanged || !product
+
       try {
-        setLoading(true)
-        setError(null)
+        previousSlugRef.current = slug
+
+        if (shouldShowLoading) {
+          setLoading(true)
+          if (slugChanged) setProduct(null)
+        }
+
+        setErrorKey('')
         setNotFound(false)
 
         const productData = await getProductDetail(slug)
@@ -63,15 +122,21 @@ function ProductsDetail() {
 
         setProduct(productData)
         setSelectedImage(0)
+        setActiveTab('description')
       } catch {
-        setError('Có lỗi xảy ra khi tải sản phẩm.')
+        setErrorKey('productDetail.message.loadFailed')
       } finally {
-        setLoading(false)
+        if (shouldShowLoading) setLoading(false)
       }
     }
 
     fetchProduct()
-  }, [slug])
+  }, [language, slug])
+
+  useEffect(() => {
+    setNotifyEmail(clientUser?.email || '')
+    setNotifyModalOpen(false)
+  }, [clientUser?.email, slug])
 
   useEffect(() => {
     const available = getMaxAvailable(product, cartItems)
@@ -105,15 +170,92 @@ function ProductsDetail() {
     let nextQuantity = parseInt(quantity, 10)
 
     if (Number.isNaN(nextQuantity) || nextQuantity < 1) nextQuantity = 1
-    if (nextQuantity > product.stock) nextQuantity = product.stock
+    const upperLimit = Math.max(1, maxAvailable || 0)
+    if (nextQuantity > upperLimit) nextQuantity = upperLimit
 
     setQuantity(String(nextQuantity))
   }
 
+  const getSafeQuantity = value => {
+    const nextQuantity = parseInt(value, 10)
+    return Number.isNaN(nextQuantity) ? 1 : nextQuantity
+  }
+
+  const getNormalizedQuantity = () => {
+    const upperLimit = Math.max(1, maxAvailable || 0)
+    return Math.min(Math.max(1, getSafeQuantity(quantity)), upperLimit)
+  }
+
+  const handleDecreaseQuantity = () => {
+    setQuantity(currentQuantity => String(Math.max(1, getSafeQuantity(currentQuantity) - 1)))
+  }
+
+  const handleIncreaseQuantity = () => {
+    setQuantity(currentQuantity => String(Math.min(maxAvailable, getSafeQuantity(currentQuantity) + 1)))
+  }
+
+  const handleToggleLike = () => {
+    setIsLiked(currentState => !currentState)
+  }
+
+  const handleShareProduct = async () => {
+    if (!product || typeof window === 'undefined') return
+
+    const productTitle = product.title || t('productDetail.seo.title')
+    const shareData = {
+      title: productTitle,
+      text: t('productDetail.shareText', { title: productTitle }),
+      url: window.location.href
+    }
+    const canUseNativeShare = canUseNativeProductShare(shareData)
+
+    const copyShareUrl = async () => {
+      await writeTextToClipboard(shareData.url)
+      message.success(t('productDetail.message.shareCopySuccess'))
+    }
+
+    try {
+      if (canUseNativeShare) {
+        await navigator.share(shareData)
+        message.success(t('productDetail.message.shareSuccess'))
+        return
+      }
+
+      await copyShareUrl()
+    } catch (error) {
+      if (error?.name === 'AbortError') return
+
+      if (canUseNativeShare) {
+        try {
+          await copyShareUrl()
+          return
+        } catch {
+          // Show the manual copy modal below.
+        }
+      }
+
+      setManualShareUrl(shareData.url)
+      message.error(t('productDetail.message.shareFailed'))
+    }
+  }
+
+  const handleOpenReviews = () => {
+    setActiveTab('reviews')
+
+    window.requestAnimationFrame(() => {
+      document.getElementById('product-detail-tabs')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    })
+  }
+
   const buildCartPayload = () => {
+    const normalizedQuantity = getNormalizedQuantity()
+
     let payload = {
       productId,
-      quantity: Number(quantity)
+      quantity: normalizedQuantity
     }
 
     if (isFlashSale && flashSaleInfo) {
@@ -141,9 +283,49 @@ function ProductsDetail() {
     return false
   }
 
+  const submitBackInStockNotification = async emailValue => {
+    if (notifyLoading || !productId) return
+
+    const email = String(emailValue || clientUser?.email || '').trim()
+
+    if (!email) {
+      setNotifyEmail('')
+      setNotifyModalOpen(true)
+      return
+    }
+
+    if (!EMAIL_REGEX.test(email)) {
+      setNotifyEmail(email)
+      setNotifyModalOpen(true)
+      message.warning(t('productDetail.message.notifyEmailInvalid'))
+      return
+    }
+
+    setNotifyLoading(true)
+
+    try {
+      const result = await subscribeBackInStock(productId, { email })
+      message.success(result?.message || t('productDetail.message.notifySuccess'))
+      setNotifyModalOpen(false)
+      setNotifyEmail(email)
+    } catch (err) {
+      message.error(err.message || t('productDetail.message.notifyFailed'))
+    } finally {
+      setNotifyLoading(false)
+    }
+  }
+
+  const handleNotifyWhenBackInStock = () => {
+    submitBackInStockNotification(clientUser?.email || notifyEmail)
+  }
+
+  const handleConfirmNotifyEmail = () => {
+    submitBackInStockNotification(notifyEmail)
+  }
+
   const handleAddToCart = async () => {
     if (addCartLoading) return
-    if (!ensureLoggedIn('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!')) return
+    if (!ensureLoggedIn(t('productDetail.message.loginRequiredAddCart'))) return
 
     if (hasReachedCartUniqueItemLimit(cartItems, productId)) {
       message.warning(getCartUniqueItemLimitMessage())
@@ -153,17 +335,20 @@ function ProductsDetail() {
     setAddCartLoading(true)
 
     try {
-      if (+quantity > maxAvailable) {
-        message.warning(`Chỉ có thể thêm tối đa ${maxAvailable} sản phẩm này vào giỏ hàng!`)
+      const normalizedQuantity = getNormalizedQuantity()
+
+      if (normalizedQuantity > maxAvailable) {
+        message.warning(t('productDetail.message.maxAddToCart', { count: maxAvailable }))
         return
       }
 
+      setQuantity(String(normalizedQuantity))
       await addToCart(buildCartPayload())
       await syncCartFromServer(dispatch)
       setQuantity('1')
-      message.success('Đã thêm vào giỏ hàng!')
+      message.success(t('productDetail.message.addCartSuccess'))
     } catch (err) {
-      message.error(err.message || 'Thêm sản phẩm vào giỏ hàng thất bại!')
+      message.error(err.message || t('productDetail.message.addCartFailed'))
     } finally {
       setAddCartLoading(false)
     }
@@ -171,7 +356,7 @@ function ProductsDetail() {
 
   const handleBuyNow = async () => {
     if (buyNowLoading) return
-    if (!ensureLoggedIn('Bạn cần đăng nhập để mua sản phẩm!')) return
+    if (!ensureLoggedIn(t('productDetail.message.loginRequiredBuyNow'))) return
 
     if (hasReachedCartUniqueItemLimit(cartItems, productId)) {
       message.warning(getCartUniqueItemLimitMessage())
@@ -181,16 +366,19 @@ function ProductsDetail() {
     setBuyNowLoading(true)
 
     try {
-      if (+quantity > maxAvailable) {
+      const normalizedQuantity = getNormalizedQuantity()
+
+      if (normalizedQuantity > maxAvailable) {
         navigate('/cart', { state: { buyNowProductId: productId } })
         return
       }
 
+      setQuantity(String(normalizedQuantity))
       await addToCart(buildCartPayload())
       await syncCartFromServer(dispatch)
       navigate('/cart', { state: { buyNowProductId: productId } })
     } catch (err) {
-      message.error(err.message || 'Mua ngay thất bại!')
+      message.error(err.message || t('productDetail.message.buyNowFailed'))
     } finally {
       setBuyNowLoading(false)
     }
@@ -199,18 +387,20 @@ function ProductsDetail() {
   if (loading) {
     return (
       <div className="product-detail-page flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
-        <Spin tip="Đang tải sản phẩm..." size="large" />
+        <SEO title={t('productDetail.seo.title')} noIndex />
+        <Spin tip={t('productDetail.loading')} size="large" />
       </div>
     )
   }
 
   if (notFound) return <Error404 />
 
-  if (error) {
+  if (errorKey) {
     return (
       <div className="product-detail-page flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
+        <SEO title={t('productDetail.seo.title')} noIndex />
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-5 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
-          <p className="text-base font-medium text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-base font-medium text-red-600 dark:text-red-400">{t(errorKey)}</p>
         </div>
       </div>
     )
@@ -219,35 +409,41 @@ function ProductsDetail() {
   if (!product) return null
 
   return (
-    <div className="product-detail-page min-h-screen rounded-xl bg-gray-50 dark:bg-gray-950">
-      <div className="container mx-auto max-w-7xl px-4 py-6 md:py-8">
-        <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <span>Trang chủ</span>
-          <span>/</span>
-          <span>Sản phẩm</span>
-          <span>/</span>
-          <span className="font-medium text-gray-900 dark:text-gray-100">{product.title}</span>
-        </div>
+    <div className="product-detail-page min-h-screen bg-gray-50 dark:bg-gray-950">
+      <SEO
+        title={product.title || t('productDetail.seo.title')}
+        description={product.description?.replace(/<[^>]*>/g, '').slice(0, 160)}
+        type="product"
+      />
 
-        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,700px)_1fr]">
-          <ProductGallery
-            title={product.title}
-            currentImage={currentImage}
-            galleryImages={galleryImages}
-            selectedImage={selectedImage}
-            discountPercent={discountPercent}
-            isLiked={isLiked}
-            onSelectImage={setSelectedImage}
-            onToggleLike={() => setIsLiked(currentState => !currentState)}
-          />
+      <div className="product-detail-page__inner">
+        <ProductBreadcrumbSection product={product} />
 
-          <div className="space-y-5">
+        <div className="product-detail-main-grid">
+          <div className="product-detail-gallery-column">
+            <div className="product-detail-gallery-pin">
+              <ProductGallery
+                title={product.title}
+                currentImage={currentImage}
+                galleryImages={galleryImages}
+                selectedImage={selectedImage}
+                discountPercent={discountPercent}
+                isLiked={isLiked}
+                onSelectImage={setSelectedImage}
+                onShare={handleShareProduct}
+                onToggleLike={handleToggleLike}
+              />
+            </div>
+          </div>
+
+          <div className="product-detail-side-stack">
             <ProductSummaryPanel
               product={product}
               priceNew={priceNew}
               priceOrigin={priceOrigin}
               discountPercent={discountPercent}
               savings={savings}
+              onOpenReviews={handleOpenReviews}
             />
 
             <ProductPurchasePanel
@@ -255,23 +451,107 @@ function ProductsDetail() {
               maxAvailable={maxAvailable}
               addCartLoading={addCartLoading}
               buyNowLoading={buyNowLoading}
+              notifyLoading={notifyLoading}
+              isOutOfStock={isOutOfStock}
               onQuantityChange={handleQtyInputChange}
               onQuantityBlur={handleQtyBlur}
-              onDecrease={() => setQuantity(currentQuantity => String(Math.max(1, +currentQuantity - 1)))}
-              onIncrease={() => setQuantity(currentQuantity => String(Math.min(maxAvailable, +currentQuantity + 1)))}
+              onDecrease={handleDecreaseQuantity}
+              onIncrease={handleIncreaseQuantity}
               onAddToCart={handleAddToCart}
               onBuyNow={handleBuyNow}
+              onNotifyWhenBackInStock={handleNotifyWhenBackInStock}
+              isLiked={isLiked}
+              onToggleLike={handleToggleLike}
             />
 
             <ProductInfoSections product={product} features={features} />
           </div>
         </div>
 
-        <div id="reviews-section" className="mt-8">
-          <ReviewSection productId={productId} />
+        <div className="product-detail-tabs-wrap">
+          <ProductTabsSection
+            product={product}
+            productId={productId}
+            features={features}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
         </div>
 
         <ExploreMoreSection productId={productId} product={product} />
+      </div>
+
+      <Modal
+        open={notifyModalOpen}
+        title={t('productDetail.notifyModal.title')}
+        onCancel={() => setNotifyModalOpen(false)}
+        onOk={handleConfirmNotifyEmail}
+        confirmLoading={notifyLoading}
+        okText={t('productDetail.notifyModal.submit')}
+        cancelText={t('productDetail.notifyModal.cancel')}
+        destroyOnClose
+      >
+        <div className="space-y-3 pt-1">
+          <p className="m-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            {t('productDetail.notifyModal.description')}
+          </p>
+          <Input
+            type="email"
+            value={notifyEmail}
+            onChange={event => setNotifyEmail(event.target.value)}
+            onPressEnter={handleConfirmNotifyEmail}
+            placeholder={t('productDetail.notifyModal.emailPlaceholder')}
+            autoFocus
+          />
+        </div>
+      </Modal>
+
+      <Modal
+        open={Boolean(manualShareUrl)}
+        title={t('productDetail.shareModal.title')}
+        onCancel={() => setManualShareUrl('')}
+        footer={null}
+        destroyOnClose
+      >
+        <div className="space-y-3 pt-1">
+          <p className="m-0 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            {t('productDetail.shareModal.description')}
+          </p>
+          <Input
+            readOnly
+            value={manualShareUrl}
+            onClick={event => event.currentTarget.select()}
+            onFocus={event => event.currentTarget.select()}
+          />
+        </div>
+      </Modal>
+
+      <div className="product-detail-sticky-actions">
+        <div>
+          <span>{t('productDetail.stickyActions.price')}</span>
+          <strong>{formatPrice(priceNew, i18n.language)}</strong>
+        </div>
+
+        {isOutOfStock ? (
+          <button
+            type="button"
+            className="product-detail-sticky-notify"
+            onClick={handleNotifyWhenBackInStock}
+            disabled={notifyLoading}
+          >
+            {t('productDetail.purchasePanel.notifyWhenBackInStock')}
+          </button>
+        ) : (
+          <>
+            <button type="button" onClick={handleAddToCart} disabled={addCartLoading || maxAvailable <= 0}>
+              {t('productDetail.purchasePanel.addToCart')}
+            </button>
+
+            <button type="button" onClick={handleBuyNow} disabled={buyNowLoading || maxAvailable <= 0}>
+              {t('productDetail.purchasePanel.buyNow')}
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

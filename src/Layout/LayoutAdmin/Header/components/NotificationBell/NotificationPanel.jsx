@@ -1,4 +1,5 @@
 import { Bell, CheckCheck, Package, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { formatNotificationTime } from './notificationUtils'
 
 export default function NotificationPanel({
@@ -8,20 +9,23 @@ export default function NotificationPanel({
   onMarkAllRead,
   onClickNotification
 }) {
+  const { t, i18n } = useTranslation('adminLayout')
+  const language = i18n.resolvedLanguage || i18n.language
+
   return (
     <div className="admin-notification-panel absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-2xl">
       <div className="admin-notification-panel-header flex items-center justify-between px-4 py-3">
-        <span className="admin-notification-panel-title font-semibold">Thông báo</span>
+        <span className="admin-notification-panel-title font-semibold">{t('notifications.title')}</span>
 
         <div className="flex items-center gap-2">
           {unreadCount > 0 && (
             <button type="button" onClick={onMarkAllRead} className="admin-notification-panel-action flex items-center gap-1 text-xs font-medium">
               <CheckCheck className="h-3.5 w-3.5" />
-              Đọc tất cả
+              {t('notifications.markAllRead')}
             </button>
           )}
 
-          <button type="button" onClick={onClose} className="admin-notification-close-btn rounded-md p-1">
+          <button type="button" onClick={onClose} className="admin-notification-close-btn rounded-md p-1" aria-label={t('notifications.close')}>
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -31,7 +35,7 @@ export default function NotificationPanel({
         {notifications.length === 0 ? (
           <div className="admin-notification-empty flex flex-col items-center justify-center py-10">
             <Bell className="mb-2 h-8 w-8 opacity-30" />
-            <span className="text-sm">Chưa có thông báo nào</span>
+            <span className="text-sm">{t('notifications.empty')}</span>
           </div>
         ) : (
           notifications.map(notif => (
@@ -58,7 +62,7 @@ export default function NotificationPanel({
 
                 <p className="admin-notification-item-body truncate text-xs">{notif.body}</p>
 
-                <p className="admin-notification-item-time mt-0.5 text-[10px]">{formatNotificationTime(notif.time)}</p>
+                <p className="admin-notification-item-time mt-0.5 text-[10px]">{formatNotificationTime(notif.time, language)}</p>
               </div>
 
               {!notif.read && <span className="admin-notification-item-dot mt-2 h-2 w-2 shrink-0 rounded-full" />}

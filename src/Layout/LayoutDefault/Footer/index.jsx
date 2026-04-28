@@ -1,8 +1,12 @@
 import { Col, Row } from 'antd'
-import React from 'react'
+import React, { useMemo } from 'react'
 import './Footer.scss'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useQuery } from '@tanstack/react-query'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { getFooterContent } from '@/services/footerContentService'
+import { normalizeFooterContent } from './footerContent'
 
 function Footer() {
   const styleFooterRow = {
@@ -13,135 +17,140 @@ function Footer() {
   }
 
   const websiteConfig = useSelector(state => state.websiteConfig.data)
+  const language = useCurrentLanguage()
+  const { data: footerData } = useQuery({
+    queryKey: ['footer-content', language],
+    queryFn: async () => {
+      const response = await getFooterContent(language)
+      return response?.data || null
+    },
+    staleTime: 0,
+    refetchOnMount: 'always',
+    meta: { persist: false },
+    retry: false
+  })
+  const content = useMemo(
+    () => normalizeFooterContent(footerData, { language, websiteConfig }),
+    [footerData, language, websiteConfig]
+  )
+  const contact = content.customerSupport || {}
+  const paymentMethods = content.payment?.methods || []
+  const socialLinks = content.social?.links || []
+
+  const renderFooterLink = link => {
+    const className = 'dark:text-gray-300 footer__small-text'
+    const isExternal = link.external || /^(https?:)?\/\//i.test(link.url) || /^(mailto|tel):/i.test(link.url) || link.url.startsWith('#')
+
+    if (isExternal) {
+      return (
+        <a
+          key={`${link.label}-${link.url}`}
+          className={className}
+          href={link.url}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noreferrer' : undefined}
+        >
+          {link.label}
+        </a>
+      )
+    }
+
+    return (
+      <Link key={`${link.label}-${link.url}`} className={className} to={link.url}>
+        {link.label}
+      </Link>
+    )
+  }
 
   return (
     <>
       <footer className="footer dark:text-white">
-        <div className="footer__easter-egg" title="Cố lên!">
+        <div className="footer__easter-egg" title={content.easterEgg}>
           <div className="smoke-container">
             <span className="smoke-puff puff-1"></span>
             <span className="smoke-puff puff-2"></span>
             <span className="smoke-puff puff-3"></span>
           </div>
-          <img 
-            src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png" 
-            alt="Chibi Rider" 
-            className="scooter-icon chibi-scooter" 
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png"
+            alt="Chibi Rider"
+            className="scooter-icon chibi-scooter"
           />
         </div>
+
         <Row style={styleFooterRow}>
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
-            <h3 className="footer__heading">Hỗ trợ khách hàng</h3>
+            <h3 className="footer__heading">{contact.title}</h3>
+
             <p className="dark:text-gray-300 footer__small-text footer__small-text--inner">
-              Hotline:
+              {contact.hotlineLabel}
               <a
                 className="dark:text-gray-200 footer__small-text--inner--right"
                 target="_blank"
                 rel="noreferrer"
-                href={`tel:${websiteConfig?.contactInfo?.phone || '0823387108'}`}
+                href={`tel:${contact.phone}`}
               >
-                {websiteConfig?.contactInfo?.phone || '0823387108'}
+                {contact.phone}
               </a>
-              (8h - 22h hàng ngày)
+              {contact.workingTime}
             </p>
-            <Link className="dark:text-gray-300 footer__small-text" to="/shopping-guide">
-              Hướng dẫn mua hàng
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/privacy-policy">
-              Chính sách bảo mật
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/return-policy">
-              Chính sách đổi trả & hoàn tiền
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/faq">
-              Câu hỏi thường gặp (FAQ)
-            </Link>
+
+            {contact.links?.map(renderFooterLink)}
+
             <p className="dark:text-gray-300 footer__small-text footer__small-text--inner">
-              Hỗ trợ khách hàng:
+              {contact.supportEmailLabel}
               <a
                 className="dark:text-gray-200 footer__small-text--inner--right"
                 target="_blank"
                 rel="noreferrer"
-                href={`mailto:${websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'}`}
+                href={`mailto:${contact.email}`}
               >
-                {websiteConfig?.contactInfo?.email || 'smartmall.business.official@gmail.com'}
+                {contact.email}
               </a>
             </p>
           </Col>
+
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
-            <h3 className="footer__heading">Thông tin về chúng tôi</h3>
-            <Link className="dark:text-gray-300 footer__small-text" to="/about">
-              Giới thiệu chúng tôi
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/terms-of-service">
-              Điều khoản sử dụng
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/cooperation-contact">
-              Liên hệ hợp tác
-            </Link>
+            <h3 className="footer__heading">{content.about?.title}</h3>
+            {content.about?.links?.map(renderFooterLink)}
           </Col>
+
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
-            <h3 className="footer__heading">Dịch vụ & sản phẩm</h3>
-            <Link className="dark:text-gray-300 footer__small-text" to="/game-account">
-              Tài khoản game
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/">
-              Nâng cấp bản quyền
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/coupons">
-              Thẻ cào & Voucher
-            </Link>
-            <Link className="dark:text-gray-300 footer__small-text" to="/special-package">
-              Gói dịch vụ đặc biệt
-            </Link>
+            <h3 className="footer__heading">{content.services?.title}</h3>
+            {content.services?.links?.map(renderFooterLink)}
           </Col>
+
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
-            <h3 className="footer__heading">Phương thức thanh toán</h3>
+            <h3 className="footer__heading">{content.payment?.title}</h3>
+
             <p className="footer__payment__list">
-              <span className="footer__payment__item dark:bg-gray-200 rounded-sm">
-                <img src="/icons/paymentVisa.svg" alt="Visa" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentMastercard.svg" alt="Mastercard" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentJCB.svg" alt="JCB" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentMomo.svg" alt="Momo" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentZalopay.svg" alt="ZaloPay" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentViettelMoney.svg" alt="ViettelMoney" />
-              </span>
-              <span className="footer__payment__item">
-                <img src="/icons/paymentVnpay.svg" alt="Vnpay" />
-              </span>
-              <span className="footer__payment__item dark:bg-gray-200 rounded-sm">
-                <img src="/icons/paymentPayInCash.svg" alt="Pay-In-Cash" />
-              </span>
+              {paymentMethods.map(method => (
+                <span
+                  key={`${method.label}-${method.icon}`}
+                  className={`footer__payment__item ${/visa|payincash|pay-in-cash/i.test(method.label) ? 'dark:bg-gray-200 rounded-sm' : ''}`}
+                >
+                  <img src={method.icon} alt={method.label} />
+                </span>
+              ))}
             </p>
           </Col>
+
           <Col className="footer__col" style={{ width: '25%', minWidth: '230px', flex: '1 1 230px' }}>
-            <h3 className="footer__heading">Kết nối với chúng tôi</h3>
+            <h3 className="footer__heading">{content.social?.title}</h3>
+
             <div className="footer__icon__list">
-              <a
-                className="footer__icon__item"
-                href={`https://www.facebook.com/${websiteConfig?.contactInfo?.facebook || 'lunashop.business.official'}`}
-                rel="noreferrer"
-                target="_blank"
-                title="Facebook"
-              >
-                <img src="/icons/iconFb.svg" alt="Facebook" />
-              </a>
-              <a className="footer__icon__item" href="#!" rel="noreferrer" title="Youtube">
-                <img src="/icons/iconYoutube.svg" alt="Youtube" />
-              </a>
-              <a className="footer__icon__item" href="https://zalo.me/0823387108" rel="noreferrer" target="_blank" title="Zalo">
-                <img src="/icons/iconZalo.svg" alt="Zalo" />
-              </a>
+              {socialLinks.map(link => (
+                <a
+                  key={`${link.label}-${link.url}`}
+                  className="footer__icon__item"
+                  href={link.url}
+                  rel={link.external ? 'noreferrer' : undefined}
+                  target={link.external ? '_blank' : undefined}
+                  title={link.label}
+                >
+                  <img src={link.icon} alt={link.label} />
+                </a>
+              ))}
             </div>
           </Col>
         </Row>

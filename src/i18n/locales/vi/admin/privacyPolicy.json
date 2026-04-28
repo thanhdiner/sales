@@ -1,0 +1,95 @@
+{
+  "seo": {
+    "title": "Admin - Chính sách bảo mật"
+  },
+  "page": {
+    "title": "Chính sách bảo mật",
+    "description": "Quản lý nội dung trang /privacy-policy theo tiếng Việt và bản dịch tiếng Anh."
+  },
+  "tabs": {
+    "vi": "Nội dung tiếng Việt",
+    "en": "Bản dịch tiếng Anh"
+  },
+  "actions": {
+    "reload": "Tải lại",
+    "save": "Lưu nội dung",
+    "remove": "Xóa",
+    "addDataType": "Thêm nhóm dữ liệu",
+    "addItem": "Thêm dòng",
+    "addUsage": "Thêm mục sử dụng",
+    "addSecurityMeasure": "Thêm biện pháp",
+    "addRight": "Thêm quyền",
+    "addCookie": "Thêm cookie",
+    "addFaq": "Thêm FAQ"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Header trang",
+    "summary": "Tóm tắt và sidebar",
+    "sidebarItems": "Mục lục",
+    "sidebarItemsDescription": "ID dùng để neo scroll trên trang client, chỉ chỉnh tiêu đề hiển thị.",
+    "dataCollection": "Thu thập thông tin",
+    "dataTypes": "Nhóm thông tin",
+    "dataTypeItems": "Dữ liệu trong nhóm",
+    "usage": "Sử dụng thông tin",
+    "usageItems": "Các mục sử dụng",
+    "sharing": "Chia sẻ thông tin",
+    "allowedItems": "Được phép chia sẻ",
+    "disallowedItems": "Không được chia sẻ",
+    "security": "Bảo mật thông tin",
+    "securityMeasures": "Biện pháp bảo mật",
+    "userRights": "Quyền người dùng",
+    "userRightItems": "Danh sách quyền",
+    "cookies": "Cookies",
+    "cookieCategories": "Nhóm cookies",
+    "faq": "Câu hỏi thường gặp",
+    "faqItems": "Danh sách FAQ",
+    "contact": "Liên hệ"
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "updatedAt": "Dòng cập nhật",
+    "gdpr": "Nhãn GDPR",
+    "iso": "Nhãn ISO",
+    "sidebarTitle": "Tiêu đề sidebar",
+    "anchorId": "Anchor ID",
+    "sectionTitle": "Tiêu đề mục",
+    "importantNoteTitle": "Tiêu đề lưu ý",
+    "importantNoteDescription": "Nội dung lưu ý",
+    "item": "Nội dung",
+    "allowedTitle": "Tiêu đề được phép",
+    "disallowedTitle": "Tiêu đề không được phép",
+    "commitmentTitle": "Tiêu đề cam kết",
+    "commitmentDescription": "Nội dung cam kết",
+    "howToTitle": "Tiêu đề hướng dẫn",
+    "howToDescription": "Nội dung hướng dẫn",
+    "contactButton": "Nút liên hệ",
+    "right": "Quyền",
+    "key": "Key",
+    "manageButton": "Nút quản lý cookies",
+    "question": "Câu hỏi",
+    "answer": "Câu trả lời",
+    "emailLabel": "Nhãn email",
+    "hotlineLabel": "Nhãn hotline",
+    "websiteLabel": "Nhãn website",
+    "modalTitle": "Tiêu đề modal",
+    "supportTitle": "Tiêu đề hỗ trợ",
+    "supportDescription": "Mô tả hỗ trợ",
+    "supportEmail": "Nhãn email hỗ trợ",
+    "supportEmailValue": "Email trong modal",
+    "supportPhoneValue": "Số điện thoại trong modal",
+    "note": "Ghi chú"
+  },
+  "validation": {
+    "required": "Vui lòng nhập thông tin"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung chính sách bảo mật",
+    "saveSuccess": "Đã lưu nội dung chính sách bảo mật",
+    "saveError": "Không thể lưu nội dung chính sách bảo mật"
+  }
+}

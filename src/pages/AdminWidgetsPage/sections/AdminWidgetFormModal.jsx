@@ -2,6 +2,7 @@ import { Divider, Form, Input, InputNumber, Modal, Switch, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 export default function AdminWidgetFormModal({
+  t = key => key,
   form,
   modalVisible,
   editingWidget,
@@ -18,12 +19,12 @@ export default function AdminWidgetFormModal({
       className="admin-widgets-modal"
       rootClassName="admin-widgets-modal"
       wrapClassName="admin-widgets-modal"
-      title={<span className="admin-widgets-modal__title">{editingWidget ? 'Chỉnh sửa Widget' : 'Thêm Widget mới'}</span>}
+      title={<span className="admin-widgets-modal__title">{editingWidget ? t('form.titleEdit') : t('form.titleCreate')}</span>}
       open={modalVisible}
       onCancel={closeModal}
       onOk={() => form.submit()}
-      okText="Lưu"
-      cancelText="Hủy"
+      okText={t('form.save')}
+      cancelText={t('form.cancel')}
       width={600}
       style={{ top: 50, maxWidth: '95%' }}
       okButtonProps={{
@@ -39,17 +40,30 @@ export default function AdminWidgetFormModal({
     >
       <Divider className="admin-widgets-modal__divider" />
 
-      <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={{ isActive: true, order: 0, iconUrl: [] }} className="admin-widgets-form">
-        <Form.Item label="Tiêu đề widget" name="title" rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}>
-          <Input placeholder="Nhập tiêu đề cho widget" size="large" className="admin-widgets-input" />
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{ isActive: true, order: 0, iconUrl: [], translations: { en: { title: '' } } }}
+        className="admin-widgets-form"
+      >
+        <Form.Item label={t('form.widgetTitle')} name="title" rules={[{ required: true, message: t('form.widgetTitleRequired') }]}>
+          <Input placeholder={t('form.widgetTitlePlaceholder')} size="large" className="admin-widgets-input" />
         </Form.Item>
 
+        <div className="admin-widgets-form__translation-section">
+          <h3 className="admin-widgets-form__translation-title">{t('form.translations.sectionTitle')}</h3>
+          <Form.Item label={t('form.translations.title')} name={['translations', 'en', 'title']}>
+            <Input placeholder={t('form.translations.titlePlaceholder')} size="large" className="admin-widgets-input" />
+          </Form.Item>
+        </div>
+
         <Form.Item
-          label="Icon"
+          label={t('form.icon')}
           name="iconUrl"
           valuePropName="fileList"
           getValueFromEvent={event => (Array.isArray(event) ? event : event?.fileList)}
-          rules={[{ required: !editingWidget, message: 'Vui lòng upload icon' }]}
+          rules={[{ required: !editingWidget, message: t('form.iconRequired') }]}
         >
           <Upload
             listType="picture-card"
@@ -64,22 +78,22 @@ export default function AdminWidgetFormModal({
             {fileList.length < 1 && (
               <div className="admin-widgets-upload__trigger">
                 <PlusOutlined />
-                <div className="admin-widgets-upload__label">Upload</div>
+                <div className="admin-widgets-upload__label">{t('form.upload')}</div>
               </div>
             )}
           </Upload>
         </Form.Item>
 
-        <Form.Item label="Liên kết" name="link">
-          <Input placeholder="https://example.com" size="large" className="admin-widgets-input" />
+        <Form.Item label={t('form.link')} name="link">
+          <Input placeholder={t('form.linkPlaceholder')} size="large" className="admin-widgets-input" />
         </Form.Item>
 
         <div className="admin-widgets-form__grid">
-          <Form.Item label="Thứ tự hiển thị" name="order" rules={[{ type: 'number', min: 0 }]}>
-            <InputNumber min={0} placeholder="0" size="large" className="admin-widgets-input admin-widgets-input-number" />
+          <Form.Item label={t('form.order')} name="order" rules={[{ type: 'number', min: 0 }]}>
+            <InputNumber min={0} placeholder={t('form.orderPlaceholder')} size="large" className="admin-widgets-input admin-widgets-input-number" />
           </Form.Item>
 
-          <Form.Item label="Trạng thái" name="isActive" valuePropName="checked">
+          <Form.Item label={t('form.status')} name="isActive" valuePropName="checked">
             <Switch className="admin-widgets-switch" />
           </Form.Item>
         </div>

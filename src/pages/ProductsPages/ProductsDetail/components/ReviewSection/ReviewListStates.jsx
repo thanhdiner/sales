@@ -1,12 +1,10 @@
 import { Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export const ReviewListSkeleton = () => (
   <div className="space-y-3">
     {[1, 2, 3].map(item => (
-      <div
-        key={item}
-        className="animate-pulse rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900"
-      >
+      <div key={item} className="animate-pulse rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
         <div className="flex gap-3">
           <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-800" />
 
@@ -23,19 +21,23 @@ export const ReviewListSkeleton = () => (
   </div>
 )
 
-export const ReviewEmptyState = () => (
-  <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-14 text-center dark:border-gray-700 dark:bg-gray-900">
-    <Star size={42} className="mx-auto mb-3 text-gray-300 dark:text-gray-700" />
+export const ReviewEmptyState = () => {
+  const { t } = useTranslation('clientProducts')
 
-    <p className="text-base font-semibold text-gray-900 dark:text-white">Chưa có đánh giá nào</p>
+  return (
+    <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-14 text-center dark:border-gray-700 dark:bg-gray-900">
+      <Star size={42} className="mx-auto mb-3 text-gray-300 dark:text-gray-700" />
 
-    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-      Hãy là người đầu tiên đánh giá sản phẩm này.
-    </p>
-  </div>
-)
+      <p className="text-base font-semibold text-gray-900 dark:text-white">{t('productDetail.reviewList.emptyTitle')}</p>
+
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('productDetail.reviewList.emptyDescription')}</p>
+    </div>
+  )
+}
 
 export const ReviewPagination = ({ page, totalPages, onPageChange }) => {
+  const { t } = useTranslation('clientProducts')
+
   if (totalPages <= 1) return null
 
   return (
@@ -46,7 +48,7 @@ export const ReviewPagination = ({ page, totalPages, onPageChange }) => {
         onClick={() => onPageChange(page - 1)}
         className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
       >
-        Trước
+        {t('productDetail.reviewList.previous')}
       </button>
 
       {Array.from({ length: Math.min(totalPages, 7) }, (_, index) => {
@@ -57,6 +59,7 @@ export const ReviewPagination = ({ page, totalPages, onPageChange }) => {
             key={pageNumber}
             type="button"
             onClick={() => onPageChange(pageNumber)}
+            aria-label={t('productDetail.reviewList.page', { page: pageNumber })}
             className={`rounded-xl border px-4 py-2 text-sm font-medium transition-colors ${
               pageNumber === page
                 ? 'border-gray-900 bg-gray-900 text-white dark:border-white dark:bg-white dark:text-gray-900'
@@ -74,7 +77,7 @@ export const ReviewPagination = ({ page, totalPages, onPageChange }) => {
         onClick={() => onPageChange(page + 1)}
         className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
       >
-        Tiếp
+        {t('productDetail.reviewList.next')}
       </button>
     </div>
   )

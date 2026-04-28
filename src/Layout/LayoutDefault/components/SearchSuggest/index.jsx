@@ -2,11 +2,13 @@ import React, { useState, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Input } from 'antd'
 import { SearchOutlined, FireFilled, StockOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 import { getProductSuggestions } from '@/services/clientProductService'
 import debounce from 'lodash.debounce'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
 
 export default function SearchSuggest() {
+  const { t } = useTranslation('clientHeader')
   const [input, setInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -15,7 +17,6 @@ export default function SearchSuggest() {
   const navigate = useNavigate()
   const ref = useRef()
 
-  // Debounce fetch API
   const fetchSuggestions = useMemo(
     () =>
       debounce(async q => {
@@ -23,6 +24,7 @@ export default function SearchSuggest() {
           setSuggestions([])
           return
         }
+
         try {
           const res = await getProductSuggestions({ query: q, limit: 10 })
           setSuggestions(res.suggestions || [])
@@ -30,11 +32,9 @@ export default function SearchSuggest() {
           setSuggestions([])
         }
       }, 250),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
-  // Khi input thay đổi
   const handleChange = e => {
     const val = e.target.value
     setInput(val)
@@ -55,13 +55,17 @@ export default function SearchSuggest() {
 
   const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-  // Highlight match
   const highlightMatch = (text, query) => {
     if (!query) return text
-    const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi')
+
+    const escapedQuery = escapeRegExp(query)
+    const regex = new RegExp(`(${escapedQuery})`, 'gi')
     const parts = text.split(regex)
-    return parts.map((part, index) =>
-      regex.test(part) ? (
+
+    return parts.map((part, index) => {
+      const isMatched = part.toLowerCase() === query.toLowerCase()
+
+      return isMatched ? (
         <span
           key={index}
           style={{
@@ -77,10 +81,9 @@ export default function SearchSuggest() {
       ) : (
         part
       )
-    )
+    })
   }
 
-  // Out click
   React.useEffect(() => {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -89,20 +92,27 @@ export default function SearchSuggest() {
         setIsFocused(false)
       }
     }
+
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Key down UX
   const handleKeyDown = e => {
     if (!showDropdown || suggestions.length === 0) return
+
     if (['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
       e.preventDefault()
-      if (e.key === 'ArrowDown') setHoveredIdx(idx => (idx + 1) % suggestions.length)
-      else if (e.key === 'ArrowUp') setHoveredIdx(idx => (idx - 1 + suggestions.length) % suggestions.length)
-      else if (e.key === 'Enter') {
-        if (hoveredIdx >= 0 && hoveredIdx < suggestions.length) handleSelect(suggestions[hoveredIdx])
-        else if (input.trim()) handleSelect(input.trim())
+
+      if (e.key === 'ArrowDown') {
+        setHoveredIdx(idx => (idx + 1) % suggestions.length)
+      } else if (e.key === 'ArrowUp') {
+        setHoveredIdx(idx => (idx - 1 + suggestions.length) % suggestions.length)
+      } else if (e.key === 'Enter') {
+        if (hoveredIdx >= 0 && hoveredIdx < suggestions.length) {
+          handleSelect(suggestions[hoveredIdx])
+        } else if (input.trim()) {
+          handleSelect(input.trim())
+        }
       } else if (e.key === 'Escape') {
         setShowDropdown(false)
         setHoveredIdx(-1)
@@ -128,7 +138,7 @@ export default function SearchSuggest() {
         }}
         onBlur={() => setIsFocused(false)}
         onKeyDown={handleKeyDown}
-        placeholder="Tìm kiếm sản phẩm..."
+        placeholder={t('search.placeholder')}
         prefix={<SearchOutlined />}
         allowClear
         size="middle"
@@ -137,9 +147,7 @@ export default function SearchSuggest() {
       />
 
       {showDropdown && (
-        <div
-          className={`search-suggest-dropdown absolute top-[56px] left-0 right-0 bg-white border-none rounded-[20px] z-[1000] shadow-[0_8px_40px_rgba(0,0,0,0.12)] overflow-hidden backdrop-blur-[10px] animate-[slideUp_0.25s_cubic-bezier(0.4,0,0.2,1)] dark:bg-gray-800 dark:shadow-[0_8px_40px_rgba(0,0,0,0.2)]`}
-        >
+        <div className="search-suggest-dropdown absolute top-[56px] left-0 right-0 bg-white border-none rounded-[20px] z-[1000] shadow-[0_8px_40px_rgba(0,0,0,0.12)] overflow-hidden backdrop-blur-[10px] animate-[slideUp_0.25s_cubic-bezier(0.4,0,0.2,1)] dark:bg-gray-800 dark:shadow-[0_8px_40px_rgba(0,0,0,0.2)]">
           <style>
             {`
               @keyframes slideUp {
@@ -177,11 +185,12 @@ export default function SearchSuggest() {
               }
             `}
           </style>
+
           {input && suggestions.length === 0 ? (
             <div style={{ padding: '32px 24px', textAlign: 'center', color: '#8c8c8c', fontSize: '14px' }}>
               <div style={{ fontSize: '32px', marginBottom: 12, opacity: 0.4, lineHeight: 1 }}>⌕</div>
-              <div style={{ fontWeight: '500' }}>Không tìm thấy kết quả</div>
-              <div style={{ fontSize: '12px', marginTop: 4 }}>Thử tìm với từ khóa khác</div>
+              <div style={{ fontWeight: '500' }}>{t('search.emptyTitle')}</div>
+              <div style={{ fontSize: '12px', marginTop: 4 }}>{t('search.emptyDescription')}</div>
             </div>
           ) : (
             suggestions.map((kw, i) => (
@@ -191,14 +200,14 @@ export default function SearchSuggest() {
                   hoveredIdx === i
                     ? 'bg-gradient-to-r dark:text-[#1890ff] dark:from-gray-600 dark:to-gray-600 from-[#e6f7ff] to-[#f0f9ff] border-l-4 border-[#1890ff] font-semibold text-[#1890ff] translate-x-1'
                     : 'bg-transparent border-l-4 border-transparent font-normal text-[#262626] translate-x-0'
-                }
-  `}
+                }`}
                 onMouseDown={() => handleSelect(kw)}
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(-1)}
               >
                 {getIconForIndex(i)}
                 <span style={{ flex: 1 }}>{highlightMatch(kw, input)}</span>
+
                 {!input && i < 3 && (
                   <div
                     style={{
@@ -211,7 +220,7 @@ export default function SearchSuggest() {
                       border: '1px solid #ffccc7'
                     }}
                   >
-                    HOT {i + 1}
+                    {t('search.hotRank', { rank: i + 1 })}
                   </div>
                 )}
               </div>

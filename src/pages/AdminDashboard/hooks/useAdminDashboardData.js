@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { queryKeys } from '@/lib/queryKeys'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   getAdminDashboardBestSellingProducts,
   getAdminDashboardCharts,
@@ -50,11 +51,13 @@ function useDelayedDashboardBlocks(summaryReady) {
 }
 
 export function useAdminDashboardData(dateRange) {
+  const language = useCurrentLanguage()
+
   const summaryQuery = useQuery({
-    queryKey: queryKeys.adminDashboardSummary,
+    queryKey: queryKeys.adminDashboardSummary(language),
     queryFn: async () => {
-      const res = await getAdminDashboardSummary()
-      return normalizeDashboardPayload(res?.data).statsData
+      const res = await getAdminDashboardSummary(language)
+      return normalizeDashboardPayload(res?.data, language).statsData
     },
     staleTime: SUMMARY_STALE_TIME,
     ...baseDashboardQueryOptions
@@ -63,10 +66,10 @@ export function useAdminDashboardData(dateRange) {
   const { secondaryEnabled, recentOrdersEnabled } = useDelayedDashboardBlocks(summaryQuery.isSuccess)
 
   const chartsQuery = useQuery({
-    queryKey: queryKeys.adminDashboardCharts(dateRange),
+    queryKey: queryKeys.adminDashboardCharts(dateRange, language),
     queryFn: async () => {
-      const res = await getAdminDashboardCharts(dateRange)
-      const normalized = normalizeDashboardPayload(res?.data)
+      const res = await getAdminDashboardCharts(dateRange, language)
+      const normalized = normalizeDashboardPayload(res?.data, language)
       return {
         salesData: normalized.salesData,
         categoryData: normalized.categoryData
@@ -78,10 +81,10 @@ export function useAdminDashboardData(dateRange) {
   })
 
   const topCustomersQuery = useQuery({
-    queryKey: queryKeys.adminDashboardTopCustomers(TOP_CUSTOMERS_LIMIT),
+    queryKey: queryKeys.adminDashboardTopCustomers(TOP_CUSTOMERS_LIMIT, language),
     queryFn: async () => {
-      const res = await getAdminDashboardTopCustomers(TOP_CUSTOMERS_LIMIT)
-      return normalizeDashboardPayload(res?.data).statsData.topCustomers
+      const res = await getAdminDashboardTopCustomers(TOP_CUSTOMERS_LIMIT, language)
+      return normalizeDashboardPayload(res?.data, language).statsData.topCustomers
     },
     enabled: secondaryEnabled,
     staleTime: TOP_LISTS_STALE_TIME,
@@ -89,10 +92,10 @@ export function useAdminDashboardData(dateRange) {
   })
 
   const bestSellingProductsQuery = useQuery({
-    queryKey: queryKeys.adminDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT),
+    queryKey: queryKeys.adminDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language),
     queryFn: async () => {
-      const res = await getAdminDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT)
-      return normalizeDashboardPayload(res?.data).topProducts
+      const res = await getAdminDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language)
+      return normalizeDashboardPayload(res?.data, language).topProducts
     },
     enabled: secondaryEnabled,
     staleTime: TOP_LISTS_STALE_TIME,
@@ -100,10 +103,10 @@ export function useAdminDashboardData(dateRange) {
   })
 
   const recentOrdersQuery = useQuery({
-    queryKey: queryKeys.adminDashboardRecentOrders(RECENT_ORDERS_LIMIT),
+    queryKey: queryKeys.adminDashboardRecentOrders(RECENT_ORDERS_LIMIT, language),
     queryFn: async () => {
-      const res = await getAdminDashboardRecentOrders(RECENT_ORDERS_LIMIT)
-      return normalizeDashboardPayload(res?.data).recentOrders
+      const res = await getAdminDashboardRecentOrders(RECENT_ORDERS_LIMIT, language)
+      return normalizeDashboardPayload(res?.data, language).recentOrders
     },
     enabled: recentOrdersEnabled,
     staleTime: RECENT_ORDERS_STALE_TIME,

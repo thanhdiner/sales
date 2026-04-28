@@ -1,0 +1,46 @@
+{
+  "seo": {
+    "title": "Admin - FAQ"
+  },
+  "page": {
+    "title": "Nội dung FAQ",
+    "description": "Quản lý nội dung câu hỏi thường gặp phía khách hàng và bản dịch tiếng Anh."
+  },
+  "tabs": {
+    "vi": "Nội dung tiếng Việt",
+    "en": "Bản dịch tiếng Anh"
+  },
+  "actions": {
+    "save": "Lưu",
+    "reload": "Tải lại",
+    "remove": "Xóa",
+    "addItem": "Thêm câu hỏi"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Header trang",
+    "items": "Danh sách FAQ",
+    "itemsDescription": "Dùng {{phone}} trong câu trả lời nếu muốn hiển thị hotline hỗ trợ từ cấu hình website.",
+    "support": "Khối hỗ trợ cuối trang"
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "id": "ID",
+    "question": "Câu hỏi",
+    "answer": "Câu trả lời",
+    "supportText": "Nội dung hỗ trợ",
+    "supportLink": "Nhãn link hỗ trợ"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung FAQ",
+    "saveSuccess": "Đã lưu nội dung FAQ",
+    "saveError": "Không thể lưu nội dung FAQ"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  }
+}

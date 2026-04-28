@@ -1,0 +1,55 @@
+{
+  "seo": {
+    "title": "Admin - Điều khoản dịch vụ"
+  },
+  "page": {
+    "title": "Nội dung điều khoản dịch vụ",
+    "description": "Quản lý nội dung song ngữ hiển thị ở trang điều khoản phía khách hàng."
+  },
+  "tabs": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reload": "Tải lại",
+    "reset": "Đặt lại",
+    "save": "Lưu nội dung",
+    "remove": "Xóa",
+    "addSection": "Thêm mục",
+    "addParagraph": "Thêm đoạn",
+    "addItem": "Thêm dòng"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung điều khoản",
+    "saveSuccess": "Đã lưu nội dung điều khoản",
+    "saveError": "Không thể lưu nội dung điều khoản",
+    "resetDone": "Đã đặt lại form"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  },
+  "sections": {
+    "seo": "SEO",
+    "header": "Header",
+    "notice": "Thông báo quan trọng",
+    "termsSections": "Các mục điều khoản",
+    "termsSectionsDescription": "Có thể dùng {{email}} và {{phone}} trong đoạn văn để hiển thị thông tin liên hệ hiện tại của website.",
+    "sectionItem": "Mục {{index}}",
+    "paragraphs": "Các đoạn văn",
+    "items": "Danh sách gạch đầu dòng"
+  },
+  "fields": {
+    "seoTitle": "Tiêu đề SEO",
+    "seoDescription": "Mô tả SEO",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "updatedAt": "Nhãn cập nhật",
+    "description": "Mô tả",
+    "sectionId": "ID mục",
+    "sectionTitle": "Tiêu đề mục",
+    "paragraph": "Đoạn văn",
+    "item": "Dòng",
+    "footer": "Kết luận"
+  }
+}

@@ -1,4 +1,5 @@
 import { Card, Col, Row, Statistic } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   InfoCircleOutlined,
   RobotOutlined,
@@ -12,13 +13,15 @@ export default function AdminChatbotConfigStatsSection({
   enabledTools,
   totalTools
 }) {
+  const { t } = useTranslation('adminChatbotConfig')
+
   return (
     <Row gutter={[16, 16]} className="mb-4">
       <Col xs={24} sm={12} xl={8}>
         <Card className="admin-chatbot-stat-card">
           <Statistic
-            title="Trạng thái agent"
-            value={agentEnabled ? 'Đang bật' : 'Đang tắt'}
+            title={t('stats.agentStatus')}
+            value={agentEnabled ? t('stats.enabled') : t('stats.disabled')}
             prefix={<RobotOutlined />}
           />
         </Card>
@@ -27,7 +30,7 @@ export default function AdminChatbotConfigStatsSection({
       <Col xs={24} sm={12} xl={8}>
         <Card className="admin-chatbot-stat-card">
           <Statistic
-            title="Provider runtime"
+            title={t('stats.runtimeProvider')}
             value={runtimeProvider}
             suffix={runtimeModel}
             prefix={<InfoCircleOutlined />}
@@ -38,7 +41,7 @@ export default function AdminChatbotConfigStatsSection({
       <Col xs={24} sm={12} xl={8}>
         <Card className="admin-chatbot-stat-card">
           <Statistic
-            title="Tools đang bật"
+            title={t('stats.enabledTools')}
             value={enabledTools}
             suffix={`/ ${totalTools}`}
             prefix={<ToolOutlined />}

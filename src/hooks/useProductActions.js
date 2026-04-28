@@ -98,7 +98,9 @@ export function useProductActions(product) {
 
     const localProduct = {
       productId,
+      title: product.title,
       name: product.title,
+      translations: product.translations || {},
       price: product.price * (1 - (product.discountPercentage || 0) / 100),
       originalPrice: product.price,
       discountPercentage: product.discountPercentage || 0,
@@ -133,7 +135,9 @@ export function useProductActions(product) {
     dispatch(
       toggleCompareLocal({
         productId,
+        title: product.title,
         name: product.title,
+        translations: product.translations || {},
         price: product.price * (1 - (product.discountPercentage || 0) / 100),
         originalPrice: product.price,
         discountPercentage: product.discountPercentage || 0,

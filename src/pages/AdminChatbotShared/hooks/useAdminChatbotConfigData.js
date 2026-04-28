@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   getChatbotConfig,
   getChatbotToolLogs,
@@ -7,6 +8,7 @@ import {
 } from '@/services/adminChatbotConfigService'
 
 export default function useAdminChatbotConfigData(options = {}) {
+  const { t } = useTranslation('adminChatbotConfig')
   const { loadLogs = false, logLimit = 12 } = options
   const defaultLogsMeta = useMemo(() => ({ total: 0, errorCount: 0, page: 1, limit: logLimit }), [logLimit])
 
@@ -45,12 +47,12 @@ export default function useAdminChatbotConfigData(options = {}) {
       setToolLogs([])
       setToolLogsMeta(defaultLogsMeta)
       if (!silent) {
-        message.error(err?.message || 'Không thể tải lịch sử tool calls')
+        message.error(err?.message || t('messages.loadToolLogsFailed'))
       }
     } finally {
       if (withLoading) setLogsLoading(false)
     }
-  }, [defaultLogsMeta, logLimit])
+  }, [defaultLogsMeta, logLimit, t])
 
   const loadConfig = useCallback(async () => {
     try {
@@ -66,17 +68,17 @@ export default function useAdminChatbotConfigData(options = {}) {
         await loadToolLogs({}, { silent: true, withLoading: false })
       }
     } catch (err) {
-      message.error(err?.message || 'Không thể tải cấu hình AI')
+      message.error(err?.message || t('messages.loadConfigFailed'))
     } finally {
       setLoading(false)
     }
-  }, [loadLogs, loadToolLogs])
+  }, [loadLogs, loadToolLogs, t])
 
   useEffect(() => {
     loadConfig()
   }, [loadConfig])
 
-  const saveConfig = useCallback(async (payload, successMessage = 'Cập nhật thành công') => {
+  const saveConfig = useCallback(async (payload, successMessage = t('messages.updateSuccess')) => {
     try {
       setSaving(true)
       const res = await updateChatbotConfig(payload)
@@ -85,17 +87,17 @@ export default function useAdminChatbotConfigData(options = {}) {
         message.success(res.message || successMessage)
         await loadConfig()
       } else {
-        message.error(res?.message || 'Cập nhật thất bại')
+        message.error(res?.message || t('messages.updateFailed'))
       }
 
       return res
     } catch (err) {
-      message.error(err?.message || 'Có lỗi xảy ra khi cập nhật')
+      message.error(err?.message || t('messages.updateError'))
       throw err
     } finally {
       setSaving(false)
     }
-  }, [loadConfig])
+  }, [loadConfig, t])
 
   return {
     config,

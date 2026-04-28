@@ -1,0 +1,81 @@
+{
+  "seo": {
+    "title": "Admin - Permission Groups"
+  },
+  "page": {
+    "title": "Permission Groups",
+    "description": "Manage permission groups used to organize system permissions."
+  },
+  "common": {
+    "create": "Add permission group",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "submitCreate": "Create",
+    "cancel": "Cancel",
+    "enable": "On",
+    "disable": "Off"
+  },
+  "stats": {
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "table": {
+    "columns": {
+      "name": "Group name",
+      "code": "Group code",
+      "description": "Description",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "permissionCount": "{{count}} permissions",
+    "permissionCount_one": "{{count}} permission",
+    "permissionCount_other": "{{count}} permissions",
+    "noDescription": "No description",
+    "untitledGroup": "Untitled group",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} permission groups",
+    "empty": "No permission groups yet",
+    "openActions": "Open permission group actions",
+    "deleteConfirmTitle": "Delete this permission group?",
+    "deleteConfirmDescription": "Only delete \"{{name}}\" when no permissions are linked to this group."
+  },
+  "form": {
+    "createTitle": "Add permission group",
+    "editTitle": "Edit permission group",
+    "name": "Group name",
+    "nameRequired": "Please enter a group name",
+    "nameMin": "Group name must be at least 3 characters",
+    "namePlaceholder": "Example: Product management",
+    "code": "Group code",
+    "codeRequired": "Please enter a group code",
+    "codePattern": "Only use a-z, 0-9, and underscores",
+    "codePlaceholder": "Example: product",
+    "description": "Description",
+    "descriptionMax": "Description must be 300 characters or fewer",
+    "descriptionPlaceholder": "Short description for this permission group",
+    "translations": {
+      "sectionTitle": "English translation",
+      "label": "English group name",
+      "labelPlaceholder": "Enter group name in English",
+      "description": "English description",
+      "descriptionPlaceholder": "Short English description for this permission group"
+    },
+    "status": "Status"
+  },
+  "messages": {
+    "fetchError": "Unable to load permission groups",
+    "deleteSuccess": "Permission group deleted",
+    "deleteError": "Unable to delete permission group",
+    "toggleActive": "Permission group activated",
+    "toggleInactive": "Permission group paused",
+    "toggleError": "Unable to change status",
+    "updateSuccess": "Permission group updated",
+    "createSuccess": "Permission group created",
+    "saveError": "Unable to save permission group"
+  }
+}

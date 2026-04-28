@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button, Space, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   ReloadOutlined,
   RobotOutlined,
@@ -10,6 +11,8 @@ import {
 const { Title, Text } = Typography
 
 export default function AdminChatbotToolsHeaderSection({ saving, onReload, onSave }) {
+  const { t } = useTranslation('adminChatbotTools')
+
   return (
     <div className="admin-chatbot-page-header mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
@@ -19,22 +22,22 @@ export default function AdminChatbotToolsHeaderSection({ saving, onReload, onSav
 
         <div>
           <Title level={4} className="admin-chatbot-page-title !mb-0">
-            Agent Tools
+            {t('page.title')}
           </Title>
 
           <Text type="secondary" className="admin-chatbot-page-subtitle">
-            Bật tắt tool built-in mà agent được phép gọi trong runtime.
+            {t('page.description')}
           </Text>
         </div>
       </div>
 
       <Space wrap>
         <Link to="/admin/chatbot-config">
-          <Button icon={<RobotOutlined />} className="admin-chatbot-action-btn">Agent Settings</Button>
+          <Button icon={<RobotOutlined />} className="admin-chatbot-action-btn">{t('page.openAgentSettings')}</Button>
         </Link>
 
         <Button icon={<ReloadOutlined />} onClick={onReload} className="admin-chatbot-action-btn">
-          Tải lại
+          {t('page.reload')}
         </Button>
 
         <Button
@@ -44,7 +47,7 @@ export default function AdminChatbotToolsHeaderSection({ saving, onReload, onSav
           loading={saving}
           className="admin-chatbot-primary-btn"
         >
-          Lưu tools
+          {t('page.save')}
         </Button>
       </Space>
     </div>

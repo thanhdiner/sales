@@ -1,19 +1,30 @@
 import React from 'react'
-import { Bot, MessageCircle, Minus, X } from 'lucide-react'
-import { getChatMessagePreview } from '@/utils/chatMessage'
+import { Bot, MessageCircle, Minus, Plus, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { getChatMessagePreview, getLocalizedSystemMessage } from '@/utils/chatMessage'
 
 export default function HomeView({
   onClose,
   onMinimize,
   onOpenChat,
+  onStartNewConversation,
+  isStartingNewConversation = false,
   assignedAgent,
   messages = [],
   unread = 0,
   onQuickAction,
   quickActions = [],
 }) {
-  const lastMessage = getChatMessagePreview(messages[messages.length - 1])
-  const agentName = assignedAgent?.agentName || 'SmartMall Support'
+  const { t, i18n } = useTranslation('clientChat')
+  const language = i18n.resolvedLanguage || i18n.language
+  const lastMessage = getChatMessagePreview(messages[messages.length - 1], {
+    emptyText: t('preview.empty'),
+    imageText: t('preview.image'),
+    language,
+    systemText: msg => getLocalizedSystemMessage(msg, t, language)
+  })
+  const agentName = assignedAgent?.agentName || t('agent.defaultName')
+  const hasConversationHistory = messages.some(message => message.type !== 'system')
 
   return (
     <div className="flex h-full flex-col rounded-[28px] border border-black/5 bg-white/95 shadow-2xl backdrop-blur-md dark:border-white/10 dark:bg-neutral-900/95">
@@ -21,7 +32,7 @@ export default function HomeView({
         <div className="min-w-0">
           <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">{agentName}</h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Thường trả lời trong vài phút
+            {t('home.responseTime')}
           </p>
         </div>
 
@@ -29,8 +40,8 @@ export default function HomeView({
           <button
             type="button"
             onClick={onMinimize}
-            aria-label="Thu gọn chat"
-            title="Thu gọn chat"
+            aria-label={t('actions.minimize')}
+            title={t('actions.minimize')}
             className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
           >
             <Minus className="h-5 w-5" />
@@ -39,8 +50,8 @@ export default function HomeView({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Đóng chat"
-            title="Đóng chat"
+            aria-label={t('actions.close')}
+            title={t('actions.close')}
             className="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white"
           >
             <X className="h-5 w-5" />
@@ -88,7 +99,7 @@ export default function HomeView({
         {quickActions.length > 0 && (
           <div>
             <p className="mb-2.5 text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-300">
-              Câu hỏi thường gặp
+              {t('home.faqTitle')}
             </p>
 
             <div className="space-y-2">
@@ -116,13 +127,27 @@ export default function HomeView({
       </div>
 
       <div className="border-t border-black/5 p-4 dark:border-white/10">
-        <button
-          onClick={onOpenChat}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99]"
-        >
-          <MessageCircle className="h-4 w-4" />
-          Bắt đầu chat
-        </button>
+        <div className="space-y-2">
+          <button
+            onClick={onOpenChat}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99]"
+          >
+            <MessageCircle className="h-4 w-4" />
+            {t('home.startChat')}
+          </button>
+
+          {hasConversationHistory && (
+            <button
+              type="button"
+              onClick={onStartNewConversation}
+              disabled={isStartingNewConversation}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-wait disabled:opacity-60 dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:hover:bg-white/10"
+            >
+              <Plus className="h-4 w-4" />
+              {t('home.newConversation')}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )

@@ -1,18 +1,34 @@
 import dayjsLib from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/vi'
+import { API_URL } from '@/utils/env'
+import { getChatMessagePreview } from '@/utils/chatMessage'
 
 dayjsLib.extend(relativeTime)
 dayjsLib.locale('vi')
 
 export const dayjs = dayjsLib
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1'
+const API_BASE = API_URL
+
+const getCurrentLanguage = () => {
+  try {
+    return localStorage.getItem('language') === 'en' ? 'en' : 'vi'
+  } catch {
+    return 'vi'
+  }
+}
 
 export const apiFetch = async (path, options = {}) => {
+  const headers = {
+    'Accept-Language': getCurrentLanguage(),
+    ...(options.headers || {})
+  }
+
   const response = await fetch(`${API_BASE}/${path}`, {
     credentials: 'include',
-    ...options
+    ...options,
+    headers
   })
 
   return response.json()
@@ -24,10 +40,12 @@ export const revokePreviewUrl = url => {
   }
 }
 
-export const getMessagePreview = message => {
-  if (message?.type === 'image' || message?.imageUrl) {
-    return '[Ảnh]'
-  }
-
-  return message?.message || ''
+export const getMessagePreview = (message, options = {}) => {
+  return getChatMessagePreview(message, {
+    emptyText: options.emptyText || '',
+    imageText: options.imageText || '[Image]',
+    language: options.language,
+    systemText: options.systemText,
+    t: options.t
+  })
 }

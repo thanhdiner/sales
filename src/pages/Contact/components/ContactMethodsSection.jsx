@@ -1,10 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { sellers, viewport } from '../constants'
+import { viewport } from '../constants'
 import SectionHeader from './SectionHeader'
 import SellerCard from './SellerCard'
 
-const ContactMethodsSection = () => {
+const ContactMethodsSection = ({ section = {} }) => {
   return (
     <motion.section
       className="px-4 py-10 md:py-14"
@@ -16,15 +16,15 @@ const ContactMethodsSection = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-7">
           <SectionHeader
-            eyebrow="Kết nối trực tiếp"
-            title="Liên hệ với SmartMall"
-            description="Chọn kênh phù hợp để được tư vấn sản phẩm, hỗ trợ đơn hàng hoặc giải đáp thông tin trước khi mua."
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
           />
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {sellers.map((seller, index) => (
-            <SellerCard key={seller.name} seller={seller} index={index} />
+          {(section.sellers || []).map((seller, index) => (
+            <SellerCard key={`${seller.name}-${index}`} seller={seller} index={index} note={section.note} />
           ))}
         </div>
       </div>

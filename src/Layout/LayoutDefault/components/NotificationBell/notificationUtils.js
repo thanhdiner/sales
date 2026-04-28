@@ -1,40 +1,65 @@
-export const MAX_NOTIFICATIONS = 20
+export const MAX_NOTIFICATIONS = 100
 export const CLIENT_NOTIFICATIONS_STORAGE_KEY = 'client_order_notifications'
+export const CLIENT_NOTIFICATIONS_UPDATED_EVENT = 'client-notifications-updated'
 
 const isBrowser = typeof window !== 'undefined'
 
-export const statusMap = {
-  pending: 'Chờ xử lý',
-  confirmed: 'Đã xác nhận',
-  shipping: 'Đang giao hàng',
-  completed: 'Hoàn thành',
-  cancelled: 'Đã huỷ'
+export function getShortOrderId(orderId) {
+  return String(orderId || '')
+    .slice(-6)
+    .toUpperCase()
 }
 
-export function getStatusLabel(status) {
-  return statusMap[status] || status || 'Cập nhật'
+export function getNotificationStatusKey(status) {
+  return status ? `notification.status.${status}` : 'notification.status.fallback'
 }
 
-export function createOrderStatusNotification(order) {
-  const shortOrderId = String(order?._id || '').slice(-6).toUpperCase()
+export function getStatusLabel(status, t) {
+  return t(getNotificationStatusKey(status), {
+    defaultValue: status || t('notification.status.fallback')
+  })
+}
+
+export function createOrderStatusNotification(order, t) {
+  const shortOrderId = getShortOrderId(order?._id)
+  const statusLabel = getStatusLabel(order?.status, t)
 
   return {
     id: `${order?._id}-${order?.status}-${Date.now()}`,
-    title: `Đơn hàng #${shortOrderId}`,
-    body: `Đã chuyển sang trạng thái ${getStatusLabel(order?.status)}`,
+    title: t('notification.orderTitle', { orderId: shortOrderId }),
+    body: t('notification.orderStatusBody', { status: statusLabel }),
     time: new Date(),
     read: false,
-    orderId: order?._id
+    orderId: order?._id,
+    status: order?.status
   }
 }
 
-export function formatNotificationTime(time) {
-  return new Date(time).toLocaleString('vi-VN', {
+export function formatNotificationTime(time, language = 'vi') {
+  return new Date(time).toLocaleString(language === 'en' ? 'en-US' : 'vi-VN', {
     hour: '2-digit',
     minute: '2-digit',
     day: '2-digit',
     month: '2-digit'
   })
+}
+
+export function formatNotificationRelativeTime(time, language = 'vi') {
+  const timestamp = new Date(time).getTime()
+
+  if (Number.isNaN(timestamp)) return ''
+
+  const diffSeconds = Math.round((timestamp - Date.now()) / 1000)
+  const absSeconds = Math.abs(diffSeconds)
+  const locale = language === 'en' ? 'en-US' : 'vi-VN'
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' })
+
+  if (absSeconds < 45) return formatter.format(0, 'second')
+  if (absSeconds < 2700) return formatter.format(Math.round(diffSeconds / 60), 'minute')
+  if (absSeconds < 86400) return formatter.format(Math.round(diffSeconds / 3600), 'hour')
+  if (absSeconds < 2592000) return formatter.format(Math.round(diffSeconds / 86400), 'day')
+
+  return formatNotificationTime(time, language)
 }
 
 export function getUnreadCount(list) {
@@ -45,14 +70,14 @@ export function hasUnread(list) {
   return list.some(item => !item.read)
 }
 
-export function getUnreadLabel(count) {
-  if (count <= 0) return 'Tất cả đã đọc'
-  if (count === 1) return '1 thông báo chưa đọc'
-  return `${count} thông báo chưa đọc`
+export function getUnreadLabel(count, t) {
+  if (count <= 0) return t('notification.allRead')
+  if (count === 1) return t('notification.oneUnread')
+  return t('notification.manyUnread', { count })
 }
 
-export function getNotificationAriaLabel(unreadCount) {
-  return unreadCount > 0 ? `Thông báo, ${getUnreadLabel(unreadCount)}` : 'Thông báo'
+export function getNotificationAriaLabel(unreadCount, t) {
+  return unreadCount > 0 ? t('notification.ariaLabel', { count: unreadCount }) : t('notification.bellTitle')
 }
 
 export function getNotificationBadgeText(unreadCount) {
@@ -63,8 +88,8 @@ export function getNotificationBellClassName() {
   return 'header__action__notification--btn relative flex h-8 w-8 items-center justify-center text-gray-700 transition-colors dark:text-gray-200'
 }
 
-export function getNotificationButtonTitle() {
-  return 'Thông báo'
+export function getNotificationButtonTitle(t) {
+  return t('notification.bellTitle')
 }
 
 export function getNotificationNewDotClassName() {
@@ -72,7 +97,7 @@ export function getNotificationNewDotClassName() {
 }
 
 export function getNotificationNewDotVisible(list) {
-  return list.length > 0 && !hasUnread(list)
+  return hasUnread(list)
 }
 
 export function shouldShowUnreadBadge(unreadCount) {
@@ -103,28 +128,36 @@ export function markAllNotificationsReadIfNeeded(list) {
   return shouldMarkAllRead(list) ? markAllNotificationsRead(list) : list
 }
 
+export function getNotificationCategory(notif) {
+  if (notif?.category) return notif.category
+  if (notif?.type) return notif.type
+  if (notif?.paymentId || notif?.paymentStatus) return 'payments'
+  if (notif?.orderId || notif?.status) return 'orders'
+  return 'system'
+}
+
 export function shouldClosePanelAfterMarkAll() {
-  return true
+  return false
 }
 
 export function shouldClosePanelAfterClick() {
   return true
 }
 
-export function getNotificationPanelTitle(list) {
-  return list.length === 0 ? 'Thông báo' : 'Cập nhật đơn hàng'
+export function getNotificationPanelTitle(list, t) {
+  return list.length === 0 ? t('notification.panelTitle') : t('notification.panelOrderTitle')
 }
 
-export function getNotificationEmptyLabel() {
-  return 'Chưa có cập nhật đơn hàng nào'
+export function getNotificationEmptyLabel(t) {
+  return t('notification.empty')
 }
 
-export function getMarkAllReadLabel() {
-  return 'Đọc tất cả'
+export function getMarkAllReadLabel(t) {
+  return t('notification.markAllRead')
 }
 
-export function getNotificationCloseLabel() {
-  return 'Đóng thông báo'
+export function getNotificationCloseLabel(t) {
+  return t('notification.close')
 }
 
 export function getNotificationTitleTextClassName() {
@@ -207,8 +240,8 @@ export function getNotificationItemTime(notif) {
   return notif.time
 }
 
-export function getNotificationItemAriaLabel(notif) {
-  return `${notif.title}: ${notif.body}`
+export function getNotificationItemAriaLabel(notif, t) {
+  return `${t('notification.openNotification')}: ${notif.title}`
 }
 
 export function createNotificationRowKey(notif) {
@@ -224,14 +257,21 @@ export function getClientOrderRoute(orderId) {
 }
 
 export function requestDesktopNotificationPermission() {
+  if (!isBrowser) return
+
   if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission()
   }
 }
 
-export function getDesktopNotificationBody(order) {
-  const shortOrderId = String(order?._id || '').slice(-6).toUpperCase()
-  return `Đơn hàng #${shortOrderId} đã chuyển sang ${getStatusLabel(order?.status)}`
+export function getDesktopNotificationBody(order, t) {
+  const shortOrderId = getShortOrderId(order?._id)
+  const statusLabel = getStatusLabel(order?.status, t)
+
+  return t('notification.desktopBody', {
+    orderId: shortOrderId,
+    status: statusLabel
+  })
 }
 
 export function prependNotification(list, notification) {
@@ -260,6 +300,23 @@ export function saveStoredNotifications(notifications) {
   } catch {
     // ignore storage failures
   }
+}
+
+export function emitStoredNotificationsUpdated(notifications) {
+  if (!isBrowser) return
+
+  window.dispatchEvent(
+    new CustomEvent(CLIENT_NOTIFICATIONS_UPDATED_EVENT, {
+      detail: {
+        notifications: Array.isArray(notifications) ? notifications.slice(0, MAX_NOTIFICATIONS) : []
+      }
+    })
+  )
+}
+
+export function updateStoredNotifications(notifications) {
+  saveStoredNotifications(notifications)
+  emitStoredNotificationsUpdated(notifications)
 }
 
 export function clearStoredNotifications() {

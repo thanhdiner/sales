@@ -67,3 +67,54 @@ export const getReviewMediaItems = review => [
   ...(review?.images || []).map(url => ({ url, isVideo: false })),
   ...(review?.videos || []).map(url => ({ url, isVideo: true }))
 ]
+
+const isEnglishLanguage = language => String(language || '').toLowerCase().startsWith('en')
+
+const hasText = value => typeof value === 'string' && value.trim().length > 0
+
+export const getLocalizedReviewProductTitle = (review, language, fallback = '') => {
+  const product = review?.productId
+  if (!product) return fallback
+
+  const translatedTitle = isEnglishLanguage(language) ? product.translations?.en?.title : null
+
+  if (hasText(translatedTitle)) return translatedTitle
+  if (hasText(product.localizedTitle)) return product.localizedTitle
+  if (hasText(product.title)) return product.title
+
+  return product.slug || fallback
+}
+
+export const getLocalizedSellerReplyContent = (review, language, fallback = '') => {
+  const sellerReply = review?.sellerReply
+  if (!sellerReply) return fallback
+
+  const translatedContent = isEnglishLanguage(language) ? sellerReply.translations?.en?.content : null
+
+  if (hasText(translatedContent)) return translatedContent
+  if (hasText(sellerReply.localizedContent)) return sellerReply.localizedContent
+  if (hasText(sellerReply.content)) return sellerReply.content
+
+  return fallback
+}
+
+export const getReviewReplyFormValues = review => ({
+  content: review?.sellerReply?.content || '',
+  translations: {
+    en: {
+      content: review?.sellerReply?.translations?.en?.content || ''
+    }
+  }
+})
+
+export const normalizeReviewReplyPayload = values => ({
+  content: typeof values?.content === 'string' ? values.content.trim() : '',
+  translations: {
+    en: {
+      content:
+        typeof values?.translations?.en?.content === 'string'
+          ? values.translations.en.content.trim()
+          : ''
+    }
+  }
+})

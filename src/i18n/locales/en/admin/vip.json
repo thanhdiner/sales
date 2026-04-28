@@ -1,0 +1,92 @@
+{
+  "seo": {
+    "title": "Admin - VIP"
+  },
+  "page": {
+    "title": "VIP page content",
+    "description": "Manage bilingual content displayed on the customer /vip page."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset",
+    "save": "Save content",
+    "remove": "Remove",
+    "addStat": "Add stat",
+    "addQuickBenefit": "Add quick benefit",
+    "addBenefit": "Add benefit",
+    "addPlan": "Add plan",
+    "addFeature": "Add feature",
+    "addComparisonRow": "Add comparison row",
+    "addFaq": "Add FAQ"
+  },
+  "messages": {
+    "fetchError": "Failed to load VIP page content",
+    "saveSuccess": "VIP page content saved",
+    "saveError": "Failed to save VIP page content",
+    "resetDone": "Form reset"
+  },
+  "validation": {
+    "required": "Please enter this field"
+  },
+  "sections": {
+    "seo": "SEO",
+    "hero": "Hero",
+    "heroDescription": "Top-page content and main navigation buttons.",
+    "stats": "Quick stats",
+    "quickBenefits": "Quick benefits below hero",
+    "quickBenefitItems": "Quick benefit list",
+    "benefits": "Featured VIP benefits",
+    "benefitItems": "Featured benefit list",
+    "plans": "VIP plans",
+    "planItems": "VIP plan list",
+    "planItem": "Plan #{{index}}",
+    "planFeatures": "Plan features",
+    "comparison": "Benefit comparison",
+    "comparisonRows": "Comparison table rows",
+    "comparisonRow": "Row #{{index}}",
+    "faq": "FAQ",
+    "faqItems": "Frequently asked questions",
+    "cta": "Footer CTA"
+  },
+  "fields": {
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "primaryButton": "Primary button",
+    "primaryButtonLink": "Primary button link",
+    "secondaryButton": "Secondary button",
+    "secondaryButtonLink": "Secondary button link",
+    "imageUrl": "Image URL",
+    "imageAlt": "Image alt",
+    "statValue": "Value",
+    "statLabel": "Label",
+    "sectionTitle": "Section title",
+    "sectionDescription": "Section description",
+    "itemTitle": "Item title",
+    "itemDescription": "Item description",
+    "planName": "Plan name",
+    "badge": "Badge",
+    "highlighted": "Highlighted",
+    "price": "Price",
+    "period": "Period",
+    "ctaLabel": "CTA label",
+    "ctaLink": "CTA link",
+    "feature": "Feature",
+    "comparisonBenefit": "Benefit",
+    "silver": "Silver",
+    "gold": "Gold",
+    "diamond": "Diamond",
+    "question": "Question",
+    "answer": "Answer",
+    "button": "Button",
+    "buttonLink": "Button link"
+  }
+}

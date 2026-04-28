@@ -5,7 +5,7 @@ import { viewport } from '../constants'
 import SectionHeader from './SectionHeader'
 import WorkingHoursCard from './WorkingHoursCard'
 
-const FormAndScheduleSection = () => {
+const FormAndScheduleSection = ({ section = {}, workingHoursCard = {}, links = {} }) => {
   return (
     <motion.section
       className="contact-band bg-white px-4 py-12 md:py-20 dark:bg-gray-950"
@@ -16,9 +16,9 @@ const FormAndScheduleSection = () => {
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeader
-          eyebrow="Gửi yêu cầu"
-          title="Gửi thông tin nhanh, nhận hỗ trợ đúng lúc"
-          description="Bạn có thể gửi yêu cầu trực tiếp qua biểu mẫu hoặc xem khung giờ hoạt động để nhận phản hồi nhanh hơn."
+          eyebrow={section.eyebrow}
+          title={section.title}
+          description={section.description}
           eyebrowClassName="text-gray-500"
         />
 
@@ -40,7 +40,7 @@ const FormAndScheduleSection = () => {
             transition={{ duration: 0.45, delay: 0.06, ease: 'easeOut' }}
             viewport={viewport}
           >
-            <WorkingHoursCard />
+            <WorkingHoursCard content={workingHoursCard} links={links} />
           </motion.div>
         </div>
       </div>

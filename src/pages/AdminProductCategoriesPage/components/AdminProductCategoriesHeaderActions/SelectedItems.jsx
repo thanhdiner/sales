@@ -1,7 +1,11 @@
+import { useTranslation } from 'react-i18next'
+
 function SelectedItems({ selectedRowKeys }) {
+  const { t } = useTranslation('adminProductCategories')
+
   return (
     <span className="admin-product-categories-selected-count">
-      Selected <span className="font-bold">{selectedRowKeys.length}</span> items
+      {t('bulk.selected', { count: selectedRowKeys.length })}
     </span>
   )
 }

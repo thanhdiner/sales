@@ -1,0 +1,168 @@
+{
+  "agent": {
+    "defaultName": "SmartMall Support",
+    "botName": "SmartMall Bot"
+  },
+  "status": {
+    "active": "Active",
+    "resolved": "Resolved"
+  },
+  "actions": {
+    "back": "Back",
+    "minimize": "Minimize chat",
+    "close": "Close chat",
+    "restore": "Reopen chat",
+    "openContact": "Open contact options",
+    "closeContact": "Close contact options",
+    "scrollTop": "Scroll to top",
+    "scrollBottom": "Scroll to bottom",
+    "newConversation": "New conversation"
+  },
+  "auth": {
+    "loginRequired": "Please sign in to use support chat."
+  },
+  "home": {
+    "responseTime": "Usually replies within a few minutes",
+    "faqTitle": "Frequently asked questions",
+    "startChat": "Start chat",
+    "newConversation": "New conversation"
+  },
+  "empty": {
+    "title": "Start a conversation",
+    "description": "Our support team will reply as soon as possible"
+  },
+  "preview": {
+    "empty": "Start a conversation...",
+    "image": "[Image]"
+  },
+  "typing": {
+    "bot": "Bot is typing..."
+  },
+  "thinking": {
+    "summary": "View processing steps",
+    "liveSummary": "Processing...",
+    "summaryWithTime": "Processed in {{time}}",
+    "title": "Processing steps",
+    "steps": {
+      "understandRunning": "Analyzing the request",
+      "understand": "Analyzed the request",
+      "toolRunning": "Looking up: {{tool}}",
+      "tool": "Looked up: {{tool}}",
+      "toolFallback": "system tool",
+      "composeRunning": "Preparing the reply",
+      "compose": "Prepared the reply"
+    }
+  },
+  "resolved": {
+    "message": "✅ This conversation has been resolved",
+    "startNew": "Start a new conversation"
+  },
+  "system": {
+    "agentJoined": "{{agentName}} joined the conversation",
+    "agentResolved": "{{agentName}} marked the conversation as resolved",
+    "botReturned": "AI assistant SmartMall Bot is back. How can I help you?",
+    "requestedHuman": "The customer requested to talk to a support agent",
+    "resolved": "The conversation has been marked as resolved",
+    "reopened": "The conversation has been reopened"
+  },
+  "input": {
+    "attachmentsTitle": "Attached images ({{current}}/{{max}})",
+    "attachmentsDescription": "All images will be sent in one message",
+    "clearAll": "Clear all",
+    "clearAllTitle": "Clear all attached images",
+    "removeImage": "Remove {{name}}",
+    "addImage": "Add attached image",
+    "attachImage": "Attach image",
+    "placeholder": "Type a message...",
+    "imagePlaceholder": "Add a message for these images...",
+    "send": "Send message",
+    "switchToBot": "Return to AI chat",
+    "requestHuman": "Talk to a support agent"
+  },
+  "messages": {
+    "sendFailed": "Unable to send message",
+    "reactionFailed": "Unable to react to this message",
+    "newConversationFailed": "Unable to close the previous conversation. Please try again.",
+    "conversationClosed": "This conversation is closed. Please start a new conversation.",
+    "maxImagesPerSend": "You can send up to {{count}} images at a time",
+    "maxImagesPerMessage": "Only {{count}} images can be kept in one message"
+  },
+  "reactions": {
+    "add": "React",
+    "reactWith": "React with {{emoji}}",
+    "remove": "Remove {{emoji}}"
+  },
+  "defaults": {
+    "guest": "Guest",
+    "you": "You",
+    "imageAlt": "Chat image"
+  },
+  "imagePreview": {
+    "title": "Image preview",
+    "close": "Close image preview",
+    "open": "Open image",
+    "download": "Download",
+    "metadata": "Image from {{senderName}} · {{time}}",
+    "unknownSender": "chat"
+  },
+  "quickActions": {
+    "product": {
+      "label": "Ask about products",
+      "text": "I want to ask about a product"
+    },
+    "orderTracking": {
+      "label": "Check order",
+      "text": "I need to check my order"
+    },
+    "payment": {
+      "label": "Payment methods",
+      "text": "Which payment methods are supported?"
+    },
+    "return": {
+      "label": "Returns",
+      "text": "How does the return policy work?"
+    }
+  },
+  "floating": {
+    "support": "SmartMall Support",
+    "callNow": "Call now",
+    "zalo": "Chat on Zalo",
+    "messenger": "Messenger"
+  },
+  "orderTracking": {
+    "status": {
+      "pending": "Pending confirmation",
+      "confirmed": "Confirmed",
+      "shipping": "Shipping",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "paymentStatus": {
+      "pending": "Unpaid",
+      "paid": "Paid",
+      "failed": "Payment failed"
+    },
+    "validation": {
+      "required": "Please enter both order code and phone number.",
+      "invalidPhone": "The phone number is invalid. Please check again."
+    },
+    "errors": {
+      "notFound": "Order not found or the phone number does not match."
+    },
+    "title": "Check order",
+    "orderCode": "Order code",
+    "orderCodePlaceholder": "Enter order code...",
+    "phone": "Order phone number",
+    "phonePlaceholder": "Enter phone number...",
+    "search": "Search order",
+    "result": {
+      "orderDate": "Order date:",
+      "itemCountLabel": "Items:",
+      "itemCount": "{{count}} items",
+      "itemCount_one": "{{count}} item",
+      "itemCount_other": "{{count}} items",
+      "payment": "Payment:",
+      "total": "Total:"
+    }
+  }
+}

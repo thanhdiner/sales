@@ -1,0 +1,66 @@
+{
+  "page": {
+    "seo": {
+      "title": "Coupons",
+      "description": "Explore discount codes and exclusive offers at SmartMall."
+    }
+  },
+  "message": {
+    "loadFailed": "Failed to load coupon list",
+    "copySuccess": "Copied code: {{code}}"
+  },
+  "tabs": {
+    "all": "All",
+    "new": "New customers",
+    "flash": "Flash Sale",
+    "shipping": "Free shipping",
+    "vip": "VIP",
+    "weekend": "Weekend",
+    "student": "Students"
+  },
+  "tips": {
+    "checkCondition": {
+      "title": "Check conditions",
+      "description": "Read the usage conditions and minimum order value carefully"
+    },
+    "deadline": {
+      "title": "Watch the deadline",
+      "description": "Use the code before it expires so you do not miss the offer"
+    },
+    "combine": {
+      "title": "Combine smartly",
+      "description": "Some codes can be combined with other promotions for maximum savings"
+    }
+  },
+  "tipsSection": {
+    "title": "Coupon usage tips",
+    "description": "A few small notes to help you choose and use discount codes more effectively."
+  },
+  "search": {
+    "placeholder": "Search coupons...",
+    "foundPrefix": "Found",
+    "foundSuffixSingular": "coupon",
+    "foundSuffix": "coupons"
+  },
+  "hero": {
+    "eyebrow": "Offers",
+    "title": "Coupon collection",
+    "description": "Explore available discount codes and choose the right offer to save more when shopping."
+  },
+  "empty": {
+    "noCoupons": "No coupons found"
+  },
+  "card": {
+    "maxDiscount": "Max discount {{amount}}",
+    "fallbackTitle": "Code: {{code}}",
+    "fallbackDescription": "Applies according to system conditions",
+    "codeLabel": "Coupon code:",
+    "copied": "Copied",
+    "copy": "Copy",
+    "minOrder": "Minimum order: {{amount}}",
+    "usage": "Used: {{used}} / {{limit}}",
+    "usageUnlimited": "∞",
+    "remainingTime": "{{days}}d {{hours}}h {{minutes}}m left",
+    "useNow": "Use now"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "seo": {
+    "title": "Admin - Widgets"
+  },
+  "page": {
+    "title": "Widget manager",
+    "subtitle": "Manage widgets displayed on the homepage.",
+    "createButton": "Add Widget"
+  },
+  "stats": {
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "table": {
+    "summary": "{{rangeStart}}-{{rangeEnd}} of {{total}} widgets",
+    "widgetOrder": "Order: {{order}}",
+    "noLink": "No link",
+    "loading": "Loading widgets...",
+    "empty": "No widgets yet",
+    "pageSize": "{{count}} / page",
+    "columns": {
+      "widget": "Widget",
+      "link": "Link",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "editTooltip": "Edit widget",
+      "deleteTooltip": "Delete widget"
+    }
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Paused"
+  },
+  "form": {
+    "titleCreate": "Add new Widget",
+    "titleEdit": "Edit Widget",
+    "save": "Save",
+    "cancel": "Cancel",
+    "widgetTitle": "Widget title",
+    "widgetTitleRequired": "Please enter a title",
+    "widgetTitlePlaceholder": "Enter a title for the widget",
+    "translations": {
+      "sectionTitle": "English translation",
+      "title": "English title",
+      "titlePlaceholder": "Enter the widget title in English"
+    },
+    "icon": "Icon",
+    "iconRequired": "Please upload an icon",
+    "upload": "Upload",
+    "link": "Link",
+    "linkPlaceholder": "https://example.com",
+    "order": "Display order",
+    "orderPlaceholder": "0",
+    "status": "Status"
+  },
+  "confirm": {
+    "deleteTitle": "Confirm widget deletion",
+    "deleteContent": "Are you sure you want to delete this widget?",
+    "deleteOk": "Delete",
+    "cancel": "Cancel"
+  },
+  "messages": {
+    "fetchError": "Failed to load widgets",
+    "deleteSuccess": "Widget deleted",
+    "deleteError": "Failed to delete widget",
+    "updateSuccess": "Widget updated",
+    "createSuccess": "Widget added",
+    "saveError": "Failed to save widget",
+    "imageOnly": "Only image files can be uploaded"
+  }
+}

@@ -1,17 +1,20 @@
 import React from 'react'
 import { Skeleton } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 export default function OrdersTableSkeleton() {
+  const { t } = useTranslation('adminDashboard')
+
   return (
     <div className="orders-table-skeleton">
       <table>
         <thead>
           <tr>
-            <th>Đơn hàng</th>
-            <th>Khách hàng</th>
-            <th>Giá trị</th>
-            <th>Trạng thái</th>
-            <th>Thời gian</th>
+            <th>{t('ordersSkeleton.order')}</th>
+            <th>{t('ordersSkeleton.customer')}</th>
+            <th>{t('ordersSkeleton.value')}</th>
+            <th>{t('ordersSkeleton.status')}</th>
+            <th>{t('ordersSkeleton.time')}</th>
           </tr>
         </thead>
 

@@ -6,6 +6,7 @@ import userReducer from './user'
 import darkModeReducer from './darkModeSlice'
 import wishlistReducer from './wishlist'
 import compareReducer from './compare'
+import languageReducer from './languageSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     clientUser: userReducer,
     darkMode: darkModeReducer,
     wishlist: wishlistReducer,
-    compare: compareReducer
+    compare: compareReducer,
+    language: languageReducer
   }
 })

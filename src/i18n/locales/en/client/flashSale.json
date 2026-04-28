@@ -1,0 +1,77 @@
+{
+  "seo": {
+    "title": "Flash Sale – Hot deals",
+    "description": "SmartMall Flash Sale – Hot daily discounts with limited quantities. Grab game accounts and licensed software at the best prices!"
+  },
+  "category": {
+    "all": "All",
+    "uncategorized": "Uncategorized",
+    "prev": "View previous categories",
+    "next": "View next categories"
+  },
+  "status": {
+    "active": "On sale",
+    "scheduled": "Coming soon",
+    "ended": "Ended"
+  },
+  "time": {
+    "day": "Day",
+    "hour": "Hour",
+    "minute": "Min",
+    "second": "Sec",
+    "range": "{{start}} - {{end}}",
+    "fromTo": "From {{start}} to {{end}}"
+  },
+  "sale": {
+    "discount": "{{percent}}% off",
+    "soldProgress": "Sold {{sold}}/{{max}}",
+    "activeProductsTitle": "Discounted products",
+    "productCount": "{{count}} products",
+    "participatingProducts": "{{count}} participating products",
+    "upcomingTitle": "Upcoming Flash Sales",
+    "upcomingSelling": "Coming soon",
+    "remindMe": "Remind me"
+  },
+  "product": {
+    "bestSeller": "Best seller",
+    "noRating": "No ratings yet",
+    "sold": "Sold {{count}}",
+    "saving": "Save {{amount}}",
+    "stockLeft": "{{count}} left",
+    "outOfStock": "Out of stock",
+    "delivery": "Delivery in {{count}} days",
+    "buyNow": "Buy now",
+    "removeWishlist": "Remove from wishlist",
+    "addWishlist": "Add to wishlist",
+    "compare": "Compare product"
+  },
+  "message": {
+    "loginToBuy": "Please sign in to buy this product!",
+    "loginToWishlist": "Please sign in to add this product to your wishlist!",
+    "addedToCart": "Added to cart! Redirecting to cart...",
+    "buyNowFailed": "Buy now failed!",
+    "wishlistError": "Something went wrong. Please try again!"
+  },
+  "empty": {
+    "title": "No Flash Sales available",
+    "description": "Come back later so you don’t miss upcoming promotions."
+  },
+  "loadMore": {
+    "loading": "Loading...",
+    "default": "Load more"
+  },
+  "trust": {
+    "official": {
+      "title": "Genuine products",
+      "desc": "Licensed products with clear information."
+    },
+    "fastDelivery": {
+      "title": "Fast delivery after payment",
+      "desc": "Receive keys or accounts quickly."
+    },
+    "support": {
+      "title": "Dedicated support",
+      "desc": "Support is always available when issues arise."
+    }
+  }
+}

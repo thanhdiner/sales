@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button, Space, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import {
   FileSearchOutlined,
   MessageOutlined,
@@ -9,6 +10,8 @@ import {
 const { Title, Text } = Typography
 
 export default function AdminChatbotToolLogsHeaderSection({ logsLoading, onReload }) {
+  const { t } = useTranslation('adminChatbotToolLogs')
+
   return (
     <div className="admin-chatbot-page-header mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
@@ -18,18 +21,20 @@ export default function AdminChatbotToolLogsHeaderSection({ logsLoading, onReloa
 
         <div>
           <Title level={4} className="admin-chatbot-page-title !mb-0">
-            Tool Call Logs
+            {t('page.title')}
           </Title>
 
           <Text type="secondary" className="admin-chatbot-page-subtitle">
-            Theo dõi agent đã gọi tool nào, với input gì và kết quả trả về ra sao.
+            {t('page.description')}
           </Text>
         </div>
       </div>
 
       <Space wrap>
         <Link to="/admin/chat">
-          <Button icon={<MessageOutlined />} className="admin-chatbot-action-btn">Live Chat</Button>
+          <Button icon={<MessageOutlined />} className="admin-chatbot-action-btn">
+            {t('page.liveChat')}
+          </Button>
         </Link>
 
         <Button
@@ -38,7 +43,7 @@ export default function AdminChatbotToolLogsHeaderSection({ logsLoading, onReloa
           onClick={onReload}
           className="admin-chatbot-action-btn"
         >
-          Làm mới logs
+          {t('page.reload')}
         </Button>
       </Space>
     </div>

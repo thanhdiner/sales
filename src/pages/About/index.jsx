@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import SEO from '@/components/SEO'
 import HeroSection from './components/HeroSection'
-import StatsSection from './components/StatsSection'
+import BenefitsSection from './components/BenefitsSection'
 import FeaturesSection from './components/FeaturesSection'
 import AboutOwnerSection from './components/AboutOwnerSection'
 import TimelineSection from './components/TimelineSection'
 import CTASection from './components/CTASection'
+import { useAboutContent } from './hooks/useAboutContent'
 import './AboutPage.scss'
 
 const AboutPage = () => {
+  const { t } = useTranslation('clientAbout')
   const [isVisible, setIsVisible] = useState(false)
+  const { data: content } = useAboutContent()
 
   useEffect(() => {
     setIsVisible(true)
@@ -20,8 +24,8 @@ const AboutPage = () => {
   return (
     <main className="about-page min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
       <SEO
-        title="Về SmartMall"
-        description="SmartMall – Shop nhỏ chuyên bán tài khoản game và phần mềm bản quyền. Uy tín, rõ ràng, giá hợp lý, hỗ trợ tận tâm."
+        title={content?.seo?.title || t('seo.title')}
+        description={content?.seo?.description || t('seo.description')}
         url="https://smartmall.site/about"
       />
 
@@ -31,12 +35,12 @@ const AboutPage = () => {
       </div>
 
       <div className="relative z-10">
-        <HeroSection isVisible={isVisible} viewport={viewport} />
-        <StatsSection viewport={viewport} />
-        <FeaturesSection viewport={viewport} />
-        <AboutOwnerSection viewport={viewport} />
-        <TimelineSection viewport={viewport} />
-        <CTASection viewport={viewport} />
+        <HeroSection content={content?.heroSection} isVisible={isVisible} viewport={viewport} />
+        <BenefitsSection content={content?.benefitsSection} viewport={viewport} />
+        <FeaturesSection content={content?.featuresSection} viewport={viewport} />
+        <AboutOwnerSection content={content?.ownerSection} viewport={viewport} />
+        <TimelineSection content={content?.timelineSection} viewport={viewport} />
+        <CTASection content={content?.ctaSection} viewport={viewport} />
       </div>
     </main>
   )

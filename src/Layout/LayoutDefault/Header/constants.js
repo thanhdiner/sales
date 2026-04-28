@@ -1,7 +1,7 @@
 export const navItems = [
-  { label: 'Home', path: '/' },
-  { label: 'Products', path: '/products' },
-  { label: 'Flash Sale', path: '/flash-sale' },
-  { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' }
+  { labelKey: 'nav.home', path: '/' },
+  { labelKey: 'nav.products', path: '/products' },
+  { labelKey: 'nav.flashSale', path: '/flash-sale' },
+  { labelKey: 'nav.about', path: '/about' },
+  { labelKey: 'nav.contact', path: '/contact' }
 ]

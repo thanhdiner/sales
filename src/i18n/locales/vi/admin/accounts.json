@@ -1,0 +1,85 @@
+{
+  "seo": {
+    "title": "Admin - Tài khoản"
+  },
+  "page": {
+    "title": "Quản lý tài khoản"
+  },
+  "common": {
+    "create": "Thêm tài khoản",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "submitCreate": "Tạo",
+    "cancel": "Hủy",
+    "unknownAccount": "Tài khoản không xác định",
+    "unknownRole": "Vai trò không xác định"
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Tạm dừng",
+    "banned": "Bị khóa"
+  },
+  "table": {
+    "columns": {
+      "userName": "Người dùng",
+      "email": "Email",
+      "role": "Vai trò",
+      "status": "Trạng thái",
+      "action": "Hành động"
+    },
+    "loading": "Đang tải dữ liệu...",
+    "empty": "Không có tài khoản nào",
+    "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} tài khoản",
+    "editAccount": "Sửa tài khoản",
+    "deleteAccount": "Xóa tài khoản",
+    "openActions": "Mở hành động tài khoản",
+    "deleteConfirmTitle": "Bạn chắc chắn muốn xóa?",
+    "deleteConfirmOk": "Xóa",
+    "deleteConfirmCancel": "Hủy"
+  },
+  "form": {
+    "createTitle": "Thêm tài khoản",
+    "editTitle": "Sửa tài khoản",
+    "username": "Tên đăng nhập",
+    "usernameRequired": "Vui lòng nhập username",
+    "usernameMin": "Username phải có ít nhất 4 ký tự",
+    "usernamePattern": "Chỉ nhập chữ cái, số, hoặc dấu _; không dùng ký tự đặc biệt!",
+    "usernamePlaceholder": "Nhập tên người dùng",
+    "email": "Email",
+    "emailRequired": "Vui lòng nhập email",
+    "emailInvalid": "Email không hợp lệ",
+    "emailPlaceholder": "Nhập email",
+    "password": "Mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "passwordRequired": "Vui lòng nhập mật khẩu",
+    "passwordMin": "Mật khẩu tối thiểu 6 ký tự!",
+    "passwordPlaceholder": "Nhập mật khẩu",
+    "newPasswordPlaceholder": "Nhập mật khẩu mới (không bắt buộc)",
+    "fullName": "Họ tên",
+    "fullNameRequired": "Tên đầy đủ là bắt buộc!",
+    "fullNamePlaceholder": "Nhập tên đầy đủ",
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "fullName": "Họ tên tiếng Anh",
+      "fullNamePlaceholder": "Nhập họ tên hiển thị bằng tiếng Anh"
+    },
+    "role": "Vai trò",
+    "roleRequired": "Vui lòng chọn vai trò",
+    "status": "Trạng thái",
+    "statusRequired": "Vui lòng chọn trạng thái",
+    "avatar": "Ảnh đại diện",
+    "addAvatar": "Thêm ảnh"
+  },
+  "messages": {
+    "fetchError": "Không thể tải danh sách tài khoản.",
+    "updateSuccess": "Cập nhật tài khoản thành công!",
+    "createSuccess": "Tạo tài khoản mới thành công!",
+    "saveError": "Không thể lưu tài khoản",
+    "deleteSuccess": "Đã xóa tài khoản.",
+    "deleteError": "Xóa thất bại!",
+    "statusSuccess": "Cập nhật trạng thái thành công!",
+    "statusError": "Cập nhật trạng thái thất bại!",
+    "invalidAvatar": "Bạn chỉ có thể upload file ảnh avatar!"
+  }
+}

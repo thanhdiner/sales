@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Form } from 'antd'
+import { useTranslation } from 'react-i18next'
 import useAdminChatbotConfigData from '@/pages/AdminChatbotShared/hooks/useAdminChatbotConfigData'
 
 export default function useAdminChatbotRulesPage() {
+  const { t } = useTranslation('adminChatbotRules')
   const [form] = Form.useForm()
   const [keywordInput, setKeywordInput] = useState('')
   const [ruleInput, setRuleInput] = useState('')
@@ -83,7 +85,7 @@ export default function useAdminChatbotRulesPage() {
         systemRules: watchedRules,
         autoEscalateKeywords: watchedKeywords
       },
-      'Cập nhật agent rules thành công'
+      t('messages.updateSuccess')
     )
   }
 

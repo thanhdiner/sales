@@ -4,7 +4,6 @@ import HeaderSkeleton from '@/components/HeaderSkeleton'
 import HeaderActions from './HeaderActions'
 import HeaderLogo from './HeaderLogo'
 import HeaderNav from './HeaderNav'
-import MobileNav from './MobileNav'
 import useAutoHideHeader from './useAutoHideHeader'
 
 function Header({ onOpenMenu, notifications, setNotifications }) {
@@ -37,8 +36,6 @@ function Header({ onOpenMenu, notifications, setNotifications }) {
           setNotifications={setNotifications}
         />
       </Row>
-
-      {!isDesktop && <MobileNav />}
     </header>
   )
 }

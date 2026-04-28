@@ -13,31 +13,33 @@ import {
 } from 'lucide-react'
 import debounce from 'lodash.debounce'
 import { useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { getProductCategoryTree } from '@/services/clientProductCategoryService'
 import { getProducts } from '@/services/clientProductService'
 import ProductListSkeleton from '../ProductListSkeleton'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import ProductList from './ProductList'
 
 const PAGE_SIZE = 20
 
 const SORT_OPTIONS = [
-  { value: 'newest', label: 'Mới nhất' },
-  { value: 'sold_desc', label: 'Bán chạy nhất' },
-  { value: 'rate_desc', label: 'Đánh giá cao nhất' },
-  { value: 'price_asc', label: 'Giá tăng dần' },
-  { value: 'price_desc', label: 'Giá giảm dần' },
-  { value: 'name_asc', label: 'Tên A-Z' },
-  { value: 'name_desc', label: 'Tên Z-A' }
+  { value: 'newest', labelKey: 'sort.newest' },
+  { value: 'sold_desc', labelKey: 'sort.soldDesc' },
+  { value: 'rate_desc', labelKey: 'sort.rateDesc' },
+  { value: 'price_asc', labelKey: 'sort.priceAsc' },
+  { value: 'price_desc', labelKey: 'sort.priceDesc' },
+  { value: 'name_asc', labelKey: 'sort.nameAsc' },
+  { value: 'name_desc', labelKey: 'sort.nameDesc' }
 ]
 
 const PRICE_PRESETS = [
-  { label: 'Tất cả', min: 0, max: 0 },
-  { label: 'Dưới 100k', min: 0, max: 100000 },
-  { label: '100k - 500k', min: 100000, max: 500000 },
-  { label: '500k - 1tr', min: 500000, max: 1000000 },
-  { label: '1tr - 5tr', min: 1000000, max: 5000000 },
-  { label: 'Trên 5tr', min: 5000000, max: 0 }
+  { labelKey: 'pricePreset.all', min: 0, max: 0 },
+  { labelKey: 'pricePreset.under100k', min: 0, max: 100000 },
+  { labelKey: 'pricePreset.from100kTo500k', min: 100000, max: 500000 },
+  { labelKey: 'pricePreset.from500kTo1m', min: 500000, max: 1000000 },
+  { labelKey: 'pricePreset.from1mTo5m', min: 1000000, max: 5000000 },
+  { labelKey: 'pricePreset.over5m', min: 5000000, max: 0 }
 ]
 
 function flattenCategories(tree, depth = 0) {
@@ -58,6 +60,8 @@ function flattenCategories(tree, depth = 0) {
 }
 
 function Products() {
+  const { t } = useTranslation('clientProducts')
+  const language = useCurrentLanguage()
   const [products, setProducts] = useState([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -92,6 +96,21 @@ function Products() {
   const minPrice = Number(searchParams.get('minPrice')) || 0
   const maxPrice = Number(searchParams.get('maxPrice')) || 0
   const minRate = Number(searchParams.get('minRate')) || 0
+  const searchQuery = searchParams.get('q') || searchParams.get('search') || ''
+
+  const sortOptions = useMemo(
+    () => SORT_OPTIONS.map(option => ({ value: option.value, label: t(option.labelKey) })),
+    [t]
+  )
+
+  const filterTypeOptions = useMemo(
+    () => [
+      { value: 'all', label: t('filter.all') },
+      { value: 'isTopDeal', label: t('filter.topDeal') },
+      { value: 'isFeatured', label: t('filter.featured') }
+    ],
+    [t]
+  )
 
   const hasActiveFilter =
     filterType !== 'all' || category || minPrice > 0 || maxPrice > 0 || minRate > 0
@@ -102,8 +121,10 @@ function Products() {
         setSearchParams(prev => {
           const params = new URLSearchParams(prev)
 
-          if (value) params.set('search', value)
-          else params.delete('search')
+          if (value) params.set('q', value)
+          else params.delete('q')
+
+          params.delete('search')
 
           params.delete('page')
           return params
@@ -117,9 +138,8 @@ function Products() {
   }, [debouncedUpdateSearch])
 
   useEffect(() => {
-    setSearchInput(searchParams.get('search') || '')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    setSearchInput(searchQuery)
+  }, [language, searchQuery])
 
   useEffect(() => {
     getProductCategoryTree()
@@ -136,7 +156,7 @@ function Products() {
     setTotal(0)
     fetchProducts(1, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
+  }, [language, searchParams])
 
   const setParam = useCallback(
     (key, value) => {
@@ -145,6 +165,8 @@ function Products() {
 
         if (value !== undefined && value !== null && value !== '') params.set(key, value)
         else params.delete(key)
+
+        if (key === 'q') params.delete('search')
 
         params.delete('page')
         return params
@@ -205,7 +227,7 @@ function Products() {
     if (isNewFilter) setLoading(true)
     else setLoadingMore(true)
 
-    const searchRaw = searchParams.get('search') || ''
+    const searchRaw = searchParams.get('q') || searchParams.get('search') || ''
 
     const params = {
       search: removeVietnameseTones(searchRaw),
@@ -256,6 +278,11 @@ function Products() {
     preset => preset.min === minPrice && preset.max === maxPrice
   )
 
+  const getFilterTypeLabel = value => {
+    const option = filterTypeOptions.find(item => item.value === value)
+    return option?.label || value
+  }
+
   const FilterPanel = () => (
     <div className="space-y-4">
       {hasActiveFilter && (
@@ -264,7 +291,7 @@ function Products() {
           className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
         >
           <RotateCcw className="h-3 w-3" />
-          Xóa tất cả bộ lọc
+          {t('filter.resetAll')}
         </button>
       )}
 
@@ -273,7 +300,7 @@ function Products() {
           onClick={() => toggleAccordion('category')}
           className="flex w-full items-center justify-between p-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700/50"
         >
-          Danh mục
+          {t('filter.category')}
           {filterExpanded.category ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -291,7 +318,7 @@ function Products() {
                   : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-700'
               }`}
             >
-              Tất cả danh mục
+              {t('filter.allCategories')}
             </button>
 
             {categories.map(item => (
@@ -317,7 +344,7 @@ function Products() {
           onClick={() => toggleAccordion('price')}
           className="flex w-full items-center justify-between p-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700/50"
         >
-          Khoảng giá
+          {t('filter.priceRange')}
           {filterExpanded.price ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -330,7 +357,7 @@ function Products() {
             <div className="mb-3 flex flex-wrap gap-1.5">
               {PRICE_PRESETS.map((preset, index) => (
                 <button
-                  key={preset.label}
+                  key={preset.labelKey}
                   onClick={() => handlePricePreset(preset)}
                   className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
                     activePricePreset === index
@@ -338,7 +365,7 @@ function Products() {
                       : 'border-gray-200 text-gray-600 hover:border-blue-400 hover:text-blue-500 dark:border-gray-600 dark:text-gray-400'
                   }`}
                 >
-                  {preset.label}
+                  {t(preset.labelKey)}
                 </button>
               ))}
             </div>
@@ -366,7 +393,7 @@ function Products() {
           onClick={() => toggleAccordion('rating')}
           className="flex w-full items-center justify-between p-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700/50"
         >
-          Đánh giá tối thiểu
+          {t('filter.minRating')}
           {filterExpanded.rating ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -387,7 +414,7 @@ function Products() {
                 }`}
               >
                 {value === 0 ? (
-                  <span>Tất cả</span>
+                  <span>{t('filter.all')}</span>
                 ) : (
                   <>
                     <div className="flex">
@@ -402,7 +429,7 @@ function Products() {
                         />
                       ))}
                     </div>
-                    <span>trở lên ({value}★)</span>
+                    <span>{t('filter.ratingUp', { value })}</span>
                   </>
                 )}
               </button>
@@ -416,7 +443,7 @@ function Products() {
           onClick={() => toggleAccordion('type')}
           className="flex w-full items-center justify-between p-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700/50"
         >
-          Loại sản phẩm
+          {t('filter.productType')}
           {filterExpanded.type ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -426,11 +453,7 @@ function Products() {
 
         {filterExpanded.type && (
           <div className="space-y-1 p-3 pt-0">
-            {[
-              { value: 'all', label: 'Tất cả' },
-              { value: 'isTopDeal', label: '🔥 Top Deal' },
-              { value: 'isFeatured', label: '⭐ Nổi bật' }
-            ].map(option => (
+            {filterTypeOptions.map(option => (
               <button
                 key={option.value}
                 onClick={() => handleFilterTypeChange(option.value)}
@@ -456,11 +479,11 @@ function Products() {
           <div className="mb-4 flex items-center justify-between">
             <span className="flex items-center gap-2 font-bold text-gray-800 dark:text-white">
               <SlidersHorizontal className="h-4 w-4 text-blue-500" />
-              Bộ lọc
+              {t('filter.title')}
             </span>
             {hasActiveFilter && (
               <span className="rounded-full bg-blue-500 px-2 py-0.5 text-xs font-medium text-white">
-                Đang lọc
+                {t('filter.filtering')}
               </span>
             )}
           </div>
@@ -472,9 +495,9 @@ function Products() {
         <div className="mb-6 flex flex-col gap-3">
           <h1 className="flex items-center gap-3 text-2xl font-bold text-gray-800 dark:text-white md:text-3xl">
             <ShoppingBag className="h-8 w-8 text-blue-500" />
-            Danh sách sản phẩm
+            {t('page.title')}
             <span className="ml-2 text-base font-normal text-gray-400 dark:text-gray-400">
-              ({total} sản phẩm)
+              {t('page.totalProducts', { count: total })}
             </span>
           </h1>
 
@@ -484,7 +507,7 @@ function Products() {
               <input
                 type="text"
                 className="w-full rounded-xl border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm transition-all focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-900/30"
-                placeholder="Tìm kiếm sản phẩm..."
+                placeholder={t('page.searchPlaceholder')}
                 value={searchInput}
                 onChange={handleSearchInput}
               />
@@ -493,7 +516,7 @@ function Products() {
                   onClick={() => {
                     debouncedUpdateSearch.cancel()
                     setSearchInput('')
-                    setParam('search', '')
+                    setParam('q', '')
                   }}
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
@@ -505,7 +528,7 @@ function Products() {
             <Select
               value={sort}
               onChange={handleSortChange}
-              options={SORT_OPTIONS}
+              options={sortOptions}
               suffixIcon={<SortDesc size={16} />}
               className="w-48"
               size="middle"
@@ -520,7 +543,7 @@ function Products() {
               }`}
             >
               <SlidersHorizontal className="h-4 w-4" />
-              Bộ lọc {hasActiveFilter && '●'}
+              {t('filter.title')} {hasActiveFilter && t('filter.activeDot')}
             </button>
           </div>
 
@@ -528,7 +551,7 @@ function Products() {
             <div className="flex flex-wrap gap-2">
               {category && (
                 <FilterChip
-                  label={categories.find(item => item.value === category)?.label || 'Danh mục'}
+                  label={categories.find(item => item.value === category)?.label || t('filter.category')}
                   onRemove={() => setParam('category', '')}
                 />
               )}
@@ -544,14 +567,14 @@ function Products() {
 
               {minRate > 0 && (
                 <FilterChip
-                  label={`⭐ ${minRate}★ trở lên`}
+                  label={`⭐ ${minRate}★ ${t('filter.ratingUp', { value: minRate }).replace(`(${minRate}★)`, '')}`}
                   onRemove={() => setParam('minRate', '')}
                 />
               )}
 
               {filterType !== 'all' && (
                 <FilterChip
-                  label={filterType === 'isTopDeal' ? '🔥 Top Deal' : '⭐ Nổi bật'}
+                  label={getFilterTypeLabel(filterType)}
                   onRemove={() => setParam('type', '')}
                 />
               )}
@@ -562,7 +585,7 @@ function Products() {
         {showFilter && (
           <div className="mb-4 rounded-2xl border border-gray-100 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800 lg:hidden">
             <div className="mb-3 flex items-center justify-between">
-              <span className="font-bold text-gray-800 dark:text-white">Bộ lọc nâng cao</span>
+              <span className="font-bold text-gray-800 dark:text-white">{t('filter.advancedTitle')}</span>
               <button
                 onClick={() => setShowFilter(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -580,17 +603,17 @@ function Products() {
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <ShoppingBag className="mb-4 h-16 w-16 text-gray-300" />
             <p className="text-lg font-medium text-gray-500 dark:text-gray-400">
-              Không tìm thấy sản phẩm nào
+              {t('page.emptyTitle')}
             </p>
             <p className="mb-4 mt-1 text-sm text-gray-400">
-              Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm
+              {t('page.emptyDescription')}
             </p>
             <button
               onClick={handleResetAll}
               className="flex items-center gap-1 text-sm text-blue-500 hover:underline"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              Xóa bộ lọc
+              {t('filter.reset')}
             </button>
           </div>
         ) : (
@@ -599,7 +622,7 @@ function Products() {
             <div className="my-8 flex justify-center">
               {hasMore && (
                 <Button type="primary" loading={loadingMore} onClick={() => fetchProducts(page + 1)}>
-                  Xem thêm ({products.length}/{total})
+                  {t('page.loadMore', { current: products.length, total })}
                 </Button>
               )}
             </div>

@@ -32,6 +32,54 @@ export function getStoredClientAccessToken() {
   return getClientAccessToken() || getClientAccessTokenSession()
 }
 
+export function hasStoredClientAccessToken() {
+  return Boolean(getStoredClientAccessToken())
+}
+
+export function hasStoredClientUser() {
+  return Boolean(localStorage.getItem('user') || sessionStorage.getItem('user'))
+}
+
+export function getStoredClientUser() {
+  const user = localStorage.getItem('user') || sessionStorage.getItem('user')
+
+  if (!user) return null
+
+  try {
+    return JSON.parse(user)
+  } catch {
+    return null
+  }
+}
+
+export function hasClientAuthSession() {
+  return hasStoredClientAccessToken()
+}
+
+const CLIENT_GUEST_ONLY_PATHS = [
+  '/user/login',
+  '/user/register',
+  '/user/forgot-password',
+  '/user/oauth-callback'
+]
+
+export function getClientPostLoginPath(from, fallback = '/') {
+  const pathname = typeof from?.pathname === 'string' ? from.pathname : fallback
+
+  if (!pathname.startsWith('/') || pathname.startsWith('//') || pathname.startsWith('/admin')) {
+    return fallback
+  }
+
+  if (CLIENT_GUEST_ONLY_PATHS.includes(pathname)) {
+    return fallback
+  }
+
+  const search = typeof from?.search === 'string' && from.search.startsWith('?') ? from.search : ''
+  const hash = typeof from?.hash === 'string' && from.hash.startsWith('#') ? from.hash : ''
+
+  return `${pathname}${search}${hash}`
+}
+
 export function getClientTokenStorage() {
   if (getClientAccessToken()) return 'local'
   if (getClientAccessTokenSession()) return 'session'
@@ -50,4 +98,6 @@ export function setClientAccessTokenByStorage(token, storage = 'local') {
 export function clearAllClientTokens() {
   clearClientTokens()
   clearClientTokensSession()
+  localStorage.removeItem('user')
+  sessionStorage.removeItem('user')
 }

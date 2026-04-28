@@ -1,28 +1,5 @@
 import { Building2, CircleCheck, CirclePause, QrCode } from 'lucide-react'
 
-const statItems = [
-  {
-    key: 'total',
-    label: 'Tổng tài khoản',
-    icon: Building2
-  },
-  {
-    key: 'active',
-    label: 'Đang dùng',
-    icon: CircleCheck
-  },
-  {
-    key: 'inactive',
-    label: 'Chưa kích hoạt',
-    icon: CirclePause
-  },
-  {
-    key: 'withQr',
-    label: 'Có QR',
-    icon: QrCode
-  }
-]
-
 function getBankInfoStats(bankInfos) {
   return bankInfos.reduce(
     (stats, bankInfo) => ({
@@ -40,8 +17,30 @@ function getBankInfoStats(bankInfos) {
   )
 }
 
-export default function AdminBankInfoStatsSection({ bankInfos }) {
+export default function AdminBankInfoStatsSection({ bankInfos, t }) {
   const stats = getBankInfoStats(bankInfos)
+  const statItems = [
+    {
+      key: 'total',
+      label: t('stats.total'),
+      icon: Building2
+    },
+    {
+      key: 'active',
+      label: t('stats.active'),
+      icon: CircleCheck
+    },
+    {
+      key: 'inactive',
+      label: t('stats.inactive'),
+      icon: CirclePause
+    },
+    {
+      key: 'withQr',
+      label: t('stats.withQr'),
+      icon: QrCode
+    }
+  ]
 
   return (
     <div className="admin-bank-info-stats">
@@ -66,4 +65,3 @@ export default function AdminBankInfoStatsSection({ bankInfos }) {
     </div>
   )
 }
-

@@ -5,8 +5,10 @@ import AdminProductCategoriesHeaderActions from './components/AdminProductCatego
 import AdminProductCategoriesHeader from './components/AdminProductCategoriesHeader'
 import SEO from '@/components/SEO'
 import { useAdminProductCategoriesPage } from './hooks/useAdminProductCategoriesPage'
+import { useTranslation } from 'react-i18next'
 
 function AdminProductCategoriesPage() {
+  const { t } = useTranslation('adminProductCategories')
   const {
     columnsVisible,
     setColumnsVisible,
@@ -37,7 +39,7 @@ function AdminProductCategoriesPage() {
 
   return (
     <div className="admin-product-categories-page">
-      <SEO title="Admin – Danh mục" noIndex />
+      <SEO title={t('seo.title')} noIndex />
       <div className="admin-product-categories-page__inner">
         <AdminProductCategoriesHeader
           {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories }}

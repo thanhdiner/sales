@@ -24,6 +24,8 @@ export const createMoMoPayment = orderId => post('payment/momo/create', { orderI
  */
 export const createZaloPayPayment = orderId => post('payment/zalopay/create', { orderId })
 
+export const simulateSepayPayment = orderCode => post(`dev-payments/simulate-sepay/${orderCode}`)
+
 /**
  * Redirect sang cổng thanh toán phù hợp
  * @param {'vnpay'|'momo'|'zalopay'} method

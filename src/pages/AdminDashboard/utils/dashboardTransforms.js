@@ -1,7 +1,7 @@
 export const DATE_RANGE_OPTIONS = [
-  { value: '7days', label: '7 ngày qua' },
-  { value: '30days', label: '30 ngày qua' },
-  { value: '90days', label: '3 tháng qua' }
+  { value: '7days', labelKey: 'dateRanges.7days' },
+  { value: '30days', labelKey: 'dateRanges.30days' },
+  { value: '90days', labelKey: 'dateRanges.90days' }
 ]
 
 const buildValueMetric = raw => ({
@@ -61,29 +61,52 @@ export const createEmptyStatsData = () => ({
 
 export const getPieColor = (idx, total) => `hsl(${(idx * 360) / Math.max(total, 1)}, 70%, 56%)`
 
-export const formatCurrency = value =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(value) || 0)
+export const getDashboardLocale = language => (String(language || '').startsWith('en') ? 'en-US' : 'vi-VN')
 
-export const getSalesChartTitle = dateRange => {
-  if (dateRange === '7days') return 'Doanh thu 7 ngày qua'
-  if (dateRange === '30days') return 'Doanh thu 30 ngày qua'
-  return 'Doanh thu 3 tháng qua'
+const isEnglishLanguage = language => String(language || '').toLowerCase().startsWith('en')
+
+const hasText = value => typeof value === 'string' && value.trim().length > 0
+
+const getLocalizedText = (item, field, language, fallback = '') => {
+  if (!item) return fallback
+
+  const translatedValue = isEnglishLanguage(language) ? item.translations?.en?.[field] : null
+  const localizedValue = isEnglishLanguage(language)
+    ? item[`localized${field.charAt(0).toUpperCase()}${field.slice(1)}`] || item.localizedName
+    : null
+  const baseValue = item[field]
+
+  if (hasText(translatedValue)) return translatedValue
+  if (hasText(localizedValue)) return localizedValue
+  if (hasText(baseValue)) return baseValue
+  if (hasText(fallback)) return fallback
+
+  return fallback
 }
 
-const getSalesLabel = (dateStr, total) => {
+export const formatCurrency = (value, locale = 'vi-VN') =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: 'VND' }).format(Number(value) || 0)
+
+export const getSalesChartTitle = (dateRange, t) => {
+  if (dateRange === '7days') return t?.('salesChart.last7Days') || 'Doanh thu 7 ngày qua'
+  if (dateRange === '30days') return t?.('salesChart.last30Days') || 'Doanh thu 30 ngày qua'
+  return t?.('salesChart.last3Months') || 'Doanh thu 3 tháng qua'
+}
+
+const getSalesLabel = (dateStr, total, locale) => {
   const date = new Date(dateStr)
 
   if (total <= 7) {
-    const daysOfWeek = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
-    return daysOfWeek[date.getDay()]
+    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(date)
   }
 
-  return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' })
+  return date.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' })
 }
 
-export const normalizeDashboardPayload = rawStats => {
+export const normalizeDashboardPayload = (rawStats, language = 'vi') => {
   const stats = rawStats || {}
   const salesArr = stats.salesNDays || stats.sales7days || []
+  const locale = getDashboardLocale(language)
 
   return {
     statsData: {
@@ -108,11 +131,11 @@ export const normalizeDashboardPayload = rawStats => {
       inactiveAdmins: Number(stats.adminAccount?.inactive) || 0
     },
     salesData: salesArr.map(item => ({
-      name: getSalesLabel(item.date, salesArr.length),
+      name: getSalesLabel(item.date, salesArr.length, locale),
       value: Number(item.value) || 0
     })),
     categoryData: (stats.categoryStats || []).map(item => ({
-      name: item.name,
+      name: getLocalizedText(item, 'title', language, item.name),
       value: Number(item.total) || 0
     })),
     recentOrders: (stats.recentOrders || []).map((order, idx) => ({
@@ -121,8 +144,11 @@ export const normalizeDashboardPayload = rawStats => {
       avatar: order.avatar,
       amount: Number(order.amount) || 0,
       status: order.status,
-      time: new Date(order.time).toLocaleString('vi-VN', { hour12: false })
+      time: new Date(order.time).toLocaleString(locale, { hour12: false })
     })),
-    topProducts: stats.topProducts || []
+    topProducts: (stats.topProducts || []).map(product => ({
+      ...product,
+      name: getLocalizedText(product, 'title', language, product.name)
+    }))
   }
 }

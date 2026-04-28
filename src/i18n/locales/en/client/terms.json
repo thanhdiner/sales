@@ -1,0 +1,93 @@
+{
+  "seo": {
+    "title": "Terms of service",
+    "description": "SmartMall terms of service."
+  },
+  "header": {
+    "eyebrow": "Terms",
+    "title": "Terms of service",
+    "updatedAt": "Last updated: August 3, 2025"
+  },
+  "notice": {
+    "title": "Important notice",
+    "description": "Please read the terms of service below carefully before using our services. By continuing to use the services, you are deemed to have agreed to all of these terms."
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "1. Introduction",
+      "paragraphs": [
+        "Welcome to our services. By accessing and using this website, you agree to comply with the terms and conditions set out below. If you do not agree with any term, please do not use our services.",
+        "These terms may be updated from time to time without prior notice. Continuing to use the services after changes are made means you accept the updated terms."
+      ]
+    },
+    {
+      "id": "services",
+      "title": "2. Our services",
+      "paragraphs": [
+        "We provide a digital platform that allows users to:"
+      ],
+      "items": [
+        "Access and use application features",
+        "Create accounts and manage personal information",
+        "Interact with other users in the community",
+        "Use the tools and features provided"
+      ],
+      "footer": "We reserve the right to modify, suspend, or discontinue any service without prior notice."
+    },
+    {
+      "id": "user-responsibilities",
+      "title": "3. User responsibilities",
+      "paragraphs": [
+        "When using the services, you agree to:"
+      ],
+      "items": [
+        "Provide accurate and up-to-date information",
+        "Not use the services for illegal purposes",
+        "Not infringe the rights of others",
+        "Not upload harmful content, spam, or copyright-infringing material",
+        "Keep your sign-in information secure",
+        "Comply with applicable laws and regulations"
+      ],
+      "footer": "Violating these rules may result in temporary account suspension or account deletion."
+    },
+    {
+      "id": "privacy",
+      "title": "4. Privacy and security",
+      "paragraphs": [
+        "We are committed to protecting your personal information:"
+      ],
+      "items": [
+        "Collect only the information needed to provide the services",
+        "Use advanced security measures",
+        "Do not share information with unauthorized third parties",
+        "Comply with personal data protection regulations"
+      ],
+      "footer": "For more details, please see our Privacy Policy."
+    },
+    {
+      "id": "limitations",
+      "title": "5. Limitation of liability",
+      "paragraphs": [
+        "To the extent permitted by law:"
+      ],
+      "items": [
+        "The services are provided \"as is\" without warranties",
+        "We are not liable for indirect damages",
+        "Our liability is limited to the fees you have paid",
+        "We do not guarantee uninterrupted or error-free service operation"
+      ],
+      "footer": "You use the services at your own risk."
+    },
+    {
+      "id": "contact",
+      "title": "6. Contact",
+      "paragraphs": [
+        "If you have any questions about these terms, please contact us:",
+        "Email: {{email}}",
+        "Phone: {{phone}}",
+        "We will respond within 24-48 business hours."
+      ]
+    }
+  ]
+}

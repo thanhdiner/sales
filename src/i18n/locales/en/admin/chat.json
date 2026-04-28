@@ -1,0 +1,145 @@
+{
+  "seo": {
+    "title": "Admin - Live Chat"
+  },
+  "page": {
+    "title": "Live Chat",
+    "description": "Monitor, route, and reply to customer conversations in real time.",
+    "refresh": "Refresh",
+    "refreshing": "Loading"
+  },
+  "tabs": {
+    "unassigned": "Pending",
+    "mine": "Mine",
+    "open": "Open",
+    "resolved": "Done"
+  },
+  "status": {
+    "unassigned": "Pending",
+    "open": "Open",
+    "resolved": "Resolved"
+  },
+  "sidebar": {
+    "title": "Inbox",
+    "countFiltered": "{{visible}}/{{total}} conversations shown",
+    "countVisible": "{{count}} conversations shown",
+    "countVisible_one": "{{count}} conversation shown",
+    "countVisible_other": "{{count}} conversations shown",
+    "startWithFilter": "Choose a filter to begin",
+    "searchPlaceholder": "Search customer, session ID, content",
+    "loadingMore": "Loading more",
+    "loadMore": "Load more",
+    "emptySearchTitle": "No conversations found",
+    "emptyTitle": "No conversations",
+    "emptySearchDescription": "Try searching by customer name, session ID, or other content.",
+    "emptyDescription": "This list will update automatically when new messages arrive."
+  },
+  "conversation": {
+    "anonymousCustomer": "Anonymous customer",
+    "newSession": "New session",
+    "backToList": "Back to conversation list",
+    "assigning": "Assigning",
+    "assign": "Take chat",
+    "assignShort": "Take",
+    "resolving": "Saving",
+    "resolve": "Resolve",
+    "resolveShort": "Done",
+    "resolved": "Resolved",
+    "emptyTitle": "No messages yet",
+    "emptyDescription": "When the customer sends a message, the history will appear here.",
+    "scrollLatest": "Scroll to newest message",
+    "typingCustomer": "Customer is typing..."
+  },
+  "composer": {
+    "resolvedNotice": "This conversation has been marked as resolved.",
+    "replyMode": "Reply",
+    "noteMode": "Internal note",
+    "attachedImage": "Attached image",
+    "attachedImageDescription": "The image will be sent with your reply.",
+    "removeAttachedImage": "Remove attached image",
+    "attachImage": "Attach image",
+    "changeImage": "Change attached image",
+    "replyImageOnly": "Images can only be sent in reply mode",
+    "takeChatPlaceholder": "Take the chat to reply to the customer",
+    "notePlaceholder": "Internal note, visible only to agents...",
+    "imagePlaceholder": "Add a message for the image...",
+    "replyPlaceholder": "Type a reply...",
+    "sendNote": "Send note",
+    "sendReply": "Send reply",
+    "assignFirst": "Take the chat before replying to the customer."
+  },
+  "quickReplies": {
+    "button": "Quick replies",
+    "title": "Quick reply templates",
+    "searchPlaceholder": "Search templates...",
+    "all": "All",
+    "insert": "Insert",
+    "manage": "Manage templates",
+    "empty": "No templates found",
+    "categories": {
+      "greeting": "Greeting",
+      "info": "Information",
+      "order": "Order",
+      "payment": "Payment",
+      "shipping": "Shipping",
+      "warranty": "Warranty",
+      "product": "Product",
+      "closing": "Closing",
+      "other": "Other"
+    }
+  },
+  "details": {
+    "conversationInfo": "Conversation info",
+    "startedAt": "Started",
+    "firstReply": "First reply",
+    "messageCount": "Messages",
+    "currentPage": "Current page",
+    "assignedAgent": "Assigned agent",
+    "unassigned": "Not assigned",
+    "quickActions": "Quick actions",
+    "assigningConversation": "Taking conversation",
+    "assignConversation": "Take conversation",
+    "savingStatus": "Saving status",
+    "markResolved": "Mark as resolved"
+  },
+  "emptyState": {
+    "title": "Select a conversation",
+    "description": "Choose a conversation from the list to view history and reply to the customer."
+  },
+  "message": {
+    "youPrefix": "You: ",
+    "empty": "No messages yet",
+    "image": "[Image]",
+    "imageAlt": "Chat image",
+    "internalNote": "Internal note",
+    "customer": "Customer",
+    "agent": "Agent",
+    "react": "React",
+    "reactWith": "React with {{emoji}}",
+    "removeReaction": "Remove {{emoji}}"
+  },
+  "imagePreview": {
+    "title": "Image preview",
+    "close": "Close image preview",
+    "open": "Open image",
+    "download": "Download",
+    "metadata": "Image from {{senderName}} · {{time}}",
+    "unknownSender": "chat"
+  },
+  "system": {
+    "agentJoined": "{{agentName}} joined the conversation",
+    "agentResolved": "{{agentName}} marked the conversation as resolved",
+    "botReturned": "AI assistant SmartMall Bot is back. How can I help you?",
+    "requestedHuman": "The customer requested to talk to a support agent",
+    "resolved": "The conversation has been marked as resolved",
+    "reopened": "The conversation has been reopened"
+  },
+  "errors": {
+    "restoreConversation": "Unable to restore the conversation from the URL",
+    "missingAgent": "Agent information was not found",
+    "assignFailed": "Unable to take chat",
+    "resolveFailed": "Unable to mark as resolved",
+    "uploadImageFailed": "Unable to upload image",
+    "reactionFailed": "Unable to react to this message"
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "seo": {
+    "title": "Admin - Sản phẩm",
+    "detailsTitle": "Admin - Chi tiết sản phẩm"
+  },
+  "page": {
+    "title": "Quản lý sản phẩm"
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Tạm ẩn"
+  },
+  "common": {
+    "notAvailable": "N/A",
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Hủy",
+    "apply": "Áp dụng",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "view": "Xem"
+  },
+  "filters": {
+    "productName": "Tên sản phẩm",
+    "productNamePlaceholder": "Tên sản phẩm",
+    "price": "Giá",
+    "pricePlaceholder": "Giá",
+    "productCategory": "Danh mục sản phẩm",
+    "selectCategory": "Chọn danh mục",
+    "stock": "Tồn kho",
+    "stockPlaceholder": "Tồn kho",
+    "status": "Trạng thái",
+    "all": "Tất cả",
+    "show": "Hiển thị",
+    "perPage": "{{count}} mỗi trang",
+    "position": "Vị trí",
+    "positionPlaceholder": "Vị trí",
+    "discount": "Giảm giá (%)",
+    "discountPlaceholder": "Giảm giá %",
+    "filter": "Lọc",
+    "clear": "Xóa lọc",
+    "loadCategoryError": "Không thể tải cây danh mục"
+  },
+  "bulk": {
+    "selected": "Đã chọn {{count}} mục",
+    "choiceAction": "Chọn hành động",
+    "add": "Thêm",
+    "actions": {
+      "delete": "Xóa",
+      "changePosition": "Đổi vị trí",
+      "changeStatus": "Đổi trạng thái"
+    },
+    "messages": {
+      "selectFirst": "Vui lòng chọn sản phẩm trước.",
+      "chooseAction": "Vui lòng chọn một hành động.",
+      "deleteSuccess": "Đã xóa {{count}} sản phẩm thành công!",
+      "deleteError": "Không thể xóa các sản phẩm đã chọn.",
+      "statusSuccess": "Đã cập nhật trạng thái thành {{status}} cho {{count}} sản phẩm",
+      "statusError": "Không thể đổi trạng thái.",
+      "positionSuccess": "Đã đổi vị trí cho {{count}} sản phẩm",
+      "positionError": "Không thể đổi vị trí.",
+      "unsupported": "Hành động này chưa được hỗ trợ."
+    },
+    "modals": {
+      "deleteTitle": "Xác nhận xóa",
+      "deleteContent": "Bạn có chắc muốn xóa {{count}} sản phẩm đã chọn?",
+      "statusTitle": "Xác nhận đổi trạng thái",
+      "statusContent": "Đổi trạng thái của {{count}} sản phẩm sang \"{{status}}\"?",
+      "positionTitle": "Xác nhận đổi vị trí",
+      "positionContent": "Đổi vị trí của {{count}} sản phẩm?"
+    }
+  },
+  "utility": {
+    "exportProducts": "Xuất sản phẩm",
+    "exportMobile": "Xuất",
+    "toggleColumns": "Ẩn/hiện cột",
+    "filter": "Lọc",
+    "sheetName": "Sản phẩm",
+    "fileName": "danh_sach_san_pham.xlsx"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Tên sản phẩm",
+    "price": "Giá",
+    "category": "Danh mục",
+    "stock": "Tồn kho",
+    "position": "Vị trí",
+    "discount": "Giảm giá %",
+    "discountPercentage": "Phần trăm giảm giá",
+    "status": "Trạng thái",
+    "thumbnail": "Ảnh đại diện",
+    "thumbnailRequired": "Ảnh đại diện *",
+    "actions": "Hành động",
+    "actionsRequired": "Hành động *",
+    "createdBy": "Người tạo",
+    "createdAt": "Ngày tạo",
+    "updatedBy": "Người cập nhật",
+    "updatedAt": "Ngày cập nhật"
+  },
+  "columnMenu": {
+    "title": "Ẩn/hiện cột",
+    "requiredNote": "* Các cột này bắt buộc và không thể ẩn."
+  },
+  "table": {
+    "uncategorized": "Chưa phân loại",
+    "loading": "Đang tải sản phẩm...",
+    "empty": "Không tìm thấy sản phẩm",
+    "deleteTitle": "Xác nhận xóa",
+    "deleteContent": "Bạn có chắc muốn xóa sản phẩm \"{{title}}\"?",
+    "deleteSuccess": "Đã xóa sản phẩm thành công!",
+    "deleteError": "Không thể xóa sản phẩm.",
+    "changeStatusTitle": "Đổi trạng thái sản phẩm",
+    "changeStatusContent": "Bạn có chắc muốn đổi trạng thái của {{title}} từ {{from}} sang {{to}}?",
+    "statusUpdated": "Đã cập nhật trạng thái thành {{status}}",
+    "statusUpdateError": "Không thể cập nhật trạng thái"
+  },
+  "pagination": {
+    "summary": "Tổng {{total}} sản phẩm, Trang {{current}} / {{pages}}"
+  },
+  "form": {
+    "productName": "Tên sản phẩm",
+    "productNamePlaceholder": "Nhập tên sản phẩm",
+    "productCategory": "Danh mục",
+    "productCategoryPlaceholder": "Chọn danh mục sản phẩm",
+    "sellingPrice": "Giá bán (VNĐ)",
+    "sellingPricePlaceholder": "Nhập giá bán",
+    "costPrice": "Giá nhập (VNĐ)",
+    "costPricePlaceholder": "Nhập giá nhập hàng",
+    "costPriceRequired": "Vui lòng nhập giá nhập hàng!",
+    "costPriceMin": "Giá gốc phải lớn hơn hoặc bằng 0!",
+    "costPriceLimit": "Giá nhập không được lớn hơn giá bán!",
+    "discount": "Giảm giá (%)",
+    "stock": "Tồn kho",
+    "deliveryType": "Kiểu giao hàng",
+    "deliveryTypes": {
+      "manual": "Giao thủ công",
+      "instantAccount": "Giao tài khoản ngay trên web"
+    },
+    "deliveryInstructions": "Hướng dẫn bàn giao",
+    "deliveryInstructionsPlaceholder": "Ví dụ: Đăng nhập bằng tài khoản bên dưới và đổi mật khẩu sau khi nhận.",
+    "deliveryEstimateDays": "Dự kiến giao sau",
+    "deliveryEstimateDaysRequired": "Vui lòng chọn số ngày giao dự kiến!",
+    "dayOption": "{{count}} ngày",
+    "status": "Trạng thái",
+    "position": "Vị trí",
+    "positionPlaceholder": "Nhập vị trí hoặc bỏ trống để tự động tạo",
+    "slug": "Slug URL",
+    "slugPlaceholder": "Tự động tạo từ tên sản phẩm hoặc tự nhập",
+    "promotionTime": "Thời gian khuyến mãi",
+    "options": "Tùy chọn",
+    "topDeal": "Top Deal",
+    "featured": "Sản phẩm nổi bật",
+    "thumbnail": "Ảnh đại diện",
+    "thumbnailRequired": "Vui lòng upload ảnh đại diện!",
+    "thumbnailHint": "Ảnh chính hiển thị ở card sản phẩm.",
+    "productImages": "Ảnh mẫu sản phẩm",
+    "productImagesHint": "Có thể upload nhiều ảnh để hiển thị trong trang chi tiết.",
+    "addImage": "Thêm ảnh",
+    "features": "Tính năng nổi bật",
+    "featureRequired": "Nhập tính năng!",
+    "featurePlaceholder": "Tính năng #{{number}}",
+    "removeFeature": "Xóa",
+    "addFeature": "Thêm tính năng",
+    "shortDescription": "Mô tả ngắn",
+    "content": "Nội dung chi tiết",
+    "translations": {
+      "sectionTitle": "Bản dịch tiếng Anh",
+      "title": "Tên sản phẩm tiếng Anh",
+      "titlePlaceholder": "Nhập tên sản phẩm bằng tiếng Anh",
+      "deliveryInstructions": "Hướng dẫn bàn giao tiếng Anh",
+      "deliveryInstructionsPlaceholder": "Nhập hướng dẫn bàn giao bằng tiếng Anh",
+      "features": "Tính năng nổi bật tiếng Anh",
+      "featurePlaceholder": "Tính năng tiếng Anh #{{number}}",
+      "addFeature": "Thêm tính năng tiếng Anh",
+      "description": "Mô tả ngắn tiếng Anh",
+      "content": "Nội dung chi tiết tiếng Anh"
+    },
+    "cancel": "Hủy",
+    "create": "Tạo sản phẩm",
+    "creating": "Đang tạo...",
+    "save": "Lưu thay đổi",
+    "saving": "Đang lưu..."
+  },
+  "formMessages": {
+    "loadTreeError": "Không thể tải danh mục sản phẩm",
+    "createSuccess": "Tạo sản phẩm thành công!",
+    "createError": "Tạo sản phẩm thất bại!",
+    "slugExists": "Slug đã tồn tại, vui lòng chọn slug khác! Gợi ý: {{suggestedSlug}}",
+    "imageOnly": "Chỉ được upload file ảnh!",
+    "loadError": "Không thể tải sản phẩm",
+    "updateSuccess": "Cập nhật sản phẩm thành công!",
+    "updateError": "Không thể cập nhật sản phẩm"
+  },
+  "details": {
+    "loading": "Đang tải sản phẩm...",
+    "title": "Chi tiết sản phẩm",
+    "notFound": "Không tìm thấy sản phẩm",
+    "untitledProduct": "Sản phẩm chưa có tên",
+    "quickActions": "Thao tác nhanh",
+    "updateHistory": "Lịch sử cập nhật",
+    "descriptionContent": "Mô tả / Nội dung",
+    "metadata": "Metadata",
+    "price": "Giá",
+    "stock": "Tồn kho",
+    "category": "Danh mục",
+    "mainInfo": "Thông tin chính",
+    "basicInfo": "Thông tin cơ bản",
+    "pricingInventory": "Giá & tồn kho",
+    "product": "Sản phẩm",
+    "slug": "Slug",
+    "status": "Trạng thái",
+    "rate": "Đánh giá",
+    "discount": "Giảm giá",
+    "position": "Vị trí",
+    "createdAt": "Ngày tạo",
+    "lastUpdated": "Cập nhật gần nhất",
+    "createdBy": "Người tạo",
+    "timeStart": "Bắt đầu khuyến mãi",
+    "timeFinish": "Kết thúc khuyến mãi",
+    "description": "Mô tả",
+    "content": "Nội dung",
+    "deleteTitle": "Xác nhận xóa",
+    "deleteContent": "Bạn có chắc muốn xóa sản phẩm \"{{title}}\"?",
+    "deleteSuccess": "Đã xóa sản phẩm thành công!",
+    "deleteError": "Không thể xóa sản phẩm."
+  },
+  "credentials": {
+    "statuses": {
+      "available": "Có sẵn",
+      "reserved": "Đang giữ",
+      "sold": "Đã bán",
+      "disabled": "Đã tắt"
+    },
+    "messages": {
+      "loadError": "Không tải được kho tài khoản.",
+      "missingInput": "Nhập ít nhất một thông tin tài khoản hoặc license.",
+      "addSuccess": "Đã thêm {{count}} tài khoản/license vào kho.",
+      "addError": "Thêm credential thất bại.",
+      "revealError": "Không xem được credential.",
+      "disableSuccess": "Đã vô hiệu hóa credential."
+    },
+    "modal": {
+      "revealTitle": "Thông tin credential",
+      "disableTitle": "Vô hiệu hóa credential này?",
+      "disableContent": "Credential đã tắt sẽ không được bán cho đơn mới.",
+      "disable": "Vô hiệu hóa",
+      "bulkTitle": "Nhập hàng loạt",
+      "addToStock": "Thêm vào kho",
+      "cancel": "Hủy"
+    },
+    "columns": {
+      "info": "Thông tin",
+      "status": "Trạng thái",
+      "actions": "Thao tác"
+    },
+    "summary": {
+      "username": "Username",
+      "email": "Email",
+      "key": "Key",
+      "url": "URL"
+    },
+    "tooltips": {
+      "view": "Xem credential",
+      "disable": "Vô hiệu hóa"
+    },
+    "title": "Kho tài khoản/license giao ngay",
+    "availableCount": "Còn sẵn: {{count}}",
+    "fields": {
+      "username": "Username",
+      "usernamePlaceholder": "username",
+      "password": "Password",
+      "passwordPlaceholder": "password",
+      "email": "Email",
+      "emailPlaceholder": "email đăng nhập",
+      "licenseKey": "License key",
+      "licenseKeyPlaceholder": "key / mã kích hoạt",
+      "loginUrl": "Link đăng nhập",
+      "loginUrlPlaceholder": "https://...",
+      "notes": "Ghi chú",
+      "notesPlaceholder": "ghi chú/hướng dẫn riêng"
+    },
+    "buttons": {
+      "add": "Thêm vào kho",
+      "bulk": "Nhập hàng loạt"
+    },
+    "bulkPlaceholder": "username|password|email|licenseKey|loginUrl|ghi chú\nlicense-key-only\n{\"username\":\"user1\",\"password\":\"pass1\",\"email\":\"user1@example.com\"}"
+  }
+}

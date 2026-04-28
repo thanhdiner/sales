@@ -1,0 +1,58 @@
+{
+  "seo": {
+    "title": "Admin - Footer"
+  },
+  "page": {
+    "title": "Nội dung Footer",
+    "description": "Quản lý link, thông tin liên hệ, mạng xã hội, thanh toán và nội dung dịch vụ ở footer."
+  },
+  "tabs": {
+    "vi": "Nội dung tiếng Việt",
+    "en": "Bản dịch tiếng Anh"
+  },
+  "actions": {
+    "save": "Lưu",
+    "reload": "Tải lại",
+    "remove": "Xóa",
+    "addLink": "Thêm link",
+    "addService": "Thêm dịch vụ",
+    "addPayment": "Thêm thanh toán",
+    "addSocial": "Thêm mạng xã hội"
+  },
+  "sections": {
+    "general": "Cấu hình chung",
+    "customerSupport": "Hỗ trợ khách hàng",
+    "customerSupportDescription": "Nội dung hotline, email và các link hỗ trợ hiển thị ở cột đầu tiên.",
+    "customerLinks": "Link hỗ trợ",
+    "about": "Thông tin về chúng tôi",
+    "aboutLinks": "Link giới thiệu",
+    "services": "Dịch vụ & sản phẩm",
+    "serviceLinks": "Link dịch vụ",
+    "payment": "Phương thức thanh toán",
+    "paymentMethods": "Danh sách thanh toán",
+    "social": "Mạng xã hội",
+    "socialLinks": "Danh sách mạng xã hội"
+  },
+  "fields": {
+    "easterEgg": "Tooltip icon chạy",
+    "sectionTitle": "Tiêu đề cột",
+    "hotlineLabel": "Nhãn hotline",
+    "phone": "Số điện thoại",
+    "workingTime": "Thời gian làm việc",
+    "supportEmailLabel": "Nhãn email hỗ trợ",
+    "email": "Email",
+    "label": "Nhãn hiển thị",
+    "url": "URL",
+    "external": "Mở tab mới",
+    "icon": "Đường dẫn icon",
+    "enabled": "Hiển thị"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung footer",
+    "saveSuccess": "Đã lưu nội dung footer",
+    "saveError": "Không thể lưu nội dung footer"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này"
+  }
+}

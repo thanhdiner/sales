@@ -4,6 +4,7 @@ import {
   changeStatusManyProductCategories,
   deleteManyProductCategories
 } from '@/services/adminProductCategoryService'
+import { useTranslation } from 'react-i18next'
 
 const ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE = {
   background: 'rgba(8, 10, 14, 0.72)',
@@ -24,24 +25,26 @@ function ApplyButton({
   setCurrentPage,
   fetchData
 }) {
+  const { t } = useTranslation('adminProductCategories')
+
   const handleApplyAction = () => {
-    if (!selectedRowKeys.length) return message.warning('⚠️ Please select products first.')
-    if (!value) return message.warning('⚠️ Please choose an action.')
+    if (!selectedRowKeys.length) return message.warning(t('bulk.messages.selectFirst'))
+    if (!value) return message.warning(t('bulk.messages.chooseAction'))
 
     switch (value) {
       case 'delete':
         Modal.confirm({
-          title: 'Confirm Delete',
-          content: `Are you sure you want to delete ${selectedRowKeys.length} selected product categories?`,
+          title: t('bulk.modals.deleteTitle'),
+          content: t('bulk.modals.deleteContent', { count: selectedRowKeys.length }),
           className: 'admin-product-categories-confirm-modal',
           maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
-          okText: 'Yes',
+          okText: t('common.yes'),
           okType: 'danger',
-          cancelText: 'Cancel',
+          cancelText: t('common.cancel'),
           onOk: async () => {
             try {
               await deleteManyProductCategories(selectedRowKeys)
-              message.success(`🗑️ Deleted ${selectedRowKeys.length} product categories successfully!`)
+              message.success(t('bulk.messages.deleteSuccess', { count: selectedRowKeys.length }))
               const updatedProductCategories = productCategories.filter(p => !selectedRowKeys.includes(p._id))
               const updatedTotal = totalProductCategories - selectedRowKeys.length
 
@@ -56,7 +59,7 @@ function ApplyButton({
               }
             } catch (err) {
               console.error('Failed to delete product categories:', err)
-              message.error('❌ Failed to delete selected product categories.')
+              message.error(t('bulk.messages.deleteError'))
             }
           }
         })
@@ -65,14 +68,15 @@ function ApplyButton({
       case 'status-active':
       case 'status-inactive': {
         const newStatus = value === 'status-active' ? 'active' : 'inactive'
+        const statusLabel = t(`status.${newStatus}`)
 
         Modal.confirm({
-          title: 'Confirm Status Change',
-          content: `Change status of ${selectedRowKeys.length} product categories to "${newStatus}"?`,
+          title: t('bulk.modals.statusTitle'),
+          content: t('bulk.modals.statusContent', { count: selectedRowKeys.length, status: statusLabel }),
           className: 'admin-product-categories-confirm-modal',
           maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
-          okText: 'Yes',
-          cancelText: 'Cancel',
+          okText: t('common.yes'),
+          cancelText: t('common.cancel'),
           onOk: async () => {
             try {
               const res = await changeStatusManyProductCategories(selectedRowKeys, newStatus)
@@ -83,12 +87,12 @@ function ApplyButton({
                   return found ? { ...p, ...found } : p
                 })
               )
-              message.success(`✅ Status updated to "${newStatus}" for ${selectedRowKeys.length} product categories`)
+              message.success(t('bulk.messages.statusSuccess', { status: statusLabel, count: selectedRowKeys.length }))
               setSelectedRowKeys([])
               setValue(undefined)
             } catch (err) {
               console.error('Failed to update status:', err)
-              message.error('❌ Failed to change status.')
+              message.error(t('bulk.messages.statusError'))
             }
           }
         })
@@ -96,12 +100,12 @@ function ApplyButton({
       }
       case 'change-position':
         Modal.confirm({
-          title: 'Confirm Position Change',
-          content: `Change position of ${selectedRowKeys.length} product categories?`,
+          title: t('bulk.modals.positionTitle'),
+          content: t('bulk.modals.positionContent', { count: selectedRowKeys.length }),
           className: 'admin-product-categories-confirm-modal',
           maskStyle: ADMIN_PRODUCT_CATEGORIES_CONFIRM_MASK_STYLE,
-          okText: 'Yes',
-          cancelText: 'Cancel',
+          okText: t('common.yes'),
+          cancelText: t('common.cancel'),
           onOk: async () => {
             try {
               const data = selectedRowKeys.map(key => {
@@ -121,32 +125,31 @@ function ApplyButton({
                   return found ? { ...p, ...found } : p
                 })
               )
-              message.success(`✅ Changed position for ${selectedRowKeys.length} product categories`)
+              message.success(t('bulk.messages.positionSuccess', { count: selectedRowKeys.length }))
               setSelectedRowKeys([])
               setValue(undefined)
             } catch (err) {
               console.error('Failed to change positions:', err)
-              message.error('❌ Failed to change positions.')
+              message.error(t('bulk.messages.positionError'))
             }
           }
         })
         break
 
       default:
-        message.warning('⚠️ This action is not supported yet.')
+        message.warning(t('bulk.messages.unsupported'))
     }
   }
+
   return (
-    <>
-      <Button
-        type="primary"
-        disabled={!value || !selectedRowKeys.length}
-        onClick={() => handleApplyAction()}
-        className="admin-product-categories-btn admin-product-categories-btn--apply"
-      >
-        Apply
-      </Button>
-    </>
+    <Button
+      type="primary"
+      disabled={!value || !selectedRowKeys.length}
+      onClick={() => handleApplyAction()}
+      className="admin-product-categories-btn admin-product-categories-btn--apply"
+    >
+      {t('common.apply')}
+    </Button>
   )
 }
 
