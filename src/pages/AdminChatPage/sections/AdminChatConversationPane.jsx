@@ -156,7 +156,7 @@ function QuickRepliesPopover({
   }, [disabled, open])
 
   const content = (
-    <div className="w-[min(400px,calc(100vw-32px))]">
+    <div className="admin-chat-quick-replies-panel w-[min(400px,calc(100vw-32px))]">
       <div className="mb-3">
         <p className="text-sm font-semibold text-[var(--admin-text)]">
           {t('quickReplies.title')}
