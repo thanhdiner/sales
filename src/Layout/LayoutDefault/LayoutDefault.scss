@@ -1183,124 +1183,124 @@ html.dark .header-account-dropdown {
 }
 
 @media (max-width: 767.98px) {
-  .layout-default--home,
-  .layout-default--home .layout-default__body,
-  .layout-default--home .layout-default__body--sub,
-  .layout-default--home .layout-default__content {
+  .layout-default--client-mobile,
+  .layout-default--client-mobile .layout-default__body,
+  .layout-default--client-mobile .layout-default__body--sub,
+  .layout-default--client-mobile .layout-default__content {
     background:
       radial-gradient(circle at 50% -120px, rgba(0, 102, 255, 0.24), transparent 360px),
       linear-gradient(180deg, #020815 0%, #061225 48%, #07101d 100%) !important;
     color: #f8fafc;
   }
 
-  .layout-default--home .layout-default__body {
+  .layout-default--client-mobile .layout-default__body {
     padding-top: 70px;
   }
 
-  .layout-default--home .layout-default__content {
+  .layout-default--client-mobile .layout-default__content {
     padding-right: 12px;
     padding-left: 12px;
     padding-bottom: 100px;
   }
 
-  .layout-default--home .footer {
+  .layout-default--client-mobile .footer {
     padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
 
-  .layout-default--home .header {
+  .layout-default--client-mobile .header {
     background: #020815;
     border-bottom: 0;
     box-shadow: none;
   }
 
-  .layout-default--home .header > .ant-row {
+  .layout-default--client-mobile .header > .ant-row {
     padding: 0 12px;
   }
 
-  .layout-default--home .header__logo--wrap {
+  .layout-default--client-mobile .header__logo--wrap {
     min-width: 0;
     column-gap: 8px;
   }
 
-  .layout-default--home .header__logo--wrap img {
-    width: 42px !important;
-    height: 42px !important;
+  .layout-default--client-mobile .header__logo--wrap img {
+    width: 36px !important;
+    height: 36px !important;
     margin-left: 0 !important;
-    border-radius: 12px;
+    border-radius: 10px;
     background: transparent;
     box-shadow: none;
   }
 
-  .layout-default--home .header__site-name {
+  .layout-default--client-mobile .header__site-name {
     display: inline-block !important;
-    max-width: min(170px, 42vw);
-    font-size: 1.45rem;
-    font-weight: 800;
+    max-width: min(150px, 38vw);
+    font-size: 1.25rem;
+    font-weight: 600;
     line-height: 1;
     color: #f8fafc !important;
     letter-spacing: 0;
   }
 
-  .layout-default--home .header__hamburger.ant-btn {
+  .layout-default--client-mobile .header__hamburger.ant-btn {
     margin-right: 4px;
     color: #f8fafc;
   }
 
-  .layout-default--home .header__action {
+  .layout-default--client-mobile .header__action {
     column-gap: 10px;
   }
 
-  .layout-default--home .header__action__wishlist,
-  .layout-default--home .header__action__account {
+  .layout-default--client-mobile .header__action__wishlist,
+  .layout-default--client-mobile .header__action__account {
     display: none;
   }
 
-  .layout-default--home .header__action__cart,
-  .layout-default--home .header__action__notification {
+  .layout-default--client-mobile .header__action__cart,
+  .layout-default--client-mobile .header__action__notification {
     color: #f8fafc;
   }
 
-  .layout-default--home .header-search__mobile-trigger {
+  .layout-default--client-mobile .header-search__mobile-trigger {
     color: #f8fafc;
   }
 
-  .layout-default--home .header__action__cart--btn,
-  .layout-default--home .header__action__notification--btn {
+  .layout-default--client-mobile .header__action__cart--btn,
+  .layout-default--client-mobile .header__action__notification--btn {
     width: 36px !important;
     height: 36px !important;
     color: #f8fafc !important;
   }
 
-  .layout-default--home .header__action__cart--icon,
-  .layout-default--home .header__action__notification--icon {
+  .layout-default--client-mobile .header__action__cart--icon,
+  .layout-default--client-mobile .header__action__notification--icon {
     color: #f8fafc !important;
     stroke: #f8fafc !important;
     font-size: 23px;
   }
 
-  html.dark body:not(.admin-layout-active) .layout-default--home,
-  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__body,
-  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__body--sub,
-  html.dark body:not(.admin-layout-active) .layout-default--home .layout-default__content {
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .layout-default__body,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .layout-default__body--sub,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .layout-default__content {
     background: var(--client-dark-bg, #070809) !important;
     color: var(--client-dark-text, #f4f6f8);
   }
 
-  html.dark body:not(.admin-layout-active) .layout-default--home .header {
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header {
     background: var(--client-dark-bg, #070809);
     border-bottom: 1px solid var(--client-dark-border, rgba(255, 255, 255, 0.08));
     box-shadow: none;
   }
 
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__site-name,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__hamburger.ant-btn,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart--btn,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification--btn,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__cart--icon,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header__action__notification--icon,
-  html.dark body:not(.admin-layout-active) .layout-default--home .header-search__mobile-trigger {
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__site-name,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__hamburger.ant-btn,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__cart,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__notification,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__cart--btn,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__notification--btn,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__cart--icon,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header__action__notification--icon,
+  html.dark body:not(.admin-layout-active) .layout-default--client-mobile .header-search__mobile-trigger {
     color: var(--client-dark-text, #f4f6f8) !important;
     stroke: var(--client-dark-text, #f4f6f8) !important;
   }

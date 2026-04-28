@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useLocation, Outlet } from 'react-router-dom'
 import LiveChat from '@/components/LiveChat'
 import CompareBar from '@/components/CompareBar'
+import { PageContextProvider } from '@/features/chat/pageContext/PageContextProvider'
 import MenuSider from './components/MenuSider'
 import MobileBottomNav from './components/MobileBottomNav'
 import Footer from './Footer'
@@ -22,26 +23,30 @@ function LayoutDefault() {
   const user = useSelector(state => state.clientUser.user)
   const { notifications, setNotifications, notifContextHolder } = useClientNotifications(user)
   const isHomePage = location.pathname === '/'
+  const layoutClassName = `layout-default layout-default--client-mobile${isHomePage ? ' layout-default--home' : ''}`
 
   return (
-    <Layout className={`layout-default${isHomePage ? ' layout-default--home' : ''}`}>
+    <Layout className={layoutClassName}>
       {notifContextHolder}
       <Header onOpenMenu={() => setDrawerOpen(true)} notifications={notifications} setNotifications={setNotifications} />
 
-      <Layout className="layout-default__body">
-        {isDesktop && (
-          <Sider width={250} className="layout-default__sider">
-            <MenuSider className="layout-default__menu__sider" />
-          </Sider>
-        )}
+      <PageContextProvider>
+        <Layout className="layout-default__body">
+          {isDesktop && (
+            <Sider width={250} className="layout-default__sider">
+              <MenuSider className="layout-default__menu__sider" />
+            </Sider>
+          )}
 
-        <Layout className="layout-default__body--sub">
-          <Content className="layout-default__content">
-            <Outlet />
-          </Content>
-          <Footer />
+          <Layout className="layout-default__body--sub">
+            <Content className="layout-default__content">
+              <Outlet />
+            </Content>
+            <Footer />
+          </Layout>
         </Layout>
-      </Layout>
+        <LiveChat />
+      </PageContextProvider>
       {!isDesktop && (
         <Drawer
           title={<span className="dark:text-white">Danh muc san pham</span>}
@@ -59,7 +64,6 @@ function LayoutDefault() {
       )}
 
       {!isDesktop && <MobileBottomNav />}
-      <LiveChat />
       <CompareBar />
     </Layout>
   )

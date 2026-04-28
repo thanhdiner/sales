@@ -27,6 +27,7 @@ import { useAutoScroll } from '@/hooks/useAutoScroll'
 import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 import { getSocket } from '@/services/socketService'
 import { chatService } from '@/services/chatService'
+import { usePageContextTracker } from '@/features/chat/pageContext/usePageContextTracker'
 
 const getAgentInitials = name =>
   String(name || 'A')
@@ -45,6 +46,7 @@ export default function LiveChat() {
 
   // 1. Session State
   const { open, setOpen, view, setView, sessionId, startNewConversation } = useChatSession()
+  usePageContextTracker(sessionId)
   const [unread, setUnread] = useState(0)
   const [isMinimized, setIsMinimized] = useState(() => localStorage.getItem('chatVisible') === 'true')
   const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)

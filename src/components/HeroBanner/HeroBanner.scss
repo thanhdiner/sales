@@ -291,18 +291,21 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
   }
 
   .HeroBanner-swiper {
-    display: none;
+    display: block;
   }
 
   .HeroBanner-mobile-stack {
-    display: grid;
-    gap: 12px;
+    display: none;
   }
 
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
-    aspect-ratio: 16/9;
+    aspect-ratio: 24/11;
+  }
+
+  .HeroBanner-img {
+    object-fit: contain;
   }
 
   .HeroBanner-title {
@@ -392,7 +395,11 @@ html.dark body:not(.admin-layout-active) .HeroBanner-root.skeleton-root {
   .HeroBanner-banner,
   .HeroBanner-img,
   .skeleton-banner {
-    aspect-ratio: 16/9;
+    aspect-ratio: 24/11;
+  }
+
+  .HeroBanner-img {
+    object-fit: contain;
   }
 
   .HeroBanner-title {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Input, message, Modal, Spin } from 'antd'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,6 +19,7 @@ import ProductTabsSection from './components/ProductTabsSection'
 import { formatPrice, getGalleryImages, getMaxAvailable, getProductFeatures, getProductId, getProductPricing } from './helpers'
 import { getStoredClientAccessToken } from '@/utils/auth'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { useRegisterPageEntity } from '@/features/chat/pageContext/PageContextProvider'
 import './ProductsDetail.scss'
 
 const EMPTY_CART_ITEMS = []
@@ -96,6 +97,21 @@ function ProductsDetail() {
   const features = getProductFeatures(product)
   const { priceOrigin, priceNew, discountPercent, savings, isFlashSale } = getProductPricing(product, flashSaleInfo)
   const isOutOfStock = Number(product?.stock || 0) <= 0
+  const pageEntity = useMemo(() => {
+    if (!product) return null
+
+    return {
+      type: 'product',
+      id: productId,
+      slug,
+      title: product.title,
+      price: priceNew,
+      stock: product.stock,
+      category: product.productCategory?.title
+    }
+  }, [product, productId, priceNew, slug])
+
+  useRegisterPageEntity(pageEntity)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -420,7 +436,7 @@ function ProductsDetail() {
         <ProductBreadcrumbSection product={product} />
 
         <div className="product-detail-main-grid">
-          <div className="product-detail-gallery-column">
+          <div className="product-detail-gallery-column" data-page-section="product_gallery">
             <div className="product-detail-gallery-pin">
               <ProductGallery
                 title={product.title}
@@ -436,7 +452,7 @@ function ProductsDetail() {
             </div>
           </div>
 
-          <div className="product-detail-side-stack">
+          <div className="product-detail-side-stack" data-page-section="product_summary">
             <ProductSummaryPanel
               product={product}
               priceNew={priceNew}
@@ -446,29 +462,33 @@ function ProductsDetail() {
               onOpenReviews={handleOpenReviews}
             />
 
-            <ProductPurchasePanel
-              quantity={quantity}
-              maxAvailable={maxAvailable}
-              addCartLoading={addCartLoading}
-              buyNowLoading={buyNowLoading}
-              notifyLoading={notifyLoading}
-              isOutOfStock={isOutOfStock}
-              onQuantityChange={handleQtyInputChange}
-              onQuantityBlur={handleQtyBlur}
-              onDecrease={handleDecreaseQuantity}
-              onIncrease={handleIncreaseQuantity}
-              onAddToCart={handleAddToCart}
-              onBuyNow={handleBuyNow}
-              onNotifyWhenBackInStock={handleNotifyWhenBackInStock}
-              isLiked={isLiked}
-              onToggleLike={handleToggleLike}
-            />
+            <div data-page-section="purchase_panel">
+              <ProductPurchasePanel
+                quantity={quantity}
+                maxAvailable={maxAvailable}
+                addCartLoading={addCartLoading}
+                buyNowLoading={buyNowLoading}
+                notifyLoading={notifyLoading}
+                isOutOfStock={isOutOfStock}
+                onQuantityChange={handleQtyInputChange}
+                onQuantityBlur={handleQtyBlur}
+                onDecrease={handleDecreaseQuantity}
+                onIncrease={handleIncreaseQuantity}
+                onAddToCart={handleAddToCart}
+                onBuyNow={handleBuyNow}
+                onNotifyWhenBackInStock={handleNotifyWhenBackInStock}
+                isLiked={isLiked}
+                onToggleLike={handleToggleLike}
+              />
+            </div>
 
-            <ProductInfoSections product={product} features={features} />
+            <div data-page-section="product_info">
+              <ProductInfoSections product={product} features={features} />
+            </div>
           </div>
         </div>
 
-        <div className="product-detail-tabs-wrap">
+        <div className="product-detail-tabs-wrap" data-page-section={activeTab}>
           <ProductTabsSection
             product={product}
             productId={productId}
