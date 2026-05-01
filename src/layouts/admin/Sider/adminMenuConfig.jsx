@@ -1,1 +1,1 @@
-export { adminMenuConfig } from '@/config/adminRegistry'
+export { adminMenuConfig } from '@/routes/admin'

@@ -5,7 +5,7 @@ import Error404 from '@/pages/client/Error404'
 import AdminRequireAuth from '@/components/route/AdminRequireAuth'
 import AdminProtectedRoute from '@/components/route/AdminProtectedRoute'
 import AccessDenied from '@/components/shared/AccessDenied'
-import { adminPageRoutes } from '@/config/adminRegistry'
+import { adminPageRoutes } from '@/routes/admin'
 
 const AdminRouteFallback = () => (
   <div className="flex min-h-[240px] items-center justify-center text-sm text-gray-500 dark:text-gray-300">
