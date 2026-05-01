@@ -1,65 +1,10 @@
-import { Suspense } from 'react'
 import ClientLayout from '@/layouts/client'
-import RequireAuth from '@/components/route/RequireAuth'
-import * as pages from './pages'
-
-const ClientRouteFallback = () => (
-  <div className="flex min-h-[240px] items-center justify-center text-sm text-gray-500 dark:text-gray-300">
-    Loading...
-  </div>
-)
-
-const lazyElement = Component => (
-  <Suspense fallback={<ClientRouteFallback />}>
-    <Component />
-  </Suspense>
-)
-
-const protectedElement = Component => (
-  <RequireAuth>
-    {lazyElement(Component)}
-  </RequireAuth>
-)
+import { clientRouteRegistry } from './registry'
 
 export const clientRoutes = [
   {
     path: '/',
     element: <ClientLayout />,
-    children: [
-      { index: true, element: lazyElement(pages.Home) },
-      { path: 'products', element: lazyElement(pages.Products) },
-      { path: 'compare', element: lazyElement(pages.ComparePage) },
-      { path: 'products/:slug', element: lazyElement(pages.ProductDetail) },
-      { path: 'product-categories/:slug', element: lazyElement(pages.ProductCategoryPage) },
-      { path: 'about', element: lazyElement(pages.About) },
-      { path: 'contact', element: lazyElement(pages.Contact) },
-      { path: 'blog', element: lazyElement(pages.Blog) },
-      { path: 'blog/:slug', element: lazyElement(pages.BlogDetail) },
-      { path: 'user/profile', element: protectedElement(pages.Profile) },
-      { path: 'cart', element: protectedElement(pages.CartPage) },
-      { path: 'checkout', element: protectedElement(pages.Checkout) },
-      { path: 'order-success', element: protectedElement(pages.OrderSuccess) },
-      { path: 'orders', element: protectedElement(pages.Orders) },
-      { path: 'notifications', element: protectedElement(pages.Notifications) },
-      { path: 'settings', element: protectedElement(pages.SettingsPage) },
-      { path: 'wishlist', element: protectedElement(pages.Wishlist) },
-      { path: 'orders/:id', element: protectedElement(pages.OrderDetail) },
-      { path: 'flash-sale', element: lazyElement(pages.FlashSale) },
-      { path: 'shopping-guide', element: lazyElement(pages.ShoppingGuide) },
-      { path: 'coupons', element: protectedElement(pages.CouponsPage) },
-      { path: 'privacy-policy', element: lazyElement(pages.PrivacyPolicy) },
-      { path: 'return-policy', element: lazyElement(pages.ReturnPolicy) },
-      { path: 'faq', element: lazyElement(pages.FAQPage) },
-      { path: 'terms-of-service', element: lazyElement(pages.TermsOfService) },
-      { path: 'cooperation-contact', element: lazyElement(pages.CooperationContactPage) },
-      { path: 'game-account', element: lazyElement(pages.GameAccountComingSoon) },
-      { path: 'special-package', element: lazyElement(pages.SpecialPackageComingSoon) },
-      { path: 'game-news', element: lazyElement(pages.GameNewsComingSoon) },
-      { path: 'vip', element: lazyElement(pages.Vip) },
-      { path: 'community', element: lazyElement(pages.CommunityComingSoon) },
-      { path: 'quick-support', element: lazyElement(pages.QuickSupportComingSoon) },
-      { path: 'license', element: lazyElement(pages.LicenseComingSoon) },
-      { path: '*', element: lazyElement(pages.Error404) }
-    ]
+    children: clientRouteRegistry
   }
 ]
