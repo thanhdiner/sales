@@ -3,7 +3,7 @@ import { FaFacebookMessenger, FaPhoneAlt, FaComments, FaTimes, FaArrowUp } from 
 import { SiZalo } from 'react-icons/si'
 import { useTranslation } from 'react-i18next'
 
-const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
+const FloatingButtons = ({ onOpenSupport, supportUnread = 0, showContactButtons = true, besideChat = false }) => {
   const { t } = useTranslation('clientChat')
   const [showScroll, setShowScroll] = useState(false)
   const [openContact, setOpenContact] = useState(false)
@@ -69,7 +69,12 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
 
   return (
     <>
-      <div className="fixed bottom-[calc(106px+env(safe-area-inset-bottom))] right-4 z-[1040] flex flex-col items-end pointer-events-none sm:right-5 lg:bottom-8 lg:right-8">
+      <div
+        className={`fixed bottom-[calc(106px+env(safe-area-inset-bottom))] z-[1040] flex flex-col items-end pointer-events-none sm:right-5 ${
+          besideChat ? 'right-[calc(1rem+376px)] lg:right-[408px] lg:bottom-[28px]' : 'right-4 lg:right-8 lg:bottom-[40px]'
+        }`}
+      >
+        {showContactButtons && (
         <div className="flex flex-col items-end gap-3">
           {contactButtons.map((button, index) => (
             <div
@@ -152,6 +157,7 @@ const FloatingButtons = ({ onOpenSupport, supportUnread = 0 }) => {
             </button>
           </div>
         </div>
+        )}
 
         <div
           className={`transition-all duration-500 ${

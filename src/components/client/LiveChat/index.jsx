@@ -276,12 +276,12 @@ export default function LiveChat() {
   return (
     <>
       {/* ── Chat Launcher (Floating Button) ────────────────────────────────── */}
-      {!open && (
-        <FloatingButtons
-          onOpenSupport={handleOpenLauncher}
-          supportUnread={unread}
-        />
-      )}
+      <FloatingButtons
+        onOpenSupport={handleOpenLauncher}
+        supportUnread={unread}
+        showContactButtons={!open}
+        besideChat={open}
+      />
 
       {/* ── Chat Window ─────────────────────────────────────────────────── */}
       <AnimatePresence>
