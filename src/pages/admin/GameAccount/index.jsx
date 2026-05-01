@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
 
-import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContentPage'
+import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContent'
 import {
   getGameAccountContent,
   updateGameAccountContent
@@ -51,12 +51,18 @@ function GameAccount() {
     <LocalizedContent
       namespace="adminGameAccount"
       classPrefix="admin-game-account"
-      getContent={getGameAccountContent}
-      updateContent={updateGameAccountContent}
-      getInitialValues={getInitialValues}
-      queryKey={['gameAccountContent']}
-      previewPath="/game-account"
-      renderFields={renderFields}
+      api={{
+        getContent: getGameAccountContent,
+        updateContent: updateGameAccountContent,
+        queryKey: ['gameAccountContent']
+      }}
+      formConfig={{
+        getInitialValues,
+        renderFields
+      }}
+      previewConfig={{
+        previewPath: '/game-account'
+      }}
     />
   )
 }

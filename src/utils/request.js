@@ -23,7 +23,7 @@ const getLanguageHeaders = () => ({
 
 const refreshAccessToken = async () => {
   try {
-    const res = await fetch(`${API_DOMAIN}/admin/auth/refresh`, {
+    const res = await fetch(`${API_DOMAIN}/admin/auth/refresh-token`, {
       method: 'POST',
       cache: 'no-store',
       credentials: 'include',
@@ -75,10 +75,6 @@ const requestWithAuth = async (method, path, data) => {
   const isFormData = data instanceof FormData
   let accessToken = await getFreshAccessToken()
 
-  if (!accessToken && path.startsWith('admin/') && !path.startsWith('admin/auth/')) {
-    accessToken = await refreshAccessToken()
-  }
-
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...getLanguageHeaders(),
@@ -102,7 +98,7 @@ const requestWithAuth = async (method, path, data) => {
     json = null
   }
 
-  if ((res.status === 401 || res.status === 403) && !path.startsWith('admin/auth/')) {
+  if ((res.status === 401 || res.status === 403) && accessToken && !path.startsWith('admin/auth/')) {
     try {
       if (!refreshingPromise) refreshingPromise = refreshAccessToken()
 

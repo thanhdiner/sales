@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
 
-import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContentPage'
+import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContent'
 import {
   getGameNewsContent,
   updateGameNewsContent
@@ -51,12 +51,18 @@ function GameNews() {
     <LocalizedContent
       namespace="adminGameNews"
       classPrefix="admin-game-news"
-      getContent={getAdminGameNewsContent}
-      updateContent={updateAdminGameNewsContent}
-      getInitialValues={getInitialValues}
-      queryKey={['gameNewsContent']}
-      previewPath="/game-news"
-      renderFields={renderFields}
+      api={{
+        getContent: getGameNewsContent,
+        updateContent: updateGameNewsContent,
+        queryKey: ['gameNewsContent']
+      }}
+      formConfig={{
+        getInitialValues,
+        renderFields
+      }}
+      previewConfig={{
+        previewPath: '/game-news'
+      }}
     />
   )
 }

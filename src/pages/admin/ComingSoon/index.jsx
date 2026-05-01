@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { Col, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 
-import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContentPage'
+import LocalizedContent, { buildLocalizedInitialValues } from '@/components/admin/LocalizedContent'
 import {
   getComingSoonContent,
   updateComingSoonContent
@@ -84,13 +84,21 @@ function ComingSoon() {
       namespace="adminComingSoonPages"
       classPrefix="admin-coming-soon"
       context={config}
-      textParams={{ page: pageName }}
-      getContent={currentConfig => getComingSoonContent(currentConfig.routeKey)}
-      updateContent={(payload, currentConfig) => updateComingSoonContent(currentConfig.routeKey, payload)}
-      getInitialValues={getInitialValues}
-      queryKey={currentConfig => ['comingSoonContent', currentConfig.routeKey]}
-      previewPath={currentConfig => currentConfig.previewPath}
-      renderFields={renderFields}
+      api={{
+        getContent: currentConfig => getComingSoonContent(currentConfig.routeKey),
+        updateContent: (payload, currentConfig) => updateComingSoonContent(currentConfig.routeKey, payload),
+        queryKey: currentConfig => ['comingSoonContent', currentConfig.routeKey]
+      }}
+      formConfig={{
+        getInitialValues,
+        renderFields
+      }}
+      pageConfig={{
+        textParams: { page: pageName }
+      }}
+      previewConfig={{
+        previewPath: currentConfig => currentConfig.previewPath
+      }}
     />
   )
 }
