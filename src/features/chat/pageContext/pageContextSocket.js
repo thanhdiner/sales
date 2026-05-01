@@ -1,4 +1,4 @@
-import { getSocket } from '@/services/socketService'
+import { getSocket } from '@/services/realtime/socket'
 
 export function emitPageContextUpdate(sessionId, context) {
   if (!sessionId || typeof window === 'undefined') return

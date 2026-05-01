@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern'
 
 export function AnimatedGridPatternDemo() {

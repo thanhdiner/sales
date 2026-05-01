@@ -1,5 +1,5 @@
 import { Form } from 'antd'
-import TiptapEditor from '@/components/TiptapEditor'
+import TiptapEditor from '@/components/shared/TiptapEditor'
 
 export default function AdminRichTextField({
   editorClassName,

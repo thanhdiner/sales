@@ -1,16 +1,16 @@
-import AuthRoute from '@/components/AuthRoute'
-import AdminLoginRoute from '@/components/AdminLoginRoute'
-import RegisterPage from '@/pages/Auth/RegisterPage'
-import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
-import LoginPage from '@/pages/Auth/LoginPage'
-import OauthCallbackPage from '@/pages/Auth/OauthCallbackPage'
+import AuthRoute from '@/components/route/AuthRoute'
+import AdminLoginRoute from '@/components/route/AdminLoginRoute'
+import Register from '@/pages/client/Auth/Register'
+import ForgotPassword from '@/pages/client/Auth/ForgotPassword'
+import Login from '@/pages/client/Auth/Login'
+import OAuthCallback from '@/pages/client/Auth/OAuthCallback'
 
 export const authRoutes = [
   {
     path: '/user/login',
     element: (
       <AuthRoute>
-        <LoginPage />
+        <Login />
       </AuthRoute>
     )
   },
@@ -18,7 +18,7 @@ export const authRoutes = [
     path: '/user/register',
     element: (
       <AuthRoute>
-        <RegisterPage />
+        <Register />
       </AuthRoute>
     )
   },
@@ -26,7 +26,7 @@ export const authRoutes = [
     path: '/user/forgot-password',
     element: (
       <AuthRoute>
-        <ForgotPasswordPage />
+        <ForgotPassword />
       </AuthRoute>
     )
   },
@@ -34,7 +34,7 @@ export const authRoutes = [
     path: '/user/oauth-callback',
     element: (
       <AuthRoute>
-        <OauthCallbackPage />
+        <OAuthCallback />
       </AuthRoute>
     )
   },

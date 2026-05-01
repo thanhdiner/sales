@@ -36,14 +36,6 @@ function readStoredThemeMode() {
   }
 }
 
-function prefersDarkColorScheme() {
-  try {
-    return typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches
-  } catch {
-    return false
-  }
-}
-
 export function resolveInitialDarkMode() {
   const storedMode = readStoredThemeMode()
 
@@ -55,7 +47,7 @@ export function resolveInitialDarkMode() {
     return false
   }
 
-  return prefersDarkColorScheme()
+  return true
 }
 
 export function persistDarkMode(isDarkMode) {

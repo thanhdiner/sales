@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import FaviconUpdater from '@/components/FaviconUpdater'
-import { useClientBootstrap } from '@/hooks/useClientBootstrap'
-import LayoutDefault from './Layout/LayoutDefault'
-import AllRoute from './components/AllRoute'
-import ScrollToTop from './components/ScrollToTop'
-import { authAdminRefresh } from './services/adminAuth.service'
-import { getAdminMe } from './services/adminMeService'
-import { logout, setUser } from './stores/adminUser'
+import FaviconUpdater from '@/components/shared/FaviconUpdater'
+import ClientLayout from '@/layouts/client'
+import AllRoute from './components/route/AllRoute'
+import ScrollToTop from './components/shared/ScrollToTop'
+import { authAdminRefresh } from './services/admin/auth/auth'
+import { getAdminMe } from './services/admin/auth/me'
+import { logout, setUser } from './stores/admin/adminUser'
 import { applyDocumentTheme } from './utils/themeMode'
 import { clearTokens, getAccessToken, setAccessToken } from './utils/auth'
 import { applyDocumentLanguage } from './utils/languageMode'
@@ -17,8 +16,6 @@ function App() {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
-  useClientBootstrap()
-
   const isDark = useSelector(state => !!state.darkMode?.value)
   const language = useSelector(state => state.language?.value || 'vi')
 
@@ -86,7 +83,7 @@ function App() {
       <FaviconUpdater />
       <ScrollToTop />
       <AllRoute>
-        <LayoutDefault />
+        <ClientLayout />
       </AllRoute>
     </>
   )

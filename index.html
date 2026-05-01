@@ -4,11 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
+    <script>
+      ;(function () {
+        try {
+          var mode = localStorage.getItem('themeMode')
+          var legacyAdminMode = localStorage.getItem('darkMode')
+          var legacyClientMode = localStorage.getItem('darkModeClient')
+          var storedMode = mode || legacyAdminMode || legacyClientMode
+          var isDark = storedMode === 'dark' || storedMode === 'true'
+          var isLight = storedMode === 'light' || storedMode === 'false'
+
+          if (!isDark && !isLight) {
+            isDark = true
+          }
+
+          document.documentElement.classList.toggle('dark', isDark)
+          document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
+        } catch (error) {}
+      })()
+    </script>
     <meta name="description" content="SmartMall" />
     <link rel="stylesheet" href="/styles/reset.css" />
     <title>SmartMall</title>
   </head>
   <body>
+    <script>
+      if (window.location.pathname === '/admin' || window.location.pathname.indexOf('/admin/') === 0) {
+        document.body.classList.add('admin-layout-active')
+      }
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>

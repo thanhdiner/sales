@@ -1,12 +1,6 @@
-import {
-  clearAllClientTokens,
-  getClientTokenStorage,
-  getStoredClientAccessToken,
-  setClientAccessTokenByStorage
-} from './auth'
-import { userRefreshToken } from '../services/userService'
+import { clearAllClientTokens, getClientTokenStorage, getStoredClientAccessToken, setClientAccessTokenByStorage } from './auth'
 import { store } from '../stores'
-import { setUser } from '../stores/user'
+import { setUser } from '../stores/client/user'
 import { API_URL } from './env'
 
 const API_DOMAIN = API_URL
@@ -14,6 +8,7 @@ const API_DOMAIN = API_URL
 let refreshingPromise = null
 
 const getAuthHeaders = clientAccessToken => (clientAccessToken ? { Authorization: `Bearer ${clientAccessToken}` } : {})
+
 const getCurrentLanguage = () => {
   try {
     return localStorage.getItem('language') === 'en' ? 'en' : 'vi'
@@ -26,24 +21,37 @@ const getLanguageHeaders = () => ({
   'Accept-Language': getCurrentLanguage()
 })
 
-const hasStoredClientUserMarker = () => Boolean(
-  store.getState().clientUser.user ||
-  localStorage.getItem('user') ||
-  sessionStorage.getItem('user')
-)
+const hasStoredClientUserMarker = () =>
+  Boolean(store.getState().clientUser.user || localStorage.getItem('user') || sessionStorage.getItem('user'))
 
 const refreshAccessToken = async () => {
   const storage = getClientTokenStorage() || 'local'
 
   try {
-    const res = await userRefreshToken()
+    const res = await fetch(`${API_DOMAIN}/user/refresh-token`, {
+      method: 'POST',
+      cache: 'no-store',
+      credentials: 'include',
+      headers: getLanguageHeaders()
+    })
 
-    if (res?.clientAccessToken) {
-      setClientAccessTokenByStorage(res.clientAccessToken, storage)
+    let json
+    try {
+      json = await res.json()
+    } catch {
+      json = null
+    }
 
-      const nextUser = res.user || store.getState().clientUser.user
+    if (!res.ok) {
+      throw new Error(json?.error || json?.message || 'Refresh token failed')
+    }
+
+    if (json?.clientAccessToken) {
+      setClientAccessTokenByStorage(json.clientAccessToken, storage)
+
+      const nextUser = json.user || store.getState().clientUser.user
       if (nextUser) {
-        store.dispatch(setUser({ user: nextUser, token: res.clientAccessToken }))
+        store.dispatch(setUser({ user: nextUser, token: json.clientAccessToken }))
 
         if (storage === 'session') {
           sessionStorage.setItem('user', JSON.stringify(nextUser))
@@ -52,7 +60,7 @@ const refreshAccessToken = async () => {
         }
       }
 
-      return res.clientAccessToken
+      return json.clientAccessToken
     }
 
     throw new Error('No new token')
@@ -120,6 +128,7 @@ const requestWithAuth = async (method, path, data) => {
   if ((res.status === 401 || res.status === 403) && !isAuthPath) {
     try {
       if (!refreshingPromise) refreshingPromise = refreshAccessToken()
+
       const newToken = await refreshingPromise
 
       headers = {

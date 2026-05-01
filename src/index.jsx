@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './index.css'
 import './index.scss'
-import { queryClient, queryPersistOptions } from '@/lib/queryClient'
+import { queryClient, queryPersistOptions } from '@/lib/query/queryClient'
 import { store } from './stores'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

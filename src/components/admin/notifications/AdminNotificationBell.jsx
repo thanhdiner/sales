@@ -2,14 +2,14 @@ import { Bell } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { adminNotificationsMock } from '@/pages/AdminNotificationsPage/data'
+import { adminNotificationsMock } from '@/pages/admin/Notifications/data'
 import {
   createOrderAdminNotification,
   getDropdownPriorityScore,
   getLocalizedNotificationField,
   getNotificationActionRoute,
   isUrgentNotification
-} from '@/pages/AdminNotificationsPage/utils'
+} from '@/pages/admin/Notifications/utils'
 import AdminNotificationDropdown from './AdminNotificationDropdown'
 
 const DROPDOWN_LIMIT = 8

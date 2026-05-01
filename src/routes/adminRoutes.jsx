@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
-import LayoutAdmin from '../Layout/LayoutAdmin'
-import Error404 from '@/pages/Error404'
-import AdminRequireAuth from '@/components/AdminRequireAuth'
-import AdminProtectedRoute from '@/components/AdminProtectedRoute'
-import AccessDenied from '@/components/AccessDenied'
+import AdminLayout from '@/layouts/admin'
+import Error404 from '@/pages/client/Error404'
+import AdminRequireAuth from '@/components/route/AdminRequireAuth'
+import AdminProtectedRoute from '@/components/route/AdminProtectedRoute'
+import AccessDenied from '@/components/shared/AccessDenied'
 import { adminPageRoutes } from '@/config/adminRegistry'
 
 const AdminRouteFallback = () => (
@@ -49,7 +49,7 @@ export const adminRoutes = [
     path: '/admin',
     element: (
       <AdminRequireAuth>
-        <LayoutAdmin />
+        <AdminLayout />
       </AdminRequireAuth>
     ),
     children: [

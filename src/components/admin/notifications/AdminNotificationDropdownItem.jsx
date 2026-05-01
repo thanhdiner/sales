@@ -7,7 +7,7 @@ import {
   getNotificationGroup,
   getNotificationIcon,
   isUrgentNotification
-} from '@/pages/AdminNotificationsPage/utils'
+} from '@/pages/admin/Notifications/utils'
 
 export default function AdminNotificationDropdownItem({ notification, language, onView }) {
   const { t } = useTranslation('adminNotifications')

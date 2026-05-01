@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
+
+.sovereign-register-input .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper {
+  color: #1a1b22 !important;
+  font-size: 0.9375rem !important;
+  transition: all 0.25s ease !important;
+}
+
+.sovereign-register-input .ant-input-affix-wrapper,
+.sovereign-register-input .ant-input {
+  background: #fff !important;
+  border: 1px solid #c5c5d4 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  min-height: 44px !important;
+  padding: 0 14px !important;
+}
+
+.sovereign-register-input .ant-input-affix-wrapper .ant-input,
+.sovereign-register-input .ant-input-affix-wrapper input.ant-input {
+  height: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.sovereign-register-input .ant-input-affix-wrapper:hover,
+.sovereign-register-input .ant-input:hover {
+  background: #fff !important;
+  border-color: rgba(39, 56, 154, 0.18) !important;
+}
+
+.sovereign-register-input .ant-input-affix-wrapper:focus,
+.sovereign-register-input .ant-input-affix-wrapper-focused,
+.sovereign-register-input .ant-input:focus,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within {
+  background: #fff !important;
+  border: 1px solid rgba(39, 56, 154, 0.28) !important;
+  box-shadow: 0 0 0 4px rgba(39, 56, 154, 0.1) !important;
+  transform: none !important;
+}
+
+.sovereign-register-input .ant-input::placeholder,
+.sovereign-register-input input.ant-input::placeholder {
+  color: #757684 !important;
+}
+
+.sovereign-register-input .ant-input-prefix {
+  color: #757684 !important;
+  margin-right: 8px !important;
+  transition: color 0.25s ease !important;
+}
+
+.sovereign-register-input .ant-input-password-icon {
+  color: #454652 !important;
+  transition: color 0.25s ease !important;
+}
+
+.sovereign-register-input .ant-input-affix-wrapper-focused .ant-input-prefix,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within .ant-input-prefix,
+.sovereign-register-input .ant-input-affix-wrapper-focused .ant-input-password-icon,
+.sovereign-register-input .ant-input-affix-wrapper:focus-within .ant-input-password-icon {
+  color: #27389a !important;
+}
+
+.sovereign-register-input .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #27389a !important;
+  border-color: #27389a !important;
+}
+
+.sovereign-register-btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(197, 197, 212, 0.7);
+  border-radius: 12px;
+  background: #fff;
+  color: #1a1b22;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(39, 56, 154, 0.06);
+    border-color: rgba(39, 56, 154, 0.2);
+  }
+}
+
+.sovereign-register-btn-primary {
+  background: linear-gradient(135deg, #27389a 0%, #4151b3 100%) !important;
+  border: none !important;
+  border-radius: 14px !important;
+  font-weight: 700;
+
+  &:hover {
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sovereign-auth-main {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .sovereign-register-left-panel,
+  .sovereign-register-right-panel {
+    width: 100% !important;
+    flex: none !important;
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+@import '../AuthTheme.scss';

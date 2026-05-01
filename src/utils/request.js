@@ -1,7 +1,6 @@
 import { getAccessToken, setAccessToken, clearTokens } from './auth'
-import { authAdminRefresh } from '../services/adminAuth.service'
 import { store } from '../stores'
-import { setUser } from '../stores/adminUser'
+import { setUser } from '../stores/admin/adminUser'
 import { API_URL } from './env'
 
 const API_DOMAIN = API_URL
@@ -9,6 +8,7 @@ const API_DOMAIN = API_URL
 let refreshingPromise = null
 
 const getAuthHeaders = accessToken => (accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+
 const getCurrentLanguage = () => {
   try {
     return localStorage.getItem('language') === 'en' ? 'en' : 'vi'
@@ -23,16 +23,35 @@ const getLanguageHeaders = () => ({
 
 const refreshAccessToken = async () => {
   try {
-    const res = await authAdminRefresh()
-    if (res?.accessToken) {
-      setAccessToken(res.accessToken)
+    const res = await fetch(`${API_DOMAIN}/admin/auth/refresh`, {
+      method: 'POST',
+      cache: 'no-store',
+      credentials: 'include',
+      headers: getLanguageHeaders()
+    })
+
+    let json
+    try {
+      json = await res.json()
+    } catch {
+      json = null
+    }
+
+    if (!res.ok) {
+      throw new Error(json?.error || json?.message || 'Refresh token failed')
+    }
+
+    if (json?.accessToken) {
+      setAccessToken(json.accessToken)
 
       const currentUser = store.getState().user.user
       if (currentUser) {
-        store.dispatch(setUser({ user: currentUser, token: res.accessToken }))
+        store.dispatch(setUser({ user: currentUser, token: json.accessToken }))
       }
-      return res.accessToken
+
+      return json.accessToken
     }
+
     throw new Error('No new token')
   } catch (err) {
     clearTokens()
@@ -48,6 +67,7 @@ const getFreshAccessToken = async () => {
       await refreshingPromise
     } catch {}
   }
+
   return getAccessToken()
 }
 
@@ -75,6 +95,7 @@ const requestWithAuth = async (method, path, data) => {
 
   let res = await fetch(`${API_DOMAIN}/${path}`, options)
   let json
+
   try {
     json = await res.json()
   } catch {
@@ -84,14 +105,18 @@ const requestWithAuth = async (method, path, data) => {
   if ((res.status === 401 || res.status === 403) && !path.startsWith('admin/auth/')) {
     try {
       if (!refreshingPromise) refreshingPromise = refreshAccessToken()
+
       const newToken = await refreshingPromise
+
       headers = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         ...getLanguageHeaders(),
         Authorization: `Bearer ${newToken}`
       }
+
       options.headers = headers
       res = await fetch(`${API_DOMAIN}/${path}`, options)
+
       try {
         json = await res.json()
       } catch {

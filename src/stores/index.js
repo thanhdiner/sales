@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import cartReducer from './cart'
-import adminUserReducer from './adminUser'
-import websiteConfigReducer from './websiteConfigSlice'
-import userReducer from './user'
-import darkModeReducer from './darkModeSlice'
-import wishlistReducer from './wishlist'
-import compareReducer from './compare'
-import languageReducer from './languageSlice'
+import cartReducer from './client/cart'
+import adminUserReducer from './admin/adminUser'
+import websiteConfigReducer from './app/websiteConfigSlice'
+import userReducer from './client/user'
+import darkModeReducer from './app/darkModeSlice'
+import wishlistReducer from './client/wishlist'
+import compareReducer from './client/compare'
+import languageReducer from './app/languageSlice'
 
 export const store = configureStore({
   reducer: {

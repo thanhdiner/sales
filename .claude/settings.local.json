@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"src/pages/Auth/client\" \"src/pages/Auth/admin\")",
+      "Bash(mv \"src/pages/Auth/LoginPage.jsx\" \"src/pages/Auth/LoginPage.scss\" \"src/pages/Auth/RegisterPage.jsx\" \"src/pages/Auth/RegisterPage.scss\" \"src/pages/Auth/ForgotPasswordPage.jsx\" \"src/pages/Auth/ForgotPasswordPage.scss\" \"src/pages/Auth/OauthCallbackPage.jsx\" \"src/pages/Auth/AuthTheme.scss\" \"src/pages/Auth/authTheme.js\" \"src/pages/Auth/AuthLanguageToggle.jsx\" \"src/pages/Auth/client/\")",
+      "Bash(mv \"src/pages/Auth/AdminLoginPage.jsx\" \"src/pages/Auth/AdminLoginPage.scss\" \"src/pages/Auth/admin/\")",
+      "Bash(mkdir -p \"src/pages/admin/Auth\" \"src/pages/client/Auth\")",
+      "Bash(mv \"src/pages/Auth/admin/AdminLoginPage.jsx\" \"src/pages/admin/Auth/LoginPage.jsx\")",
+      "Bash(mv \"src/pages/Auth/admin/AdminLoginPage.scss\" \"src/pages/admin/Auth/LoginPage.scss\")",
+      "Bash(mv \"src/pages/Auth/client/LoginPage.jsx\" \"src/pages/Auth/client/LoginPage.scss\" \"src/pages/Auth/client/RegisterPage.jsx\" \"src/pages/Auth/client/RegisterPage.scss\" \"src/pages/Auth/client/ForgotPasswordPage.jsx\" \"src/pages/Auth/client/ForgotPasswordPage.scss\" \"src/pages/Auth/client/AuthTheme.scss\" \"src/pages/Auth/client/authTheme.js\" \"src/pages/Auth/client/AuthLanguageToggle.jsx\" \"src/pages/client/Auth/\")",
+      "Bash(mv \"src/pages/Auth/client/OauthCallbackPage.jsx\" \"src/pages/client/Auth/OAuthCallbackPage.jsx\")",
+      "Bash(python *)"
+    ]
+  }
+}

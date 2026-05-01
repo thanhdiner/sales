@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 function FloatingPaths({ position = 1 }) {
   const paths = Array.from({ length: 24 }, (_, i) => ({
