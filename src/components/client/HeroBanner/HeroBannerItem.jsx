@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getLocalizedBannerLink, getLocalizedBannerTitle } from '@/utils/bannerLocalization'
 
-export default function HeroBannerItem({ banner, viewport }) {
+export default function HeroBannerItem({ banner, viewport, priority = false }) {
   const language = useCurrentLanguage()
   const title = getLocalizedBannerTitle(banner, language, banner.title || '')
   const link = getLocalizedBannerLink(banner, language, banner.link || '')
@@ -20,6 +20,9 @@ export default function HeroBannerItem({ banner, viewport }) {
         alt={title}
         className="HeroBanner-img"
         draggable={false}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchpriority={priority ? 'high' : 'auto'}
         style={{ userSelect: 'none', WebkitUserDrag: 'none' }}
       />
       <div className="HeroBanner-overlay" />

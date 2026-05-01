@@ -58,7 +58,7 @@ export default function HeroBanner() {
         >
           {banners.map((banner, index) => (
             <SwiperSlide key={banner._id || index}>
-              <HeroBannerItem banner={banner} viewport={viewport} />
+              <HeroBannerItem banner={banner} viewport={viewport} priority={index < 2} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -68,7 +68,7 @@ export default function HeroBanner() {
 
       <div className="HeroBanner-mobile-stack">
         {banners.slice(0, 1).map((banner, index) => (
-          <HeroBannerItem key={banner._id || index} banner={banner} viewport={viewport} />
+          <HeroBannerItem key={banner._id || index} banner={banner} viewport={viewport} priority />
         ))}
       </div>
     </motion.div>

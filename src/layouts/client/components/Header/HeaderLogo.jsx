@@ -25,6 +25,9 @@ export default function HeaderLogo({ websiteConfig, isDesktop, onOpenMenu }) {
           src={websiteConfig?.logoUrl}
           alt={websiteConfig?.siteName || 'Logo'}
           className="w-8 h-8 bg-white rounded-lg shadow-sm object-contain ml-2 md:ml-8"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
         />
 
         <span className="header__site-name l-2 text-lg md:text-xl font-semibold text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out overflow-hidden inline-block">

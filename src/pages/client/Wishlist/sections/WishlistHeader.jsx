@@ -5,7 +5,7 @@ function WishlistHeader({ addingAllToCart, canAddAll, inStockCount, onAddAllToCa
     <section className="mb-6 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:px-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 dark:text-gray-100 sm:text-3xl">
+          <h1 className="text-xl font-bold tracking-tight text-slate-950 dark:text-gray-100 sm:text-2xl">
             {t('page.title')}
           </h1>
 

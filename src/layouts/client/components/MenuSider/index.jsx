@@ -80,7 +80,7 @@ function MenuSider({ showGroupTitle = true }) {
       return {
         key,
         icon: category.thumbnail ? (
-          <img src={category.thumbnail} alt={category.title} className="menu-sider__icon" />
+          <img src={category.thumbnail} alt={category.title} className="menu-sider__icon" loading="eager" decoding="async" />
         ) : (
           <span className="menu-sider__icon-placeholder" />
         ),
