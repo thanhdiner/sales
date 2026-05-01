@@ -1,6 +1,6 @@
-import { clientRoutes } from './clientRoutes'
-import { authRoutes } from './authRoutes'
-import { adminRoutes } from './adminRoutes'
+import { clientRoutes } from './client'
+import { authRoutes } from './auth'
+import { adminRoutes } from './admin'
 
 export const routes = [
   ...clientRoutes,
