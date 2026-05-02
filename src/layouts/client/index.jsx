@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Drawer, Grid, Layout } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Drawer, Grid, Layout } from 'antd'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useLocation, Outlet } from 'react-router-dom'
 import LiveChat from '@/components/client/LiveChat'
@@ -15,6 +16,7 @@ import './index.scss'
 
 const { Content, Sider } = Layout
 const { useBreakpoint } = Grid
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'clientSidebarCollapsed'
 
 function ClientLayout() {
   useClientBootstrap()
@@ -23,10 +25,15 @@ function ClientLayout() {
   const isDesktop = screens.lg
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === 'true')
   const user = useSelector(state => state.clientUser.user)
   const { notifications, setNotifications, notifContextHolder } = useClientNotifications(user)
   const isHomePage = location.pathname === '/'
-  const layoutClassName = `layout-default layout-default--client-mobile${isHomePage ? ' layout-default--home' : ''}`
+  const layoutClassName = `layout-default layout-default--client-mobile${isHomePage ? ' layout-default--home' : ''}${sidebarCollapsed ? ' layout-default--sidebar-collapsed' : ''}`
+
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(sidebarCollapsed))
+  }, [sidebarCollapsed])
 
   return (
     <Layout className={layoutClassName}>
@@ -36,8 +43,25 @@ function ClientLayout() {
       <PageContextProvider>
         <Layout className="layout-default__body">
           {isDesktop && (
-            <Sider width={250} className="layout-default__sider">
-              <MenuSider className="layout-default__menu__sider" />
+            <Sider
+              width={250}
+              collapsedWidth={48}
+              trigger={null}
+              collapsible
+              collapsed={sidebarCollapsed}
+              className="layout-default__sider"
+            >
+              <Button
+                type="text"
+                size="small"
+                icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                aria-label={sidebarCollapsed ? 'Mở danh mục sản phẩm' : 'Thu gọn danh mục sản phẩm'}
+                className="layout-default__sider-toggle"
+                onClick={() => setSidebarCollapsed(value => !value)}
+              />
+              <div className="layout-default__sider-menu-wrap">
+                <MenuSider className="layout-default__menu__sider" />
+              </div>
             </Sider>
           )}
 
