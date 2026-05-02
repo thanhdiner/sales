@@ -52,7 +52,7 @@ function CategoryHero({ category, plainDescription, totalProducts, childCount })
           <div className="mt-6 flex flex-wrap gap-3">
             <a
               href="#category-products"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-950 dark:hover:bg-gray-100"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dark:border dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-100 dark:hover:bg-emerald-500/25"
             >
               {t('categoryPage.hero.viewProducts')}
               <ArrowDown className="h-4 w-4" />
@@ -74,7 +74,7 @@ function CategoryHero({ category, plainDescription, totalProducts, childCount })
             <img
               src={category.thumbnail}
               alt={t('categoryPage.hero.imageAlt', { categoryTitle: title })}
-              className="h-full max-h-[240px] w-full object-contain md:max-h-[280px]"
+              className="h-full max-h-[240px] w-full rounded-2xl object-contain md:max-h-[280px]"
             />
           ) : (
             <div className="flex h-32 w-32 items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-white text-5xl font-semibold text-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600">

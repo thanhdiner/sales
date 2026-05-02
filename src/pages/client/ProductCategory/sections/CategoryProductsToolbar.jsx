@@ -31,7 +31,7 @@ function CategoryProductsToolbar({
   )
 
   return (
-    <ContentSection as="div">
+    <ContentSection as="div" className="category-products-toolbar">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-950 dark:text-white">{t('categoryPage.products.title')}</h2>
@@ -42,14 +42,14 @@ function CategoryProductsToolbar({
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label className="group relative flex h-10 min-w-0 items-center rounded-lg border border-gray-200 bg-white pl-9 pr-9 transition-colors focus-within:border-blue-500 dark:border-gray-700 dark:bg-gray-950 sm:w-[280px]">
+          <label className="category-products-toolbar__search group relative flex h-10 min-w-0 items-center rounded-lg border border-gray-200 bg-white pl-9 pr-9 transition-colors focus-within:border-blue-500 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.12)] sm:w-[280px]">
             <Search className="absolute left-3 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-500" />
             <input
               type="text"
               placeholder={t('categoryPage.products.searchPlaceholder')}
               value={searchInput}
               onChange={onSearchChange}
-              className="h-full w-full border-0 bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100"
+              className="category-products-toolbar__search-input h-full w-full border-0 bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-slate-500"
             />
             {searchInput ? (
               <button
@@ -68,7 +68,7 @@ function CategoryProductsToolbar({
             onChange={onSortChange}
             options={sortOptions}
             suffixIcon={<SortDesc size={16} />}
-            className="w-full sm:w-[210px]"
+            className="category-products-toolbar__sort w-full sm:w-[210px]"
             size="middle"
             aria-label={t('categoryPage.products.sortLabel')}
           />
