@@ -26,6 +26,7 @@ export default function PromoCodesTable({
   promoCodes,
   loading,
   language,
+  columnsVisible,
   onCopy,
   onShowDetail,
   onEdit,
@@ -179,9 +180,12 @@ export default function PromoCodesTable({
     }
   ]
 
+  const visibleColumns = columns.filter(column => columnsVisible?.[column.key] !== false)
+  const scrollX = visibleColumns.reduce((total, column) => total + (Number(column.width) || 120), 0)
+
   return (
     <section className="admin-promo-table-section rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
-      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('table.title')}</h2>
           <p className="mt-1 text-sm text-[var(--admin-text-muted)]">{t('table.description')}</p>
@@ -193,7 +197,7 @@ export default function PromoCodesTable({
 
       <div className="admin-promo-table-desktop">
         <Table
-          columns={columns}
+          columns={visibleColumns}
           dataSource={promoCodes}
           rowKey={record => record._id || record.code}
           loading={loading}
@@ -201,7 +205,7 @@ export default function PromoCodesTable({
           locale={{
             emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('table.empty')} />
           }}
-          scroll={{ x: 1520 }}
+          scroll={{ x: scrollX }}
           className="admin-promo-table"
         />
       </div>

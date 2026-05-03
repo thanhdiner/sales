@@ -345,6 +345,7 @@ export function getPromoCodeApiFilters(filters = {}) {
 
   return {
     search: filters.search,
+    fuzzy: filters.search ? true : undefined,
     status: filters.status !== 'all' ? filters.status : undefined,
     discountType: filters.discountType !== 'all' ? filters.discountType : undefined,
     audience: filters.audience !== 'all' ? filters.audience : undefined,

@@ -25,6 +25,7 @@ function FormSection({ title, children }) {
 }
 
 export default function PromoCodeFormModal({ open, editingCode, form, loading, language, t, onCancel, onSubmit }) {
+  const selectPopupProps = { popupClassName: 'admin-promo-select-popup' }
   const discountType = Form.useWatch('discountType', form)
   const audienceType = Form.useWatch('audienceType', form)
   const datePickerFormat = getPromoCodeDatePickerFormat(language)
@@ -67,6 +68,7 @@ export default function PromoCodeFormModal({ open, editingCode, form, loading, l
       footer={null}
       width={900}
       className="admin-promo-form-modal"
+      style={{ top: 48 }}
     >
       <Form
         form={form}
@@ -137,7 +139,7 @@ export default function PromoCodeFormModal({ open, editingCode, form, loading, l
                 label={<span className={labelClass}>{t('form.discountType')}</span>}
                 rules={[{ required: true, message: t('form.discountTypeRequired') }]}
               >
-                <Select options={discountTypeOptions} className="admin-promo-select" />
+                <Select options={discountTypeOptions} className="admin-promo-select" {...selectPopupProps} />
               </Form.Item>
             </Col>
 
@@ -193,19 +195,19 @@ export default function PromoCodeFormModal({ open, editingCode, form, loading, l
 
             <Col xs={24} md={8}>
               <Form.Item name="applicableProducts" label={<span className={labelClass}>{t('form.applicableProducts')}</span>}>
-                <Select mode="tags" placeholder={t('form.applicableProductsPlaceholder')} className="admin-promo-select" />
+                <Select mode="tags" placeholder={t('form.applicableProductsPlaceholder')} className="admin-promo-select" {...selectPopupProps} />
               </Form.Item>
             </Col>
 
             <Col xs={24} md={8}>
               <Form.Item name="applicableCategories" label={<span className={labelClass}>{t('form.applicableCategories')}</span>}>
-                <Select mode="tags" placeholder={t('form.applicableCategoriesPlaceholder')} className="admin-promo-select" />
+                <Select mode="tags" placeholder={t('form.applicableCategoriesPlaceholder')} className="admin-promo-select" {...selectPopupProps} />
               </Form.Item>
             </Col>
           </Row>
 
           <Form.Item name="excludedProducts" label={<span className={labelClass}>{t('form.excludedProducts')}</span>}>
-            <Select mode="tags" placeholder={t('form.excludedProductsPlaceholder')} className="admin-promo-select" />
+            <Select mode="tags" placeholder={t('form.excludedProductsPlaceholder')} className="admin-promo-select" {...selectPopupProps} />
           </Form.Item>
         </FormSection>
 
@@ -249,26 +251,26 @@ export default function PromoCodeFormModal({ open, editingCode, form, loading, l
           <Row gutter={[16, 0]}>
             <Col xs={24} md={12}>
               <Form.Item name="audienceType" label={<span className={labelClass}>{t('form.audienceType')}</span>}>
-                <Select options={audienceOptions} className="admin-promo-select" />
+                <Select options={audienceOptions} className="admin-promo-select" {...selectPopupProps} />
               </Form.Item>
             </Col>
 
             <Col xs={24} md={12}>
               <Form.Item name="category" label={<span className={labelClass}>{t('form.category')}</span>}>
-                <Select options={categoryOptions} className="admin-promo-select" />
+                <Select options={categoryOptions} className="admin-promo-select" {...selectPopupProps} />
               </Form.Item>
             </Col>
           </Row>
 
           {audienceType === 'specific_customers' ? (
             <Form.Item name="specificCustomers" label={<span className={labelClass}>{t('form.specificCustomers')}</span>}>
-              <Select mode="tags" placeholder={t('form.specificCustomersPlaceholder')} className="admin-promo-select" />
+              <Select mode="tags" placeholder={t('form.specificCustomersPlaceholder')} className="admin-promo-select" {...selectPopupProps} />
             </Form.Item>
           ) : null}
 
           {audienceType === 'customer_groups' ? (
             <Form.Item name="customerGroups" label={<span className={labelClass}>{t('form.customerGroups')}</span>}>
-              <Select mode="tags" placeholder={t('form.customerGroupsPlaceholder')} className="admin-promo-select" />
+              <Select mode="tags" placeholder={t('form.customerGroupsPlaceholder')} className="admin-promo-select" {...selectPopupProps} />
             </Form.Item>
           ) : null}
         </FormSection>

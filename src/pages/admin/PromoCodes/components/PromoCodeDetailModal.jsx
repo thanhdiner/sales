@@ -32,8 +32,9 @@ export default function PromoCodeDetailModal({ open, selectedCode, language, t, 
       open={open}
       onCancel={onCancel}
       footer={null}
-      width={500}
+      width={680}
       className="admin-promo-detail-modal"
+      style={{ top: 72 }}
     >
       {selectedCode && (
         <div className="space-y-4">
@@ -50,7 +51,7 @@ export default function PromoCodeDetailModal({ open, selectedCode, language, t, 
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-x-8 gap-y-5">
             <div>
               <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.category')}</label>
               <p className="text-[var(--admin-text)]">{t(`categories.${selectedCode.category || 'all'}`)}</p>
@@ -91,37 +92,37 @@ export default function PromoCodeDetailModal({ open, selectedCode, language, t, 
                 {selectedCode.expiresAt ? formatPromoCodeDateTime(selectedCode.expiresAt, language) : t('common.noLimit')}
               </p>
             </div>
-          </div>
 
-          <div>
-            <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.status')}</label>
-            <div className="mt-1">{statusMeta && <Tag color={statusMeta.color}>{statusMeta.label}</Tag>}</div>
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.audience')}</label>
-            <p className="text-[var(--admin-text)]">{getPromoCodeAudienceText(selectedCode, t)}</p>
-          </div>
-
-          {usedByUsers.length ? (
             <div>
-              <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.usedByList')}</label>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {usedByUsers.slice(0, 6).map(user => (
-                  <Tag key={user?._id || user} color="blue">
-                    {getPromoCodeAudienceText({ userId: user }, t)}
-                  </Tag>
-                ))}
-                {usedByUsers.length > 6 ? <Tag>+{usedByUsers.length - 6}</Tag> : null}
-              </div>
+              <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.status')}</label>
+              <div className="mt-1">{statusMeta && <Tag color={statusMeta.color}>{statusMeta.label}</Tag>}</div>
             </div>
-          ) : null}
 
-          <div>
-            <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.createdAt')}</label>
-            <p className="text-[var(--admin-text)]">
-              {selectedCode.createdAt ? formatPromoCodeDateTime(selectedCode.createdAt, language) : t('common.noLimit')}
-            </p>
+            <div>
+              <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.audience')}</label>
+              <p className="text-[var(--admin-text)]">{getPromoCodeAudienceText(selectedCode, t)}</p>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.createdAt')}</label>
+              <p className="text-[var(--admin-text)]">
+                {selectedCode.createdAt ? formatPromoCodeDateTime(selectedCode.createdAt, language) : t('common.noLimit')}
+              </p>
+            </div>
+
+            {usedByUsers.length ? (
+              <div className="col-span-2">
+                <label className="text-sm font-medium text-[var(--admin-text-muted)]">{t('detail.usedByList')}</label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {usedByUsers.slice(0, 6).map(user => (
+                    <Tag key={user?._id || user} color="blue">
+                      {getPromoCodeAudienceText({ userId: user }, t)}
+                    </Tag>
+                  ))}
+                  {usedByUsers.length > 6 ? <Tag>+{usedByUsers.length - 6}</Tag> : null}
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       )}

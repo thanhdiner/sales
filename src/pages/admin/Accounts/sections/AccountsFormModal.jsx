@@ -1,6 +1,7 @@
 import { Form, Input, Modal, Select, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
+import PasswordInput from '@/components/shared/PasswordInput'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import {
   ADMIN_ACCOUNT_FORM_INITIAL_VALUES,
@@ -18,6 +19,8 @@ const modalSecondaryButtonClass = 'admin-accounts-modal-btn-secondary'
 const formLabelClass = 'text-[var(--admin-text-muted)]'
 const inputClass =
   '!border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]'
+const passwordInputClass =
+  'h-10 w-full rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-3 pr-10 text-sm text-[var(--admin-text)] outline-none transition-colors placeholder:text-[var(--admin-text-subtle)] focus:border-[var(--admin-accent)]'
 const selectClass =
   '[&_.ant-select-selector]:!border-[var(--admin-border)] [&_.ant-select-selector]:!bg-[var(--admin-surface-2)] [&_.ant-select-selector]:!text-[var(--admin-text)]'
 const selectDropdownClass = 'admin-accounts-select-dropdown'
@@ -109,10 +112,11 @@ export default function AccountsFormModal({
               label={<span className={formLabelClass}>{t('form.newPassword')}</span>}
               rules={[{ min: 6, message: t('form.passwordMin') }]}
             >
-              <Input.Password
-                className={inputClass}
+              <PasswordInput
+                inputClassName={passwordInputClass}
                 placeholder={t('form.newPasswordPlaceholder')}
                 autoComplete="new-password"
+                toggleLabel={t('form.newPassword')}
               />
             </Form.Item>
           ) : (
@@ -124,7 +128,12 @@ export default function AccountsFormModal({
                 { min: 6, message: t('form.passwordMin') }
               ]}
             >
-              <Input.Password className={inputClass} placeholder={t('form.passwordPlaceholder')} />
+              <PasswordInput
+                inputClassName={passwordInputClass}
+                placeholder={t('form.passwordPlaceholder')}
+                autoComplete="new-password"
+                toggleLabel={t('form.password')}
+              />
             </Form.Item>
           )}
 

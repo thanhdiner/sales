@@ -21,7 +21,12 @@
   "actions": {
     "create": "Create promo code",
     "export": "Export",
-    "refresh": "Refresh"
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "toggleColumns": "Toggle columns"
+  },
+  "columnMenu": {
+    "title": "Toggle columns"
   },
   "categories": {
     "all": "General",
@@ -62,9 +67,13 @@
   },
   "stats": {
     "total": "Total codes",
+    "totalHint": "All promo codes created",
     "active": "Active",
+    "activeHint": "Codes currently available",
     "expired": "Expired",
-    "usage": "Usage count"
+    "expiredHint": "Codes past their end date",
+    "usage": "Usage count",
+    "usageHint": "Total times codes were used"
   },
   "status": {
     "disabled": "Disabled",

@@ -59,6 +59,7 @@ export function usePromoCodesData({ t = key => key, filters = {} } = {}) {
 
       if (nextPageSize !== pageSize) {
         setPageSize(nextPageSize)
+        return
       }
 
       setPage(nextPage)

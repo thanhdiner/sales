@@ -159,14 +159,17 @@
       "fields": {
         "currentPassword": {
           "label": "Mật khẩu hiện tại",
+          "placeholder": "Nhập mật khẩu hiện tại",
           "required": "Vui lòng nhập mật khẩu hiện tại"
         },
         "newPassword": {
           "label": "Mật khẩu mới",
+          "placeholder": "Nhập mật khẩu mới",
           "required": "Vui lòng nhập mật khẩu mới"
         },
         "confirmPassword": {
           "label": "Xác nhận mật khẩu mới",
+          "placeholder": "Xác nhận mật khẩu mới",
           "required": "Vui lòng xác nhận mật khẩu mới",
           "mismatch": "Mật khẩu xác nhận không khớp"
         }

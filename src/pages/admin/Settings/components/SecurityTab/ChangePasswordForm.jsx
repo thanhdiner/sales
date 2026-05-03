@@ -3,10 +3,11 @@ import { LockKeyhole, Save, ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import PasswordInput from '@/components/shared/PasswordInput'
 import { changePassword } from '@/services/admin/users/account'
 
 const inputClass =
-  'h-10 rounded-lg !border-[var(--admin-border)] !bg-white !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)] dark:!bg-[var(--admin-surface-2)]'
+  'h-10 w-full rounded-lg border border-[var(--admin-border)] bg-white px-4 pr-10 text-sm text-[var(--admin-text)] outline-none transition-colors placeholder:text-[var(--admin-text-subtle)] focus:border-[var(--admin-accent)] dark:bg-[var(--admin-surface-2)]'
 
 const ChangePasswordForm = () => {
   const { t } = useTranslation('adminSettings')
@@ -64,7 +65,12 @@ const ChangePasswordForm = () => {
           name="currentPassword"
           rules={[{ required: true, message: t('security.password.fields.currentPassword.required') }]}
         >
-          <Input.Password className={inputClass} autoComplete="current-password" />
+          <PasswordInput
+            inputClassName={inputClass}
+            autoComplete="current-password"
+            placeholder={t('security.password.fields.currentPassword.placeholder')}
+            toggleLabel={t('security.password.fields.currentPassword.label')}
+          />
         </Form.Item>
 
         <Form.Item
@@ -72,7 +78,12 @@ const ChangePasswordForm = () => {
           name="newPassword"
           rules={[{ required: true, message: t('security.password.fields.newPassword.required') }]}
         >
-          <Input.Password className={inputClass} autoComplete="new-password" />
+          <PasswordInput
+            inputClassName={inputClass}
+            autoComplete="new-password"
+            placeholder={t('security.password.fields.newPassword.placeholder')}
+            toggleLabel={t('security.password.fields.newPassword.label')}
+          />
         </Form.Item>
 
         <Form.Item
@@ -92,7 +103,12 @@ const ChangePasswordForm = () => {
             })
           ]}
         >
-          <Input.Password className={inputClass} autoComplete="new-password" />
+          <PasswordInput
+            inputClassName={inputClass}
+            autoComplete="new-password"
+            placeholder={t('security.password.fields.confirmPassword.placeholder')}
+            toggleLabel={t('security.password.fields.confirmPassword.label')}
+          />
         </Form.Item>
 
         <div className="mt-1 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-600 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300">

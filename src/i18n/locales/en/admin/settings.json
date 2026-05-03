@@ -159,14 +159,17 @@
       "fields": {
         "currentPassword": {
           "label": "Current password",
+          "placeholder": "Enter your current password",
           "required": "Please enter the current password"
         },
         "newPassword": {
           "label": "New password",
+          "placeholder": "Enter your new password",
           "required": "Please enter a new password"
         },
         "confirmPassword": {
           "label": "Confirm new password",
+          "placeholder": "Confirm your new password",
           "required": "Please confirm the new password",
           "mismatch": "The confirmation password does not match"
         }

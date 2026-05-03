@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
 import { message as antdMessage } from 'antd'
 import { changePassword } from '@/services/client/auth/user'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setDarkMode } from '@/stores/app/darkModeSlice'
 import { setLanguage } from '@/stores/app/languageSlice'
+import MobileBackButton from '@/components/shared/MobileBackButton'
+import PasswordInput from '@/components/shared/PasswordInput'
 import SEO from '@/components/shared/SEO'
 
 export default function Settings() {
@@ -99,9 +100,6 @@ export default function Settings() {
 
   const securityTips = t('security.tips', { returnObjects: true })
 
-  const inputClassName =
-    'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400'
-
   const currentModeLabel = darkMode ? t('appearance.dark') : t('appearance.light')
   const currentLanguageLabel = language === 'vi' ? t('language.vi') : t('language.en')
 
@@ -110,6 +108,8 @@ export default function Settings() {
       <SEO title={t('seoTitle')} noIndex />
 
       <div className="mx-auto max-w-2xl">
+        <MobileBackButton label={t('back')} />
+
         <div className="mb-10 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">{t('eyebrow')}</p>
 
@@ -199,55 +199,29 @@ export default function Settings() {
 
           <form onSubmit={handlePasswordChange} className="space-y-5">
             {hasPassword && (
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">{t('password.currentPassword')}</label>
-
-                <div className="relative">
-                  <input
-                    type={showPasswords.current ? 'text' : 'password'}
-                    value={formData.currentPassword}
-                    onChange={e => handleInputChange('currentPassword', e.target.value)}
-                    className={inputClassName}
-                    placeholder={t('password.currentPlaceholder')}
-                    autoComplete="current-password"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => togglePasswordVisibility('current')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                    tabIndex={-1}
-                    aria-label={t('password.showCurrentLabel')}
-                  >
-                    {showPasswords.current ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
-              </div>
+              <PasswordInput
+                label={t('password.currentPassword')}
+                showPassword={showPasswords.current}
+                value={formData.currentPassword}
+                onChange={e => handleInputChange('currentPassword', e.target.value)}
+                onToggleVisibility={() => togglePasswordVisibility('current')}
+                placeholder={t('password.currentPlaceholder')}
+                autoComplete="current-password"
+                toggleLabel={t('password.showCurrentLabel')}
+              />
             )}
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">{t('password.newPassword')}</label>
-
-              <div className="relative">
-                <input
-                  type={showPasswords.new ? 'text' : 'password'}
-                  value={formData.newPassword}
-                  onChange={e => handleInputChange('newPassword', e.target.value)}
-                  className={inputClassName}
-                  placeholder={t('password.newPlaceholder')}
-                  autoComplete="new-password"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('new')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                  tabIndex={-1}
-                  aria-label={t('password.showNewLabel')}
-                >
-                  {showPasswords.new ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
-              </div>
+              <PasswordInput
+                label={t('password.newPassword')}
+                showPassword={showPasswords.new}
+                value={formData.newPassword}
+                onChange={e => handleInputChange('newPassword', e.target.value)}
+                onToggleVisibility={() => togglePasswordVisibility('new')}
+                placeholder={t('password.newPlaceholder')}
+                autoComplete="new-password"
+                toggleLabel={t('password.showNewLabel')}
+              />
 
               {formData.newPassword && (
                 <div className="mt-3 grid grid-cols-2 gap-2">
@@ -268,28 +242,16 @@ export default function Settings() {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">{t('password.confirmPassword')}</label>
-
-              <div className="relative">
-                <input
-                  type={showPasswords.confirm ? 'text' : 'password'}
-                  value={formData.confirmPassword}
-                  onChange={e => handleInputChange('confirmPassword', e.target.value)}
-                  className={inputClassName}
-                  placeholder={t('password.confirmPlaceholder')}
-                  autoComplete="new-password"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('confirm')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                  tabIndex={-1}
-                  aria-label={t('password.showConfirmLabel')}
-                >
-                  {showPasswords.confirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
-              </div>
+              <PasswordInput
+                label={t('password.confirmPassword')}
+                showPassword={showPasswords.confirm}
+                value={formData.confirmPassword}
+                onChange={e => handleInputChange('confirmPassword', e.target.value)}
+                onToggleVisibility={() => togglePasswordVisibility('confirm')}
+                placeholder={t('password.confirmPlaceholder')}
+                autoComplete="new-password"
+                toggleLabel={t('password.showConfirmLabel')}
+              />
 
               {formData.confirmPassword && formData.newPassword !== formData.confirmPassword && (
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">{t('password.confirmMismatch')}</p>

@@ -1,6 +1,7 @@
-import { Button, DatePicker, Input, Select } from 'antd'
-import { Search, X } from 'lucide-react'
+import { Button, DatePicker, Select } from 'antd'
+import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import SearchInput from '@/components/shared/SearchInput'
 import {
   PROMO_CODE_AUDIENCE_FILTERS,
   PROMO_CODE_DATE_FIELDS,
@@ -25,14 +26,12 @@ export default function PromoCodesFilters({ filters, onFiltersChange, onClearFil
   return (
     <section className="admin-promo-filters-section rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
       <div className="grid gap-3 xl:grid-cols-[minmax(240px,1.4fr)_minmax(150px,0.65fr)_minmax(180px,0.8fr)_minmax(190px,0.9fr)]">
-        <Input
-          allowClear
-          size="large"
+        <SearchInput
           value={filters.search}
           onChange={event => updateFilter('search', event.target.value)}
-          prefix={<Search className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+          onClear={() => updateFilter('search', '')}
           placeholder={t('filters.searchPlaceholder')}
-          className={inputClass}
+          className="admin-promo-search-input h-10"
         />
 
         <Select

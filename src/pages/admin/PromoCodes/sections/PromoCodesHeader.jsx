@@ -1,40 +1,104 @@
-import { Button } from 'antd'
-import { Download, Plus, RefreshCw } from 'lucide-react'
+import { DownloadOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, TableOutlined, TagsOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { ResourceHeader, ResourceUtility } from '@/components/admin/shared/ResourceManager'
 
-const secondaryButtonClass =
-  'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-3)] hover:!text-[var(--admin-text)]'
-const primaryButtonClass = 'rounded-lg !border-none !bg-[var(--admin-accent)] font-semibold !text-white hover:!opacity-90'
-
-export default function PromoCodesHeader({ loading, onCreate, onExport, onRefresh }) {
+export default function PromoCodesHeader({ columnsVisible, loading, onColumnsVisibleChange, onCreate, onExport, onRefresh, onToggleFilter }) {
   const { t } = useTranslation('adminPromoCodes')
+  const columns = [
+    'code',
+    'campaign',
+    'discountType',
+    'conditions',
+    'usage',
+    'audience',
+    'expiresAt',
+    'createdAt',
+    'status',
+    'actions'
+  ]
+  const columnMenu = (
+    <div className="admin-promo-codes-column-menu">
+      <div className="admin-promo-codes-column-menu__title">{t('columnMenu.title')}</div>
+      <Checkbox.Group
+        value={columns.filter(key => columnsVisible[key])}
+        onChange={checkedValues => {
+          const nextColumnsVisible = {}
+          columns.forEach(key => {
+            nextColumnsVisible[key] = key === 'actions' || checkedValues.includes(key)
+          })
+          onColumnsVisibleChange(nextColumnsVisible)
+        }}
+      >
+        <div className="admin-promo-codes-column-menu__grid">
+          {columns.map(key => (
+            <label key={key} className="admin-promo-codes-column-menu__item">
+              <Checkbox value={key} disabled={key === 'actions'} />
+              <span>{t(`table.columns.${key}`)}</span>
+            </label>
+          ))}
+        </div>
+      </Checkbox.Group>
+    </div>
+  )
+
+  const utilityButtons = [
+    {
+      key: 'refresh',
+      icon: <ReloadOutlined spin={loading} />,
+      label: t('actions.refresh'),
+      className: 'admin-promo-codes-btn admin-promo-codes-btn--utility',
+      onClick: onRefresh
+    },
+    {
+      key: 'export',
+      icon: <DownloadOutlined />,
+      label: t('actions.export'),
+      className: 'admin-promo-codes-btn admin-promo-codes-btn--utility',
+      onClick: onExport
+    },
+    {
+      key: 'toggle-columns',
+      dropdown: (
+        <Dropdown dropdownRender={() => columnMenu} trigger={['click']} placement="bottomRight" arrow>
+          <Button className="admin-promo-codes-btn admin-promo-codes-btn--utility">
+            <TableOutlined />
+            {t('actions.toggleColumns')}
+          </Button>
+        </Dropdown>
+      )
+    },
+    {
+      key: 'filter',
+      icon: <FilterOutlined />,
+      label: t('actions.filter'),
+      className: 'admin-promo-codes-btn admin-promo-codes-btn--utility',
+      onClick: onToggleFilter
+    },
+    {
+      key: 'create',
+      icon: <PlusOutlined />,
+      label: t('actions.create'),
+      className: 'admin-promo-codes-btn admin-promo-codes-btn--add',
+      onClick: onCreate
+    }
+  ]
 
   return (
-    <section className="admin-promo-header rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight text-[var(--admin-text)] sm:text-3xl">{t('page.title')}</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--admin-text-muted)] sm:text-base">{t('page.subtitle')}</p>
-        </div>
-
-        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
-          <Button type="primary" size="large" icon={<Plus className="h-4 w-4" />} onClick={onCreate} className={primaryButtonClass}>
-            {t('actions.create')}
-          </Button>
-          <Button size="large" icon={<Download className="h-4 w-4" />} onClick={onExport} className={secondaryButtonClass}>
-            {t('actions.export')}
-          </Button>
-          <Button
-            size="large"
-            icon={<RefreshCw className="h-4 w-4" />}
-            loading={loading}
-            onClick={onRefresh}
-            className={secondaryButtonClass}
-          >
-            {t('actions.refresh')}
-          </Button>
-        </div>
-      </div>
-    </section>
+    <ResourceHeader
+      className="admin-promo-codes-wrap admin-promo-codes-title-wrap"
+      icon={<TagsOutlined />}
+      title={t('page.title')}
+      utility={
+        <ResourceUtility
+          buttons={utilityButtons.map(button => ({
+            ...button,
+            labelClassName: 'admin-promo-codes-btn__label'
+          }))}
+          className="admin-promo-codes-utility"
+          itemClassPrefix="admin-promo-codes-utility-item"
+        />
+      }
+    />
   )
 }

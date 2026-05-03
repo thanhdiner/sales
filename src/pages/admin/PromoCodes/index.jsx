@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import { Resource } from '@/components/admin/ui'
 import PromoCodeDetailModal from './components/PromoCodeDetailModal'
 import PromoCodeFormModal from './components/PromoCodeFormModal'
@@ -20,6 +21,44 @@ import {
 } from './utils/promoCodeHelpers'
 import './index.scss'
 
+const PROMO_CODES_COLUMNS_STORAGE_KEY = 'adminPromoCodesColumnsVisible'
+const PROMO_CODES_DEFAULT_COLUMNS_VISIBLE = {
+  code: true,
+  campaign: true,
+  discountType: true,
+  conditions: true,
+  usage: true,
+  audience: true,
+  expiresAt: true,
+  createdAt: true,
+  status: true,
+  actions: true
+}
+
+function getStoredColumnsVisible() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROMO_CODES_COLUMNS_STORAGE_KEY))
+    return { ...PROMO_CODES_DEFAULT_COLUMNS_VISIBLE, ...stored, actions: true }
+  } catch {
+    return PROMO_CODES_DEFAULT_COLUMNS_VISIBLE
+  }
+}
+
+function getInitialPromoCodeFilters(searchParams) {
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
+
+  return {
+    ...DEFAULT_PROMO_CODE_FILTERS,
+    search: searchParams.get('search') || '',
+    status: searchParams.get('status') || DEFAULT_PROMO_CODE_FILTERS.status,
+    discountType: searchParams.get('discountType') || DEFAULT_PROMO_CODE_FILTERS.discountType,
+    audience: searchParams.get('audience') || DEFAULT_PROMO_CODE_FILTERS.audience,
+    dateField: searchParams.get('dateField') || DEFAULT_PROMO_CODE_FILTERS.dateField,
+    dateRange: startDate && endDate ? [dayjs(startDate), dayjs(endDate)] : null
+  }
+}
+
 function buildCsv(rows) {
   if (!rows.length) return ''
 
@@ -35,11 +74,45 @@ function buildCsv(rows) {
 export default function PromoCodes() {
   const { t, i18n } = useTranslation('adminPromoCodes')
   const language = i18n.resolvedLanguage || i18n.language
+  const [searchParams, setSearchParams] = useSearchParams()
   const [modalVisible, setModalVisible] = useState(false)
   const [editingCode, setEditingCode] = useState(null)
-  const [filters, setFilters] = useState(DEFAULT_PROMO_CODE_FILTERS)
+  const [filters, setFilters] = useState(() => getInitialPromoCodeFilters(searchParams))
+  const [showFilters, setShowFilters] = useState(true)
+  const [columnsVisible, setColumnsVisible] = useState(getStoredColumnsVisible)
   const [form] = Form.useForm()
-  const apiFilters = useMemo(() => getPromoCodeApiFilters(filters), [filters])
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.search)
+  const apiFilters = useMemo(() => getPromoCodeApiFilters({ ...filters, search: debouncedSearch }), [debouncedSearch, filters])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(filters.search), 350)
+    return () => clearTimeout(timeout)
+  }, [filters.search])
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    const [startDate, endDate] = Array.isArray(filters.dateRange) ? filters.dateRange : []
+
+    Object.entries({
+      search: filters.search,
+      status: filters.status !== DEFAULT_PROMO_CODE_FILTERS.status ? filters.status : '',
+      discountType: filters.discountType !== DEFAULT_PROMO_CODE_FILTERS.discountType ? filters.discountType : '',
+      audience: filters.audience !== DEFAULT_PROMO_CODE_FILTERS.audience ? filters.audience : '',
+      dateField: filters.dateField !== DEFAULT_PROMO_CODE_FILTERS.dateField ? filters.dateField : '',
+      startDate: startDate ? startDate.format('YYYY-MM-DD') : '',
+      endDate: endDate ? endDate.format('YYYY-MM-DD') : ''
+    }).forEach(([key, value]) => {
+      if (value) params.set(key, value)
+      else params.delete(key)
+    })
+
+    params.delete('page')
+    setSearchParams(params, { replace: true })
+  }, [filters, setSearchParams])
+
+  useEffect(() => {
+    localStorage.setItem(PROMO_CODES_COLUMNS_STORAGE_KEY, JSON.stringify(columnsVisible))
+  }, [columnsVisible])
 
   const {
     promoCodes,
@@ -150,14 +223,25 @@ export default function PromoCodes() {
         seoTitle={t('seo.title')}
         className="admin-promo-codes-page"
         contentClassName="admin-promo-codes-page__inner"
-        header={<PromoCodesHeader loading={loading} onCreate={handleCreate} onExport={handleExport} onRefresh={refreshCurrentPage} />}
+        header={
+          <PromoCodesHeader
+            columnsVisible={columnsVisible}
+            loading={loading}
+            onColumnsVisibleChange={setColumnsVisible}
+            onCreate={handleCreate}
+            onExport={handleExport}
+            onRefresh={refreshCurrentPage}
+            onToggleFilter={() => setShowFilters(prev => !prev)}
+          />
+        }
         stats={<PromoCodesStats promoCodes={promoCodes} language={language} />}
-        filters={<PromoCodesFilters filters={filters} onFiltersChange={handleFiltersChange} onClearFilters={handleClearFilters} />}
+        filters={showFilters ? <PromoCodesFilters filters={filters} onFiltersChange={handleFiltersChange} onClearFilters={handleClearFilters} /> : null}
         table={
           <PromoCodesTable
             promoCodes={promoCodes}
             loading={loading}
             language={language}
+            columnsVisible={columnsVisible}
             onCopy={handleCopy}
             onShowDetail={showDetail}
             onEdit={handleEdit}

@@ -21,7 +21,12 @@
   "actions": {
     "create": "Create promo code",
     "export": "Export",
-    "refresh": "Refresh"
+    "filter": "Filter",
+    "refresh": "Refresh",
+    "toggleColumns": "Toggle columns"
+  },
+  "columnMenu": {
+    "title": "Toggle columns"
   },
   "categories": {
     "all": "General",
@@ -61,10 +66,14 @@
     "exportSuccess": "Đã export promo code"
   },
   "stats": {
-    "total": "Total codes",
-    "active": "Active",
-    "expired": "Expired",
-    "usage": "Usage count"
+    "total": "Tổng số mã",
+    "totalHint": "Tất cả promo code đã tạo",
+    "active": "Đang hoạt động",
+    "activeHint": "Mã hiện có thể sử dụng",
+    "expired": "Đã hết hạn",
+    "expiredHint": "Mã đã qua ngày kết thúc",
+    "usage": "Lượt sử dụng",
+    "usageHint": "Tổng số lần mã được dùng"
   },
   "status": {
     "disabled": "Disabled",
