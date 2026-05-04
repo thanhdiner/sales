@@ -284,8 +284,54 @@
 
 .admin-blog-status-tag.ant-tag {
   margin: 0;
-  border-radius: 999px;
   font-weight: 700;
+}
+
+html.dark .admin-blog-status-tag.ant-tag {
+  border-color: color-mix(in srgb, #52c41a 55%, var(--admin-border)) !important;
+  background: color-mix(in srgb, #52c41a 16%, var(--admin-surface-2)) !important;
+  color: #8ee66d !important;
+}
+
+html.dark .blog-category-drawer .ant-drawer-content,
+html.dark .blog-category-drawer .ant-drawer-header,
+html.dark .blog-category-drawer .ant-drawer-body {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .blog-category-drawer .ant-drawer-title,
+html.dark .blog-category-drawer .ant-form-item-label > label {
+  color: var(--admin-text) !important;
+}
+
+html.dark .blog-category-drawer .ant-drawer-close {
+  color: var(--admin-text-muted) !important;
+}
+
+html.dark .blog-category-drawer .ant-input,
+html.dark .blog-category-drawer .ant-input-number,
+html.dark .blog-category-drawer textarea {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .blog-category-drawer .ant-input-number-input,
+html.dark .blog-category-drawer .ant-input::placeholder,
+html.dark .blog-category-drawer textarea::placeholder {
+  color: var(--admin-text) !important;
+}
+
+html.dark .blog-category-drawer .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .blog-category-drawer .ant-btn-dangerous {
+  background: color-mix(in srgb, var(--admin-surface-2) 92%, #ff4d4f) !important;
 }
 
 .admin-blog-menu-icon {
@@ -331,6 +377,21 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+}
+
+html.dark .admin-blog-table-btn.ant-btn:not(.ant-btn-dangerous) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .admin-blog-table-btn.ant-btn:not(.ant-btn-dangerous):hover {
+  border-color: var(--admin-accent) !important;
+  color: var(--admin-accent) !important;
+}
+
+html.dark .admin-blog-table-btn.ant-btn-dangerous {
+  background: color-mix(in srgb, var(--admin-surface-2) 92%, #ff4d4f) !important;
 }
 
 .admin-blog-table.ant-table-wrapper .ant-table,

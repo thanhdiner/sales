@@ -1,21 +1,26 @@
 import { Form, Upload, message } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import SEO from '@/components/shared/SEO'
+import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { createBlogPost, uploadBlogMedia } from '@/services/admin/content/blog'
 import { getProducts } from '@/services/admin/commerce/product'
 import { getBlogCategories } from '@/services/admin/content/blogCategory'
 import { getBlogTags } from '@/services/admin/content/blogTag'
+import { translateContentToEnglish } from '@/services/admin/content/contentTranslation'
 import BlogForm from '../components/BlogForm'
 import { buildBlogFormData, MAX_IMAGE_SIZE_MB } from '../blogFormUtils'
 import '../index.scss'
 
+const hasText = value => typeof value === 'string' && value.trim().length > 0
+
 export default function BlogCreate() {
   const { t } = useTranslation('adminBlog')
   const [form] = Form.useForm()
+  const language = useCurrentLanguage()
   const navigate = useNavigate()
   const [saving, setSaving] = useState(false)
   const [fileList, setFileList] = useState([])
@@ -23,6 +28,7 @@ export default function BlogCreate() {
   const [productLoading, setProductLoading] = useState(false)
   const [categoryOptions, setCategoryOptions] = useState([])
   const [tagOptions, setTagOptions] = useState([])
+  const [translating, setTranslating] = useState(false)
 
   const mapProductOptions = products => products.map(product => ({
     value: product._id,
@@ -32,6 +38,8 @@ export default function BlogCreate() {
   const mapCategoryOptions = categories => categories.map(category => ({
     value: category.name,
     label: category.name,
+    viLabel: category.name,
+    enLabel: category.translations?.en?.name || '',
     categoryRef: category._id,
     enCategory: category.translations?.en?.name || ''
   }))
@@ -48,7 +56,7 @@ export default function BlogCreate() {
   const fetchTagOptions = useCallback(async () => {
     try {
       const response = await getBlogTags({ status: 'active' })
-      setTagOptions((response?.data || []).map(tag => ({ value: tag._id, label: tag.name, enTag: tag.translations?.en?.name || '' })))
+      setTagOptions((response?.data || []).map(tag => ({ value: tag._id, label: tag.name, viLabel: tag.name, enLabel: tag.translations?.en?.name || '', enTag: tag.translations?.en?.name || '' })))
     } catch {
       setTagOptions([])
     }
@@ -67,6 +75,14 @@ export default function BlogCreate() {
   }, [])
 
   const handleSearchProducts = useCallback(debounce(fetchProductOptions, 400), [fetchProductOptions])
+  const localizedCategoryOptions = useMemo(() => categoryOptions.map(option => ({
+    ...option,
+    label: language === 'en' && hasText(option.enLabel) ? option.enLabel : option.viLabel
+  })), [categoryOptions, language])
+  const localizedTagOptions = useMemo(() => tagOptions.map(option => ({
+    ...option,
+    label: language === 'en' && hasText(option.enLabel) ? option.enLabel : option.viLabel
+  })), [tagOptions, language])
 
   useEffect(() => {
     fetchProductOptions()
@@ -100,6 +116,43 @@ export default function BlogCreate() {
         }
       }
     })
+  }
+
+  const handleAutoTranslate = async () => {
+    setTranslating(true)
+    try {
+      const values = form.getFieldsValue(true)
+      const selectedCategory = categoryOptions.find(option => option.value === values.category)
+      const selectedTags = tagOptions.filter(option => (values.tags || []).includes(option.value))
+      const response = await translateContentToEnglish({
+        target: 'blog_post',
+        payload: {
+          title: values.title,
+          excerpt: values.excerpt,
+          content: values.content,
+          category: values.category,
+          tags: selectedTags.map(tag => tag.label)
+        }
+      })
+      form.setFieldsValue({
+        translations: {
+          ...values.translations,
+          en: {
+            ...(values.translations?.en || {}),
+            title: response?.data?.title || '',
+            excerpt: response?.data?.excerpt || '',
+            content: response?.data?.content || '',
+            category: response?.data?.category || selectedCategory?.enCategory || '',
+            tags: Array.isArray(response?.data?.tags) ? response.data.tags : []
+          }
+        }
+      })
+      message.success('Translated')
+    } catch (error) {
+      message.error(error?.response?.message || error?.response?.error || 'Translate failed')
+    } finally {
+      setTranslating(false)
+    }
   }
 
   const handleContentMediaUpload = async file => {
@@ -159,10 +212,12 @@ export default function BlogCreate() {
         fileList={fileList}
         productOptions={productOptions}
         productLoading={productLoading}
-        categoryOptions={categoryOptions}
-        tagOptions={tagOptions}
+        categoryOptions={localizedCategoryOptions}
+        tagOptions={localizedTagOptions}
         onCategoryChange={handleCategoryChange}
         onTagChange={handleTagChange}
+        onAutoTranslate={handleAutoTranslate}
+        translating={translating}
         onSearchProducts={handleSearchProducts}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/admin/blog')}

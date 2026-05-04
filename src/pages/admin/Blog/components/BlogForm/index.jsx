@@ -25,6 +25,8 @@ export default function BlogForm({
   tagOptions = [],
   onCategoryChange,
   onTagChange,
+  onAutoTranslate,
+  translating = false,
   onSearchProducts,
   onSubmit,
   onCancel,
@@ -130,6 +132,9 @@ export default function BlogForm({
           <div className="admin-blog-edit-header__actions">
             <Button icon={<Eye className="admin-blog-button-icon" />} onClick={() => window.open('/blog', '_blank', 'noopener,noreferrer')}>
               {t('page.previewButton')}
+            </Button>
+            <Button loading={translating} disabled={translating || saving || loading} onClick={onAutoTranslate}>
+              Tự động dịch
             </Button>
             <Button type="primary" icon={<Save className="admin-blog-button-icon" />} loading={saving || loading} onClick={() => form.submit()}>
               {mode === 'edit' ? t('form.saveSubmit') : t('form.createSubmit')}

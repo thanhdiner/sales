@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import SEO from '@/components/shared/SEO'
 import { createBlogTag, deleteBlogTag, getBlogTags, updateBlogTag, updateBlogTagStatus } from '@/services/admin/content/blogTag'
+import { translateContentToEnglish } from '@/services/admin/content/contentTranslation'
 
 export default function BlogTags() {
   const [form] = Form.useForm()
@@ -12,6 +13,7 @@ export default function BlogTags() {
   const [open, setOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
+  const [translating, setTranslating] = useState(false)
   const savingRef = useRef(false)
   const actionRef = useRef(false)
 
@@ -41,6 +43,31 @@ export default function BlogTags() {
     savingRef.current = true
     setSaving(true)
     form.submit()
+  }
+
+  const handleAutoTranslate = async () => {
+    setTranslating(true)
+    try {
+      const values = form.getFieldsValue(true)
+      const response = await translateContentToEnglish({
+        target: 'blog_tag',
+        payload: { name: values.name }
+      })
+      form.setFieldsValue({
+        translations: {
+          ...values.translations,
+          en: {
+            ...(values.translations?.en || {}),
+            name: response?.data?.name || ''
+          }
+        }
+      })
+      message.success('Translated')
+    } catch (error) {
+      message.error(error?.response?.message || error?.response?.error || 'Translate failed')
+    } finally {
+      setTranslating(false)
+    }
   }
 
   const handleSubmit = async values => {
@@ -117,6 +144,7 @@ export default function BlogTags() {
         <Form form={form} layout="vertical" onFinish={handleSubmit} onFinishFailed={() => { savingRef.current = false; setSaving(false) }}>
           <Form.Item name="name" label="Tên tag" rules={[{ required: true }]}><Input /></Form.Item>
           <Form.Item name="slug" label="Slug"><Input /></Form.Item>
+          <Button className="mb-4" loading={translating} disabled={translating || saving} onClick={handleAutoTranslate}>Tự động dịch</Button>
           <Form.Item name={['translations', 'en', 'name']} label="Tên tag EN"><Input /></Form.Item>
           <Form.Item name={['translations', 'en', 'slug']} label="Slug EN"><Input /></Form.Item>
           <Form.Item name="status" label="Trạng thái"><Select options={[{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }]} /></Form.Item>
