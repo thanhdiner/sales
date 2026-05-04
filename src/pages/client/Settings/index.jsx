@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setDarkMode } from '@/stores/app/darkModeSlice'
 import { setLanguage } from '@/stores/app/languageSlice'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
 import MobileBackButton from '@/components/shared/MobileBackButton'
 import PasswordInput from '@/components/shared/PasswordInput'
 import SEO from '@/components/shared/SEO'
@@ -108,6 +109,15 @@ export default function Settings() {
       <SEO title={t('seoTitle')} noIndex />
 
       <div className="mx-auto max-w-2xl">
+        <ClientBreadcrumb
+          className="mb-4 hidden md:flex"
+          label={t('breadcrumb.label')}
+          items={[
+            { label: t('breadcrumb.home'), to: '/' },
+            { label: t('breadcrumb.settings') }
+          ]}
+        />
+
         <MobileBackButton label={t('back')} />
 
         <div className="mb-10 text-center">

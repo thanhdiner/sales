@@ -7,7 +7,10 @@ export const BLOG_FIELD_LIMITS = {
   slug: 220,
   excerpt: 500,
   content: 20000,
-  category: 80
+  category: 80,
+  seoTitle: 180,
+  seoDescription: 300,
+  canonicalUrl: 500
 }
 
 export const defaultFormValues = {
@@ -16,11 +19,17 @@ export const defaultFormValues = {
   excerpt: '',
   content: '',
   category: '',
+  categoryRef: '',
   tags: [],
   status: 'draft',
   isFeatured: false,
   publishedAt: null,
+  scheduledAt: null,
   thumbnail: [],
+  seoTitle: '',
+  seoDescription: '',
+  canonicalUrl: '',
+  relatedProducts: [],
   translations: {
     en: {
       title: '',
@@ -99,6 +108,7 @@ export function appendFormData(formData, key, value) {
 export function buildBlogFormData(formValues, { fileList = [], oldThumbnail = '', thumbnailToDelete = '' } = {}) {
   const formData = new FormData()
   const publishedAt = formValues.publishedAt?.toISOString?.() || ''
+  const scheduledAt = formValues.scheduledAt?.toISOString?.() || ''
   const thumbnailFile = fileList[0]?.originFileObj
 
   appendFormData(formData, 'title', formValues.title)
@@ -106,10 +116,17 @@ export function buildBlogFormData(formValues, { fileList = [], oldThumbnail = ''
   appendFormData(formData, 'excerpt', formValues.excerpt)
   appendFormData(formData, 'content', formValues.content)
   appendFormData(formData, 'category', formValues.category)
+  appendFormData(formData, 'categoryRef', formValues.categoryRef)
+  appendFormData(formData, 'tagIds', JSON.stringify(formValues.tags || []))
   appendFormData(formData, 'tags', JSON.stringify(formValues.tags || []))
   appendFormData(formData, 'status', formValues.status)
   appendFormData(formData, 'isFeatured', formValues.isFeatured ? 'true' : 'false')
   appendFormData(formData, 'publishedAt', publishedAt)
+  appendFormData(formData, 'scheduledAt', scheduledAt)
+  appendFormData(formData, 'seoTitle', formValues.seoTitle)
+  appendFormData(formData, 'seoDescription', formValues.seoDescription)
+  appendFormData(formData, 'canonicalUrl', formValues.canonicalUrl)
+  appendFormData(formData, 'relatedProducts', JSON.stringify(formValues.relatedProducts || []))
   appendFormData(formData, 'translations', JSON.stringify(formValues.translations || defaultFormValues.translations))
 
   if (thumbnailFile) {

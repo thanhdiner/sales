@@ -17,8 +17,6 @@ export default function Banners() {
       <PageShell
         seoTitle={t('seo.title')}
         className="admin-banners-page"
-        panel
-        panelClassName="admin-banners-card"
       >
         <BannersHeader onCreateBanner={() => bannerForm.openModal()} />
 

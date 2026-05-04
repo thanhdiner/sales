@@ -1,7 +1,9 @@
-import AddButton from './AddButton'
 import ApplyButton from './ApplyButton'
-import SelectedItems from './SelectedItems'
-import SelectList from './SelectList'
+import {
+  ResourceActionSelect,
+  ResourceAddButton,
+  ResourceBulkActions
+} from '@/components/admin/shared/ResourceManager'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { useTranslation } from 'react-i18next'
 
@@ -40,29 +42,45 @@ function ProductsHeaderActions({
   ].filter(Boolean)
 
   return (
-    <div className="products-header">
-      <SelectedItems {...{ selectedRowKeys }} />
-      <div className="products-header-right">
-        {permissions.includes('create_product') && <AddButton />}
-        <SelectList {...{ value, treeData, setValue }} />
-        <ApplyButton
-          {...{
-            value,
-            setValue,
-            selectedRowKeys,
-            products,
-            setProducts,
-            setTotalProducts,
-            setSelectedRowKeys,
-            editedPositions,
-            totalProducts,
-            currentPage,
-            setCurrentPage,
-            fetchData
-          }}
+    <ResourceBulkActions
+      className="products-header"
+      rightClassName="products-header-right"
+      selectedCountClassName="admin-products-selected-count ml-2"
+      selectedLabel={t('bulk.selected', { count: selectedRowKeys.length })}
+    >
+      {permissions.includes('create_product') && (
+        <ResourceAddButton
+          to="/admin/products/create"
+          buttonClassName="admin-products-btn admin-products-btn--add font-bold"
+          label={t('bulk.add')}
         />
-      </div>
-    </div>
+      )}
+      <ResourceActionSelect
+        value={value}
+        treeData={treeData}
+        onChange={setValue}
+        placeholder={t('bulk.choiceAction')}
+        className="admin-products-action-select"
+        popupClassName="admin-products-popup"
+        dropdownClassName="admin-products-popup"
+      />
+      <ApplyButton
+        {...{
+          value,
+          setValue,
+          selectedRowKeys,
+          products,
+          setProducts,
+          setTotalProducts,
+          setSelectedRowKeys,
+          editedPositions,
+          totalProducts,
+          currentPage,
+          setCurrentPage,
+          fetchData
+        }}
+      />
+    </ResourceBulkActions>
   )
 }
 

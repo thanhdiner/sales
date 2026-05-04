@@ -13,13 +13,36 @@
     "cancel": "Hủy",
     "save": "Lưu",
     "createSubmit": "Tạo mới",
-    "updateSubmit": "Cập nhật"
+    "updateSubmit": "Cập nhật",
+    "refresh": "Làm mới",
+    "export": "Xuất file",
+    "filter": "Bộ lọc",
+    "toggleColumns": "Cột",
+    "duplicate": "Nhân bản",
+    "viewUsageHistory": "Xem lịch sử sử dụng",
+    "disableSale": "Tắt flash sale",
+    "enableSale": "Bật flash sale",
+    "deleteSale": "Xóa flash sale"
   },
   "confirmDelete": {
     "title": "Xác nhận xóa",
     "content": "Bạn có chắc chắn muốn xóa flash sale này?",
     "ok": "Xóa",
     "cancel": "Hủy"
+  },
+  "columnMenu": {
+    "title": "Cột hiển thị"
+  },
+  "filters": {
+    "searchPlaceholder": "Tìm flash sale...",
+    "clear": "Xóa lọc",
+    "statusOptions": {
+      "all": "Tất cả trạng thái",
+      "active": "Đang diễn ra",
+      "scheduled": "Đã lên lịch",
+      "completed": "Đã kết thúc",
+      "inactive": "Đã tắt"
+    }
   },
   "messages": {
     "updateSuccess": "Cập nhật thành công",
@@ -30,9 +53,13 @@
   },
   "stats": {
     "totalRevenue": "Tổng doanh thu",
+    "totalRevenueHint": "Doanh thu từ tất cả đơn flash sale",
     "activeSales": "Sale đang diễn ra",
+    "activeSalesHint": "Chương trình hiện đang chạy",
     "totalProductsSold": "Tổng sản phẩm bán",
-    "totalPrograms": "Tổng chương trình"
+    "totalProductsSoldHint": "Số lượng đã bán qua flash sale",
+    "totalPrograms": "Tổng chương trình",
+    "totalProgramsHint": "Tất cả chương trình flash sale đã tạo"
   },
   "table": {
     "loading": "Đang tải dữ liệu...",

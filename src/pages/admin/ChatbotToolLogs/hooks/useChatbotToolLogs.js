@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import useChatbotConfigData from '@/pages/admin/ChatbotShared/hooks/useChatbotConfigData'
 
 const DEFAULT_LOGS_PAGE = 1
@@ -7,8 +8,15 @@ const DEFAULT_LOGS_PAGE_SIZE = 50
 export default function useChatbotToolLogs() {
   const [toolNameFilter, setToolNameFilter] = useState(undefined)
   const [sessionIdFilter, setSessionIdFilter] = useState('')
-  const [currentPage, setCurrentPage] = useState(DEFAULT_LOGS_PAGE)
-  const [pageSize, setPageSize] = useState(DEFAULT_LOGS_PAGE_SIZE)
+  const {
+    page: currentPage,
+    setPage: setCurrentPage,
+    pageSize,
+    setPageSize
+  } = useListSearchParams({
+    defaultPage: DEFAULT_LOGS_PAGE,
+    defaultPageSize: DEFAULT_LOGS_PAGE_SIZE
+  })
   const [paginationEnabled, setPaginationEnabled] = useState(true)
   const [lastLoadedPage, setLastLoadedPage] = useState(DEFAULT_LOGS_PAGE)
   const [lastLoadedLimit, setLastLoadedLimit] = useState(DEFAULT_LOGS_PAGE_SIZE)
@@ -23,7 +31,7 @@ export default function useChatbotToolLogs() {
     toolLogs,
     toolLogsMeta,
     loadToolLogs
-  } = useChatbotConfigData({ loadLogs: true, logLimit: DEFAULT_LOGS_PAGE_SIZE })
+  } = useChatbotConfigData({ loadLogs: false, logLimit: DEFAULT_LOGS_PAGE_SIZE })
 
   const requestLogs = useCallback(async ({ page, limit, silent = false, withLoading = true }) => {
     const response = await loadToolLogs(
@@ -47,10 +55,6 @@ export default function useChatbotToolLogs() {
 
 
   useEffect(() => {
-    setCurrentPage(DEFAULT_LOGS_PAGE)
-  }, [toolNameFilter, sessionIdFilter])
-
-  useEffect(() => {
     let mounted = true
 
     const run = async () => {
@@ -63,18 +67,11 @@ export default function useChatbotToolLogs() {
       const responsePage = Number(response?.meta?.page || currentPage)
       const responseLimit = Number(response?.meta?.limit || pageSize)
       const currentCount = Array.isArray(response?.data) ? response.data.length : 0
-      const supportsPagination = response?.meta?.page !== undefined || response?.meta?.limit !== undefined || currentPage === DEFAULT_LOGS_PAGE
-
-      setPaginationEnabled(supportsPagination)
+      setPaginationEnabled(true)
       setLastLoadedPage(responsePage)
       setLastLoadedLimit(responseLimit)
       setHasNextPage(currentCount === responseLimit)
       setEffectiveTotal(responseTotal || ((responsePage - 1) * responseLimit + currentCount + (currentCount === responseLimit ? 1 : 0)))
-
-      if (!supportsPagination && currentPage > DEFAULT_LOGS_PAGE) {
-        setPageLoadError(true)
-        setCurrentPage(DEFAULT_LOGS_PAGE)
-      }
     }
 
     run()
@@ -83,14 +80,6 @@ export default function useChatbotToolLogs() {
       mounted = false
     }
   }, [currentPage, pageSize, requestLogs])
-
-  useEffect(() => {
-    if (!paginationEnabled) return
-    if (toolLogs.length > 0) return
-    if (currentPage === DEFAULT_LOGS_PAGE) return
-
-    setCurrentPage(previousPage => Math.max(DEFAULT_LOGS_PAGE, previousPage - 1))
-  }, [currentPage, paginationEnabled, toolLogs.length])
 
   const toolOptions = toolRegistry.map(tool => ({
     value: tool.name,
@@ -103,19 +92,24 @@ export default function useChatbotToolLogs() {
 
   const handleToolNameFilterChange = value => {
     setToolNameFilter(value)
+    setCurrentPage(DEFAULT_LOGS_PAGE)
   }
 
   const handleSessionIdFilterChange = value => {
     setSessionIdFilter(value)
+    setCurrentPage(DEFAULT_LOGS_PAGE)
   }
 
-  const handlePageChange = page => {
-    if (!paginationEnabled && page > DEFAULT_LOGS_PAGE) return
+  const handlePageChange = (page, size) => {
+    if (size && size !== pageSize) {
+      setPageSize(size)
+      return
+    }
+
     setCurrentPage(page)
   }
 
-  const handlePageSizeChange = (page, size) => {
-    setCurrentPage(page)
+  const handlePageSizeChange = (_, size) => {
     setPageSize(size)
   }
   return {

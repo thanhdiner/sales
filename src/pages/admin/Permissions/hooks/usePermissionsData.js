@@ -5,7 +5,7 @@ import { getPermissionErrorMessage } from '../utils'
 
 export function usePermissionsData({ t = key => key } = {}) {
   const [permissionList, setPermissionList] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const fetchPermissions = useCallback(async () => {
     setLoading(true)

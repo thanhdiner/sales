@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 
 export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory }) {
   const tabsRef = useRef(null)
-  const dragStateRef = useRef({ active: false, startX: 0, scrollLeft: 0, dragged: false })
+  const dragStateRef = useRef({ active: false, pointerId: null, startX: 0, scrollLeft: 0, dragged: false })
   const [isDraggingTabs, setIsDraggingTabs] = useState(false)
   const [, setSearchParams] = useSearchParams()
 
@@ -43,10 +43,12 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
   }
 
   const handleTabsPointerDown = event => {
-    if (!tabsRef.current) return
+    if (!tabsRef.current || event.button !== 0) return
 
+    tabsRef.current.setPointerCapture?.(event.pointerId)
     dragStateRef.current = {
       active: true,
+      pointerId: event.pointerId,
       startX: event.clientX,
       scrollLeft: tabsRef.current.scrollLeft,
       dragged: false
@@ -56,7 +58,7 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
 
   const handleTabsPointerMove = event => {
     const dragState = dragStateRef.current
-    if (!dragState.active || !tabsRef.current) return
+    if (!dragState.active || dragState.pointerId !== event.pointerId || !tabsRef.current) return
 
     const distance = event.clientX - dragState.startX
     if (Math.abs(distance) <= 8) return
@@ -66,8 +68,12 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
     tabsRef.current.scrollLeft = dragState.scrollLeft - distance
   }
 
-  const handleTabsPointerUp = () => {
+  const handleTabsPointerUp = event => {
+    if (dragStateRef.current.pointerId !== event.pointerId) return
+
+    tabsRef.current?.releasePointerCapture?.(event.pointerId)
     dragStateRef.current.active = false
+    dragStateRef.current.pointerId = null
     setIsDraggingTabs(false)
   }
 

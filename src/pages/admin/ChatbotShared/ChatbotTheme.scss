@@ -178,6 +178,21 @@ html.dark .admin-chatbot-page .ant-card {
   filter: brightness(1.08);
 }
 
+.admin-chatbot-rule-input.ant-space-compact {
+  align-items: stretch;
+  gap: 8px;
+}
+
+.admin-chatbot-rule-input.ant-space-compact .ant-input {
+  border-radius: 10px !important;
+}
+
+.admin-chatbot-rule-input.ant-space-compact .ant-btn {
+  border-radius: 10px !important;
+  height: auto;
+  min-height: 40px;
+}
+
 .admin-chatbot-page .ant-slider-rail {
   background: var(--chatbot-surface-3) !important;
 }

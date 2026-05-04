@@ -263,7 +263,7 @@ export default function ChatbotToolLogsTable({
         )}
       </div>
 
-      <div className="admin-chatbot-logs-footer mt-4 flex flex-col gap-3 pt-4 md:flex-row md:items-center md:justify-between">
+      <div className="admin-chatbot-logs-footer flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <Text type="secondary" className="admin-chatbot-tool-logs-summary text-sm">
           {footerSummary}
         </Text>

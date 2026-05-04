@@ -73,6 +73,7 @@ export function useFlashSalesData() {
     [fetchFlashSales, t]
   )
 
+
   return {
     flashSales,
     tableLoading,

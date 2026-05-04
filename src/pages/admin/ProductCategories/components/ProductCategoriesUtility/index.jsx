@@ -1,11 +1,11 @@
-import { FileExcelOutlined, FilterOutlined, TableOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { FileExcelOutlined, FilterOutlined, ReloadOutlined, TableOutlined } from '@ant-design/icons'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 import DropdownToggleColumns from './DropdownToggleColumns'
 import ColumnMenu from './ColumnMenu'
 import { getLocalizedProductCategoryParentTitle, getLocalizedProductCategoryTitle } from '../../utils/productCategoryLocalization'
 import { useTranslation } from 'react-i18next'
+import { ResourceUtility } from '@/components/admin/shared/ResourceManager'
 
 const getUserLabel = value => value?.by?.fullName || value?.by?.email || value?.account_id || ''
 
@@ -52,7 +52,7 @@ const exportToExcel = (productCategories, columnsVisible, sheetName, fileName, l
   saveAs(file, fileName)
 }
 
-function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories }) {
+function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories, fetchData }) {
   const { t, i18n } = useTranslation('adminProductCategories')
   const language = i18n.resolvedLanguage || i18n.language
 
@@ -72,9 +72,16 @@ function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColum
 
   const utilityButtons = handleToggleFilter => [
     {
+      key: 'refresh',
+      icon: <ReloadOutlined />,
+      label: t('utility.refresh'),
+      className: '',
+      onClick: fetchData
+    },
+    {
       key: 'export',
       icon: <FileExcelOutlined />,
-      label: t('utility.exportProductCategories'),
+      label: t('utility.exportMobile'),
       mobileLabel: t('utility.exportMobile'),
       className: '',
       onClick: () => exportToExcel(productCategories, columnsVisible, t('utility.sheetName'), t('utility.fileName'), language, t)
@@ -95,25 +102,16 @@ function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColum
   ]
 
   return (
-    <div className="product-categories-utility">
-      {utilityButtons(handleToggleFilter).map(btn =>
-        btn.dropdown ? (
-          <div key={btn.key} className={`admin-product-categories-utility-item admin-product-categories-utility-item--${btn.key}`}>
-            {btn.dropdown}
-          </div>
-        ) : (
-          <Button
-            key={btn.key}
-            onClick={btn.onClick}
-            className={`admin-product-categories-btn admin-product-categories-utility-item admin-product-categories-utility-item--${btn.key} ${btn.className || ''}`.trim()}
-          >
-            {btn.icon}
-            <span className="admin-product-categories-btn__label">{btn.label}</span>
-            <span className="admin-product-categories-btn__label-mobile">{btn.mobileLabel || btn.label}</span>
-          </Button>
-        )
-      )}
-    </div>
+    <ResourceUtility
+      buttons={utilityButtons(handleToggleFilter).map(button => ({
+        ...button,
+        className: `admin-product-categories-btn ${button.className || ''}`.trim(),
+        labelClassName: 'admin-product-categories-btn__label',
+        mobileLabelClassName: 'admin-product-categories-btn__label-mobile'
+      }))}
+      className="product-categories-utility"
+      itemClassPrefix="admin-product-categories-utility-item"
+    />
   )
 }
 

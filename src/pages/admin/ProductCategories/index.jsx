@@ -42,7 +42,7 @@ function ProductCategories() {
       <SEO title={t('seo.title')} noIndex />
       <div className="admin-product-categories-page__inner">
         <ProductCategoriesHeader
-          {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories }}
+          {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories, fetchData }}
         />
         <ProductCategoriesHeaderActions
           {...{

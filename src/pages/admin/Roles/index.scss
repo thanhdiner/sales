@@ -20,25 +20,7 @@ body.admin-layout-active .admin-roles-confirm-modal {
   min-height: 100%;
   width: 100%;
   min-width: 0;
-  border-radius: 12px;
-  background: var(--admin-bg-soft);
   color: var(--roles-text);
-  padding: 24px;
-}
-
-.admin-roles-page__inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  min-width: 0;
-}
-
-.admin-roles-card {
-  min-width: 0;
-  border: 1px solid var(--roles-border);
-  border-radius: 14px;
-  background: var(--roles-surface);
-  box-shadow: var(--roles-shadow);
-  padding: 20px;
 }
 
 .admin-roles-header {
@@ -823,32 +805,12 @@ html.dark body.admin-layout-active .ant-modal-root .admin-roles-modal .ant-modal
 }
 
 @media (max-width: 991px) {
-  .admin-roles-page {
-    padding: 16px;
-  }
-
-  .admin-roles-card {
-    padding: 16px;
-  }
-
   .admin-roles-table.ant-table-wrapper .ant-pagination-options-quick-jumper {
     display: none;
   }
 }
 
 @media (max-width: 767px) {
-  .admin-roles-page {
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  .admin-roles-card {
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-  }
-
   .admin-roles-header {
     flex-direction: row;
     align-items: flex-start;
@@ -905,14 +867,6 @@ html.dark body.admin-layout-active .ant-modal-root .admin-roles-modal .ant-modal
 }
 
 @media (max-width: 575px) {
-  .admin-roles-page {
-    padding: 8px;
-  }
-
-  .admin-roles-card {
-    padding: 0;
-  }
-
   .admin-roles-header__description.ant-typography {
     max-width: 100%;
   }

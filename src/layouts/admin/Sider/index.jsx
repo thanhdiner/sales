@@ -16,7 +16,7 @@ const isSuperAdmin = user => {
   return username === 'superadmin' || roleLabel === 'superadmin' || roleLabel === 'super admin'
 }
 
-function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = false }) {
+function SiderLayout({ collapsed, setCollapsed, location }) {
   const navigate = useNavigate()
   const { t } = useTranslation('adminLayout')
   const [stateOpenKeys, setStateOpenKeys] = useState([])
@@ -33,17 +33,9 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
   const menuItems = useMemo(
     () => buildAdminMenuItems(permissions, t, {
       preservePermissionItems: shouldPreservePermissionItems,
-      isSuperAdmin: shouldShowAllPermissionItems,
-      compactGroups: compactChatMenu
-        ? {
-            'live-chat': {
-              key: 'chat',
-              labelKey: 'routes.live-chat'
-            }
-          }
-        : undefined
+      isSuperAdmin: shouldShowAllPermissionItems
     }),
-    [compactChatMenu, permissions, shouldPreservePermissionItems, shouldShowAllPermissionItems, t]
+    [permissions, shouldPreservePermissionItems, shouldShowAllPermissionItems, t]
   )
 
   const getLevelKeys = items1 => {
@@ -60,11 +52,6 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
   const levelKeys = getLevelKeys(menuItems)
 
   useEffect(() => {
-    if (compactChatMenu) {
-      setStateOpenKeys([])
-      return
-    }
-
     const openKeys = []
     menuItems.forEach(item => {
       if (item.children) {
@@ -75,7 +62,7 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
     })
     setStateOpenKeys(openKeys)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compactChatMenu, location.pathname])
+  }, [location.pathname])
 
   const onOpenChange = openKeys => {
     const currentOpenKey = openKeys.find(key => stateOpenKeys.indexOf(key) === -1)
@@ -147,7 +134,7 @@ function SiderLayout({ collapsed, setCollapsed, location, compactChatMenu = fals
           selectedKeys={[getSelectedAdminMenuKey(location.pathname)]}
           items={menuItems}
           onOpenChange={onOpenChange}
-          openKeys={hideMenuContent ? [] : stateOpenKeys}
+          openKeys={collapsed ? undefined : stateOpenKeys}
           className="admin-sider-menu border-0 bg-transparent"
           style={hideMenuContent ? { display: 'none' } : undefined}
         />

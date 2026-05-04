@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 import CartHeader from './sections/CartHeader'
 import CartItems from './sections/CartItems'
@@ -93,6 +94,7 @@ const Cart = () => {
 
       <div className="border-t border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-950">
         <div className="container mx-auto px-4 py-6 lg:py-8">
+          <MobileBackButton />
           <CartHeader itemCount={cartItems.length} t={t} />
 
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">

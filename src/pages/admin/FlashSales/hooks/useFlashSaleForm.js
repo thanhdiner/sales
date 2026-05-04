@@ -59,6 +59,15 @@ export function useFlashSaleForm() {
     setShowModal(true)
   }
 
+  const openDuplicate = async item => {
+    const selectedIds = (item.products || []).map(product => (typeof product === 'object' ? product._id : product))
+    const products = await fetchProducts({ page: 1, limit: INITIAL_PRODUCT_LIMIT })
+    setProductList(mergeProductOptions(products, selectedIds, item.products || [], t('form.fields.products.loading')))
+    setEditingItem(null)
+    setFormData(mapFlashSaleToFormData({ ...item, name: `${item.name || ''} Copy` }))
+    setShowModal(true)
+  }
+
   const handleChange = (field, value) => {
     if (Array.isArray(field)) {
       setFormData(prev => {
@@ -123,6 +132,7 @@ export function useFlashSaleForm() {
     productLoading,
     openCreate,
     openEdit,
+    openDuplicate,
     closeModal,
     handleChange,
     handleSearchProduct,

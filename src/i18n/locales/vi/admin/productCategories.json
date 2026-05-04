@@ -65,6 +65,7 @@
   "utility": {
     "exportProductCategories": "Xuất danh mục",
     "exportMobile": "Xuất",
+    "refresh": "Làm mới",
     "toggleColumns": "Ẩn/hiện cột",
     "filter": "Lọc",
     "sheetName": "Danh mục",

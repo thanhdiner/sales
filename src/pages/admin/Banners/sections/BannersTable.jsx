@@ -8,6 +8,7 @@ import {
   Pagination,
   Skeleton,
   Space,
+  Tag,
   Table,
   Tooltip,
   Typography
@@ -18,7 +19,7 @@ import {
   LinkOutlined,
   MoreOutlined
 } from '@ant-design/icons'
-import { StatusPill, TablePanel } from '@/components/admin/ui'
+import { TablePanel } from '@/components/admin/ui'
 import { getLocalizedBannerLink, getLocalizedBannerTitle } from '@/utils/bannerLocalization'
 
 const { Text } = Typography
@@ -30,14 +31,7 @@ const getStatusTagClassName = value =>
 function BannerStatusTag({ value }) {
   const { t } = useTranslation('adminBanners')
 
-  return (
-    <StatusPill
-      className={getStatusTagClassName(value)}
-      tone={value ? 'success' : 'neutral'}
-    >
-      {value ? t('status.active') : t('status.inactive')}
-    </StatusPill>
-  )
+  return <Tag className={getStatusTagClassName(value)}>{value ? t('status.active') : t('status.inactive')}</Tag>
 }
 
 function BannerLink({ link, compact = false }) {

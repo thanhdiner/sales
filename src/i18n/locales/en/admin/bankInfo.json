@@ -9,9 +9,13 @@
   },
   "stats": {
     "total": "Total accounts",
+    "totalDesc": "All transfer accounts",
     "active": "Active",
+    "activeDesc": "Shown at checkout",
     "inactive": "Inactive",
-    "withQr": "With QR"
+    "inactiveDesc": "Hidden from checkout",
+    "withQr": "With QR",
+    "withQrDesc": "QR image uploaded"
   },
   "common": {
     "delete": "Delete",

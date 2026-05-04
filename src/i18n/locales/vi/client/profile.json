@@ -5,6 +5,11 @@
   "loading": {
     "profile": "Chờ chút đang tải thông tin..."
   },
+  "breadcrumb": {
+    "label": "Điều hướng hồ sơ",
+    "home": "Trang chủ",
+    "profile": "Hồ sơ"
+  },
   "message": {
     "imageOnly": "Chỉ chấp nhận ảnh!",
     "imageMaxSize": "Ảnh phải nhỏ hơn 2MB!",
@@ -30,6 +35,67 @@
     "title": "Cập nhật email",
     "button": "Cập nhật ngay"
   },
+  "accountHub": {
+    "title": "Trung tâm tài khoản",
+    "description": "Các lối tắt quan trọng cho tài khoản của bạn.",
+    "items": {
+      "profile": {
+        "title": "Hồ sơ",
+        "description": "Thông tin cá nhân"
+      },
+      "settings": {
+        "title": "Cài đặt",
+        "description": "Tùy chỉnh tài khoản"
+      },
+      "orders": {
+        "title": "Đơn hàng",
+        "description": "Theo dõi giao dịch"
+      },
+      "products": {
+        "title": "Sản phẩm",
+        "description": "Tiếp tục mua sắm"
+      }
+    }
+  },
+  "mobileProfileEdit": {
+    "title": "Chỉnh sửa thông tin cá nhân",
+    "description": "Cập nhật họ tên, số điện thoại và email"
+  },
+  "mobileDashboard": {
+    "settings": "Cài đặt",
+    "notifications": "Thông báo",
+    "statusActive": "Đang hoạt động",
+    "settingsHint": "Hoàn thiện cài đặt để tài khoản an toàn hơn",
+    "orders": {
+      "title": "Đơn mua",
+      "viewAll": "Xem lịch sử mua hàng",
+      "items": {
+        "pending": "Chờ xác nhận",
+        "processing": "Đang xử lý",
+        "completed": "Hoàn tất",
+        "reviews": "Đánh giá"
+      }
+    },
+    "utilities": {
+      "title": "Tiện ích của tôi",
+      "items": {
+        "settings": "Cài đặt",
+        "profile": "Hồ sơ",
+        "coupons": "Kho voucher",
+        "wishlist": "Yêu thích"
+      }
+    },
+    "security": {
+      "title": "Tài khoản & bảo mật",
+      "items": {
+        "personal": "Thông tin cá nhân",
+        "accountSettings": "Cài đặt tài khoản",
+        "security": "Bảo mật",
+        "support": "Hỗ trợ",
+        "logout": "Đăng xuất"
+      }
+    }
+  },
   "avatar": {
     "alt": "Avatar",
     "change": "Đổi ảnh đại diện",
@@ -43,6 +109,7 @@
     "noLastLogin": "Chưa có"
   },
   "form": {
+    "back": "Quay lại",
     "fullName": "Họ và tên",
     "fullNamePlaceholder": "Nhập họ và tên của bạn",
     "fullNameRequired": "Vui lòng nhập họ tên!",

@@ -1,6 +1,7 @@
-import { Button, DatePicker, Input, Select } from 'antd'
-import { Archive, CheckCheck, Search, Trash2, X } from 'lucide-react'
+import { Button, DatePicker, Select } from 'antd'
+import { Archive, CheckCheck, Trash2, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import SearchInput from '@/components/shared/SearchInput'
 import {
   adminNotificationPriorityLevels,
   adminNotificationStatusFilters,
@@ -55,14 +56,12 @@ export default function NotificationsFilters({
       </div>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(220px,1.4fr)_minmax(160px,0.8fr)_minmax(150px,0.7fr)_minmax(150px,0.7fr)_minmax(230px,1fr)_auto]">
-        <Input
-          allowClear
-          prefix={<Search className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+        <SearchInput
           value={filters.search}
           onChange={event => updateFilter('search', event.target.value)}
+          onClear={() => updateFilter('search', '')}
           placeholder={t('filters.searchPlaceholder')}
-          className={inputClass}
-          size="large"
+          className="h-10 rounded-lg border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text)]"
         />
 
         <Select

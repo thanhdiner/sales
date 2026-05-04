@@ -2,19 +2,13 @@
   min-height: 100%;
 }
 
-.admin-return-policy-card {
-  border: 1px solid var(--admin-border);
-  border-radius: 14px;
-  background: var(--admin-surface);
-  box-shadow: var(--admin-shadow);
-}
 
 .admin-return-policy-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--admin-border);
 
   h2.ant-typography {
@@ -27,9 +21,6 @@
   }
 }
 
-.admin-return-policy-form {
-  padding: 0 24px 24px;
-}
 
 .admin-return-policy-section {
   padding: 20px 0;

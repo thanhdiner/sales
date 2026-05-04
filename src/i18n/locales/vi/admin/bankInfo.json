@@ -9,9 +9,13 @@
   },
   "stats": {
     "total": "T\u1ed5ng t\u00e0i kho\u1ea3n",
+    "totalDesc": "T\u1ea5t c\u1ea3 t\u00e0i kho\u1ea3n chuy\u1ec3n kho\u1ea3n",
     "active": "\u0110ang d\u00f9ng",
+    "activeDesc": "Hi\u1ec3n th\u1ecb khi thanh to\u00e1n",
     "inactive": "Ch\u01b0a k\u00edch ho\u1ea1t",
-    "withQr": "C\u00f3 QR"
+    "inactiveDesc": "\u1ea8n kh\u1ecfi trang thanh to\u00e1n",
+    "withQr": "C\u00f3 QR",
+    "withQrDesc": "\u0110\u00e3 t\u1ea3i \u1ea3nh QR"
   },
   "common": {
     "delete": "X\u00f3a",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
 import SEO from '@/components/shared/SEO'
 import Hero from './sections/Hero'
 import Benefits from './sections/Benefits'
@@ -22,7 +23,7 @@ const About = () => {
   const viewport = { once: true, amount: 0.2 }
 
   return (
-    <main className="about-page min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
+    <main className="about-page min-h-screen overflow-hidden rounded-tl-[8px] rounded-tr-[8px] bg-white shadow dark:bg-gray-800">
       <SEO
         title={content?.seo?.title || t('seo.title')}
         description={content?.seo?.description || t('seo.description')}
@@ -35,6 +36,16 @@ const About = () => {
       </div>
 
       <div className="relative z-10">
+        <div className="mx-auto max-w-7xl px-6 pt-5 sm:px-8 lg:px-10">
+          <ClientBreadcrumb
+            label={t('breadcrumb.label')}
+            items={[
+              { label: t('breadcrumb.home'), to: '/' },
+              { label: t('breadcrumb.about') }
+            ]}
+          />
+        </div>
+
         <Hero content={content?.heroSection} isVisible={isVisible} viewport={viewport} />
         <Benefits content={content?.benefitsSection} viewport={viewport} />
         <Features content={content?.featuresSection} viewport={viewport} />

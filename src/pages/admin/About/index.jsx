@@ -394,7 +394,7 @@ export default function AdminAbout() {
   }
 
   return (
-    <div className="admin-about-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-5 lg:p-6">
+    <div className="admin-about-page">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-7xl space-y-5">

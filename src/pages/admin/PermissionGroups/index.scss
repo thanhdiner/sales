@@ -1,9 +1,5 @@
 .admin-permission-groups-page {
-  min-height: 100%;
-  border-radius: 12px;
-  background: var(--admin-bg-soft);
   color: var(--admin-text);
-  padding: 24px;
 }
 
 .admin-permission-groups-page,
@@ -16,13 +12,6 @@
   margin: 0 auto;
 }
 
-.admin-permission-groups-card {
-  border: 1px solid var(--admin-border);
-  border-radius: 14px;
-  background: var(--admin-surface);
-  box-shadow: var(--admin-shadow);
-  padding: 20px;
-}
 
 .admin-permission-groups-header {
   margin-bottom: 16px;
@@ -71,65 +60,6 @@
 
 .admin-permission-groups-stats {
   margin-bottom: 14px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.admin-permission-groups-stat-card {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid var(--admin-border);
-  border-radius: 10px;
-  background: var(--admin-surface);
-  padding: 12px 14px;
-}
-
-.admin-permission-groups-stat-card__icon {
-  display: flex;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  color: var(--admin-accent);
-  background: var(--admin-accent-soft);
-  font-size: 20px;
-}
-
-.admin-permission-groups-stat-card--active .admin-permission-groups-stat-card__icon {
-  color: var(--admin-success-text);
-  background: var(--admin-success-bg-soft);
-}
-
-.admin-permission-groups-stat-card--inactive .admin-permission-groups-stat-card__icon {
-  color: var(--admin-danger-text);
-  background: var(--admin-danger-bg-soft);
-}
-
-.admin-permission-groups-stat-card__content {
-  min-width: 0;
-}
-
-.admin-permission-groups-stat-card__label {
-  margin: 0;
-  color: var(--admin-text-muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.admin-permission-groups-stat-card__value {
-  margin: 4px 0 0;
-  color: var(--admin-text);
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1.1;
 }
 
 .admin-permission-groups-table-wrap {
@@ -571,14 +501,6 @@
 }
 
 @media (max-width: 1024px) {
-  .admin-permission-groups-page {
-    padding: 16px;
-  }
-
-  .admin-permission-groups-card {
-    padding: 18px;
-  }
-
   .admin-permission-groups-header {
     align-items: center;
   }
@@ -603,17 +525,6 @@
 }
 
 @media (max-width: 767px) {
-  .admin-permission-groups-page {
-    min-height: auto;
-    padding: 0;
-    background: transparent;
-  }
-
-  .admin-permission-groups-card {
-    border-radius: 12px;
-    padding: 14px;
-  }
-
   .admin-permission-groups-header {
     margin-bottom: 14px;
     gap: 10px;
@@ -675,10 +586,6 @@
 }
 
 @media (max-width: 420px) {
-  .admin-permission-groups-card {
-    padding: 12px;
-  }
-
   .admin-permission-groups-mobile-item {
     grid-template-columns: 34px minmax(0, 1fr) 30px;
     grid-template-areas:

@@ -4,6 +4,11 @@
     "titleDetail": "Wishlist",
     "titleWithCount": "Wishlist ({{count}})"
   },
+  "breadcrumb": {
+    "label": "Wishlist navigation",
+    "home": "Home",
+    "wishlist": "Wishlist"
+  },
   "filters": {
     "all": "All",
     "inStock": "In stock",

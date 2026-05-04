@@ -11,8 +11,11 @@
   },
   "stats": {
     "totalTools": "Tổng tools",
+    "totalToolsHint": "Tools có sẵn từ backend",
     "enabledTools": "Đang bật",
-    "disabledTools": "Đang tắt"
+    "enabledToolsHint": "Được phép dùng trong runtime",
+    "disabledTools": "Đang tắt",
+    "disabledToolsHint": "Bị chặn khỏi runtime"
   },
   "table": {
     "title": "Tools built-in",

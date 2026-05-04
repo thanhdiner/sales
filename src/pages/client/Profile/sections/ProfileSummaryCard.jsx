@@ -5,10 +5,10 @@ import { getAvatarFallback } from '../utils/profileUtils'
 
 const { Title, Text } = Typography
 
-function ProfileSummaryCard({ avatarPreview, inputRef, onFileChange, onRemoveAvatar, t, user }) {
+function ProfileSummaryCard({ avatarPreview, className = '', inputRef, onFileChange, onRemoveAvatar, t, user }) {
   return (
     <Card
-      className="rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800 lg:col-span-4"
+      className={`rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800 lg:col-span-4 ${className}`}
       styles={{ body: { padding: '28px' } }}
     >
       <div className="text-center">

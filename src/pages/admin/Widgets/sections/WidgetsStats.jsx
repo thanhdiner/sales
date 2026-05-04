@@ -1,5 +1,5 @@
 import { AppstoreOutlined, LineChartOutlined, PauseCircleOutlined } from '@ant-design/icons'
-import { AdminStatCard, AdminStatGrid } from '@/components/admin/ui'
+import { StatCard, StatGrid } from '@/components/admin/ui'
 import { getWidgetStats } from '../utils'
 
 export default function WidgetsStats({ widgets, t }) {
@@ -10,38 +10,37 @@ export default function WidgetsStats({ widgets, t }) {
       key: 'total',
       label: t('stats.total'),
       value: stats.total,
+      meta: t('stats.totalHint'),
       icon: <AppstoreOutlined />
     },
     {
       key: 'active',
       label: t('stats.active'),
       value: stats.active,
-      icon: <LineChartOutlined />,
-      tone: 'success'
+      meta: t('stats.activeHint'),
+      icon: <LineChartOutlined />
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
       value: stats.inactive,
-      icon: <PauseCircleOutlined />,
-      tone: 'danger'
+      meta: t('stats.inactiveHint'),
+      icon: <PauseCircleOutlined />
     }
   ]
 
   return (
-    <AdminStatGrid className="admin-widgets-stats" columns={3}>
+    <StatGrid className="admin-widgets-stats" columns={3}>
       {statItems.map(item => (
-        <AdminStatCard
+        <StatCard
           key={item.key}
           label={item.label}
           value={item.value}
+          meta={item.meta}
           icon={item.icon}
-          tone={item.tone}
-          className={`admin-widgets-stats__card${item.tone === 'success' ? ' admin-widgets-stats__card--active' : ''}${
-            item.tone === 'danger' ? ' admin-widgets-stats__card--inactive' : ''
-          }`}
+          className="admin-widgets-stats__card"
         />
       ))}
-    </AdminStatGrid>
+    </StatGrid>
   )
 }

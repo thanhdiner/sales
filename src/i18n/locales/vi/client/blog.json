@@ -1,21 +1,21 @@
 {
   "seo": {
-    "title": "Blog / tin tức - SmartMall",
-    "description": "Cập nhật tin tức, hướng dẫn mua hàng và kinh nghiệm chọn sản phẩm tại SmartMall."
+    "title": "Blog - SmartMall",
+    "description": "Góc mua sắm thông minh với hướng dẫn chọn sản phẩm, mẹo săn ưu đãi và tin mới từ SmartMall."
   },
   "page": {
-    "eyebrow": "Blog / tin tức",
-    "title": "Cập nhật mới nhất từ SmartMall",
-    "description": "Theo dõi các bài viết hướng dẫn, tin tức sản phẩm và thông tin hữu ích cho quá trình mua sắm."
+    "eyebrow": "Góc mua sắm thông minh",
+    "title": "Mua đúng hơn, săn deal tốt hơn",
+    "description": "Hướng dẫn chọn tài khoản, game, phần mềm và dịch vụ số theo cách dễ hiểu, thực tế và tiết kiệm hơn."
   },
   "filters": {
-    "keyword": "Tìm bài viết",
+    "keyword": "Tìm hướng dẫn, mẹo mua hàng...",
     "category": "Danh mục blog",
     "all": "Tất cả"
   },
   "labels": {
     "featured": "Nổi bật",
-    "author": "Admin",
+    "author": "SmartMall Editorial",
     "readTime": "{{count}} phút đọc"
   },
   "stats": {
@@ -24,10 +24,12 @@
     "featured": " nổi bật"
   },
   "sections": {
-    "featured": "Bài viết nổi bật",
+    "featured": "Bài viết nên đọc",
     "latest": "Bài mới nhất",
-    "popular": "Bài phổ biến",
-    "tags": "Tags",
+    "latestHint": "Hướng dẫn mua sắm, mẹo dùng sản phẩm và cập nhật mới",
+    "popular": "Đọc nhiều",
+    "popularHint": "Nội dung được quan tâm nhất",
+    "tags": "Chủ đề",
     "toc": "Mục lục",
     "relatedProducts": "Sản phẩm liên quan",
     "relatedPosts": "Bài viết liên quan"
@@ -37,14 +39,22 @@
     "blog": "Blog"
   },
   "detail": {
+    "share": "Chia sẻ",
     "ctaTitle": "Cần tìm sản phẩm phù hợp?",
     "ctaDescription": "Khám phá danh mục SmartMall để chọn tài khoản, game và phần mềm đang được ưu đãi.",
     "ctaAction": "Xem sản phẩm",
     "productPlaceholder": "Sản phẩm gợi ý"
   },
+  "cta": {
+    "eyebrow": "SmartMall Deals",
+    "title": "Sẵn sàng mua sắm thông minh hơn?",
+    "description": "Xem các sản phẩm số, tài khoản và ưu đãi flash sale đang có tại SmartMall.",
+    "products": "Xem sản phẩm",
+    "flashSale": "Xem flash sale"
+  },
   "actions": {
     "read": "Đọc bài viết",
-    "loadMore": "Load more",
+    "loadMore": "Xem thêm",
     "backToBlog": "Quay lại Blog"
   },
   "messages": {

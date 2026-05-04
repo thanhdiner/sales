@@ -6,9 +6,17 @@
     "title": "Quản lý đơn hàng",
     "description": "Theo dõi, tìm kiếm và quản lý tất cả đơn hàng của khách hàng."
   },
+  "actions": {
+    "refresh": "Làm mới",
+    "export": "Xuất file",
+    "toggleColumns": "Cột",
+    "filter": "Bộ lọc"
+  },
   "filters": {
+    "title": "Bộ lọc",
     "searchPlaceholder": "Tìm kiếm theo tên, số điện thoại, mã đơn...",
-    "statusPlaceholder": "Tất cả trạng thái"
+    "statusPlaceholder": "Tất cả trạng thái",
+    "clear": "Xóa lọc"
   },
   "status": {
     "all": "Tất cả trạng thái",
@@ -38,6 +46,19 @@
     "pickup": "Nhận tại cửa hàng",
     "contact": "Liên hệ bàn giao",
     "unknown": "Không xác định: {{value}}"
+  },
+  "columnMenu": {
+    "title": "Cột hiển thị"
+  },
+  "messages": {
+    "columnRequired": "Bảng cần hiển thị ít nhất một cột dữ liệu",
+    "exportEmpty": "Không có đơn hàng để xuất file",
+    "exportSuccess": "Đã xuất đơn hàng"
+  },
+  "export": {
+    "paymentStatus": "Trạng thái thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "items": "Sản phẩm"
   },
   "table": {
     "loading": "Đang tải dữ liệu...",

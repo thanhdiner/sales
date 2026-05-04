@@ -1,11 +1,11 @@
-import { FileExcelOutlined, FilterOutlined, TableOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { FileExcelOutlined, FilterOutlined, ReloadOutlined, TableOutlined } from '@ant-design/icons'
 import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 import DropdownToggleColumns from './DropdownToggleColumns'
 import ColumnMenu from './ColumnMenu'
 import { getLocalizedProductCategoryTitle, getLocalizedProductTitle } from '../../utils/productLocalization'
 import { useTranslation } from 'react-i18next'
+import { ResourceUtility } from '@/components/admin/shared/ResourceManager'
 
 const getUserLabel = value => value?.by?.fullName || value?.by?.email || value?.account_id || ''
 
@@ -52,7 +52,7 @@ const exportToExcel = (products, columnsVisible, language, t) => {
   saveAs(file, t('utility.fileName'))
 }
 
-function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, products }) {
+function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, products, fetchData }) {
   const { t, i18n } = useTranslation('adminProducts')
   const language = i18n.resolvedLanguage || i18n.language
 
@@ -76,9 +76,16 @@ function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible
 
   const utilityButtons = handleToggleFilter => [
     {
+      key: 'refresh',
+      icon: <ReloadOutlined />,
+      label: t('utility.refresh'),
+      className: 'admin-products-btn admin-products-btn--utility',
+      onClick: fetchData
+    },
+    {
       key: 'export',
       icon: <FileExcelOutlined />,
-      label: t('utility.exportProducts'),
+      label: t('utility.exportMobile'),
       mobileLabel: t('utility.exportMobile'),
       className: 'admin-products-btn admin-products-btn--utility',
       onClick: () => exportToExcel(products, columnsVisible, language, t)
@@ -100,25 +107,15 @@ function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible
   ]
 
   return (
-    <div className="products-utility">
-      {utilityButtons(handleToggleFilter).map(btn =>
-        btn.dropdown ? (
-          <div key={btn.key} className={`admin-products-utility-item admin-products-utility-item--${btn.key}`}>
-            {btn.dropdown}
-          </div>
-        ) : (
-          <Button
-            key={btn.key}
-            onClick={btn.onClick}
-            className={`${btn.className} admin-products-utility-item admin-products-utility-item--${btn.key}`}
-          >
-            {btn.icon}
-            <span className="admin-products-btn__label">{btn.label}</span>
-            <span className="admin-products-btn__label-mobile">{btn.mobileLabel || btn.label}</span>
-          </Button>
-        )
-      )}
-    </div>
+    <ResourceUtility
+      buttons={utilityButtons(handleToggleFilter).map(button => ({
+        ...button,
+        labelClassName: 'admin-products-btn__label',
+        mobileLabelClassName: 'admin-products-btn__label-mobile'
+      }))}
+      className="products-utility"
+      itemClassPrefix="admin-products-utility-item"
+    />
   )
 }
 

@@ -65,6 +65,7 @@
   "utility": {
     "exportProductCategories": "Export product categories",
     "exportMobile": "Export",
+    "refresh": "Refresh",
     "toggleColumns": "Toggle columns",
     "filter": "Filter",
     "sheetName": "Product Categories",

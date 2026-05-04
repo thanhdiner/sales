@@ -1,27 +1,18 @@
-import { Star, X } from 'lucide-react'
+import { MessageCircleReply, MessageCircleX, Star, StarHalf, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-
-function StatCard({ label, value, sub }) {
-  return (
-    <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)]">
-      <p className="text-xs font-medium text-[var(--admin-text-muted)]">{label}</p>
-      <p className="mt-1 text-2xl font-semibold text-[var(--admin-text)]">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-[var(--admin-text-subtle)]">{sub}</p>}
-    </div>
-  )
-}
+import { StatCard, StatGrid } from '@/components/admin/ui'
 
 export default function ReviewsOverview({ stats, replyRate, ratingFilter, onRatingFilterChange }) {
   const { t } = useTranslation('adminReviews')
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard label={t('stats.total')} value={stats.total} sub={t('stats.totalSub')} />
-        <StatCard label={t('stats.average')} value={stats.avg} sub={t('stats.averageSub')} />
-        <StatCard label={t('stats.replied')} value={stats.replied} sub={t('stats.replyRate', { rate: replyRate })} />
-        <StatCard label={t('stats.unreplied')} value={stats.total - stats.replied} sub={t('stats.unrepliedSub')} />
-      </div>
+      <StatGrid columns={4}>
+        <StatCard label={t('stats.total')} value={stats.total} meta={t('stats.totalSub')} icon={Star} />
+        <StatCard label={t('stats.average')} value={stats.avg} meta={t('stats.averageSub')} icon={StarHalf} />
+        <StatCard label={t('stats.replied')} value={stats.replied} meta={t('stats.replyRate', { rate: replyRate })} icon={MessageCircleReply} />
+        <StatCard label={t('stats.unreplied')} value={stats.total - stats.replied} meta={t('stats.unrepliedSub')} icon={MessageCircleX} />
+      </StatGrid>
 
       {stats.total > 0 && (
         <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)]">

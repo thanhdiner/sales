@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Empty, Image, Pagination, Popconfirm, Space, Spin, Table, Tag, Tooltip, Typography } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
-import { StatusPill, TablePanel } from '@/components/admin/ui'
+import { StatusPill } from '@/components/admin/ui'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import {
   BANK_INFO_TABLE_PAGE_SIZE,
@@ -272,11 +272,12 @@ export default function BankInfoTable({
   ]
 
   return (
-    <TablePanel
-      className="admin-bank-info-table-card"
-      title={t('table.title')}
-      description={t('table.description')}
-    >
+    <section className="admin-bank-info-table-card">
+      <div className="admin-bank-info-table-card__header">
+        <h2 className="admin-bank-info-table-card__title">{t('table.title')}</h2>
+        <p className="admin-bank-info-table-card__description">{t('table.description')}</p>
+      </div>
+
       <div className="admin-bank-info-table-card__wrap admin-bank-info-table-card__desktop">
         <Table
           rowKey="_id"
@@ -335,6 +336,6 @@ export default function BankInfoTable({
           />
         </div>
       )}
-    </TablePanel>
+    </section>
   )
 }

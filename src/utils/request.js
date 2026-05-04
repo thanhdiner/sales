@@ -61,19 +61,31 @@ const refreshAccessToken = async () => {
   }
 }
 
-const getFreshAccessToken = async () => {
+const getFreshAccessToken = async path => {
   if (refreshingPromise) {
     try {
       await refreshingPromise
     } catch {}
   }
 
-  return getAccessToken()
+  let accessToken = getAccessToken()
+
+  if (!accessToken && path.startsWith('admin/') && !path.startsWith('admin/auth/')) {
+    refreshingPromise = refreshAccessToken()
+    try {
+      accessToken = await refreshingPromise
+    } catch {
+      clearTokens()
+      throw new Error('Vui lòng đăng nhập lại')
+    }
+  }
+
+  return accessToken
 }
 
 const requestWithAuth = async (method, path, data) => {
   const isFormData = data instanceof FormData
-  let accessToken = await getFreshAccessToken()
+  let accessToken = await getFreshAccessToken(path)
 
   let headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),

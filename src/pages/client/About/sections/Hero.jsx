@@ -14,7 +14,7 @@ const Hero = ({ content, isVisible, viewport }) => {
 
   return (
     <motion.section
-      className={`relative px-4 -mt-2 pt-0 pb-12 md:-mt-3 md:pt-0 md:pb-16 transition-all duration-700 ${
+      className={`relative px-6 pt-4 pb-12 sm:px-8 md:pt-5 md:pb-16 lg:px-10 transition-all duration-700 ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
       }`}
       initial={{ opacity: 0, y: 20 }}
@@ -111,7 +111,7 @@ const Hero = ({ content, isVisible, viewport }) => {
             transition={{ duration: 0.45, ease: 'easeOut' }}
             viewport={viewport}
           >
-            <div className="about-page__image-frame rounded-[36px] bg-[#f8f8f8] p-6">
+            <div className="about-page__image-frame rounded-[36px] bg-[#f8f8f8] p-0">
               <div className="about-page__image-canvas relative flex min-h-[620px] items-end justify-center overflow-hidden rounded-[30px] bg-white">
                 {!isImageLoaded ? (
                   <div className="about-page__skeleton h-[590px] w-full max-w-[420px] animate-pulse rounded-[24px] bg-gradient-to-b from-slate-200 to-slate-100 dark:from-slate-700 dark:to-slate-800" />

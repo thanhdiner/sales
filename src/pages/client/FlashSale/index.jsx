@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Tag } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
 import SEO from '@/components/shared/SEO'
 import ActiveFlashSales from './sections/ActiveFlashSales'
 import CategoryTabs from './components/CategoryTabs'
@@ -85,11 +86,20 @@ function FlashSale() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen rounded-tl-[8px] rounded-tr-[8px] bg-white text-slate-900 shadow dark:bg-gray-800 dark:text-slate-100">
       <SEO title={t('seo.title')} description={t('seo.description')} url="https://smartmall.site/flash-sale" />
 
       <main>
         <section className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+          <ClientBreadcrumb
+            className="mb-4"
+            label={t('breadcrumb.label')}
+            items={[
+              { label: t('breadcrumb.home'), to: '/' },
+              { label: t('breadcrumb.flashSale') }
+            ]}
+          />
+
           <CategoryTabs
             categories={categories}
             isDraggingTabs={isDraggingTabs}

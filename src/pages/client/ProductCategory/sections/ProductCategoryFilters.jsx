@@ -1,9 +1,8 @@
 import React from 'react'
-import { Select } from 'antd'
-import { Search, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-
-const { Option } = Select
+import SearchInput from '@/components/shared/SearchInput'
+import SimpleSelect from '@/components/shared/SimpleSelect'
 
 const QUICK_FILTERS = [
   { labelKey: 'categoryPage.filters.quickFilters.autoDelivery', value: 'auto-delivery' },
@@ -14,6 +13,12 @@ const QUICK_FILTERS = [
 
 function ProductCategoryFilters({ searchInput, sortBy, selectedFeatures, onSearchChange, onSortChange, onFeatureFiltersChange }) {
   const { t } = useTranslation('clientProducts')
+
+  const sortOptions = [
+    { value: 'name', label: t('categoryPage.filters.sort.name') },
+    { value: 'price-low', label: t('categoryPage.filters.sort.priceLow') },
+    { value: 'price-high', label: t('categoryPage.filters.sort.priceHigh') }
+  ]
 
   const getFilterLabel = value => {
     const filter = QUICK_FILTERS.find(item => item.value === value)
@@ -40,23 +45,19 @@ function ProductCategoryFilters({ searchInput, sortBy, selectedFeatures, onSearc
       </div>
 
       <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-center">
-        <label className="group flex h-10 flex-1 items-center gap-2 rounded-full border border-gray-200 bg-white px-3 transition-colors focus-within:border-blue-500 dark:border-gray-700 dark:bg-gray-950">
-          <Search className="h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-500" />
+        <SearchInput
+          value={searchInput}
+          onChange={onSearchChange}
+          placeholder={t('categoryPage.filters.searchPlaceholder')}
+          className="flex-1"
+        />
 
-          <input
-            type="text"
-            placeholder={t('categoryPage.filters.searchPlaceholder')}
-            value={searchInput}
-            onChange={onSearchChange}
-            className="h-full w-full border-0 bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100"
-          />
-        </label>
-
-        <Select value={sortBy} onChange={onSortChange} className="w-full lg:w-[150px]" size="middle">
-          <Option value="name">{t('categoryPage.filters.sort.name')}</Option>
-          <Option value="price-low">{t('categoryPage.filters.sort.priceLow')}</Option>
-          <Option value="price-high">{t('categoryPage.filters.sort.priceHigh')}</Option>
-        </Select>
+        <SimpleSelect
+          value={sortBy}
+          onChange={onSortChange}
+          options={sortOptions}
+          className="w-full lg:w-[150px]"
+        />
 
         <button
           type="button"

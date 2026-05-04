@@ -11,7 +11,7 @@ export default function OrderSummary({ order }) {
   const language = i18n.resolvedLanguage || i18n.language
 
   return (
-    <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
+    <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] ring-1 ring-[color-mix(in_srgb,var(--admin-accent)_8%,transparent)] sm:p-5">
       <h2 className="mb-4 text-base font-semibold text-[var(--admin-text)]">{t('summary.title')}</h2>
 
       <div className="space-y-3">
@@ -51,10 +51,10 @@ export default function OrderSummary({ order }) {
           <span>{order.shipping === 0 ? t('summary.freeShipping') : formatOrderDetailCurrency(order.shipping, language)}</span>
         </div>
 
-        <div className="border-t border-[var(--admin-border)] pt-3">
+        <div className="rounded-xl border border-[color-mix(in_srgb,var(--admin-accent)_18%,var(--admin-border))] bg-[color-mix(in_srgb,var(--admin-accent)_8%,var(--admin-surface-2))] p-3">
           <div className="flex items-start justify-between gap-4 text-base font-semibold text-[var(--admin-text)]">
             <span>{t('summary.total')}</span>
-            <span>{formatOrderDetailCurrency(order.total, language)}</span>
+            <span className="text-lg">{formatOrderDetailCurrency(order.total, language)}</span>
           </div>
         </div>
       </div>

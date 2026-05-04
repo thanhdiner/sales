@@ -5,6 +5,9 @@
   "page": {
     "orderTitle": "Đơn hàng {{code}}"
   },
+  "statusUpdate": {
+    "title": "Cập nhật trạng thái"
+  },
   "actions": {
     "backToOrders": "Quay lại danh sách đơn hàng",
     "backToList": "Quay lại danh sách",

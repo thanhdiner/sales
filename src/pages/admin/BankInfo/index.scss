@@ -13,16 +13,28 @@ body.admin-layout-active {
 }
 
 .admin-bank-info-page {
-  background: var(--bank-info-bg-soft);
   color: var(--bank-info-text);
 }
 
-.admin-bank-info-page__inner {
-  color: inherit;
+.admin-bank-info-table-card__header {
+  margin-bottom: 16px;
+}
+
+.admin-bank-info-table-card__title {
+  margin: 0;
+  color: var(--bank-info-text);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.admin-bank-info-table-card__description {
+  margin: 6px 0 0;
+  color: var(--bank-info-text-muted);
+  font-size: 14px;
 }
 
 .admin-bank-info-stats {
-  --admin-stat-value-size: 28px;
+  --admin-stat-value-size: 20px;
 }
 
 .admin-bank-info-btn.ant-btn {
@@ -643,10 +655,6 @@ html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-m
 }
 
 @media (max-width: 1023px) {
-  .admin-bank-info-page__inner {
-    max-width: 720px;
-  }
-
   .admin-bank-info-table-card__desktop {
     display: none;
   }
@@ -660,20 +668,9 @@ html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-m
     display: flex;
   }
 
-  .admin-bank-info-table-card {
-    padding: 18px;
-  }
 }
 
 @media (max-width: 768px) {
-  .admin-bank-info-page {
-    padding: 14px !important;
-  }
-
-  .admin-bank-info-page__inner {
-    max-width: none;
-  }
-
   .admin-bank-info-header {
     gap: 14px;
   }
@@ -681,17 +678,13 @@ html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-m
   .admin-bank-info-stats {
     --admin-stat-icon-radius: 10px;
     --admin-stat-icon-size: 32px;
-    --admin-stat-value-size: 24px;
+    --admin-stat-value-size: 20px;
     gap: 8px;
   }
 
   .admin-bank-info-stat-card {
     min-height: 76px;
     padding: 10px;
-  }
-
-  .admin-bank-info-table-card {
-    padding: 14px;
   }
 
   .admin-bank-info-table-card__title {
@@ -714,14 +707,6 @@ html.dark body.admin-layout-active .ant-modal-root .admin-bank-info-modal .ant-m
 }
 
 @media (max-width: 560px) {
-  .admin-bank-info-page {
-    padding: 12px !important;
-  }
-
-  .admin-bank-info-table-card {
-    padding: 12px;
-  }
-
   .admin-bank-info-account-card__top {
     padding: 12px;
   }

@@ -8,8 +8,7 @@ import {
   getLocalizedRoleLabel
 } from '../utils'
 
-const tableWrapperClass =
-  'admin-accounts-table overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]'
+const tableWrapperClass = 'admin-accounts-table overflow-hidden'
 
 const tableHeaderClass = 'admin-accounts-table-grid admin-accounts-table-head hidden md:grid'
 const tableRowClass = 'admin-accounts-table-grid admin-accounts-row hidden md:grid'

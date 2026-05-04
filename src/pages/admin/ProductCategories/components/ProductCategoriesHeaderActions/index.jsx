@@ -1,7 +1,9 @@
-import AddButton from './AddButton'
 import ApplyButton from './ApplyButton'
-import SelectedItems from './SelectedItems'
-import SelectList from './SelectList'
+import {
+  ResourceActionSelect,
+  ResourceAddButton,
+  ResourceBulkActions
+} from '@/components/admin/shared/ResourceManager'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { useTranslation } from 'react-i18next'
 
@@ -49,29 +51,46 @@ function ProductCategoriesHeaderActions({
   ].filter(Boolean)
 
   return (
-    <div className="product-categories-header">
-      <SelectedItems {...{ selectedRowKeys }} />
-      <div className="product-categories-header-right">
-        {permissions.includes('create_product_category') && <AddButton />}
-        <SelectList {...{ value, treeData, setValue }} />
-        <ApplyButton
-          {...{
-            value,
-            setValue,
-            selectedRowKeys,
-            productCategories,
-            setProductCategories,
-            setTotalProductCategories,
-            setSelectedRowKeys,
-            editedPositions,
-            totalProductCategories,
-            currentPage,
-            setCurrentPage,
-            fetchData
-          }}
+    <ResourceBulkActions
+      className="product-categories-header"
+      rightClassName="product-categories-header-right"
+      selectedCountClassName="admin-product-categories-selected-count"
+      selectedLabel={t('bulk.selected', { count: selectedRowKeys.length })}
+    >
+      {permissions.includes('create_product_category') && (
+        <ResourceAddButton
+          to="/admin/product-categories/create"
+          buttonClassName="admin-product-categories-btn admin-product-categories-btn--add font-bold"
+          label={t('bulk.add')}
         />
-      </div>
-    </div>
+      )}
+      <ResourceActionSelect
+        value={value}
+        treeData={treeData}
+        onChange={setValue}
+        placeholder={t('bulk.choiceAction')}
+        className="admin-product-categories-action-select"
+        popupClassName="admin-product-categories-popup admin-product-categories-action-popup"
+        dropdownClassName="admin-product-categories-popup admin-product-categories-action-popup"
+        getPopupContainer={trigger => trigger?.parentElement || document.body}
+      />
+      <ApplyButton
+        {...{
+          value,
+          setValue,
+          selectedRowKeys,
+          productCategories,
+          setProductCategories,
+          setTotalProductCategories,
+          setSelectedRowKeys,
+          editedPositions,
+          totalProductCategories,
+          currentPage,
+          setCurrentPage,
+          fetchData
+        }}
+      />
+    </ResourceBulkActions>
   )
 }
 

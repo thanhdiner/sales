@@ -1,13 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getAllOrders } from '@/services/admin/commerce/order'
 import { useAsyncListData } from '@/hooks/shared/useAsyncListData'
 import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
-import {
-  ORDERS_PAGE_LIMIT,
-  ORDERS_SEARCH_DEBOUNCE_MS,
-  getOrdersQueryParams
-} from '../utils'
+import { ORDERS_DEFAULT_PAGE_SIZE, ORDERS_SEARCH_DEBOUNCE_MS, getOrdersQueryParams } from '../utils'
 
 const ORDER_FILTER_PARSERS = {
   keyword: stringFilter,
@@ -16,13 +12,15 @@ const ORDER_FILTER_PARSERS = {
 
 export function useOrders() {
   const language = useCurrentLanguage()
-  const { page, setPage, filters, setFilters } = useListSearchParams({
+  const { page, setPage, pageSize, setPageSize, filters, setFilters } = useListSearchParams({
     defaultPage: 1,
+    defaultPageSize: ORDERS_DEFAULT_PAGE_SIZE,
     filterParsers: ORDER_FILTER_PARSERS
   })
   const [keyword, setKeyword] = useState(filters.keyword || '')
   const [debouncedKeyword, setDebouncedKeyword] = useState(filters.keyword || '')
   const [status, setStatus] = useState(filters.status || '')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     const nextKeyword = filters.keyword || ''
@@ -33,12 +31,7 @@ export function useOrders() {
     setStatus(prev => (prev === nextStatus ? prev : nextStatus))
   }, [filters.keyword, filters.status])
 
-  const updateFilters = useCallback(
-    nextFilters => {
-      setFilters(nextFilters)
-    },
-    [setFilters]
-  )
+  const updateFilters = useCallback(nextFilters => setFilters(nextFilters), [setFilters])
 
   const {
     items: orders,
@@ -50,7 +43,7 @@ export function useOrders() {
         const response = await getAllOrders(
           getOrdersQueryParams({
             page,
-            limit: ORDERS_PAGE_LIMIT,
+            limit: pageSize,
             keyword: debouncedKeyword,
             status
           })
@@ -71,10 +64,11 @@ export function useOrders() {
         total: 0
       }
     },
-    [debouncedKeyword, status, page, language]
+    [debouncedKeyword, status, page, pageSize, language, refreshKey]
   )
 
-  const totalPages = Math.max(1, Math.ceil(total / ORDERS_PAGE_LIMIT))
+  const totalPages = Math.max(1, Math.ceil(total / pageSize))
+  const pagination = useMemo(() => ({ current: page, pageSize, total }), [page, pageSize, total])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -87,13 +81,11 @@ export function useOrders() {
   }, [keyword, status, updateFilters])
 
   useEffect(() => {
-    if (page > totalPages) {
-      setPage(totalPages)
-    }
+    if (page > totalPages) setPage(totalPages)
   }, [page, totalPages, setPage])
 
-  const handleKeywordChange = keyword => {
-    setKeyword(keyword)
+  const handleKeywordChange = nextKeyword => {
+    setKeyword(nextKeyword)
     setPage(1)
   }
 
@@ -104,9 +96,24 @@ export function useOrders() {
     updateFilters({ keyword: keyword.trim(), status: nextStatus })
   }
 
-  const handlePageChange = nextPage => {
+  const handleClearFilters = () => {
+    setKeyword('')
+    setDebouncedKeyword('')
+    setStatus('')
+    setPage(1)
+    updateFilters({ keyword: '', status: '' })
+  }
+
+  const handlePageChange = (nextPage, nextPageSize = pageSize) => {
+    if (nextPageSize !== pageSize) {
+      setPageSize(nextPageSize)
+      return
+    }
+
     setPage(Math.min(Math.max(nextPage, 1), totalPages))
   }
+
+  const refreshCurrentPage = () => setRefreshKey(key => key + 1)
 
   return {
     orders,
@@ -114,11 +121,15 @@ export function useOrders() {
     keyword,
     status,
     page,
+    pageSize,
     total,
     totalPages,
-    limit: ORDERS_PAGE_LIMIT,
+    limit: pageSize,
+    pagination,
     handleKeywordChange,
     handleStatusChange,
-    handlePageChange
+    handleClearFilters,
+    handlePageChange,
+    refreshCurrentPage
   }
 }

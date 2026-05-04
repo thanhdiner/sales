@@ -18,8 +18,11 @@
   },
   "stats": {
     "total": "Total",
+    "totalHint": "All permission groups",
     "active": "Active",
-    "inactive": "Paused"
+    "activeHint": "Available for permissions",
+    "inactive": "Paused",
+    "inactiveHint": "Hidden from assignment"
   },
   "status": {
     "active": "Active",

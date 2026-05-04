@@ -41,7 +41,7 @@ export default function ActiveFlashSales({
                       </span>
                     </div>
 
-                    <h2 className="text-xl font-black tracking-tight text-slate-950 dark:text-white sm:text-2xl">{sale.name}</h2>
+                    <h2 className="text-xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-2xl">{sale.name}</h2>
 
                     <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 sm:text-sm">
                       <Clock className="h-4 w-4" />
@@ -82,7 +82,7 @@ export default function ActiveFlashSales({
 
               <div className="p-4 sm:p-5">
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <h3 className="flex items-center gap-2 text-base font-black text-slate-900 dark:text-white">
+                  <h3 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white">
                     <span className="h-5 w-1 rounded-full bg-red-600" />
                     {t('sale.activeProductsTitle')}
                   </h3>

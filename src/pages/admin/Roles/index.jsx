@@ -473,9 +473,7 @@ export default function Roles() {
     <div className="admin-roles-page">
       <SEO title={t('seo.title')} noIndex />
 
-      <div className="admin-roles-page__inner">
-        <section className="admin-roles-card">
-          <div className="admin-roles-header">
+      <div className="admin-roles-header">
             <div>
               <Title level={2} className="admin-roles-header__title">
                 {t('page.title')}
@@ -563,9 +561,7 @@ export default function Roles() {
               />
             </div>
           )}
-        </section>
-
-        <Modal
+      <Modal
           className="admin-roles-modal"
           rootClassName="admin-roles-modal"
           wrapClassName="admin-roles-modal"
@@ -630,8 +626,7 @@ export default function Roles() {
               </Form.Item>
             </Form>
           </div>
-        </Modal>
-      </div>
+      </Modal>
     </div>
   )
 }

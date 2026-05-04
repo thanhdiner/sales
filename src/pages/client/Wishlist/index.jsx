@@ -3,6 +3,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 import { hasClientToken } from '@/lib/client/clientCache'
 import { AUTHENTICATED_QUERY_SCOPE, GUEST_QUERY_SCOPE } from '@/lib/query/queryKeys/index.js'
@@ -84,6 +86,17 @@ function Wishlist() {
       <SEO title={t('seo.titleWithCount', { count: totalItems })} noIndex />
 
       <main className="mx-auto w-full max-w-[1180px]">
+        <ClientBreadcrumb
+          className="mb-4 hidden md:flex"
+          label={t('breadcrumb.label')}
+          items={[
+            { label: t('breadcrumb.home'), to: '/' },
+            { label: t('breadcrumb.wishlist') }
+          ]}
+        />
+
+        <MobileBackButton />
+
         <WishlistHeader
           addingAllToCart={addingAllToCart}
           canAddAll={canAddAll}

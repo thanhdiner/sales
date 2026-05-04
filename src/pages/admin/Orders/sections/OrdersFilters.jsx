@@ -1,37 +1,41 @@
-import { FilterOutlined } from '@ant-design/icons'
-import { Select } from 'antd'
-import { Search } from 'lucide-react'
+import { FilterOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Button, Select } from 'antd'
 import { useTranslation } from 'react-i18next'
+import SearchInput from '@/components/shared/SearchInput'
 import { getOrderStatusOptions } from '../utils'
 
-export default function OrdersFilters({ keyword, status, onKeywordChange, onStatusChange }) {
+export default function OrdersFilters({ keyword, status, onClearFilters, onKeywordChange, onStatusChange }) {
   const { t } = useTranslation('adminOrders')
   const statusOptions = getOrderStatusOptions(t)
 
   return (
-    <div className="mb-5 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-3 shadow-[var(--admin-shadow)] sm:mb-6 sm:p-4 lg:mb-8 lg:rounded-2xl lg:p-6">
-      <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--admin-text-subtle)]" />
-          <input
-            className="w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] py-2.5 pl-11 pr-4 text-sm text-[var(--admin-text)] placeholder-[var(--admin-text-subtle)] transition-all duration-200 focus:border-[var(--admin-accent)] focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] sm:py-3 sm:pl-12 sm:text-base"
-            placeholder={t('filters.searchPlaceholder')}
-            value={keyword}
-            onChange={event => onKeywordChange(event.target.value)}
-          />
-        </div>
+    <div className="mb-4 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-3 shadow-[var(--admin-shadow)] sm:p-4">
+      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--admin-text)]">
+        <FilterOutlined className="text-[var(--admin-accent)]" />
+        <span>{t('filters.title')}</span>
+      </div>
 
-        <div className="flex w-full items-center gap-2 lg:w-auto">
-          <FilterOutlined className="text-lg text-[var(--admin-text-subtle)]" />
-          <Select
-            value={status}
-            onChange={onStatusChange}
-            style={{ width: '100%' }}
-            className="admin-orders-status-select w-full rounded-xl font-sans text-[var(--admin-text)] lg:min-w-[180px]"
-            placeholder={t('filters.statusPlaceholder')}
-            options={statusOptions}
-          />
-        </div>
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px_auto] lg:items-center">
+        <SearchInput
+          value={keyword}
+          onChange={event => onKeywordChange(event.target.value)}
+          onClear={() => onKeywordChange('')}
+          placeholder={t('filters.searchPlaceholder')}
+          className="admin-orders-search-input h-10"
+        />
+
+        <Select
+          value={status}
+          onChange={onStatusChange}
+          className="admin-orders-status-select w-full rounded-xl font-sans text-[var(--admin-text)]"
+          popupClassName="admin-orders-select-dropdown"
+          placeholder={t('filters.statusPlaceholder')}
+          options={statusOptions}
+        />
+
+        <Button icon={<ReloadOutlined />} onClick={onClearFilters}>
+          {t('filters.clear')}
+        </Button>
       </div>
     </div>
   )

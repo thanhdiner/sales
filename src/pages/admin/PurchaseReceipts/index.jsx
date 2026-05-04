@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import dayjs from 'dayjs'
 import {
   Button,
   Checkbox,
@@ -19,34 +20,49 @@ import {
   Boxes,
   Calculator,
   ClipboardList,
-  Columns3,
   Coins,
   Filter,
+  MoreHorizontal,
   PackageCheck,
   Plus,
   ReceiptText,
   RefreshCw,
   RotateCcw,
-  Search,
   StickyNote,
-  UserRound
+  Table2,
+  UserRound,
+  XCircle
 } from 'lucide-react'
 import { PageShell, StatCard, StatGrid, TableShell, Toolbar } from '@/components/admin/ui'
+import SearchInput from '@/components/shared/SearchInput'
+import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { getProducts } from '@/services/admin/commerce/product'
-import { createPurchaseReceipt, getPurchaseReceipts } from '@/services/admin/commerce/purchaseReceipt'
+import { cancelPurchaseReceipt, createPurchaseReceipt, getPurchaseReceipts } from '@/services/admin/commerce/purchaseReceipt'
 import { useTranslation } from 'react-i18next'
 import './index.scss'
 
-const PAGE_LIMIT = 20
+const DEFAULT_PAGE_SIZE = 20
+const PAGE_SIZE_OPTIONS = ['10', '20', '50']
 const { RangePicker } = DatePicker
 
-const DEFAULT_FILTERS = {
-  productId: '',
-  supplierName: '',
-  dateRange: null
+const PURCHASE_RECEIPT_FILTER_PARSERS = {
+  search: stringFilter,
+  productId: stringFilter,
+  supplierName: stringFilter,
+  dateFrom: stringFilter,
+  dateTo: stringFilter,
+  status: stringFilter
 }
 
-const DEFAULT_VISIBLE_COLUMN_KEYS = ['product', 'quantity', 'unitCost', 'totalCost', 'supplier', 'createdBy', 'note', 'createdAt']
+const DEFAULT_FILTERS = {
+  search: '',
+  productId: '',
+  supplierName: '',
+  dateRange: null,
+  status: ''
+}
+
+const DEFAULT_VISIBLE_COLUMN_KEYS = ['product', 'status', 'quantity', 'unitCost', 'totalCost', 'supplier', 'createdBy', 'note', 'createdAt', 'actions']
 
 const VISIBLE_COLUMNS_STORAGE_KEY = 'purchaseReceipts.visibleColumns'
 
@@ -59,7 +75,13 @@ const getStoredVisibleColumnKeys = () => {
     if (!Array.isArray(parsedValue)) return DEFAULT_VISIBLE_COLUMN_KEYS
 
     const nextKeys = parsedValue.filter(key => DEFAULT_VISIBLE_COLUMN_KEYS.includes(key))
-    return nextKeys.length > 0 ? nextKeys : DEFAULT_VISIBLE_COLUMN_KEYS
+    const migratedKeys = ['status', 'actions'].reduce(
+      (keys, key) => (keys.includes(key) ? keys : [...keys, key]),
+      nextKeys.length > 0 ? nextKeys : DEFAULT_VISIBLE_COLUMN_KEYS
+    )
+
+    persistVisibleColumnKeys(migratedKeys)
+    return migratedKeys
   } catch {
     return DEFAULT_VISIBLE_COLUMN_KEYS
   }
@@ -143,11 +165,25 @@ const formatReceiptDate = (value, locale, fallback) =>
       })
     : fallback
 
+const getReceiptStatus = record => record?.status || 'active'
+
+const isReceiptCancelled = record => getReceiptStatus(record) === 'cancelled'
+
+const getInitialFilters = urlFilters => ({
+  search: urlFilters.search || '',
+  productId: urlFilters.productId || '',
+  supplierName: urlFilters.supplierName || '',
+  dateRange: urlFilters.dateFrom && urlFilters.dateTo ? [dayjs(urlFilters.dateFrom), dayjs(urlFilters.dateTo)] : null,
+  status: urlFilters.status || ''
+})
+
 const normalizeReceiptFilters = filters => ({
+  search: String(filters.search || '').trim(),
   productId: filters.productId || '',
   supplierName: String(filters.supplierName || '').trim(),
   dateFrom: filters.dateRange?.[0]?.format?.('YYYY-MM-DD') || '',
-  dateTo: filters.dateRange?.[1]?.format?.('YYYY-MM-DD') || ''
+  dateTo: filters.dateRange?.[1]?.format?.('YYYY-MM-DD') || '',
+  status: filters.status || ''
 })
 
 export default function PurchaseReceipts() {
@@ -155,21 +191,28 @@ export default function PurchaseReceipts() {
   const language = i18n.resolvedLanguage || i18n.language
   const locale = getReceiptLocale(language)
   const [form] = Form.useForm()
+  const [cancelForm] = Form.useForm()
   const watchedQuantity = Form.useWatch('quantity', form)
   const watchedUnitCost = Form.useWatch('unitCost', form)
+  const { page, setPage, pageSize, setPageSize, filters: urlFilters, setFilters: setUrlFilters } = useListSearchParams({
+    defaultPage: 1,
+    defaultPageSize: DEFAULT_PAGE_SIZE,
+    filterParsers: PURCHASE_RECEIPT_FILTER_PARSERS
+  })
   const [receipts, setReceipts] = useState([])
   const [products, setProducts] = useState([])
   const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
-  const [keyword, setKeyword] = useState('')
-  const [searchValue, setSearchValue] = useState('')
-  const [filterDraft, setFilterDraft] = useState(DEFAULT_FILTERS)
-  const [appliedFilters, setAppliedFilters] = useState(DEFAULT_FILTERS)
+  const [filters, setFilters] = useState(() => getInitialFilters(urlFilters))
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.search)
+  const [showFilters, setShowFilters] = useState(true)
   const [visibleColumnKeys, setVisibleColumnKeys] = useState(getStoredVisibleColumnKeys)
   const [loading, setLoading] = useState(false)
   const [productLoading, setProductLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [cancelModalOpen, setCancelModalOpen] = useState(false)
+  const [cancelSubmitting, setCancelSubmitting] = useState(false)
+  const [cancelTarget, setCancelTarget] = useState(null)
   const [selectedProductId, setSelectedProductId] = useState('')
 
   const manualProducts = useMemo(() => products.filter(isManualProduct), [products])
@@ -215,17 +258,18 @@ export default function PurchaseReceipts() {
     [language, manualProducts, t]
   )
 
-  const normalizedAppliedFilters = useMemo(() => normalizeReceiptFilters(appliedFilters), [appliedFilters])
+  const normalizedFilters = useMemo(() => normalizeReceiptFilters({ ...filters, search: debouncedSearch }), [debouncedSearch, filters])
 
   const activeFilterCount = useMemo(
     () =>
       [
-        keyword,
-        normalizedAppliedFilters.productId,
-        normalizedAppliedFilters.supplierName,
-        normalizedAppliedFilters.dateFrom || normalizedAppliedFilters.dateTo
+        normalizedFilters.search,
+        normalizedFilters.productId,
+        normalizedFilters.supplierName,
+        normalizedFilters.dateFrom || normalizedFilters.dateTo,
+        normalizedFilters.status
       ].filter(Boolean).length,
-    [keyword, normalizedAppliedFilters]
+    [normalizedFilters]
   )
 
   const pageQuantity = useMemo(() => receipts.reduce((sum, receipt) => sum + toNumber(receipt.quantity), 0), [receipts])
@@ -271,15 +315,18 @@ export default function PurchaseReceipts() {
   )
 
   const fetchReceipts = useCallback(
-    async (nextPage = 1, nextKeyword = '', nextFilters = DEFAULT_FILTERS) => {
+    async (nextPage = page, nextPageSize = pageSize, nextFilters = normalizedFilters) => {
       setLoading(true)
       try {
-        const normalizedFilters = normalizeReceiptFilters(nextFilters)
         const response = await getPurchaseReceipts({
           page: nextPage,
-          limit: PAGE_LIMIT,
-          keyword: nextKeyword.trim(),
-          ...normalizedFilters,
+          limit: nextPageSize,
+          keyword: nextFilters.search,
+          productId: nextFilters.productId,
+          supplierName: nextFilters.supplierName,
+          dateFrom: nextFilters.dateFrom,
+          dateTo: nextFilters.dateTo,
+          status: nextFilters.status,
           lang: language
         })
         setReceipts(response?.receipts || [])
@@ -290,7 +337,7 @@ export default function PurchaseReceipts() {
         setLoading(false)
       }
     },
-    [language, t]
+    [language, normalizedFilters, page, pageSize, t]
   )
 
   const fetchProducts = useCallback(async () => {
@@ -306,47 +353,118 @@ export default function PurchaseReceipts() {
   }, [t])
 
   useEffect(() => {
-    fetchReceipts(1, '')
-    fetchProducts()
-  }, [fetchProducts, fetchReceipts])
+    const timeout = setTimeout(() => setDebouncedSearch(filters.search), 350)
+    return () => clearTimeout(timeout)
+  }, [filters.search])
 
-  const handleSearch = value => {
-    const nextKeyword = value.trim()
-    setSearchValue(nextKeyword)
-    setKeyword(nextKeyword)
-    setPage(1)
-    fetchReceipts(1, nextKeyword, appliedFilters)
-  }
-
-  const handleSearchChange = event => {
-    const nextValue = event.target.value
-    setSearchValue(nextValue)
-
-    if (!nextValue && keyword) {
-      setKeyword('')
-      setPage(1)
-      fetchReceipts(1, '', appliedFilters)
+  useEffect(() => {
+    const nextUrlFilters = {
+      search: filters.search,
+      productId: filters.productId,
+      supplierName: filters.supplierName,
+      dateFrom: filters.dateRange?.[0]?.format?.('YYYY-MM-DD') || '',
+      dateTo: filters.dateRange?.[1]?.format?.('YYYY-MM-DD') || '',
+      status: filters.status || ''
     }
+    const isSynced = Object.keys(PURCHASE_RECEIPT_FILTER_PARSERS).every(key => (urlFilters[key] || '') === (nextUrlFilters[key] || ''))
+
+    if (!isSynced) setUrlFilters(nextUrlFilters)
+  }, [filters, setUrlFilters, urlFilters])
+
+  useEffect(() => {
+    fetchReceipts()
+  }, [fetchReceipts])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
+
+  const updateFilter = (key, value) => {
+    setFilters(current => ({ ...current, [key]: value }))
   }
 
   const handleRefresh = () => {
-    fetchReceipts(page, keyword, appliedFilters)
+    fetchReceipts()
     fetchProducts()
   }
 
-  const handleApplyFilters = () => {
-    setAppliedFilters(filterDraft)
-    setPage(1)
-    fetchReceipts(1, keyword, filterDraft)
+  const handleExport = () => {
+    const rows = receipts.map(record => ({
+      [t('table.product')]: getLocalizedReceiptProductName(record, language, t('common.notAvailable')),
+      [t('table.status')]: t(`statuses.${getReceiptStatus(record)}`, getReceiptStatus(record)),
+      [t('table.quantity')]: record.quantity,
+      [t('table.unitCost')]: record.unitCost,
+      [t('table.totalCost')]: record.totalCost,
+      [t('table.supplier')]: firstText(record.supplierName, t('common.dash')),
+      [t('table.createdBy')]: getCreatedByLabel(record, t('common.dash')),
+      [t('table.note')]: record.note || '',
+      [t('table.createdAt')]: formatReceiptDate(record.createdAt, locale, t('common.dash')),
+      [t('table.cancelledAt')]: formatReceiptDate(record.cancelledAt, locale, ''),
+      [t('table.cancelReason')]: record.cancelReason || ''
+    }))
+
+    if (!rows.length) {
+      message.info(t('messages.exportEmpty'))
+      return
+    }
+
+    const headers = Object.keys(rows[0])
+    const csv = [headers.join(','), ...rows.map(row => headers.map(header => JSON.stringify(row[header] ?? '')).join(','))].join('\n')
+    const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+
+    link.href = url
+    link.download = `purchase-receipts-${dayjs().format('YYYYMMDD-HHmm')}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    message.success(t('messages.exportSuccess'))
   }
 
   const handleClearFilters = () => {
-    setFilterDraft(DEFAULT_FILTERS)
-    setAppliedFilters(DEFAULT_FILTERS)
-    setSearchValue('')
-    setKeyword('')
-    setPage(1)
-    fetchReceipts(1, '', DEFAULT_FILTERS)
+    setFilters(DEFAULT_FILTERS)
+  }
+
+  const handlePageChange = (nextPage, nextPageSize) => {
+    if (nextPageSize !== pageSize) {
+      setPageSize(nextPageSize)
+      return
+    }
+
+    setPage(nextPage)
+  }
+
+  const handleOpenCancelModal = receipt => {
+    setCancelTarget(receipt)
+    cancelForm.resetFields()
+    setCancelModalOpen(true)
+  }
+
+  const handleCloseCancelModal = () => {
+    setCancelModalOpen(false)
+    setCancelTarget(null)
+    cancelForm.resetFields()
+  }
+
+  const handleCancelReceipt = async values => {
+    if (!cancelTarget?._id) return
+
+    setCancelSubmitting(true)
+    try {
+      await cancelPurchaseReceipt(cancelTarget._id, {
+        reason: values.reason,
+        overrideStockCheck: Boolean(values.overrideStockCheck)
+      })
+      message.success(t('messages.cancelSuccess'))
+      handleCloseCancelModal()
+      await Promise.all([fetchReceipts(page, pageSize, normalizedFilters), fetchProducts()])
+    } catch (error) {
+      message.error(error?.response?.error || error?.message || t('messages.cancelError'))
+    } finally {
+      setCancelSubmitting(false)
+    }
   }
 
   const handleVisibleColumnsChange = nextKeys => {
@@ -391,8 +509,8 @@ export default function PurchaseReceipts() {
       })
       message.success(t('messages.createSuccess'))
       handleCloseCreateModal()
-      await Promise.all([fetchReceipts(1, keyword, appliedFilters), fetchProducts()])
       setPage(1)
+      await Promise.all([fetchReceipts(1, pageSize, normalizedFilters), fetchProducts()])
     } catch (error) {
       message.error(error?.response?.error || error?.message || t('messages.createError'))
     } finally {
@@ -404,6 +522,39 @@ export default function PurchaseReceipts() {
     if (!deliveryType) return null
 
     return <Tag className="admin-purchase-receipts-tag">{t(`deliveryTypes.${deliveryType}`, deliveryType)}</Tag>
+  }
+
+  const renderStatusTag = record => {
+    const status = getReceiptStatus(record)
+    return <Tag className={`admin-purchase-receipts-status admin-purchase-receipts-status--${status}`}>{t(`statuses.${status}`, status)}</Tag>
+  }
+
+  const renderReceiptActions = record => {
+    const disabled = isReceiptCancelled(record)
+
+    return (
+      <Dropdown
+        trigger={['click']}
+        placement="bottomRight"
+        overlayClassName="admin-purchase-receipts-actions-dropdown"
+        menu={{
+          items: [
+            {
+              key: 'cancel',
+              danger: true,
+              disabled,
+              icon: <XCircle className="h-4 w-4" />,
+              label: disabled ? t('actions.cancelled') : t('actions.cancelReceipt')
+            }
+          ],
+          onClick: ({ key }) => {
+            if (key === 'cancel' && !disabled) handleOpenCancelModal(record)
+          }
+        }}
+      >
+        <Button type="text" className="admin-purchase-receipts-action-btn" icon={<MoreHorizontal className="h-4 w-4" />} />
+      </Dropdown>
+    )
   }
 
   const allColumns = [
@@ -429,6 +580,13 @@ export default function PurchaseReceipts() {
           </div>
         )
       }
+    },
+    {
+      title: t('table.status'),
+      dataIndex: 'status',
+      key: 'status',
+      width: 130,
+      render: (_, record) => renderStatusTag(record)
     },
     {
       title: t('table.quantity'),
@@ -485,6 +643,13 @@ export default function PurchaseReceipts() {
       key: 'createdAt',
       width: 170,
       render: value => formatReceiptDate(value, locale, t('common.dash'))
+    },
+    {
+      title: t('table.actions'),
+      key: 'actions',
+      width: 96,
+      align: 'right',
+      render: (_, record) => renderReceiptActions(record)
     }
   ]
   const columnOptions = allColumns.map(column => ({
@@ -507,15 +672,61 @@ export default function PurchaseReceipts() {
         titleLevel={1}
         description={t('page.description')}
         actions={
-          <Button
-            type="primary"
-            icon={<Plus className="h-4 w-4" />}
-            onClick={handleOpenCreateModal}
-            disabled={productLoading || manualProducts.length === 0}
-            className="admin-purchase-receipts-btn admin-purchase-receipts-btn--primary"
-          >
-            {t('actions.create')}
-          </Button>
+          <div className="admin-purchase-receipts-header__actions">
+            <Button
+              icon={<RefreshCw className="h-4 w-4" />}
+              onClick={handleRefresh}
+              loading={loading || productLoading}
+              className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
+            >
+              {t('actions.refresh')}
+            </Button>
+            <Button
+              icon={<ReceiptText className="h-4 w-4" />}
+              onClick={handleExport}
+              className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
+            >
+              {t('actions.export')}
+            </Button>
+            <Dropdown
+              trigger={['click']}
+              placement="bottomRight"
+              dropdownRender={() => (
+                <div className="admin-purchase-receipts-column-menu">
+                  <div className="admin-purchase-receipts-column-menu__title">{t('columns.title')}</div>
+                  <Checkbox.Group
+                    value={visibleColumnKeys}
+                    options={columnOptions}
+                    onChange={handleVisibleColumnsChange}
+                    className="admin-purchase-receipts-column-menu__group"
+                  />
+                </div>
+              )}
+            >
+              <Button
+                icon={<Table2 className="h-4 w-4" />}
+                className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
+              >
+                {t('actions.columns')}
+              </Button>
+            </Dropdown>
+            <Button
+              icon={<Filter className="h-4 w-4" />}
+              onClick={() => setShowFilters(current => !current)}
+              className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
+            >
+              {t('actions.filter')}
+            </Button>
+            <Button
+              type="primary"
+              icon={<Plus className="h-4 w-4" />}
+              onClick={handleOpenCreateModal}
+              disabled={productLoading || manualProducts.length === 0}
+              className="admin-purchase-receipts-btn admin-purchase-receipts-btn--primary"
+            >
+              {t('actions.create')}
+            </Button>
+          </div>
         }
       />
 
@@ -539,54 +750,16 @@ export default function PurchaseReceipts() {
         extra={<div className="admin-purchase-receipts-card__count">{t('table.resultCount', { count: formatNumber(total, locale) })}</div>}
         bodyClassName="admin-purchase-receipts-card__body"
       >
-        <div className="admin-purchase-receipts-toolbar">
-          <Input.Search
-            className="admin-purchase-receipts-search"
-            allowClear
-            value={searchValue}
-            prefix={<Search className="h-4 w-4 text-[var(--purchase-receipts-text-subtle)]" />}
-            placeholder={t('actions.searchPlaceholder')}
-            enterButton={t('actions.search')}
-            onChange={handleSearchChange}
-            onSearch={handleSearch}
-          />
+        <SearchInput
+          value={filters.search}
+          onChange={event => updateFilter('search', event.target.value)}
+          onClear={() => updateFilter('search', '')}
+          placeholder={t('actions.searchPlaceholder')}
+          className="admin-purchase-receipts-search-input h-10"
+        />
 
-          <div className="admin-purchase-receipts-toolbar__actions">
-            <Dropdown
-              trigger={['click']}
-              placement="bottomRight"
-              dropdownRender={() => (
-                <div className="admin-purchase-receipts-column-menu">
-                  <div className="admin-purchase-receipts-column-menu__title">{t('columns.title')}</div>
-                  <Checkbox.Group
-                    value={visibleColumnKeys}
-                    options={columnOptions}
-                    onChange={handleVisibleColumnsChange}
-                    className="admin-purchase-receipts-column-menu__group"
-                  />
-                </div>
-              )}
-            >
-              <Button
-                icon={<Columns3 className="h-4 w-4" />}
-                className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
-              >
-                {t('actions.columns')}
-              </Button>
-            </Dropdown>
-
-            <Button
-              icon={<RefreshCw className="h-4 w-4" />}
-              onClick={handleRefresh}
-              loading={loading || productLoading}
-              className="admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary"
-            >
-              {t('actions.refresh')}
-            </Button>
-          </div>
-        </div>
-
-        <div className="admin-purchase-receipts-filters">
+        {showFilters ? (
+          <div className="admin-purchase-receipts-filters">
           <div className="admin-purchase-receipts-filters__title">
             <Filter className="h-4 w-4" />
             <span>{t('filters.title')}</span>
@@ -598,8 +771,21 @@ export default function PurchaseReceipts() {
           <div className="admin-purchase-receipts-filters__grid">
             <Select
               allowClear
+              value={filters.status || undefined}
+              options={[
+                { value: 'active', label: t('statuses.active') },
+                { value: 'cancelled', label: t('statuses.cancelled') }
+              ]}
+              placeholder={t('filters.statusPlaceholder')}
+              popupClassName="admin-purchase-receipts-select-dropdown"
+              onChange={value => updateFilter('status', value || '')}
+              className="admin-purchase-receipts-select admin-purchase-receipts-filter-control"
+            />
+
+            <Select
+              allowClear
               showSearch
-              value={filterDraft.productId || undefined}
+              value={filters.productId || undefined}
               options={productFilterOptions}
               placeholder={t('filters.productPlaceholder')}
               popupClassName="admin-purchase-receipts-select-dropdown"
@@ -611,21 +797,20 @@ export default function PurchaseReceipts() {
                   .toLowerCase()
                   .includes(needle)
               }}
-              onChange={value => setFilterDraft(current => ({ ...current, productId: value || '' }))}
+              onChange={value => updateFilter('productId', value || '')}
               className="admin-purchase-receipts-select admin-purchase-receipts-filter-control"
             />
 
             <Input
-              value={filterDraft.supplierName}
+              value={filters.supplierName}
               placeholder={t('filters.supplierPlaceholder')}
-              onChange={event => setFilterDraft(current => ({ ...current, supplierName: event.target.value }))}
-              onPressEnter={handleApplyFilters}
+              onChange={event => updateFilter('supplierName', event.target.value)}
               className="admin-purchase-receipts-input admin-purchase-receipts-filter-control"
             />
 
             <RangePicker
-              value={filterDraft.dateRange}
-              onChange={dateRange => setFilterDraft(current => ({ ...current, dateRange }))}
+              value={filters.dateRange}
+              onChange={dateRange => updateFilter('dateRange', dateRange)}
               className="admin-purchase-receipts-date-range admin-purchase-receipts-filter-control"
               popupClassName="admin-purchase-receipts-date-popup"
               placeholder={[t('filters.dateFrom'), t('filters.dateTo')]}
@@ -633,13 +818,6 @@ export default function PurchaseReceipts() {
             />
 
             <div className="admin-purchase-receipts-filters__actions">
-              <Button
-                icon={<Filter className="h-4 w-4" />}
-                onClick={handleApplyFilters}
-                className="admin-purchase-receipts-btn admin-purchase-receipts-btn--primary"
-              >
-                {t('filters.apply')}
-              </Button>
               <Button
                 icon={<RotateCcw className="h-4 w-4" />}
                 onClick={handleClearFilters}
@@ -650,6 +828,7 @@ export default function PurchaseReceipts() {
             </div>
           </div>
         </div>
+        ) : null}
 
         <div className="admin-purchase-receipts-table-wrap">
           <Table
@@ -660,14 +839,12 @@ export default function PurchaseReceipts() {
             className="admin-purchase-receipts-table"
             pagination={{
               current: page,
-              pageSize: PAGE_LIMIT,
+              pageSize,
               total,
-              showSizeChanger: false,
+              showSizeChanger: true,
+              pageSizeOptions: PAGE_SIZE_OPTIONS,
               showTotal: count => t('table.resultCount', { count: formatNumber(count, locale) }),
-              onChange: nextPage => {
-                setPage(nextPage)
-                fetchReceipts(nextPage, keyword, appliedFilters)
-              }
+              onChange: handlePageChange
             }}
             locale={{
               emptyText: t('table.empty')
@@ -713,7 +890,10 @@ export default function PurchaseReceipts() {
                         {formatReceiptDate(record.createdAt, locale, t('common.dash'))}
                       </p>
                     </div>
-                    <span className="admin-purchase-receipts-receipt-card__amount">{formatCurrency(record.totalCost, locale)}</span>
+                    <div className="admin-purchase-receipts-receipt-card__side">
+                      {renderStatusTag(record)}
+                      <span className="admin-purchase-receipts-receipt-card__amount">{formatCurrency(record.totalCost, locale)}</span>
+                    </div>
                   </div>
 
                   <div className="admin-purchase-receipts-receipt-card__grid">
@@ -741,6 +921,17 @@ export default function PurchaseReceipts() {
                       <span>{record.note}</span>
                     </p>
                   )}
+
+                  {!isReceiptCancelled(record) && (
+                    <Button
+                      danger
+                      icon={<XCircle className="h-4 w-4" />}
+                      onClick={() => handleOpenCancelModal(record)}
+                      className="admin-purchase-receipts-receipt-card__cancel"
+                    >
+                      {t('actions.cancelReceipt')}
+                    </Button>
+                  )}
                 </article>
               )
             })}
@@ -749,17 +940,50 @@ export default function PurchaseReceipts() {
             <Pagination
               className="admin-purchase-receipts-card-pagination"
               current={page}
-              pageSize={PAGE_LIMIT}
+              pageSize={pageSize}
               total={total}
-              showSizeChanger={false}
-              onChange={nextPage => {
-                setPage(nextPage)
-                fetchReceipts(nextPage, keyword, appliedFilters)
-              }}
+              showSizeChanger
+              pageSizeOptions={PAGE_SIZE_OPTIONS}
+              onChange={handlePageChange}
             />
           )}
         </div>
       </TableShell>
+
+      <Modal
+        title={
+          <div className="admin-purchase-receipts-modal__title-wrap">
+            <span className="admin-purchase-receipts-modal__title-icon admin-purchase-receipts-modal__title-icon--danger" aria-hidden="true">
+              <XCircle className="h-5 w-5" />
+            </span>
+            <div>
+              <div className="admin-purchase-receipts-modal__title">{t('cancel.title')}</div>
+              <div className="admin-purchase-receipts-modal__subtitle">
+                {cancelTarget ? t('cancel.subtitle', { product: getLocalizedReceiptProductName(cancelTarget, language, t('common.notAvailable')) }) : t('cancel.subtitleFallback')}
+              </div>
+            </div>
+          </div>
+        }
+        open={cancelModalOpen}
+        onCancel={handleCloseCancelModal}
+        onOk={() => cancelForm.submit()}
+        confirmLoading={cancelSubmitting}
+        okText={t('cancel.confirm')}
+        cancelText={t('common.cancel')}
+        wrapClassName="admin-purchase-receipts-modal"
+        okButtonProps={{ danger: true }}
+        destroyOnClose
+        style={{ top: 72 }}
+      >
+        <Form form={cancelForm} layout="vertical" onFinish={handleCancelReceipt} preserve={false}>
+          <Form.Item label={t('cancel.reason')} name="reason" rules={[{ required: true, message: t('cancel.reasonRequired') }]}>
+            <Input.TextArea rows={3} placeholder={t('cancel.reasonPlaceholder')} className="admin-purchase-receipts-input" />
+          </Form.Item>
+          <Form.Item name="overrideStockCheck" valuePropName="checked">
+            <Checkbox>{t('cancel.overrideStockCheck')}</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
 
       <Modal
         title={
@@ -787,6 +1011,7 @@ export default function PurchaseReceipts() {
           className: 'admin-purchase-receipts-btn admin-purchase-receipts-btn--secondary'
         }}
         destroyOnClose
+        style={{ top: 48 }}
       >
         <Form form={form} layout="vertical" onFinish={handleCreate} preserve={false}>
           <Form.Item label={t('form.manualProduct')} name="productId" rules={[{ required: true, message: t('form.productRequired') }]}>
@@ -796,7 +1021,6 @@ export default function PurchaseReceipts() {
               placeholder={productLoading ? t('form.productLoading') : t('form.selectProduct')}
               options={productOptions}
               popupClassName="admin-purchase-receipts-select-dropdown"
-              dropdownStyle={{ zIndex: 1240 }}
               filterOption={(input, option) => {
                 const needle = input.trim().toLowerCase()
                 if (!needle) return true

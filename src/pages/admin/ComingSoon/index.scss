@@ -1,19 +1,10 @@
 .admin-coming-soon-page {
-  min-height: 100vh;
-  padding: 24px;
-  border-radius: 12px;
-  background: var(--admin-bg-soft);
   color: var(--admin-text);
 }
 
 .admin-coming-soon-card {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 22px;
-  border: 1px solid var(--admin-border);
-  border-radius: 14px;
-  background: var(--admin-surface);
-  box-shadow: var(--admin-shadow);
 }
 
 .admin-coming-soon-header {
@@ -81,14 +72,6 @@
 }
 
 @media (max-width: 767px) {
-  .admin-coming-soon-page {
-    padding: 0;
-  }
-
-  .admin-coming-soon-card {
-    padding: 14px;
-  }
-
   .admin-coming-soon-header {
     flex-direction: column;
   }

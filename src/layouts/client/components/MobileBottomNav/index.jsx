@@ -7,7 +7,7 @@ const mobileNavItems = [
   { labelKey: 'mobileBottomNav.products', path: '/products', Icon: AppstoreOutlined },
   { labelKey: 'mobileBottomNav.vip', path: '/vip', Icon: CrownOutlined },
   { labelKey: 'mobileBottomNav.orders', path: '/orders', Icon: FileTextOutlined },
-  { labelKey: 'mobileBottomNav.account', path: '/user/profile', Icon: UserOutlined }
+  { labelKey: 'mobileBottomNav.account', path: '/me', Icon: UserOutlined }
 ]
 
 export default function MobileBottomNav() {

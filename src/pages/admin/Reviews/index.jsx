@@ -36,7 +36,7 @@ export default function Reviews() {
   } = useReviews()
 
   return (
-    <div className="admin-reviews-page min-h-screen space-y-6 rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-6">
+    <div className="admin-reviews-page space-y-6">
       <SEO title={t('seo.title')} noIndex />
 
       <ReviewsHeader onRefresh={handleRefresh} />

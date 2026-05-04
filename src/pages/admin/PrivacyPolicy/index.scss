@@ -2,19 +2,13 @@
   min-height: 100%;
 }
 
-.admin-privacy-policy-card {
-  border: 1px solid var(--admin-border);
-  border-radius: 14px;
-  background: var(--admin-surface);
-  box-shadow: var(--admin-shadow);
-}
 
 .admin-privacy-policy-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--admin-border);
 
   h2.ant-typography {
@@ -27,9 +21,6 @@
   }
 }
 
-.admin-privacy-policy-form {
-  padding: 0 24px 24px;
-}
 
 .admin-privacy-policy-section {
   padding: 20px 0;

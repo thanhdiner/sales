@@ -1,4 +1,4 @@
-import { Card, Col, Input, Row, Select, Space, Statistic } from 'antd'
+import { Card, Input, Select, Statistic } from 'antd'
 import { FileSearchOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 
@@ -13,48 +13,39 @@ export default function ChatbotToolLogsFilters({
   const { t } = useTranslation('adminChatbotToolLogs')
 
   return (
-    <Row gutter={[16, 16]} className="mb-4">
-      <Col xs={24} sm={12} xl={4}>
-        <Card className="admin-chatbot-stat-card">
+    <Card className="admin-chatbot-card admin-chatbot-tool-logs-overview-card mb-4">
+      <div className="admin-chatbot-tool-logs-overview">
+        <div className="admin-chatbot-tool-logs-overview__stats">
           <Statistic
             title={t('stats.totalLogs')}
             value={toolLogsMeta.total || 0}
             prefix={<FileSearchOutlined />}
           />
-        </Card>
-      </Col>
-
-      <Col xs={24} sm={12} xl={4}>
-        <Card className="admin-chatbot-stat-card">
           <Statistic
             title={t('stats.errors')}
             value={toolLogsMeta.errorCount || 0}
             prefix={<FileSearchOutlined />}
           />
-        </Card>
-      </Col>
+        </div>
 
-      <Col xs={24} sm={12} xl={16}>
-        <Card className="admin-chatbot-card">
-          <Space wrap className="w-full">
-            <Select
-              allowClear
-              placeholder={t('filters.toolPlaceholder')}
-              className="min-w-[220px]"
-              options={toolOptions}
-              value={toolNameFilter}
-              onChange={onToolNameFilterChange}
-            />
+        <div className="admin-chatbot-tool-logs-overview__filters">
+          <Select
+            allowClear
+            placeholder={t('filters.toolPlaceholder')}
+            className="admin-chatbot-tool-logs-overview__tool-select"
+            options={toolOptions}
+            value={toolNameFilter}
+            onChange={onToolNameFilterChange}
+          />
 
-            <Input
-              placeholder={t('filters.sessionPlaceholder')}
-              className="min-w-[260px]"
-              value={sessionIdFilter}
-              onChange={event => onSessionIdFilterChange(event.target.value)}
-            />
-          </Space>
-        </Card>
-      </Col>
-    </Row>
+          <Input
+            placeholder={t('filters.sessionPlaceholder')}
+            className="admin-chatbot-tool-logs-overview__session-input"
+            value={sessionIdFilter}
+            onChange={event => onSessionIdFilterChange(event.target.value)}
+          />
+        </div>
+      </div>
+    </Card>
   )
 }

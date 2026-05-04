@@ -32,6 +32,8 @@ function AdminLayout() {
   const newOrderHandlerRef = useRef(null)
   const isAdminChatPage = location.pathname === '/admin/chat'
   const isAdminDashboardPage = location.pathname === '/admin/dashboard' || location.pathname === '/admin'
+  const isAdminBlogCreatePage = location.pathname === '/admin/blog/create'
+  const isFullCanvasAdminPage = isAdminChatPage || isAdminBlogCreatePage
   const shouldLockChatSidebar = isAdminChatPage && isChatDesktopViewport
   const effectiveCollapsed = shouldLockChatSidebar ? true : collapsed
   const updateCollapsed = useCallback(value => {
@@ -110,7 +112,6 @@ function AdminLayout() {
           collapsed={effectiveCollapsed}
           setCollapsed={setCollapsed}
           location={location}
-          compactChatMenu={shouldLockChatSidebar}
         />
         <Layout className="admin-layout-shell flex flex-col overflow-hidden transition-colors">
           <Header
@@ -119,13 +120,13 @@ function AdminLayout() {
             onNewOrder={onNewOrder}
             canToggleSider={!shouldLockChatSidebar}
           />
-          {!isAdminChatPage && !isAdminDashboardPage && (
+          {!isFullCanvasAdminPage && !isAdminDashboardPage && (
             <Breadcrumb className="admin-layout-breadcrumb mt-2.5 mx-2 md:mx-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
           )}
           <Content
             className={
-              isAdminChatPage
-                ? 'flex-1 min-h-0 overflow-hidden p-2 md:p-3 transition-all'
+              isFullCanvasAdminPage
+                ? 'flex-1 min-h-0 overflow-y-auto transition-all'
                 : `admin-layout-content ${isAdminDashboardPage ? 'admin-layout-content--dashboard' : ''} flex-1 min-h-0 overflow-y-auto mt-3 mx-2 md:mx-4 mb-4 p-3 sm:p-4 md:p-6 transition-all`
             }
           >

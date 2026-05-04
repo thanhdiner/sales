@@ -1,7 +1,9 @@
 .vip-page {
   min-height: 100vh;
-  background: #f6f7fb;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
   color: #111827;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
 
 .vip-page__inner {
@@ -67,7 +69,7 @@
   margin: 0 0 14px;
   color: #b45309;
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -80,7 +82,7 @@
   margin: 0;
   color: #0f172a;
   font-size: clamp(34px, 5vw, 58px);
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1.05;
   letter-spacing: 0;
 }
@@ -124,7 +126,7 @@
   border: 1px solid transparent;
   font: inherit;
   font-size: 14px;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
@@ -151,10 +153,10 @@
   position: relative;
   min-height: 360px;
   overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(20, 184, 166, 0.16);
   border-radius: 8px;
-  background: #0f172a;
-  color: #fff;
+  background: #ecfdf5;
+  color: #0f172a;
 }
 
 .vip-hero-section__visual > img {
@@ -163,7 +165,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.78;
+  opacity: 0.18;
 }
 
 .vip-hero-section__visual::after {
@@ -171,8 +173,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.48)),
-    linear-gradient(0deg, rgba(250, 204, 21, 0.18), rgba(20, 184, 166, 0.16));
+    linear-gradient(135deg, rgba(240, 253, 250, 0.94), rgba(204, 251, 241, 0.78)),
+    linear-gradient(0deg, rgba(20, 184, 166, 0.1), rgba(255, 255, 255, 0.32));
 }
 
 .vip-card-visual {
@@ -182,14 +184,14 @@
   right: 28px;
   bottom: 32px;
   min-height: 190px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(15, 118, 110, 0.18);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(250, 204, 21, 0.9), rgba(245, 158, 11, 0.92)),
-    #f59e0b;
+    linear-gradient(135deg, rgba(240, 253, 250, 0.98), rgba(204, 251, 241, 0.94)),
+    #f0fdfa;
   padding: 24px;
-  color: #111827;
-  box-shadow: 0 26px 50px rgba(0, 0, 0, 0.28);
+  color: #0f172a;
+  box-shadow: 0 24px 46px rgba(15, 23, 42, 0.2);
 }
 
 .vip-card-visual__top {
@@ -198,7 +200,7 @@
   justify-content: space-between;
   gap: 16px;
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -215,7 +217,7 @@
   margin-top: 12px;
   color: rgba(17, 24, 39, 0.72);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .vip-card-visual__card-icon {
@@ -224,7 +226,7 @@
   bottom: 22px;
   width: 42px;
   height: 42px;
-  color: rgba(17, 24, 39, 0.42);
+  color: rgba(15, 118, 110, 0.42);
 }
 
 .vip-hero-section__coin {
@@ -235,10 +237,10 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(20, 184, 166, 0.22);
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.68);
-  color: #fde68a;
+  background: rgba(240, 253, 250, 0.9);
+  color: #0f766e;
 }
 
 .vip-hero-section__coin svg {
@@ -257,14 +259,9 @@
 }
 
 .vip-quick-benefits {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
   margin-top: 18px;
 }
 
-.vip-quick-benefit,
-.vip-benefit-card,
 .vip-plan,
 .vip-faq-item {
   border: 1px solid rgba(148, 163, 184, 0.24);
@@ -273,16 +270,29 @@
   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
 }
 
-.vip-quick-benefit {
-  display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
+.vip-quick-benefit.admin-stat-card {
+  min-height: 108px;
+  align-items: flex-start;
   padding: 16px;
 }
 
-.vip-quick-benefit > span,
-.vip-benefit-card__icon,
+.vip-quick-benefit.admin-stat-card .admin-stat-card__content {
+  min-width: 0;
+}
+
+.vip-quick-benefit.admin-stat-card .admin-stat-card__label {
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.vip-quick-benefit.admin-stat-card .admin-stat-card__meta {
+  margin-top: 6px;
+  color: #475569;
+  line-height: 1.55;
+}
+
 .vip-cta-section__icon {
   display: inline-flex;
   align-items: center;
@@ -300,7 +310,7 @@
   margin: 0;
   color: #0f172a;
   font-size: 17px;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1.25;
 }
 
@@ -331,7 +341,7 @@
   margin: 0 0 8px;
   color: #0f766e;
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -340,7 +350,7 @@
   margin: 0;
   color: #0f172a;
   font-size: clamp(26px, 3vw, 40px);
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: 0;
 }
@@ -386,7 +396,7 @@
   color: #92400e;
   padding: 5px 10px;
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .vip-plan__price {
@@ -471,13 +481,13 @@
   background: #f8fafc;
   color: #0f172a;
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .vip-comparison-table td {
   color: #334155;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .vip-comparison-table tbody tr:last-child td {
@@ -485,26 +495,28 @@
 }
 
 .vip-comparison-table svg {
+  display: block;
+  margin: 0 auto;
   color: #0f766e;
 }
 
-.vip-benefit-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+.vip-benefit-card.admin-stat-card {
+  min-height: 116px;
+  align-items: flex-start;
+  padding: 16px;
 }
 
-.vip-benefit-card {
-  padding: 20px;
+.vip-benefit-card.admin-stat-card .admin-stat-card__content {
+  min-width: 0;
 }
 
-.vip-benefit-card h3 {
-  margin-top: 16px;
+.vip-benefit-card.admin-stat-card .admin-stat-card__label {
+  font-size: 15px;
 }
 
-.vip-benefit-card p {
-  margin: 10px 0 0;
-  font-size: 14px;
+.vip-benefit-card.admin-stat-card .admin-stat-card__meta {
+  margin-top: 6px;
+  font-size: 13px;
 }
 
 .vip-faq-list {
@@ -527,7 +539,7 @@
   color: #0f172a;
   padding: 18px;
   font: inherit;
-  font-weight: 850;
+  font-weight: 700;
   text-align: left;
   cursor: pointer;
 }
@@ -554,38 +566,41 @@
   gap: 18px;
   align-items: center;
   margin-top: 58px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 8px;
-  background: #0f172a;
+  background: #fff;
   padding: 26px;
-  color: #fff;
+  color: #0f172a;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
 }
 
 .vip-cta-section__icon {
-  background: #fef3c7;
-  color: #b45309;
+  background: #ecfdf5;
+  color: #0f766e;
 }
 
 .vip-cta-section h2 {
   margin: 0;
-  color: #fff;
+  color: #0f172a;
   font-size: 28px;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1.2;
 }
 
 .vip-cta-section p {
   max-width: 720px;
   margin: 8px 0 0;
-  color: rgba(255, 255, 255, 0.72);
+  color: #475569;
 }
 
 .vip-cta-section .vip-action--primary {
-  border-color: #facc15;
-  background: #facc15;
+  border-color: #0f766e;
+  background: #0f766e;
+  color: #fff;
 }
 
 html.dark body:not(.admin-layout-active) .vip-page {
-  background: var(--client-dark-bg, #070809);
+  background: #1f2937;
   color: var(--client-dark-text, #f4f6f8);
 }
 
@@ -618,8 +633,8 @@ html.dark body:not(.admin-layout-active) .vip-hero-section__visual::after {
 }
 
 html.dark body:not(.admin-layout-active) .vip-hero-section__status,
-html.dark body:not(.admin-layout-active) .vip-quick-benefit > span,
-html.dark body:not(.admin-layout-active) .vip-benefit-card__icon {
+html.dark body:not(.admin-layout-active) .vip-quick-benefit .admin-stat-card__icon,
+html.dark body:not(.admin-layout-active) .vip-benefit-card.admin-stat-card .admin-stat-card__icon {
   border-color: var(--client-dark-primary, #22c55e);
   background: var(--client-dark-primary-soft, rgba(34, 197, 94, 0.13));
   color: var(--client-dark-primary, #22c55e);
@@ -636,7 +651,9 @@ html.dark body:not(.admin-layout-active) .vip-breadcrumb,
 html.dark body:not(.admin-layout-active) .vip-hero-section__description,
 html.dark body:not(.admin-layout-active) .vip-section-header span,
 html.dark body:not(.admin-layout-active) .vip-quick-benefit p,
+html.dark body:not(.admin-layout-active) .vip-quick-benefit.admin-stat-card .admin-stat-card__meta,
 html.dark body:not(.admin-layout-active) .vip-benefit-card p,
+html.dark body:not(.admin-layout-active) .vip-benefit-card.admin-stat-card .admin-stat-card__meta,
 html.dark body:not(.admin-layout-active) .vip-plan p,
 html.dark body:not(.admin-layout-active) .vip-plan li,
 html.dark body:not(.admin-layout-active) .vip-faq-item p,
@@ -647,7 +664,9 @@ html.dark body:not(.admin-layout-active) .vip-plan__price span {
 html.dark body:not(.admin-layout-active) .vip-hero-section h1,
 html.dark body:not(.admin-layout-active) .vip-section-header h2,
 html.dark body:not(.admin-layout-active) .vip-quick-benefit h3,
+html.dark body:not(.admin-layout-active) .vip-quick-benefit.admin-stat-card .admin-stat-card__label,
 html.dark body:not(.admin-layout-active) .vip-benefit-card h3,
+html.dark body:not(.admin-layout-active) .vip-benefit-card.admin-stat-card .admin-stat-card__label,
 html.dark body:not(.admin-layout-active) .vip-plan h3,
 html.dark body:not(.admin-layout-active) .vip-plan__price strong,
 html.dark body:not(.admin-layout-active) .vip-faq-item button,
@@ -688,7 +707,6 @@ html.dark body:not(.admin-layout-active) .vip-cta-section {
     padding: 30px;
   }
 
-  .vip-quick-benefits,
   .vip-benefit-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -747,7 +765,6 @@ html.dark body:not(.admin-layout-active) .vip-cta-section {
     font-size: 44px;
   }
 
-  .vip-quick-benefits,
   .vip-plan-grid,
   .vip-benefit-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -762,9 +779,22 @@ html.dark body:not(.admin-layout-active) .vip-cta-section {
   }
 
   .vip-comparison-scroll {
-    margin-right: -12px;
-    border-right: 0;
-    border-radius: 8px 0 0 8px;
+    margin-right: 0;
+  }
+
+  .vip-comparison-table {
+    min-width: 0;
+  }
+
+  .vip-comparison-table th,
+  .vip-comparison-table td {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .vip-comparison-table th:first-child,
+  .vip-comparison-table td:first-child {
+    width: 38%;
   }
 
   .vip-cta-section {

@@ -11,6 +11,7 @@ export * as wishlistService from './commerce/wishlist'
 
 export * as aboutService from './content/about'
 export * as blogService from './content/blog'
+export * as cmsPageService from './content/cmsPage'
 export * as comingSoonContentService from './content/comingSoon'
 export * as contactPageContentService from './content/contactPage'
 export * as cooperationContactContentService from './content/cooperationContact'

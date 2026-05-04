@@ -1,19 +1,10 @@
 .admin-vip-page {
-  min-height: 100vh;
-  padding: 24px;
-  border-radius: 12px;
-  background: var(--admin-bg-soft);
   color: var(--admin-text);
 }
 
 .admin-vip-card {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 22px;
-  border: 1px solid var(--admin-border);
-  border-radius: 14px;
-  background: var(--admin-surface);
-  box-shadow: var(--admin-shadow);
 }
 
 .admin-vip-header {
@@ -129,14 +120,6 @@
 }
 
 @media (max-width: 767px) {
-  .admin-vip-page {
-    padding: 0;
-  }
-
-  .admin-vip-card {
-    padding: 14px;
-  }
-
   .admin-vip-header {
     flex-direction: column;
   }

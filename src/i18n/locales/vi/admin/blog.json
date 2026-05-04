@@ -1,81 +1,114 @@
 {
   "seo": {
-    "title": "Admin - Blog / tin tức"
+    "title": "Admin - Quản lý bài viết"
   },
   "page": {
     "eyebrow": "Nội dung",
-    "title": "Quản lý Blog / tin tức",
-    "description": "Tạo và cập nhật bài viết hiển thị ở trang /blog. Mỗi bài có nội dung tiếng Việt và bản dịch tiếng Anh tùy chọn.",
-    "createButton": "Thêm bài viết",
+    "title": "Quản lý bài viết",
+    "description": "Tạo, chỉnh sửa và xuất bản nội dung blog trên website.",
+    "createButton": "Tạo bài viết",
     "previewButton": "Xem trang blog"
   },
   "stats": {
-    "total": "Tổng bài",
+    "total": "Tổng bài viết",
+    "totalHint": "Tất cả bài viết blog",
     "published": "Đã xuất bản",
+    "publishedHint": "Đang hiển thị ngoài website",
     "draft": "Bản nháp",
-    "featured": "Nổi bật"
+    "draftHint": "Chưa xuất bản",
+    "queued": "Chờ đăng",
+    "queuedHint": "Đã xếp lịch/hàng chờ"
   },
   "filters": {
-    "keyword": "Tìm theo tiêu đề, slug, nội dung",
+    "keyword": "Tìm tiêu đề, slug, tác giả...",
     "status": "Trạng thái",
     "category": "Danh mục",
+    "author": "Tác giả",
+    "sort": "Sắp xếp",
     "reset": "Đặt lại"
+  },
+  "sort": {
+    "newest": "Mới nhất",
+    "updated": "Cập nhật gần đây",
+    "views": "Nhiều lượt xem",
+    "published": "Ngày đăng mới nhất",
+    "title": "A-Z"
   },
   "status": {
     "draft": "Bản nháp",
     "queued": "Chờ đăng",
-    "archived": "Lưu trữ",
+    "archived": "Đã ẩn",
     "published": "Đã xuất bản"
   },
   "table": {
     "columns": {
       "post": "Bài viết",
       "category": "Danh mục",
+      "author": "Tác giả",
       "status": "Trạng thái",
-      "featured": "Nổi bật",
+      "views": "Lượt xem",
       "publishedAt": "Ngày đăng",
+      "updatedAt": "Cập nhật",
       "actions": "Thao tác"
     },
-    "featured": "Nổi bật",
-    "normal": "Thường",
     "emptyValue": "Chưa có",
     "notPublished": "Chưa đăng",
     "showTotal": "{{rangeStart}}-{{rangeEnd}} của {{total}} bài viết",
     "actions": {
-      "edit": "Sửa bài viết",
-      "delete": "Xóa bài viết"
+      "preview": "Xem trước",
+      "edit": "Sửa",
+      "publish": "Xuất bản",
+      "archive": "Ẩn bài viết",
+      "delete": "Xóa"
     }
   },
   "form": {
-    "createTitle": "Thêm bài viết",
-    "editTitle": "Sửa bài viết",
+    "createTitle": "Tạo bài viết",
+    "editTitle": "Chỉnh sửa bài viết",
     "createSubmit": "Tạo bài viết",
     "saveSubmit": "Lưu thay đổi",
     "cancel": "Hủy",
+    "sections": {
+      "publish": "Xuất bản",
+      "taxonomy": "Phân loại",
+      "seo": "SEO",
+      "ecommerce": "Liên kết ecommerce"
+    },
     "tabs": {
       "vi": "Tiếng Việt",
       "en": "Tiếng Anh"
     },
-    "title": "Tiêu đề",
+    "title": "Tiêu đề bài viết",
     "titleRequired": "Nhập tiêu đề bài viết",
-    "titlePlaceholder": "Ví dụ: Cách chọn tài khoản game phù hợp",
+    "titlePlaceholder": "Ví dụ: Cách chọn tai nghe gaming tốt",
     "slug": "Slug",
     "slugHint": "Để trống khi tạo mới để hệ thống tự sinh từ tiêu đề.",
-    "slugPlaceholder": "cach-chon-tai-khoan-game",
-    "excerpt": "Tóm tắt",
+    "slugPlaceholder": "cach-chon-tai-nghe-gaming-tot",
+    "excerpt": "Mô tả ngắn",
     "excerptPlaceholder": "Đoạn mô tả ngắn hiển thị trong danh sách blog",
-    "content": "Nội dung",
+    "content": "Nội dung bài viết",
     "contentPlaceholder": "Nhập nội dung bài viết",
     "characterLimitExceeded": "Nội dung không được vượt quá {{max}} ký tự",
     "category": "Danh mục",
-    "categoryPlaceholder": "Tin tức, hướng dẫn, cập nhật...",
-    "tags": "Thẻ",
-    "tagsPlaceholder": "Nhập thẻ rồi Enter",
+    "categoryPlaceholder": "Tin tức, hướng dẫn, gaming gear...",
+    "tags": "Tags",
+    "tagsPlaceholder": "Nhập tag rồi Enter",
     "status": "Trạng thái",
     "publishedAt": "Ngày đăng",
+    "scheduledAt": "Lịch đăng",
     "featured": "Đánh dấu nổi bật",
-    "thumbnail": "Ảnh đại diện",
+    "thumbnail": "Ảnh cover",
     "uploadThumbnail": "Tải ảnh",
+    "seoTitle": "SEO title",
+    "seoTitlePlaceholder": "Tiêu đề hiển thị trên Google",
+    "seoDescription": "SEO description",
+    "seoDescriptionPlaceholder": "Mô tả ngắn cho công cụ tìm kiếm",
+    "canonicalUrl": "Canonical URL",
+    "canonicalUrlPlaceholder": "https://smartmall.site/blog/...",
+    "seoPreviewTitle": "Tiêu đề SEO của bài viết",
+    "seoPreviewDescription": "Mô tả SEO sẽ hiển thị ở đây.",
+    "relatedProducts": "Sản phẩm liên quan",
+    "relatedProductsPlaceholder": "Tìm sản phẩm...",
     "translations": {
       "title": "Tiêu đề (EN)",
       "titlePlaceholder": "English title",
@@ -85,7 +118,7 @@
       "contentPlaceholder": "English content",
       "category": "Danh mục (EN)",
       "categoryPlaceholder": "English category",
-      "tags": "Thẻ (EN)",
+      "tags": "Tags (EN)",
       "tagsPlaceholder": "Enter tags"
     }
   },
@@ -101,6 +134,10 @@
     "updateSuccess": "Đã cập nhật bài viết",
     "deleteSuccess": "Đã xóa bài viết",
     "deleteError": "Xóa bài viết thất bại",
+    "publishSuccess": "Đã xuất bản bài viết",
+    "publishError": "Xuất bản bài viết thất bại",
+    "archiveSuccess": "Đã ẩn bài viết",
+    "archiveError": "Ẩn bài viết thất bại",
     "saveError": "Không lưu được bài viết",
     "mediaUploadError": "Không tải được media vào bài viết",
     "slugExists": "Slug đã tồn tại. Có thể dùng: {{slug}}",

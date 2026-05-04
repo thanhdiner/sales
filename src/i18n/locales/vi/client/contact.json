@@ -3,6 +3,11 @@
     "title": "Liên hệ",
     "description": "Liên hệ SmartMall qua Zalo, Facebook hoặc email. Hỗ trợ nhanh chóng, tư vấn tận tâm trong giờ hành chính và cả ngoài giờ."
   },
+  "breadcrumb": {
+    "label": "Đường dẫn liên hệ",
+    "home": "Trang chủ",
+    "contact": "Liên hệ"
+  },
   "highlightsSection": {
     "eyebrow": "Điểm nổi bật",
     "title": "Lý do khách hàng chọn liên hệ trực tiếp",

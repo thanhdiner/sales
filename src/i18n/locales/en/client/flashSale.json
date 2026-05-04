@@ -3,6 +3,11 @@
     "title": "Flash Sale – Hot deals",
     "description": "SmartMall Flash Sale – Hot daily discounts with limited quantities. Grab game accounts and licensed software at the best prices!"
   },
+  "breadcrumb": {
+    "label": "Flash sale breadcrumb",
+    "home": "Home",
+    "flashSale": "Flash Sale"
+  },
   "category": {
     "all": "All",
     "uncategorized": "Uncategorized",

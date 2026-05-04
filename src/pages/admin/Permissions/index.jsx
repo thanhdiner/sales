@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import SEO from '@/components/shared/SEO'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
+import { useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { usePermissionForm } from './hooks/usePermissionForm'
 import { usePermissionsData } from './hooks/usePermissionsData'
 import PermissionFormModal from './sections/PermissionFormModal'
@@ -18,20 +19,32 @@ export default function Permissions() {
   const grantedPermissions = useAdminPermissions()
   const { permissionList, loading, fetchPermissions, handleDeletePermission } = usePermissionsData({ t })
   const permissionForm = usePermissionForm({ onSaved: fetchPermissions, t })
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const { page: currentPage, setPage: setCurrentPage, pageSize, setPageSize } = useListSearchParams({
+    defaultPage: 1,
+    defaultPageSize: DEFAULT_PAGE_SIZE
+  })
 
   const paginatedPermissions = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize
     return permissionList.slice(startIndex, startIndex + pageSize)
   }, [currentPage, pageSize, permissionList])
 
+  useEffect(() => {
+    if (loading) return
+
+    const maxPage = Math.max(1, Math.ceil(permissionList.length / pageSize))
+
+    if (currentPage > maxPage) {
+      setCurrentPage(maxPage)
+    }
+  }, [currentPage, loading, pageSize, permissionList.length, setCurrentPage])
+
   return (
-    <div className="admin-permissions-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 sm:p-4 lg:p-6">
+    <div className="admin-permissions-page">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="admin-permissions-page__inner mx-auto max-w-7xl">
-        <div className="admin-permissions-panel rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
+        <div className="admin-permissions-panel">
           <PermissionsHeader
             t={t}
             canCreatePermission={grantedPermissions.includes('create_permission')}
@@ -51,10 +64,7 @@ export default function Permissions() {
             loading={loading}
             grantedPermissions={grantedPermissions}
             onPageChange={page => setCurrentPage(page)}
-            onPageSizeChange={(page, size) => {
-              setCurrentPage(page)
-              setPageSize(size)
-            }}
+            onPageSizeChange={(_, size) => setPageSize(size)}
             onEditPermission={permissionForm.openModal}
             onDeletePermission={handleDeletePermission}
           />

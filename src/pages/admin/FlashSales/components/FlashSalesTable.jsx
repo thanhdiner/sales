@@ -1,5 +1,5 @@
-import { Edit2, Trash2 } from 'lucide-react'
-import { Button, Pagination } from 'antd'
+import { CopyPlus, Edit2, MoreHorizontal, Trash2 } from 'lucide-react'
+import { Button, Dropdown, Pagination, Tooltip } from 'antd'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import {
@@ -20,10 +20,12 @@ export default function FlashSalesTable({
   total,
   currentPage,
   pageSize,
+  columnsVisible,
   tableLoading,
   onPageChange,
   onPageSizeChange,
   onEdit,
+  onDuplicate,
   onDelete
 }) {
   const { t, i18n } = useTranslation('adminFlashSales')
@@ -40,9 +42,9 @@ export default function FlashSalesTable({
         <FlashSalesEmptyState t={t} />
       ) : (
         <>
-          <FlashSalesDesktopTable flashSales={rows} language={language} locale={locale} onEdit={onEdit} onDelete={onDelete} t={t} />
-          <FlashSalesTabletTable flashSales={rows} language={language} locale={locale} onEdit={onEdit} onDelete={onDelete} t={t} />
-          <FlashSalesMobileCards flashSales={rows} language={language} locale={locale} onEdit={onEdit} onDelete={onDelete} t={t} />
+          <FlashSalesDesktopTable flashSales={rows} language={language} locale={locale} columnsVisible={columnsVisible} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
+          <FlashSalesTabletTable flashSales={rows} language={language} locale={locale} columnsVisible={columnsVisible} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
+          <FlashSalesMobileCards flashSales={rows} language={language} locale={locale} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
         </>
       )}
 
@@ -87,68 +89,80 @@ function FlashSalesEmptyState({ t }) {
   )
 }
 
-function FlashSalesDesktopTable({ flashSales, language, locale, onEdit, onDelete, t }) {
+function FlashSalesDesktopTable({ flashSales, language, locale, columnsVisible = {}, onEdit, onDuplicate, onDelete, t }) {
+  const columns = [
+    {
+      key: 'name',
+      header: t('table.columns.name'),
+      render: sale => <SaleName language={language} sale={sale} t={t} />
+    },
+    {
+      key: 'time',
+      header: t('table.columns.time'),
+      render: sale => (
+        <>
+          <div className="text-sm text-[var(--admin-text)]">{formatFlashSaleDateTime(sale.startAt, locale)}</div>
+          <div className="text-sm text-[var(--admin-text-muted)]">
+            {t('table.until', { date: formatFlashSaleDateTime(sale.endAt, locale) })}
+          </div>
+        </>
+      )
+    },
+    {
+      key: 'discount',
+      header: t('table.columns.discount'),
+      render: sale => <DiscountBadge discountPercent={sale.discountPercent} locale={locale} />
+    },
+    {
+      key: 'quantity',
+      header: t('table.columns.quantity'),
+      render: sale => <QuantityProgress locale={locale} sale={sale} progressPercent={getFlashSaleProgressPercent(sale)} />
+    },
+    {
+      key: 'status',
+      header: t('table.columns.status'),
+      render: sale => <StatusBadge status={sale.status} t={t} />
+    },
+    {
+      key: 'revenue',
+      header: t('table.columns.revenue'),
+      render: sale => <span className="text-sm font-medium text-[var(--admin-text)]">{formatCurrency(sale.revenue, locale)}</span>
+    },
+    {
+      key: 'actions',
+      header: t('table.columns.actions'),
+      align: 'right',
+      render: sale => <FlashSaleActions sale={sale} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
+    }
+  ].filter(column => columnsVisible[column.key] !== false)
+  const minWidth = columns.reduce((total, column) => total + (column.key === 'actions' ? 140 : 160), 0)
+
   return (
     <div className="admin-flash-sales-desktop-table overflow-x-auto">
-      <table className="w-full min-w-[980px] divide-y divide-[var(--admin-border)] text-sm">
+      <table className="w-full divide-y divide-[var(--admin-border)] text-sm" style={{ minWidth }}>
         <thead className="bg-[var(--admin-surface-2)]">
           <tr>
-            <DesktopHeaderCell>{t('table.columns.name')}</DesktopHeaderCell>
-            <DesktopHeaderCell>{t('table.columns.time')}</DesktopHeaderCell>
-            <DesktopHeaderCell>{t('table.columns.discount')}</DesktopHeaderCell>
-            <DesktopHeaderCell>{t('table.columns.quantity')}</DesktopHeaderCell>
-            <DesktopHeaderCell>{t('table.columns.status')}</DesktopHeaderCell>
-            <DesktopHeaderCell>{t('table.columns.revenue')}</DesktopHeaderCell>
-            <DesktopHeaderCell align="right">{t('table.columns.actions')}</DesktopHeaderCell>
+            {columns.map(column => <DesktopHeaderCell key={column.key} align={column.align}>{column.header}</DesktopHeaderCell>)}
           </tr>
         </thead>
 
         <tbody className="divide-y divide-[var(--admin-border)] bg-[var(--admin-surface)]">
-          {flashSales.map(sale => {
-            const progressPercent = getFlashSaleProgressPercent(sale)
-
-            return (
-              <tr key={sale._id} className="transition-colors hover:bg-[var(--admin-surface-2)]">
-                <td className="whitespace-nowrap px-4 py-4 align-top">
-                  <SaleName language={language} sale={sale} t={t} />
+          {flashSales.map(sale => (
+            <tr key={sale._id} className="transition-colors hover:bg-[var(--admin-surface-2)]">
+              {columns.map(column => (
+                <td key={column.key} className={`whitespace-nowrap px-4 py-4 align-top ${column.align === 'right' ? 'text-right' : ''}`}>
+                  {column.render(sale)}
                 </td>
-
-                <td className="whitespace-nowrap px-4 py-4 align-top">
-                  <div className="text-sm text-[var(--admin-text)]">{formatFlashSaleDateTime(sale.startAt, locale)}</div>
-                  <div className="text-sm text-[var(--admin-text-muted)]">
-                    {t('table.until', { date: formatFlashSaleDateTime(sale.endAt, locale) })}
-                  </div>
-                </td>
-
-                <td className="whitespace-nowrap px-4 py-4 align-top">
-                  <DiscountBadge discountPercent={sale.discountPercent} locale={locale} />
-                </td>
-
-                <td className="whitespace-nowrap px-4 py-4 align-top">
-                  <QuantityProgress locale={locale} sale={sale} progressPercent={progressPercent} />
-                </td>
-
-                <td className="whitespace-nowrap px-4 py-4 align-top">
-                  <StatusBadge status={sale.status} t={t} />
-                </td>
-
-                <td className="whitespace-nowrap px-4 py-4 align-top text-sm font-medium text-[var(--admin-text)]">
-                  {formatCurrency(sale.revenue, locale)}
-                </td>
-
-                <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium align-top">
-                  <FlashSaleActions sale={sale} onEdit={onEdit} onDelete={onDelete} t={t} />
-                </td>
-              </tr>
-            )
-          })}
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   )
 }
 
-function FlashSalesTabletTable({ flashSales, language, locale, onEdit, onDelete, t }) {
+function FlashSalesTabletTable({ flashSales, language, locale, columnsVisible = {}, onEdit, onDuplicate, onDelete, t }) {
   return (
     <div className="admin-flash-sales-tablet-table">
       <div className="grid grid-cols-12 gap-3 border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)]">
@@ -179,7 +193,7 @@ function FlashSalesTabletTable({ flashSales, language, locale, onEdit, onDelete,
             </div>
 
             <div className="col-span-2 flex justify-end">
-              <FlashSaleActions sale={sale} onEdit={onEdit} onDelete={onDelete} t={t} />
+              <FlashSaleActions sale={sale} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
             </div>
           </div>
         ))}
@@ -188,7 +202,7 @@ function FlashSalesTabletTable({ flashSales, language, locale, onEdit, onDelete,
   )
 }
 
-function FlashSalesMobileCards({ flashSales, language, locale, onEdit, onDelete, t }) {
+function FlashSalesMobileCards({ flashSales, language, locale, onEdit, onDuplicate, onDelete, t }) {
   return (
     <div className="admin-flash-sales-card-list">
       {flashSales.map(sale => {
@@ -229,7 +243,7 @@ function FlashSalesMobileCards({ flashSales, language, locale, onEdit, onDelete,
               <div className="h-2 rounded-full bg-[var(--admin-accent)]" style={{ width: `${progressPercent}%` }} />
             </div>
 
-            <FlashSaleActions sale={sale} onEdit={onEdit} onDelete={onDelete} showLabels t={t} />
+            <FlashSaleActions sale={sale} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} showLabels t={t} />
           </article>
         )
       })}
@@ -300,20 +314,53 @@ function QuantityProgress({ locale, sale, progressPercent }) {
   )
 }
 
-function FlashSaleActions({ sale, onEdit, onDelete, showLabels = false, t }) {
+function FlashSaleActions({ sale, onEdit, onDuplicate, onDelete, showLabels = false, t }) {
+  const menuItems = [
+    {
+      key: 'delete',
+      danger: true,
+      icon: <Trash2 className="h-4 w-4" />,
+      label: t('actions.deleteSale')
+    }
+  ]
+
+  if (showLabels) {
+    return (
+      <div className="admin-flash-sales-actions admin-flash-sales-actions--labeled">
+        <Button className="admin-flash-sales-action-btn" onClick={() => onEdit(sale)} icon={<Edit2 className="h-4 w-4" />}>
+          {t('actions.edit')}
+        </Button>
+        <Button className="admin-flash-sales-action-btn" onClick={() => onDuplicate(sale)} icon={<CopyPlus className="h-4 w-4" />}>
+          {t('actions.duplicate')}
+        </Button>
+        <Button danger className="admin-flash-sales-action-btn admin-flash-sales-action-btn--delete" onClick={() => onDelete(sale._id)} icon={<Trash2 className="h-4 w-4" />}>
+          {t('actions.delete')}
+        </Button>
+      </div>
+    )
+  }
+
   return (
-    <div className={`admin-flash-sales-actions ${showLabels ? 'admin-flash-sales-actions--labeled' : ''}`}>
-      <Button className="admin-flash-sales-action-btn" onClick={() => onEdit(sale)} icon={<Edit2 className="h-4 w-4" />}>
-        {showLabels ? t('actions.edit') : null}
-      </Button>
-      <Button
-        danger
-        className="admin-flash-sales-action-btn admin-flash-sales-action-btn--delete"
-        onClick={() => onDelete(sale._id)}
-        icon={<Trash2 className="h-4 w-4" />}
+    <div className="admin-flash-sales-actions">
+      <Tooltip title={t('actions.edit')}>
+        <Button type="text" className="admin-flash-sales-action-text-btn" onClick={() => onEdit(sale)} icon={<Edit2 className="h-4 w-4" />} />
+      </Tooltip>
+      <Tooltip title={t('actions.duplicate')}>
+        <Button type="text" className="admin-flash-sales-action-text-btn" onClick={() => onDuplicate(sale)} icon={<CopyPlus className="h-4 w-4" />} />
+      </Tooltip>
+      <Dropdown
+        menu={{
+          items: menuItems,
+          onClick: ({ key }) => {
+            if (key === 'delete') onDelete(sale._id)
+          }
+        }}
+        trigger={['click']}
+        placement="bottomRight"
+        overlayClassName="admin-flash-sales-action-dropdown"
       >
-        {showLabels ? t('actions.delete') : null}
-      </Button>
+        <Button type="text" className="admin-flash-sales-action-text-btn" icon={<MoreHorizontal className="h-4 w-4" />} />
+      </Dropdown>
     </div>
   )
 }

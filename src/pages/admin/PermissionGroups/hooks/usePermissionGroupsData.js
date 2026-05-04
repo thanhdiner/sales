@@ -28,7 +28,7 @@ function attachPermissionCounts(groups = [], permissions = []) {
 export function usePermissionGroupsData() {
   const { t } = useTranslation('adminPermissionGroups')
   const [groups, setGroups] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [updatingId, setUpdatingId] = useState(null)
 
   const fetchGroups = useCallback(async () => {

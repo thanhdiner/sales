@@ -1,7 +1,7 @@
 import { UnorderedListOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import AdminTitle from '@/components/admin/Title'
+import { ResourceHeader } from '@/components/admin/shared/ResourceManager'
 import ProductsUtility from '../ProductsUtility'
 import ProductsFilter from '../ProductsFilter'
 
@@ -12,7 +12,8 @@ function ProductsHeader({
   filterInitialValues,
   columnsVisible,
   setColumnsVisible,
-  products
+  products,
+  fetchData
 }) {
   const { t } = useTranslation('adminProducts')
   const [isFilterVisible, setIsFilterVisible] = useState(false)
@@ -29,13 +30,13 @@ function ProductsHeader({
   }
 
   return (
-    <>
-      <div className="products-wrap admin-products-title-wrap text-base">
-        <AdminTitle icon={<UnorderedListOutlined />} title={t('page.title')} />
-        <ProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products }} />
-      </div>
-      {isFilterVisible && <ProductsFilter onFilter={handleFilter} initialValues={filterInitialValues} />}
-    </>
+    <ResourceHeader
+      className="products-wrap admin-products-title-wrap text-base"
+      icon={<UnorderedListOutlined />}
+      title={t('page.title')}
+      utility={<ProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products, fetchData }} />}
+      filter={isFilterVisible && <ProductsFilter onFilter={handleFilter} initialValues={filterInitialValues} />}
+    />
   )
 }
 

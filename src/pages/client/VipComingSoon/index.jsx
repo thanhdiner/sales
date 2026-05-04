@@ -12,13 +12,14 @@ import {
   Gem,
   Gift,
   Headphones,
-  Home,
   ShieldCheck,
   Sparkles,
   Star,
   Truck
 } from 'lucide-react'
 
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
+import { StatCard, StatGrid } from '@/components/admin/ui'
 import SEO from '@/components/shared/SEO'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getVipContent } from '@/services/client/content/vip'
@@ -98,19 +99,6 @@ function SectionHeader({ eyebrow, title, description }) {
   )
 }
 
-function VipBreadcrumb({ language }) {
-  return (
-    <nav className="vip-breadcrumb" aria-label="Breadcrumb">
-      <Link to="/">
-        <Home aria-hidden="true" />
-        {language === 'en' ? 'Home' : 'Trang chủ'}
-      </Link>
-      <span aria-hidden="true">/</span>
-      <span>VIP Membership</span>
-    </nav>
-  )
-}
-
 function VipHero({ hero, heroImage }) {
   return (
     <section className="vip-hero-section">
@@ -166,23 +154,22 @@ function VipQuickBenefits({ items = [] }) {
   if (!items.length) return null
 
   return (
-    <section className="vip-quick-benefits" aria-label="VIP quick benefits">
+    <StatGrid className="vip-quick-benefits" columns={4} aria-label="VIP quick benefits">
       {items.map((item, index) => {
         const Icon = quickBenefitIcons[index % quickBenefitIcons.length]
 
         return (
-          <article className="vip-quick-benefit" key={`${item.title}-${index}`}>
-            <span>
-              <Icon aria-hidden="true" />
-            </span>
-            <div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
-          </article>
+          <StatCard
+            key={`${item.title}-${index}`}
+            label={item.title}
+            value=""
+            meta={item.description}
+            icon={Icon}
+            className="vip-quick-benefit"
+          />
         )
       })}
-    </section>
+    </StatGrid>
   )
 }
 
@@ -284,21 +271,21 @@ function VipBenefits({ section, items = [] }) {
     <section className="vip-section" id="vip-benefits">
       <SectionHeader {...section} />
 
-      <div className="vip-benefit-grid">
+      <StatGrid className="vip-benefit-grid" columns={4}>
         {items.map((item, index) => {
           const Icon = benefitIcons[index % benefitIcons.length]
 
           return (
-            <article className="vip-benefit-card" key={`${item.title}-${index}`}>
-              <span className="vip-benefit-card__icon">
-                <Icon aria-hidden="true" />
-              </span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
+            <StatCard
+              key={`${item.title}-${index}`}
+              label={item.title}
+              meta={item.description}
+              icon={Icon}
+              className="vip-benefit-card"
+            />
           )
         })}
-      </div>
+      </StatGrid>
     </section>
   )
 }
@@ -420,7 +407,14 @@ export default function Vip() {
       <SEO title={content.seo.title} description={content.seo.description} url="https://smartmall.site/vip" />
 
       <div className="vip-page__inner">
-        <VipBreadcrumb language={language} />
+        <ClientBreadcrumb
+          className="mb-4"
+          label={language === 'en' ? 'VIP breadcrumb' : 'Đường dẫn VIP'}
+          items={[
+            { label: language === 'en' ? 'Home' : 'Trang chủ', to: '/' },
+            { label: language === 'en' ? 'VIP Membership' : 'Hội viên VIP' }
+          ]}
+        />
         <VipHero hero={content.hero} heroImage={heroImage} />
         <VipQuickBenefits items={content.quickBenefits} />
         <VipPricing section={content.plansSection} plans={content.plans} onSelectPlan={handleSelectPlan} />

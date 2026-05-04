@@ -6,9 +6,17 @@
     "title": "Order Manager",
     "description": "Track, search, and manage every customer order."
   },
+  "actions": {
+    "refresh": "Refresh",
+    "export": "Export",
+    "toggleColumns": "Columns",
+    "filter": "Filter"
+  },
   "filters": {
+    "title": "Filters",
     "searchPlaceholder": "Search by name, phone number, order code...",
-    "statusPlaceholder": "All statuses"
+    "statusPlaceholder": "All statuses",
+    "clear": "Clear"
   },
   "status": {
     "all": "All statuses",
@@ -38,6 +46,19 @@
     "pickup": "Store pickup",
     "contact": "Contact for delivery",
     "unknown": "Unknown: {{value}}"
+  },
+  "columnMenu": {
+    "title": "Visible columns"
+  },
+  "messages": {
+    "columnRequired": "The table must show at least one data column",
+    "exportEmpty": "No orders to export",
+    "exportSuccess": "Orders exported"
+  },
+  "export": {
+    "paymentStatus": "Payment status",
+    "paymentMethod": "Payment method",
+    "items": "Items"
   },
   "table": {
     "loading": "Loading orders...",

@@ -1,4 +1,5 @@
 import { CheckCircleOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
+import { StatCard, StatGrid } from '@/components/admin/ui'
 
 export default function PermissionsStats({ permissionList, t }) {
   const permissions = Array.isArray(permissionList) ? permissionList : []
@@ -12,41 +13,34 @@ export default function PermissionsStats({ permissionList, t }) {
     {
       key: 'total',
       label: t('stats.total'),
-      icon: LockOutlined,
-      tone: 'total'
+      meta: t('stats.totalHint'),
+      icon: LockOutlined
     },
     {
       key: 'active',
       label: t('stats.active'),
-      icon: CheckCircleOutlined,
-      tone: 'active'
+      meta: t('stats.activeHint'),
+      icon: CheckCircleOutlined
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
-      icon: StopOutlined,
-      tone: 'inactive'
+      meta: t('stats.inactiveHint'),
+      icon: StopOutlined
     }
   ]
 
   return (
-    <div className="admin-permissions-stats">
-      {statItems.map(item => {
-        const Icon = item.icon
-
-        return (
-          <div key={item.key} className={`admin-permissions-stat-card admin-permissions-stat-card--${item.tone}`}>
-            <span className="admin-permissions-stat-card__icon">
-              <Icon />
-            </span>
-
-            <div className="admin-permissions-stat-card__body">
-              <span className="admin-permissions-stat-card__label">{item.label}</span>
-              <strong className="admin-permissions-stat-card__value">{stats[item.key]}</strong>
-            </div>
-          </div>
-        )
-      })}
-    </div>
+    <StatGrid className="admin-permissions-stats" columns={3}>
+      {statItems.map(item => (
+        <StatCard
+          key={item.key}
+          label={item.label}
+          value={stats[item.key]}
+          meta={item.meta}
+          icon={item.icon}
+        />
+      ))}
+    </StatGrid>
   )
 }

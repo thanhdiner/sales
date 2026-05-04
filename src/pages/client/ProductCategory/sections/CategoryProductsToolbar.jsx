@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { Select } from 'antd'
-import { Search, SortDesc, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { ContentSection } from '@/components/client/PageLayout'
+import SearchInput from '@/components/shared/SearchInput'
+import SimpleSelect from '@/components/shared/SimpleSelect'
 
 const SORT_OPTIONS = [
   { value: 'recommended', labelKey: 'categoryPage.products.sort.recommended' },
@@ -42,35 +42,19 @@ function CategoryProductsToolbar({
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label className="category-products-toolbar__search group relative flex h-10 min-w-0 items-center rounded-lg border border-gray-200 bg-white pl-9 pr-9 transition-colors focus-within:border-blue-500 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(59,130,246,0.12)] sm:w-[280px]">
-            <Search className="absolute left-3 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-blue-500" />
-            <input
-              type="text"
-              placeholder={t('categoryPage.products.searchPlaceholder')}
-              value={searchInput}
-              onChange={onSearchChange}
-              className="category-products-toolbar__search-input h-full w-full border-0 bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-slate-500"
-            />
-            {searchInput ? (
-              <button
-                type="button"
-                onClick={onClearSearch}
-                className="absolute right-3 text-gray-400 transition-colors hover:text-gray-700 dark:hover:text-gray-200"
-                aria-label={t('categoryPage.products.clearSearch')}
-              >
-                <X className="h-4 w-4" />
-              </button>
-            ) : null}
-          </label>
+          <SearchInput
+            value={searchInput}
+            onChange={onSearchChange}
+            onClear={onClearSearch}
+            placeholder={t('categoryPage.products.searchPlaceholder')}
+            className="sm:w-[280px]"
+          />
 
-          <Select
+          <SimpleSelect
             value={sortBy}
             onChange={onSortChange}
             options={sortOptions}
-            suffixIcon={<SortDesc size={16} />}
-            className="category-products-toolbar__sort w-full sm:w-[210px]"
-            size="middle"
-            aria-label={t('categoryPage.products.sortLabel')}
+            className="w-full sm:w-[210px]"
           />
         </div>
       </div>

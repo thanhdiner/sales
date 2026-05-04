@@ -18,8 +18,11 @@
   },
   "stats": {
     "total": "Tổng",
+    "totalHint": "Tất cả nhóm quyền",
     "active": "Hoạt động",
-    "inactive": "Tạm dừng"
+    "activeHint": "Đang dùng để gán quyền",
+    "inactive": "Tạm dừng",
+    "inactiveHint": "Đang ẩn khỏi gán quyền"
   },
   "status": {
     "active": "Đang hoạt động",

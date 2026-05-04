@@ -1,3 +1,5 @@
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 
 const DESKTOP_ROWS = Array.from({ length: 4 })
@@ -14,6 +16,17 @@ function WishlistLoadingState({ t }) {
       <SEO title={t('seo.title')} noIndex />
 
       <main className="mx-auto w-full max-w-[1180px]">
+        <ClientBreadcrumb
+          className="mb-4 hidden md:flex"
+          label={t('breadcrumb.label')}
+          items={[
+            { label: t('breadcrumb.home'), to: '/' },
+            { label: t('breadcrumb.wishlist') }
+          ]}
+        />
+
+        <MobileBackButton />
+
         <section className="mb-6 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:px-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0 flex-1">

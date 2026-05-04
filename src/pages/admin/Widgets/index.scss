@@ -14,6 +14,14 @@ body.admin-layout-active .admin-widgets-confirm-modal {
   --widgets-shadow: var(--admin-shadow, 0 14px 32px rgba(15, 23, 42, 0.08));
 }
 
+.admin-page-shell.admin-widgets-page {
+  min-height: 100%;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--widgets-text);
+}
+
 .admin-widgets-header__content {
   min-width: 0;
 }
@@ -90,13 +98,6 @@ body.admin-layout-active .admin-widgets-confirm-modal {
   opacity: 1;
 }
 
-.admin-widgets-stats__card--active {
-  border-color: rgba(38, 162, 105, 0.36);
-}
-
-.admin-widgets-stats__card--inactive {
-  border-color: rgba(248, 81, 73, 0.3);
-}
 
 .admin-widgets-table-desktop-tablet {
   width: 100%;

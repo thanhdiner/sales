@@ -1,9 +1,7 @@
-import React from 'react'
-
 const OrdersEmptyState = ({ onStartShopping }) => {
   return (
     <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-8">
-      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Đơn hàng</p>
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Lịch sử mua hàng</p>
 
       <h1 className="text-3xl font-semibold tracking-[-0.03em] text-gray-900 dark:text-white">Chưa có đơn hàng nào</h1>
 

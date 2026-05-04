@@ -249,7 +249,7 @@ export default function RolePermissionsTable({
     }))
   ]
 
-  const scrollConfig = orderedRoles.length > 3 ? { x: 760 + orderedRoles.length * 140, y: 520 } : { y: 520 }
+  const scrollConfig = orderedRoles.length > 3 ? { x: 760 + orderedRoles.length * 140 } : undefined
 
   return (
     <>

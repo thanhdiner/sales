@@ -651,6 +651,7 @@ body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup {
 }
 
 body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-menu {
+  width: 194px;
   max-height: min(420px, calc(100dvh - 160px));
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -662,9 +663,25 @@ body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-
 }
 
 body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-menu-item {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
   margin: 2px 0 !important;
   border-radius: 7px !important;
   color: var(--admin-text-muted) !important;
+}
+
+body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-menu-item .anticon {
+  flex: 0 0 auto;
+  margin-inline-end: 0 !important;
+}
+
+body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-menu-title-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 body.admin-layout-active .ant-menu-submenu-popup.admin-sider-submenu-popup .ant-menu-item:hover,

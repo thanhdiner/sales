@@ -157,6 +157,11 @@
     "seo": {
       "title": "Tất cả sản phẩm",
       "description": "Khám phá hàng trăm sản phẩm tại SmartMall – tài khoản game, phần mềm bản quyền chính hãng, giá tốt, giao hàng nhanh."
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn sản phẩm",
+      "home": "Trang chủ",
+      "products": "Sản phẩm"
     }
   },
   "productDetail": {

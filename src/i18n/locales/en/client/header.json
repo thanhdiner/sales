@@ -78,9 +78,9 @@
   "mobileBottomNav": {
     "ariaLabel": "Main navigation",
     "home": "Home",
-    "products": "Categories",
+    "products": "Products",
     "vip": "Smartmall Plus",
     "orders": "Orders",
-    "account": "Account"
+    "account": "Me"
   }
 }

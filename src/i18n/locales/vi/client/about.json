@@ -3,6 +3,11 @@
     "title": "Về SmartMall",
     "description": "SmartMall – Shop nhỏ chuyên bán tài khoản game và phần mềm bản quyền. Uy tín, rõ ràng, giá hợp lý, hỗ trợ tận tâm."
   },
+  "breadcrumb": {
+    "label": "Đường dẫn giới thiệu",
+    "home": "Trang chủ",
+    "about": "Giới thiệu"
+  },
   "ownerSection": {
     "title": "Ai đứng sau shop",
     "paragraphs": [

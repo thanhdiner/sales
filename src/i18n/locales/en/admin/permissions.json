@@ -19,8 +19,11 @@
   },
   "stats": {
     "total": "Total",
+    "totalHint": "All system permissions",
     "active": "Active",
-    "inactive": "Paused"
+    "activeHint": "Available for role assignment",
+    "inactive": "Paused",
+    "inactiveHint": "Disabled permissions"
   },
   "status": {
     "active": "Active",

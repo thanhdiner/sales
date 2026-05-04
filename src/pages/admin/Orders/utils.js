@@ -1,7 +1,10 @@
 import { CheckCircle, Clock, Truck, XCircle } from 'lucide-react'
 
-export const ORDERS_PAGE_LIMIT = 10
-export const ORDERS_SEARCH_DEBOUNCE_MS = 400
+export const ORDERS_DEFAULT_PAGE_SIZE = 10
+export const ORDERS_PAGE_LIMIT = ORDERS_DEFAULT_PAGE_SIZE
+export const ORDERS_PAGE_SIZE_OPTIONS = [10, 20, 50]
+export const ORDERS_SEARCH_DEBOUNCE_MS = 350
+export const ORDER_COLUMN_KEYS = ['orderCode', 'customer', 'contact', 'createdAt', 'status', 'total', 'actions']
 
 export const ORDER_STATUS_VALUES = ['', 'pending', 'confirmed', 'shipping', 'completed', 'cancelled']
 export const ORDER_PAYMENT_STATUS_VALUES = ['pending', 'paid', 'failed']
@@ -193,21 +196,22 @@ export const getOrdersSummary = ({ page, limit, total }) => {
   }
 }
 
-export const getOrdersPageNumbers = ({ page, total, limit, maxVisible = 5 }) => {
-  const totalPages = Math.max(1, Math.ceil(total / limit))
+export const getOrderExportRows = (orders, language, t) =>
+  orders.map(order => ({
+    [t('table.columns.orderCode')]: getOrderCode(order._id),
+    [t('table.columns.customer')]: getOrderCustomerName(order, t('table.guestCustomer')),
+    [t('table.columns.contact')]: order.contact?.phone || '',
+    [t('table.columns.createdAt')]: formatOrderDate(order.createdAt, language),
+    [t('table.columns.status')]: getOrderStatusLabel(order.status, t),
+    [t('export.paymentStatus')]: order.paymentStatus ? getOrderPaymentStatusLabel(order.paymentStatus, t) : '',
+    [t('export.paymentMethod')]: order.paymentMethod ? getOrderPaymentMethodLabel(order.paymentMethod, t) : '',
+    [t('table.columns.total')]: Number(order.total || 0),
+    [t('export.items')]: getOrderItemsSummary(order, language, t)
+  }))
 
-  if (totalPages <= maxVisible) {
-    return Array.from({ length: totalPages }, (_, idx) => idx + 1)
-  }
+export const buildCsv = rows => {
+  if (!rows.length) return ''
 
-  const halfWindow = Math.floor(maxVisible / 2)
-  let startPage = Math.max(1, page - halfWindow)
-  let endPage = startPage + maxVisible - 1
-
-  if (endPage > totalPages) {
-    endPage = totalPages
-    startPage = endPage - maxVisible + 1
-  }
-
-  return Array.from({ length: endPage - startPage + 1 }, (_, idx) => startPage + idx)
+  const headers = Object.keys(rows[0])
+  return [headers.join(','), ...rows.map(row => headers.map(header => JSON.stringify(row[header] ?? '')).join(','))].join('\n')
 }

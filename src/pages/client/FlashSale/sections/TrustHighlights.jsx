@@ -32,7 +32,7 @@ export default function TrustHighlights({ t }) {
               </div>
 
               <div>
-                <h3 className="font-black text-slate-900 dark:text-white">{item.title}</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white">{item.title}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{item.desc}</p>
               </div>
             </div>

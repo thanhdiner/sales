@@ -8,6 +8,7 @@ import EmptyState from './sections/EmptyState'
 import Header from './sections/Header'
 import LoadingState from './sections/LoadingState'
 import OrderItems from './sections/OrderItems'
+import OrderStatusUpdate from './sections/OrderStatusUpdate'
 import OrderSummary from './sections/OrderSummary'
 import OrderTransfer from './sections/OrderTransfer'
 
@@ -38,7 +39,7 @@ export default function Detail() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
+      <div className="flex min-h-screen items-center justify-center text-[var(--admin-text)]">
         <SEO title={t('seo.title')} noIndex />
         <LoadingState />
       </div>
@@ -47,7 +48,7 @@ export default function Detail() {
 
   if (!order) {
     return (
-      <div className="flex min-h-screen items-center justify-center rounded-xl bg-[var(--admin-bg-soft)] text-[var(--admin-text)]">
+      <div className="flex min-h-screen items-center justify-center text-[var(--admin-text)]">
         <SEO title={t('seo.title')} noIndex />
         <EmptyState onBack={handleBack} />
       </div>
@@ -55,31 +56,34 @@ export default function Detail() {
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 text-[var(--admin-text)] sm:p-4 lg:p-6">
+    <div className="text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-5xl">
         <Header
           order={order}
-          status={status}
-          paymentStatus={paymentStatus}
-          updating={updating}
           successMessage={successMessage}
-          canRetryDigitalDelivery={canRetryDigitalDelivery(order)}
           onBack={handleBack}
-          onStatusChange={handleStatusChange}
-          onPaymentStatusChange={handlePaymentStatusChange}
-          onUpdateStatus={handleUpdateStatus}
         />
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-2">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+          <div className="space-y-3">
             <OrderCustomer contact={order.contact} />
             <OrderItems orderItems={order.orderItems} />
             <OrderDigitalDelivery orderItems={order.orderItems} paymentStatus={order.paymentStatus} />
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4 lg:sticky lg:top-4 lg:-mt-24">
+            <OrderStatusUpdate
+              status={status}
+              paymentStatus={paymentStatus}
+              updating={updating}
+              hasStatusChanges={status !== order.status || paymentStatus !== order.paymentStatus}
+              canRetryDigitalDelivery={canRetryDigitalDelivery(order)}
+              onStatusChange={handleStatusChange}
+              onPaymentStatusChange={handlePaymentStatusChange}
+              onUpdateStatus={handleUpdateStatus}
+            />
             <OrderSummary order={order} />
             <OrderTransfer transferInfo={order.transferInfo} />
           </div>

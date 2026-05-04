@@ -12,6 +12,7 @@ const buildBlogQueryString = (params = {}) => {
   if (params.category) searchParams.set('category', params.category)
   if (params.tag) searchParams.set('tag', params.tag)
   if (params.duplicateRisk) searchParams.set('duplicateRisk', params.duplicateRisk)
+  if (params.sort) searchParams.set('sort', params.sort)
 
   if (params.missingTranslation !== undefined && params.missingTranslation !== '') {
     searchParams.set('missingTranslation', params.missingTranslation)
@@ -31,6 +32,10 @@ export const getBlogPosts = params => {
 
 export const getBlogPost = id => {
   return get(`admin/blog/${id}`)
+}
+
+export const getBlogPostPreview = id => {
+  return get(`admin/blog/${id}/preview`)
 }
 
 export const createBlogPost = formData => {

@@ -148,8 +148,8 @@ html.dark body:not(.admin-layout-active) .coupons-page {
   background: var(--client-dark-bg, #070809) !important;
 }
 
-html.dark body:not(.admin-layout-active) .coupons-search-card.ant-card,
-html.dark body:not(.admin-layout-active) .coupons-tabs-card.ant-card {
+html.dark body:not(.admin-layout-active) .coupons-search-card,
+html.dark body:not(.admin-layout-active) .coupons-tabs-card {
   border-color: var(--client-dark-border, rgba(255, 255, 255, 0.08)) !important;
   background: var(--client-dark-surface, #101213) !important;
   box-shadow: none !important;

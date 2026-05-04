@@ -73,6 +73,7 @@
   "utility": {
     "exportProducts": "Xuất sản phẩm",
     "exportMobile": "Xuất",
+    "refresh": "Làm mới",
     "toggleColumns": "Ẩn/hiện cột",
     "filter": "Lọc",
     "sheetName": "Sản phẩm",

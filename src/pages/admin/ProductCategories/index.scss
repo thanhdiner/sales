@@ -151,6 +151,25 @@
   opacity: 0.7;
 }
 
+.product-categories-header-right .admin-product-categories-btn.ant-btn {
+  height: 36px;
+  padding-inline: 14px;
+}
+
+.product-categories-header-right .admin-product-categories-btn--add.ant-btn {
+  min-width: 96px;
+}
+
+.product-categories-header-right .admin-product-categories-btn--apply.ant-btn {
+  min-width: 84px;
+}
+
+.product-categories-header-right > a {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+}
+
 .admin-product-categories-btn--add.ant-btn {
   border-color: var(--product-categories-accent) !important;
   background: var(--product-categories-accent) !important;
@@ -163,7 +182,13 @@
 
 .admin-product-categories-btn--add.ant-btn:hover {
   border-color: var(--product-categories-accent) !important;
+  background: var(--product-categories-accent) !important;
+  color: #f4f5f8 !important;
   filter: brightness(1.06);
+}
+
+.admin-product-categories-btn--add.ant-btn:hover > span {
+  color: #f4f5f8 !important;
 }
 
 .admin-product-categories-btn--apply.ant-btn.ant-btn-primary {
@@ -276,12 +301,18 @@
 }
 
 .admin-product-categories-action-select.ant-select {
-  width: 180px !important;
+  width: 225px !important;
   max-width: 100%;
 }
 
+.product-categories-header-right .admin-product-categories-action-select.ant-select {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+}
+
 .product-categories-header-right .admin-product-categories-action-select.ant-select .ant-select-selector {
-  height: 40px !important;
+  height: 36px !important;
   border-radius: 8px !important;
   border-color: var(--product-categories-border) !important;
   background: var(--product-categories-surface-2) !important;
@@ -289,7 +320,7 @@
 
 .product-categories-header-right .admin-product-categories-action-select.ant-select .ant-select-selection-item,
 .product-categories-header-right .admin-product-categories-action-select.ant-select .ant-select-selection-placeholder {
-  line-height: 38px !important;
+  line-height: 34px !important;
 }
 
 .product-categories-header-right .admin-product-categories-action-select.ant-select .ant-select-selection-placeholder {

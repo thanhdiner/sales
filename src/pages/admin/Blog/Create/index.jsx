@@ -1,10 +1,14 @@
 import { Form, Upload, message } from 'antd'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import debounce from 'lodash.debounce'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import SEO from '@/components/shared/SEO'
 import { createBlogPost, uploadBlogMedia } from '@/services/admin/content/blog'
+import { getProducts } from '@/services/admin/commerce/product'
+import { getBlogCategories } from '@/services/admin/content/blogCategory'
+import { getBlogTags } from '@/services/admin/content/blogTag'
 import BlogForm from '../components/BlogForm'
 import { buildBlogFormData, MAX_IMAGE_SIZE_MB } from '../blogFormUtils'
 import '../index.scss'
@@ -15,6 +19,88 @@ export default function BlogCreate() {
   const navigate = useNavigate()
   const [saving, setSaving] = useState(false)
   const [fileList, setFileList] = useState([])
+  const [productOptions, setProductOptions] = useState([])
+  const [productLoading, setProductLoading] = useState(false)
+  const [categoryOptions, setCategoryOptions] = useState([])
+  const [tagOptions, setTagOptions] = useState([])
+
+  const mapProductOptions = products => products.map(product => ({
+    value: product._id,
+    label: product.productName || product.name || product.title || product._id
+  }))
+
+  const mapCategoryOptions = categories => categories.map(category => ({
+    value: category.name,
+    label: category.name,
+    categoryRef: category._id,
+    enCategory: category.translations?.en?.name || ''
+  }))
+
+  const fetchCategoryOptions = useCallback(async () => {
+    try {
+      const response = await getBlogCategories({ isActive: true })
+      setCategoryOptions(mapCategoryOptions(response?.data || []))
+    } catch {
+      setCategoryOptions([])
+    }
+  }, [])
+
+  const fetchTagOptions = useCallback(async () => {
+    try {
+      const response = await getBlogTags({ status: 'active' })
+      setTagOptions((response?.data || []).map(tag => ({ value: tag._id, label: tag.name, enTag: tag.translations?.en?.name || '' })))
+    } catch {
+      setTagOptions([])
+    }
+  }, [])
+
+  const fetchProductOptions = useCallback(async (keyword = '') => {
+    setProductLoading(true)
+    try {
+      const response = await getProducts({ page: 1, limit: 20, productName: keyword })
+      setProductOptions(mapProductOptions(response?.products || response?.data || []))
+    } catch {
+      setProductOptions([])
+    } finally {
+      setProductLoading(false)
+    }
+  }, [])
+
+  const handleSearchProducts = useCallback(debounce(fetchProductOptions, 400), [fetchProductOptions])
+
+  useEffect(() => {
+    fetchProductOptions()
+    fetchCategoryOptions()
+    fetchTagOptions()
+    return () => handleSearchProducts.cancel()
+  }, [fetchCategoryOptions, fetchProductOptions, fetchTagOptions, handleSearchProducts])
+
+  const handleCategoryChange = value => {
+    const selectedCategory = categoryOptions.find(option => option.value === value)
+    form.setFieldsValue({
+      categoryRef: selectedCategory?.categoryRef || '',
+      translations: {
+        ...form.getFieldValue('translations'),
+        en: {
+          ...(form.getFieldValue(['translations', 'en']) || {}),
+          category: selectedCategory?.enCategory || ''
+        }
+      }
+    })
+  }
+
+  const handleTagChange = values => {
+    const selectedTags = tagOptions.filter(option => values.includes(option.value))
+    form.setFieldsValue({
+      translations: {
+        ...form.getFieldValue('translations'),
+        en: {
+          ...(form.getFieldValue(['translations', 'en']) || {}),
+          tags: selectedTags.map(tag => tag.enTag).filter(Boolean)
+        }
+      }
+    })
+  }
 
   const handleContentMediaUpload = async file => {
     try {
@@ -71,6 +157,13 @@ export default function BlogCreate() {
         mode="create"
         saving={saving}
         fileList={fileList}
+        productOptions={productOptions}
+        productLoading={productLoading}
+        categoryOptions={categoryOptions}
+        tagOptions={tagOptions}
+        onCategoryChange={handleCategoryChange}
+        onTagChange={handleTagChange}
+        onSearchProducts={handleSearchProducts}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/admin/blog')}
         onUploadMedia={handleContentMediaUpload}

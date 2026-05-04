@@ -1,19 +1,31 @@
 .admin-quick-replies-page {
-  color: var(--admin-text);
-  width: 100%;
-  min-width: 0;
-}
-
-.admin-quick-replies-page__inner {
   display: flex;
+  width: 100%;
   min-width: 0;
   flex-direction: column;
   gap: 16px;
+  color: var(--admin-text);
 }
 
 .admin-quick-replies-header {
-  --admin-card-header-padding: 18px;
-  --admin-card-title-size: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-quick-replies-header__title {
+  margin: 0;
+  color: var(--admin-text);
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.admin-quick-replies-header__description {
+  margin: 6px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 14px;
 }
 
 .admin-quick-replies-header__actions {
@@ -21,10 +33,6 @@
   flex: 0 0 auto;
   align-items: center;
   gap: 10px;
-}
-
-.admin-quick-replies-header .admin-card__extra {
-  flex: 0 0 auto;
 }
 
 .admin-quick-replies-primary-btn.ant-btn,
@@ -65,26 +73,29 @@
   --admin-stat-value-size: 24px;
 }
 
-.admin-quick-replies-filters {
-  --admin-card-body-padding: 14px;
+.admin-quick-replies-filters__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.admin-quick-replies-filters__body {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) 180px 150px 160px;
+.admin-quick-replies-search {
+  width: min(100%, 360px);
+}
+
+.admin-quick-replies-filter-group {
+  display: flex;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .admin-quick-replies-filter-select {
-  width: 100%;
+  width: 180px;
 }
 
 .admin-quick-replies-table-section {
   min-width: 0;
-}
-
-.admin-quick-replies-table-section__body {
-  padding: 12px;
 }
 
 .admin-quick-replies-template-cell {
@@ -339,14 +350,24 @@
   }
 
   .admin-quick-replies-filters__body {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-quick-replies-search,
+  .admin-quick-replies-filter-group,
+  .admin-quick-replies-filter-select {
+    width: 100%;
   }
 }
 
 @media (max-width: 640px) {
   .admin-quick-replies-header {
-    --admin-card-header-padding: 14px;
-    --admin-card-title-size: 20px;
+    flex-direction: column;
+  }
+
+  .admin-quick-replies-header__title {
+    font-size: 20px;
   }
 
   .admin-quick-replies-header__actions {
@@ -354,14 +375,13 @@
     flex-direction: column;
   }
 
-  .admin-quick-replies-header .admin-card__extra {
-    width: 100%;
-  }
-
   .admin-quick-replies-stats,
-  .admin-quick-replies-filters__body,
   .admin-quick-replies-form__grid,
   .admin-quick-replies-category-form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-quick-replies-filter-group {
+    flex-direction: column;
   }
 }

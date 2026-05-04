@@ -19,11 +19,13 @@ export function AdminStatGrid({ children, className, columns, ...props }) {
 }
 
 export default function AdminStatCard({ className, icon, label, meta, tone = 'default', value }) {
+  const hasValue = value !== undefined && value !== null && value !== ''
+
   return (
     <article className={cn('admin-stat-card', tone !== 'default' && `admin-stat-card--${tone}`, className)}>
       <div className="admin-stat-card__content">
         <p className="admin-stat-card__label">{label}</p>
-        <p className="admin-stat-card__value">{value}</p>
+        {hasValue ? <p className="admin-stat-card__value">{value}</p> : null}
         {meta ? <p className="admin-stat-card__meta">{meta}</p> : null}
       </div>
 

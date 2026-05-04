@@ -20,7 +20,7 @@ function Header({ collapsed, setCollapsed, onNewOrder, canToggleSider = true }) 
   })
 
   return (
-    <header className="admin-header sticky top-0 z-[1234] flex items-center justify-between px-3 py-2 shadow-sm md:px-5 md:py-3 md:shadow-none">
+    <header className="admin-header sticky top-0 z-20 flex items-center justify-between px-3 py-2 shadow-sm md:px-5 md:py-3 md:shadow-none">
       <div className="flex items-center gap-2">
         <Button
           type="text"

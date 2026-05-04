@@ -4,6 +4,11 @@
     "titleDetail": "Danh sách yêu thích",
     "titleWithCount": "Yêu thích ({{count}})"
   },
+  "breadcrumb": {
+    "label": "Điều hướng danh sách yêu thích",
+    "home": "Trang chủ",
+    "wishlist": "Yêu thích"
+  },
   "filters": {
     "all": "Tất cả",
     "inStock": "Còn hàng",

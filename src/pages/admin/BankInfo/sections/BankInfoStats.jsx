@@ -24,26 +24,26 @@ export default function BankInfoStats({ bankInfos, t }) {
     {
       key: 'total',
       label: t('stats.total'),
-      icon: Building2,
-      tone: 'default'
+      meta: t('stats.totalDesc'),
+      icon: Building2
     },
     {
       key: 'active',
       label: t('stats.active'),
-      icon: CircleCheck,
-      tone: 'success'
+      meta: t('stats.activeDesc'),
+      icon: CircleCheck
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
-      icon: CirclePause,
-      tone: 'danger'
+      meta: t('stats.inactiveDesc'),
+      icon: CirclePause
     },
     {
       key: 'withQr',
       label: t('stats.withQr'),
-      icon: QrCode,
-      tone: 'info'
+      meta: t('stats.withQrDesc'),
+      icon: QrCode
     }
   ]
 
@@ -54,8 +54,8 @@ export default function BankInfoStats({ bankInfos, t }) {
           key={item.key}
           label={item.label}
           value={stats[item.key]}
+          meta={item.meta}
           icon={item.icon}
-          tone={item.tone}
           className="admin-bank-info-stat-card"
         />
       ))}

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import SEO from '@/components/shared/SEO'
 import usePermissions from '@/hooks/admin/useAdminPermissions'
+import { useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { usePermissionGroupForm } from './hooks/usePermissionGroupForm'
 import { usePermissionGroupsData } from './hooks/usePermissionGroupsData'
 import PermissionGroupFormModal from './sections/PermissionGroupFormModal'
@@ -17,8 +18,10 @@ export default function PermissionGroups() {
   const permissions = usePermissions()
   const { groups, loading, updatingId, fetchGroups, handleDeleteGroup, handleToggleGroupActive } = usePermissionGroupsData()
   const groupForm = usePermissionGroupForm({ onSaved: fetchGroups })
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const { page: currentPage, setPage: setCurrentPage, pageSize, setPageSize } = useListSearchParams({
+    defaultPage: 1,
+    defaultPageSize: DEFAULT_PAGE_SIZE
+  })
 
   const paginatedGroups = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize
@@ -26,12 +29,14 @@ export default function PermissionGroups() {
   }, [currentPage, groups, pageSize])
 
   useEffect(() => {
+    if (loading) return
+
     const maxPage = Math.max(1, Math.ceil(groups.length / pageSize))
 
     if (currentPage > maxPage) {
       setCurrentPage(maxPage)
     }
-  }, [currentPage, groups.length, pageSize])
+  }, [currentPage, groups.length, loading, pageSize, setCurrentPage])
 
   return (
     <div className="admin-permission-groups-page">
@@ -55,10 +60,7 @@ export default function PermissionGroups() {
             updatingId={updatingId}
             permissions={permissions}
             onPageChange={page => setCurrentPage(page)}
-            onPageSizeChange={(page, size) => {
-              setCurrentPage(page)
-              setPageSize(size)
-            }}
+            onPageSizeChange={(_, size) => setPageSize(size)}
             onEditGroup={groupForm.openModal}
             onDeleteGroup={handleDeleteGroup}
             onToggleGroupActive={handleToggleGroupActive}

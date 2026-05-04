@@ -138,19 +138,43 @@ body.admin-layout-active {
 }
 
 .products-header-right .admin-products-btn.ant-btn {
-  height: 40px;
+  height: 36px;
   padding-inline: 14px;
+}
+
+.products-header-right .admin-products-btn--add.ant-btn {
+  min-width: 96px;
+}
+
+.products-header-right .admin-products-btn--apply.ant-btn {
+  min-width: 84px;
+}
+
+.products-header-right > a {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
 }
 
 .admin-products-btn--add.ant-btn {
   border-color: var(--products-accent) !important;
-  background: var(--products-accent-soft) !important;
-  color: var(--products-accent) !important;
+  background: var(--products-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-products-btn--add.ant-btn > span {
+  color: #f4f5f8 !important;
 }
 
 .admin-products-btn--add.ant-btn:hover {
   border-color: var(--products-accent) !important;
-  background: rgba(94, 106, 210, 0.24) !important;
+  background: var(--products-accent) !important;
+  color: #f4f5f8 !important;
+  filter: brightness(1.06);
+}
+
+.admin-products-btn--add.ant-btn:hover > span {
+  color: #f4f5f8 !important;
 }
 
 .admin-products-btn--apply.ant-btn.ant-btn-primary {
@@ -270,12 +294,18 @@ body.admin-layout-active {
 }
 
 .admin-products-action-select.ant-select {
-  width: 180px !important;
+  width: 225px !important;
   max-width: 100%;
 }
 
+.products-header-right .admin-products-action-select.ant-select {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+}
+
 .products-header-right .admin-products-action-select.ant-select .ant-select-selector {
-  height: 40px !important;
+  height: 36px !important;
   border-radius: 8px !important;
   border-color: var(--products-border) !important;
   background: var(--products-surface-2) !important;
@@ -283,7 +313,7 @@ body.admin-layout-active {
 
 .products-header-right .admin-products-action-select.ant-select .ant-select-selection-item,
 .products-header-right .admin-products-action-select.ant-select .ant-select-selection-placeholder {
-  line-height: 38px !important;
+  line-height: 34px !important;
 }
 
 .products-header-right .admin-products-action-select.ant-select .ant-select-selection-placeholder {

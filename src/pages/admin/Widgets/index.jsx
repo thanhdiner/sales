@@ -19,8 +19,6 @@ export default function Widgets() {
         seoTitle={t('seo.title')}
         className="admin-widgets-page"
         contentClassName="admin-widgets-page__inner"
-        panel
-        panelClassName="admin-widgets-page__card"
       >
         <WidgetsHeader t={t} onCreateWidget={() => widgetForm.openModal()} />
         <WidgetsStats t={t} widgets={widgets} />

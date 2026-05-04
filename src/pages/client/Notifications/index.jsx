@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Bell, CheckCheck, CreditCard, Package, PackageCheck, Search, ShoppingCart, Truck, XCircle } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import {
@@ -195,6 +196,8 @@ function Notifications() {
       <SEO title={t('notification.pageTitle')} noIndex />
 
       <div className="mx-auto max-w-6xl space-y-5">
+        <MobileBackButton label={t('search.back')} className="!mb-0" />
+
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>

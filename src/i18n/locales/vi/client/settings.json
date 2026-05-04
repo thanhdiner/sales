@@ -3,6 +3,12 @@
   "eyebrow": "Cài đặt",
   "title": "Cài đặt tài khoản",
   "description": "Quản lý giao diện, ngôn ngữ và bảo mật tài khoản của bạn.",
+  "back": "Quay lại",
+  "breadcrumb": {
+    "label": "Điều hướng cài đặt",
+    "home": "Trang chủ",
+    "settings": "Cài đặt"
+  },
   "appearance": {
     "title": "Giao diện",
     "currentMode": "Chế độ hiện tại: {{mode}}",

@@ -28,8 +28,12 @@
     "createShort": "Create",
     "search": "Search",
     "searchPlaceholder": "Search by product name",
-    "columns": "Visible columns",
-    "refresh": "Refresh"
+    "columns": "Columns",
+    "refresh": "Refresh",
+    "export": "Export",
+    "filter": "Filter",
+    "cancelReceipt": "Cancel receipt",
+    "cancelled": "Cancelled"
   },
   "filters": {
     "title": "Filters",
@@ -38,6 +42,7 @@
     "supplierPlaceholder": "Filter by supplier",
     "dateFrom": "From date",
     "dateTo": "To date",
+    "statusPlaceholder": "Filter by status",
     "apply": "Apply",
     "clear": "Clear"
   },
@@ -49,17 +54,26 @@
     "loadProductsError": "Failed to load products",
     "createSuccess": "Purchase receipt created",
     "createError": "Failed to create purchase receipt",
-    "columnRequired": "The table must show at least one column"
+    "columnRequired": "The table must show at least one column",
+    "exportEmpty": "No purchase receipts to export",
+    "exportSuccess": "Purchase receipts exported",
+    "cancelSuccess": "Purchase receipt cancelled",
+    "cancelError": "Failed to cancel purchase receipt"
   },
   "deliveryTypes": {
     "manual": "Manual",
     "instant_account": "Instant account"
+  },
+  "statuses": {
+    "active": "Active",
+    "cancelled": "Cancelled"
   },
   "table": {
     "title": "Receipt History",
     "description": "Latest receipts are sorted by creation time.",
     "resultCount": "{{count}} results",
     "product": "Product",
+    "status": "Status",
     "currentStock": "Current stock: {{stock}}",
     "quantity": "Quantity",
     "unitCost": "Unit cost",
@@ -68,9 +82,22 @@
     "createdBy": "Created by",
     "note": "Note",
     "createdAt": "Receipt date",
+    "cancelledAt": "Cancelled at",
+    "cancelReason": "Cancel reason",
+    "actions": "Actions",
     "visibleSummary": "Current page total",
     "loading": "Loading purchase receipts...",
     "empty": "No purchase receipts yet"
+  },
+  "cancel": {
+    "title": "Cancel purchase receipt",
+    "subtitle": "Rollback stock for {{product}} and keep the receipt in history.",
+    "subtitleFallback": "Rollback stock and keep the receipt in history.",
+    "reason": "Cancel reason",
+    "reasonRequired": "Please enter a cancel reason",
+    "reasonPlaceholder": "Why is this receipt being cancelled?",
+    "overrideStockCheck": "Override stock check if rollback would make stock negative",
+    "confirm": "Cancel receipt"
   },
   "form": {
     "title": "Create purchase receipt",

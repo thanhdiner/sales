@@ -1,4 +1,4 @@
-import { get, post } from '@/utils/request'
+import { get, patch, post } from '@/utils/request'
 
 export const getPurchaseReceipts = ({
   page = 1,
@@ -8,6 +8,7 @@ export const getPurchaseReceipts = ({
   supplierName = '',
   dateFrom = '',
   dateTo = '',
+  status = '',
   lang
 } = {}) => {
   const query = new URLSearchParams({
@@ -18,6 +19,7 @@ export const getPurchaseReceipts = ({
     ...(supplierName ? { supplierName } : {}),
     ...(dateFrom ? { dateFrom } : {}),
     ...(dateTo ? { dateTo } : {}),
+    ...(status ? { status } : {}),
     ...(lang ? { lang } : {})
   }).toString()
 
@@ -26,4 +28,8 @@ export const getPurchaseReceipts = ({
 
 export const createPurchaseReceipt = data => {
   return post('admin/purchase-receipts/create', data)
+}
+
+export const cancelPurchaseReceipt = (id, data) => {
+  return patch(`admin/purchase-receipts/${id}/cancel`, data)
 }

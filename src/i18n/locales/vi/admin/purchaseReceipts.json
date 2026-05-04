@@ -28,8 +28,12 @@
     "createShort": "Tạo phiếu",
     "search": "Tìm",
     "searchPlaceholder": "Tìm theo tên sản phẩm",
-    "columns": "Cột hiển thị",
-    "refresh": "Làm mới"
+    "columns": "Cột",
+    "refresh": "Làm mới",
+    "export": "Xuất file",
+    "filter": "Bộ lọc",
+    "cancelReceipt": "Hủy phiếu",
+    "cancelled": "Đã hủy"
   },
   "filters": {
     "title": "Bộ lọc",
@@ -38,6 +42,7 @@
     "supplierPlaceholder": "Lọc theo nhà cung cấp",
     "dateFrom": "Từ ngày",
     "dateTo": "Đến ngày",
+    "statusPlaceholder": "Lọc theo trạng thái",
     "apply": "Áp dụng",
     "clear": "Xóa lọc"
   },
@@ -49,17 +54,26 @@
     "loadProductsError": "Không lấy được danh sách sản phẩm",
     "createSuccess": "Đã tạo phiếu nhập hàng",
     "createError": "Không tạo được phiếu nhập",
-    "columnRequired": "Bảng cần hiển thị ít nhất một cột"
+    "columnRequired": "Bảng cần hiển thị ít nhất một cột",
+    "exportEmpty": "Không có phiếu nhập để xuất file",
+    "exportSuccess": "Đã xuất phiếu nhập",
+    "cancelSuccess": "Đã hủy phiếu nhập",
+    "cancelError": "Không hủy được phiếu nhập"
   },
   "deliveryTypes": {
     "manual": "Thủ công",
     "instant_account": "Tài khoản tức thì"
+  },
+  "statuses": {
+    "active": "Đang hiệu lực",
+    "cancelled": "Đã hủy"
   },
   "table": {
     "title": "Lịch sử phiếu nhập",
     "description": "Các phiếu mới nhất được sắp xếp theo thời gian tạo.",
     "resultCount": "{{count}} kết quả",
     "product": "Sản phẩm",
+    "status": "Trạng thái",
     "currentStock": "Tồn hiện tại: {{stock}}",
     "quantity": "Số lượng",
     "unitCost": "Giá nhập",
@@ -68,9 +82,22 @@
     "createdBy": "Người tạo",
     "note": "Ghi chú",
     "createdAt": "Ngày nhập",
+    "cancelledAt": "Ngày hủy",
+    "cancelReason": "Lý do hủy",
+    "actions": "Thao tác",
     "visibleSummary": "Tổng trang này",
     "loading": "Đang tải phiếu nhập...",
     "empty": "Chưa có phiếu nhập hàng"
+  },
+  "cancel": {
+    "title": "Hủy phiếu nhập",
+    "subtitle": "Rollback tồn kho cho {{product}} và giữ phiếu trong lịch sử.",
+    "subtitleFallback": "Rollback tồn kho và giữ phiếu trong lịch sử.",
+    "reason": "Lý do hủy",
+    "reasonRequired": "Vui lòng nhập lý do hủy",
+    "reasonPlaceholder": "Vì sao cần hủy phiếu này?",
+    "overrideStockCheck": "Bỏ qua kiểm tra tồn kho nếu rollback làm tồn kho âm",
+    "confirm": "Hủy phiếu"
   },
   "form": {
     "title": "Tạo phiếu nhập hàng",

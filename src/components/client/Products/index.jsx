@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button, Select, Slider } from 'antd'
+import { Button, Slider } from 'antd'
 import {
   ChevronDown,
   ChevronUp,
   RotateCcw,
-  Search,
   ShoppingBag,
   SlidersHorizontal,
-  SortDesc,
   Star,
   X
 } from 'lucide-react'
@@ -20,6 +18,8 @@ import ProductListSkeleton from '../ProductListSkeleton'
 import { removeVietnameseTones } from '@/utils/removeVietnameseTones'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import ProductList from './ProductList'
+import SearchInput from '@/components/shared/SearchInput'
+import SimpleSelect from '@/components/shared/SimpleSelect'
 
 const PAGE_SIZE = 20
 
@@ -502,36 +502,23 @@ function Products() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
-            <div className="relative min-w-[200px] max-w-sm flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                className="w-full rounded-xl border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm transition-all focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-900/30"
-                placeholder={t('page.searchPlaceholder')}
-                value={searchInput}
-                onChange={handleSearchInput}
-              />
-              {searchInput && (
-                <button
-                  onClick={() => {
-                    debouncedUpdateSearch.cancel()
-                    setSearchInput('')
-                    setParam('q', '')
-                  }}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
+            <SearchInput
+              className="min-w-[200px] max-w-sm flex-1 rounded-xl dark:border-gray-600 dark:bg-gray-800"
+              placeholder={t('page.searchPlaceholder')}
+              value={searchInput}
+              onChange={handleSearchInput}
+              onClear={() => {
+                debouncedUpdateSearch.cancel()
+                setSearchInput('')
+                setParam('q', '')
+              }}
+            />
 
-            <Select
+            <SimpleSelect
               value={sort}
               onChange={handleSortChange}
               options={sortOptions}
-              suffixIcon={<SortDesc size={16} />}
               className="w-48"
-              size="middle"
             />
 
             <button

@@ -16,19 +16,30 @@ body.admin-layout-active {
   --purchase-receipts-warning-soft: rgba(217, 119, 6, 0.12);
 }
 
-.admin-purchase-receipts-page {
+.admin-page-shell.admin-purchase-receipts-page {
+  min-height: 100%;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
   color: var(--purchase-receipts-text);
 }
 
 .admin-purchase-receipts-page__inner {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
 }
 
 .admin-purchase-receipts-header {
   --admin-toolbar-title-size: 26px;
   margin-bottom: 0;
+}
+
+.admin-purchase-receipts-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .admin-purchase-receipts-btn.ant-btn {
@@ -78,6 +89,7 @@ body.admin-layout-active {
 
 .admin-purchase-receipts-stats {
   --admin-stat-value-size: 24px;
+  margin-bottom: 6px;
 }
 
 .admin-purchase-receipts-card {
@@ -123,44 +135,27 @@ body.admin-layout-active {
   gap: 10px;
 }
 
-.admin-purchase-receipts-search {
-  width: min(100%, 440px);
+.admin-purchase-receipts-search-input {
+  margin-bottom: 12px;
+  border-color: var(--purchase-receipts-border) !important;
+  background: var(--purchase-receipts-surface-2) !important;
 }
 
-.admin-purchase-receipts-search.ant-input-search .ant-input,
-.admin-purchase-receipts-search.ant-input-search .ant-input-affix-wrapper {
-  border-color: var(--purchase-receipts-border) !important;
-  background: var(--purchase-receipts-surface) !important;
+.admin-purchase-receipts-search-input:focus-within {
+  border-color: var(--purchase-receipts-accent) !important;
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.16) !important;
+}
+
+.admin-purchase-receipts-search-input .category-products-toolbar__search-input {
   color: var(--purchase-receipts-text) !important;
 }
 
-.admin-purchase-receipts-search.ant-input-search .ant-input::placeholder {
+.admin-purchase-receipts-search-input .category-products-toolbar__search-input::placeholder {
   color: var(--purchase-receipts-text-subtle) !important;
 }
 
-.admin-purchase-receipts-search.ant-input-search .ant-input:hover,
-.admin-purchase-receipts-search.ant-input-search .ant-input:focus,
-.admin-purchase-receipts-search.ant-input-search .ant-input-affix-wrapper:hover,
-.admin-purchase-receipts-search.ant-input-search .ant-input-affix-wrapper-focused {
-  border-color: var(--purchase-receipts-accent) !important;
-  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.18) !important;
-}
-
-.admin-purchase-receipts-search.ant-input-search .ant-input-group-addon .ant-btn,
-.admin-purchase-receipts-search.ant-input-search .ant-input-search-button {
-  border-color: var(--purchase-receipts-accent) !important;
-  background: var(--purchase-receipts-accent) !important;
-  color: #ffffff !important;
-  font-weight: 600;
-}
-
-.admin-purchase-receipts-search.ant-input-search .ant-input-group-addon .ant-btn:hover,
-.admin-purchase-receipts-search.ant-input-search .ant-input-search-button:hover {
-  filter: brightness(1.06);
-}
-
 .admin-purchase-receipts-filters {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   border: 1px solid var(--purchase-receipts-border);
   border-radius: 12px;
   background: var(--purchase-receipts-surface-2);
@@ -197,7 +192,7 @@ body.admin-layout-active {
 
 .admin-purchase-receipts-filters__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  grid-template-columns: minmax(140px, 0.7fr) minmax(180px, 1fr) minmax(180px, 1fr) minmax(240px, 1.2fr) auto;
   gap: 10px;
   align-items: center;
 }
@@ -338,13 +333,42 @@ body.admin-layout-active {
   color: var(--purchase-receipts-text-muted);
 }
 
-.admin-purchase-receipts-tag.ant-tag {
+.admin-purchase-receipts-tag.ant-tag,
+.admin-purchase-receipts-status.ant-tag {
   margin-inline-end: 0;
   border-color: var(--purchase-receipts-border);
   border-radius: 999px;
   background: var(--purchase-receipts-surface-2);
   color: var(--purchase-receipts-text-muted);
   font-size: 11px;
+}
+
+.admin-purchase-receipts-status--active.ant-tag {
+  border-color: rgba(22, 163, 74, 0.24);
+  background: var(--purchase-receipts-success-soft);
+  color: var(--purchase-receipts-success);
+}
+
+.admin-purchase-receipts-status--cancelled.ant-tag {
+  border-color: rgba(239, 68, 68, 0.24);
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.admin-purchase-receipts-action-btn.ant-btn {
+  color: var(--purchase-receipts-text-muted);
+}
+
+.admin-purchase-receipts-action-btn.ant-btn:hover {
+  background: var(--purchase-receipts-surface-2) !important;
+  color: var(--purchase-receipts-text) !important;
+}
+
+.admin-purchase-receipts-actions-dropdown.ant-dropdown .ant-dropdown-menu {
+  border: 1px solid var(--purchase-receipts-border);
+  border-radius: 12px;
+  background: var(--purchase-receipts-surface);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
 }
 
 .admin-purchase-receipts-number,
@@ -444,6 +468,14 @@ body.admin-layout-active {
   color: var(--purchase-receipts-text-muted);
 }
 
+.admin-purchase-receipts-receipt-card__side {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
 .admin-purchase-receipts-receipt-card__amount {
   flex-shrink: 0;
   border: 1px solid rgba(22, 163, 74, 0.24);
@@ -509,6 +541,10 @@ body.admin-layout-active {
   overflow-wrap: anywhere;
 }
 
+.admin-purchase-receipts-receipt-card__cancel.ant-btn {
+  margin: 0 14px 14px;
+}
+
 .admin-purchase-receipts-modal .ant-modal-content {
   border: 1px solid var(--purchase-receipts-border) !important;
   border-radius: 14px !important;
@@ -532,6 +568,8 @@ body.admin-layout-active {
 }
 
 .admin-purchase-receipts-modal .ant-modal-body {
+  max-height: min(76vh, 820px);
+  overflow: auto;
   color: var(--purchase-receipts-text);
   padding-top: 18px !important;
 }
@@ -573,6 +611,12 @@ html.dark body.admin-layout-active .admin-purchase-receipts-modal .ant-modal-foo
   border-radius: 12px;
   background: var(--purchase-receipts-surface-2);
   color: var(--purchase-receipts-accent);
+}
+
+.admin-purchase-receipts-modal__title-icon--danger {
+  border-color: rgba(239, 68, 68, 0.24);
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
 }
 
 .admin-purchase-receipts-modal__title {
@@ -687,7 +731,7 @@ html.dark body.admin-layout-active .admin-purchase-receipts-modal .ant-modal-foo
 }
 
 .admin-purchase-receipts-select-dropdown.ant-select-dropdown {
-  z-index: 1240 !important;
+  z-index: 2000 !important;
   border: 1px solid var(--purchase-receipts-border) !important;
   border-radius: 12px !important;
   background: var(--purchase-receipts-surface-2) !important;
@@ -718,7 +762,7 @@ html.dark body.admin-layout-active .admin-purchase-receipts-modal .ant-modal-foo
 }
 
 .admin-purchase-receipts-date-popup.ant-picker-dropdown {
-  z-index: 1240 !important;
+  z-index: 2000 !important;
 }
 
 .admin-purchase-receipts-date-popup .ant-picker-panel-container {

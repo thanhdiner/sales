@@ -9,8 +9,11 @@
   },
   "stats": {
     "total": "T\u1ed5ng",
+    "totalHint": "T\u1ea5t c\u1ea3 widget trang ch\u1ee7",
     "active": "Ho\u1ea1t \u0111\u1ed9ng",
-    "inactive": "T\u1ea1m d\u1eebng"
+    "activeHint": "\u0110ang hi\u1ec3n th\u1ecb cho kh\u00e1ch",
+    "inactive": "T\u1ea1m d\u1eebng",
+    "inactiveHint": "\u0110ang \u1ea9n kh\u1ecfi trang ch\u1ee7"
   },
   "table": {
     "summary": "{{rangeStart}}-{{rangeEnd}} c\u1ee7a {{total}} widgets",

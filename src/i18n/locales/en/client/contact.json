@@ -3,6 +3,11 @@
     "title": "Contact",
     "description": "Contact SmartMall via Zalo, Facebook, or email. Fast support and dedicated advice during business hours and beyond."
   },
+  "breadcrumb": {
+    "label": "Contact breadcrumb",
+    "home": "Home",
+    "contact": "Contact"
+  },
   "highlightsSection": {
     "eyebrow": "Highlights",
     "title": "Why customers choose to contact us directly",

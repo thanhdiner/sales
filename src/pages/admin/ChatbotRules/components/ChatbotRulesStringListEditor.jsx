@@ -29,7 +29,7 @@ export default function ChatbotRulesStringListEditor({
         </Space>
       </div>
 
-      <Space.Compact className={`mt-3 w-full ${compactClassName}`}>
+      <Space.Compact className={`admin-chatbot-rule-input mt-3 w-full ${compactClassName}`}>
         <Input
           value={inputValue}
           onChange={event => onInputChange(event.target.value)}

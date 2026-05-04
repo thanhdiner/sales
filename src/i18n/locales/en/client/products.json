@@ -157,6 +157,11 @@
     "seo": {
       "title": "All products",
       "description": "Explore hundreds of products at SmartMall – game accounts, licensed software, good prices, and fast delivery."
+    },
+    "breadcrumb": {
+      "label": "Products breadcrumb",
+      "home": "Home",
+      "products": "Products"
     }
   },
   "productDetail": {

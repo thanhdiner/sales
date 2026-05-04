@@ -1,81 +1,114 @@
 {
   "seo": {
-    "title": "Admin - Blog / News"
+    "title": "Admin - Blog posts"
   },
   "page": {
     "eyebrow": "Content",
-    "title": "Blog / news manager",
-    "description": "Create and update posts shown on /blog. Each post supports Vietnamese content and an optional English translation.",
-    "createButton": "Add post",
+    "title": "Blog post manager",
+    "description": "Create, edit, and publish blog content on the website.",
+    "createButton": "Create post",
     "previewButton": "View blog page"
   },
   "stats": {
     "total": "Total posts",
+    "totalHint": "All blog posts",
     "published": "Published",
+    "publishedHint": "Visible on the website",
     "draft": "Drafts",
-    "featured": "Featured"
+    "draftHint": "Not published yet",
+    "queued": "Queued",
+    "queuedHint": "Scheduled or queued posts"
   },
   "filters": {
-    "keyword": "Search title, slug, content",
+    "keyword": "Search title, slug, author...",
     "status": "Status",
     "category": "Category",
+    "author": "Author",
+    "sort": "Sort",
     "reset": "Reset"
+  },
+  "sort": {
+    "newest": "Newest",
+    "updated": "Recently updated",
+    "views": "Most viewed",
+    "published": "Latest published",
+    "title": "A-Z"
   },
   "status": {
     "draft": "Draft",
     "queued": "Queued",
-    "archived": "Archived",
+    "archived": "Hidden",
     "published": "Published"
   },
   "table": {
     "columns": {
       "post": "Post",
       "category": "Category",
+      "author": "Author",
       "status": "Status",
-      "featured": "Featured",
+      "views": "Views",
       "publishedAt": "Published at",
+      "updatedAt": "Updated at",
       "actions": "Actions"
     },
-    "featured": "Featured",
-    "normal": "Normal",
     "emptyValue": "None",
     "notPublished": "Not published",
     "showTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} posts",
     "actions": {
-      "edit": "Edit post",
-      "delete": "Delete post"
+      "preview": "Preview",
+      "edit": "Edit",
+      "publish": "Publish",
+      "archive": "Hide post",
+      "delete": "Delete"
     }
   },
   "form": {
-    "createTitle": "Add post",
+    "createTitle": "Create post",
     "editTitle": "Edit post",
     "createSubmit": "Create post",
     "saveSubmit": "Save changes",
     "cancel": "Cancel",
+    "sections": {
+      "publish": "Publish",
+      "taxonomy": "Taxonomy",
+      "seo": "SEO",
+      "ecommerce": "Ecommerce links"
+    },
     "tabs": {
       "vi": "Vietnamese",
       "en": "English"
     },
-    "title": "Title",
+    "title": "Post title",
     "titleRequired": "Enter a post title",
-    "titlePlaceholder": "Example: How to choose the right game account",
+    "titlePlaceholder": "Example: How to choose the right gaming headset",
     "slug": "Slug",
     "slugHint": "Leave empty when creating a new post to auto-generate it from the title.",
-    "slugPlaceholder": "how-to-choose-a-game-account",
+    "slugPlaceholder": "how-to-choose-a-gaming-headset",
     "excerpt": "Excerpt",
     "excerptPlaceholder": "Short description shown in the blog list",
-    "content": "Content",
+    "content": "Post content",
     "contentPlaceholder": "Enter post content",
     "characterLimitExceeded": "Content must not exceed {{max}} characters",
     "category": "Category",
-    "categoryPlaceholder": "News, guides, updates...",
+    "categoryPlaceholder": "News, guides, gaming gear...",
     "tags": "Tags",
     "tagsPlaceholder": "Enter tags",
     "status": "Status",
     "publishedAt": "Published at",
+    "scheduledAt": "Scheduled at",
     "featured": "Mark as featured",
-    "thumbnail": "Thumbnail",
+    "thumbnail": "Cover image",
     "uploadThumbnail": "Upload",
+    "seoTitle": "SEO title",
+    "seoTitlePlaceholder": "Title shown on Google",
+    "seoDescription": "SEO description",
+    "seoDescriptionPlaceholder": "Short search engine description",
+    "canonicalUrl": "Canonical URL",
+    "canonicalUrlPlaceholder": "https://smartmall.site/blog/...",
+    "seoPreviewTitle": "Post SEO title",
+    "seoPreviewDescription": "SEO description will appear here.",
+    "relatedProducts": "Related products",
+    "relatedProductsPlaceholder": "Search products...",
     "translations": {
       "title": "Title (EN)",
       "titlePlaceholder": "English title",
@@ -101,6 +134,10 @@
     "updateSuccess": "Post updated",
     "deleteSuccess": "Post deleted",
     "deleteError": "Failed to delete post",
+    "publishSuccess": "Post published",
+    "publishError": "Failed to publish post",
+    "archiveSuccess": "Post hidden",
+    "archiveError": "Failed to hide post",
     "saveError": "Failed to save post",
     "mediaUploadError": "Failed to upload media into the post",
     "slugExists": "Slug already exists. You can use: {{slug}}",

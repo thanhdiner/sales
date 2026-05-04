@@ -39,9 +39,11 @@ export default function useChatbotConfigData(options = {}) {
           page: Number(res?.meta?.page || params.page || 1),
           limit: Number(res?.meta?.limit || params.limit || logLimit)
         })
+        return res
       } else {
         setToolLogs([])
         setToolLogsMeta(defaultLogsMeta)
+        return res
       }
     } catch (err) {
       setToolLogs([])
@@ -49,6 +51,7 @@ export default function useChatbotConfigData(options = {}) {
       if (!silent) {
         message.error(err?.message || t('messages.loadToolLogsFailed'))
       }
+      return null
     } finally {
       if (withLoading) setLogsLoading(false)
     }

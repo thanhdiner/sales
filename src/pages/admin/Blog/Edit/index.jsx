@@ -1,11 +1,15 @@
 import { Form, Spin, Upload, message } from 'antd'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import debounce from 'lodash.debounce'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import SEO from '@/components/shared/SEO'
 import { getBlogPost, updateBlogPost, uploadBlogMedia } from '@/services/admin/content/blog'
+import { getProducts } from '@/services/admin/commerce/product'
+import { getBlogCategories } from '@/services/admin/content/blogCategory'
+import { getBlogTags } from '@/services/admin/content/blogTag'
 import BlogForm from '../components/BlogForm'
 import { buildBlogFormData, defaultFormValues, getUploadFileList, MAX_IMAGE_SIZE_MB } from '../blogFormUtils'
 import '../index.scss'
@@ -20,6 +24,54 @@ export default function BlogEdit() {
   const [fileList, setFileList] = useState([])
   const [oldThumbnail, setOldThumbnail] = useState('')
   const [thumbnailToDelete, setThumbnailToDelete] = useState('')
+  const [productOptions, setProductOptions] = useState([])
+  const [productLoading, setProductLoading] = useState(false)
+  const [categoryOptions, setCategoryOptions] = useState([])
+  const [tagOptions, setTagOptions] = useState([])
+
+  const mapProductOptions = products => products.map(product => ({
+    value: product._id,
+    label: product.productName || product.name || product.title || product._id
+  }))
+
+  const mapCategoryOptions = categories => categories.map(category => ({
+    value: category.name,
+    label: category.name,
+    categoryRef: category._id,
+    enCategory: category.translations?.en?.name || ''
+  }))
+
+  const fetchCategoryOptions = useCallback(async () => {
+    try {
+      const response = await getBlogCategories({ isActive: true })
+      setCategoryOptions(mapCategoryOptions(response?.data || []))
+    } catch {
+      setCategoryOptions([])
+    }
+  }, [])
+
+  const fetchTagOptions = useCallback(async () => {
+    try {
+      const response = await getBlogTags({ status: 'active' })
+      setTagOptions((response?.data || []).map(tag => ({ value: tag._id, label: tag.name, enTag: tag.translations?.en?.name || '' })))
+    } catch {
+      setTagOptions([])
+    }
+  }, [])
+
+  const fetchProductOptions = useCallback(async (keyword = '') => {
+    setProductLoading(true)
+    try {
+      const response = await getProducts({ page: 1, limit: 20, productName: keyword })
+      setProductOptions(mapProductOptions(response?.products || response?.data || []))
+    } catch {
+      setProductOptions([])
+    } finally {
+      setProductLoading(false)
+    }
+  }, [])
+
+  const handleSearchProducts = useCallback(debounce(fetchProductOptions, 400), [fetchProductOptions])
 
   useEffect(() => {
     let mounted = true
@@ -35,14 +87,35 @@ export default function BlogEdit() {
 
         const uploadFileList = getUploadFileList(post)
         setFileList(uploadFileList)
+        const relatedProducts = Array.isArray(post.relatedProducts) ? post.relatedProducts : []
+        setProductOptions(current => {
+          const selectedOptions = mapProductOptions(relatedProducts.filter(product => typeof product === 'object'))
+          const optionMap = new Map([...current, ...selectedOptions].map(option => [option.value, option]))
+          return Array.from(optionMap.values())
+        })
+        setTagOptions(current => {
+          const selectedOptions = Array.isArray(post.tagIds)
+            ? post.tagIds.filter(tag => typeof tag === 'object').map(tag => ({ value: tag._id, label: tag.name, enTag: tag.translations?.en?.name || '' }))
+            : []
+          const optionMap = new Map([...current, ...selectedOptions].map(option => [option.value, option]))
+          return Array.from(optionMap.values())
+        })
         setOldThumbnail(post.thumbnail || '')
         setThumbnailToDelete('')
         form.setFieldsValue({
           ...defaultFormValues,
           ...post,
-          tags: Array.isArray(post.tags) ? post.tags : [],
+          tags: Array.isArray(post.tagIds) && post.tagIds.length > 0
+            ? post.tagIds.map(tag => (typeof tag === 'object' ? tag._id : tag)).filter(Boolean)
+            : [],
+          categoryRef: typeof post.categoryRef === 'object' ? post.categoryRef?._id : (post.categoryRef || ''),
           thumbnail: uploadFileList,
           publishedAt: post.publishedAt ? dayjs(post.publishedAt) : null,
+          scheduledAt: post.scheduledAt ? dayjs(post.scheduledAt) : null,
+          seoTitle: post.seo?.title || '',
+          seoDescription: post.seo?.description || '',
+          canonicalUrl: post.seo?.canonicalUrl || '',
+          relatedProducts: relatedProducts.map(product => (typeof product === 'object' ? product._id : product)).filter(Boolean),
           translations: {
             en: {
               title: post.translations?.en?.title || '',
@@ -61,12 +134,43 @@ export default function BlogEdit() {
       }
     }
 
+    fetchProductOptions()
+    fetchCategoryOptions()
+    fetchTagOptions()
     fetchPost()
 
     return () => {
       mounted = false
+      handleSearchProducts.cancel()
     }
-  }, [form, id, navigate, t])
+  }, [fetchCategoryOptions, fetchProductOptions, fetchTagOptions, form, handleSearchProducts, id, navigate, t])
+
+  const handleCategoryChange = value => {
+    const selectedCategory = categoryOptions.find(option => option.value === value)
+    form.setFieldsValue({
+      categoryRef: selectedCategory?.categoryRef || '',
+      translations: {
+        ...form.getFieldValue('translations'),
+        en: {
+          ...(form.getFieldValue(['translations', 'en']) || {}),
+          category: selectedCategory?.enCategory || ''
+        }
+      }
+    })
+  }
+
+  const handleTagChange = values => {
+    const selectedTags = tagOptions.filter(option => values.includes(option.value))
+    form.setFieldsValue({
+      translations: {
+        ...form.getFieldValue('translations'),
+        en: {
+          ...(form.getFieldValue(['translations', 'en']) || {}),
+          tags: selectedTags.map(tag => tag.enTag).filter(Boolean)
+        }
+      }
+    })
+  }
 
   const handleContentMediaUpload = async file => {
     try {
@@ -118,7 +222,7 @@ export default function BlogEdit() {
 
   if (loading) {
     return (
-      <div className="admin-blog-page min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-5 lg:p-6">
+      <div className="admin-blog-page min-h-full bg-[var(--admin-surface)] p-4 sm:p-5 lg:p-6">
         <div className="admin-blog-loading"><Spin /></div>
       </div>
     )
@@ -132,6 +236,13 @@ export default function BlogEdit() {
         mode="edit"
         saving={saving}
         fileList={fileList}
+        productOptions={productOptions}
+        productLoading={productLoading}
+        categoryOptions={categoryOptions}
+        tagOptions={tagOptions}
+        onCategoryChange={handleCategoryChange}
+        onTagChange={handleTagChange}
+        onSearchProducts={handleSearchProducts}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/admin/blog')}
         onUploadMedia={handleContentMediaUpload}

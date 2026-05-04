@@ -1,4 +1,5 @@
 import { ShoppingBag } from 'lucide-react'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 
 function EmptyCartState({ onContinueShopping, t }) {
@@ -8,6 +9,8 @@ function EmptyCartState({ onContinueShopping, t }) {
 
       <div className="border-t border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-950">
         <div className="container mx-auto px-4 py-10">
+          <MobileBackButton />
+
           <div className="mx-auto max-w-xl rounded-xl border border-gray-200 bg-white p-10 text-center shadow-sm dark:border-gray-800 dark:bg-gray-950">
             <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/40">
               <ShoppingBag className="h-11 w-11 text-blue-600" />

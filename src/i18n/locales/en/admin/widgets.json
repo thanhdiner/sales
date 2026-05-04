@@ -9,8 +9,11 @@
   },
   "stats": {
     "total": "Total",
+    "totalHint": "All homepage widgets",
     "active": "Active",
-    "inactive": "Paused"
+    "activeHint": "Currently visible to customers",
+    "inactive": "Paused",
+    "inactiveHint": "Hidden from homepage"
   },
   "table": {
     "summary": "{{rangeStart}}-{{rangeEnd}} of {{total}} widgets",

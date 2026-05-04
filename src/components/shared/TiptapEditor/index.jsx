@@ -1,167 +1,217 @@
-import { useEditor, EditorContent } from '@tiptap/react'
-import { useEffect, useRef, useState } from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import {
+  Alignment,
+  BlockQuote,
+  Bold,
+  ClassicEditor,
+  Code,
+  CodeBlock,
+  Essentials,
+  FontBackgroundColor,
+  FontColor,
+  GeneralHtmlSupport,
+  Heading,
+  HorizontalLine,
+  HtmlEmbed,
+  Image,
+  ImageCaption,
+  ImageInsert,
+  ImageResize,
+  ImageStyle,
+  ImageToolbar,
+  ImageUpload,
+  Italic,
+  Link,
+  List,
+  MediaEmbed,
+  Paragraph,
+  SourceEditing,
+  Strikethrough,
+  Table,
+  TableCellProperties,
+  TableProperties,
+  TableToolbar,
+  Underline
+} from 'ckeditor5'
+import { useMemo, useRef, useState } from 'react'
+import 'ckeditor5/ckeditor5.css'
 
 import './TiptapEditor.scss'
-import TiptapToolbar from './TiptapToolbar'
-import { createTiptapExtensions } from './tiptapExtensions'
 
-const getEmbedUrl = value => {
-  const url = String(value || '').trim()
-  if (!url) return ''
+function getTextLength(html) {
+  if (typeof window === 'undefined') return String(html || '').replace(/<[^>]*>/g, '').trim().length
 
-  try {
-    const parsed = new URL(url)
-    const host = parsed.hostname.replace(/^www\./, '')
+  const element = window.document.createElement('div')
+  element.innerHTML = html || ''
+  return (element.textContent || '').trim().length
+}
 
-    if (host === 'youtu.be') return `https://www.youtube.com/embed/${parsed.pathname.replace(/^\//, '')}`
-    if (host === 'youtube.com' || host === 'm.youtube.com') {
-      const videoId = parsed.searchParams.get('v')
-      if (videoId) return `https://www.youtube.com/embed/${videoId}`
-      if (parsed.pathname.startsWith('/embed/')) return parsed.href
-    }
-    if (host === 'player.vimeo.com') return parsed.href
-    if (host === 'vimeo.com') return `https://player.vimeo.com/video/${parsed.pathname.replace(/^\//, '')}`
+function createUploadAdapterPlugin(onUploadMedia) {
+  return function UploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = loader => ({
+      upload: async () => {
+        const file = await loader.file
+        const media = await onUploadMedia?.(file)
 
-    return parsed.href
-  } catch {
-    return ''
+        if (!media?.url) throw new Error('Upload failed')
+
+        return { default: media.url }
+      },
+      abort: () => {}
+    })
   }
 }
 
-const TiptapEditor = ({ value = '', onChange, placeholder, maxLength, onUploadMedia }) => {
-  const [showHighlightOptions, setShowHighlightOptions] = useState(false)
-  const highlightRef = useRef()
-  const [showColorPicker, setShowColorPicker] = useState(false)
-  const colorRef = useRef()
-  const imageInputRef = useRef(null)
-  const figureInputRef = useRef(null)
+function TiptapEditor({ value = '', onChange, placeholder, maxLength, onUploadMedia }) {
+  const editorRef = useRef(null)
+  const lastEmittedHtmlRef = useRef(value || '')
   const videoInputRef = useRef(null)
+  const [textLength, setTextLength] = useState(() => getTextLength(value))
+  const [editorError, setEditorError] = useState('')
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (highlightRef.current && !highlightRef.current.contains(event.target)) setShowHighlightOptions(false)
-      if (colorRef.current && !colorRef.current.contains(event.target)) setShowColorPicker(false)
+  const editorConfig = useMemo(() => ({
+    licenseKey: 'GPL',
+    plugins: [
+      Alignment,
+      BlockQuote,
+      Bold,
+      Code,
+      CodeBlock,
+      Essentials,
+      FontBackgroundColor,
+      FontColor,
+      GeneralHtmlSupport,
+      Heading,
+      HorizontalLine,
+      HtmlEmbed,
+      Image,
+      ImageCaption,
+      ImageInsert,
+      ImageResize,
+      ImageStyle,
+      ImageToolbar,
+      ImageUpload,
+      Italic,
+      Link,
+      List,
+      MediaEmbed,
+      Paragraph,
+      SourceEditing,
+      Strikethrough,
+      Table,
+      TableCellProperties,
+      TableProperties,
+      TableToolbar,
+      Underline
+    ],
+    extraPlugins: [createUploadAdapterPlugin(onUploadMedia)],
+    placeholder: placeholder || 'Nhập nội dung ở đây...',
+    toolbar: {
+      items: [
+        'heading', '|',
+        'bold', 'italic', 'underline', 'strikethrough', 'code', '|',
+        'fontColor', 'fontBackgroundColor', '|',
+        'link', 'bulletedList', 'numberedList', '|',
+        'alignment', 'blockQuote', 'codeBlock', 'horizontalLine', '|',
+        'insertImage', 'mediaEmbed', 'htmlEmbed', 'insertTable', '|',
+        'sourceEditing', 'undo', 'redo'
+      ],
+      shouldNotGroupWhenFull: true
+    },
+    heading: {
+      options: [
+        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+      ]
+    },
+    htmlSupport: {
+      allow: [
+        {
+          name: /^(aside|figure|figcaption|table|thead|tbody|tr|th|td|video|source|iframe|span|p|h1|h2|h3|ul|ol|li|blockquote|pre|code|hr|img|a)$/,
+          attributes: true,
+          classes: true,
+          styles: true
+        }
+      ]
+    },
+    image: {
+      toolbar: [
+        'imageTextAlternative',
+        'toggleImageCaption',
+        '|',
+        'imageStyle:inline',
+        'imageStyle:block',
+        'imageStyle:side',
+        '|',
+        'resizeImage'
+      ]
+    },
+    table: {
+      contentToolbar: [
+        'tableColumn',
+        'tableRow',
+        'mergeTableCells',
+        'tableProperties',
+        'tableCellProperties'
+      ]
+    },
+    link: {
+      addTargetToExternalLinks: true,
+      defaultProtocol: 'https://'
+    },
+    mediaEmbed: {
+      previewsInData: true
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }), [onUploadMedia, placeholder])
 
-  const editor = useEditor({
-    extensions: createTiptapExtensions({ placeholder }),
-    content: value,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML()
-      onChange?.(html)
-    }
-  })
+  const handleVideoUpload = async event => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    const editor = editorRef.current
 
-  useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || '', false)
-    }
-  }, [editor, value])
-
-  const insertUploadedMedia = async file => {
-    if (!editor || !file || !onUploadMedia) return
+    if (!file || !editor || !onUploadMedia) return
 
     const media = await onUploadMedia(file)
     if (!media?.url) return
 
-    if (media.resourceType === 'video') {
-      editor.chain().focus().insertContent({ type: 'video', attrs: { src: media.url, title: file.name } }).run()
-      return
-    }
-
-    editor.chain().focus().setImage({ src: media.url, alt: file.name, title: file.name }).run()
+    editor.execute('htmlEmbed', `<video src="${media.url}" controls class="tiptap-video"></video>`)
   }
-
-  const handleImageUpload = () => imageInputRef.current?.click()
-  const handleImageCaption = () => figureInputRef.current?.click()
-  const handleVideoUpload = () => videoInputRef.current?.click()
-
-  const handleFileChange = async event => {
-    const file = event.target.files?.[0]
-    event.target.value = ''
-    await insertUploadedMedia(file)
-  }
-
-  const handleFigureFileChange = async event => {
-    const file = event.target.files?.[0]
-    event.target.value = ''
-    if (!editor || !file || !onUploadMedia) return
-
-    const media = await onUploadMedia(file)
-    if (!media?.url) return
-
-    const caption = window.prompt('Nhập caption cho ảnh', '') || ''
-    editor.chain().focus().insertContent({
-      type: 'figure',
-      attrs: { src: media.url, alt: file.name, title: file.name, caption }
-    }).run()
-  }
-
-  const handleCallout = () => {
-    if (!editor) return
-    editor.chain().focus().insertContent({
-      type: 'callout',
-      attrs: { type: 'info' },
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Nội dung ghi chú...' }] }]
-    }).run()
-  }
-
-  const handleTable = () => {
-    if (!editor) return
-    editor.chain().focus().insertContent({ type: 'simpleTable' }).run()
-  }
-
-  const handleVideoEmbed = () => {
-    if (!editor) return
-    const src = getEmbedUrl(window.prompt('Nhập URL video'))
-    if (!src) return
-    editor.chain().focus().insertContent({ type: 'embed', attrs: { src, title: 'Embedded video' } }).run()
-  }
-
-  const handleLink = () => {
-    if (!editor) return
-    const previousUrl = editor.getAttributes('link').href || ''
-    const url = window.prompt('Nhập URL liên kết', previousUrl)
-
-    if (url === null) return
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run()
-      return
-    }
-
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }
-
-  const textLength = editor?.getText().length || 0
 
   return (
-    <div className="tiptap-wrapper">
+    <div className="tiptap-wrapper ck-blog-editor">
       <div className="tiptap-editor">
-        <TiptapToolbar
-          {...{
-            editor,
-            highlightRef,
-            setShowHighlightOptions,
-            showHighlightOptions,
-            colorRef,
-            showColorPicker,
-            setShowColorPicker,
-            onImageUpload: handleImageUpload,
-            onVideoUpload: handleVideoUpload,
-            onVideoEmbed: handleVideoEmbed,
-            onLink: handleLink,
-            onImageCaption: handleImageCaption,
-            onCallout: handleCallout,
-            onTable: handleTable
+        {editorError ? <div className="ck-blog-editor__error">{editorError}</div> : null}
+        <CKEditor
+          editor={ClassicEditor}
+          config={editorConfig}
+          data={value || ''}
+          onReady={editor => {
+            editorRef.current = editor
+            setEditorError('')
+            setTextLength(getTextLength(editor.getData()))
+          }}
+          onChange={(_, editor) => {
+            const html = editor.getData()
+            lastEmittedHtmlRef.current = html
+            setTextLength(getTextLength(html))
+            onChange?.(html)
+          }}
+          onBlur={(_, editor) => {
+            const html = editor.getData()
+            if ((value || '') !== html && lastEmittedHtmlRef.current !== html) onChange?.(html)
+          }}
+          onError={(error, { phase }) => {
+            setEditorError(`CKEditor failed during ${phase}: ${error.message}`)
           }}
         />
-        <input ref={imageInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" style={{ display: 'none' }} onChange={handleFileChange} />
-        <input ref={figureInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" style={{ display: 'none' }} onChange={handleFigureFileChange} />
-        <input ref={videoInputRef} type="file" accept="video/mp4,video/webm,video/quicktime" style={{ display: 'none' }} onChange={handleFileChange} />
-        <EditorContent editor={editor} />
+        {onUploadMedia ? (
+          <div className="ck-blog-editor__media-actions">
+            <button type="button" onClick={() => videoInputRef.current?.click()}>Upload video</button>
+            <input ref={videoInputRef} type="file" accept="video/mp4,video/webm,video/quicktime" hidden onChange={handleVideoUpload} />
+          </div>
+        ) : null}
       </div>
       {maxLength ? (
         <div className={`tiptap-character-count ${textLength > maxLength ? 'tiptap-character-count--over' : ''}`}>

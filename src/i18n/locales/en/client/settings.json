@@ -3,6 +3,12 @@
   "eyebrow": "Settings",
   "title": "Account settings",
   "description": "Manage your appearance, language and account security.",
+  "back": "Back",
+  "breadcrumb": {
+    "label": "Settings navigation",
+    "home": "Home",
+    "settings": "Settings"
+  },
   "appearance": {
     "title": "Appearance",
     "currentMode": "Current mode: {{mode}}",

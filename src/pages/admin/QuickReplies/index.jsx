@@ -2,7 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Empty, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table, Tag, Tooltip, message } from 'antd'
 import { CheckCircle2, ClipboardList, FolderTree, MessageSquareText } from 'lucide-react'
-import { Card, Form as UiForm, PageShell, StatCard, StatGrid, StatusPill, TableShell } from '@/components/admin/ui'
+import SEO from '@/components/shared/SEO'
+import SearchInput from '@/components/shared/SearchInput'
+import { Form as UiForm, StatCard, StatGrid, StatusPill } from '@/components/admin/ui'
+import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { useModalBodyScroll } from '@/hooks/shared/useModalBodyScroll'
 import {
   createQuickReplyCategory,
@@ -118,27 +121,26 @@ function getRequestErrorMessage(error, fallback) {
 
 function QuickRepliesHeader({ onCreate, onManageCategories }) {
   return (
-    <Card
-      className="admin-quick-replies-header"
-      title="Quick replies"
-      titleLevel={1}
-      description="Manage reusable message templates for live chat agents."
-      extra={
-        <div className="admin-quick-replies-header__actions">
-          <Button
-            icon={<FolderTree className="h-4 w-4" strokeWidth={1.8} />}
-            onClick={onManageCategories}
-            className="admin-quick-replies-secondary-btn"
-          >
-            Manage categories
-          </Button>
+    <div className="admin-quick-replies-header">
+      <div>
+        <h1 className="admin-quick-replies-header__title">Quick replies</h1>
+        <p className="admin-quick-replies-header__description">Manage reusable message templates for live chat agents.</p>
+      </div>
 
-          <Button type="primary" icon={<PlusOutlined />} onClick={onCreate} className="admin-quick-replies-primary-btn">
-            Create reply
-          </Button>
-        </div>
-      }
-    />
+      <div className="admin-quick-replies-header__actions">
+        <Button
+          icon={<FolderTree className="h-4 w-4" strokeWidth={1.8} />}
+          onClick={onManageCategories}
+          className="admin-quick-replies-secondary-btn"
+        >
+          Manage categories
+        </Button>
+
+        <Button type="primary" icon={<PlusOutlined />} onClick={onCreate} className="admin-quick-replies-primary-btn">
+          Create reply
+        </Button>
+      </div>
+    </div>
   )
 }
 
@@ -147,24 +149,28 @@ function QuickRepliesStats({ stats }) {
     {
       key: 'total',
       label: 'Total templates',
+      meta: 'Saved replies for agents',
       value: stats.total,
       Icon: ClipboardList
     },
     {
       key: 'active',
       label: 'Active',
+      meta: 'Available in live chat',
       value: stats.active,
       Icon: CheckCircle2
     },
     {
       key: 'categories',
       label: 'Categories',
+      meta: 'Active template groups',
       value: stats.categories,
       Icon: FolderTree
     },
     {
       key: 'usedThisMonth',
       label: 'Used this month',
+      meta: 'Inserted by agents',
       value: stats.usedThisMonth,
       Icon: MessageSquareText
     }
@@ -172,12 +178,13 @@ function QuickRepliesStats({ stats }) {
 
   return (
     <StatGrid columns={4} className="admin-quick-replies-stats">
-      {items.map(({ key, label, value, Icon }) => (
+      {items.map(({ key, label, meta, value, Icon }) => (
         <StatCard
           key={key}
           className={`admin-quick-replies-stat admin-quick-replies-stat--${key}`}
           label={label}
           value={value || 0}
+          meta={meta}
           icon={Icon}
           tone={key === 'active' ? 'success' : key === 'categories' ? 'info' : key === 'usedThisMonth' ? 'warning' : 'default'}
         />
@@ -188,36 +195,38 @@ function QuickRepliesStats({ stats }) {
 
 function QuickRepliesFilters({ categoryOptions, filters, onFilterChange }) {
   return (
-    <Card className="admin-quick-replies-filters" bodyClassName="admin-quick-replies-filters__body">
-      <Input.Search
-        allowClear
+    <div className="admin-quick-replies-filters admin-quick-replies-filters__body">
+      <SearchInput
         value={filters.search}
         onChange={event => onFilterChange({ search: event.target.value })}
+        onClear={() => onFilterChange({ search: '' })}
         placeholder="Search by title or content"
         className="admin-quick-replies-search"
       />
 
-      <Select
-        value={filters.category || 'all'}
-        onChange={value => onFilterChange({ category: value === 'all' ? '' : value })}
-        options={[{ value: 'all', label: 'All categories' }, ...categoryOptions.filter(option => option.isActive !== false)]}
-        className="admin-quick-replies-filter-select"
-      />
+      <div className="admin-quick-replies-filter-group">
+        <Select
+          value={filters.category || 'all'}
+          onChange={value => onFilterChange({ category: value === 'all' ? '' : value })}
+          options={[{ value: 'all', label: 'All categories' }, ...categoryOptions.filter(option => option.isActive !== false)]}
+          className="admin-quick-replies-filter-select"
+        />
 
-      <Select
-        value={filters.status}
-        onChange={value => onFilterChange({ status: value })}
-        options={STATUS_OPTIONS}
-        className="admin-quick-replies-filter-select"
-      />
+        <Select
+          value={filters.status}
+          onChange={value => onFilterChange({ status: value })}
+          options={STATUS_OPTIONS}
+          className="admin-quick-replies-filter-select"
+        />
 
-      <Select
-        value={filters.language}
-        onChange={value => onFilterChange({ language: value })}
-        options={LANGUAGE_OPTIONS}
-        className="admin-quick-replies-filter-select"
-      />
-    </Card>
+        <Select
+          value={filters.language}
+          onChange={value => onFilterChange({ language: value })}
+          options={LANGUAGE_OPTIONS}
+          className="admin-quick-replies-filter-select"
+        />
+      </div>
+    </div>
   )
 }
 
@@ -342,7 +351,7 @@ function QuickRepliesTable({ categoryOptions, data, loading, pagination, onChang
   ]
 
   return (
-    <TableShell className="admin-quick-replies-table-section" bodyClassName="admin-quick-replies-table-section__body">
+    <div className="admin-quick-replies-table-section admin-quick-replies-table-section__body">
       <Table
         rowKey="_id"
         dataSource={data}
@@ -364,7 +373,7 @@ function QuickRepliesTable({ categoryOptions, data, loading, pagination, onChang
         }}
         className="admin-quick-replies-table"
       />
-    </TableShell>
+    </div>
   )
 }
 
@@ -649,18 +658,34 @@ export default function QuickReplies() {
     categories: 0,
     usedThisMonth: 0
   })
-  const [filters, setFilters] = useState({
-    search: '',
-    category: '',
-    status: 'all',
-    language: 'all'
+  const {
+    filters: urlFilters,
+    page,
+    pageSize,
+    setFilters: setUrlFilters,
+    setPage,
+    setPageSize
+  } = useListSearchParams({
+    defaultPageSize: DEFAULT_PAGE_SIZE,
+    pageSizeKey: 'limit',
+    filterParsers: {
+      search: stringFilter,
+      category: stringFilter,
+      status: stringFilter,
+      language: stringFilter
+    }
   })
-  const [debouncedSearch, setDebouncedSearch] = useState('')
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: DEFAULT_PAGE_SIZE,
-    total: 0
-  })
+  const filters = useMemo(
+    () => ({
+      search: urlFilters.search || '',
+      category: urlFilters.category || '',
+      status: urlFilters.status || 'all',
+      language: urlFilters.language || 'all'
+    }),
+    [urlFilters]
+  )
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.search)
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState(null)
@@ -701,8 +726,8 @@ export default function QuickReplies() {
 
     try {
       const response = await getQuickReplies({
-        page: pagination.page,
-        limit: pagination.limit,
+        page,
+        limit: pageSize,
         search: debouncedSearch,
         category: filters.category,
         status: filters.status === 'all' ? '' : filters.status,
@@ -718,32 +743,29 @@ export default function QuickReplies() {
           usedThisMonth: 0
         }
       )
-      setPagination(current => ({
-        ...current,
-        total: response?.pagination?.total || 0
-      }))
+      setTotal(response?.pagination?.total || 0)
     } catch (error) {
       message.error(getRequestErrorMessage(error, 'Unable to load quick replies'))
     } finally {
       setLoading(false)
     }
-  }, [debouncedSearch, filters.category, filters.language, filters.status, pagination.limit, pagination.page])
+  }, [debouncedSearch, filters.category, filters.language, filters.status, page, pageSize])
 
   useEffect(() => {
     void loadQuickReplies()
   }, [loadQuickReplies])
 
   const handleFilterChange = updates => {
-    setFilters(current => ({ ...current, ...updates }))
-    setPagination(current => ({ ...current, page: 1 }))
+    setUrlFilters({ ...filters, ...updates })
   }
 
-  const handlePaginationChange = (page, pageSize) => {
-    setPagination(current => ({
-      ...current,
-      page,
-      limit: pageSize
-    }))
+  const handlePaginationChange = (nextPage, nextPageSize) => {
+    if (nextPageSize !== pageSize) {
+      setPageSize(nextPageSize)
+      return
+    }
+
+    setPage(nextPage)
   }
 
   const categoryOptions = useMemo(() => {
@@ -959,12 +981,9 @@ export default function QuickReplies() {
   )
 
   return (
-    <PageShell
-      seoTitle="Admin - Quick Replies"
-      className="admin-quick-replies-page"
-      contentClassName="admin-quick-replies-page__inner"
-      maxWidth="1280px"
-    >
+    <div className="admin-quick-replies-page">
+      <SEO title="Admin - Quick Replies" noIndex />
+
       <QuickRepliesHeader onCreate={openCreateModal} onManageCategories={openCategoriesModal} />
       <QuickRepliesStats stats={memoizedStats} />
       <QuickRepliesFilters categoryOptions={categoryOptions} filters={filters} onFilterChange={handleFilterChange} />
@@ -972,7 +991,7 @@ export default function QuickReplies() {
         categoryOptions={categoryOptions}
         data={items}
         loading={loading}
-        pagination={pagination}
+        pagination={{ page, limit: pageSize, total }}
         onChangePagination={handlePaginationChange}
         onEdit={openEditModal}
         onDelete={handleDelete}
@@ -1005,6 +1024,6 @@ export default function QuickReplies() {
         onToggleStatus={handleToggleCategoryStatus}
         onNameChange={handleCategoryNameChange}
       />
-    </PageShell>
+    </div>
   )
 }

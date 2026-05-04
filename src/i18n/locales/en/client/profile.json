@@ -5,6 +5,11 @@
   "loading": {
     "profile": "Please wait while your profile is loading..."
   },
+  "breadcrumb": {
+    "label": "Profile navigation",
+    "home": "Home",
+    "profile": "Profile"
+  },
   "message": {
     "imageOnly": "Only image files are accepted!",
     "imageMaxSize": "Image must be smaller than 2MB!",
@@ -30,6 +35,67 @@
     "title": "Update email",
     "button": "Update now"
   },
+  "accountHub": {
+    "title": "Account center",
+    "description": "Important shortcuts for your account.",
+    "items": {
+      "profile": {
+        "title": "Profile",
+        "description": "Personal details"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Account preferences"
+      },
+      "orders": {
+        "title": "Orders",
+        "description": "Track purchases"
+      },
+      "products": {
+        "title": "Products",
+        "description": "Keep shopping"
+      }
+    }
+  },
+  "mobileProfileEdit": {
+    "title": "Edit personal information",
+    "description": "Update your name, phone number, and email"
+  },
+  "mobileDashboard": {
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "statusActive": "Active now",
+    "settingsHint": "Complete your settings to keep your account safer",
+    "orders": {
+      "title": "My purchases",
+      "viewAll": "View purchase history",
+      "items": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "reviews": "Reviews"
+      }
+    },
+    "utilities": {
+      "title": "My utilities",
+      "items": {
+        "settings": "Settings",
+        "profile": "Profile",
+        "coupons": "Coupon center",
+        "wishlist": "Wishlist"
+      }
+    },
+    "security": {
+      "title": "Account & security",
+      "items": {
+        "personal": "Personal information",
+        "accountSettings": "Account settings",
+        "security": "Security",
+        "support": "Support",
+        "logout": "Log out"
+      }
+    }
+  },
   "avatar": {
     "alt": "Avatar",
     "change": "Change profile picture",
@@ -43,6 +109,7 @@
     "noLastLogin": "None"
   },
   "form": {
+    "back": "Back",
     "fullName": "Full name",
     "fullNamePlaceholder": "Enter your full name",
     "fullNameRequired": "Please enter your full name!",

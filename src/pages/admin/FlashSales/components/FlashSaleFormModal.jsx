@@ -26,6 +26,7 @@ export default function FlashSaleFormModal({
     value: product._id,
     label: getLocalizedProductTitle(product, language, product.title || t('form.fields.products.loading'))
   }))
+  const popupClassName = 'admin-flash-sales-popup'
 
   return (
     <Modal
@@ -48,6 +49,7 @@ export default function FlashSaleFormModal({
       okButtonProps={{ className: primaryButtonClass }}
       cancelButtonProps={{ className: secondaryButtonClass }}
       destroyOnClose
+      style={{ top: 48 }}
     >
       <div className="space-y-4">
         <div>
@@ -92,7 +94,7 @@ export default function FlashSaleFormModal({
               className="w-full !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]"
               format="YYYY-MM-DD HH:mm"
               placeholder={t('form.fields.startAt.placeholder')}
-              getPopupContainer={trigger => trigger.parentNode}
+              popupClassName={popupClassName}
             />
           </div>
 
@@ -107,7 +109,7 @@ export default function FlashSaleFormModal({
               className="w-full !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]"
               format="YYYY-MM-DD HH:mm"
               placeholder={t('form.fields.endAt.placeholder')}
-              getPopupContainer={trigger => trigger.parentNode}
+              popupClassName={popupClassName}
             />
           </div>
         </div>
@@ -158,7 +160,7 @@ export default function FlashSaleFormModal({
             onChange={value => onChange('products', value)}
             className="w-full !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text)] placeholder:!text-[var(--admin-text-subtle)]"
             optionFilterProp="label"
-            getPopupContainer={trigger => trigger.parentNode}
+            popupClassName={popupClassName}
             loading={productLoading}
             options={productOptions}
           />

@@ -1,21 +1,21 @@
 {
   "seo": {
-    "title": "Blog / News - SmartMall",
-    "description": "Latest news, buying guides, and product tips from SmartMall."
+    "title": "Blog - SmartMall",
+    "description": "Smart shopping guides, product tips, deal advice, and SmartMall updates."
   },
   "page": {
-    "eyebrow": "Blog / News",
-    "title": "Latest updates from SmartMall",
-    "description": "Read product updates, buying guides, and practical notes for a better shopping experience."
+    "eyebrow": "Smart shopping hub",
+    "title": "Buy better, find better deals",
+    "description": "Practical guides for choosing accounts, games, software, and digital services with more confidence."
   },
   "filters": {
-    "keyword": "Search posts",
+    "keyword": "Search guides, tips, deals...",
     "category": "Blog category",
     "all": "All"
   },
   "labels": {
     "featured": "Featured",
-    "author": "Admin",
+    "author": "SmartMall Editorial",
     "readTime": "{{count}} min read"
   },
   "stats": {
@@ -24,10 +24,12 @@
     "featured": " featured"
   },
   "sections": {
-    "featured": "Featured posts",
-    "latest": "Latest posts",
-    "popular": "Popular posts",
-    "tags": "Tags",
+    "featured": "Recommended reads",
+    "latest": "Latest articles",
+    "latestHint": "Buying guides, product tips, and fresh updates",
+    "popular": "Most read",
+    "popularHint": "Content shoppers care about most",
+    "tags": "Topics",
     "toc": "Table of contents",
     "relatedProducts": "Related products",
     "relatedPosts": "Related posts"
@@ -37,10 +39,18 @@
     "blog": "Blog"
   },
   "detail": {
+    "share": "Share",
     "ctaTitle": "Need the right product?",
     "ctaDescription": "Explore SmartMall categories for accounts, games, and software deals.",
     "ctaAction": "View products",
     "productPlaceholder": "Suggested product"
+  },
+  "cta": {
+    "eyebrow": "SmartMall Deals",
+    "title": "Ready to shop smarter?",
+    "description": "Explore digital products, accounts, and flash-sale offers available now on SmartMall.",
+    "products": "View products",
+    "flashSale": "View flash sale"
   },
   "actions": {
     "read": "Read post",

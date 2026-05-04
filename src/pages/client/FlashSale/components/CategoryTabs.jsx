@@ -14,15 +14,15 @@ export default function CategoryTabs({
   t
 }) {
   return (
-    <div className="sticky top-0 z-30 -mx-4 border-b border-slate-200 bg-slate-50/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div className="flex h-12 items-center gap-2">
+    <div className="sticky top-0 z-30 -mx-4 border-b border-slate-200 bg-white/95 px-4 py-2.5 backdrop-blur dark:border-slate-700 dark:bg-gray-800/95 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      <div className="flex h-10 items-center gap-2">
         <button
           type="button"
           onClick={() => onScrollTabs('prev')}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-700 dark:bg-gray-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
           aria-label={t('category.prev')}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-4 w-4" />
         </button>
 
         <div
@@ -32,7 +32,7 @@ export default function CategoryTabs({
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
           onClickCapture={onClickCapture}
-          className={`flex h-12 flex-1 touch-pan-y items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          className={`flex h-10 flex-1 touch-pan-y items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
             isDraggingTabs ? 'cursor-grabbing select-none' : 'cursor-grab'
           }`}
         >
@@ -45,10 +45,10 @@ export default function CategoryTabs({
                 key={category.key}
                 type="button"
                 onClick={() => onCategoryChange(category.key)}
-                className={`inline-flex h-12 shrink-0 items-center gap-2 rounded-lg border px-3.5 text-sm font-bold transition-all ${
+                className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-all ${
                   active
                     ? 'border-red-600 bg-red-600 text-white shadow-sm'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300'
+                    : 'border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-700 dark:bg-gray-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -61,10 +61,10 @@ export default function CategoryTabs({
         <button
           type="button"
           onClick={() => onScrollTabs('next')}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 dark:border-slate-700 dark:bg-gray-900 dark:text-slate-300 dark:hover:bg-red-500/10 dark:hover:text-red-300"
           aria-label={t('category.next')}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4" />
         </button>
       </div>
     </div>

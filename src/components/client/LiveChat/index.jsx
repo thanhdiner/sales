@@ -293,7 +293,7 @@ export default function LiveChat() {
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             style={{ transformOrigin: 'bottom right' }}
-            className="fixed bottom-4 right-4 z-[1050] flex w-[calc(100vw-2rem)] max-w-[360px] items-center gap-3 rounded-2xl border border-gray-200 bg-white px-3 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.16)] dark:border-gray-800 dark:bg-gray-900 md:bottom-5 md:right-5 lg:bottom-6 lg:right-6"
+            className="fixed inset-x-3 bottom-[5.5rem] z-[1050] flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-3 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.16)] dark:border-gray-800 dark:bg-gray-900 md:inset-x-auto md:bottom-5 md:right-5 md:w-[360px] lg:bottom-6 lg:right-6"
           >
             <button
               type="button"
@@ -348,7 +348,7 @@ export default function LiveChat() {
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={{ transformOrigin: 'bottom right' }}
-            className="fixed bottom-4 right-4 z-[1050] flex h-[530px] w-[360px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_40px_rgba(0,0,0,0.18)] dark:border-gray-800 dark:bg-gray-900 md:bottom-5 md:right-5 lg:bottom-6 lg:right-6"
+            className="fixed inset-x-3 bottom-[5.5rem] z-[1050] flex h-[min(530px,calc(100dvh-7rem))] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_8px_40px_rgba(0,0,0,0.18)] dark:border-gray-800 dark:bg-gray-900 md:inset-x-auto md:bottom-5 md:right-5 md:h-[530px] md:w-[360px] lg:bottom-6 lg:right-6"
           >
             {/* ── HOME VIEW ─────────────────────────────────────────────── */}
             {view === 'home' && (

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
 import { getPromoCodes } from '@/services/client/commerce/promoCode'
 import CouponGrid from './components/CouponGrid'
@@ -93,6 +94,7 @@ const Coupon = () => {
       <SEO title={t('page.seo.title')} description={t('page.seo.description')} />
 
       <div className="mx-auto max-w-7xl">
+        <MobileBackButton />
         <CouponsHero />
         <CouponsSearchCard searchText={searchText} onSearchChange={setSearchText} resultCount={filteredCoupons.length} />
         <CouponsTabsCard activeTab={activeTab} onTabChange={setActiveTab} />

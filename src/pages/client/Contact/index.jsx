@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
 import SEO from '@/components/shared/SEO'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getContactPageContent } from '@/services/client/content/contactPage'
@@ -34,12 +35,22 @@ const Contact = () => {
   }, [])
 
   return (
-    <main className="contact-themed min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
+    <main className="contact-themed min-h-screen overflow-hidden rounded-tl-[8px] rounded-tr-[8px] bg-white shadow dark:bg-gray-800">
       <SEO title={content.seo.title} description={content.seo.description} url="https://smartmall.site/contact" />
 
       <ContactBackground />
 
       <div className="relative z-10">
+        <div className="mx-auto max-w-7xl px-4 pt-5">
+          <ClientBreadcrumb
+            label={t('breadcrumb.label')}
+            items={[
+              { label: t('breadcrumb.home'), to: '/' },
+              { label: t('breadcrumb.contact') }
+            ]}
+          />
+        </div>
+
         <Hero isVisible={isVisible} content={content.hero} links={content.links} />
         <ContactHighlights section={content.highlightsSection} />
         <ContactMethods section={content.contactMethodsSection} />

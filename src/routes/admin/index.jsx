@@ -11,6 +11,8 @@ import { adminRouteRegistry } from './registry'
 export { adminRouteRegistry }
 
 export const adminPageRoutes = flattenRoutes(adminRouteRegistry)
+const adminShellRoutes = adminPageRoutes.filter(route => route.shell !== false)
+const adminStandaloneRoutes = adminPageRoutes.filter(route => route.shell === false)
 export const adminMenuConfig = adminRouteRegistry.map(toMenuConfig).filter(Boolean)
 
 const AdminRouteFallback = () => (
@@ -60,9 +62,13 @@ export const adminRoutes = [
     ),
     children: [
       { index: true, element: <Navigate to="/admin/dashboard" replace /> },
-      ...adminPageRoutes.map(createAdminRoute),
+      ...adminShellRoutes.map(createAdminRoute),
       { path: '403', element: <AccessDenied /> },
       { path: '*', element: <Error404 path="/admin/dashboard" /> }
     ]
-  }
+  },
+  ...adminStandaloneRoutes.map(route => ({
+    path: `/admin/${route.path}`,
+    element: renderAdminRouteElement(route)
+  }))
 ]

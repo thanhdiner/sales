@@ -50,7 +50,8 @@ function Products() {
               filterInitialValues,
               columnsVisible,
               setColumnsVisible,
-              products
+              products,
+              fetchData
             }}
           />
 

@@ -3,6 +3,11 @@
     "title": "About SmartMall",
     "description": "SmartMall – A small shop specializing in game accounts and licensed software. Trusted, transparent, fairly priced, and supported with care."
   },
+  "breadcrumb": {
+    "label": "About breadcrumb",
+    "home": "Home",
+    "about": "About"
+  },
   "ownerSection": {
     "title": "Who is behind the shop",
     "paragraphs": [

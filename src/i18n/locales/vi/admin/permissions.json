@@ -19,8 +19,11 @@
   },
   "stats": {
     "total": "T\u1ed5ng",
+    "totalHint": "T\u1ea5t c\u1ea3 quy\u1ec1n h\u1ec7 th\u1ed1ng",
     "active": "\u0110ang ho\u1ea1t \u0111\u1ed9ng",
-    "inactive": "T\u1ea1m d\u1eebng"
+    "activeHint": "C\u00f3 th\u1ec3 g\u00e1n cho vai tr\u00f2",
+    "inactive": "T\u1ea1m d\u1eebng",
+    "inactiveHint": "Quy\u1ec1n \u0111ang t\u1eaft"
   },
   "status": {
     "active": "\u0110ang ho\u1ea1t \u0111\u1ed9ng",

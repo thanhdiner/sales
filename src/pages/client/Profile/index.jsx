@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { updateProfile as reduxUpdateProfile } from '@/stores/client/user'
 import { getClientMe } from '@/services/client/auth/user'
+import ClientBreadcrumb from '@/components/client/Breadcrumb'
+import MobileBackButton from '@/components/shared/MobileBackButton'
 import SEO from '@/components/shared/SEO'
+import AccountHub from './sections/AccountHub'
 import CheckoutProfileCard from './sections/CheckoutProfileCard'
 import EmailUpdateModal from './components/EmailUpdateModal'
 import EmailWarningBanner from './components/EmailWarningBanner'
@@ -88,15 +91,53 @@ function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-white px-4 py-10 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 px-4 py-6 dark:bg-gray-900 lg:bg-white lg:py-10">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-6xl">
-        <ProfileHeader t={t} />
+        <ClientBreadcrumb
+          className="mb-4 hidden lg:flex"
+          label={t('breadcrumb.label')}
+          items={[
+            { label: t('breadcrumb.home'), to: '/' },
+            { label: t('breadcrumb.profile') }
+          ]}
+        />
+
+        <div className="hidden lg:block">
+          <ProfileHeader t={t} />
+        </div>
+
+        <MobileBackButton label={t('form.back')} />
 
         <EmailWarningBanner emailWarning={emailWarning} onChangeEmail={handleChangeEmail} t={t} />
 
-        <div className="grid grid-cols-1 gap-7 lg:grid-cols-12">
+        <div className="hidden lg:block">
+          <AccountHub t={t} />
+        </div>
+
+        <div className="space-y-4 lg:hidden">
+          <ProfileSummaryCard
+            avatarPreview={avatarPreview}
+            inputRef={inputRef}
+            onFileChange={handleFileChange}
+            onRemoveAvatar={handleRemoveAvatar}
+            t={t}
+            user={user}
+          />
+
+          <ProfileDetailsCard
+            form={form}
+            loading={loading}
+            onChangeEmail={handleChangeEmail}
+            onEmailUpdated={handleEmailUpdated}
+            onSaveProfile={handleSaveProfile}
+            t={t}
+            user={user}
+          />
+        </div>
+
+        <div className="hidden grid-cols-1 gap-7 lg:grid lg:grid-cols-12">
           <ProfileSummaryCard
             avatarPreview={avatarPreview}
             inputRef={inputRef}

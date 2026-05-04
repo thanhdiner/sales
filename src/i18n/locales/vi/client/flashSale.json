@@ -3,6 +3,11 @@
     "title": "Flash Sale – Giảm giá sốc",
     "description": "Flash Sale SmartMall – Giảm giá sốc mỗi ngày, số lượng có hạn. Nhanh tay sắm tài khoản game và phần mềm bản quyền giá tốt nhất!"
   },
+  "breadcrumb": {
+    "label": "Đường dẫn Flash Sale",
+    "home": "Trang chủ",
+    "flashSale": "Flash Sale"
+  },
   "category": {
     "all": "Tất cả",
     "uncategorized": "Chưa phân loại",

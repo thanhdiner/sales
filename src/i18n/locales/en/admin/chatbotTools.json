@@ -11,8 +11,11 @@
   },
   "stats": {
     "totalTools": "Total tools",
+    "totalToolsHint": "Available backend tools",
     "enabledTools": "Enabled",
-    "disabledTools": "Disabled"
+    "enabledToolsHint": "Allowed in agent runtime",
+    "disabledTools": "Disabled",
+    "disabledToolsHint": "Blocked from agent runtime"
   },
   "table": {
     "title": "Built-in tools",

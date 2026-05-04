@@ -5,6 +5,9 @@
   "page": {
     "orderTitle": "Order {{code}}"
   },
+  "statusUpdate": {
+    "title": "Status update"
+  },
   "actions": {
     "backToOrders": "Back to order list",
     "backToList": "Back to list",

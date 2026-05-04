@@ -47,10 +47,10 @@ export default function Accounts() {
   }, [currentPage, data.length, pageSize])
 
   return (
-    <div className="admin-accounts-page min-h-full rounded-xl bg-[var(--admin-bg-soft)] p-3 text-[var(--admin-text)] sm:p-4 lg:p-6">
+    <div className="admin-accounts-page min-h-full text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
-      <div className="mx-auto max-w-7xl space-y-4 lg:space-y-5">
+      <div className="space-y-4 lg:space-y-5">
         <AccountsHeader onCreate={handleOpenCreate} />
 
         <AccountsTable
