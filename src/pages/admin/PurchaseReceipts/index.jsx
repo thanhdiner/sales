@@ -33,7 +33,7 @@ import {
   UserRound,
   XCircle
 } from 'lucide-react'
-import { PageShell, StatCard, StatGrid, TableShell, Toolbar } from '@/components/admin/ui'
+import { AdminStatusTag, PageShell, StatCard, StatGrid, TableShell, Toolbar } from '@/components/admin/ui'
 import SearchInput from '@/components/shared/SearchInput'
 import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { getProducts } from '@/services/admin/commerce/product'
@@ -526,7 +526,9 @@ export default function PurchaseReceipts() {
 
   const renderStatusTag = record => {
     const status = getReceiptStatus(record)
-    return <Tag className={`admin-purchase-receipts-status admin-purchase-receipts-status--${status}`}>{t(`statuses.${status}`, status)}</Tag>
+    const tone = status === 'cancelled' ? 'danger' : 'active'
+
+    return <AdminStatusTag tone={tone}>{t(`statuses.${status}`, status)}</AdminStatusTag>
   }
 
   const renderReceiptActions = record => {

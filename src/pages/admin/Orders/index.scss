@@ -2,6 +2,26 @@
   color: var(--admin-text);
 }
 
+html.dark .admin-orders-page .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .admin-orders-page .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover,
+html.dark .admin-orders-page .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):focus {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .admin-orders-page .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):disabled {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-subtle) !important;
+}
+
 .admin-orders-search-input {
   border-color: var(--admin-border) !important;
   background: var(--admin-surface) !important;

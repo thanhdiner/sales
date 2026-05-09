@@ -1,0 +1,37 @@
+.admin-notifications-pagination-card .ant-pagination {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-notifications-pagination-card .ant-pagination-item,
+.admin-notifications-pagination-card .ant-pagination-prev .ant-pagination-item-link,
+.admin-notifications-pagination-card .ant-pagination-next .ant-pagination-item-link,
+.admin-notifications-pagination-card .ant-pagination-jump-prev .ant-pagination-item-link,
+.admin-notifications-pagination-card .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-notifications-pagination-card .ant-pagination-item a {
+  color: inherit !important;
+}
+
+.admin-notifications-pagination-card .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent-soft) !important;
+}
+
+.admin-notifications-pagination-card .ant-pagination-item-active a {
+  color: var(--admin-accent) !important;
+  font-weight: 600;
+}
+
+.admin-notifications-pagination-card .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-notifications-pagination-card .ant-select-arrow {
+  color: var(--admin-text-muted) !important;
+}

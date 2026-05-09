@@ -9,6 +9,7 @@ import {
   getDashboardSummary,
   getDashboardTopCustomers
 } from '@/services/admin/dashboard/dashboard'
+import { getProducts } from '@/services/admin/commerce/product'
 import { normalizeDashboardPayload } from '../utils/dashboardTransforms'
 
 const DASHBOARD_GC_TIME = 30 * 60 * 1000
@@ -21,6 +22,7 @@ const RECENT_ORDERS_DELAY = 900
 const TOP_CUSTOMERS_LIMIT = 5
 const RECENT_ORDERS_LIMIT = 10
 const BEST_SELLING_PRODUCTS_LIMIT = 5
+const LOW_STOCK_PRODUCTS_LIMIT = 5
 const EMPTY_DASHBOARD_DATA = normalizeDashboardPayload({})
 
 const baseDashboardQueryOptions = {
@@ -50,7 +52,7 @@ function useDelayedDashboardBlocks(summaryReady) {
   return { secondaryEnabled, recentOrdersEnabled }
 }
 
-export function useDashboardData(dateRange) {
+export function useDashboardData(dateRange, lowStockThreshold = 5) {
   const language = useCurrentLanguage()
 
   const summaryQuery = useQuery({
@@ -72,7 +74,8 @@ export function useDashboardData(dateRange) {
       const normalized = normalizeDashboardPayload(res?.data, language)
       return {
         salesData: normalized.salesData,
-        categoryData: normalized.categoryData
+        categoryData: normalized.categoryData,
+        paymentMethodData: normalized.paymentMethodData
       }
     },
     enabled: secondaryEnabled,
@@ -92,9 +95,9 @@ export function useDashboardData(dateRange) {
   })
 
   const bestSellingProductsQuery = useQuery({
-    queryKey: adminQueryKeys.dashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language),
+    queryKey: adminQueryKeys.dashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language, dateRange),
     queryFn: async () => {
-      const res = await getDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language)
+      const res = await getDashboardBestSellingProducts(BEST_SELLING_PRODUCTS_LIMIT, language, dateRange)
       return normalizeDashboardPayload(res?.data, language).topProducts
     },
     enabled: secondaryEnabled,
@@ -113,13 +116,34 @@ export function useDashboardData(dateRange) {
     ...baseDashboardQueryOptions
   })
 
+  const lowStockProductsQuery = useQuery({
+    queryKey: adminQueryKeys.dashboardLowStockProducts(LOW_STOCK_PRODUCTS_LIMIT, language, lowStockThreshold),
+    queryFn: async () => {
+      const res = await getProducts({ page: 1, limit: 100, sortField: 'stock', sortOrder: 'asc' })
+      return (res?.products || [])
+        .map(product => ({
+          id: product._id || product.id,
+          name: product.title?.[language] || product.title || product.name || 'Product',
+          thumbnail: product.thumbnail || product.images?.[0],
+          stock: Number(product.stock) || 0,
+          status: product.status
+        }))
+        .filter(product => product.stock <= lowStockThreshold)
+        .slice(0, LOW_STOCK_PRODUCTS_LIMIT)
+    },
+    enabled: secondaryEnabled,
+    staleTime: TOP_LISTS_STALE_TIME,
+    ...baseDashboardQueryOptions
+  })
+
   useEffect(() => {
     const error =
       summaryQuery.error ||
       chartsQuery.error ||
       topCustomersQuery.error ||
       bestSellingProductsQuery.error ||
-      recentOrdersQuery.error
+      recentOrdersQuery.error ||
+      lowStockProductsQuery.error
 
     if (error) {
       console.error('Failed to load dashboard:', error)
@@ -127,6 +151,7 @@ export function useDashboardData(dateRange) {
   }, [
     bestSellingProductsQuery.error,
     chartsQuery.error,
+    lowStockProductsQuery.error,
     recentOrdersQuery.error,
     summaryQuery.error,
     topCustomersQuery.error
@@ -152,21 +177,33 @@ export function useDashboardData(dateRange) {
     : recentOrdersEnabled
       ? recentOrdersQuery.isLoading
       : true
+  const lowStockProductsLoading = lowStockProductsQuery.data
+    ? false
+    : secondaryEnabled
+      ? lowStockProductsQuery.isLoading
+      : true
+  const dashboardQueries = [summaryQuery, chartsQuery, topCustomersQuery, bestSellingProductsQuery, recentOrdersQuery, lowStockProductsQuery]
+  const refreshing = dashboardQueries.some(query => query.isFetching) && !summaryQuery.isLoading
 
   return {
     loading: summaryQuery.isLoading,
-    refreshing: summaryQuery.isFetching && !summaryQuery.isLoading,
+    refreshing,
+    refresh: () => dashboardQueries.forEach(query => query.refetch()),
+    lastUpdatedAt: summaryQuery.dataUpdatedAt ? new Date(summaryQuery.dataUpdatedAt) : null,
     statsLoading: summaryQuery.isLoading,
     chartsLoading,
     topCustomersLoading,
     topProductsLoading,
     recentOrdersLoading,
+    lowStockProductsLoading,
     statsData: summaryQuery.data || EMPTY_DASHBOARD_DATA.statsData,
     salesData: chartsQuery.data?.salesData || EMPTY_DASHBOARD_DATA.salesData,
     categoryData: chartsQuery.data?.categoryData || EMPTY_DASHBOARD_DATA.categoryData,
+    paymentMethodData: chartsQuery.data?.paymentMethodData || EMPTY_DASHBOARD_DATA.paymentMethodData,
     recentOrders: recentOrdersQuery.data || EMPTY_DASHBOARD_DATA.recentOrders,
     topCustomers: topCustomersQuery.data || EMPTY_DASHBOARD_DATA.statsData.topCustomers,
-    topProducts: bestSellingProductsQuery.data || EMPTY_DASHBOARD_DATA.topProducts
+    topProducts: bestSellingProductsQuery.data || EMPTY_DASHBOARD_DATA.topProducts,
+    lowStockProducts: lowStockProductsQuery.data || []
   }
 }
 

@@ -51,6 +51,25 @@
   gap: 8px;
 }
 
+html.dark .admin-blog-header__actions .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous),
+html.dark .admin-blog-edit-header__actions .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous),
+html.dark .admin-blog-toolbar .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous),
+html.dark .admin-blog-table-btn.ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .admin-blog-header__actions .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover,
+html.dark .admin-blog-edit-header__actions .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover,
+html.dark .admin-blog-toolbar .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover,
+html.dark .admin-blog-table-btn.ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
 .admin-blog-button-icon {
   width: 15px;
   height: 15px;
@@ -282,15 +301,38 @@
   color: var(--admin-text-subtle);
 }
 
-.admin-blog-status-tag.ant-tag {
-  margin: 0;
-  font-weight: 700;
+.admin-blog-table.ant-table-wrapper .ant-table-selection-column {
+  width: 64px;
+  min-width: 64px;
 }
 
-html.dark .admin-blog-status-tag.ant-tag {
-  border-color: color-mix(in srgb, #52c41a 55%, var(--admin-border)) !important;
-  background: color-mix(in srgb, #52c41a 16%, var(--admin-surface-2)) !important;
-  color: #8ee66d !important;
+.admin-blog-selection-hitbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.admin-blog-selection-hitbox .ant-checkbox-wrapper {
+  pointer-events: none;
+}
+
+.admin-blog-selection-hitbox .ant-checkbox {
+  transform: scale(1.15);
+}
+
+.admin-blog-table.ant-table-wrapper .ant-table-thead .ant-table-selection-column .ant-checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.admin-blog-table.ant-table-wrapper .ant-table-thead .ant-table-selection-column .ant-checkbox {
+  transform: scale(1.15);
 }
 
 html.dark .blog-category-drawer .ant-drawer-content,
@@ -417,6 +459,48 @@ html.dark .admin-blog-table-btn.ant-btn-dangerous {
 
 .admin-blog-table.ant-table-wrapper .ant-table-tbody > tr:hover > td {
   background: var(--admin-surface-2) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination {
+  color: var(--admin-text-muted) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-total-text {
+  color: var(--admin-text-muted) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-item,
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-prev .ant-pagination-item-link,
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-next .ant-pagination-item-link,
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-jump-prev .ant-pagination-item-link,
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-jump-next .ant-pagination-item-link {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-item a {
+  color: inherit !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-item-active {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent-soft) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-pagination-item-active a {
+  color: var(--admin-accent) !important;
+  font-weight: 600;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .admin-blog-table.ant-table-wrapper .ant-select-arrow {
+  color: var(--admin-text-muted) !important;
 }
 
 .admin-blog-modal {

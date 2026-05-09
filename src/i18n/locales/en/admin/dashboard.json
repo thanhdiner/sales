@@ -4,7 +4,8 @@
   },
   "header": {
     "title": "Control center",
-    "online": "Live",
+    "updated": "Updated {{time}}",
+    "refresh": "Refresh dashboard",
     "today": "Today: {{date}}"
   },
   "dateRanges": {
@@ -58,6 +59,12 @@
     "totalOrders": "Total orders",
     "todayActivity": "Today's activity",
     "empty": "No data yet",
+    "paymentMethods": {
+      "title": "Top payment methods",
+      "total": "Total",
+      "actions": "Payment method options",
+      "empty": "No payment data yet"
+    },
     "rows": {
       "customers": "Customers",
       "orders": "Orders",
@@ -72,6 +79,26 @@
       "newProducts": "New product added",
       "todayRevenue": "Today's revenue",
       "newThisWeek": "New this week: {{count}}"
+    },
+    "funnel": {
+      "title": "Conversion funnel",
+      "visitors": "Visitors",
+      "productViews": "Product views",
+      "addToCart": "Add to cart",
+      "orders": "Orders",
+      "completed": "Completed"
+    },
+    "stock": {
+      "title": "Stock attention",
+      "threshold": "≤ 5 left",
+      "changeThreshold": "Change threshold",
+      "thresholdOption": "≤ {{count}} left",
+      "low": "Low stock",
+      "out": "Out of stock",
+      "total": "Total items",
+      "items": "Items to restock",
+      "left": "{{count}} left",
+      "empty": "No low-stock products"
     }
   },
   "activity": {
@@ -81,6 +108,28 @@
     "emptyOrders": "No recent orders yet",
     "fallbackCustomer": "Customer",
     "customerOrders": "{{amount}} - {{count}} orders"
+  },
+  "pendingActions": {
+    "title": "Pending actions",
+    "total": "{{count}} total",
+    "subtitle": "Needs attention",
+    "orders": {
+      "title": "Orders to confirm",
+      "subtitle": "Pending confirmation"
+    },
+    "refunds": {
+      "title": "Refunds",
+      "subtitle": "Waiting for refund handling"
+    },
+    "receipts": {
+      "title": "Receipts",
+      "subtitle": "Waiting for receipt review"
+    },
+    "reviews": {
+      "title": "Reviews",
+      "subtitle": "Unanswered visible reviews"
+    },
+    "viewAll": "View all"
   },
   "topProducts": {
     "productsTitle": "Top products",

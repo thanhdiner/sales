@@ -1,4 +1,5 @@
-import { message, Modal, Tag } from 'antd'
+import { message, Modal } from 'antd'
+import { AdminStatusTag } from '@/components/admin/ui'
 import { toggleProductCategoryStatus } from '@/services/admin/commerce/productCategory'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { getLocalizedProductCategoryTitle } from '../../utils/productCategoryLocalization'
@@ -14,22 +15,19 @@ function FieldStatus({ status, record, setProductCategories }) {
   const permissions = useAdminPermissions()
   const language = i18n.resolvedLanguage || i18n.language
   const categoryTitle = getLocalizedProductCategoryTitle(record, language, record.title || '')
-  const isActive = status === 'active'
+  const statusTone = status === 'active' ? 'active' : 'inactive'
   const currentStatusLabel = t(`status.${status}`, { defaultValue: status })
   const nextStatus = status === 'active' ? 'inactive' : 'active'
   const nextStatusLabel = t(`status.${nextStatus}`)
 
-  const tagClassName = `admin-product-categories-status-tag ${
-    isActive ? 'admin-product-categories-status-tag--active' : 'admin-product-categories-status-tag--inactive'
-  }`
-
   if (!permissions.includes('edit_product_category')) {
-    return <Tag className={tagClassName}>{currentStatusLabel}</Tag>
+    return <AdminStatusTag tone={statusTone}>{currentStatusLabel}</AdminStatusTag>
   }
 
   return (
-    <Tag
-      className={`${tagClassName} admin-product-categories-status-tag--clickable`}
+    <AdminStatusTag
+      tone={statusTone}
+      className="admin-status-tag--clickable"
       onClick={() => {
         Modal.confirm({
           title: t('table.changeStatusTitle'),
@@ -67,7 +65,7 @@ function FieldStatus({ status, record, setProductCategories }) {
       }}
     >
       {currentStatusLabel}
-    </Tag>
+    </AdminStatusTag>
   )
 }
 

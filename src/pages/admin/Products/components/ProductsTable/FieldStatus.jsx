@@ -1,4 +1,5 @@
-import { message, Modal, Tag } from 'antd'
+import { message, Modal } from 'antd'
+import { AdminStatusTag } from '@/components/admin/ui'
 import { toggleProductStatus } from '@/services/admin/commerce/product'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { getLocalizedProductTitle } from '../../utils/productLocalization'
@@ -13,22 +14,20 @@ function FieldStatus({ status, record, setProducts }) {
   const { t, i18n } = useTranslation('adminProducts')
   const permission = useAdminPermissions()
   const language = i18n.resolvedLanguage || i18n.language
-  const statusClassName =
-    status === 'active'
-      ? 'admin-products-status-tag admin-products-status-tag--active'
-      : 'admin-products-status-tag admin-products-status-tag--inactive'
+  const statusTone = status === 'active' ? 'active' : 'inactive'
   const nextStatus = status === 'active' ? 'inactive' : 'active'
   const statusLabel = t(`status.${status}`)
   const nextStatusLabel = t(`status.${nextStatus}`)
   const productTitle = getLocalizedProductTitle(record, language, record.title || t('details.untitledProduct'))
 
   if (!permission.includes('edit_product')) {
-    return <Tag className={statusClassName}>{statusLabel}</Tag>
+    return <AdminStatusTag tone={statusTone}>{statusLabel}</AdminStatusTag>
   }
 
   return (
-    <Tag
-      className={`${statusClassName} admin-products-status-tag--clickable`}
+    <AdminStatusTag
+      tone={statusTone}
+      className="admin-status-tag--clickable"
       onClick={() => {
         Modal.confirm({
           className: 'admin-products-confirm-modal',
@@ -69,7 +68,7 @@ function FieldStatus({ status, record, setProducts }) {
       }}
     >
       {statusLabel}
-    </Tag>
+    </AdminStatusTag>
   )
 }
 

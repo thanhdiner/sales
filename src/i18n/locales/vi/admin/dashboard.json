@@ -4,7 +4,8 @@
   },
   "header": {
     "title": "Trung tâm điều khiển",
-    "online": "Trực tuyến",
+    "updated": "Cập nhật {{time}}",
+    "refresh": "Làm mới dashboard",
     "today": "Hôm nay: {{date}}"
   },
   "dateRanges": {
@@ -58,6 +59,12 @@
     "totalOrders": "Tổng đơn",
     "todayActivity": "Hoạt động hôm nay",
     "empty": "Chưa có dữ liệu",
+    "paymentMethods": {
+      "title": "Top phương thức thanh toán",
+      "total": "Tổng",
+      "actions": "Tùy chọn phương thức thanh toán",
+      "empty": "Chưa có dữ liệu thanh toán"
+    },
     "rows": {
       "customers": "Khách hàng",
       "orders": "Đơn hàng",
@@ -72,6 +79,26 @@
       "newProducts": "Sản phẩm mới được thêm",
       "todayRevenue": "Doanh thu hôm nay",
       "newThisWeek": "Mới tuần này: {{count}}"
+    },
+    "funnel": {
+      "title": "Phễu chuyển đổi",
+      "visitors": "Khách truy cập",
+      "productViews": "Lượt xem sản phẩm",
+      "addToCart": "Thêm vào giỏ",
+      "orders": "Đơn hàng",
+      "completed": "Hoàn thành"
+    },
+    "stock": {
+      "title": "Cần nhập hàng",
+      "threshold": "Còn ≤ 5",
+      "changeThreshold": "Đổi ngưỡng cảnh báo",
+      "thresholdOption": "Còn ≤ {{count}}",
+      "low": "Sắp hết hàng",
+      "out": "Hết hàng",
+      "total": "Tổng mục",
+      "items": "Sản phẩm cần nhập",
+      "left": "Còn {{count}}",
+      "empty": "Không có sản phẩm sắp hết hàng"
     }
   },
   "activity": {
@@ -81,6 +108,28 @@
     "emptyOrders": "Chưa có đơn hàng gần đây",
     "fallbackCustomer": "Khách hàng",
     "customerOrders": "{{amount}} - {{count}} đơn"
+  },
+  "pendingActions": {
+    "title": "Cần xử lý",
+    "subtitle": "Cần xử lý ngay",
+    "orders": {
+      "title": "Đơn chờ xác nhận",
+      "subtitle": "Chờ xác nhận đơn"
+    },
+    "refunds": {
+      "title": "Hoàn tiền",
+      "subtitle": "Chờ xử lý hoàn tiền"
+    },
+    "receipts": {
+      "title": "Biên lai",
+      "subtitle": "Chờ kiểm tra biên lai"
+    },
+    "reviews": {
+      "title": "Review",
+      "subtitle": "Review hiển thị chưa phản hồi"
+    },
+    "viewAll": "Xem tất cả",
+    "total": "{{count}} tổng"
   },
   "topProducts": {
     "productsTitle": "Sản phẩm nổi bật",

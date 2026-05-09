@@ -24,8 +24,8 @@ export const getRecentOrders = (limit = 10, language) => {
   return get(appendLanguage(`admin/dashboard/recent-orders?limit=${limit}`, language))
 }
 
-export const getBestSellingProducts = (limit = 5, language) => {
-  return get(appendLanguage(`admin/dashboard/best-selling-products?limit=${limit}`, language))
+export const getBestSellingProducts = (limit = 5, language, range = '7days') => {
+  return get(appendLanguage(`admin/dashboard/best-selling-products?limit=${limit}&range=${range}`, language))
 }
 
 export const getDashboardSummary = getSummary

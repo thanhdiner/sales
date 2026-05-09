@@ -95,6 +95,21 @@ html.dark .admin-login-page {
   color: inherit !important;
 }
 
+.admin-login-input.ant-input:-webkit-autofill,
+.admin-login-input.ant-input:-webkit-autofill:hover,
+.admin-login-input.ant-input:-webkit-autofill:focus,
+.admin-login-input.ant-input-affix-wrapper .ant-input:-webkit-autofill,
+.admin-login-input.ant-input-affix-wrapper .ant-input:-webkit-autofill:hover,
+.admin-login-input.ant-input-affix-wrapper .ant-input:-webkit-autofill:focus,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:-webkit-autofill,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:-webkit-autofill:hover,
+.admin-login-input.ant-input-affix-wrapper input.ant-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--admin-login-surface-2) inset !important;
+  -webkit-text-fill-color: var(--admin-login-text) !important;
+  caret-color: var(--admin-login-text) !important;
+  border: 0 !important;
+}
+
 .admin-login-input.ant-input-affix-wrapper .ant-input:hover,
 .admin-login-input.ant-input-affix-wrapper .ant-input:focus,
 .admin-login-input.ant-input-affix-wrapper .ant-input:focus-visible,

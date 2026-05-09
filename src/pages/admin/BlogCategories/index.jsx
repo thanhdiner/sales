@@ -1,9 +1,11 @@
-import { Button, Drawer, Form, Image, Input, InputNumber, Modal, Space, Switch, Table, Tag, Upload, message } from 'antd'
+import { Button, Drawer, Form, Image, Input, InputNumber, Modal, Select, Space, Switch, Table, Tag, Upload, message } from 'antd'
 import { UploadCloud } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import SEO from '@/components/shared/SEO'
+import SearchInput from '@/components/shared/SearchInput'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
+import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { uploadBlogMedia } from '@/services/admin/content/blog'
 import { createBlogCategory, deleteBlogCategory, getBlogCategories, updateBlogCategory } from '@/services/admin/content/blogCategory'
 import { translateContentToEnglish } from '@/services/admin/content/contentTranslation'
@@ -36,6 +38,15 @@ const CATEGORY_TEXT = {
       seoDescription: 'SEO description',
       sortOrder: 'Thứ tự',
       active: 'Hoạt động'
+    },
+    filters: {
+      searchPlaceholder: 'Tìm tên, slug, mô tả...',
+      status: 'Trạng thái',
+      all: 'Tất cả',
+      active: 'Hoạt động',
+      disabled: 'Đã tắt',
+      reset: 'Đặt lại',
+      total: '{{start}}-{{end}} của {{total}} danh mục'
     },
     buttons: {
       translate: 'Tự động dịch',
@@ -84,6 +95,15 @@ const CATEGORY_TEXT = {
       sortOrder: 'Sort order',
       active: 'Active'
     },
+    filters: {
+      searchPlaceholder: 'Search name, slug, description...',
+      status: 'Status',
+      all: 'All',
+      active: 'Active',
+      disabled: 'Disabled',
+      reset: 'Reset',
+      total: '{{start}}-{{end}} of {{total}} categories'
+    },
     buttons: {
       translate: 'Auto translate',
       changeThumbnail: 'Change thumbnail',
@@ -114,11 +134,33 @@ const getLocalizedCategoryName = (category, language) => {
   return category?.name || '-'
 }
 
+const categoryFilterParsers = {
+  keyword: stringFilter,
+  isActive: stringFilter
+}
+
 export default function BlogCategories() {
   const [form] = Form.useForm()
   const language = useCurrentLanguage()
   const text = CATEGORY_TEXT[language]
+  const {
+    page,
+    setPage,
+    pageSize,
+    setPageSize,
+    sortField,
+    setSortField,
+    sortOrder,
+    setSortOrder,
+    filters,
+    setFilters
+  } = useListSearchParams({
+    defaultPageSize: 10,
+    sortable: true,
+    filterParsers: categoryFilterParsers
+  })
   const [items, setItems] = useState([])
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [editing, setEditing] = useState(null)
   const [open, setOpen] = useState(false)
@@ -126,14 +168,22 @@ export default function BlogCategories() {
   const [translating, setTranslating] = useState(false)
   const [saving, setSaving] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const savingRef = useRef(false)
   const actionRef = useRef(false)
 
   const fetchItems = async () => {
     setLoading(true)
     try {
-      const response = await getBlogCategories()
+      const response = await getBlogCategories({
+        page,
+        limit: pageSize,
+        sortField,
+        sortOrder,
+        ...filters
+      })
       setItems(Array.isArray(response?.data) ? response.data : [])
+      setTotal(Number(response?.total) || 0)
     } catch {
       message.error(text.messages.loadFailed)
     } finally {
@@ -141,7 +191,7 @@ export default function BlogCategories() {
     }
   }
 
-  useEffect(() => { fetchItems() }, [])
+  useEffect(() => { fetchItems() }, [page, pageSize, sortField, sortOrder, filters])
 
   const openForm = item => {
     if (savingRef.current || actionRef.current) return
@@ -223,6 +273,22 @@ export default function BlogCategories() {
     }
   }
 
+  const handleToggleStatus = async item => {
+    if (actionRef.current) return
+    actionRef.current = true
+    setActionLoading(true)
+    try {
+      await updateBlogCategory(item._id, { isActive: !item.isActive })
+      message.success(text.messages.saved)
+      fetchItems()
+    } catch (error) {
+      message.error(error?.response?.message || error?.response?.error || text.messages.saveFailed)
+    } finally {
+      actionRef.current = false
+      setActionLoading(false)
+    }
+  }
+
   const handleDelete = item => {
     if (actionRef.current) return
     Modal.confirm({
@@ -249,6 +315,13 @@ export default function BlogCategories() {
     setOpen(false)
   }
 
+  const handleTableChange = (pagination, __, sorter) => {
+    setPage(pagination.current)
+    setPageSize(pagination.pageSize)
+    setSortField(sorter?.order ? sorter.field : null)
+    setSortOrder(sorter?.order || null)
+  }
+
   return (
     <div className="p-6">
       <SEO title={text.title} noIndex />
@@ -256,12 +329,61 @@ export default function BlogCategories() {
         <div><h1 className="text-2xl font-bold text-[var(--admin-text)]">{text.title}</h1><p className="text-[var(--admin-text-muted)]">{text.description}</p></div>
         <Button type="primary" disabled={saving || actionLoading} onClick={() => openForm(null)}>{text.addCategory}</Button>
       </div>
-      <Table className="admin-blog-table" rowKey="_id" loading={loading} dataSource={items} rowClassName="[&>td]:!align-middle" columns={[
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <SearchInput
+          className="admin-blog-search-input max-w-[320px]"
+          placeholder={text.filters.searchPlaceholder}
+          value={filters.keyword || ''}
+          onChange={event => setFilters({ ...filters, keyword: event.target.value })}
+          onClear={() => setFilters({ ...filters, keyword: '' })}
+        />
+        <Select
+          className="min-w-[160px]"
+          value={filters.isActive || 'all'}
+          options={[
+            { value: 'all', label: text.filters.all },
+            { value: 'true', label: text.filters.active },
+            { value: 'false', label: text.filters.disabled }
+          ]}
+          onChange={value => setFilters({ ...filters, isActive: value === 'all' ? '' : value })}
+        />
+        <Button onClick={() => setFilters({})}>{text.filters.reset}</Button>
+      </div>
+      <Table
+        className="admin-blog-table"
+        rowKey="_id"
+        loading={loading}
+        dataSource={items}
+        onChange={handleTableChange}
+        pagination={{
+          current: page,
+          pageSize,
+          total,
+          showSizeChanger: true,
+          showTotal: (totalItems, range) => text.filters.total.replace('{{start}}', range[0]).replace('{{end}}', range[1]).replace('{{total}}', totalItems)
+        }}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: setSelectedRowKeys,
+          renderCell: (_, __, ___, originNode) => (
+            <div
+              className="admin-blog-selection-hitbox"
+              onClick={event => {
+                if (event.target.tagName === 'INPUT') return
+                event.currentTarget.querySelector('input')?.click()
+              }}
+            >
+              {originNode}
+            </div>
+          )
+        }}
+        rowClassName="[&>td]:!align-middle"
+        columns={[
         { title: text.columns.thumbnail, dataIndex: 'thumbnail', width: 120, align: 'center', render: value => value ? <Image src={value} width={72} height={48} className="rounded object-cover" /> : '-' },
-        { title: text.columns.name, dataIndex: 'name', align: 'center', render: (_, item) => getLocalizedCategoryName(item, language) },
-        { title: text.columns.slug, dataIndex: 'slug', align: 'center' },
-        { title: text.columns.sort, dataIndex: 'sortOrder', width: 90, align: 'center' },
-        { title: text.columns.status, dataIndex: 'isActive', align: 'center', render: value => <Tag className="admin-blog-status-tag" color={value ? 'green' : 'default'}>{value ? text.status.active : text.status.disabled}</Tag> },
+        { title: text.columns.name, dataIndex: 'name', key: 'name', align: 'center', sortOrder: sortField === 'name' ? sortOrder : null, sorter: true, render: (_, item) => getLocalizedCategoryName(item, language) },
+        { title: text.columns.slug, dataIndex: 'slug', key: 'slug', align: 'center', sortOrder: sortField === 'slug' ? sortOrder : null, sorter: true },
+        { title: text.columns.sort, dataIndex: 'sortOrder', key: 'sortOrder', width: 90, align: 'center', sortOrder: sortField === 'sortOrder' ? sortOrder : null, sorter: true },
+        { title: text.columns.status, dataIndex: 'isActive', key: 'isActive', align: 'center', sortOrder: sortField === 'isActive' ? sortOrder : null, sorter: true, render: (value, item) => <Tag className={`admin-blog-status-tag ${value ? 'admin-blog-status-tag--active' : 'admin-blog-status-tag--disabled'} cursor-pointer`} color={value ? 'green' : 'default'} onClick={() => handleToggleStatus(item)}>{value ? text.status.active : text.status.disabled}</Tag> },
         { title: text.columns.actions, width: 180, align: 'center', render: (_, item) => <Space><Button className="admin-blog-table-btn" disabled={saving || actionLoading} onClick={() => openForm(item)}>{text.actions.edit}</Button><Button className="admin-blog-table-btn" danger loading={actionLoading} disabled={saving || actionLoading} onClick={() => handleDelete(item)}>{text.actions.disable}</Button></Space> }
       ]} />
       <Drawer title={editing ? text.drawer.edit : text.drawer.add} open={open} onClose={closeForm} rootClassName="blog-category-drawer" width={460}>

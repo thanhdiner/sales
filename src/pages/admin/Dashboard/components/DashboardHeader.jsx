@@ -1,6 +1,6 @@
 import React from 'react'
 import { Select } from 'antd'
-import { CalendarDays, Circle } from 'lucide-react'
+import { CalendarDays, Clock, RefreshCw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { DATE_RANGE_OPTIONS, getDashboardLocale } from '../utils/dashboardTransforms'
 
@@ -11,13 +11,22 @@ const formatToday = locale =>
     year: 'numeric'
   }).format(new Date())
 
-export default function DashboardHeader({ dateRange, loading, onDateRangeChange }) {
+const formatUpdatedTime = (date, locale) =>
+  date
+    ? new Intl.DateTimeFormat(locale, {
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(date)
+    : '--:--'
+
+export default function DashboardHeader({ dateRange, loading, lastUpdatedAt, onDateRangeChange, onRefresh, refreshing }) {
   const { t, i18n } = useTranslation('adminDashboard')
   const locale = getDashboardLocale(i18n.language)
   const dateRangeOptions = DATE_RANGE_OPTIONS.map(option => ({
     ...option,
     label: t(option.labelKey)
   }))
+  const updatedTime = formatUpdatedTime(lastUpdatedAt, locale)
 
   return (
     <div className="dashboard-header">
@@ -25,10 +34,19 @@ export default function DashboardHeader({ dateRange, loading, onDateRangeChange 
         <div className="title-section min-w-0">
           <div className="dashboard-title-row">
             <h1 className="dashboard-title">{t('header.title')}</h1>
-            <span className="dashboard-live-pill">
-              <Circle size={8} fill="currentColor" strokeWidth={0} />
-              {t('header.online')}
+            <span className="dashboard-updated-pill">
+              <Clock size={14} />
+              {t('header.updated', { time: updatedTime })}
             </span>
+            <button
+              type="button"
+              className="dashboard-refresh-btn"
+              onClick={onRefresh}
+              disabled={refreshing || loading}
+              aria-label={t('header.refresh')}
+            >
+              <RefreshCw size={15} className={refreshing ? 'dashboard-refresh-btn__icon--spinning' : undefined} />
+            </button>
           </div>
         </div>
 

@@ -1,9 +1,10 @@
 import React from 'react'
-import { Empty, Skeleton } from 'antd'
+import { Empty } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Folder, Package, TrendingDown, TrendingUp } from 'lucide-react'
 import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
+import { DashboardRowSkeleton } from './Activity'
 
 const formatNumber = (value, locale) => (Number(value) || 0).toLocaleString(locale)
 
@@ -21,13 +22,7 @@ function ProductThumb({ product }) {
 
 function ProductList({ loading, locale, topProducts, t }) {
   if (loading) {
-    return (
-      <div className="dashboard-list">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <Skeleton.Input key={index} active block className="dashboard-row-skeleton" />
-        ))}
-      </div>
-    )
+    return <DashboardRowSkeleton />
   }
 
   if (!topProducts?.length) {
@@ -64,13 +59,7 @@ function ProductList({ loading, locale, topProducts, t }) {
 
 function CategoryList({ categoryData, loading, locale, t }) {
   if (loading) {
-    return (
-      <div className="dashboard-list">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <Skeleton.Input key={index} active block className="dashboard-row-skeleton" />
-        ))}
-      </div>
-    )
+    return <DashboardRowSkeleton />
   }
 
   if (!categoryData?.length) {
@@ -81,9 +70,13 @@ function CategoryList({ categoryData, loading, locale, t }) {
     <div className="dashboard-list">
       {categoryData.slice(0, 5).map((category, index) => (
         <div className="dashboard-list-row dashboard-category-row" key={`${category.name}-${index}`}>
-          <span className="dashboard-square-icon">
-            <Folder size={17} />
-          </span>
+          {category.thumbnail ? (
+            <img className="dashboard-category-thumb" src={category.thumbnail} alt={category.name} />
+          ) : (
+            <span className="dashboard-square-icon">
+              <Folder size={17} />
+            </span>
+          )}
           <div className="dashboard-row-copy">
             <strong>{category.name || t('topProducts.categoryFallback', { number: index + 1 })}</strong>
             <span>{t('topProducts.categoryProductCount', { count: formatNumber(category.value, locale) })}</span>

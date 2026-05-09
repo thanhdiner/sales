@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Avatar, Button, Dropdown, Grid, Pagination, Space, Table, Tooltip, Typography } from 'antd'
-import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons'
-import { AdminStatusPill, AdminTablePanel } from '@/components/admin/ui'
+import { DeleteOutlined, EditOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons'
+import { AdminStatusTag, AdminTablePanel } from '@/components/admin/ui'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getLocalizedWidgetTitle } from '../utils'
 
@@ -9,9 +9,6 @@ const { Text } = Typography
 const { useBreakpoint } = Grid
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20]
-
-const getStatusTagClass = isActive =>
-  isActive ? 'admin-widgets-status-tag admin-widgets-status-tag--active' : 'admin-widgets-status-tag admin-widgets-status-tag--inactive'
 
 const truncateLink = (link, maxLength = 42) => {
   if (!link) {
@@ -137,14 +134,9 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
       key: 'isActive',
       width: 160,
       render: value => (
-        <AdminStatusPill
-          dot={false}
-          icon={value ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-          tone={value ? 'success' : 'neutral'}
-          className={getStatusTagClass(value)}
-        >
+        <AdminStatusTag tone={value ? 'active' : 'inactive'}>
           {value ? t('status.active') : t('status.inactive')}
-        </AdminStatusPill>
+        </AdminStatusTag>
       ),
       filters: [
         { text: t('status.active'), value: true },
@@ -269,14 +261,9 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
                 )}
 
                 <div className="admin-widgets-mobile-card__status-row">
-                  <AdminStatusPill
-                    icon={widget.isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                    dot={false}
-                    tone={widget.isActive ? 'success' : 'neutral'}
-                    className={getStatusTagClass(widget.isActive)}
-                  >
+                  <AdminStatusTag tone={widget.isActive ? 'active' : 'inactive'}>
                     {widget.isActive ? t('status.active') : t('status.inactive')}
-                  </AdminStatusPill>
+                  </AdminStatusTag>
                 </div>
               </article>
             ))

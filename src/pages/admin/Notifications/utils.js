@@ -63,14 +63,22 @@ export const getNotificationIcon = notification => {
   return icons[notification.type] || Bell
 }
 
+const isMongoObjectId = value => /^[a-f\d]{24}$/i.test(String(value || ''))
+const withQuery = (path, key, value) => `${path}?${key}=${encodeURIComponent(String(value || ''))}`
+
 export const getNotificationActionRoute = notification => {
   const targetId = notification.targetId
 
   if (notification.targetType === 'order' || notification.targetType === 'payment' || notification.targetType === 'refund') {
-    return targetId ? `/admin/orders/${targetId}` : '/admin/orders'
+    if (!targetId) return '/admin/orders'
+    return isMongoObjectId(targetId) ? `/admin/orders/${targetId}` : withQuery('/admin/orders', 'keyword', targetId)
   }
 
-  if (notification.targetType === 'product') return targetId ? `/admin/products/details/${targetId}` : '/admin/products'
+  if (notification.targetType === 'product') {
+    if (!targetId) return '/admin/products'
+    return isMongoObjectId(targetId) ? `/admin/products/details/${targetId}` : withQuery('/admin/products', 'productName', targetId)
+  }
+
   if (notification.targetType === 'review') return '/admin/reviews'
   if (notification.targetType === 'user') return '/admin/accounts'
   if (notification.targetType === 'system') return '/admin/dashboard'

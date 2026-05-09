@@ -192,24 +192,6 @@ body.admin-layout-active .admin-widgets-confirm-modal {
   color: var(--widgets-text-subtle) !important;
 }
 
-.admin-widgets-status-tag.ant-tag {
-  margin-inline-end: 0;
-  border-radius: 999px;
-  border: 0;
-  padding-inline: 10px;
-  font-weight: 600;
-}
-
-.admin-widgets-status-tag--active.ant-tag {
-  background: rgba(38, 162, 105, 0.16);
-  color: #26a269;
-}
-
-.admin-widgets-status-tag--inactive.ant-tag {
-  background: rgba(113, 113, 122, 0.2);
-  color: var(--widgets-text-muted);
-}
-
 .admin-widgets-btn--table.ant-btn {
   height: 30px;
   padding-inline: 10px;

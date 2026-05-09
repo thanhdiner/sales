@@ -55,7 +55,7 @@ export default function BlogForm({
           <Form.Item label={t('form.title')} name="title" rules={[{ required: true, message: t('form.titleRequired') }]}>
             <TextArea autoSize={{ minRows: 1, maxRows: 3 }} placeholder={t('form.titlePlaceholder')} maxLength={BLOG_FIELD_LIMITS.title} />
           </Form.Item>
-          <Form.Item label={t('form.slug')} name="slug" extra={t('form.slugHint')}>
+          <Form.Item label={t('form.slug')} name="slug" extra={t(mode === 'edit' ? 'form.slugEditHint' : 'form.slugCreateHint')}>
             <Input placeholder={t('form.slugPlaceholder')} maxLength={BLOG_FIELD_LIMITS.slug} />
           </Form.Item>
           <Form.Item label={t('form.excerpt')} name="excerpt" extra={getCharacterLimitHint(BLOG_FIELD_LIMITS.excerpt)}>

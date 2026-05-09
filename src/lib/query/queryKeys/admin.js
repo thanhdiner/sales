@@ -4,5 +4,6 @@ export const adminQueryKeys = {
   dashboardCharts: (range, language) => ['adminDashboard', 'charts', range, language],
   dashboardTopCustomers: (limit, language) => ['adminDashboard', 'topCustomers', limit, language],
   dashboardRecentOrders: (limit, language) => ['adminDashboard', 'recentOrders', limit, language],
-  dashboardBestSellingProducts: (limit, language) => ['adminDashboard', 'bestSellingProducts', limit, language]
+  dashboardBestSellingProducts: (limit, language, range) => ['adminDashboard', 'bestSellingProducts', limit, language, range],
+  dashboardLowStockProducts: (limit, language, threshold) => ['adminDashboard', 'lowStockProducts', limit, language, threshold]
 }

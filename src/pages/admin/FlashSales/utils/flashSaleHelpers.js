@@ -97,24 +97,17 @@ export function formatFlashSaleQuantity(sale, locale = 'vi-VN') {
 }
 
 export function getFlashSaleStatusMeta(status, t) {
-  const activeClassName =
-    'border border-[var(--admin-success-border)] bg-[var(--admin-success-bg-soft)] text-[var(--admin-success-text)]'
-  const scheduledClassName =
-    'border border-[var(--admin-info-border)] bg-[var(--admin-info-bg-soft)] text-[var(--admin-info-text)]'
-  const completedClassName =
-    'border border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text-muted)]'
-
   switch (status) {
     case 'active':
-      return { className: activeClassName, label: t?.('status.active') || 'Active' }
+      return { color: 'green', tone: 'active', label: t?.('status.active') || 'Active' }
     case 'scheduled':
-      return { className: scheduledClassName, label: t?.('status.scheduled') || 'Scheduled' }
+      return { color: 'blue', tone: 'scheduled', label: t?.('status.scheduled') || 'Scheduled' }
     case 'completed':
-      return { className: completedClassName, label: t?.('status.completed') || 'Completed' }
+      return { color: 'default', tone: 'disabled', label: t?.('status.completed') || 'Completed' }
     case 'inactive':
-      return { className: completedClassName, label: t?.('status.inactive') || 'Inactive' }
+      return { color: 'default', tone: 'disabled', label: t?.('status.inactive') || 'Inactive' }
     default:
-      return { className: completedClassName, label: t?.('status.unknown') || 'Unknown' }
+      return { color: 'default', tone: 'disabled', label: t?.('status.unknown') || 'Unknown' }
   }
 }
 

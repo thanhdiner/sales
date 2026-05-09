@@ -34,6 +34,70 @@
     padding: 10px 12px;
   }
 
+  html.dark & {
+    .ck.ck-editor {
+      --ck-color-base-foreground: var(--admin-surface-3, #1f2937);
+      --ck-color-base-background: var(--admin-surface, #111827);
+      --ck-color-base-border: var(--admin-border, #334155);
+      --ck-color-button-default-background: transparent;
+      --ck-color-button-default-hover-background: var(--admin-surface-3, #1f2937);
+      --ck-color-button-default-active-background: var(--admin-surface-3, #1f2937);
+      --ck-color-button-on-background: var(--admin-accent-soft, rgba(59, 130, 246, 0.18));
+      --ck-color-button-on-hover-background: color-mix(in srgb, var(--admin-accent-soft, rgba(59, 130, 246, 0.18)) 72%, var(--admin-surface-3));
+      --ck-color-dropdown-panel-background: var(--admin-surface-2, #111827);
+      --ck-color-panel-background: var(--admin-surface-2, #111827);
+      --ck-color-panel-border: var(--admin-border, #334155);
+      --ck-color-tooltip-background: var(--admin-surface-3, #1f2937);
+      --ck-color-tooltip-text: var(--admin-text, #f8fafc);
+    }
+
+    .ck.ck-toolbar,
+    .ck.ck-toolbar .ck-toolbar__items {
+      background: var(--admin-surface-2, #111827);
+    }
+
+    .ck.ck-button,
+    .ck.ck-dropdown__button,
+    .ck.ck-splitbutton__action,
+    .ck.ck-splitbutton__arrow {
+      border-color: transparent;
+      background: transparent;
+      color: var(--admin-text, #f8fafc);
+    }
+
+    .ck.ck-button:hover,
+    .ck.ck-button:focus,
+    .ck.ck-dropdown__button:hover,
+    .ck.ck-dropdown__button:focus,
+    .ck.ck-splitbutton__action:hover,
+    .ck.ck-splitbutton__action:focus,
+    .ck.ck-splitbutton__arrow:hover,
+    .ck.ck-splitbutton__arrow:focus {
+      border-color: var(--admin-border, #334155) !important;
+      background: var(--admin-surface-3, #1f2937) !important;
+      color: var(--admin-text, #f8fafc) !important;
+      box-shadow: none !important;
+    }
+
+    .ck.ck-button.ck-on,
+    .ck.ck-dropdown__button.ck-on,
+    .ck.ck-splitbutton__action.ck-on,
+    .ck.ck-splitbutton__arrow.ck-on {
+      border-color: color-mix(in srgb, var(--admin-accent, #3b82f6) 45%, var(--admin-border)) !important;
+      background: var(--admin-accent-soft, rgba(59, 130, 246, 0.18)) !important;
+      color: var(--admin-text, #f8fafc) !important;
+    }
+
+    .ck.ck-button .ck-icon,
+    .ck.ck-button .ck-button__label,
+    .ck.ck-dropdown__button .ck-icon,
+    .ck.ck-dropdown__button .ck-button__label,
+    .ck.ck-splitbutton__action .ck-icon,
+    .ck.ck-splitbutton__arrow .ck-icon {
+      color: inherit !important;
+    }
+  }
+
   .ck.ck-editor__main > .ck-editor__editable {
     min-height: 560px;
     border: 0;

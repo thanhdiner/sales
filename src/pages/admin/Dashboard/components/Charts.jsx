@@ -1,9 +1,9 @@
-import React from 'react'
 import { Skeleton } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { CircleDollarSign, PackagePlus, ShieldCheck, UserPlus } from 'lucide-react'
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts'
-import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
+import { CircleDollarSign, MoreHorizontal, PackagePlus, ShieldCheck, UserPlus } from 'lucide-react'
+import { Area, AreaChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from 'recharts'
+import { formatCurrency, getDashboardLocale, getSalesChartTitle } from '../utils/dashboardTransforms'
+import { PendingActionsPanel } from './Activity'
 
 const ORDER_STATUS_ITEMS = [
   { key: 'pending', labelKey: 'status.pending', color: 'var(--dashboard-success)' },
@@ -59,6 +59,24 @@ function buildOverviewRows(statsData, t, locale) {
   ]
 }
 
+function buildFunnelItems(statsData, t, locale) {
+  const funnel = statsData.conversionFunnel || {}
+  const rawItems = [
+    { key: 'visitors', label: t('charts.funnel.visitors'), count: Number(funnel.visitors) || 0 },
+    { key: 'productViews', label: t('charts.funnel.productViews'), count: Number(funnel.productViews) || 0 },
+    { key: 'addToCart', label: t('charts.funnel.addToCart'), count: Number(funnel.addToCart) || 0 },
+    { key: 'orders', label: t('charts.funnel.orders'), count: Number(funnel.orders) || 0 },
+    { key: 'completed', label: t('charts.funnel.completed'), count: Number(funnel.completed) || 0 }
+  ]
+  const maxValue = Math.max(...rawItems.map(item => item.count), 1)
+
+  return rawItems.map(item => ({
+    ...item,
+    value: formatNumber(item.count, locale),
+    percent: clampPercent((item.count / maxValue) * 100)
+  }))
+}
+
 function buildActivityItems(statsData, recentOrders, t, locale) {
   const latestOrderTime = extractClock(recentOrders?.[0]?.time)
 
@@ -100,10 +118,26 @@ function buildActivityItems(statsData, recentOrders, t, locale) {
   ]
 }
 
-export default function Charts({ recentOrders, recentOrdersLoading, statsData, statsLoading }) {
+export default function Charts({
+  dateRange,
+  paymentMethodData,
+  pendingActions,
+  recentOrders,
+  recentOrdersLoading,
+  salesData,
+  salesLoading,
+  statsData,
+  statsLoading
+}) {
   const { t, i18n } = useTranslation('adminDashboard')
   const locale = getDashboardLocale(i18n.language)
   const overviewRows = buildOverviewRows(statsData, t, locale)
+  const revenueChartData = salesData?.length ? salesData : [{ name: t('charts.empty'), value: 0 }]
+  const revenueRangeTotal = (salesData || []).reduce((total, item) => total + (Number(item.value) || 0), 0)
+  const paymentTotal = (paymentMethodData || []).reduce((total, item) => total + (Number(item.value) || 0), 0)
+  const paymentChartData = paymentTotal > 0
+    ? paymentMethodData
+    : [{ key: 'empty', label: t('charts.empty'), value: 1, count: 0, color: 'var(--dashboard-surface-3)' }]
   const orderStatusData = ORDER_STATUS_ITEMS.map(item => ({
     ...item,
     label: t(item.labelKey),
@@ -111,10 +145,48 @@ export default function Charts({ recentOrders, recentOrdersLoading, statsData, s
   }))
   const orderTotal = Number(statsData.order.all.total) || 0
   const chartData = orderTotal > 0 ? orderStatusData : [{ key: 'empty', label: t('charts.empty'), value: 1, color: 'var(--dashboard-surface-3)' }]
+  const funnelItems = buildFunnelItems(statsData, t, locale)
   const activityItems = buildActivityItems(statsData, recentOrders, t, locale)
 
   return (
     <section className="dashboard-overview-grid">
+      <div className="dashboard-panel dashboard-revenue-panel">
+        <div className="dashboard-panel-header">
+          <h2>{getSalesChartTitle(dateRange, t)}</h2>
+          <span>{formatCurrency(revenueRangeTotal, locale)}</span>
+        </div>
+
+        {salesLoading ? (
+          <Skeleton.Input active block className="dashboard-revenue-skeleton" />
+        ) : (
+          <div className="dashboard-revenue-chart">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={revenueChartData} margin={{ top: 18, right: 18, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="dashboardRevenueGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--dashboard-success)" stopOpacity={0.28} />
+                    <stop offset="95%" stopColor="var(--dashboard-success)" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="var(--dashboard-border)" strokeDasharray="4 4" vertical={false} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'var(--dashboard-text-muted)', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--dashboard-text-muted)', fontSize: 12 }} tickFormatter={value => formatCurrency(value, locale).replace('₫', '').trim()} width={86} />
+                <RechartsTooltip
+                  formatter={value => [formatCurrency(value, locale), t('charts.rows.revenue')]}
+                  contentStyle={{
+                    backgroundColor: 'var(--dashboard-surface-2)',
+                    border: '1px solid var(--dashboard-border-strong)',
+                    color: 'var(--dashboard-text)',
+                    borderRadius: 8
+                  }}
+                />
+                <Area type="monotone" dataKey="value" stroke="var(--dashboard-success)" strokeWidth={3} fill="url(#dashboardRevenueGradient)" dot={false} activeDot={{ r: 5 }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+
       <div className="dashboard-panel dashboard-quick-panel">
         <div className="dashboard-panel-header">
           <h2>{t('charts.quickOverview')}</h2>
@@ -207,6 +279,72 @@ export default function Charts({ recentOrders, recentOrdersLoading, statsData, s
         )}
       </div>
 
+      <div className="dashboard-panel dashboard-payment-panel">
+        <div className="dashboard-panel-header">
+          <h2>{t('charts.paymentMethods.title')}</h2>
+          <button className="dashboard-panel-icon-btn" type="button" aria-label={t('charts.paymentMethods.actions')}>
+            <MoreHorizontal size={16} />
+          </button>
+        </div>
+
+        {salesLoading ? (
+          <Skeleton.Input active block className="dashboard-donut-skeleton" />
+        ) : (
+          <div className="dashboard-payment-content">
+            <div className="dashboard-payment-donut-wrap">
+              <ResponsiveContainer width="100%" height={210}>
+                <PieChart>
+                  <Pie
+                    data={paymentChartData}
+                    dataKey="value"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={62}
+                    outerRadius={92}
+                    paddingAngle={paymentTotal > 0 ? 2 : 0}
+                    stroke="var(--dashboard-surface)"
+                    strokeWidth={2}
+                  >
+                    {paymentChartData.map(entry => (
+                      <Cell key={entry.key} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip
+                    formatter={(value, name, props) => [formatCurrency(value, locale), props?.payload?.label || name]}
+                    contentStyle={{
+                      backgroundColor: 'var(--dashboard-surface-2)',
+                      border: '1px solid var(--dashboard-border-strong)',
+                      color: 'var(--dashboard-text)',
+                      borderRadius: 8
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="dashboard-payment-donut-center">
+                <strong>{formatCurrency(paymentTotal, locale)}</strong>
+                <span>{t('charts.paymentMethods.total')}</span>
+              </div>
+            </div>
+
+            <div className="dashboard-payment-list">
+              {(paymentMethodData || []).slice(0, 5).map(item => {
+                const percent = paymentTotal ? Math.round((Number(item.value) / paymentTotal) * 100) : 0
+
+                return (
+                  <div className="dashboard-payment-row" key={item.key}>
+                    <span className="dashboard-payment-dot" style={{ background: item.color }} />
+                    <span>{item.label}</span>
+                    <strong>{percent}%</strong>
+                    <em>{formatCurrency(item.value, locale)}</em>
+                  </div>
+                )
+              })}
+              {paymentTotal <= 0 ? <div className="dashboard-payment-empty">{t('charts.paymentMethods.empty')}</div> : null}
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="dashboard-panel dashboard-activity-panel">
         <div className="dashboard-panel-header">
           <h2>{t('charts.todayActivity')}</h2>
@@ -214,7 +352,7 @@ export default function Charts({ recentOrders, recentOrdersLoading, statsData, s
 
         {recentOrdersLoading ? (
           <div className="dashboard-stack">
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 5 }).map((_, index) => (
               <Skeleton.Input key={index} active block className="dashboard-activity-skeleton" />
             ))}
           </div>
@@ -233,6 +371,37 @@ export default function Charts({ recentOrders, recentOrdersLoading, statsData, s
           </div>
         )}
       </div>
+
+      <PendingActionsPanel actions={pendingActions} loading={statsLoading} />
+
+      <div className="dashboard-panel dashboard-funnel-panel">
+        <div className="dashboard-panel-header">
+          <h2>{t('charts.funnel.title')}</h2>
+        </div>
+
+        {statsLoading ? (
+          <div className="dashboard-stack dashboard-funnel-skeleton-wrap">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton.Input key={index} active block className="dashboard-funnel-skeleton" />
+            ))}
+          </div>
+        ) : (
+          <div className="dashboard-funnel-list">
+            {funnelItems.map(item => (
+              <div className="dashboard-funnel-row" key={item.key}>
+                <div className="dashboard-funnel-meta">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+                <div className="dashboard-funnel-track">
+                  <span style={{ width: `${item.percent}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
     </section>
   )
 }

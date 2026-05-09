@@ -112,24 +112,6 @@ body.admin-layout-active {
   font-size: inherit;
 }
 
-.admin-banners-status-tag.ant-tag {
-  margin-inline-end: 0;
-  border: 0;
-  border-radius: 999px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.admin-banners-status-tag--active.ant-tag {
-  background: rgba(38, 162, 105, 0.16);
-  color: #26a269;
-}
-
-.admin-banners-status-tag--inactive.ant-tag {
-  background: rgba(248, 81, 73, 0.18);
-  color: #f87171;
-}
-
 .admin-banners-menu-btn.ant-btn {
   width: 30px;
   height: 30px;
@@ -722,7 +704,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
     display: none;
   }
 
-  .admin-banners-status-tag.ant-tag {
+  .admin-banners-item__status .admin-status-tag.ant-tag {
     padding: 3px 8px;
     font-size: 10px;
   }
@@ -756,7 +738,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
     align-self: start;
   }
 
-  .admin-banners-status-tag.ant-tag {
+  .admin-banners-item__status .admin-status-tag.ant-tag {
     max-width: 100%;
   }
 }

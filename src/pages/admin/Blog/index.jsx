@@ -1,5 +1,5 @@
-import { Button, Card, Dropdown, Image, Modal, Select, Table, Tag, message } from 'antd'
-import { StatCard, StatGrid } from '@/components/admin/ui'
+import { Button, Card, Dropdown, Image, Modal, Select, Table, message } from 'antd'
+import { AdminStatusTag, StatCard, StatGrid } from '@/components/admin/ui'
 import { Archive, CalendarDays, Eye, Layers3, MoreHorizontal, Pencil, Plus, RefreshCw, Send, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,14 +13,26 @@ import { FALLBACK_IMAGE, formatDate, getLocalizedPost, hasText, PAGE_SIZE_OPTION
 import './index.scss'
 
 function getAuthorName(post) {
-  const author = post.updatedBy || post.createdBy || post.publishedBy
-  if (!author) return ''
-  if (typeof author === 'string') return author
-  return author.fullName || author.name || author.username || author.email || author._id || ''
+  const authors = [post.publishedBy, post.updatedBy, post.createdBy]
+
+  for (const author of authors) {
+    if (!author || typeof author === 'string') continue
+    const name = author.fullName || author.username || author.email
+    if (name) return name
+  }
+
+  return ''
 }
 
 function formatNumber(value) {
   return new Intl.NumberFormat('vi-VN').format(Number(value || 0))
+}
+
+function getBlogStatusTone(status) {
+  if (status === 'published') return 'active'
+  if (status === 'queued') return 'info'
+  if (status === 'archived') return 'danger'
+  return 'disabled'
 }
 
 export default function Blog() {
@@ -42,7 +54,6 @@ export default function Blog() {
         page: pagination.current,
         limit: pagination.pageSize
       })
-
       setPosts(Array.isArray(response?.data) ? response.data : [])
       setTotal(Number(response?.total || 0))
     } catch {
@@ -63,7 +74,9 @@ export default function Blog() {
 
   const authorOptions = useMemo(() => {
     const authors = posts.map(getAuthorName).filter(hasText)
-    return Array.from(new Set(authors)).map(author => ({ value: author, label: author }))
+    return Array.from(new Set(authors)).map(author => (
+      { value: author, label: author }
+    ))
   }, [posts])
 
   const filteredPosts = useMemo(() => {
@@ -172,9 +185,9 @@ export default function Blog() {
       key: 'status',
       width: 130,
       render: status => (
-        <Tag color={statusColor[status] || 'default'} className="admin-blog-status-tag">
+        <AdminStatusTag color={statusColor[status] || 'default'} tone={getBlogStatusTone(status)}>
           {t(`status.${status || 'draft'}`)}
-        </Tag>
+        </AdminStatusTag>
       )
     },
     {

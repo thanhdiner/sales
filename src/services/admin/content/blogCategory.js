@@ -2,8 +2,9 @@ import { del, get, patch, post } from '@/utils/request'
 
 export const getBlogCategories = params => {
   const searchParams = new URLSearchParams()
-  if (params?.keyword) searchParams.set('keyword', params.keyword)
-  if (params?.isActive !== undefined && params.isActive !== '') searchParams.set('isActive', params.isActive)
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') searchParams.set(key, value)
+  })
   const query = searchParams.toString()
   return get(`admin/blog-categories${query ? `?${query}` : ''}`)
 }

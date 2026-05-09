@@ -333,26 +333,13 @@ body.admin-layout-active {
   color: var(--purchase-receipts-text-muted);
 }
 
-.admin-purchase-receipts-tag.ant-tag,
-.admin-purchase-receipts-status.ant-tag {
+.admin-purchase-receipts-tag.ant-tag {
   margin-inline-end: 0;
   border-color: var(--purchase-receipts-border);
   border-radius: 999px;
   background: var(--purchase-receipts-surface-2);
   color: var(--purchase-receipts-text-muted);
   font-size: 11px;
-}
-
-.admin-purchase-receipts-status--active.ant-tag {
-  border-color: rgba(22, 163, 74, 0.24);
-  background: var(--purchase-receipts-success-soft);
-  color: var(--purchase-receipts-success);
-}
-
-.admin-purchase-receipts-status--cancelled.ant-tag {
-  border-color: rgba(239, 68, 68, 0.24);
-  background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
 }
 
 .admin-purchase-receipts-action-btn.ant-btn {

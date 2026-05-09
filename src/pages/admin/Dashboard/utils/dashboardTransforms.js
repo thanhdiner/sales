@@ -52,12 +52,35 @@ export const createEmptyStatsData = () => ({
   category: buildEntityMetric(),
   totalRevenue: buildValueMetric(),
   profit: buildValueMetric(),
+  pendingActions: {
+    ordersToConfirm: 0,
+    refundsToProcess: 0,
+    receiptsToReview: 0,
+    reviewsToApprove: 0
+  },
+  conversionFunnel: {
+    visitors: 0,
+    productViews: 0,
+    addToCart: 0,
+    orders: 0,
+    completed: 0
+  },
   topCustomers: [],
   activeClients: 0,
   inactiveClients: 0,
   activeAdmins: 0,
   inactiveAdmins: 0
 })
+
+const PAYMENT_METHOD_LABELS = {
+  transfer: { vi: 'Chuy\u1ec3n kho\u1ea3n', en: 'Bank Transfer' },
+  contact: { vi: 'Li\u00ean h\u1ec7', en: 'Contact' },
+  vnpay: { vi: 'VNPay', en: 'VNPay' },
+  momo: { vi: 'MoMo', en: 'MoMo' },
+  zalopay: { vi: 'ZaloPay', en: 'ZaloPay' },
+  sepay: { vi: 'SePay', en: 'SePay' },
+  unknown: { vi: 'Kh\u00e1c', en: 'Other' }
+}
 
 export const getPieColor = (idx, total) => `hsl(${(idx * 360) / Math.max(total, 1)}, 70%, 56%)`
 
@@ -107,6 +130,8 @@ export const normalizeDashboardPayload = (rawStats, language = 'vi') => {
   const stats = rawStats || {}
   const salesArr = stats.salesNDays || stats.sales7days || []
   const locale = getDashboardLocale(language)
+  const paymentStats = stats.paymentMethodStats || stats.paymentMethods || []
+  const paymentColors = ['#22c55e', '#3b82f6', '#7c3aed', '#f97316', '#94a3b8', '#06b6d4']
 
   return {
     statsData: {
@@ -124,6 +149,19 @@ export const normalizeDashboardPayload = (rawStats, language = 'vi') => {
       category: buildEntityMetric(stats.category),
       totalRevenue: buildValueMetric(stats.totalRevenue),
       profit: buildValueMetric(stats.profit),
+      pendingActions: {
+        ordersToConfirm: Number(stats.pendingActions?.ordersToConfirm) || 0,
+        refundsToProcess: Number(stats.pendingActions?.refundsToProcess) || 0,
+        receiptsToReview: Number(stats.pendingActions?.receiptsToReview) || 0,
+        reviewsToApprove: Number(stats.pendingActions?.reviewsToApprove) || 0
+      },
+      conversionFunnel: {
+        visitors: Number(stats.conversionFunnel?.visitors) || Number(stats.user?.total) || 0,
+        productViews: Number(stats.conversionFunnel?.productViews) || 0,
+        addToCart: Number(stats.conversionFunnel?.addToCart) || 0,
+        orders: Number(stats.conversionFunnel?.orders) || Number(stats.order?.all?.total) || 0,
+        completed: Number(stats.conversionFunnel?.completed) || Number(stats.order?.completed?.total) || 0
+      },
       topCustomers: stats.topCustomers || [],
       activeClients: Number(stats.user?.active) || 0,
       inactiveClients: Number(stats.user?.inactive) || 0,
@@ -136,8 +174,22 @@ export const normalizeDashboardPayload = (rawStats, language = 'vi') => {
     })),
     categoryData: (stats.categoryStats || []).map(item => ({
       name: getLocalizedText(item, 'title', language, item.name),
-      value: Number(item.total) || 0
+      value: Number(item.total) || 0,
+      thumbnail: item.thumbnail || '',
+      status: item.status
     })),
+    paymentMethodData: paymentStats.map((item, index) => {
+      const method = item.method || item.paymentMethod || item._id || 'unknown'
+      const labels = PAYMENT_METHOD_LABELS[method] || PAYMENT_METHOD_LABELS.unknown
+
+      return {
+        key: method,
+        label: isEnglishLanguage(language) ? labels.en : labels.vi,
+        value: Number(item.total ?? item.value) || 0,
+        count: Number(item.count) || 0,
+        color: paymentColors[index % paymentColors.length]
+      }
+    }),
     recentOrders: (stats.recentOrders || []).map((order, idx) => ({
       id: order.orderId ? `#${order.orderId.toString().slice(-6)}` : `#ORD-${idx + 1}`,
       customer: order.customer,

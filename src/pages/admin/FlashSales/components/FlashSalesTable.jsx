@@ -1,6 +1,7 @@
 import { CopyPlus, Edit2, MoreHorizontal, Trash2 } from 'lucide-react'
 import { Button, Dropdown, Pagination, Tooltip } from 'antd'
 import { useSelector } from 'react-redux'
+import { AdminStatusTag } from '@/components/admin/ui'
 import { useTranslation } from 'react-i18next'
 import {
   formatCurrency,
@@ -135,11 +136,24 @@ function FlashSalesDesktopTable({ flashSales, language, locale, columnsVisible =
       render: sale => <FlashSaleActions sale={sale} onEdit={onEdit} onDuplicate={onDuplicate} onDelete={onDelete} t={t} />
     }
   ].filter(column => columnsVisible[column.key] !== false)
+  const visibleColumnKeys = columns.map(column => column.key)
+  const columnWidths = {
+    name: '22%',
+    time: '20%',
+    discount: '11%',
+    quantity: '14%',
+    status: '13%',
+    revenue: '13%',
+    actions: '7%'
+  }
   const minWidth = columns.reduce((total, column) => total + (column.key === 'actions' ? 140 : 160), 0)
 
   return (
     <div className="admin-flash-sales-desktop-table overflow-x-auto">
-      <table className="w-full divide-y divide-[var(--admin-border)] text-sm" style={{ minWidth }}>
+      <table className="w-full table-fixed divide-y divide-[var(--admin-border)] text-sm" style={{ minWidth }}>
+        <colgroup>
+          {visibleColumnKeys.map(key => <col key={key} style={{ width: columnWidths[key] }} />)}
+        </colgroup>
         <thead className="bg-[var(--admin-surface-2)]">
           <tr>
             {columns.map(column => <DesktopHeaderCell key={column.key} align={column.align}>{column.header}</DesktopHeaderCell>)}
@@ -150,7 +164,7 @@ function FlashSalesDesktopTable({ flashSales, language, locale, columnsVisible =
           {flashSales.map(sale => (
             <tr key={sale._id} className="transition-colors hover:bg-[var(--admin-surface-2)]">
               {columns.map(column => (
-                <td key={column.key} className={`whitespace-nowrap px-4 py-4 align-top ${column.align === 'right' ? 'text-right' : ''}`}>
+                <td key={column.key} className={`whitespace-nowrap px-4 py-4 align-middle ${column.align === 'right' ? 'text-right' : ''}`}>
                   {column.render(sale)}
                 </td>
               ))}
@@ -288,11 +302,7 @@ function SaleTitle({ language, sale, t, titleClassName }) {
 function StatusBadge({ status, t }) {
   const statusMeta = getFlashSaleStatusMeta(status, t)
 
-  return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusMeta.className}`}>
-      {statusMeta.label}
-    </span>
-  )
+  return <AdminStatusTag color={statusMeta.color} tone={statusMeta.tone}>{statusMeta.label}</AdminStatusTag>
 }
 
 function DiscountBadge({ discountPercent, locale }) {

@@ -210,10 +210,11 @@
   gap: 6px;
   border: 0;
   border-radius: 999px;
-  padding: 3px 10px;
+  padding-inline: 7px;
   font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: 20px;
+  text-transform: capitalize;
   white-space: nowrap;
 }
 
@@ -227,13 +228,13 @@
 
 .admin-status-pill--success.ant-tag,
 .admin-status-pill--active.ant-tag {
-  background: var(--admin-success-bg-soft);
-  color: var(--admin-success-text);
+  background: rgba(38, 162, 105, 0.16);
+  color: #26a269;
 }
 
 .admin-status-pill--danger.ant-tag {
-  background: var(--admin-danger-bg-soft);
-  color: var(--admin-danger-text);
+  background: rgba(248, 81, 73, 0.18);
+  color: #f87171;
 }
 
 .admin-status-pill--warning.ant-tag {
@@ -246,10 +247,59 @@
   color: var(--admin-info-text);
 }
 
-.admin-status-pill--neutral.ant-tag,
-.admin-status-pill--inactive.ant-tag {
+.admin-status-pill--neutral.ant-tag {
   background: var(--admin-surface-3);
   color: var(--admin-text-muted);
+}
+
+.admin-status-pill--inactive.ant-tag {
+  background: rgba(248, 81, 73, 0.18);
+  color: #f87171;
+}
+
+.admin-status-tag.ant-tag {
+  margin: 0;
+  font-weight: 500;
+}
+
+.admin-status-tag--clickable.ant-tag {
+  cursor: pointer;
+}
+
+html.dark .admin-status-tag--active.ant-tag,
+html.dark .admin-status-tag--success.ant-tag {
+  border-color: color-mix(in srgb, #52c41a 55%, var(--admin-border)) !important;
+  background: color-mix(in srgb, #52c41a 16%, var(--admin-surface-2)) !important;
+  color: #8ee66d !important;
+}
+
+html.dark .admin-status-tag--scheduled.ant-tag,
+html.dark .admin-status-tag--info.ant-tag {
+  border-color: color-mix(in srgb, var(--admin-accent) 55%, var(--admin-border)) !important;
+  background: color-mix(in srgb, var(--admin-accent) 16%, var(--admin-surface-2)) !important;
+  color: var(--admin-accent) !important;
+}
+
+html.dark .admin-status-tag--warning.ant-tag {
+  border-color: color-mix(in srgb, #faad14 55%, var(--admin-border)) !important;
+  background: color-mix(in srgb, #faad14 16%, var(--admin-surface-2)) !important;
+  color: #f6d365 !important;
+}
+
+html.dark .admin-status-tag--danger.ant-tag,
+html.dark .admin-status-tag--error.ant-tag,
+html.dark .admin-status-tag--inactive.ant-tag {
+  border-color: color-mix(in srgb, #ff4d4f 55%, var(--admin-border)) !important;
+  background: color-mix(in srgb, #ff4d4f 16%, var(--admin-surface-2)) !important;
+  color: #ff9a9a !important;
+}
+
+html.dark .admin-status-tag--disabled.ant-tag,
+html.dark .admin-status-tag--neutral.ant-tag,
+html.dark .admin-status-tag--default.ant-tag {
+  border-color: color-mix(in srgb, var(--admin-text-muted) 45%, var(--admin-border)) !important;
+  background: color-mix(in srgb, var(--admin-text-muted) 12%, var(--admin-surface-2)) !important;
+  color: var(--admin-text-muted) !important;
 }
 
 .admin-card {

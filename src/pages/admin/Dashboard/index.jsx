@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import SEO from '@/components/shared/SEO'
@@ -22,20 +22,28 @@ export default function Dashboard() {
   const { t } = useTranslation('adminDashboard')
   const [searchParams, setSearchParams] = useSearchParams()
   const dateRange = getValidDateRange(searchParams.get('range'))
+  const [lowStockThreshold, setLowStockThreshold] = useState(5)
   const isMobile = useDashboardMobile()
 
   const {
     chartsLoading,
     statsData,
     statsLoading,
+    salesData,
     categoryData,
+    paymentMethodData,
     recentOrders,
     recentOrdersLoading,
     topCustomers,
     topCustomersLoading,
     topProducts,
-    topProductsLoading
-  } = useDashboardData(dateRange)
+    topProductsLoading,
+    lowStockProducts,
+    lowStockProductsLoading,
+    lastUpdatedAt,
+    refresh,
+    refreshing
+  } = useDashboardData(dateRange, lowStockThreshold)
 
   const handleDateRangeChange = useCallback(
     nextRange => {
@@ -59,22 +67,34 @@ export default function Dashboard() {
 
       <DashboardHeader
         dateRange={dateRange}
+        lastUpdatedAt={lastUpdatedAt}
         loading={statsLoading}
         onDateRangeChange={handleDateRangeChange}
+        onRefresh={refresh}
+        refreshing={refreshing}
       />
 
       <div className="dashboard-content">
         <Stats loading={statsLoading} statsData={statsData} />
 
         <Charts
+          dateRange={dateRange}
           recentOrders={recentOrders}
           recentOrdersLoading={recentOrdersLoading}
+          salesData={salesData}
+          salesLoading={chartsLoading}
+          paymentMethodData={paymentMethodData}
+          pendingActions={statsData.pendingActions}
           statsData={statsData}
           statsLoading={statsLoading}
         />
 
         <Activity
           isMobile={isMobile}
+          lowStockProducts={lowStockProducts}
+          lowStockProductsLoading={lowStockProductsLoading}
+          lowStockThreshold={lowStockThreshold}
+          onLowStockThresholdChange={setLowStockThreshold}
           recentOrders={recentOrders}
           recentOrdersLoading={recentOrdersLoading}
           topCustomers={topCustomers}
