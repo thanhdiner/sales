@@ -1,17 +1,17 @@
 import { Button, Empty, Input, Spin, Tag } from 'antd'
-import { ArrowRight, CalendarDays, Clock3, Search, Sparkles, TrendingUp } from 'lucide-react'
+import { ArrowRight, CalendarDays, Clock3, Search, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import SEO from '@/components/shared/SEO'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
-import { getBlogPosts } from '@/services/client/content/blog'
+import { getBlogCategories, getBlogPosts } from '@/services/client/content/blog'
 import { getCmsPage } from '@/services/client/content/cmsPage'
 import './index.scss'
 
-const FALLBACK_IMAGE = '/images/herosection-aboutpage.jpg'
 const INITIAL_VISIBLE_POSTS = 9
+const BLOG_LIST_LIMIT = 60
 const DEFAULT_SECTIONS = [
   { id: 'hero_default', type: 'hero', enabled: true, settings: {} },
   { id: 'featured_default', type: 'featured_posts', enabled: true, settings: {} },
@@ -51,76 +51,147 @@ function postMatchesKeyword(post, keyword) {
     post.title,
     post.excerpt,
     post.content,
-    post.category,
-    ...(Array.isArray(post.tags) ? post.tags : [])
+    getCategoryLabel(post.category),
+    ...(Array.isArray(post.tags) ? post.tags.map(getTagLabel) : [])
   ].some(value => String(value || '').toLowerCase().includes(normalizedKeyword))
 }
 
+function getCategoryLabel(category) {
+  if (typeof category === 'string') return hasText(category) ? category.trim() : ''
+  if (category && typeof category === 'object') return category.name || category.title || category.slug || ''
+  return ''
+}
+
 function getCategoryKey(category) {
-  return hasText(category) ? category : 'uncategorized'
+  if (typeof category === 'string') return hasText(category) ? category.trim() : 'uncategorized'
+  if (category && typeof category === 'object') return category.slug || category.name || category.title || 'uncategorized'
+  return 'uncategorized'
+}
+
+function normalizeCategoryOption(category) {
+  if (category === 'all') return { key: 'all', label: 'all' }
+  if (typeof category === 'string') {
+    const label = getCategoryLabel(category)
+    return label ? { key: label, label } : null
+  }
+  if (category && typeof category === 'object') {
+    const label = getCategoryLabel(category)
+    const key = category.slug || category.name || label
+    return key && label ? { key, label } : null
+  }
+  return null
+}
+
+function getTagLabel(tag) {
+  if (typeof tag === 'string') return tag
+  if (tag && typeof tag === 'object') return tag.name || tag.slug || ''
+  return ''
 }
 
 export default function Blog() {
   const { t } = useTranslation('clientBlog')
   const language = useCurrentLanguage()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [posts, setPosts] = useState([])
+  const [totalPosts, setTotalPosts] = useState(0)
+  const [categories, setCategories] = useState([{ key: 'all', label: 'all' }])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [keyword, setKeyword] = useState('')
+  const [keyword, setKeyword] = useState(() => searchParams.get('q') || searchParams.get('keyword') || '')
+  const [debouncedKeyword, setDebouncedKeyword] = useState(() => (searchParams.get('q') || searchParams.get('keyword') || '').trim())
   const [cmsPage, setCmsPage] = useState(null)
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeCategory, setActiveCategory] = useState(() => searchParams.get('category') || 'all')
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POSTS)
 
   useEffect(() => {
-    let mounted = true
+    const urlKeyword = searchParams.get('q') || searchParams.get('keyword') || ''
+    const urlCategory = searchParams.get('category') || 'all'
+    setKeyword(urlKeyword)
+    setDebouncedKeyword(urlKeyword.trim())
+    setActiveCategory(urlCategory)
+  }, [searchParams])
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setDebouncedKeyword(keyword.trim())
+    }, 350)
+
+    return () => window.clearTimeout(timeout)
+  }, [keyword])
+
+  useEffect(() => {
+    const nextParams = new URLSearchParams(searchParams)
+    if (debouncedKeyword) nextParams.set('q', debouncedKeyword)
+    else nextParams.delete('q')
+    nextParams.delete('keyword')
+
+    if (activeCategory && activeCategory !== 'all') nextParams.set('category', activeCategory)
+    else nextParams.delete('category')
+
+    if (nextParams.toString() !== searchParams.toString()) {
+      setSearchParams(nextParams, { replace: true })
+    }
+  }, [activeCategory, debouncedKeyword, searchParams, setSearchParams])
+
+  useEffect(() => {
+    let ignore = false
 
     const fetchPosts = async () => {
       setLoading(true)
       setError('')
 
       try {
-        const [postsResponse, pageResponse] = await Promise.allSettled([
-          getBlogPosts({ limit: 60 }),
-          getCmsPage('blog')
+        const [postsResponse, pageResponse, categoriesResponse] = await Promise.allSettled([
+          getBlogPosts({
+            limit: BLOG_LIST_LIMIT,
+            keyword: debouncedKeyword,
+            category: activeCategory !== 'all' ? activeCategory : undefined
+          }),
+          getCmsPage('blog'),
+          getBlogCategories()
         ])
-        if (!mounted) return
+        if (ignore) return
 
         if (postsResponse.status === 'rejected') {
           setError(t('messages.fetchError'))
           return
         }
 
-        setPosts(Array.isArray(postsResponse.value?.data) ? postsResponse.value.data : [])
+        const nextPosts = Array.isArray(postsResponse.value?.data) ? postsResponse.value.data : []
+        const categoryOptions = categoriesResponse.status === 'fulfilled' && Array.isArray(categoriesResponse.value?.data)
+          ? categoriesResponse.value.data.map(normalizeCategoryOption).filter(Boolean)
+          : nextPosts.map(post => normalizeCategoryOption(post.category)).filter(Boolean)
+        const uniqueCategories = new Map([['all', { key: 'all', label: 'all' }]])
+        categoryOptions.forEach(category => uniqueCategories.set(category.key, category))
+
+        setPosts(nextPosts)
+        setTotalPosts(Number(postsResponse.value?.total) || nextPosts.length)
+        setCategories(Array.from(uniqueCategories.values()))
         setCmsPage(pageResponse.status === 'fulfilled' ? pageResponse.value?.data : null)
       } finally {
-        if (mounted) setLoading(false)
+        if (!ignore) setLoading(false)
       }
     }
 
     fetchPosts()
 
     return () => {
-      mounted = false
+      ignore = true
     }
-  }, [language, t])
-
-  const categories = useMemo(() => {
-    const postCategories = posts.map(post => getCategoryKey(post.category)).filter(hasText)
-    return ['all', ...Array.from(new Set(postCategories))]
-  }, [posts])
+  }, [activeCategory, debouncedKeyword, language, t])
 
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
       const matchesCategory = activeCategory === 'all' || getCategoryKey(post.category) === activeCategory
-      return matchesCategory && postMatchesKeyword(post, keyword)
+      return matchesCategory && postMatchesKeyword(post, debouncedKeyword)
     })
-  }, [activeCategory, keyword, posts])
+  }, [activeCategory, debouncedKeyword, posts])
 
   const sections = useMemo(() => {
     const cmsSections = Array.isArray(cmsPage?.sections) ? cmsPage.sections.filter(section => section?.enabled !== false) : []
     return cmsSections.length ? cmsSections : DEFAULT_SECTIONS
   }, [cmsPage])
-  const featuredLimit = getSectionLimit(sections, 'featured_posts', 4)
+  const featuredLimit = getSectionLimit(sections, 'featured_posts', 3)
   const latestLimit = getSectionLimit(sections, 'latest_articles', INITIAL_VISIBLE_POSTS)
   const popularLimit = getSectionLimit(sections, 'popular_posts', 4)
   const tagLimit = getSectionLimit(sections, 'tag_cloud', 10)
@@ -136,18 +207,16 @@ export default function Blog() {
   const latestPosts = filteredPosts.filter(post => !featuredIds.has(post._id))
   const visiblePosts = latestPosts.slice(0, visibleCount)
   const popularPosts = [...posts].sort((a, b) => Number(b.viewsCount || 0) - Number(a.viewsCount || 0)).slice(0, popularLimit)
-  const tags = Array.from(new Set(posts.flatMap(post => (Array.isArray(post.tags) ? post.tags : [])).filter(hasText))).slice(0, tagLimit)
+  const tags = Array.from(new Set(posts.flatMap(post => (Array.isArray(post.tags) ? post.tags : []).map(getTagLabel)).filter(hasText))).slice(0, tagLimit)
+  const hasActiveFilters = Boolean(debouncedKeyword) || activeCategory !== 'all'
+  const totalArticles = totalPosts || posts.length
 
   return (
     <main className="blog-page min-h-screen text-slate-950 dark:text-white">
       <SEO title={cmsPage?.seo?.title || t('seo.title')} description={cmsPage?.seo?.description || t('seo.description')} url="https://smartmall.site/blog" />
 
-      {loading ? (
-        <section className="blog-container blog-section"><State loading text={t('messages.loading')} /></section>
-      ) : error ? (
+      {error ? (
         <section className="blog-container blog-section"><State error text={error} /></section>
-      ) : filteredPosts.length === 0 ? (
-        <section className="blog-container blog-section"><Empty className="blog-empty" description={t('messages.empty')} /></section>
       ) : (
         <>
           {sections.map(section => (
@@ -167,6 +236,9 @@ export default function Blog() {
               setVisibleCount={setVisibleCount}
               popularPosts={popularPosts.length ? popularPosts : featuredPosts}
               tags={tags}
+              totalArticles={totalArticles}
+              hasActiveFilters={hasActiveFilters}
+              loading={loading}
               language={language}
               t={t}
             />
@@ -183,17 +255,17 @@ function getSectionLimit(sections, type, fallback) {
   return Number.isFinite(limit) && limit > 0 ? limit : fallback
 }
 
-function BlogSection({ section, posts, categories, activeCategory, setActiveCategory, keyword, setKeyword, featuredPosts, latestPosts, visiblePosts, visibleCount, setVisibleCount, popularPosts, tags, language, t }) {
+function BlogSection({ section, posts, categories, activeCategory, setActiveCategory, keyword, setKeyword, featuredPosts, latestPosts, visiblePosts, visibleCount, setVisibleCount, popularPosts, tags, totalArticles, hasActiveFilters, loading, language, t }) {
   const settings = section.settings || {}
 
   if (section.type === 'hero') {
-    return <BlogHero settings={settings} posts={posts} categories={categories} keyword={keyword} setKeyword={setKeyword} t={t} />
+    return <BlogHero settings={settings} posts={posts} categories={categories} keyword={keyword} setKeyword={setKeyword} totalArticles={totalArticles} t={t} />
   }
 
   if (section.type === 'featured_posts') {
     return (
       <section className="blog-container blog-section blog-featured-section">
-        <SectionTitle label={settings.title || t('sections.featured')} />
+        <SectionTitle label={settings.title || t('sections.featured')} doodle />
         <FeaturedGrid posts={featuredPosts} language={language} t={t} />
       </section>
     )
@@ -202,14 +274,15 @@ function BlogSection({ section, posts, categories, activeCategory, setActiveCate
   if (section.type === 'latest_articles') {
     return (
       <section className="blog-container blog-section blog-main-section">
-        <div className="blog-section-header">
+        <div className="blog-section-header blog-section-header--latest">
           <SectionTitle label={settings.title || t('sections.latest')} compact />
           <span>{settings.hint || t('sections.latestHint')}</span>
         </div>
         <div className="blog-latest-grid">
-          {visiblePosts.map(post => <ArticleCard key={post._id} post={post} language={language} t={t} />)}
+          {visiblePosts.map(post => <FeaturedArticle key={post._id} post={post} language={language} t={t} />)}
         </div>
-        {visiblePosts.length === 0 ? <Empty className="blog-empty" description={t('messages.empty')} /> : null}
+        {loading && visiblePosts.length === 0 ? <State loading text={t('messages.loading')} /> : null}
+        {!loading && visiblePosts.length === 0 ? <Empty className="blog-empty" description={hasActiveFilters ? t('messages.empty') : t('messages.emptyAll')} /> : null}
         {settings.showLoadMore !== false && visibleCount < latestPosts.length ? (
           <Button className="blog-load-more" onClick={() => setVisibleCount(count => count + getSectionLimit([section], 'latest_articles', INITIAL_VISIBLE_POSTS))}>
             {t('actions.loadMore')}
@@ -238,17 +311,20 @@ function BlogSection({ section, posts, categories, activeCategory, setActiveCate
   return null
 }
 
-function BlogHero({ settings, posts, categories, keyword, setKeyword, t }) {
+function BlogHero({ settings, posts, categories, keyword, setKeyword, totalArticles, t }) {
   return (
     <section className="blog-hero">
       <div className="blog-container blog-hero__inner">
         <div className="blog-hero__content">
           <p className="blog-eyebrow"><Sparkles className="blog-inline-icon" />{settings.eyebrow || t('page.eyebrow')}</p>
           <h1>{settings.title || t('page.title')}</h1>
-          <p>{settings.description || t('page.description')}</p>
+          <span className="blog-hero__title-underline" aria-hidden="true" />
+          <p className="blog-hero__description">{settings.description || t('page.description')}</p>
         </div>
         {settings.showSearch === false && settings.showStats === false ? null : (
           <div className="blog-hero__search-panel">
+            <span className="blog-hero__panel-spark blog-hero__panel-spark--arc" aria-hidden="true" />
+            <Sparkles className="blog-hero__panel-spark blog-hero__panel-spark--star" aria-hidden="true" />
             {settings.showSearch === false ? null : (
               <Input
                 allowClear
@@ -262,7 +338,7 @@ function BlogHero({ settings, posts, categories, keyword, setKeyword, t }) {
             )}
             {settings.showStats === false ? null : (
               <div className="blog-hero__stats">
-                <span><strong>{posts.length}</strong>{t('stats.articles')}</span>
+                <span><strong>{totalArticles}</strong>{t('stats.articles')}</span>
                 <span><strong>{Math.max(categories.length - 1, 0)}</strong>{t('stats.categories')}</span>
                 <span><strong>{posts.filter(post => post.isFeatured).length}</strong>{t('stats.featured')}</span>
               </div>
@@ -274,7 +350,16 @@ function BlogHero({ settings, posts, categories, keyword, setKeyword, t }) {
   )
 }
 
-function SectionTitle({ label, compact = false }) {
+function SectionTitle({ label, compact = false, doodle = false }) {
+  if (doodle) {
+    return (
+      <div className="blog-section-title-wrap">
+        <h2 className="blog-section-title blog-section-title--doodle"><Sparkles className="blog-inline-icon" />{label}</h2>
+        <span className="blog-section-title-underline" aria-hidden="true" />
+      </div>
+    )
+  }
+
   return <h2 className={`blog-section-title${compact ? ' blog-section-title--compact' : ''}`}>{label}</h2>
 }
 
@@ -288,30 +373,35 @@ function State({ loading, error, text }) {
 }
 
 function FeaturedGrid({ posts, language, t }) {
-  const [mainPost, ...sidePosts] = posts
-
   return (
     <div className="blog-featured-grid">
-      {mainPost ? <FeaturedArticle post={mainPost} language={language} t={t} large /> : null}
-      <div className="blog-featured-side">
-        {sidePosts.slice(0, 3).map(post => <FeaturedArticle key={post._id} post={post} language={language} t={t} />)}
-      </div>
+      {posts.slice(0, 3).map(post => <FeaturedArticle key={post._id} post={post} language={language} t={t} />)}
     </div>
   )
 }
 
-function FeaturedArticle({ post, language, t, large = false }) {
+function FeaturedArticle({ post, language, t }) {
+  const hasThumbnail = hasText(post.thumbnail)
+  const categoryLabel = getCategoryLabel(post.category)
+
   return (
-    <Link to={`/blog/${post.slug}`} className={`blog-featured-card${large ? ' blog-featured-card--large' : ''}`}>
-      <img src={post.thumbnail || FALLBACK_IMAGE} alt={post.title} />
+    <Link to={`/blog/${post.slug}`} className="blog-featured-card">
+      <span className="blog-featured-card__spark blog-featured-card__spark--one" aria-hidden="true" />
+      <span className="blog-featured-card__spark blog-featured-card__spark--two" aria-hidden="true" />
+      <span className={`blog-featured-card__image${hasThumbnail ? ' blog-featured-card__image--real' : ''}`}>
+        {hasThumbnail ? <img src={post.thumbnail} alt={post.title} /> : null}
+      </span>
       <div className="blog-featured-card__body">
-        <div className="blog-meta-row">
-          {post.category ? <Tag>{post.category}</Tag> : null}
-          {post.publishedAt ? <span><CalendarDays className="blog-date__icon" />{formatDate(post.publishedAt, language)}</span> : null}
-          <span><Clock3 className="blog-date__icon" />{t('labels.readTime', { count: estimateReadTime(post.content || post.excerpt) })}</span>
+        <div className="blog-featured-card__meta-top">
+          {categoryLabel ? <Tag>{categoryLabel}</Tag> : null}
+          {post.publishedAt ? <span>{formatDate(post.publishedAt, language)}</span> : null}
         </div>
+        <span className="blog-featured-card__read-time"><Clock3 className="blog-date__icon" />{t('labels.readTime', { count: estimateReadTime(post.content || post.excerpt) })}</span>
         <h3>{post.title}</h3>
-        {large && post.excerpt ? <p>{post.excerpt}</p> : null}
+        {post.excerpt ? <p>{post.excerpt}</p> : null}
+        <span className="blog-featured-card__link">
+          {t('actions.read')} <ArrowRight className="blog-button-icon" />
+        </span>
       </div>
     </Link>
   )
@@ -321,35 +411,11 @@ function CategoryTabs({ categories, activeCategory, onChange, t }) {
   return (
     <div className="blog-categories" aria-label={t('filters.category')}>
       {categories.map(category => (
-        <Button key={category} type={activeCategory === category ? 'primary' : 'default'} onClick={() => onChange(category)} className="blog-category-btn">
-          {category === 'all' ? t('filters.all') : category}
+        <Button key={category.key} type={activeCategory === category.key ? 'primary' : 'default'} onClick={() => onChange(category.key)} className="blog-category-btn">
+          {category.key === 'all' ? t('filters.all') : category.label}
         </Button>
       ))}
     </div>
-  )
-}
-
-function ArticleCard({ post, language, t }) {
-  return (
-    <article className="blog-card">
-      <Link to={`/blog/${post.slug}`} className="blog-card__image">
-        <img src={post.thumbnail || FALLBACK_IMAGE} alt={post.title} />
-      </Link>
-      <div className="blog-card__body">
-        <div className="blog-meta-row">
-          {post.category ? <span>{post.category}</span> : null}
-          <span><Clock3 className="blog-date__icon" />{t('labels.readTime', { count: estimateReadTime(post.content || post.excerpt) })}</span>
-        </div>
-        <h3><Link to={`/blog/${post.slug}`}>{post.title}</Link></h3>
-        {post.excerpt ? <p>{post.excerpt}</p> : null}
-        <div className="blog-card__footer">
-          {post.publishedAt ? <span>{formatDate(post.publishedAt, language)}</span> : null}
-          <Link to={`/blog/${post.slug}`} className="blog-card__link">
-            {t('actions.read')} <ArrowRight className="blog-button-icon" />
-          </Link>
-        </div>
-      </div>
-    </article>
   )
 }
 
@@ -358,9 +424,9 @@ function PopularStrip({ posts, language, t, settings = {} }) {
 
   return (
     <section className="blog-container blog-section blog-popular-section">
-      <div className="blog-section-header">
+      <div className="blog-section-header blog-section-header--popular">
         <SectionTitle label={settings.title || t('sections.popular')} compact />
-        <span><TrendingUp className="blog-inline-icon" />{settings.hint || t('sections.popularHint')}</span>
+        <span><Sparkles className="blog-inline-icon" />{settings.hint || t('sections.popularHint')}</span>
       </div>
       <div className="blog-popular-grid">
         {posts.slice(0, 4).map((post, index) => (

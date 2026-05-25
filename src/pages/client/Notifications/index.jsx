@@ -17,8 +17,13 @@ import {
   loadStoredNotifications,
   markAllNotificationsReadIfNeeded,
   markNotificationReadIfNeeded,
+  normalizeServerNotification,
   updateStoredNotifications
 } from '@/layouts/client/components/Header/NotificationBell/notificationUtils'
+import {
+  getClientNotifications,
+  markClientNotificationsRead
+} from '@/services/client/commerce/notifications'
 
 const statusIcons = {
   pending: ShoppingCart,
@@ -71,6 +76,29 @@ function Notifications() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const loadMoreRef = useRef(null)
 
+  const syncNotifications = nextNotifications => {
+    setNotifications(nextNotifications)
+    updateStoredNotifications(nextNotifications)
+  }
+
+  useEffect(() => {
+    let ignore = false
+
+    getClientNotifications({ limit: 50 })
+      .then(response => {
+        if (ignore) return
+        const nextNotifications = Array.isArray(response?.notifications)
+          ? response.notifications.map(normalizeServerNotification)
+          : []
+        syncNotifications(nextNotifications)
+      })
+      .catch(() => {})
+
+    return () => {
+      ignore = true
+    }
+  }, [])
+
   useEffect(() => {
     const handleUpdated = event => {
       const nextNotifications = event.detail?.notifications
@@ -90,9 +118,11 @@ function Notifications() {
     const nextFilter = getValidFilter(searchParams.get('filter'))
     const nextSearch = searchParams.get('q') || ''
 
-    setActiveFilter(nextFilter)
-    setSearchInput(nextSearch)
-    setAppliedSearchTerm(nextSearch)
+    queueMicrotask(() => {
+      setActiveFilter(nextFilter)
+      setSearchInput(nextSearch)
+      setAppliedSearchTerm(nextSearch)
+    })
   }, [searchParams])
 
   const unreadCount = getUnreadCount(notifications)
@@ -126,7 +156,7 @@ function Notifications() {
   const hasMoreNotifications = visibleCount < filteredNotifications.length
 
   useEffect(() => {
-    setVisibleCount(PAGE_SIZE)
+    queueMicrotask(() => setVisibleCount(PAGE_SIZE))
   }, [activeFilter, appliedSearchTerm, notifications])
 
   useEffect(() => {
@@ -173,21 +203,19 @@ function Notifications() {
     updateUrlParams({ q: searchInput })
   }
 
-  const syncNotifications = nextNotifications => {
-    setNotifications(nextNotifications)
-    updateStoredNotifications(nextNotifications)
-  }
-
   const handleMarkAllRead = () => {
     syncNotifications(markAllNotificationsReadIfNeeded(notifications))
+    markClientNotificationsRead()
   }
 
   const handleMarkRead = notificationId => {
     syncNotifications(markNotificationReadIfNeeded(notifications, notificationId))
+    markClientNotificationsRead([notificationId])
   }
 
   const handleViewOrder = notification => {
     syncNotifications(markNotificationReadIfNeeded(notifications, notification.id))
+    markClientNotificationsRead([notification.id])
     navigate(getClientOrderRoute(notification.orderId))
   }
 

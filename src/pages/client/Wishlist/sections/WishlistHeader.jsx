@@ -9,7 +9,7 @@ function WishlistHeader({ addingAllToCart, canAddAll, inStockCount, onAddAllToCa
             {t('page.title')}
           </h1>
 
-          <p className="mt-2 text-sm font-medium text-slate-500 dark:text-gray-400">
+          <p className="mt-2 text-sm text-slate-500 dark:text-gray-400">
             {t('page.loadedTotal', { total: totalItems })} &bull; {t('page.inStockCount', { count: inStockCount })}
           </p>
         </div>

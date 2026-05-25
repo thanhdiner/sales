@@ -16,7 +16,7 @@ export default function ChatbotToolsHeader({ saving, onReload, onSave }) {
   return (
     <div className="admin-chatbot-page-header mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600">
+        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600">
           <ToolOutlined style={{ fontSize: 22, color: '#fff' }} />
         </div>
 

@@ -33,7 +33,7 @@ const panelClass =
   'rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5'
 const softPanelClass = 'rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] p-4'
 const iconBoxClass =
-  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
 const primaryButtonClass =
   'rounded-lg !border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90 disabled:!bg-[color-mix(in_srgb,var(--admin-accent)_45%,var(--admin-surface-2))] disabled:!text-white/80 disabled:!opacity-100'
 const secondaryButtonClass =
@@ -504,7 +504,7 @@ const TwoFactorAuthPanel = () => {
                 {t('security.twofa.main.description')}
               </p>
 
-              <div className={`mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+              <div className={`mt-3 inline-flex items-center gap-2 rounded-sm px-3 py-1 text-xs font-semibold ${
                 enabled
                   ? 'bg-[color-mix(in_srgb,#22c55e_16%,var(--admin-surface-2))] text-[#22c55e]'
                   : 'bg-[color-mix(in_srgb,#ef4444_16%,var(--admin-surface-2))] text-[#ef4444]'

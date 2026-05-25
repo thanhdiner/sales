@@ -7,7 +7,7 @@ import NotificationBell from './NotificationBell'
 import AccountMenu from './AccountMenu'
 import HeaderSearch from './HeaderSearch'
 
-export default function HeaderActions({ isDesktop, user, headerHidden = false, notifications, setNotifications }) {
+export default function HeaderActions({ isDesktop, user, headerHidden = false, notifications, setNotifications, markNotificationsRead }) {
   const cartItems = useSelector(state => state.cart.items) || []
   const wishlistItems = useSelector(state => normalizeWishlistItems(state.wishlist.items))
   const isLoggedIn = !!user
@@ -64,7 +64,13 @@ export default function HeaderActions({ isDesktop, user, headerHidden = false, n
           </div>
         )}
 
-        {isLoggedIn && <NotificationBell notifications={notifications} setNotifications={setNotifications} />}
+        {isLoggedIn && (
+          <NotificationBell
+            notifications={notifications}
+            setNotifications={setNotifications}
+            markNotificationsRead={markNotificationsRead}
+          />
+        )}
 
         <AccountMenu user={user} headerHidden={headerHidden} />
       </div>

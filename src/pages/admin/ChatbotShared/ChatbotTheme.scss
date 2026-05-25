@@ -73,6 +73,27 @@ html.dark .admin-chatbot-page {
 .admin-chatbot-stat-card.ant-card {
   border-radius: 16px !important;
   height: 100%;
+
+  .ant-card-body {
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+}
+
+.admin-chatbot-config-stats .admin-chatbot-stat-card.ant-card .ant-card-body {
+  min-height: 62px;
+  padding-block: 6px !important;
+  justify-content: center;
+}
+
+.admin-chatbot-stat-desc.ant-typography {
+  display: block;
+  color: var(--chatbot-text-muted) !important;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .admin-chatbot-alert.ant-alert {
@@ -88,6 +109,22 @@ html.dark .admin-chatbot-page {
 
 html.dark .admin-chatbot-page .ant-card {
   box-shadow: none !important;
+}
+
+.admin-chatbot-config-page {
+  .ant-card,
+  .admin-chatbot-card.ant-card,
+  .admin-chatbot-stat-card.ant-card {
+    border-radius: 10px !important;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-input-number,
+  .ant-select-selector,
+  .ant-alert {
+    border-radius: 6px !important;
+  }
 }
 
 .admin-chatbot-page .ant-card .ant-card-head {
@@ -132,6 +169,10 @@ html.dark .admin-chatbot-page .ant-card {
 
 .admin-chatbot-page .ant-btn {
   border-radius: 10px !important;
+}
+
+.admin-chatbot-page .admin-chatbot-alert .admin-chatbot-action-btn.ant-btn-sm {
+  border-radius: 6px !important;
 }
 
 .admin-chatbot-page .ant-btn-default:hover,
@@ -246,6 +287,30 @@ html.dark .admin-chatbot-page .ant-card {
 
 .admin-chatbot-table.ant-table-wrapper .ant-table {
   border-radius: 10px;
+}
+
+.admin-chatbot-tools-page {
+  --admin-stat-card-radius: 8px;
+  --admin-stat-icon-radius: 6px;
+}
+
+.admin-chatbot-tools-page .admin-chatbot-page-header .ant-btn,
+.admin-chatbot-tools-page .admin-chatbot-card.ant-card,
+.admin-chatbot-tools-page .admin-chatbot-alert.ant-alert {
+  border-radius: 8px !important;
+}
+
+.admin-chatbot-tools-page .admin-chatbot-page-header .ant-btn {
+  border-radius: 6px !important;
+}
+
+.admin-chatbot-tools-page .ant-tag {
+  border-radius: 4px !important;
+}
+
+.admin-chatbot-tools-page .admin-chatbot-table.ant-table-wrapper .ant-table,
+.admin-chatbot-tools-page .admin-chatbot-table.ant-table-wrapper .ant-table-container {
+  border-radius: 6px !important;
 }
 
 .admin-chatbot-tools-card.ant-card {
@@ -437,4 +502,166 @@ html.dark .admin-chatbot-page .ant-card {
   .admin-chatbot-tools-table.ant-table-wrapper .ant-table-tbody > tr > td {
     padding-inline: 6px !important;
   }
+}
+
+html.dark .admin-chatbot-modal .ant-modal-content {
+  background: #17181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f4f5f8 !important;
+}
+
+html.dark .admin-chatbot-modal .ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .admin-chatbot-modal .ant-modal-title,
+html.dark .admin-chatbot-modal .ant-modal-body,
+html.dark .admin-chatbot-modal .ant-typography,
+html.dark .admin-chatbot-modal .ant-form-item-label > label {
+  color: #f4f5f8 !important;
+}
+
+html.dark .admin-chatbot-modal .ant-typography-secondary {
+  color: #a1a1aa !important;
+}
+
+html.dark .admin-chatbot-modal .ant-modal-close-x,
+html.dark .admin-chatbot-modal .ant-modal-close {
+  color: #a1a1aa !important;
+}
+
+html.dark .admin-chatbot-modal .ant-modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input,
+html.dark .admin-chatbot-modal .ant-input-affix-wrapper,
+html.dark .admin-chatbot-modal .ant-input-number,
+html.dark .admin-chatbot-modal .ant-select-selector,
+html.dark .admin-chatbot-modal .ant-input-password {
+  background: #111214 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f4f5f8 !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input[disabled],
+html.dark .admin-chatbot-modal .ant-input-affix-wrapper-disabled,
+html.dark .admin-chatbot-modal .ant-input-number-disabled,
+html.dark .admin-chatbot-modal .ant-input-password.ant-input-disabled {
+  background-color: #111214 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #71717a !important;
+  cursor: not-allowed;
+}
+
+html.dark .admin-chatbot-modal .ant-select.ant-select-disabled,
+html.dark .admin-chatbot-modal .ant-select.ant-select-disabled .ant-select-selector {
+  background-color: #111214 !important;
+  background: #111214 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #71717a !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+html.dark .admin-chatbot-modal .ant-select.ant-select-disabled .ant-select-selection-search-input {
+  background: transparent !important;
+}
+
+html.dark .admin-chatbot-modal .ant-select-disabled .ant-select-selection-item,
+html.dark .admin-chatbot-modal .ant-select-disabled .ant-select-selection-placeholder,
+html.dark .admin-chatbot-modal .ant-input[disabled],
+html.dark .admin-chatbot-modal .ant-input-number-disabled .ant-input-number-input {
+  color: #71717a !important;
+}
+
+html.dark .admin-chatbot-modal .ant-select-arrow {
+  color: #71717a !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input::placeholder,
+html.dark .admin-chatbot-modal .ant-input-number-input::placeholder,
+html.dark .admin-chatbot-modal .ant-select-selection-placeholder {
+  color: #71717a !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input-number-input,
+html.dark .admin-chatbot-modal .ant-select-selection-item,
+html.dark .admin-chatbot-modal .ant-input-password input {
+  color: #f4f5f8 !important;
+  background: transparent !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input-number-handler-wrap {
+  background: #17181b !important;
+  border-inline-start-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html.dark .admin-chatbot-modal .ant-input-number-handler {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #a1a1aa !important;
+}
+
+html.dark .admin-chatbot-modal .ant-typography code {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #111214 !important;
+  color: #a1a1aa !important;
+}
+
+html.dark .admin-chatbot-modal .ant-divider {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .admin-chatbot-modal .ant-btn-default {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: #17181b !important;
+  color: #f4f5f8 !important;
+}
+
+html.dark .admin-chatbot-modal .ant-btn-default:hover,
+html.dark .admin-chatbot-modal .ant-btn-default:focus {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: #202124 !important;
+  color: #ffffff !important;
+}
+
+html.dark .admin-chatbot-modal .ant-switch:not(.ant-switch-checked) {
+  background: #202124 !important;
+}
+
+html.dark .admin-chatbot-modal .ant-alert {
+  background: rgba(210, 153, 34, 0.16) !important;
+  border-color: rgba(210, 153, 34, 0.3) !important;
+}
+
+html.dark .admin-chatbot-modal .ant-alert-message,
+html.dark .admin-chatbot-modal .ant-alert-description {
+  color: #f4f5f8 !important;
+}
+
+html.dark .admin-chatbot-modal input:-webkit-autofill,
+html.dark .admin-chatbot-modal input:-webkit-autofill:hover,
+html.dark .admin-chatbot-modal input:-webkit-autofill:focus,
+html.dark .admin-chatbot-modal input:-webkit-autofill:active,
+html.dark .admin-chatbot-modal textarea:-webkit-autofill {
+  -webkit-text-fill-color: #f4f5f8 !important;
+  -webkit-box-shadow: 0 0 0 1000px #111214 inset !important;
+  box-shadow: 0 0 0 1000px #111214 inset !important;
+  caret-color: #f4f5f8 !important;
+  border-radius: 8px;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.admin-chatbot-modal input:-webkit-autofill,
+.admin-chatbot-modal input:-webkit-autofill:hover,
+.admin-chatbot-modal input:-webkit-autofill:focus,
+.admin-chatbot-modal input:-webkit-autofill:active,
+.admin-chatbot-modal textarea:-webkit-autofill {
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  caret-color: #111827 !important;
+  border-radius: 8px;
+  transition: background-color 9999s ease-in-out 0s;
 }

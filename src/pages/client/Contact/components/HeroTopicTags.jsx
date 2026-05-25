@@ -1,6 +1,8 @@
 import React from 'react'
+import { ClipboardCheck, ShoppingBag, Zap } from 'lucide-react'
 
 const SPOTLIGHT_DURATION = '5.2s'
+const HERO_TOPIC_ICONS = [ShoppingBag, ClipboardCheck, Zap]
 
 const HERO_TOPIC_STYLES = [
   {
@@ -22,18 +24,19 @@ const HERO_TOPIC_STYLES = [
 
 const HeroTopicTags = ({ topics = [] }) => {
   return (
-    <div className="mt-6 flex flex-wrap gap-2 text-[13px] font-medium text-gray-500 dark:text-gray-400">
+    <div className="mt-6 flex flex-wrap gap-2 text-[12px] font-bold text-[#3d4350] dark:text-gray-400">
       {topics.map((label, index) => {
         const topic = HERO_TOPIC_STYLES[index % HERO_TOPIC_STYLES.length]
+        const Icon = HERO_TOPIC_ICONS[index % HERO_TOPIC_ICONS.length]
 
         return (
         <span
           key={`${label}-${index}`}
-          className="group relative inline-flex overflow-hidden rounded-full p-[1px] transition-transform duration-300 hover:-translate-y-0.5"
+          className="group relative inline-flex overflow-hidden rounded-[12px] p-[1px] transition-transform duration-300 hover:-translate-y-0.5"
         >
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-[-175%] rounded-full motion-safe:animate-spin"
+            className="pointer-events-none absolute inset-[-175%] rounded-[12px] motion-safe:animate-spin"
             style={{
               backgroundImage: topic.spotlight,
               animationDuration: SPOTLIGHT_DURATION,
@@ -42,10 +45,11 @@ const HeroTopicTags = ({ topics = [] }) => {
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 rounded-full opacity-70 blur-md transition-opacity duration-300 group-hover:opacity-100"
+            className="pointer-events-none absolute inset-0 rounded-[12px] opacity-70 blur-md transition-opacity duration-300 group-hover:opacity-100"
             style={{ backgroundImage: topic.glow }}
           />
-          <span className="contact-topic-tag relative rounded-full bg-white px-3 py-1 text-gray-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] dark:bg-gray-800 dark:text-gray-300">
+          <span className="contact-topic-tag relative inline-flex items-center gap-1.5 rounded-[11px] border border-[#ffe0cf] bg-white px-3 py-2 text-[#3f4654] shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] dark:bg-gray-800 dark:text-gray-300">
+            <Icon className="h-3.5 w-3.5 text-[#ff641f]" />
             {label}
           </span>
         </span>

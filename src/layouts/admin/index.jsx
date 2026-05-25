@@ -24,15 +24,16 @@ const getStoredAdminSidebarCollapsed = () => {
 function AdminLayout() {
   const { t } = useTranslation('adminLayout')
   const [collapsed, setCollapsed] = useState(getStoredAdminSidebarCollapsed)
-  const [isChatDesktopViewport, setIsChatDesktopViewport] = useState(() => (
+  const [isChatDesktopViewport, setIsChatDesktopViewport] = useState(() =>
     typeof window === 'undefined' ? false : window.matchMedia(CHAT_DESKTOP_SIDEBAR_LOCK_QUERY).matches
-  ))
+  )
   const location = useLocation()
   const user = useSelector(state => state.adminUser.user)
   const newOrderHandlerRef = useRef(null)
   const isAdminChatPage = location.pathname === '/admin/chat'
   const isAdminDashboardPage = location.pathname === '/admin/dashboard' || location.pathname === '/admin'
   const isAdminBlogCreatePage = location.pathname === '/admin/blog/create'
+  const isAdminProductDetailPage = /^\/admin\/products\/details\/[^/]+$/.test(location.pathname)
   const isFullCanvasAdminPage = isAdminChatPage || isAdminBlogCreatePage
   const shouldLockChatSidebar = isAdminChatPage && isChatDesktopViewport
   const effectiveCollapsed = shouldLockChatSidebar ? true : collapsed
@@ -104,30 +105,30 @@ function AdminLayout() {
 
   return (
     <>
-      <Layout className="admin-layout-root overflow-hidden">
+      <Layout className="admin-root admin-layout admin-layout-root overflow-hidden">
         {!effectiveCollapsed && (
           <div onClick={() => setCollapsed(true)} className="fixed inset-0 bg-black/40 backdrop-blur-[1px] z-20 md:hidden animate-fadeIn" />
         )}
-        <SiderLayout
-          collapsed={effectiveCollapsed}
-          setCollapsed={setCollapsed}
-          location={location}
-        />
+        <SiderLayout collapsed={effectiveCollapsed} setCollapsed={setCollapsed} location={location} />
         <Layout className="admin-layout-shell flex flex-col overflow-hidden transition-colors">
-          <Header
-            collapsed={effectiveCollapsed}
-            setCollapsed={updateCollapsed}
-            onNewOrder={onNewOrder}
-            canToggleSider={!shouldLockChatSidebar}
-          />
+          {!isAdminChatPage && (
+            <Header
+              collapsed={effectiveCollapsed}
+              setCollapsed={updateCollapsed}
+              onNewOrder={onNewOrder}
+              canToggleSider={!shouldLockChatSidebar}
+            />
+          )}
           {!isFullCanvasAdminPage && !isAdminDashboardPage && (
-            <Breadcrumb className="admin-layout-breadcrumb mt-2.5 mx-2 md:mx-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
+            <Breadcrumb className="admin-layout-breadcrumb mt-1 ml-1 mr-2 md:mr-4 mb-0 flex-shrink-0" items={breadcrumbItems} />
           )}
           <Content
             className={
-              isFullCanvasAdminPage
-                ? 'flex-1 min-h-0 overflow-y-auto transition-all'
-                : `admin-layout-content ${isAdminDashboardPage ? 'admin-layout-content--dashboard' : ''} flex-1 min-h-0 overflow-y-auto mt-3 mx-2 md:mx-4 mb-4 p-3 sm:p-4 md:p-6 transition-all`
+              isAdminChatPage
+                ? 'flex-1 min-h-0 overflow-hidden transition-all'
+                : isFullCanvasAdminPage
+                  ? 'flex-1 min-h-0 overflow-y-auto transition-all'
+                  : `admin-layout-content ${isAdminDashboardPage ? 'admin-layout-content--dashboard' : ''} ${isAdminProductDetailPage ? 'admin-layout-content--product-detail' : ''} flex-1 min-h-0 overflow-y-auto mt-1 ml-1 mr-2 md:mr-4 mb-2 p-3 sm:p-4 md:p-6 transition-all`
             }
           >
             <Outlet />

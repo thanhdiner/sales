@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { message as antdMessage } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -48,6 +48,7 @@ export function useChat() {
   const debouncedSearchQueryRef = useRef('')
   const loadConversationsRef = useRef(null)
   const loadCountsRef = useRef(null)
+  const suppressNextMessagesAutoScrollRef = useRef(false)
 
   const admin = useSelector(state => state.adminUser?.user || state.user?.user)
   const websiteConfig = useSelector(state => state.websiteConfig?.data)
@@ -80,11 +81,14 @@ export function useChat() {
   }, [setSearchParams])
 
   const {
+    historyHasMore,
     messages,
     setMessages,
     messagesLoading,
-    loadHistory
-  } = useChatHistory()
+    messagesLoadingMore,
+    loadHistory,
+    loadOlderMessages
+  } = useChatHistory({ suppressNextMessagesAutoScrollRef })
 
   const {
     conversations,
@@ -100,6 +104,7 @@ export function useChat() {
     loadConversations,
     loadCounts,
     handleSearchChange,
+    clearSearch,
     handleRefresh,
     loadMoreConversations
   } = useChatConversations({ activeTab, agentId })
@@ -297,9 +302,17 @@ export function useChat() {
     setCustomerTyping
   })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!selectedSession) {
       previousSessionRef.current = null
+      return
+    }
+
+    if (messagesLoading) {
+      return
+    }
+
+    if (messages.length === 0 && !customerTyping) {
       return
     }
 
@@ -310,15 +323,22 @@ export function useChat() {
 
     const shouldAnimate = previousSessionRef.current === selectedSession
 
-    requestAnimationFrame(() => {
+    if (suppressNextMessagesAutoScrollRef.current) {
+      suppressNextMessagesAutoScrollRef.current = false
+      return
+    }
+
+    if (shouldAnimate) {
       viewport.scrollTo({
         top: viewport.scrollHeight,
-        behavior: shouldAnimate ? 'smooth' : 'auto'
+        behavior: 'smooth'
       })
-    })
+    } else {
+      viewport.scrollTop = viewport.scrollHeight
+    }
 
     previousSessionRef.current = selectedSession
-  }, [customerTyping, messages, selectedSession])
+  }, [customerTyping, messages.length, messagesLoading, selectedSession])
 
   const handleReactToMessage = useCallback((targetMessage, emoji) => {
     if (!targetMessage?._id || targetMessage.isOptimistic || !selectedSession || !agentId) {
@@ -414,8 +434,16 @@ export function useChat() {
     setMessages([])
     setCustomerTyping(false)
     restoredSessionRef.current = null
+    clearSearch()
     updateChatSearchParams({ tab: nextTab, session: null })
-  }, [setMessages, stopAgentTyping, updateChatSearchParams])
+  }, [clearSearch, setMessages, stopAgentTyping, updateChatSearchParams])
+
+  const handleLoadOlderMessages = useCallback(() => {
+    loadOlderMessages({
+      sessionId: selectedSessionRef.current,
+      viewport: messagesViewportRef.current
+    })
+  }, [loadOlderMessages])
 
   const filteredConversations = conversations
 
@@ -438,8 +466,10 @@ export function useChat() {
     isNote,
     isResolved,
     isUploadingImage,
+    messagesHasMore: historyHasMore,
     messages,
     messagesLoading,
+    messagesLoadingMore,
     messagesViewportRef,
     pendingImage,
     quickReplies,
@@ -456,6 +486,7 @@ export function useChat() {
     handleImageChange,
     handleInsertQuickReply,
     handleKeyDown,
+    handleLoadOlderMessages,
     handleLoadMoreConversations: loadMoreConversations,
     handleRefresh,
     handleReactToMessage,

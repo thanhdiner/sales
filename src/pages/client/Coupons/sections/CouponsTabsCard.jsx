@@ -1,6 +1,16 @@
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 import SimpleSelect from '@/components/shared/SimpleSelect'
 import { couponTabs } from '../constants'
+
+const tabsVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.36, delay: 0.14, ease: [0.22, 1, 0.36, 1] }
+  }
+}
 
 const CouponsTabsCard = ({ activeTab, onTabChange }) => {
   const { t } = useTranslation('clientCoupons')
@@ -10,15 +20,16 @@ const CouponsTabsCard = ({ activeTab, onTabChange }) => {
   }))
 
   return (
-    <div className="coupons-search-card coupons-tabs-card mb-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+    <motion.section className="coupons-toolbar coupons-toolbar--tabs" initial="hidden" animate="visible" variants={tabsVariants}>
       <SimpleSelect
-        label={t('tabs.all')}
+        label=""
         value={activeTab}
         onChange={onTabChange}
         options={options}
-        buttonClassName="dark:border-slate-700 dark:bg-slate-950/70 dark:hover:border-slate-600"
+        className="coupons-filter-select"
+        buttonClassName="coupons-filter-select__button"
       />
-    </div>
+    </motion.section>
   )
 }
 

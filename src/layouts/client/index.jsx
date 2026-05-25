@@ -27,9 +27,9 @@ function ClientLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === 'true')
   const user = useSelector(state => state.clientUser.user)
-  const { notifications, setNotifications, notifContextHolder } = useClientNotifications(user)
+  const { notifications, setNotifications, markClientNotificationsRead, notifContextHolder } = useClientNotifications(user)
   const isHomePage = location.pathname === '/'
-  const layoutClassName = `layout-default layout-default--client-mobile${isHomePage ? ' layout-default--home' : ''}${sidebarCollapsed ? ' layout-default--sidebar-collapsed' : ''}`
+  const layoutClassName = `client-root client-layout layout-default layout-default--client-mobile${isHomePage ? ' layout-default--home' : ''}${sidebarCollapsed ? ' layout-default--sidebar-collapsed' : ''}`
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(sidebarCollapsed))
@@ -38,7 +38,12 @@ function ClientLayout() {
   return (
     <Layout className={layoutClassName}>
       {notifContextHolder}
-      <Header onOpenMenu={() => setDrawerOpen(true)} notifications={notifications} setNotifications={setNotifications} />
+      <Header
+        onOpenMenu={() => setDrawerOpen(true)}
+        notifications={notifications}
+        setNotifications={setNotifications}
+        markNotificationsRead={markClientNotificationsRead}
+      />
 
       <PageContextProvider>
         <Layout className="layout-default__body">

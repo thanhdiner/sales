@@ -1,11 +1,9 @@
 import { FileExcelOutlined, FilterOutlined, ReloadOutlined, TableOutlined } from '@ant-design/icons'
-import * as XLSX from 'xlsx'
-import { saveAs } from 'file-saver'
 import DropdownToggleColumns from './DropdownToggleColumns'
 import ColumnMenu from './ColumnMenu'
 import { getLocalizedProductCategoryTitle, getLocalizedProductTitle } from '../../utils/productLocalization'
 import { useTranslation } from 'react-i18next'
-import { ResourceUtility } from '@/components/admin/shared/ResourceManager'
+import { ResourceUtility } from '@/components/admin/resources/ResourceManager'
 
 const getUserLabel = value => value?.by?.fullName || value?.by?.email || value?.account_id || ''
 
@@ -30,9 +28,10 @@ const getExportValue = (product, key, language, t) => {
   }
 }
 
-const exportToExcel = (products, columnsVisible, language, t) => {
+const exportToExcel = async (products, columnsVisible, language, t) => {
   if (!products || products.length === 0) return
 
+  const [XLSX, { saveAs }] = await Promise.all([import('xlsx'), import('file-saver')])
   const visibleKeys = Object.keys(columnsVisible).filter(k => columnsVisible[k] && !['actions', 'thumbnail'].includes(k))
 
   const data = products.map(product => {
@@ -52,7 +51,7 @@ const exportToExcel = (products, columnsVisible, language, t) => {
   saveAs(file, t('utility.fileName'))
 }
 
-function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, products, fetchData }) {
+function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, products, isFetching, fetchData }) {
   const { t, i18n } = useTranslation('adminProducts')
   const language = i18n.resolvedLanguage || i18n.language
 
@@ -77,7 +76,7 @@ function ProductsUtility({ handleToggleFilter, columnsVisible, setColumnsVisible
   const utilityButtons = handleToggleFilter => [
     {
       key: 'refresh',
-      icon: <ReloadOutlined />,
+      icon: <ReloadOutlined spin={isFetching} />,
       label: t('utility.refresh'),
       className: 'admin-products-btn admin-products-btn--utility',
       onClick: fetchData

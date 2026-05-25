@@ -21,7 +21,11 @@ function FeaturedProducts() {
       return result.data
     },
     placeholderData: previousData => previousData,
-    staleTime: 5 * 60 * 1000 // Cache 5 phút
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    meta: { persist: false }
   })
   const visibleProducts = products.slice(0, HOME_SLIDER_PRODUCT_LIMIT)
   const loading = isPending && visibleProducts.length === 0

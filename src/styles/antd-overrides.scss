@@ -410,7 +410,7 @@ html.dark body:not(.admin-layout-active) .ant-input-password,
 html.dark body:not(.admin-layout-active) .ant-picker,
 html.dark body:not(.admin-layout-active) .ant-select:not(.ant-select-customize-input) .ant-select-selector,
 html.dark body:not(.admin-layout-active) textarea,
-html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']):not(.category-products-toolbar__search-input) {
+html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']):not(.category-products-toolbar__search-input):not(.header-search-form__input) {
   background: var(--client-dark-surface-2) !important;
   border-color: var(--client-dark-border) !important;
   color: var(--client-dark-text) !important;
@@ -426,7 +426,7 @@ html.dark body:not(.admin-layout-active) .ant-picker:hover,
 html.dark body:not(.admin-layout-active) .ant-picker-focused,
 html.dark body:not(.admin-layout-active) .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector,
 html.dark body:not(.admin-layout-active) textarea:focus,
-html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']):not(.category-products-toolbar__search-input):focus {
+html.dark body:not(.admin-layout-active) input:not([type='checkbox']):not([type='radio']):not(.category-products-toolbar__search-input):not(.header-search-form__input):focus {
   background: var(--client-dark-surface-3) !important;
   border-color: rgba(34, 197, 94, 0.72) !important;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.16) !important;

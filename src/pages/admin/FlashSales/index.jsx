@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import SEO from '@/components/shared/SEO'
 import SearchInput from '@/components/shared/SearchInput'
+import { downloadAdminResourceCsv, useAdminResourceColumns } from '@/hooks/shared/adminResourceList'
 import FlashSaleFormModal from './components/FlashSaleFormModal'
 import FlashSalesTable from './components/FlashSalesTable'
 import FlashSaleStats from './components/FlashSaleStats'
@@ -33,15 +34,6 @@ const DEFAULT_FILTERS = {
 const FLASH_SALES_CONFIRM_MASK_STYLE = {
   background: 'rgba(8, 10, 14, 0.72)',
   backdropFilter: 'blur(2px)'
-}
-
-function getStoredColumnsVisible() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(FLASH_SALES_COLUMNS_STORAGE_KEY))
-    return { ...DEFAULT_COLUMNS_VISIBLE, ...stored, actions: true }
-  } catch {
-    return DEFAULT_COLUMNS_VISIBLE
-  }
 }
 
 function getInitialFilters(searchParams) {
@@ -75,13 +67,16 @@ const FlashSale = () => {
   const { t, i18n } = useTranslation('adminFlashSales')
   const language = i18n.resolvedLanguage || i18n.language
   const [searchParams, setSearchParams] = useSearchParams()
-  const { flashSales, tableLoading, submitLoading, fetchFlashSales, submitFlashSale, deleteFlashSaleItem } = useFlashSalesData()
+  const { flashSales, tableLoading, tableFetching, submitLoading, fetchFlashSales, submitFlashSale, deleteFlashSaleItem } = useFlashSalesData()
   const [currentPage, setCurrentPage] = useState(() => Number(searchParams.get('page')) || 1)
   const [pageSize, setPageSize] = useState(() => Number(searchParams.get('show')) || DEFAULT_PAGE_SIZE)
   const [filters, setFilters] = useState(() => getInitialFilters(searchParams))
   const [debouncedSearch, setDebouncedSearch] = useState(filters.search)
   const [showFilters, setShowFilters] = useState(true)
-  const [columnsVisible, setColumnsVisible] = useState(getStoredColumnsVisible)
+  const { columnsVisible, setColumnsVisible } = useAdminResourceColumns({
+    storageKey: FLASH_SALES_COLUMNS_STORAGE_KEY,
+    defaults: DEFAULT_COLUMNS_VISIBLE
+  })
   const {
     showModal,
     editingItem,
@@ -122,11 +117,7 @@ const FlashSale = () => {
     })
 
     setSearchParams(params, { replace: true })
-  }, [currentPage, filters, pageSize, setSearchParams])
-
-  useEffect(() => {
-    localStorage.setItem(FLASH_SALES_COLUMNS_STORAGE_KEY, JSON.stringify(columnsVisible))
-  }, [columnsVisible])
+  }, [currentPage, filters, pageSize, searchParams, setSearchParams])
 
   const filteredFlashSales = useMemo(() => {
     const [startDate, endDate] = Array.isArray(filters.dateRange) ? filters.dateRange : []
@@ -164,20 +155,10 @@ const FlashSale = () => {
       [t('table.columns.revenue')]: sale.revenue || 0
     }))
 
-    if (!rows.length) return
-
-    const headers = Object.keys(rows[0])
-    const csv = [headers.join(','), ...rows.map(row => headers.map(header => JSON.stringify(row[header] ?? '')).join(','))].join('\n')
-    const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-
-    link.href = url
-    link.download = `flash-sales-${dayjs().format('YYYYMMDD-HHmm')}.csv`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
+    downloadAdminResourceCsv({
+      rows,
+      filename: `flash-sales-${dayjs().format('YYYYMMDD-HHmm')}.csv`
+    })
   }
 
   const handleDelete = id => {
@@ -239,9 +220,9 @@ const FlashSale = () => {
   )
 
   return (
-    <div className="admin-flash-sales-page min-h-screen">
+    <div className="admin-flash-sales-page">
       <SEO title={t('seo.title')} noIndex />
-
+ 
       <div className="admin-flash-sales-page__inner mx-auto max-w-7xl">
         <div className="admin-flash-sales-header">
           <div className="min-w-0">
@@ -251,7 +232,7 @@ const FlashSale = () => {
           </div>
 
           <div className="admin-flash-sales-toolbar">
-            <Button className="admin-flash-sales-btn" icon={<ReloadOutlined spin={tableLoading} />} onClick={fetchFlashSales}>{t('actions.refresh')}</Button>
+            <Button className="admin-flash-sales-btn" icon={<ReloadOutlined spin={tableFetching} />} onClick={fetchFlashSales}>{t('actions.refresh')}</Button>
             <Button className="admin-flash-sales-btn" icon={<DownloadOutlined />} onClick={handleExport}>{t('actions.export')}</Button>
             <Dropdown dropdownRender={() => columnMenu} trigger={['click']} placement="bottomRight" arrow>
               <Button className="admin-flash-sales-btn" icon={<TableOutlined />}>{t('actions.toggleColumns')}</Button>

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Button, Collapse, Empty, message, Modal, Spin, Tag } from 'antd'
+import { Button, Collapse, Empty, Image, message, Modal, Skeleton, Spin, Tag } from 'antd'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import { deleteProduct, getProductById } from '@/services/admin/commerce/product'
 import { formatVND } from '@/utils/formatCurrency'
 import { formatDate } from '@/utils/formatDate'
@@ -54,6 +55,24 @@ const formatPrice = (value, t) => {
   return formatVND(value, { withSuffix: true })
 }
 
+const formatNumber = (value, locale, fallback) => {
+  const numericValue = Number(value)
+  return Number.isFinite(numericValue) ? numericValue.toLocaleString(locale) : fallback
+}
+
+const getBooleanLabel = (value, t) => t(value ? 'common.yes' : 'common.no')
+
+const getDeliveryTypeLabel = (value, t) => {
+  if (value === 'instant_account') return t('form.deliveryTypes.instantAccount')
+  if (value === 'manual') return t('form.deliveryTypes.manual')
+  return t('common.notAvailable')
+}
+
+const getProductImages = product => {
+  const images = Array.isArray(product?.images) ? product.images.filter(Boolean) : []
+  return [product?.thumbnail, ...images].filter(Boolean)
+}
+
 const getDiscountedPrice = product => {
   const price = Number(product?.price)
   const discount = Number(product?.discountPercentage)
@@ -65,6 +84,8 @@ const getDiscountedPrice = product => {
 function DetailValue({ children, fallback }) {
   return <div className="admin-product__value">{children ?? fallback}</div>
 }
+
+const detailRow = (label, value) => [label, value]
 
 function DetailRows({ rows }) {
   return (
@@ -94,6 +115,20 @@ function Detail({ title, rows, action, className = '' }) {
 function RichTextBlock({ value, t }) {
   if (!value) return <DetailValue>{t('common.notAvailable')}</DetailValue>
   return <div className="admin-product__rich-text" dangerouslySetInnerHTML={{ __html: value }} />
+}
+
+function FeatureList({ features, t }) {
+  const productFeatures = Array.isArray(features) ? features.filter(Boolean) : []
+
+  if (!productFeatures.length) return <DetailValue>{t('common.notAvailable')}</DetailValue>
+
+  return (
+    <ul className="admin-product__feature-list">
+      {productFeatures.map((feature, index) => (
+        <li key={`${feature}-${index}`}>{feature}</li>
+      ))}
+    </ul>
+  )
 }
 
 function UpdateHistory({ history, t }) {
@@ -142,12 +177,14 @@ function ProductPrice({ product, t }) {
   )
 }
 
-function ProductSummary({ product, rows, t }) {
+function ProductMedia({ product, rows, t }) {
+  const images = getProductImages(product)
+
   return (
-    <section className="admin-product__summary-card">
+    <section className="admin-product__media-card">
       <div className="admin-product__summary-image">
         {product.thumbnail ? (
-          <img src={product.thumbnail} alt={product.title} />
+          <Image src={product.thumbnail} alt={product.title} />
         ) : (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
@@ -161,6 +198,16 @@ function ProductSummary({ product, rows, t }) {
         {product.thumbnail && <p className="admin-product__summary-file">{extractFileName(product.thumbnail)}</p>}
         <DetailRows rows={rows} />
       </div>
+
+      {images.length > 1 ? (
+        <div className="admin-product__gallery">
+          {images.map((image, index) => (
+            <div key={`${image}-${index}`} className="admin-product__gallery-item" aria-label={`${t('details.mediaGallery')} ${index + 1}`}>
+              <Image src={image} alt={`${product.title || t('details.untitledProduct')} ${index + 1}`} preview />
+            </div>
+          ))}
+        </div>
+      ) : null}
     </section>
   )
 }
@@ -233,7 +280,7 @@ function MobileProductDetails({ product, rows, history, onDelete, t, language })
       <section className="admin-product__mobile-hero">
         <div className="admin-product__mobile-image">
           {product.thumbnail ? (
-            <img src={product.thumbnail} alt={product.title} />
+            <Image src={product.thumbnail} alt={product.title} />
           ) : (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
           )}
@@ -300,27 +347,40 @@ function ProductsDetails() {
     const notAvailable = t('common.notAvailable')
     const categoryLabel = getCategoryLabel(displayProduct.productCategory, t, language)
     const basicRows = [
-      [t('details.product'), <DetailValue>{displayProduct.title || notAvailable}</DetailValue>],
-      [t('details.slug'), <DetailValue>{displayProduct.slug || notAvailable}</DetailValue>],
-      [t('details.category'), <DetailValue>{categoryLabel}</DetailValue>],
-      [t('details.status'), <ProductStatusTag status={displayProduct.status} t={t} />],
-      [t('details.rate'), <DetailValue>{displayProduct.rate ? `${displayProduct.rate} *` : notAvailable}</DetailValue>]
+      detailRow(t('details.product'), <DetailValue>{displayProduct.title || notAvailable}</DetailValue>),
+      detailRow(t('details.slug'), <DetailValue>{displayProduct.slug || notAvailable}</DetailValue>),
+      detailRow(t('details.category'), <DetailValue>{categoryLabel}</DetailValue>),
+      detailRow(t('details.status'), <ProductStatusTag status={displayProduct.status} t={t} />),
+      detailRow(t('details.rate'), <DetailValue>{displayProduct.rate ? `${displayProduct.rate} *` : notAvailable}</DetailValue>)
     ]
     const pricingRows = [
-      [t('details.price'), <ProductPrice product={displayProduct} t={t} />],
-      [t('details.discount'), <DetailValue>{formatPercent(displayProduct.discountPercentage, locale)}</DetailValue>],
-      [t('details.stock'), <DetailValue>{displayProduct.stock ?? 0}</DetailValue>],
-      [t('details.position'), <DetailValue>{displayProduct.position ?? notAvailable}</DetailValue>]
+      detailRow(t('details.price'), <ProductPrice product={displayProduct} t={t} />),
+      detailRow(t('form.costPrice'), <DetailValue>{formatPrice(displayProduct.costPrice, t)}</DetailValue>),
+      detailRow(t('details.discount'), <DetailValue>{formatPercent(displayProduct.discountPercentage, locale)}</DetailValue>),
+      detailRow(t('details.stock'), <DetailValue>{displayProduct.stock ?? 0}</DetailValue>),
+      detailRow(t('details.soldQuantity'), <DetailValue>{formatNumber(displayProduct.soldQuantity, locale, notAvailable)}</DetailValue>),
+      detailRow(t('details.position'), <DetailValue>{displayProduct.position ?? notAvailable}</DetailValue>)
+    ]
+    const deliveryRows = [
+      detailRow(t('form.deliveryType'), <DetailValue>{getDeliveryTypeLabel(displayProduct.deliveryType, t)}</DetailValue>),
+      detailRow(t('form.deliveryEstimateDays'), <DetailValue>{formatNumber(displayProduct.deliveryEstimateDays, locale, notAvailable)}</DetailValue>),
+      detailRow(t('form.deliveryInstructions'), <RichTextBlock value={displayProduct.deliveryInstructions} t={t} />)
+    ]
+    const visibilityRows = [
+      detailRow(t('form.topDeal'), <DetailValue>{getBooleanLabel(displayProduct.isTopDeal, t)}</DetailValue>),
+      detailRow(t('form.featured'), <DetailValue>{getBooleanLabel(displayProduct.isFeatured, t)}</DetailValue>),
+      detailRow(t('details.viewsCount'), <DetailValue>{formatNumber(displayProduct.viewsCount, locale, notAvailable)}</DetailValue>),
+      detailRow(t('details.recommendScore'), <DetailValue>{formatNumber(displayProduct.recommendScore, locale, notAvailable)}</DetailValue>)
     ]
     const metadataRows = [
-      [t('details.createdAt'), <DetailValue>{formatDate(displayProduct.createdAt)}</DetailValue>],
-      [
+      detailRow(t('details.createdAt'), <DetailValue>{formatDate(displayProduct.createdAt)}</DetailValue>),
+      detailRow(
         t('details.lastUpdated'),
         <DetailValue>{displayProduct.updatedAt ? formatDate(displayProduct.updatedAt) : notAvailable}</DetailValue>
-      ],
-      [t('details.createdBy'), <DetailValue>{getUserLabel(displayProduct.createdBy, t)}</DetailValue>],
-      [t('details.timeStart'), <DetailValue>{formatDate(displayProduct.timeStart)}</DetailValue>],
-      [t('details.timeFinish'), <DetailValue>{formatDate(displayProduct.timeFinish)}</DetailValue>]
+      ),
+      detailRow(t('details.createdBy'), <DetailValue>{getUserLabel(displayProduct.createdBy, t)}</DetailValue>),
+      detailRow(t('details.timeStart'), <DetailValue>{formatDate(displayProduct.timeStart)}</DetailValue>),
+      detailRow(t('details.timeFinish'), <DetailValue>{formatDate(displayProduct.timeFinish)}</DetailValue>)
     ]
 
     return {
@@ -330,20 +390,23 @@ function ProductsDetails() {
         pricing: pricingRows,
         metadata: metadataRows,
         summary: [
-          [t('details.price'), <ProductPrice product={product} t={t} />],
-          [t('details.stock'), <DetailValue>{product.stock ?? 0}</DetailValue>],
-          [t('details.category'), <DetailValue>{categoryLabel}</DetailValue>],
-          [t('details.position'), <DetailValue>{product.position ?? notAvailable}</DetailValue>]
+          detailRow(t('details.price'), <ProductPrice product={product} t={t} />),
+          detailRow(t('details.stock'), <DetailValue>{product.stock ?? 0}</DetailValue>),
+          detailRow(t('details.category'), <DetailValue>{categoryLabel}</DetailValue>),
+          detailRow(t('details.position'), <DetailValue>{product.position ?? notAvailable}</DetailValue>)
         ],
+        delivery: deliveryRows,
+        visibility: visibilityRows,
         mobileMain: [
-          [t('details.slug'), <DetailValue>{displayProduct.slug || notAvailable}</DetailValue>],
-          [t('details.position'), <DetailValue>{displayProduct.position ?? notAvailable}</DetailValue>],
-          [t('details.rate'), <DetailValue>{displayProduct.rate ? `${displayProduct.rate} *` : notAvailable}</DetailValue>],
-          [t('details.createdAt'), <DetailValue>{formatDate(displayProduct.createdAt)}</DetailValue>],
-          [
+          detailRow(t('details.slug'), <DetailValue>{displayProduct.slug || notAvailable}</DetailValue>),
+          detailRow(t('form.deliveryType'), <DetailValue>{getDeliveryTypeLabel(displayProduct.deliveryType, t)}</DetailValue>),
+          detailRow(t('details.position'), <DetailValue>{displayProduct.position ?? notAvailable}</DetailValue>),
+          detailRow(t('details.rate'), <DetailValue>{displayProduct.rate ? `${displayProduct.rate} *` : notAvailable}</DetailValue>),
+          detailRow(t('details.createdAt'), <DetailValue>{formatDate(displayProduct.createdAt)}</DetailValue>),
+          detailRow(
             t('details.lastUpdated'),
             <DetailValue>{displayProduct.updatedAt ? formatDate(displayProduct.updatedAt) : notAvailable}</DetailValue>
-          ]
+          )
         ]
       }
     }
@@ -365,7 +428,7 @@ function ProductsDetails() {
           await deleteProduct(product._id)
           message.success(t('details.deleteSuccess'))
           navigate('/admin/products')
-        } catch (error) {
+        } catch {
           message.error(t('details.deleteError'))
         }
       }
@@ -377,14 +440,40 @@ function ProductsDetails() {
       <SEO title={t('seo.detailsTitle')} noIndex />
 
       <Spin spinning={isLoading} tip={t('details.loading')} className="admin-product__spin">
-        {!isLoading && displayProduct && detailData ? (
+        {isLoading ? (
+          <div className="admin-product__skeleton">
+            <Skeleton active paragraph={{ rows: 2 }} title={{ width: '34%' }} />
+            <div className="admin-product__skeleton-grid">
+              <Skeleton active paragraph={{ rows: 12 }} />
+              <Skeleton active paragraph={{ rows: 8 }} />
+            </div>
+          </div>
+        ) : displayProduct && detailData ? (
           <>
-            <h1 className="admin-product__title">{t('details.title')}</h1>
+            <div className="admin-product__topbar">
+              <AdminBackButton to="/admin/products" className="admin-product__back-link" label={t('details.backToProducts')} />
+
+              <div className="admin-product__topbar-actions">
+                <Link to="/admin/products">
+                  <Button className="admin-product__toolbar-btn admin-product__toolbar-btn--ghost">{t('details.productsList')}</Button>
+                </Link>
+
+                <Link to={`/admin/products/edit/${displayProduct._id}`}>
+                  <Button type="primary" icon={<EditOutlined />} className="admin-product__toolbar-btn admin-product__toolbar-btn--primary">
+                    {t('details.editProduct')}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <h1 className="admin-product__title">{displayProduct.title || t('details.untitledProduct')}</h1>
 
             <div className="admin-product__layout">
               <main className="admin-product__main">
                 <Detail title={t('details.basicInfo')} rows={detailData.rows.basic} />
                 <Detail title={t('details.pricingInventory')} rows={detailData.rows.pricing} />
+                <Detail title={t('details.delivery')} rows={detailData.rows.delivery} />
+                <Detail title={t('details.visibility')} rows={detailData.rows.visibility} />
                 <Detail title={t('details.metadata')} rows={detailData.rows.metadata} />
 
                 <div className="admin-product__two-up">
@@ -394,8 +483,9 @@ function ProductsDetails() {
                     </div>
                     <DetailRows
                       rows={[
-                        [t('details.description'), <RichTextBlock value={displayProduct.description} t={t} />],
-                        [t('details.content'), <RichTextBlock value={displayProduct.content} t={t} />]
+                        detailRow(t('details.description'), <RichTextBlock value={displayProduct.description} t={t} />),
+                        detailRow(t('details.content'), <RichTextBlock value={displayProduct.content} t={t} />),
+                        detailRow(t('form.features'), <FeatureList features={displayProduct.features} t={t} />)
                       ]}
                     />
                   </section>
@@ -411,7 +501,7 @@ function ProductsDetails() {
               </main>
 
               <aside className="admin-product__sidebar">
-                <ProductSummary product={displayProduct} rows={detailData.rows.summary} t={t} />
+                <ProductMedia product={displayProduct} rows={detailData.rows.summary} t={t} />
                 <ProductActions product={displayProduct} onDelete={handleDelete} t={t} />
               </aside>
             </div>
@@ -426,7 +516,13 @@ function ProductsDetails() {
             />
           </>
         ) : (
-          !isLoading && <p className="admin-product__empty">{t('details.notFound')}</p>
+          <div className="admin-product__empty-state">
+            <h1>{t('details.notFound')}</h1>
+            <p>{t('details.emptyDescription')}</p>
+            <Link to="/admin/products">
+              <Button className="admin-product__toolbar-btn admin-product__toolbar-btn--ghost">{t('details.backToProducts')}</Button>
+            </Link>
+          </div>
         )}
       </Spin>
     </section>

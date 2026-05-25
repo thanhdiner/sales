@@ -1,3 +1,4 @@
+﻿import { Navigate } from 'react-router-dom'
 import {
   ApiOutlined,
   AppstoreOutlined,
@@ -37,7 +38,7 @@ import {
   TrophyOutlined,
   UsergroupAddOutlined
 } from '@ant-design/icons'
-import { group, menuRoute, route } from './helpers'
+import { group, menuDivider, menuRoute, route } from './helpers'
 import {
   AdminAbout,
   AdminAccountsPage,
@@ -53,9 +54,13 @@ import {
   AdminChat,
   AdminChatbotConfig,
   AdminChatbotRulesPage,
-  AdminChatbotRuntime,
   AdminChatbotToolLogsPage,
+  AdminAIProviderDetailPage,
   AdminChatbotToolsPage,
+  AdminAIProviderLogsPage,
+  AdminAIProvidersPage,
+  AdminAIRuntimeSettingsPage,
+  AdminAIAgentsPage,
   AdminComingSoonPage,
   AdminContactContent,
   AdminCooperationContactPage,
@@ -65,6 +70,7 @@ import {
   AdminFooterPage,
   AdminGameAccountPage,
   AdminGameNewsPage,
+  AdminHomeBuildYourKitPage,
   AdminHomeWhyChooseUsPage,
   AdminMediaLibraryPage,
   AdminNotificationsPage,
@@ -143,6 +149,7 @@ export const adminRouteRegistry = [
     }),
     menuRoute('terms', AdminTermsPage, { permission: 'view_terms_content' }, 'routes.terms', { icon: <FileTextOutlined /> }),
     menuRoute('home-why-choose-us', AdminHomeWhyChooseUsPage, { permission: 'view_home_why_choose_us_content' }, 'routes.home-why-choose-us', { icon: <TrophyOutlined /> }),
+    menuRoute('home-build-your-kit', AdminHomeBuildYourKitPage, { permission: 'view_home_build_your_kit_content' }, 'routes.home-build-your-kit', { icon: <AppstoreOutlined /> }),
     menuRoute('cooperation-contact', AdminCooperationContactPage, { permission: 'view_cooperation_contact_content' }, 'routes.cooperation-contact', { icon: <UsergroupAddOutlined /> }),
     menuRoute('contact-page', AdminContactContent, { permission: 'view_contact_page' }, 'routes.contact-page', { icon: <ContactsOutlined /> }),
     menuRoute('privacy-policy', AdminPrivacyPolicyPage, { permission: 'view_privacy_policy' }, 'routes.privacy-policy', { icon: <SafetyCertificateOutlined /> }),
@@ -175,7 +182,19 @@ export const adminRouteRegistry = [
   ]),
   group('ai-agent', 'routes.ai-agent', <RobotOutlined />, [
     menuRoute('chatbot-config', AdminChatbotConfig, { permission: 'view_chatbot_config' }, 'routes.chatbot-config', { icon: <SettingOutlined /> }),
-    menuRoute('chatbot-runtime', AdminChatbotRuntime, { permission: 'view_chatbot_config' }, 'routes.chatbot-runtime', { icon: <ApiOutlined /> }),
+    route('chatbot-runtime', () => <Navigate to="/admin/ai-runtime-settings" replace />, { permission: 'view_chatbot_config' }),
+    menuDivider('ai-agent-agents-divider'),
+    menuRoute('ai-agents', AdminAIAgentsPage, { permission: 'view_chatbot_config' }, 'routes.ai-agents', { icon: <RobotOutlined /> }),
+    menuDivider('ai-agent-provider-divider'),
+    menuRoute('ai-providers', AdminAIProvidersPage, { permission: 'view_chatbot_config' }, 'routes.ai-providers', {
+      icon: <ApiOutlined />,
+      relatedRoutes: [
+        route('ai-providers/:code', AdminAIProviderDetailPage, { permission: 'view_chatbot_config' })
+      ]
+    }),
+    menuRoute('ai-provider-logs', AdminAIProviderLogsPage, { permission: 'view_chatbot_config' }, 'routes.ai-provider-logs', { icon: <FileSearchOutlined /> }),
+    menuDivider('ai-agent-runtime-divider'),
+    menuRoute('ai-runtime-settings', AdminAIRuntimeSettingsPage, { permission: 'view_chatbot_config' }, 'routes.ai-runtime-settings', { icon: <SettingOutlined /> }),
     menuRoute('chatbot-rules', AdminChatbotRulesPage, { permission: 'view_chatbot_config' }, 'routes.chatbot-rules', { icon: <FileTextOutlined /> }),
     menuRoute('chatbot-tools', AdminChatbotToolsPage, { permission: 'view_chatbot_config' }, 'routes.chatbot-tools', { icon: <ToolOutlined /> }),
     menuRoute('chatbot-tool-logs', AdminChatbotToolLogsPage, { permission: 'view_chatbot_tool_logs' }, 'routes.chatbot-tool-logs', { icon: <FileSearchOutlined /> })

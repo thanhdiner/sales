@@ -1,0 +1,80 @@
+{
+  "seo": {
+    "title": "Admin - Khối Build Your Kit"
+  },
+  "page": {
+    "title": "Gợi ý combo theo nhu cầu",
+    "description": "Quản lý nội dung song ngữ cho khối Build Your Kit trên trang chủ."
+  },
+  "tabs": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "actions": {
+    "preview": "Xem trước",
+    "reload": "Tải lại",
+    "reset": "Đặt lại đã lưu",
+    "resetDefaults": "Dùng mặc định",
+    "save": "Lưu nội dung",
+    "remove": "Xóa",
+    "addKit": "Thêm kit",
+    "addHighlight": "Thêm điểm nhấn",
+    "addProduct": "Thêm sản phẩm"
+  },
+  "messages": {
+    "fetchError": "Không thể tải nội dung Build Your Kit",
+    "saveSuccess": "Đã lưu nội dung Build Your Kit",
+    "saveError": "Không thể lưu nội dung Build Your Kit",
+    "resetDone": "Đã đặt lại form theo dữ liệu đã lưu",
+    "defaultsDone": "Đã nạp nội dung mặc định"
+  },
+  "validation": {
+    "required": "Vui lòng nhập trường này",
+    "uniqueId": "ID kit không được trùng nhau trong cùng một ngôn ngữ",
+    "link": "Liên kết phải bắt đầu bằng / hoặc https://"
+  },
+  "sections": {
+    "status": "Trạng thái",
+    "header": "Tiêu đề chung",
+    "headerDescription": "Nội dung bên trái và CTA phụ của section.",
+    "kits": "Danh sách kit/scenario",
+    "kitsDescription": "Mỗi kit là một tab khách có thể chọn trên trang chủ.",
+    "kitDescription": "ID dùng làm định danh tab; label là chữ hiển thị cho khách.",
+    "highlights": "Điểm nhấn nhỏ",
+    "products": "Sản phẩm quanh mascot",
+    "productsDescription": "Chọn sản phẩm có sẵn hoặc nhập fallback. Mỗi sản phẩm cần chọn một vị trí hiển thị quanh mascot."
+  },
+  "positionOptions": {
+    "item": "Vị trí {{index}}"
+  },
+  "fields": {
+    "enabled": "Hiển thị section",
+    "eyebrow": "Nhãn nhỏ",
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "defaultKitId": "Kit mặc định",
+    "primaryCtaFallback": "CTA chính dự phòng",
+    "secondaryCta": "Nút CTA phụ",
+    "secondaryCtaLink": "Link CTA phụ",
+    "kit": "Kit {{index}}",
+    "kitId": "ID kit",
+    "kitLabel": "Tên tab",
+    "kicker": "Nhãn combo",
+    "kitTitle": "Tên combo",
+    "kitDescription": "Mô tả combo",
+    "primaryCta": "Nút CTA chính",
+    "primaryCtaLink": "Link CTA chính",
+    "categorySlug": "Slug danh mục",
+    "highlight": "Điểm nhấn {{index}}",
+    "product": "Sản phẩm {{index}}",
+    "productRef": "Chọn sản phẩm",
+    "productSlug": "Slug sản phẩm",
+    "positionKey": "Vị trí",
+    "customLabel": "Tên hiển thị tùy chỉnh",
+    "customImage": "Ảnh tùy chỉnh",
+    "categorySlugFallback": "Slug danh mục dự phòng"
+  },
+  "placeholders": {
+    "productSearch": "Tìm sản phẩm theo tên"
+  }
+}

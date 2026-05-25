@@ -177,7 +177,7 @@ export default function OrderSuccess() {
             <button
               type="button"
               className="rounded-lg border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
-              onClick={() => navigate('/orders', { replace: true })}
+              onClick={() => navigate(orderId ? `/orders/${orderId}` : '/orders', { replace: true })}
             >
               Xem đơn hàng
             </button>

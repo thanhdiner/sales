@@ -27,7 +27,7 @@ function EmptyWishlistState({ onBrowseProducts, t }) {
             <Heart aria-hidden="true" className="h-9 w-9" strokeWidth={1.8} />
           </div>
 
-          <h2 className="mt-6 text-2xl font-extrabold text-slate-950 dark:text-gray-100 sm:text-3xl">{t('empty.title')}</h2>
+          <h2 className="mt-6 text-2xl font-bold text-slate-950 dark:text-gray-100 sm:text-3xl">{t('empty.title')}</h2>
 
           <p className="mt-3 max-w-md text-sm leading-6 text-slate-500 dark:text-gray-400">{t('empty.description')}</p>
 

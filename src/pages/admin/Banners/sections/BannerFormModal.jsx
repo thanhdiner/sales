@@ -1,7 +1,7 @@
 import { Divider, Form, Input, Modal, Switch, Upload } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import { Form as UiForm } from '@/components/admin/ui'
+import { AdminForm as UiForm } from '@/components/admin/ui'
 
 export default function BannerFormModal({
   form,

@@ -12,7 +12,11 @@ export function useFlashSale() {
       return res.flashSales && res.flashSales[0] ? res.flashSales[0] : null
     },
     placeholderData: previousData => previousData,
-    staleTime: 5 * 60 * 1000 // Cache 5 phút
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    meta: { persist: false }
   })
 
   return {

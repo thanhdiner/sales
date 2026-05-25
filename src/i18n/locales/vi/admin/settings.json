@@ -3,6 +3,7 @@
     "title": "Admin - Cài đặt"
   },
   "page": {
+    "back": "Quay lại",
     "eyebrow": "Admin settings",
     "title": "Cài đặt hệ thống",
     "description": "Quản lý bảo mật tài khoản quản trị và thông tin hiển thị của website."
@@ -96,9 +97,18 @@
         "label": "Số điện thoại",
         "placeholder": "Nhập số điện thoại"
       },
+      "hotline": {
+        "label": "Hotline",
+        "placeholder": "Nháº­p sá»‘ hotline"
+      },
       "email": {
         "label": "Email",
         "invalid": "Email không hợp lệ",
+        "placeholder": "support@example.com"
+      },
+      "supportEmail": {
+        "label": "Email há»— trá»£",
+        "invalid": "Email há»— trá»£ khÃ´ng há»£p lá»‡",
         "placeholder": "support@example.com"
       },
       "address": {
@@ -108,6 +118,14 @@
       "website": {
         "label": "Website",
         "placeholder": "https://example.com"
+      },
+      "businessHours": {
+        "label": "Giờ hỗ trợ",
+        "placeholder": "8:00 - 21:00 hằng ngày"
+      },
+      "supportHours": {
+        "label": "Giá» há»— trá»£ khÃ¡ch hÃ ng",
+        "placeholder": "8:00 - 21:00 háº±ng ngÃ y"
       },
       "facebook": {
         "label": "Facebook",

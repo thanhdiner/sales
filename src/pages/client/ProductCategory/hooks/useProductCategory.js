@@ -132,7 +132,11 @@ function useProductCategory(slug) {
     placeholderData: (previousData, previousQuery) => (
       previousQuery?.queryKey?.[2] === slug ? previousData : undefined
     ),
-    staleTime: 5 * 60 * 1000
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    meta: { persist: false }
   })
 
   const activeTreeCategory = useMemo(() => findCategoryBySlug(categories, slug), [categories, slug])

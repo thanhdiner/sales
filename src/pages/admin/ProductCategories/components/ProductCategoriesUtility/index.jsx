@@ -1,11 +1,9 @@
 import { FileExcelOutlined, FilterOutlined, ReloadOutlined, TableOutlined } from '@ant-design/icons'
-import * as XLSX from 'xlsx'
-import { saveAs } from 'file-saver'
 import DropdownToggleColumns from './DropdownToggleColumns'
 import ColumnMenu from './ColumnMenu'
 import { getLocalizedProductCategoryParentTitle, getLocalizedProductCategoryTitle } from '../../utils/productCategoryLocalization'
 import { useTranslation } from 'react-i18next'
-import { ResourceUtility } from '@/components/admin/shared/ResourceManager'
+import { ResourceUtility } from '@/components/admin/resources/ResourceManager'
 
 const getUserLabel = value => value?.by?.fullName || value?.by?.email || value?.account_id || ''
 
@@ -30,9 +28,10 @@ const getExportValue = (productCategory, key, language, t) => {
   }
 }
 
-const exportToExcel = (productCategories, columnsVisible, sheetName, fileName, language, t) => {
+const exportToExcel = async (productCategories, columnsVisible, sheetName, fileName, language, t) => {
   if (!productCategories || productCategories.length === 0) return
 
+  const [XLSX, { saveAs }] = await Promise.all([import('xlsx'), import('file-saver')])
   const visibleKeys = Object.keys(columnsVisible).filter(k => columnsVisible[k] && !['actions', 'thumbnail'].includes(k))
 
   const data = productCategories.map(productCategory => {
@@ -52,7 +51,7 @@ const exportToExcel = (productCategories, columnsVisible, sheetName, fileName, l
   saveAs(file, fileName)
 }
 
-function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories, fetchData }) {
+function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColumnsVisible, productCategories, isFetching, fetchData }) {
   const { t, i18n } = useTranslation('adminProductCategories')
   const language = i18n.resolvedLanguage || i18n.language
 
@@ -73,7 +72,7 @@ function ProductCategoriesUtility({ handleToggleFilter, columnsVisible, setColum
   const utilityButtons = handleToggleFilter => [
     {
       key: 'refresh',
-      icon: <ReloadOutlined />,
+      icon: <ReloadOutlined spin={isFetching} />,
       label: t('utility.refresh'),
       className: '',
       onClick: fetchData

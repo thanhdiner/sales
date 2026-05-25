@@ -1,0 +1,41 @@
+.admin-ui-button.ant-btn {
+  min-height: 38px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+.admin-ui-button--primary.ant-btn,
+.admin-ui-button--primary.ant-btn.ant-btn-primary {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+}
+
+.admin-ui-button--primary.ant-btn:hover,
+.admin-ui-button--primary.ant-btn.ant-btn-primary:hover {
+  border-color: var(--admin-accent) !important;
+  background: var(--admin-accent) !important;
+  color: #f4f5f8 !important;
+  filter: brightness(1.06);
+}
+
+.admin-ui-button--secondary.ant-btn {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-ui-button--secondary.ant-btn:hover,
+.admin-ui-button--secondary.ant-btn:focus-visible {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-ui-button--danger.ant-btn,
+.admin-ui-button--danger.ant-btn.ant-btn-dangerous {
+  border-color: var(--admin-danger-border) !important;
+  background: var(--admin-danger-bg-soft) !important;
+  color: var(--admin-danger-text) !important;
+}

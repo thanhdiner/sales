@@ -23,6 +23,7 @@ function ProductCategories() {
     productCategories,
     setProductCategories,
     isLoading,
+    isFetching,
     value,
     setValue,
     editedPositions,
@@ -42,7 +43,7 @@ function ProductCategories() {
       <SEO title={t('seo.title')} noIndex />
       <div className="admin-product-categories-page__inner">
         <ProductCategoriesHeader
-          {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories, fetchData }}
+          {...{ setCurrentPage, setLimitItems, setFilterValues, filterInitialValues, columnsVisible, setColumnsVisible, productCategories, isFetching, fetchData }}
         />
         <ProductCategoriesHeaderActions
           {...{

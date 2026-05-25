@@ -13,7 +13,8 @@ export default function ChatbotRulesStringListEditor({
   placeholder,
   buttonLabel,
   buttonType = 'default',
-  compactClassName = 'max-w-xl'
+  compactClassName = 'max-w-xl',
+  maxLength
 }) {
   return (
     <div>
@@ -38,6 +39,8 @@ export default function ChatbotRulesStringListEditor({
             onAdd()
           }}
           placeholder={placeholder}
+          maxLength={maxLength}
+          showCount={Boolean(maxLength)}
         />
 
         <Button

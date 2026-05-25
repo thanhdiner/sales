@@ -41,7 +41,7 @@ body.admin-layout-active {
   overflow: hidden;
   margin-bottom: 16px;
   border: 1px solid var(--banners-border);
-  border-radius: 12px;
+  border-radius: 4px;
   background: var(--banners-surface);
   -webkit-overflow-scrolling: touch;
 }
@@ -55,7 +55,7 @@ body.admin-layout-active {
   height: 58px;
   overflow: hidden;
   border: 1px solid var(--banners-border);
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--banners-surface-2);
 }
 
@@ -115,7 +115,7 @@ body.admin-layout-active {
 .admin-banners-menu-btn.ant-btn {
   width: 30px;
   height: 30px;
-  border-radius: 8px;
+  border-radius: 4px;
   color: var(--banners-text-subtle) !important;
 }
 
@@ -169,14 +169,14 @@ body.admin-layout-active {
 
 .admin-banners-page .ant-table-filter-dropdown {
   border: 1px solid var(--banners-border) !important;
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   background: var(--banners-surface) !important;
   box-shadow: var(--admin-shadow) !important;
 }
 
 .admin-banners-page .ant-table-filter-dropdown .ant-dropdown-menu {
   border: 0 !important;
-  border-radius: 10px 10px 0 0 !important;
+  border-radius: 6px 6px 0 0 !important;
   background: var(--banners-surface) !important;
   box-shadow: none !important;
 }
@@ -297,7 +297,7 @@ body.admin-layout-active {
 
 .admin-banners-table.ant-table-wrapper .ant-pagination {
   margin: 14px 0 0;
-  padding: 0 2px;
+  padding: 0 10px 10px;
 }
 
 .admin-banners-collection {
@@ -318,7 +318,7 @@ body.admin-layout-active {
   align-items: start;
   padding: 12px;
   border: 1px solid var(--banners-border);
-  border-radius: 10px;
+  border-radius: 4px;
   background: var(--banners-surface-2);
 }
 
@@ -328,7 +328,7 @@ body.admin-layout-active {
   aspect-ratio: 2.45 / 1;
   overflow: hidden;
   border: 1px solid var(--banners-border);
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--banners-surface);
 }
 
@@ -399,7 +399,7 @@ body.admin-layout-active {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--banners-border);
-  border-radius: 12px;
+  border-radius: 4px;
   background: var(--banners-surface-2);
 }
 
@@ -459,7 +459,7 @@ body.admin-layout-active {
   margin-bottom: 24px;
   padding: 14px;
   border: 1px solid var(--banners-border);
-  border-radius: 10px;
+  border-radius: 4px;
   background: var(--banners-surface-2);
 }
 
@@ -527,7 +527,7 @@ html.dark body.admin-layout-active .admin-banners-modal .ant-modal-footer {
 
 .admin-banners-confirm-modal .ant-modal-content {
   border: 1px solid var(--banners-border) !important;
-  border-radius: 14px !important;
+  border-radius: 6px !important;
   background: var(--banners-surface) !important;
   box-shadow: var(--admin-shadow, 0 20px 40px rgba(0, 0, 0, 0.42)) !important;
   padding: 20px 22px !important;
@@ -571,7 +571,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
   border-color: var(--banners-border) !important;
   background: var(--banners-surface-2) !important;
   color: var(--banners-text-muted) !important;
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   box-shadow: none !important;
 }
 
@@ -587,7 +587,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
   border-color: rgba(248, 81, 73, 0.45) !important;
   background: rgba(248, 81, 73, 0.14) !important;
   color: #f87171 !important;
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   box-shadow: none !important;
 }
 
@@ -635,7 +635,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
   }
 
   .admin-banners-card.ant-card {
-    border-radius: 12px !important;
+    border-radius: 8px !important;
   }
 
   .admin-banners-card .ant-card-body {
@@ -667,7 +667,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
     display: block;
     overflow: hidden;
     border: 1px solid var(--banners-border);
-    border-radius: 10px;
+    border-radius: 4px;
     background: var(--banners-surface);
   }
 
@@ -688,7 +688,7 @@ html.dark body.admin-layout-active .ant-modal-root .admin-banners-confirm-modal 
 
   .admin-banners-item__image {
     aspect-ratio: 2 / 1;
-    border-radius: 6px;
+    border-radius: 4px;
   }
 
   .admin-banners-item__title {

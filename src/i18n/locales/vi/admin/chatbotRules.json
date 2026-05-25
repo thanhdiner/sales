@@ -7,28 +7,37 @@
     "description": "Quản lý prompt, quy tắc hệ thống, fallback và từ khóa auto-escalate.",
     "openAgentSettings": "Mở Cài đặt Agent",
     "reload": "Tải lại",
-    "save": "Lưu rules"
+    "save": "Lưu rules",
+    "preview": "Preview prompt",
+    "resetDefaults": "Reset defaults"
   },
   "stats": {
     "systemRules": "Rules hệ thống",
+    "systemRulesDesc": "Guardrail hành vi áp dụng cho mọi phản hồi của agent.",
     "escalateKeywords": "Từ khóa escalate",
+    "escalateKeywordsDesc": "Cụm từ của khách nên chuyển chat sang nhân viên.",
     "promptOverride": "Prompt override",
     "overrideEnabled": "Đã dùng",
-    "defaultPrompt": "Mặc định"
+    "defaultPrompt": "Mặc định",
+    "promptOverrideEnabledDesc": "System prompt tùy chỉnh đang thay thế prompt tự sinh.",
+    "promptOverrideDefaultDesc": "Agent đang dùng prompt mặc định tự sinh."
   },
   "alert": {
     "message": "Rules nên chỉ chứa chính sách hành vi và guardrail",
     "description": "Nếu là cấu hình model/provider thì dùng Runtime & Provider. Nếu là quyền bật/tắt tool thì dùng Agent Tools."
   },
   "content": {
-    "title": "Prompt, rules và fallback"
+    "title": "Prompt, rules và fallback",
+    "identityTitle": "Brand voice và fallback",
+    "overrideTitle": "System prompt override",
+    "rulesTitle": "Rules và auto-escalate"
   },
   "form": {
     "brandVoice": "Brand voice",
     "brandVoiceExtra": "Hướng dẫn cách agent nên giao tiếp với khách.",
     "brandVoicePlaceholder": "Ví dụ: Thân thiện, xưng mình/bạn, ngắn gọn, không vòng vo...",
     "systemPromptOverride": "System prompt override",
-    "systemPromptOverrideExtra": "Nếu điền, prompt này sẽ thay thế prompt động mặc định.",
+    "systemPromptOverrideExtra": "Nếu điền, prompt này sẽ thay thế prompt động mặc định. Chỉ dùng khi thật sự cần.",
     "systemPromptOverridePlaceholder": "Để trống để dùng prompt mặc định...",
     "fallbackMessage": "Fallback message",
     "fallbackMessageExtra": "Tin nhắn trả về khi AI gặp lỗi hoặc không xử lý được.",
@@ -39,6 +48,38 @@
     "autoEscalateKeywords": "Từ khóa auto-escalate",
     "autoEscalateKeywordsPlaceholder": "Ví dụ: hoàn tiền, hủy đơn, gặp nhân viên",
     "add": "Thêm"
+  },
+  "validation": {
+    "max": "Tối đa {{count}} ký tự"
+  },
+  "override": {
+    "active": "Override active",
+    "warningTitle": "System prompt override đang bật",
+    "warningDescription": "Prompt động mặc định sẽ bị thay thế. Guardrail phạm vi bán hàng vẫn được nối thêm ở backend.",
+    "confirmTitle": "Lưu prompt override?",
+    "confirmDescription": "Override có thể thay đổi mạnh hành vi chatbot. Hãy preview prompt trước khi lưu."
+  },
+  "defaults": {
+    "confirmTitle": "Reset defaults?",
+    "confirmDescription": "Defaults chỉ áp vào form. DB chưa đổi cho tới khi bấm Lưu rules.",
+    "applied": "Đã áp defaults vào form"
+  },
+  "preview": {
+    "title": "Preview final prompt",
+    "note": "Preview dùng context khách hàng mẫu và tool registry hiện tại."
+  },
+  "test": {
+    "title": "Test chatbot",
+    "placeholder": "Nhập tin nhắn test...",
+    "button": "Test với rules hiện tại"
+  },
+  "history": {
+    "title": "Rules history",
+    "empty": "Chưa có lịch sử",
+    "rollback": "Rollback",
+    "rollbackConfirmTitle": "Rollback rules?",
+    "rollbackConfirmDescription": "Cấu hình rules sẽ quay về snapshot trước đó.",
+    "rollbackSuccess": "Rollback rules thành công"
   },
   "messages": {
     "updateSuccess": "Cập nhật agent rules thành công"

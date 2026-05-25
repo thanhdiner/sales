@@ -62,6 +62,7 @@
     "fetchError": "Không tải được danh sách bài viết",
     "detailFetchError": "Không tải được bài viết",
     "empty": "Chưa có bài viết phù hợp",
+    "emptyAll": "Chưa có bài viết",
     "notFound": "Không tìm thấy bài viết",
     "noToc": "Chưa có mục lục"
   }

@@ -23,6 +23,7 @@ function Products() {
     products,
     setProducts,
     isLoading,
+    isFetching,
     value,
     setValue,
     editedPositions,
@@ -51,6 +52,7 @@ function Products() {
               columnsVisible,
               setColumnsVisible,
               products,
+              isFetching,
               fetchData
             }}
           />

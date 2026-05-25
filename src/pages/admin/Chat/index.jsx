@@ -36,7 +36,7 @@ function ChatFilters({ activeTab, counts, onTabChange }) {
   const { t } = useTranslation('adminChat')
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {CHAT_FILTERS.map(({ key, labelKey, Icon }) => {
         const isActive = activeTab === key
 
@@ -46,13 +46,13 @@ function ChatFilters({ activeTab, counts, onTabChange }) {
             type="button"
             onClick={() => onTabChange(key)}
             aria-pressed={isActive}
-            className={`inline-flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition-colors ${
+            className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors ${
               isActive
                 ? 'border-[var(--admin-accent)] bg-[var(--admin-accent)] text-[#f4f5f8]'
                 : 'border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)] hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]'
             }`}
           >
-            <Icon className="h-4 w-4" strokeWidth={1.8} />
+            <Icon className="h-3.5 w-3.5" strokeWidth={1.8} />
             <span>{t(labelKey)}</span>
             <span
               className={`rounded-full px-1.5 py-0.5 text-[11px] font-semibold ${
@@ -92,8 +92,10 @@ export default function Chat() {
     isNote,
     isResolved,
     isUploadingImage,
+    messagesHasMore,
     messages,
     messagesLoading,
+    messagesLoadingMore,
     messagesViewportRef,
     pendingImage,
     quickReplies,
@@ -111,6 +113,7 @@ export default function Chat() {
     handleImageChange,
     handleInsertQuickReply,
     handleKeyDown,
+    handleLoadOlderMessages,
     handleLoadMoreConversations,
     handleRefresh,
     handleReactToMessage,
@@ -133,14 +136,14 @@ export default function Chat() {
   }, [])
 
   return (
-    <div className="admin-chat-page flex h-full min-h-0 overflow-hidden rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text)] shadow-[var(--admin-shadow)]">
+    <div className="admin-chat-page flex h-full min-h-0 overflow-hidden bg-[var(--admin-surface)] text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex shrink-0 flex-col gap-3 border-b border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex shrink-0 flex-col gap-2 border-b border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2.5 xl:flex-row xl:items-center xl:justify-between">
           <div className="min-w-0">
-            <h1 className="text-xl font-semibold text-[var(--admin-text)]">{t('page.title')}</h1>
-            <p className="mt-0.5 text-sm text-[var(--admin-text-muted)]">
+            <h1 className="text-lg font-semibold text-[var(--admin-text)]">{t('page.title')}</h1>
+            <p className="mt-0.5 hidden text-xs text-[var(--admin-text-muted)] md:block">
               {t('page.description')}
             </p>
           </div>
@@ -152,7 +155,7 @@ export default function Chat() {
               type="button"
               onClick={handleRefresh}
               disabled={refreshing}
-              className="inline-flex h-10 w-fit items-center gap-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-4 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-3)] hover:text-[var(--admin-text)] disabled:cursor-wait disabled:opacity-70"
+              className="inline-flex h-8 w-fit items-center gap-1.5 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-3 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-3)] hover:text-[var(--admin-text)] disabled:cursor-wait disabled:opacity-70"
             >
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} strokeWidth={1.8} />
               {refreshing ? t('page.refreshing') : t('page.refresh')}
@@ -188,8 +191,10 @@ export default function Chat() {
               isNote={isNote}
               isResolved={isResolved}
               isUploadingImage={isUploadingImage}
+              messagesHasMore={messagesHasMore}
               messages={messages}
               messagesLoading={messagesLoading}
+              messagesLoadingMore={messagesLoadingMore}
               messagesViewportRef={messagesViewportRef}
               pendingImage={pendingImage}
               quickReplies={quickReplies}
@@ -204,6 +209,7 @@ export default function Chat() {
               onImageChange={handleImageChange}
               onInsertQuickReply={handleInsertQuickReply}
               onKeyDown={handleKeyDown}
+              onLoadOlderMessages={handleLoadOlderMessages}
               onOpenImagePreview={handleOpenImagePreview}
               onOpenImagePicker={openImagePicker}
               onReactToMessage={handleReactToMessage}

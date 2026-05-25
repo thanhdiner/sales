@@ -28,6 +28,7 @@
     "markRead": "Đánh dấu đã đọc",
     "archive": "Lưu trữ",
     "delete": "Xóa",
+    "detail": "Chi tiết",
     "viewOrder": "Xem đơn",
     "viewPayment": "Xem thanh toán",
     "viewProduct": "Xem sản phẩm",
@@ -133,6 +134,11 @@
     "selectedArchived": "Đã lưu trữ các thông báo đã chọn.",
     "selectedDeleted": "Đã xóa các thông báo đã chọn.",
     "settingsComing": "Notification settings sẽ được nối khi có cấu hình backend."
+  },
+  "confirm": {
+    "deleteTitle": "Xóa thông báo này?",
+    "deleteOk": "Xóa",
+    "cancel": "Hủy"
   },
   "socket": {
     "orderTitle": "Đơn hàng mới #{{orderId}}",

@@ -2,9 +2,12 @@ import { Bell } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { adminNotificationsMock } from '@/pages/admin/Notifications/data'
+import { getSocket } from '@/services/realtime/socket'
 import {
-  createOrderAdminNotification,
+  getAdminNotifications,
+  markAdminNotificationsRead
+} from '@/services/admin/commerce/notifications'
+import {
   getDropdownPriorityScore,
   getLocalizedNotificationField,
   getNotificationActionRoute,
@@ -32,21 +35,49 @@ const filterDropdownItems = (items, activeTab) => {
   return relevantItems
 }
 
-export default function AdminNotificationBell({ onNewOrder }) {
+export default function AdminNotificationBell() {
   const { t, i18n } = useTranslation('adminNotifications')
   const navigate = useNavigate()
   const language = i18n.resolvedLanguage || i18n.language
-  const [notifications, setNotifications] = useState(adminNotificationsMock)
+  const [notifications, setNotifications] = useState([])
+  const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('all')
   const panelRef = useRef(null)
 
   useEffect(() => {
-    if (!onNewOrder) return undefined
+    let ignore = false
 
-    const handler = order => {
-      const notification = createOrderAdminNotification(order, t, language)
-      setNotifications(prev => [notification, ...prev].slice(0, 40))
+    const fetchNotifications = () => {
+      getAdminNotifications({ page: 1, limit: 40 })
+        .then(response => {
+          if (!ignore) setNotifications(Array.isArray(response?.notifications) ? response.notifications : [])
+        })
+        .catch(() => {
+          if (!ignore) setNotifications([])
+        })
+        .finally(() => {
+          if (!ignore) setLoading(false)
+        })
+    }
+
+    fetchNotifications()
+    const intervalId = window.setInterval(fetchNotifications, 30000)
+
+    return () => {
+      ignore = true
+      window.clearInterval(intervalId)
+    }
+  }, [])
+
+  useEffect(() => {
+    const socket = getSocket()
+
+    const handleCreated = payload => {
+      const notification = payload?.notification
+      if (!notification?._id) return
+
+      setNotifications(prev => [notification, ...prev.filter(item => item._id !== notification._id)].slice(0, 40))
 
       if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(getLocalizedNotificationField(notification, 'title', language), {
@@ -56,11 +87,33 @@ export default function AdminNotificationBell({ onNewOrder }) {
       }
     }
 
-    const unsubscribe = onNewOrder(handler)
-    return () => {
-      if (typeof unsubscribe === 'function') unsubscribe()
+    const handleRead = payload => {
+      const readAt = new Date().toISOString()
+      const ids = Array.isArray(payload?.ids) ? payload.ids : []
+      setNotifications(prev =>
+        prev.map(notification =>
+          payload?.all || ids.includes(notification._id)
+            ? { ...notification, readAt: notification.readAt || readAt }
+            : notification
+        )
+      )
     }
-  }, [language, onNewOrder, t])
+
+    const handleDeleted = payload => {
+      const ids = Array.isArray(payload?.ids) ? payload.ids : []
+      setNotifications(prev => prev.filter(notification => !ids.includes(notification._id)))
+    }
+
+    socket.on('notification:created', handleCreated)
+    socket.on('notification:read', handleRead)
+    socket.on('notification:deleted', handleDeleted)
+
+    return () => {
+      socket.off('notification:created', handleCreated)
+      socket.off('notification:read', handleRead)
+      socket.off('notification:deleted', handleDeleted)
+    }
+  }, [language])
 
   useEffect(() => {
     const handlePointerDown = event => {
@@ -94,20 +147,22 @@ export default function AdminNotificationBell({ onNewOrder }) {
     [activeTab, notifications]
   )
 
-  const markAllRead = () => {
+  const markAllRead = async () => {
     const readAt = new Date().toISOString()
     setNotifications(prev => prev.map(notification => (notification.readAt ? notification : { ...notification, readAt })))
+    await markAdminNotificationsRead()
   }
 
-  const markOneRead = notificationId => {
+  const markOneRead = async notificationId => {
     const readAt = new Date().toISOString()
     setNotifications(prev =>
       prev.map(notification => (notification._id === notificationId && !notification.readAt ? { ...notification, readAt } : notification))
     )
+    await markAdminNotificationsRead([notificationId])
   }
 
-  const handleView = notification => {
-    markOneRead(notification._id)
+  const handleView = async notification => {
+    await markOneRead(notification._id)
     setOpen(false)
     navigate(getNotificationActionRoute(notification))
   }
@@ -142,6 +197,7 @@ export default function AdminNotificationBell({ onNewOrder }) {
           unreadCount={unreadCount}
           urgentCount={urgentCount}
           totalCount={notifications.length}
+          loading={loading}
           language={language}
           onTabChange={setActiveTab}
           onMarkAllRead={markAllRead}

@@ -13,6 +13,18 @@
     "30days": "Last 30 days",
     "90days": "Last 3 months"
   },
+  "sections": {
+    "vitalSigns": "Vital signs",
+    "operationsHub": "Operations hub",
+    "conversionAnalytics": "Conversion analytics",
+    "targetIntelligence": "Target intelligence",
+    "transactionStream": "Transaction stream",
+    "vitalGroups": {
+      "users": "Users",
+      "finance": "Finance",
+      "inventory": "Inventory"
+    }
+  },
   "common": {
     "viewAll": "View all",
     "unknown": "Unknown",
@@ -86,7 +98,12 @@
       "productViews": "Product views",
       "addToCart": "Add to cart",
       "orders": "Orders",
-      "completed": "Completed"
+      "completed": "Completed",
+      "completionRate": "Completion rate",
+      "completedOrders": "Completed orders",
+      "completedOfOrders": "{{completed}} of {{orders}}",
+      "dropOff": "Drop-off",
+      "notCompleted": "{{count}} not completed"
     },
     "stock": {
       "title": "Stock attention",
@@ -97,6 +114,7 @@
       "out": "Out of stock",
       "total": "Total items",
       "items": "Items to restock",
+      "editStock": "Edit stock for {{name}}",
       "left": "{{count}} left",
       "empty": "No low-stock products"
     }
@@ -129,7 +147,13 @@
       "title": "Reviews",
       "subtitle": "Unanswered visible reviews"
     },
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "totalShort": "open",
+    "summary": {
+      "total": "Total pending",
+      "orders": "Orders",
+      "reviews": "Reviews"
+    }
   },
   "topProducts": {
     "productsTitle": "Top products",

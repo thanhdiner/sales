@@ -1,9 +1,9 @@
-import { Button, Checkbox } from 'antd'
+import { Button, Checkbox, Popconfirm } from 'antd'
 import { Archive, Check, ExternalLink, Trash2 } from 'lucide-react'
+import { createElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   formatNotificationRelativeTime,
-  getGroupIconClassName,
   getLocalizedNotificationField,
   getNotificationActionKey,
   getNotificationGroup,
@@ -28,7 +28,7 @@ export default function NotificationItem({
   onDelete
 }) {
   const { t } = useTranslation('adminNotifications')
-  const Icon = getNotificationIcon(notification)
+  const notificationIcon = getNotificationIcon(notification)
   const group = getNotificationGroup(notification)
   const status = getNotificationStatus(notification)
   const title = getLocalizedNotificationField(notification, 'title', language)
@@ -36,18 +36,17 @@ export default function NotificationItem({
 
   return (
     <article
-      className={`rounded-xl border bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] transition hover:border-[var(--admin-border-strong)] ${
-        status === 'unread' ? 'border-[var(--admin-border-strong)]' : 'border-[var(--admin-border)]'
+      className={`admin-notifications-item admin-notifications-item--tone-${group} p-4 transition hover:bg-[var(--admin-surface-2)] ${
+        status === 'unread' ? 'admin-notifications-item--unread' : ''
       }`}
     >
       <div className="grid gap-3 lg:grid-cols-[auto_auto_minmax(0,1fr)_7rem_minmax(30rem,36rem)] lg:items-start">
         <div className="flex items-start gap-3 lg:block">
           <Checkbox checked={selected} onChange={() => onToggleSelect(notification._id)} />
-          {status === 'unread' && <span className="mt-1.5 h-2.5 w-2.5 rounded-full bg-[var(--admin-accent)] lg:mt-4 lg:block" />}
         </div>
 
-        <span className={`flex h-10 w-10 items-center justify-center rounded-lg border ${getGroupIconClassName(notification)}`}>
-          <Icon className="h-4 w-4" />
+        <span className="admin-notifications-item__icon flex h-10 w-10 items-center justify-center rounded-lg border">
+          {createElement(notificationIcon, { className: 'h-4 w-4' })}
         </span>
 
         <div className="min-w-0">
@@ -92,9 +91,16 @@ export default function NotificationItem({
             {t('actions.archive')}
           </Button>
 
-          <Button icon={<Trash2 className="h-4 w-4" />} onClick={() => onDelete(notification._id)} className={dangerButtonClass}>
-            {t('actions.delete')}
-          </Button>
+          <Popconfirm
+            title={t('confirm.deleteTitle')}
+            okText={t('confirm.deleteOk')}
+            cancelText={t('confirm.cancel')}
+            onConfirm={() => onDelete(notification._id)}
+          >
+            <Button icon={<Trash2 className="h-4 w-4" />} className={dangerButtonClass}>
+              {t('actions.delete')}
+            </Button>
+          </Popconfirm>
         </div>
       </div>
     </article>

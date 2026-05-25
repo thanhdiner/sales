@@ -1,5 +1,6 @@
-import { ArrowLeft, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import { getOrderDetailCode, getOrderDetailStatusInfo } from '../utils'
 
 export default function Header({ order, successMessage, onBack }) {
@@ -9,14 +10,7 @@ export default function Header({ order, successMessage, onBack }) {
 
   return (
     <div className="mb-3">
-      <button
-        type="button"
-        className="mb-3 inline-flex items-center gap-2 break-words text-left text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:text-[var(--admin-text)]"
-        onClick={onBack}
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {t('actions.backToOrders')}
-      </button>
+      <AdminBackButton className="mb-3" onClick={onBack} label={t('actions.backToOrders')} />
 
       <h1 className="text-xl font-semibold text-[var(--admin-text)] sm:text-2xl">
         {t('page.orderTitle', { code: getOrderDetailCode(order._id) })}

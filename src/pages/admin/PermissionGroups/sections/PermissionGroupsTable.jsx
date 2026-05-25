@@ -204,6 +204,19 @@ function MobileLoadingList() {
   )
 }
 
+const toSkeletonColumns = (columns) => {
+  return columns.map(col => ({
+    ...col,
+    sorter: false,
+    render: () => {
+      if (col.key === 'action' || col.key === 'status') {
+        return <Skeleton.Button active size="small" style={{ width: 60, minWidth: 40, height: 24 }} />
+      }
+      return <Skeleton.Input active size="small" style={{ width: '80%', height: 20, minWidth: 60 }} />
+    }
+  }))
+}
+
 export default function PermissionGroupsTable({
   groups,
   total,
@@ -297,11 +310,10 @@ export default function PermissionGroupsTable({
     <>
       <div className="admin-permission-groups-table-wrap">
         <Table
-          dataSource={groups}
-          columns={columns}
+          dataSource={loading ? Array.from({ length: 5 }).map((_, i) => ({ _id: `skeleton-${i}`, key: `skeleton-${i}` })) : groups}
+          columns={loading ? toSkeletonColumns(columns) : columns}
           rowKey="_id"
-          loading={loading}
-          pagination={{
+          pagination={loading ? false : {
             current: currentPage,
             pageSize,
             total,
@@ -313,7 +325,7 @@ export default function PermissionGroupsTable({
           }}
           className="admin-permission-groups-table"
           locale={{
-            emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('table.empty')} />
+            emptyText: loading ? null : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('table.empty')} />
           }}
         />
       </div>

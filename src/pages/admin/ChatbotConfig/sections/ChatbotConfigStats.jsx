@@ -16,7 +16,7 @@ export default function ChatbotConfigStats({
   const { t } = useTranslation('adminChatbotConfig')
 
   return (
-    <Row gutter={[16, 16]} className="mb-4">
+    <Row gutter={[16, 16]} className="admin-chatbot-config-stats mb-4">
       <Col xs={24} sm={12} xl={8}>
         <Card className="admin-chatbot-stat-card">
           <Statistic

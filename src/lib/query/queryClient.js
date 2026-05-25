@@ -3,6 +3,12 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 
 const MINUTE = 60 * 1000
 const HOUR = 60 * MINUTE
+const NON_PERSISTENT_QUERY_KEYS = new Set(['admin-resource', 'products', 'productCategoryProducts', 'recommendations', 'flashSale'])
+
+const shouldPersistQuery = query =>
+  query.state.status === 'success' &&
+  query.meta?.persist !== false &&
+  !NON_PERSISTENT_QUERY_KEYS.has(query.queryKey?.[0])
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,9 +42,9 @@ export const queryPersistOptions = queryPersister
   ? {
       persister: queryPersister,
       maxAge: HOUR,
-      buster: 'sales-react-query-v1',
+      buster: 'sales-react-query-v3',
       dehydrateOptions: {
-        shouldDehydrateQuery: query => query.state.status === 'success' && query.meta?.persist !== false
+        shouldDehydrateQuery: shouldPersistQuery
       }
     }
   : undefined

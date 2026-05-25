@@ -25,11 +25,26 @@
   }
 
   &__title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #111827;
+    position: relative;
+    width: 140px;
+    height: 58px;
     margin: 0;
-    line-height: 1;
+    line-height: 0;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
   }
 
   &__timer {
@@ -90,7 +105,21 @@
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
 
   &__title {
-    color: #f4f6f8;
+    svg {
+      text {
+        fill: #f8fafc;
+      }
+
+      path:first-of-type {
+        stroke: #fbbf24;
+        opacity: 0.32;
+      }
+
+      path:nth-of-type(2) {
+        stroke: #cbd5e1;
+        opacity: 0.42;
+      }
+    }
   }
 
   &__view-all {

@@ -1,9 +1,23 @@
+.admin-chatbot-page .admin-chatbot-tool-logs-overview-card.ant-card,
+.admin-chatbot-page .admin-chatbot-tool-logs-card.ant-card {
+  border-radius: 8px !important;
+}
+
+.admin-chatbot-page .admin-chatbot-action-btn.ant-btn {
+  border-radius: 6px !important;
+}
+
+.admin-chatbot-tool-logs-overview__tool-select .ant-select-selector,
+.admin-chatbot-tool-logs-overview__session-input.ant-input {
+  border-radius: 6px !important;
+}
+
 .admin-chatbot-tool-logs-card.ant-card .ant-card-body {
-  padding: 0 !important;
+  padding: 18px !important;
 }
 
 .admin-chatbot-tool-logs-card .admin-chatbot-logs-footer {
-  padding: 16px 18px 18px;
+  padding-top: 16px;
 }
 
 .admin-chatbot-tool-logs-overview-card.ant-card .ant-card-body {
@@ -52,9 +66,6 @@
 
 .admin-chatbot-tool-logs-table {
   overflow: hidden;
-  border: 1px solid var(--chatbot-border);
-  border-radius: 12px;
-  background: var(--chatbot-surface);
   color: var(--chatbot-text);
   font-size: 14px;
   line-height: 1.45;
@@ -70,9 +81,8 @@
 }
 
 .admin-chatbot-tool-log-head {
-  padding: 13px 16px;
+  padding: 0 0 12px;
   border-bottom: 1px solid var(--chatbot-border);
-  background: var(--chatbot-surface-2);
   color: var(--chatbot-text-muted);
   font-size: 13px;
   font-weight: 600;
@@ -80,7 +90,7 @@
 
 .admin-chatbot-tool-log-row {
   min-height: 72px;
-  padding: 12px 16px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--chatbot-border);
   transition: background-color 0.2s ease;
 }
@@ -90,7 +100,7 @@
 }
 
 .admin-chatbot-tool-log-row:hover {
-  background: var(--chatbot-surface-2);
+  background: transparent;
 }
 
 .admin-chatbot-tool-log-cell,
@@ -126,9 +136,8 @@
 }
 
 .admin-chatbot-tool-log-mobile-row {
-  padding: 12px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--chatbot-border);
-  background: var(--chatbot-surface);
 }
 
 .admin-chatbot-tool-log-mobile-row:last-child {

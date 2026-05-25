@@ -151,15 +151,28 @@ export function useChatConversations({ activeTab, agentId }) {
   }, [agentId])
 
   useEffect(() => {
-    void loadConversations()
+    const timeoutId = window.setTimeout(() => {
+      void loadConversations()
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
   }, [loadConversations])
 
   useEffect(() => {
-    void loadCounts()
+    const timeoutId = window.setTimeout(() => {
+      void loadCounts()
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
   }, [loadCounts])
 
   const handleSearchChange = useCallback((event) => {
     setSearchQuery(event.target.value)
+  }, [])
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery('')
+    setDebouncedSearchQuery('')
   }, [])
 
   const handleRefresh = useCallback(async () => {
@@ -208,6 +221,7 @@ export function useChatConversations({ activeTab, agentId }) {
     loadConversations,
     loadCounts,
     handleSearchChange,
+    clearSearch,
     handleRefresh,
     loadMoreConversations
   }

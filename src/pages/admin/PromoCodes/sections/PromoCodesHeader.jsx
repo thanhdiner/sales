@@ -1,9 +1,9 @@
 import { DownloadOutlined, FilterOutlined, PlusOutlined, ReloadOutlined, TableOutlined, TagsOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { ResourceHeader, ResourceUtility } from '@/components/admin/shared/ResourceManager'
+import { ResourceHeader, ResourceUtility } from '@/components/admin/resources/ResourceManager'
 
-export default function PromoCodesHeader({ columnsVisible, loading, onColumnsVisibleChange, onCreate, onExport, onRefresh, onToggleFilter }) {
+export default function PromoCodesHeader({ columnsVisible, loading, fetching, onColumnsVisibleChange, onCreate, onExport, onRefresh, onToggleFilter }) {
   const { t } = useTranslation('adminPromoCodes')
   const columns = [
     'code',
@@ -45,7 +45,7 @@ export default function PromoCodesHeader({ columnsVisible, loading, onColumnsVis
   const utilityButtons = [
     {
       key: 'refresh',
-      icon: <ReloadOutlined spin={loading} />,
+      icon: <ReloadOutlined spin={fetching} />,
       label: t('actions.refresh'),
       className: 'admin-promo-codes-btn admin-promo-codes-btn--utility',
       onClick: onRefresh

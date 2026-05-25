@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { message as antdMessage } from 'antd'
 import { changePassword } from '@/services/client/auth/user'
+import {
+  getClientNotificationPreferences,
+  updateClientNotificationPreferences
+} from '@/services/client/commerce/notifications'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setDarkMode } from '@/stores/app/darkModeSlice'
@@ -18,6 +22,8 @@ export default function Settings() {
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
+  const [notificationPrefs, setNotificationPrefs] = useState(null)
+  const [notificationPrefsLoading, setNotificationPrefsLoading] = useState(false)
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -88,6 +94,51 @@ export default function Settings() {
 
   const togglePasswordVisibility = field => {
     setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }))
+  }
+
+  useEffect(() => {
+    let ignore = false
+
+    getClientNotificationPreferences()
+      .then(response => {
+        if (!ignore) setNotificationPrefs(response?.notificationPreferences || null)
+      })
+      .catch(() => {})
+
+    return () => {
+      ignore = true
+    }
+  }, [])
+
+  const updateNotificationPref = async (path, value) => {
+    if (!notificationPrefs) return
+
+    const nextPrefs = path.startsWith('channels.')
+      ? {
+          ...notificationPrefs,
+          channels: {
+            ...notificationPrefs.channels,
+            [path.replace('channels.', '')]: value
+          }
+        }
+      : {
+          ...notificationPrefs,
+          [path]: value
+        }
+
+    setNotificationPrefs(nextPrefs)
+    setNotificationPrefsLoading(true)
+
+    try {
+      const response = await updateClientNotificationPreferences(nextPrefs)
+      setNotificationPrefs(response?.notificationPreferences || nextPrefs)
+      antdMessage.success(t('notifications.saved', { defaultValue: 'Notification settings saved.' }))
+    } catch (err) {
+      setNotificationPrefs(notificationPrefs)
+      antdMessage.error(err?.message || t('validation.error'))
+    } finally {
+      setNotificationPrefsLoading(false)
+    }
   }
 
   const passwordValidation = validatePassword(formData.newPassword)
@@ -195,6 +246,54 @@ export default function Settings() {
             </div>
           </div>
         </div>
+
+        {notificationPrefs && (
+          <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+            <div className="mb-5">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {t('notifications.title', { defaultValue: 'Notifications' })}
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                {t('notifications.description', { defaultValue: 'Choose which updates can reach your account.' })}
+              </p>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              {[
+                ['channels.inApp', t('notifications.inApp', { defaultValue: 'In-app notifications' })],
+                ['channels.browser', t('notifications.browser', { defaultValue: 'Browser notifications' })],
+                ['channels.email', t('notifications.email', { defaultValue: 'Email notifications' })],
+                ['orderUpdates', t('notifications.orders', { defaultValue: 'Order updates' })],
+                ['paymentUpdates', t('notifications.payments', { defaultValue: 'Payment updates' })],
+                ['promotions', t('notifications.promotions', { defaultValue: 'Promotions' })],
+                ['backInStock', t('notifications.backInStock', { defaultValue: 'Back in stock' })],
+                ['wishlistUpdates', t('notifications.wishlist', { defaultValue: 'Wishlist updates' })],
+                ['supportMessages', t('notifications.support', { defaultValue: 'Support messages' })]
+              ].map(([key, label]) => {
+                const checked = key.startsWith('channels.')
+                  ? notificationPrefs.channels?.[key.replace('channels.', '')] !== false
+                  : notificationPrefs[key] !== false
+
+                return (
+                  <label
+                    key={key}
+                    className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30"
+                  >
+                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{label}</span>
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      disabled={notificationPrefsLoading}
+                      onChange={event => updateNotificationPref(key, event.target.checked)}
+                      className="h-5 w-5 rounded border-gray-300 text-gray-900"
+                    />
+                  </label>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
           <div className="mb-6">

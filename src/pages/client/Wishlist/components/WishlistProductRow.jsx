@@ -21,13 +21,13 @@ function WishlistProductRow({ addingToCart, formatPrice, item, language, onAddTo
 
         <div className="min-w-0">
           <Link to={productPath}>
-            <h3 className="line-clamp-2 text-sm font-bold leading-5 text-slate-950 transition-colors hover:text-[#0b74e5] dark:text-gray-100 dark:hover:text-blue-300">
+            <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-slate-950 transition-colors hover:text-[#0b74e5] dark:text-gray-100 dark:hover:text-blue-300">
               {productName}
             </h3>
           </Link>
 
           {discountPct > 0 && (
-            <span className="mt-2 inline-flex rounded-md bg-[#ff424e] px-2 py-1 text-xs font-extrabold leading-none text-white">
+            <span className="mt-2 inline-flex rounded-md bg-[#ff424e] px-2 py-1 text-xs font-semibold leading-none text-white">
               -{discountPct}%
             </span>
           )}

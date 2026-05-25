@@ -4,7 +4,13 @@
     "products": "Sản phẩm",
     "flashSale": "Flash Sale",
     "about": "Giới thiệu",
-    "contact": "Liên hệ"
+    "contact": "Liên hệ",
+    "more": "Khác",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "shoppingGuide": "Hướng dẫn mua hàng",
+    "coupons": "Ưu đãi/Voucher",
+    "vip": "VIP"
   },
   "search": {
     "placeholder": "Tìm tài khoản, phần mềm, game...",

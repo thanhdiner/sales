@@ -1,0 +1,28 @@
+.admin-form-section {
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-2);
+  padding: 16px;
+}
+
+.admin-form-section__header {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-form-section__title {
+  margin: 0;
+  color: var(--admin-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.admin-form-section__description {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}

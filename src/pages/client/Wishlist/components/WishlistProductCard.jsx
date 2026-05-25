@@ -21,13 +21,13 @@ function WishlistProductCard({ addingToCart, formatPrice, item, language, onAddT
 
         <div className="min-w-0 flex-1">
           <Link to={productPath}>
-            <h3 className="line-clamp-2 text-sm font-bold leading-5 text-slate-950 transition-colors hover:text-[#0b74e5] dark:text-gray-100 dark:hover:text-blue-300">
+            <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-slate-950 transition-colors hover:text-[#0b74e5] dark:text-gray-100 dark:hover:text-blue-300">
               {productName}
             </h3>
           </Link>
 
           {discountPct > 0 && (
-            <span className="mt-2 inline-flex rounded-md bg-[#ff424e] px-2 py-1 text-xs font-extrabold leading-none text-white">
+            <span className="mt-2 inline-flex rounded-md bg-[#ff424e] px-2 py-1 text-xs font-semibold leading-none text-white">
               -{discountPct}%
             </span>
           )}
@@ -37,7 +37,7 @@ function WishlistProductCard({ addingToCart, formatPrice, item, language, onAddT
       <WishlistPriceCell className="mt-4" formatPrice={formatPrice} item={item} />
 
       <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-100 pt-4 dark:border-gray-700">
-        <span className="text-sm font-semibold text-slate-500 dark:text-gray-400">{t('table.stockStatus')}:</span>
+        <span className="text-sm font-medium text-slate-500 dark:text-gray-400">{t('table.stockStatus')}:</span>
         <WishlistStockBadge item={item} t={t} />
       </div>
 

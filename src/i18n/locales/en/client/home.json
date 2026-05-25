@@ -72,5 +72,88 @@
         "desc": "<em>Fast, clear advice</em> and support throughout your <em>shopping</em> process."
       }
     }
+  },
+  "buildYourKitSection": {
+    "enabled": true,
+    "eyebrow": "Build Your Kit",
+    "title": "Build your kit by lifestyle",
+    "description": "SmartMall groups items that work well together by lifestyle, helping you pick a clean, useful combo faster.",
+    "defaultKitId": "travel",
+    "activeScenario": "Travel",
+    "activeCardKicker": "Suggested combo",
+    "activeCardTitle": "Smart travel",
+    "primaryCta": "View travel combo",
+    "primaryCtaFallback": "View combo",
+    "secondaryCta": "Build manually",
+    "secondaryCtaLink": "/products",
+    "scenarios": ["Travel", "School", "Gaming"],
+    "highlights": ["8 useful items", "Lifestyle-based picks"],
+    "products": [
+      { "label": "Sunglasses", "image": "/icons/fashionAccessories.webp", "positionKey": "sunglasses" },
+      { "label": "Sunscreen", "image": "/icons/beauty.webp", "positionKey": "sunscreen" },
+      { "label": "Power bank", "image": "/icons/consumerElectronics.webp", "positionKey": "battery" },
+      { "label": "Camera", "image": "/icons/cameras.webp", "positionKey": "camera" },
+      { "label": "Backpack", "image": "/icons/backpackSuitcase.webp", "positionKey": "backpack" },
+      { "label": "Neck pillow", "image": "/icons/homeAndLiving.webp", "positionKey": "pillow" },
+      { "label": "Water bottle", "image": "/icons/sportOutdoor.webp", "positionKey": "bottle" },
+      { "label": "Notebook", "image": "/icons/widgetsBook.webp", "positionKey": "notebook" }
+    ],
+    "kits": [
+      {
+        "id": "travel",
+        "label": "Travel",
+        "kicker": "Suggested combo",
+        "title": "Smart travel",
+        "description": "Compact items for weekend trips and longer holidays.",
+        "primaryCta": "View travel combo",
+        "primaryCtaLink": "/products?q=travel",
+        "categorySlug": "fashion-accessories",
+        "highlights": ["8 useful items", "Easy to carry"],
+        "products": [
+          { "customLabel": "Sunglasses", "customImage": "/icons/fashionAccessories.webp", "positionKey": "sunglasses", "categorySlugFallback": "fashion-accessories" },
+          { "customLabel": "Sunscreen", "customImage": "/icons/beauty.webp", "positionKey": "sunscreen", "categorySlugFallback": "beauty" },
+          { "customLabel": "Power bank", "customImage": "/icons/consumerElectronics.webp", "positionKey": "battery", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Camera", "customImage": "/icons/cameras.webp", "positionKey": "camera", "categorySlugFallback": "cameras" },
+          { "customLabel": "Backpack", "customImage": "/icons/backpackSuitcase.webp", "positionKey": "backpack", "categorySlugFallback": "backpack-suitcase" },
+          { "customLabel": "Neck pillow", "customImage": "/icons/homeAndLiving.webp", "positionKey": "pillow", "categorySlugFallback": "home-and-living" },
+          { "customLabel": "Water bottle", "customImage": "/icons/sportOutdoor.webp", "positionKey": "bottle", "categorySlugFallback": "sport-outdoor" },
+          { "customLabel": "Notebook", "customImage": "/icons/widgetsBook.webp", "positionKey": "notebook", "categorySlugFallback": "books" }
+        ]
+      },
+      {
+        "id": "school",
+        "label": "School",
+        "kicker": "Study combo",
+        "title": "Ready for class",
+        "description": "Daily study essentials, compact gadgets, and accessories in one quick set.",
+        "primaryCta": "View school combo",
+        "primaryCtaLink": "/products?q=school",
+        "highlights": ["Daily carry", "Durable picks"],
+        "products": [
+          { "customLabel": "Backpack", "customImage": "/icons/backpackSuitcase.webp", "positionKey": "sunglasses", "categorySlugFallback": "backpack-suitcase" },
+          { "customLabel": "Notebook", "customImage": "/icons/widgetsBook.webp", "positionKey": "sunscreen", "categorySlugFallback": "books" },
+          { "customLabel": "Headphones", "customImage": "/icons/consumerElectronics.webp", "positionKey": "battery", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Water bottle", "customImage": "/icons/sportOutdoor.webp", "positionKey": "camera", "categorySlugFallback": "sport-outdoor" },
+          { "customLabel": "Desk lamp", "customImage": "/icons/homeAndLiving.webp", "positionKey": "backpack", "categorySlugFallback": "home-and-living" }
+        ]
+      },
+      {
+        "id": "gaming",
+        "label": "Gaming",
+        "kicker": "Entertainment combo",
+        "title": "Game corner ready",
+        "description": "Accessories and compact gear for a cleaner, more comfortable gaming setup.",
+        "primaryCta": "View gaming combo",
+        "primaryCtaLink": "/products?q=gaming",
+        "highlights": ["Setup upgrade", "Easy to expand"],
+        "products": [
+          { "customLabel": "Headset", "customImage": "/icons/consumerElectronics.webp", "positionKey": "sunglasses", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Controller", "customImage": "/icons/widgetsBook.webp", "positionKey": "sunscreen", "categorySlugFallback": "gaming" },
+          { "customLabel": "LED light", "customImage": "/icons/homeAndLiving.webp", "positionKey": "battery", "categorySlugFallback": "home-and-living" },
+          { "customLabel": "Webcam", "customImage": "/icons/cameras.webp", "positionKey": "camera", "categorySlugFallback": "cameras" },
+          { "customLabel": "Chair", "customImage": "/icons/sportOutdoor.webp", "positionKey": "backpack", "categorySlugFallback": "home-and-living" }
+        ]
+      }
+    ]
   }
 }

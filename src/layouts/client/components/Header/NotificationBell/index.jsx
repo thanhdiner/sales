@@ -15,7 +15,7 @@ import {
   shouldClosePanelAfterMarkAll
 } from './notificationUtils'
 
-export default function NotificationBell({ notifications = [], setNotifications }) {
+export default function NotificationBell({ notifications = [], setNotifications, markNotificationsRead }) {
   const { t } = useTranslation('clientHeader')
   const [open, setOpen] = useState(false)
   const panelRef = useRef(null)
@@ -41,6 +41,7 @@ export default function NotificationBell({ notifications = [], setNotifications 
 
   const markAllRead = () => {
     setNotifications(prev => markAllNotificationsReadIfNeeded(prev))
+    markNotificationsRead?.()
 
     if (shouldClosePanelAfterMarkAll()) {
       setOpen(false)
@@ -49,6 +50,7 @@ export default function NotificationBell({ notifications = [], setNotifications 
 
   const handleClickNotif = notif => {
     setNotifications(prev => markNotificationReadIfNeeded(prev, notif.id))
+    markNotificationsRead?.([notif.id])
 
     if (shouldClosePanelAfterClick()) {
       setOpen(false)
@@ -71,7 +73,7 @@ export default function NotificationBell({ notifications = [], setNotifications 
         title={t('notification.bellTitle')}
         aria-label={unreadCount > 0 ? t('notification.ariaLabel', { count: unreadCount }) : t('notification.bellTitle')}
       >
-        <Badge style={{ transition: 'all 0.1s' }} offset={[1, 1]} size="small" dot={unreadCount > 0}>
+        <Badge style={{ transition: 'all 0.1s' }} offset={[5, -5]} size="small" count={unreadCount} overflowCount={99}>
           <span className="header__action__icon-slot">
             <Bell className="header__action__notification--icon" />
           </span>

@@ -1,5 +1,5 @@
 import { message, Modal } from 'antd'
-import { AdminStatusTag } from '@/components/admin/ui'
+import { StatusTag } from '@/components/admin/ui'
 import { toggleProductStatus } from '@/services/admin/commerce/product'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { getLocalizedProductTitle } from '../../utils/productLocalization'
@@ -16,16 +16,16 @@ function FieldStatus({ status, record, setProducts }) {
   const language = i18n.resolvedLanguage || i18n.language
   const statusTone = status === 'active' ? 'active' : 'inactive'
   const nextStatus = status === 'active' ? 'inactive' : 'active'
-  const statusLabel = t(`status.${status}`)
+  const statusLabel = t(`status.${status}`, { defaultValue: status })
   const nextStatusLabel = t(`status.${nextStatus}`)
   const productTitle = getLocalizedProductTitle(record, language, record.title || t('details.untitledProduct'))
 
   if (!permission.includes('edit_product')) {
-    return <AdminStatusTag tone={statusTone}>{statusLabel}</AdminStatusTag>
+    return <StatusTag tone={statusTone}>{statusLabel}</StatusTag>
   }
 
   return (
-    <AdminStatusTag
+    <StatusTag
       tone={statusTone}
       className="admin-status-tag--clickable"
       onClick={() => {
@@ -60,7 +60,7 @@ function FieldStatus({ status, record, setProducts }) {
                 )
               )
               message.success(t('table.statusUpdated', { status: t(`status.${updated.status}`) }))
-            } catch (err) {
+            } catch {
               message.error(t('table.statusUpdateError'))
             }
           }
@@ -68,7 +68,7 @@ function FieldStatus({ status, record, setProducts }) {
       }}
     >
       {statusLabel}
-    </AdminStatusTag>
+    </StatusTag>
   )
 }
 

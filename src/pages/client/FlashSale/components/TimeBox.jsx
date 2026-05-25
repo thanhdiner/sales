@@ -1,4 +1,13 @@
-export default function TimeBox({ value, label }) {
+export default function TimeBox({ value, label, variant = 'default' }) {
+  if (variant === 'hero') {
+    return (
+      <div className="flash-sale-timebox flash-sale-timebox--hero">
+        <div className="flash-sale-timebox__value">{String(value).padStart(2, '0')}</div>
+        <div className="flash-sale-timebox__label">{label}</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-w-[54px] rounded-lg bg-slate-900 px-2.5 py-2 text-center text-white shadow-sm dark:bg-white dark:text-slate-950">
       <div className="text-lg font-black leading-none">{String(value).padStart(2, '0')}</div>

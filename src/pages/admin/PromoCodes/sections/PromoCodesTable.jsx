@@ -1,4 +1,4 @@
-import { Button, Empty, Space, Table, Tag } from 'antd'
+import { Button, Empty, Space, Table, Tag, Skeleton } from 'antd'
 import { CalendarDays, Copy, DollarSign, Percent } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -21,6 +21,22 @@ import PromoCodeUsageCell from './PromoCodeUsageCell'
 
 const textButtonClass =
   '!text-[var(--admin-text-muted)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
+
+const toSkeletonColumns = (columns) => {
+  return columns.map(col => ({
+    ...col,
+    sorter: false,
+    render: () => {
+      if (col.key === 'thumbnail') {
+        return <Skeleton.Avatar active shape="square" size={40} style={{ display: 'block', margin: '0 auto' }} />
+      }
+      if (col.key === 'actions' || col.key === 'status') {
+        return <Skeleton.Button active size="small" style={{ width: 60, minWidth: 40, height: 24 }} />
+      }
+      return <Skeleton.Input active size="small" style={{ width: '80%', height: 20, minWidth: 60 }} />
+    }
+  }))
+}
 
 export default function PromoCodesTable({
   promoCodes,
@@ -197,13 +213,12 @@ export default function PromoCodesTable({
 
       <div className="admin-promo-table-desktop">
         <Table
-          columns={visibleColumns}
-          dataSource={promoCodes}
+          columns={loading ? toSkeletonColumns(visibleColumns) : visibleColumns}
+          dataSource={loading ? Array.from({ length: 5 }).map((_, i) => ({ _id: `skeleton-${i}`, key: `skeleton-${i}` })) : promoCodes}
           rowKey={record => record._id || record.code}
-          loading={loading}
           pagination={false}
           locale={{
-            emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('table.empty')} />
+            emptyText: loading ? null : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('table.empty')} />
           }}
           scroll={{ x: scrollX }}
           className="admin-promo-table"

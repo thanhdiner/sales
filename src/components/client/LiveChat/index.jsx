@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
@@ -28,6 +28,7 @@ import { getClientAccessToken, getClientAccessTokenSession } from '@/utils/auth'
 import { getSocket } from '@/services/realtime/socket'
 import { chatService } from '@/services/client/support/chat'
 import { usePageContextTracker } from '@/features/chat/pageContext/usePageContextTracker'
+import { emitPageContextUpdate } from '@/features/chat/pageContext/pageContextSocket'
 
 const getAgentInitials = name =>
   String(name || 'A')
@@ -75,6 +76,7 @@ export default function LiveChat() {
     inputRef, 
     sendMessage, 
     handleInputChange,
+    handleInputPaste,
     imageInputRef,
     handleImageChange,
     openImagePicker,
@@ -96,6 +98,8 @@ export default function LiveChat() {
   const [isTypingAgent, setIsTypingAgent] = useState(false)
   const [isBotTyping, setIsBotTyping] = useState(false)
   const [botActivity, setBotActivity] = useState([])
+  const [renderingReplyIds, setRenderingReplyIds] = useState(() => new Set())
+  const isRenderingReply = renderingReplyIds.size > 0
 
   // 5. Connect Socket & Specific Actions
   const { requestHumanAgent, switchToBot } = useChatSocket({
@@ -160,10 +164,19 @@ export default function LiveChat() {
     }
   }
 
-  const sendMessageToActiveConversation = (text, currentPage = window.location.pathname) => {
+  const sendMessageToActiveConversation = async (text, currentPage = window.location.pathname, options = {}) => {
     const targetSessionId = (currentConversationResolved || isSessionResolved(sessionId))
       ? startNewConversationSession()
       : sessionId
+
+    if (options.pageContext) {
+      try {
+        await emitPageContextUpdate(targetSessionId, options.pageContext)
+      } catch {
+        // Do not block sending when the context sync fails; the message still carries currentPage.
+      }
+    }
+
     return sendMessage(text, { currentPage, sessionId: targetSessionId })
   }
 
@@ -223,12 +236,49 @@ export default function LiveChat() {
     setTimeout(() => sendMessageToActiveConversation(qa.text), 200)
   }
 
+  useEffect(() => {
+    const handleExternalChatSend = event => {
+      const text = String(event.detail?.message || '').trim()
+      if (!text || !ensureLoggedIn()) return
+
+      setOpen(true)
+      setIsMinimized(false)
+      setView('chat')
+      window.setTimeout(() => {
+        sendMessageToActiveConversation(text, event.detail?.currentPage || window.location.pathname, {
+          pageContext: event.detail?.pageContext
+        })
+      }, 0)
+    }
+
+    window.addEventListener('smartmall:chat-send', handleExternalChatSend)
+    return () => window.removeEventListener('smartmall:chat-send', handleExternalChatSend)
+  })
+
   const handleOpenImagePreview = useCallback(image => {
     setPreviewImage(image)
   }, [])
 
   const handleCloseImagePreview = useCallback(() => {
     setPreviewImage(null)
+  }, [])
+
+  const handleTypewriterChange = useCallback((messageId, isTyping) => {
+    if (!messageId) return
+
+    setRenderingReplyIds(prev => {
+      const next = new Set(prev)
+
+      if (isTyping) {
+        if (next.has(messageId)) return prev
+        next.add(messageId)
+      } else {
+        if (!next.has(messageId)) return prev
+        next.delete(messageId)
+      }
+
+      return next
+    })
   }, [])
   
   // 8. Derived Data
@@ -302,7 +352,7 @@ export default function LiveChat() {
               aria-label={t('actions.restore')}
               title={t('actions.restore')}
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 shadow-sm shadow-teal-500/20">
                 {assignedAgent?.agentAvatar
                   ? <img src={assignedAgent.agentAvatar} alt="" className="h-full w-full rounded-full object-cover" />
                   : assignedAgent
@@ -389,12 +439,14 @@ export default function LiveChat() {
                   isTypingAgent={isTypingAgent}
                   isBotTyping={isBotTyping}
                   botActivity={botActivity}
+                  isRenderingReply={isBotTyping || isRenderingReply}
                   containerRef={containerRef}
                   onScroll={handleScroll}
                   bottomRef={bottomRef}
                   showScrollToBottom={showScrollToBottom}
                   newIncomingCount={newIncomingCount}
                   onScrollToBottom={scrollToBottom}
+                  onTypewriterChange={handleTypewriterChange}
                   onOpenImagePreview={handleOpenImagePreview}
                   reactionActor={reactionActor}
                   onReactToMessage={handleReactToMessage}
@@ -408,6 +460,7 @@ export default function LiveChat() {
                   <MessageInput 
                     input={input}
                     onInputChange={handleInputChange}
+                    onInputPaste={handleInputPaste}
                     onKeyDown={handleKeyDown}
                     onSendMessage={() => sendMessageToActiveConversation()}
                     onImageChange={handleImageChange}

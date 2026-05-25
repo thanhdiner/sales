@@ -28,7 +28,44 @@ export default function SuggestionTabs({ activeTab, setActiveTab }) {
 
   return (
     <div className="Suggestions-header-block">
-      <div className="Suggestions-title">{t('dailySuggestionsSection.title')}</div>
+      <div className="Suggestions-title">
+        <svg width="390" height="86" viewBox="0 0 390 86" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path
+            d="M28 19L31 29L41 32L31 35L28 45L25 35L15 32L25 29L28 19Z"
+            fill="#1677FF"
+          />
+          <path
+            d="M50 50C98 46 155 52 215 48C266 45 316 47 358 49"
+            stroke="#FFD166"
+            strokeWidth="9"
+            strokeLinecap="round"
+            opacity="0.4"
+          />
+          <text
+            x="52"
+            y="43"
+            fontFamily="Comic Sans MS, Segoe Print, cursive"
+            fontSize="27"
+            fontWeight="800"
+            fill="#071B4D"
+            transform="rotate(-0.7 52 43)"
+          >
+            Today’s suggestions
+          </text>
+          <path
+            d="M54 55C105 58 163 54 221 55.5C264 56.5 314 55 354 54"
+            stroke="#1677FF"
+            strokeWidth="2.1"
+            strokeLinecap="round"
+            opacity="0.45"
+          />
+          <path
+            d="M348 18L350 24L356 26L350 28L348 34L346 28L340 26L346 24L348 18Z"
+            fill="#8EC5FF"
+          />
+        </svg>
+        <span>{t('dailySuggestionsSection.title')}</span>
+      </div>
 
       <div className="Suggestions-tabs">
         {TAB_DATA.map(tab => {

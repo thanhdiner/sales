@@ -2,6 +2,7 @@ import { Button, Drawer, Form, Image, Input, InputNumber, Modal, Select, Space, 
 import { UploadCloud } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import SearchInput from '@/components/shared/SearchInput'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
@@ -15,6 +16,7 @@ const CATEGORY_TEXT = {
   vi: {
     title: 'Danh mục blog',
     description: 'Quản lý metadata danh mục blog',
+    backToBlog: 'Quay lại Blog',
     addCategory: 'Thêm danh mục',
     columns: {
       thumbnail: 'Ảnh',
@@ -71,6 +73,7 @@ const CATEGORY_TEXT = {
   en: {
     title: 'Blog Categories',
     description: 'Manage blog category metadata',
+    backToBlog: 'Back to Blog',
     addCategory: 'Add category',
     columns: {
       thumbnail: 'Thumbnail',
@@ -325,8 +328,12 @@ export default function BlogCategories() {
   return (
     <div className="p-6">
       <SEO title={text.title} noIndex />
-      <div className="mb-4 flex items-center justify-between">
-        <div><h1 className="text-2xl font-bold text-[var(--admin-text)]">{text.title}</h1><p className="text-[var(--admin-text-muted)]">{text.description}</p></div>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div>
+          <AdminBackButton className="mb-3" to="/admin/blog" label={text.backToBlog} />
+          <h1 className="text-2xl font-bold text-[var(--admin-text)]">{text.title}</h1>
+          <p className="text-[var(--admin-text-muted)]">{text.description}</p>
+        </div>
         <Button type="primary" disabled={saving || actionLoading} onClick={() => openForm(null)}>{text.addCategory}</Button>
       </div>
       <div className="mb-4 flex flex-wrap items-center gap-3">

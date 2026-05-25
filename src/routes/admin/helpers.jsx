@@ -13,6 +13,12 @@ export const menuRoute = (path, Component, access, labelKey, options = {}) => ro
   ...options
 })
 
+export const menuDivider = key => ({
+  key,
+  divider: true,
+  menu: true
+})
+
 export const group = (key, labelKey, icon, children) => ({
   key,
   labelKey,
@@ -31,6 +37,14 @@ const pickMenuFields = item => ({
 })
 
 export const toMenuConfig = item => {
+  if (item.divider) {
+    return {
+      key: item.key,
+      type: 'divider',
+      divider: true
+    }
+  }
+
   if (item.children) {
     return {
       key: item.key,
@@ -44,6 +58,7 @@ export const toMenuConfig = item => {
 }
 
 export const flattenRoutes = items => items.flatMap(item => {
+  if (item.divider) return []
   if (item.children) return flattenRoutes(item.children)
   return [item, ...(item.relatedRoutes || [])]
 })

@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useMutation } from '@tanstack/react-query'
+import { useAdminResourceList } from '@/hooks/shared/adminResourceList'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import {
   createFlashSale,
@@ -13,71 +15,66 @@ import { serializeFlashSaleForm } from '../utils/flashSaleHelpers'
 export function useFlashSalesData() {
   const { t } = useTranslation('adminFlashSales')
   const language = useCurrentLanguage()
-  const [flashSales, setFlashSales] = useState([])
-  const [tableLoading, setTableLoading] = useState(false)
-  const [submitLoading, setSubmitLoading] = useState(false)
+  const {
+    items: flashSales,
+    loading: tableLoading,
+    fetching: tableFetching,
+    refetch: fetchFlashSales,
+    invalidate
+  } = useAdminResourceList({
+    resource: 'flash-sales',
+    queryKeyDeps: { language },
+    queryFn: () => getFlashSales(),
+    selectItems: res => res?.flashSales,
+    selectTotal: res => res?.flashSales?.length
+  })
 
-  const fetchFlashSales = useCallback(async () => {
-    try {
-      setTableLoading(true)
-      const res = await getFlashSales()
-      setFlashSales(res.flashSales || [])
-    } catch {
-      setFlashSales([])
-    } finally {
-      setTableLoading(false)
-    }
-  }, [language])
+  const submitMutation = useMutation({
+    mutationFn: async ({ editingItem, formData }) => {
+      const dataToSend = serializeFlashSaleForm(formData)
 
-  useEffect(() => {
-    fetchFlashSales()
-  }, [fetchFlashSales])
+      if (editingItem) {
+        await updateFlashSaleById(editingItem._id, dataToSend)
+        return 'update'
+      }
+
+      await createFlashSale(dataToSend)
+      return 'create'
+    },
+    onSuccess: async action => {
+      message.success(t(action === 'update' ? 'messages.updateSuccess' : 'messages.createSuccess'))
+      await invalidate()
+    },
+    onError: err => message.error(err.message || t('messages.genericError'))
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteFlashSale,
+    onSuccess: async () => {
+      message.success(t('messages.deleteSuccess'))
+      await invalidate()
+    },
+    onError: err => message.error(err.message || t('messages.deleteError'))
+  })
 
   const submitFlashSale = useCallback(
-    async ({ editingItem, formData }) => {
-      setSubmitLoading(true)
-
+    async args => {
       try {
-        const dataToSend = serializeFlashSaleForm(formData)
-
-        if (editingItem) {
-          await updateFlashSaleById(editingItem._id, dataToSend)
-          message.success(t('messages.updateSuccess'))
-        } else {
-          await createFlashSale(dataToSend)
-          message.success(t('messages.createSuccess'))
-        }
-
-        await fetchFlashSales()
+        await submitMutation.mutateAsync(args)
         return true
-      } catch (err) {
-        message.error(err.message || t('messages.genericError'))
+      } catch {
         return false
-      } finally {
-        setSubmitLoading(false)
       }
     },
-    [fetchFlashSales, t]
+    [submitMutation]
   )
-
-  const deleteFlashSaleItem = useCallback(
-    async id => {
-      try {
-        await deleteFlashSale(id)
-        message.success(t('messages.deleteSuccess'))
-        await fetchFlashSales()
-      } catch (err) {
-        message.error(err.message || t('messages.deleteError'))
-      }
-    },
-    [fetchFlashSales, t]
-  )
-
+  const deleteFlashSaleItem = useCallback(id => deleteMutation.mutate(id), [deleteMutation])
 
   return {
     flashSales,
     tableLoading,
-    submitLoading,
+    tableFetching,
+    submitLoading: submitMutation.isPending,
     fetchFlashSales,
     submitFlashSale,
     deleteFlashSaleItem

@@ -1,3 +1,4 @@
+import { Image } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { getLocalizedProductTitle } from '../../utils/productLocalization'
 
@@ -8,7 +9,7 @@ function FieldThumbnail({ thumbnail, record }) {
 
   return (
     <div className="admin-products-thumbnail-wrap">
-      <img src={thumbnail} alt={title} className="admin-products-thumbnail" />
+      <Image src={thumbnail} alt={title} className="admin-products-thumbnail" />
     </div>
   )
 }

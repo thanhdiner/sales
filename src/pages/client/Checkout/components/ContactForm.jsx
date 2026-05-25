@@ -17,6 +17,8 @@ const sharedSelectProps = {
   size: 'large'
 }
 
+const pickFirstText = (...values) => values.find(value => typeof value === 'string' && value.trim())?.trim() || ''
+
 export function ContactForm({ formData, handleInputChange, handleAddressChange, deliveryMethod, setDeliveryMethod, deliveryOptions }) {
   const { t } = useTranslation('clientCheckout')
   const websiteConfig = useSelector(state => state.websiteConfig.data)
@@ -30,6 +32,24 @@ export function ContactForm({ formData, handleInputChange, handleAddressChange, 
 
   const inputClassName =
     'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-gray-400'
+
+  const storeInfoItems = [
+    {
+      key: 'email',
+      label: t('contactForm.storeInfo.email'),
+      value: pickFirstText(contactInfo?.supportEmail, contactInfo?.email)
+    },
+    {
+      key: 'phone',
+      label: t('contactForm.storeInfo.hotline'),
+      value: pickFirstText(contactInfo?.hotline, contactInfo?.phone)
+    },
+    {
+      key: 'hours',
+      label: t('contactForm.storeInfo.openingHours'),
+      value: pickFirstText(contactInfo?.supportHours, contactInfo?.workingTime, contactInfo?.businessHours)
+    }
+  ].filter(item => item.value)
 
   const handleProvinceSelect = value => {
     const nextProvince = provinceOptions.find(option => option.code === value)
@@ -285,26 +305,19 @@ export function ContactForm({ formData, handleInputChange, handleAddressChange, 
         </div>
       </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
-        <h4 className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.title')}</h4>
+      {storeInfoItems.length > 0 && (
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/30">
+          <h4 className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.title')}</h4>
 
-        <div className="mt-3 space-y-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
-          <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.email')}</span>{' '}
-            {contactInfo?.email || 'lunashop.business.official@gmail.com'}
-          </p>
-
-          <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.hotline')}</span>{' '}
-            {contactInfo?.phone || '0923387108'}
-          </p>
-
-          <p className="mb-0">
-            <span className="font-medium text-gray-900 dark:text-gray-100">{t('contactForm.storeInfo.openingHours')}</span>{' '}
-            {t('contactForm.storeInfo.openingHoursValue')}
-          </p>
+          <div className="mt-3 space-y-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            {storeInfoItems.map(item => (
+              <p className="mb-0" key={item.key}>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{item.label}</span> {item.value}
+              </p>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

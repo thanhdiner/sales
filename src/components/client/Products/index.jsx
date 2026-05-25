@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Slider } from 'antd'
 import {
   ChevronDown,
@@ -89,6 +89,8 @@ function Products() {
   })
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const fetchRequestIdRef = useRef(0)
+  const previousListRequestRef = useRef(null)
 
   const sort = searchParams.get('sort') || 'newest'
   const filterType = searchParams.get('type') || 'all'
@@ -97,6 +99,7 @@ function Products() {
   const maxPrice = Number(searchParams.get('maxPrice')) || 0
   const minRate = Number(searchParams.get('minRate')) || 0
   const searchQuery = searchParams.get('q') || searchParams.get('search') || ''
+  const filterKey = searchParams.toString()
 
   const sortOptions = useMemo(
     () => SORT_OPTIONS.map(option => ({ value: option.value, label: t(option.labelKey) })),
@@ -151,12 +154,24 @@ function Products() {
   }, [])
 
   useEffect(() => {
-    setProducts([])
+    const previousRequest = previousListRequestRef.current
+    const preserveCurrentProducts =
+      Boolean(previousRequest) &&
+      previousRequest.filterKey === filterKey &&
+      previousRequest.language !== language &&
+      products.length > 0
+
+    previousListRequestRef.current = { filterKey, language }
+
+    if (!preserveCurrentProducts) {
+      setProducts([])
+      setTotal(0)
+    }
+
     setPage(1)
-    setTotal(0)
-    fetchProducts(1, true)
+    fetchProducts(1, true, { preserveCurrentProducts })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, searchParams])
+  }, [language, filterKey])
 
   const setParam = useCallback(
     (key, value) => {
@@ -223,8 +238,11 @@ function Products() {
     setSearchParams({})
   }
 
-  const fetchProducts = async (pageNum = 1, isNewFilter = false) => {
-    if (isNewFilter) setLoading(true)
+  async function fetchProducts(pageNum = 1, isNewFilter = false, options = {}) {
+    const { preserveCurrentProducts = false } = options
+    const requestId = ++fetchRequestIdRef.current
+
+    if (isNewFilter) setLoading(!preserveCurrentProducts)
     else setLoadingMore(true)
 
     const searchRaw = searchParams.get('q') || searchParams.get('search') || ''
@@ -245,6 +263,8 @@ function Products() {
     try {
       const result = await getProducts(params)
 
+      if (requestId !== fetchRequestIdRef.current) return
+
       if (isNewFilter) {
         setProducts(result.data || [])
       } else {
@@ -254,11 +274,17 @@ function Products() {
       setTotal(result.total || 0)
       setPage(pageNum)
     } catch {
-      setProducts([])
-      setTotal(0)
+      if (requestId !== fetchRequestIdRef.current) return
+
+      if (!preserveCurrentProducts) {
+        setProducts([])
+        setTotal(0)
+      }
     } finally {
-      setLoading(false)
-      setLoadingMore(false)
+      if (requestId === fetchRequestIdRef.current) {
+        setLoading(false)
+        setLoadingMore(false)
+      }
     }
   }
 

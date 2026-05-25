@@ -19,7 +19,7 @@ function ProductsFilter({ onFilter, initialValues }) {
       try {
         const response = await getProductCategoryTree()
         if (response) setTreeData(response)
-      } catch (error) {
+      } catch {
         message.error(t('filters.loadCategoryError'))
       }
     }

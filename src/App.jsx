@@ -65,7 +65,7 @@ function App() {
           if (isMounted) {
             dispatch(logout())
             clearTokens()
-            navigate('/admin/login', { replace: true })
+            navigate('/admin/auth/login', { replace: true })
           }
         }
       }

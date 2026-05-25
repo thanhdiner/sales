@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 export default function MessageInput({
   input,
   onInputChange,
+  onInputPaste,
   onKeyDown,
   onSendMessage,
   onImageChange,
@@ -90,6 +91,7 @@ export default function MessageInput({
           rows={1}
           value={input}
           onChange={onInputChange}
+          onPaste={onInputPaste}
           onKeyDown={onKeyDown}
           placeholder={hasPendingImages ? t('input.imagePlaceholder') : t('input.placeholder')}
           className="smartmall-live-chat-composer__input min-h-8 flex-1 resize-none rounded-none !border-0 !bg-transparent px-1 py-1.5 text-sm leading-5 text-gray-800 !shadow-none outline-none placeholder:text-gray-400 focus:!border-0 focus:!bg-transparent focus:!shadow-none dark:text-gray-100 dark:placeholder:!text-gray-500"

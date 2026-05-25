@@ -4,7 +4,7 @@ import { Button, Empty, Form, Input, InputNumber, Modal, Popconfirm, Select, Spa
 import { CheckCircle2, ClipboardList, FolderTree, MessageSquareText } from 'lucide-react'
 import SEO from '@/components/shared/SEO'
 import SearchInput from '@/components/shared/SearchInput'
-import { Form as UiForm, StatCard, StatGrid, StatusPill } from '@/components/admin/ui'
+import { AdminForm as UiForm, StatCard, StatGrid, StatusTag } from '@/components/admin/ui'
 import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
 import { useModalBodyScroll } from '@/hooks/shared/useModalBodyScroll'
 import {
@@ -145,47 +145,52 @@ function QuickRepliesHeader({ onCreate, onManageCategories }) {
 }
 
 function QuickRepliesStats({ stats }) {
+  const iconProps = {
+    className: 'h-5 w-5',
+    strokeWidth: 1.8
+  }
+
   const items = [
     {
       key: 'total',
       label: 'Total templates',
       meta: 'Saved replies for agents',
       value: stats.total,
-      Icon: ClipboardList
+      icon: <ClipboardList {...iconProps} />
     },
     {
       key: 'active',
       label: 'Active',
       meta: 'Available in live chat',
       value: stats.active,
-      Icon: CheckCircle2
+      icon: <CheckCircle2 {...iconProps} />
     },
     {
       key: 'categories',
       label: 'Categories',
       meta: 'Active template groups',
       value: stats.categories,
-      Icon: FolderTree
+      icon: <FolderTree {...iconProps} />
     },
     {
       key: 'usedThisMonth',
       label: 'Used this month',
       meta: 'Inserted by agents',
       value: stats.usedThisMonth,
-      Icon: MessageSquareText
+      icon: <MessageSquareText {...iconProps} />
     }
   ]
 
   return (
     <StatGrid columns={4} className="admin-quick-replies-stats">
-      {items.map(({ key, label, meta, value, Icon }) => (
+      {items.map(({ key, label, meta, value, icon }) => (
         <StatCard
           key={key}
           className={`admin-quick-replies-stat admin-quick-replies-stat--${key}`}
           label={label}
           value={value || 0}
           meta={meta}
-          icon={Icon}
+          icon={icon}
           tone={key === 'active' ? 'success' : key === 'categories' ? 'info' : key === 'usedThisMonth' ? 'warning' : 'default'}
         />
       ))}
@@ -230,15 +235,11 @@ function QuickRepliesFilters({ categoryOptions, filters, onFilterChange }) {
   )
 }
 
-function QuickReplyStatusPill({ active }) {
+function QuickReplyStatusTag({ active }) {
   return (
-    <StatusPill
-      dot={false}
-      tone={active ? 'success' : 'neutral'}
-      className={`admin-quick-replies-status ${active ? 'admin-quick-replies-status--active' : 'admin-quick-replies-status--inactive'}`}
-    >
+    <StatusTag tone={active ? 'active' : 'inactive'}>
       {active ? 'Active' : 'Inactive'}
-    </StatusPill>
+    </StatusTag>
   )
 }
 
@@ -305,7 +306,7 @@ function QuickRepliesTable({ categoryOptions, data, loading, pagination, onChang
       render: (_, record) => (
         <Space size="small">
           <Switch size="small" checked={record.isActive} onChange={checked => onToggleStatus(record, checked)} />
-          <QuickReplyStatusPill active={record.isActive} />
+          <QuickReplyStatusTag active={record.isActive} />
         </Space>
       )
     },
@@ -379,6 +380,7 @@ function QuickRepliesTable({ categoryOptions, data, loading, pagination, onChang
 
 function QuickReplyFormModal({ categoryOptions, open, editing, form, submitLoading, onClose, onSubmit, onInsertVariable }) {
   const { bodyStyle, contentRef } = useModalBodyScroll(open)
+  const selectPopupProps = { popupClassName: 'admin-quick-replies-select-popup' }
   const formCategoryOptions = categoryOptions.map(category => ({
     value: category.value,
     label: category.isActive === false ? `${category.label} (Inactive)` : category.label,
@@ -416,7 +418,7 @@ function QuickReplyFormModal({ categoryOptions, open, editing, form, submitLoadi
 
           <div className="admin-quick-replies-form__grid">
             <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Category is required' }]}>
-              <Select options={formCategoryOptions} placeholder="Select category" />
+              <Select {...selectPopupProps} options={formCategoryOptions} placeholder="Select category" />
             </Form.Item>
 
             <Form.Item
@@ -457,6 +459,7 @@ function QuickReplyFormModal({ categoryOptions, open, editing, form, submitLoadi
 
           <Form.Item label="Variables" name="variables">
             <Select
+              {...selectPopupProps}
               mode="multiple"
               options={VARIABLE_OPTIONS.map(variable => ({ value: variable, label: variable }))}
               placeholder="Select variables used by this template"
@@ -465,7 +468,7 @@ function QuickReplyFormModal({ categoryOptions, open, editing, form, submitLoadi
 
           <div className="admin-quick-replies-form__grid">
             <Form.Item label="Language" name="language" rules={[{ required: true, message: 'Language is required' }]}>
-              <Select options={LANGUAGE_OPTIONS.filter(option => option.value !== 'all')} />
+              <Select {...selectPopupProps} options={LANGUAGE_OPTIONS.filter(option => option.value !== 'all')} />
             </Form.Item>
 
             <Form.Item label="Status" name="isActive" valuePropName="checked">
@@ -718,7 +721,7 @@ export default function QuickReplies() {
   }, [])
 
   useEffect(() => {
-    void loadCategories()
+    queueMicrotask(() => void loadCategories())
   }, [loadCategories])
 
   const loadQuickReplies = useCallback(async () => {
@@ -752,7 +755,7 @@ export default function QuickReplies() {
   }, [debouncedSearch, filters.category, filters.language, filters.status, page, pageSize])
 
   useEffect(() => {
-    void loadQuickReplies()
+    queueMicrotask(() => void loadQuickReplies())
   }, [loadQuickReplies])
 
   const handleFilterChange = updates => {

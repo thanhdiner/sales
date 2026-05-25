@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Tag } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import ClientBreadcrumb from '@/components/client/Breadcrumb'
@@ -11,10 +12,12 @@ import FlashSaleLoadingState from './components/FlashSaleLoadingState'
 import LoadMoreButton from './components/LoadMoreButton'
 import TrustHighlights from './sections/TrustHighlights'
 import UpcomingFlashSales from './sections/UpcomingFlashSales'
+import { FLASH_SALE_FADE_UP_VARIANTS, FLASH_SALE_VIEWPORT } from './constants'
 import { useFlashSaleCategoryTabs } from './hooks/useFlashSaleCategoryTabs'
 import { useFlashSaleData } from './hooks/useFlashSaleData'
 import { useFlashSaleProductActions } from './hooks/useFlashSaleProductActions'
 import { formatFlashSaleCurrency } from './utils/flashSaleUtils'
+import './index.scss'
 
 function FlashSale() {
   const { t, i18n } = useTranslation('clientFlashSale')
@@ -86,33 +89,47 @@ function FlashSale() {
   }
 
   return (
-    <div className="min-h-screen rounded-tl-[8px] rounded-tr-[8px] bg-white text-slate-900 shadow dark:bg-gray-800 dark:text-slate-100">
+    <div className="min-h-screen rounded-tl-[8px] rounded-tr-[8px] bg-white text-slate-900 shadow dark:bg-[#101213] dark:text-slate-100">
       <SEO title={t('seo.title')} description={t('seo.description')} url="https://smartmall.site/flash-sale" />
 
       <main>
         <section className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <ClientBreadcrumb
-            className="mb-4"
-            label={t('breadcrumb.label')}
-            items={[
-              { label: t('breadcrumb.home'), to: '/' },
-              { label: t('breadcrumb.flashSale') }
-            ]}
-          />
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={FLASH_SALE_FADE_UP_VARIANTS}
+            viewport={FLASH_SALE_VIEWPORT}
+          >
+            <ClientBreadcrumb
+              className="mb-4"
+              label={t('breadcrumb.label')}
+              items={[
+                { label: t('breadcrumb.home'), to: '/' },
+                { label: t('breadcrumb.flashSale') }
+              ]}
+            />
+          </motion.div>
 
-          <CategoryTabs
-            categories={categories}
-            isDraggingTabs={isDraggingTabs}
-            onCategoryChange={handleCategoryChange}
-            onClickCapture={handleTabsClickCapture}
-            onPointerDown={handleTabsPointerDown}
-            onPointerMove={handleTabsPointerMove}
-            onPointerUp={handleTabsPointerUp}
-            onScrollTabs={handleScrollTabs}
-            selectedCategory={selectedCategory}
-            tabsRef={tabsRef}
-            t={t}
-          />
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={FLASH_SALE_FADE_UP_VARIANTS}
+            viewport={FLASH_SALE_VIEWPORT}
+          >
+            <CategoryTabs
+              categories={categories}
+              isDraggingTabs={isDraggingTabs}
+              onCategoryChange={handleCategoryChange}
+              onClickCapture={handleTabsClickCapture}
+              onPointerDown={handleTabsPointerDown}
+              onPointerMove={handleTabsPointerMove}
+              onPointerUp={handleTabsPointerUp}
+              onScrollTabs={handleScrollTabs}
+              selectedCategory={selectedCategory}
+              tabsRef={tabsRef}
+              t={t}
+            />
+          </motion.div>
 
           {loading && <FlashSaleLoadingState />}
 

@@ -13,6 +13,18 @@
     "30days": "30 ngày qua",
     "90days": "3 tháng qua"
   },
+  "sections": {
+    "vitalSigns": "Suc khoe he thong",
+    "operationsHub": "Trung tam dieu hanh",
+    "conversionAnalytics": "Hieu suat & Chuyen doi",
+    "targetIntelligence": "Doi tuong muc tieu",
+    "transactionStream": "Dong chay giao dich",
+    "vitalGroups": {
+      "users": "Nguoi dung",
+      "finance": "Tai chinh",
+      "inventory": "Hang hoa"
+    }
+  },
   "common": {
     "viewAll": "Xem tất cả",
     "unknown": "Không rõ",
@@ -86,7 +98,12 @@
       "productViews": "Lượt xem sản phẩm",
       "addToCart": "Thêm vào giỏ",
       "orders": "Đơn hàng",
-      "completed": "Hoàn thành"
+      "completed": "Hoàn thành",
+      "completionRate": "Tỷ lệ hoàn thành",
+      "completedOrders": "Đơn hoàn thành",
+      "completedOfOrders": "{{completed}} / {{orders}}",
+      "dropOff": "Chưa hoàn thành",
+      "notCompleted": "{{count}} chưa hoàn thành"
     },
     "stock": {
       "title": "Cần nhập hàng",
@@ -97,6 +114,7 @@
       "out": "Hết hàng",
       "total": "Tổng mục",
       "items": "Sản phẩm cần nhập",
+      "editStock": "Chinh ton kho cho {{name}}",
       "left": "Còn {{count}}",
       "empty": "Không có sản phẩm sắp hết hàng"
     }
@@ -129,7 +147,12 @@
       "subtitle": "Review hiển thị chưa phản hồi"
     },
     "viewAll": "Xem tất cả",
-    "total": "{{count}} tổng"
+    "total": "{{count}} tổng",
+    "summary": {
+      "total": "Tổng cần xử lý",
+      "orders": "Đơn hàng",
+      "reviews": "Review"
+    }
   },
   "topProducts": {
     "productsTitle": "Sản phẩm nổi bật",

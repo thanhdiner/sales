@@ -2,7 +2,7 @@ import { Button } from 'antd'
 
 export default function ProfileActions({ loading, onCancel, t }) {
   return (
-    <div className="mt-6 text-right">
+    <div className="mt-0 text-right">
       <Button
         className="mr-2 !border-[var(--admin-border)] !bg-[var(--admin-surface-2)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!text-[var(--admin-text)]"
         htmlType="button"

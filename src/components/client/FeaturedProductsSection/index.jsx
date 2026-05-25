@@ -10,16 +10,45 @@ function FeaturedProductsSession() {
     <section className="home__featured-products">
       <div className="home__featured-products__header">
         <div className="home__featured-products__title-wrap">
-          <span className="home__featured-products__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17l-6 3.4 1.3-6.7-5-4.7 6.8-.8L12 2z" />
-            </svg>
-          </span>
-
           <h2 className="home__featured-products__title">
-            {t('featuredProductsSection.title')}
+            <svg width="350" height="82" viewBox="0 0 350 82" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M61 50C101 46 156 52 216 48C254 45.5 286 48 316 50"
+                stroke="#FFD166"
+                strokeWidth="10"
+                strokeLinecap="round"
+                opacity="0.42"
+              />
+              <path
+                d="M41 16L44 27L55 30L44 33L41 44L38 33L27 30L38 27L41 16Z"
+                fill="#1677FF"
+              />
+              <path
+                d="M56 14L57.5 18.5L62 20L57.5 21.5L56 26L54.5 21.5L50 20L54.5 18.5L56 14Z"
+                fill="#8EC5FF"
+              />
+              <text
+                x="68"
+                y="45"
+                fontFamily="Comic Sans MS, Segoe Print, cursive"
+                fontSize="26"
+                fontWeight="800"
+                fill="#071B4D"
+                transform="rotate(-1 68 45)"
+              >
+                Featured products
+              </text>
+              <path
+                d="M70 55C118 58 178 54 236 55.5C262 56.2 288 55 312 54"
+                stroke="#1677FF"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                opacity="0.45"
+              />
+            </svg>
+            <span>{t('featuredProductsSection.title')}</span>
           </h2>
-      </div>
+        </div>
 
         <Link to="/products?type=isFeatured" className="home__featured-products__view-all">
           {t('featuredProductsSection.viewAll')}

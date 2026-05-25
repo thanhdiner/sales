@@ -1,0 +1,7 @@
+.client-button {
+  border: 1px solid var(--client-border);
+  border-radius: var(--client-radius-md);
+  background: var(--client-primary);
+  color: var(--client-surface);
+  transition-duration: var(--duration-base);
+}

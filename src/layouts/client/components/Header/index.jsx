@@ -6,7 +6,7 @@ import HeaderLogo from './HeaderLogo'
 import HeaderNav from './HeaderNav'
 import useAutoHideHeader from './useAutoHideHeader'
 
-function Header({ onOpenMenu, notifications, setNotifications }) {
+function Header({ onOpenMenu, notifications, setNotifications, markNotificationsRead }) {
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const user = useSelector(state => state.clientUser.user)
   const { useBreakpoint } = Grid
@@ -35,6 +35,7 @@ function Header({ onOpenMenu, notifications, setNotifications }) {
           headerHidden={headerHidden}
           notifications={notifications}
           setNotifications={setNotifications}
+          markNotificationsRead={markNotificationsRead}
         />
       </Row>
     </header>

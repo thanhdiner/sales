@@ -1,5 +1,5 @@
 import { message, Modal } from 'antd'
-import { AdminStatusTag } from '@/components/admin/ui'
+import { StatusTag } from '@/components/admin/ui'
 import { toggleProductCategoryStatus } from '@/services/admin/commerce/productCategory'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { getLocalizedProductCategoryTitle } from '../../utils/productCategoryLocalization'
@@ -21,11 +21,11 @@ function FieldStatus({ status, record, setProductCategories }) {
   const nextStatusLabel = t(`status.${nextStatus}`)
 
   if (!permissions.includes('edit_product_category')) {
-    return <AdminStatusTag tone={statusTone}>{currentStatusLabel}</AdminStatusTag>
+    return <StatusTag tone={statusTone}>{currentStatusLabel}</StatusTag>
   }
 
   return (
-    <AdminStatusTag
+    <StatusTag
       tone={statusTone}
       className="admin-status-tag--clickable"
       onClick={() => {
@@ -65,7 +65,7 @@ function FieldStatus({ status, record, setProductCategories }) {
       }}
     >
       {currentStatusLabel}
-    </AdminStatusTag>
+    </StatusTag>
   )
 }
 

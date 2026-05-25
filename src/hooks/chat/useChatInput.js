@@ -8,6 +8,18 @@ import { createClientTempId, revokeChatImageUrls } from '@/utils/chatMessage'
 
 const MAX_CHAT_IMAGES = 10
 
+const isImageFile = file => file?.type?.startsWith('image/')
+
+const getClipboardImageFiles = clipboardData => {
+  const files = Array.from(clipboardData?.files || []).filter(isImageFile)
+  if (files.length > 0) return files
+
+  return Array.from(clipboardData?.items || [])
+    .filter(item => item.kind === 'file' && item.type?.startsWith('image/'))
+    .map(item => item.getAsFile())
+    .filter(isImageFile)
+}
+
 const revokePreviewUrl = (url) => {
   if (typeof url === 'string' && url.startsWith('blob:')) {
     URL.revokeObjectURL(url)
@@ -245,8 +257,8 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
     }
   }
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files || []).filter(file => file.type?.startsWith('image/'))
+  const addPendingImages = (filesToAdd) => {
+    const files = Array.from(filesToAdd || []).filter(isImageFile)
     if (files.length === 0) return
 
     setPendingImages(prev => {
@@ -263,8 +275,20 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
 
       return [...prev, ...acceptedFiles.map(createPendingImage)]
     })
+  }
+
+  const handleImageChange = (e) => {
+    addPendingImages(e.target.files)
 
     if (imageInputRef.current) imageInputRef.current.value = ''
+  }
+
+  const handleInputPaste = (e) => {
+    const clipboardImages = getClipboardImageFiles(e.clipboardData)
+    if (clipboardImages.length === 0) return
+
+    e.preventDefault()
+    addPendingImages(clipboardImages)
   }
 
   const openImagePicker = () => {
@@ -291,6 +315,7 @@ export function useChatInput({ sessionId, clientUser, setMessages, isResolved = 
     imageInputRef,
     sendMessage,
     handleInputChange,
+    handleInputPaste,
     handleImageChange,
     openImagePicker,
     clearPendingImages,

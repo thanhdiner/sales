@@ -1,4 +1,5 @@
 import { FileImageOutlined, PictureOutlined } from '@ant-design/icons'
+import { Image } from 'antd'
 import { extractFileName } from '@/utils/extractFileName'
 import { useTranslation } from 'react-i18next'
 
@@ -22,7 +23,7 @@ function ProductCategoryThumbnail({ thumbnail, title }) {
         {thumbnail ? (
           <>
             <div className="admin-product-category-thumb__image-frame">
-              <img className="admin-product-category-thumb__image" src={thumbnail} alt={title || t('details.thumbnail.alt')} />
+              <Image className="admin-product-category-thumb__image" src={thumbnail} alt={title || t('details.thumbnail.alt')} />
             </div>
 
             <div className="admin-product-category-thumb__meta">

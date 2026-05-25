@@ -2,6 +2,7 @@ import { Globe2, ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import SecurityTab from './components/SecurityTab'
 import WebsiteConfigTab from './components/AdminWebsiteConfigTab'
@@ -40,11 +41,13 @@ const Settings = () => {
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-4 sm:p-5 lg:p-6">
+    <div className="min-h-screen">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-7xl space-y-5">
-        <div className="flex flex-col gap-4 border-b border-[var(--admin-border)] pb-4 lg:flex-row lg:items-end lg:justify-between">
+        <AdminBackButton label={t('page.back')} />
+
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--admin-accent)]">{t('page.eyebrow')}</p>
             <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--admin-text)]">{t('page.title')}</h1>
@@ -86,6 +89,8 @@ const Settings = () => {
             })}
           </div>
         </div>
+
+        <div className="h-px bg-[color-mix(in_srgb,var(--admin-border)_85%,transparent)]" />
 
         {activeTab === 'configuration' ? <WebsiteConfigTab /> : <SecurityTab />}
       </div>

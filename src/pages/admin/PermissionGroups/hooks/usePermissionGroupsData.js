@@ -1,19 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deletePermissionGroup, getPermissionGroups, togglePermissionGroupActive } from '@/services/admin/rbac/permissionGroup'
 import { getPermissions } from '@/services/admin/rbac/permission'
+import { adminResourceQueryKeys } from '@/hooks/shared/adminResourceList'
 import { getPermissionGroupErrorMessage } from '../utils'
 
+const GROUPS_QUERY_KEY = adminResourceQueryKeys.list('permission-groups', {})
+const PERMISSIONS_QUERY_KEY = adminResourceQueryKeys.list('permissions', {})
+
 function attachPermissionCounts(groups = [], permissions = []) {
-  if (!permissions.length) {
-    return groups
-  }
+  if (!permissions.length) return groups
 
   const countByGroup = permissions.reduce((counts, permission) => {
-    if (!permission?.group || permission.deleted) {
-      return counts
-    }
+    if (!permission?.group || permission.deleted) return counts
 
     counts[permission.group] = (counts[permission.group] || 0) + 1
     return counts
@@ -26,69 +27,53 @@ function attachPermissionCounts(groups = [], permissions = []) {
 }
 
 export function usePermissionGroupsData() {
+
   const { t } = useTranslation('adminPermissionGroups')
-  const [groups, setGroups] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   const [updatingId, setUpdatingId] = useState(null)
-
-  const fetchGroups = useCallback(async () => {
-    setLoading(true)
-
-    try {
-      const res = await getPermissionGroups()
-      const groupList = res.data || []
-
-      try {
-        const permissionRes = await getPermissions()
-        setGroups(attachPermissionCounts(groupList, permissionRes.data || []))
-      } catch {
-        setGroups(groupList)
-      }
-    } catch {
-      message.error(t('messages.fetchError'))
-    } finally {
-      setLoading(false)
-    }
-  }, [t])
+  const groupsQuery = useQuery({
+    queryKey: GROUPS_QUERY_KEY,
+    queryFn: getPermissionGroups
+  })
+  const permissionsQuery = useQuery({
+    queryKey: PERMISSIONS_QUERY_KEY,
+    queryFn: getPermissions
+  })
+  const groups = useMemo(
+    () => attachPermissionCounts(groupsQuery.data?.data || [], permissionsQuery.data?.data || []),
+    [groupsQuery.data?.data, permissionsQuery.data?.data]
+  )
+  const invalidateGroups = () => queryClient.invalidateQueries({ queryKey: GROUPS_QUERY_KEY })
 
   useEffect(() => {
-    fetchGroups()
-  }, [fetchGroups])
+    if (groupsQuery.error) message.error(t('messages.fetchError'))
+  }, [groupsQuery.error, t])
 
-  const handleDeleteGroup = async groupId => {
-    setLoading(true)
-
-    try {
-      await deletePermissionGroup(groupId)
+  const deleteMutation = useMutation({
+    mutationFn: deletePermissionGroup,
+    onSuccess: async () => {
       message.success(t('messages.deleteSuccess'))
-      await fetchGroups()
-    } catch (error) {
-      message.error(getPermissionGroupErrorMessage(error, t('messages.deleteError')))
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleToggleGroupActive = async group => {
-    setUpdatingId(group._id)
-
-    try {
-      await togglePermissionGroupActive(group._id, !group.isActive)
+      await invalidateGroups()
+    },
+    onError: error => message.error(getPermissionGroupErrorMessage(error, t('messages.deleteError')))
+  })
+  const toggleMutation = useMutation({
+    mutationFn: group => togglePermissionGroupActive(group._id, !group.isActive).then(() => group),
+    onMutate: group => setUpdatingId(group._id),
+    onSuccess: async group => {
       message.success(!group.isActive ? t('messages.toggleActive') : t('messages.toggleInactive'))
-      await fetchGroups()
-    } catch (error) {
-      message.error(getPermissionGroupErrorMessage(error, t('messages.toggleError')))
-    } finally {
-      setUpdatingId(null)
-    }
-  }
+      await invalidateGroups()
+    },
+    onError: error => message.error(getPermissionGroupErrorMessage(error, t('messages.toggleError'))),
+    onSettled: () => setUpdatingId(null)
+  })
 
   return {
     groups,
-    loading,
+    loading: groupsQuery.isLoading || groupsQuery.isFetching || permissionsQuery.isLoading || deleteMutation.isPending,
     updatingId,
-    fetchGroups,
-    handleDeleteGroup,
-    handleToggleGroupActive
+    fetchGroups: groupsQuery.refetch,
+    handleDeleteGroup: groupId => deleteMutation.mutate(groupId),
+    handleToggleGroupActive: group => toggleMutation.mutate(group)
   }
 }

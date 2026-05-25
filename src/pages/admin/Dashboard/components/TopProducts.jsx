@@ -3,8 +3,9 @@ import { Empty } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Folder, Package, TrendingDown, TrendingUp } from 'lucide-react'
+import { useDashboardCategoryChart, useDashboardTopProducts } from '../hooks/useDashboardQueries'
 import { formatCurrency, getDashboardLocale } from '../utils/dashboardTransforms'
-import { DashboardRowSkeleton } from './Activity'
+import DashboardRowSkeleton from './DashboardRowSkeleton'
 
 const formatNumber = (value, locale) => (Number(value) || 0).toLocaleString(locale)
 
@@ -88,18 +89,20 @@ function CategoryList({ categoryData, loading, locale, t }) {
   )
 }
 
-export default function TopProducts({ categoryData, categoryLoading, loading, topProducts }) {
+export default function TopProducts({ dateRange }) {
   const { t, i18n } = useTranslation('adminDashboard')
+  const { topProducts, topProductsLoading } = useDashboardTopProducts(dateRange)
+  const { categoryData, categoryLoading } = useDashboardCategoryChart(dateRange)
   const locale = getDashboardLocale(i18n.language)
 
   return (
-    <section className="dashboard-bottom-grid dashboard-bottom-grid--half">
+    <div className="dashboard-bottom-grid dashboard-bottom-grid--half">
       <div className="dashboard-panel">
         <div className="dashboard-panel-header dashboard-panel-header--action">
           <h2>{t('topProducts.productsTitle')}</h2>
           <Link to="/admin/products">{t('common.viewAll')}</Link>
         </div>
-        <ProductList loading={loading} locale={locale} topProducts={topProducts} t={t} />
+        <ProductList loading={topProductsLoading} locale={locale} topProducts={topProducts} t={t} />
       </div>
 
       <div className="dashboard-panel">
@@ -109,6 +112,6 @@ export default function TopProducts({ categoryData, categoryLoading, loading, to
         </div>
         <CategoryList categoryData={categoryData} loading={categoryLoading} locale={locale} t={t} />
       </div>
-    </section>
+    </div>
   )
 }

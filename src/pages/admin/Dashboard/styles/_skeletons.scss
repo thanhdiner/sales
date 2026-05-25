@@ -1,0 +1,141 @@
+.dashboard-card-skeleton {
+  height: 216px !important;
+  border-radius: 8px !important;
+}
+
+.dashboard-line-skeleton,
+.dashboard-row-skeleton,
+.dashboard-activity-skeleton,
+.dashboard-funnel-skeleton,
+.dashboard-stock-skeleton {
+  height: 36px !important;
+  border-radius: 7px !important;
+}
+
+.dashboard-row-skeleton-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  border-bottom: 1px solid var(--dashboard-border);
+}
+
+.dashboard-row-skeleton-item:last-child {
+  border-bottom: 0;
+}
+
+.dashboard-row-skeleton-item--compact {
+  min-height: 48px;
+}
+
+.dashboard-row-skeleton-icon .ant-skeleton-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+}
+
+.dashboard-row-skeleton-item--compact .dashboard-row-skeleton-icon .ant-skeleton-avatar {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.dashboard-row-skeleton-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.dashboard-row-skeleton-title.ant-skeleton-input,
+.dashboard-row-skeleton-title .ant-skeleton-input {
+  width: 160px !important;
+}
+
+.dashboard-row-skeleton-subtitle.ant-skeleton-input,
+.dashboard-row-skeleton-subtitle .ant-skeleton-input {
+  width: 220px !important;
+}
+
+.dashboard-row-skeleton-badge.ant-skeleton-input,
+.dashboard-row-skeleton-badge .ant-skeleton-input {
+  width: 44px !important;
+}
+
+.dashboard-row-skeleton {
+  height: 46px !important;
+  margin: 6px 0;
+}
+
+.dashboard-activity-skeleton {
+  height: 54px !important;
+  margin: 5px 0;
+}
+
+.dashboard-donut-skeleton,
+.dashboard-revenue-skeleton {
+  height: 286px !important;
+  margin: 18px !important;
+  width: calc(100% - 36px) !important;
+  border-radius: 8px !important;
+}
+
+.dashboard-container .ant-skeleton-button,
+.dashboard-container .ant-skeleton-input {
+  background: var(--dashboard-skeleton) !important;
+  background-size: 400% 100% !important;
+}
+
+.dashboard-container .ant-skeleton-avatar {
+  background: var(--dashboard-skeleton) !important;
+  background-size: 400% 100% !important;
+}
+
+.dashboard-container .ant-empty-description {
+  color: var(--dashboard-text-muted);
+}
+
+.dashboard-container .recharts-default-tooltip {
+  background: var(--dashboard-surface-2) !important;
+  border: 1px solid var(--dashboard-border-strong) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.dashboard-container .recharts-tooltip-item,
+.dashboard-container .recharts-tooltip-label {
+  color: var(--dashboard-text) !important;
+}
+
+.dashboard-date-dropdown,
+.dashboard-threshold-dropdown .ant-dropdown-menu {
+  padding: 6px !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px !important;
+  background: var(--admin-surface-2) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.dashboard-date-dropdown .ant-select-item,
+.dashboard-threshold-dropdown .ant-dropdown-menu-item {
+  min-height: 34px;
+  border-radius: 6px !important;
+  color: var(--admin-text-muted) !important;
+}
+
+.dashboard-date-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.dashboard-threshold-dropdown .ant-dropdown-menu-item-active,
+.dashboard-threshold-dropdown .ant-dropdown-menu-item:hover {
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+.dashboard-date-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+.dashboard-threshold-dropdown .ant-dropdown-menu-item-selected {
+  background: var(--admin-success-bg-soft) !important;
+  color: var(--admin-success-text) !important;
+  font-weight: 600 !important;
+}
+
+html.dark .dashboard-threshold-dropdown .ant-dropdown-menu-item-selected {
+  background: rgba(34, 197, 94, 0.14) !important;
+  color: #86efac !important;
+}

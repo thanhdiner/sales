@@ -31,16 +31,55 @@ const timelineMeta = [
   }
 ]
 
-const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
+const timelineViewport = { once: false, amount: 0.35, margin: '-8% 0px -8% 0px' }
+
+const getCardMotion = isLeft => ({
+  hidden: {
+    opacity: 0.24,
+    x: isLeft ? -28 : 28,
+    y: 10,
+    scale: 0.985
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.36, ease: 'easeOut' }
+  }
+})
+
+const mobileCardMotion = {
+  hidden: { opacity: 0.24, x: 22, y: 10, scale: 0.985 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.32, ease: 'easeOut' }
+  }
+}
+
+const dotMotion = {
+  hidden: { opacity: 0.35, scale: 0.68 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.28, ease: 'easeOut' }
+  }
+}
+
+const DesktopTimelineCard = ({ item, index, isLeft }) => {
   const Icon = item.icon
 
   return (
     <motion.div
       className={`relative ${isLeft ? 'col-start-1 pr-12' : 'col-start-2 pl-12'}`}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: index * 0.06 }}
-      viewport={viewport}
+      initial="hidden"
+      whileInView="visible"
+      variants={getCardMotion(isLeft)}
+      transition={{ delay: index * 0.035 }}
+      viewport={timelineViewport}
     >
       <div className={`flex ${isLeft ? 'justify-end' : 'justify-start'}`}>
         <div className="about-page__timeline-card relative w-full max-w-[540px] border border-[#dddddd] bg-white shadow-sm">
@@ -109,20 +148,22 @@ const DesktopTimelineCard = ({ item, index, isLeft, viewport }) => {
   )
 }
 
-const MobileTimelineCard = ({ item, index, viewport }) => {
+const MobileTimelineCard = ({ item, index }) => {
   const Icon = item.icon
 
   return (
     <motion.div
       className="relative pl-10"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      viewport={viewport}
+      initial="hidden"
+      whileInView="visible"
+      variants={mobileCardMotion}
+      transition={{ delay: index * 0.035 }}
+      viewport={timelineViewport}
     >
-      <div
+      <motion.div
         className="about-page__timeline-dot absolute left-[7px] top-8 z-10 h-5 w-5 rounded-full border-[3px] border-white shadow"
         style={{ backgroundColor: item.color }}
+        variants={dotMotion}
       />
 
       <div className="about-page__timeline-card overflow-hidden border border-[#d9d9d9] bg-white shadow-sm">
@@ -145,7 +186,7 @@ const MobileTimelineCard = ({ item, index, viewport }) => {
   )
 }
 
-const Timeline = ({ content, viewport = { once: true, amount: 0.2 } }) => {
+const Timeline = ({ content }) => {
   const { t } = useTranslation('clientAbout')
   const timelineItems = getArrayValue(content?.items, t('timelineSection.items', { returnObjects: true }))
 
@@ -169,12 +210,16 @@ const Timeline = ({ content, viewport = { once: true, amount: 0.2 } }) => {
 
               return (
                 <div key={`${item.title}-${index}`} className="relative grid grid-cols-2 items-center">
-                  <DesktopTimelineCard item={item} index={index} isLeft={isLeft} viewport={viewport} />
+                  <DesktopTimelineCard item={item} index={index} isLeft={isLeft} />
 
                   <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-                    <div
+                    <motion.div
                       className="about-page__timeline-dot h-7 w-7 rounded-full border-4 border-white shadow-sm"
                       style={{ backgroundColor: item.color }}
+                      initial="hidden"
+                      whileInView="visible"
+                      variants={dotMotion}
+                      viewport={timelineViewport}
                     />
                   </div>
                 </div>
@@ -187,7 +232,7 @@ const Timeline = ({ content, viewport = { once: true, amount: 0.2 } }) => {
           <div className="about-page__timeline-line absolute left-4 top-0 h-full w-px bg-[#cfcfcf]" />
 
           {timeline.map((item, index) => (
-            <MobileTimelineCard key={`${item.title}-${index}`} item={item} index={index} viewport={viewport} />
+            <MobileTimelineCard key={`${item.title}-${index}`} item={item} index={index} />
           ))}
         </div>
       </div>

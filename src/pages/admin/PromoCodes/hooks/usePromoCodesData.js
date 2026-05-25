@@ -1,57 +1,78 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { message } from 'antd'
+import { useMutation } from '@tanstack/react-query'
 import { createPromoCode, deletePromoCode, getPromoCodeDetail, getPromoCodes, updatePromoCode } from '@/services/admin/commerce/promoCode'
-import { useListSearchParams } from '@/hooks/shared/useListSearchParams'
+import { useAdminResourceList } from '@/hooks/shared/adminResourceList'
 import { DEFAULT_PROMO_CODE_PAGINATION, getPromoCodeServerErrorMessage, normalizePromoCodeFormValues } from '../utils/promoCodeHelpers'
 
 export function usePromoCodesData({ t = key => key, filters = {} } = {}) {
-  const { page, setPage, pageSize, setPageSize } = useListSearchParams({
-    defaultPage: DEFAULT_PROMO_CODE_PAGINATION.current,
-    defaultPageSize: DEFAULT_PROMO_CODE_PAGINATION.pageSize
-  })
-
-  const [promoCodes, setPromoCodes] = useState([])
-  const [loading, setLoading] = useState(false)
   const [selectedCode, setSelectedCode] = useState(null)
   const [detailModalVisible, setDetailModalVisible] = useState(false)
-  const [total, setTotal] = useState(DEFAULT_PROMO_CODE_PAGINATION.total)
+  const [detailLoading, setDetailLoading] = useState(false)
+  const {
+    items: promoCodes,
+    loading: listLoading,
+    fetching: listFetching,
+    pagination,
+    page,
+    pageSize,
+    setPage,
+    setPageSize,
+    refetch,
+    invalidate
+  } = useAdminResourceList({
+    resource: 'promo-codes',
+    defaultPage: DEFAULT_PROMO_CODE_PAGINATION.current,
+    defaultPageSize: DEFAULT_PROMO_CODE_PAGINATION.pageSize,
+    query: filters,
+    queryFn: query => getPromoCodes({ page: query.page, limit: query.limit, ...filters }),
+    selectItems: res => res?.promoCodes,
+    selectTotal: res => res?.total,
+    onError: err => message.error(getPromoCodeServerErrorMessage(err, t, 'messages.fetchError'))
+  })
 
-  const pagination = useMemo(
-    () => ({
-      ...DEFAULT_PROMO_CODE_PAGINATION,
-      current: page,
-      pageSize,
-      total
-    }),
-    [page, pageSize, total]
-  )
+  const submitMutation = useMutation({
+    mutationFn: async ({ values, editingCode }) => {
+      const formData = normalizePromoCodeFormValues(values)
 
-  const fetchPromoCodes = useCallback(
-    async (nextPage = page, nextPageSize = pageSize, nextFilters = {}) => {
-      setLoading(true)
-
-      try {
-        const res = await getPromoCodes({ page: nextPage, limit: nextPageSize, ...nextFilters })
-
-        setPromoCodes(res?.promoCodes || [])
-        setTotal(res?.total || 0)
-      } catch (err) {
-        message.error(getPromoCodeServerErrorMessage(err, t, 'messages.fetchError'))
-      } finally {
-        setLoading(false)
+      if (editingCode) {
+        await updatePromoCode(editingCode._id, formData)
+        return 'update'
       }
+
+      await createPromoCode(formData)
+      return 'create'
     },
-    [page, pageSize, t]
-  )
+    onSuccess: async action => {
+      message.success(t(action === 'update' ? 'messages.updateSuccess' : 'messages.createSuccess'))
+      await invalidate()
+    },
+    onError: error => message.error(getPromoCodeServerErrorMessage(error, t))
+  })
 
-  useEffect(() => {
-    fetchPromoCodes(page, pageSize, filters)
-  }, [fetchPromoCodes, filters, page, pageSize])
+  const deleteMutation = useMutation({
+    mutationFn: deletePromoCode,
+    onSuccess: async () => {
+      message.success(t('messages.deleteSuccess'))
+      await invalidate()
+    },
+    onError: err => message.error(getPromoCodeServerErrorMessage(err, t, 'messages.deleteError'))
+  })
 
-  const refreshCurrentPage = useCallback(() => {
-    return fetchPromoCodes(page, pageSize, filters)
-  }, [fetchPromoCodes, filters, page, pageSize])
+  const toggleMutation = useMutation({
+    mutationFn: record => updatePromoCode(record._id, { isActive: !record.isActive }).then(() => record),
+    onSuccess: async record => {
+      message.success(
+        t('messages.toggleSuccess', {
+          action: record.isActive ? t('messages.toggleOff') : t('messages.toggleOn')
+        })
+      )
+      await invalidate()
+    },
+    onError: err => message.error(getPromoCodeServerErrorMessage(err, t, 'messages.statusUpdateError'))
+  })
 
+  const refreshCurrentPage = useCallback(() => refetch(), [refetch])
   const handleTableChange = useCallback(
     tablePagination => {
       const nextPage = tablePagination.current || DEFAULT_PROMO_CODE_PAGINATION.current
@@ -66,75 +87,22 @@ export function usePromoCodesData({ t = key => key, filters = {} } = {}) {
     },
     [pageSize, setPage, setPageSize]
   )
-
-  const handleDelete = useCallback(
-    async id => {
-      setLoading(true)
-
-      try {
-        await deletePromoCode(id)
-        message.success(t('messages.deleteSuccess'))
-        await refreshCurrentPage()
-      } catch (err) {
-        message.error(getPromoCodeServerErrorMessage(err, t, 'messages.deleteError'))
-      } finally {
-        setLoading(false)
-      }
-    },
-    [refreshCurrentPage, t]
-  )
-
   const handleSubmitPromoCode = useCallback(
-    async ({ values, editingCode }) => {
-      setLoading(true)
-
+    async args => {
       try {
-        const formData = normalizePromoCodeFormValues(values)
-
-        if (editingCode) {
-          await updatePromoCode(editingCode._id, formData)
-          message.success(t('messages.updateSuccess'))
-        } else {
-          await createPromoCode(formData)
-          message.success(t('messages.createSuccess'))
-        }
-
-        await refreshCurrentPage()
+        await submitMutation.mutateAsync(args)
         return true
-      } catch (error) {
-        message.error(getPromoCodeServerErrorMessage(error, t))
+      } catch {
         return false
-      } finally {
-        setLoading(false)
       }
     },
-    [refreshCurrentPage, t]
+    [submitMutation]
   )
-
-  const handleToggleStatus = useCallback(
-    async record => {
-      setLoading(true)
-
-      try {
-        await updatePromoCode(record._id, { isActive: !record.isActive })
-        message.success(
-          t('messages.toggleSuccess', {
-            action: record.isActive ? t('messages.toggleOff') : t('messages.toggleOn')
-          })
-        )
-        await refreshCurrentPage()
-      } catch (err) {
-        message.error(getPromoCodeServerErrorMessage(err, t, 'messages.statusUpdateError'))
-      } finally {
-        setLoading(false)
-      }
-    },
-    [refreshCurrentPage, t]
-  )
-
+  const handleDelete = useCallback(id => deleteMutation.mutate(id), [deleteMutation])
+  const handleToggleStatus = useCallback(record => toggleMutation.mutate(record), [toggleMutation])
   const showDetail = useCallback(
     async record => {
-      setLoading(true)
+      setDetailLoading(true)
 
       try {
         const res = await getPromoCodeDetail(record._id)
@@ -143,23 +111,31 @@ export function usePromoCodesData({ t = key => key, filters = {} } = {}) {
       } catch (err) {
         message.error(getPromoCodeServerErrorMessage(err, t, 'messages.detailError'))
       } finally {
-        setLoading(false)
+        setDetailLoading(false)
       }
     },
     [t]
   )
-
   const closeDetail = useCallback(() => {
     setDetailModalVisible(false)
   }, [])
+  const loading = useMemo(
+    () => listLoading || detailLoading || submitMutation.isPending || deleteMutation.isPending || toggleMutation.isPending,
+    [deleteMutation.isPending, detailLoading, listLoading, submitMutation.isPending, toggleMutation.isPending]
+  )
 
   return {
     promoCodes,
     loading,
-    pagination,
+    fetching: listFetching,
+    pagination: {
+      ...DEFAULT_PROMO_CODE_PAGINATION,
+      ...pagination,
+      current: page,
+      pageSize
+    },
     selectedCode,
     detailModalVisible,
-    fetchPromoCodes,
     refreshCurrentPage,
     setPage,
     handleTableChange,

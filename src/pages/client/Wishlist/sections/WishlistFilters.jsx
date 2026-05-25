@@ -28,7 +28,7 @@ function WishlistFilters({ activeFilter, counts, onChangeFilter, onClearAll, t }
               >
                 <span>{t(filter.labelKey)}</span>
                 <span
-                  className={`rounded px-1.5 py-[2px] text-[10px] font-bold leading-none ${
+                  className={`rounded px-1.5 py-[2px] text-[10px] font-medium leading-none ${
                     isActive ? 'bg-white/20 text-white' : 'bg-white text-slate-500 dark:bg-gray-800 dark:text-gray-300'
                   }`}
                 >

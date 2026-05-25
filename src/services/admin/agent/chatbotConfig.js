@@ -27,3 +27,13 @@ export const testChatbotConnection = data => {
 export const getChatbotToolLogs = (params = {}) => {
   return get(`admin/chatbot-config/tool-logs${buildToolLogsQueryString(params)}`)
 }
+
+export const getChatbotRulesDefaults = () => get('admin/chatbot-config/rules-defaults')
+
+export const previewChatbotPrompt = data => post('admin/chatbot-config/preview-prompt', data)
+
+export const getChatbotRulesHistory = () => get('admin/chatbot-config/rules-history')
+
+export const rollbackChatbotRulesHistory = id => post(`admin/chatbot-config/rules-history/${id}/rollback`)
+
+export const testChatbotRules = data => post('admin/chatbot-config/rules-test', data)

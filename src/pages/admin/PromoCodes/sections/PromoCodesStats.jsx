@@ -1,7 +1,12 @@
 import { CalendarClock, CheckCircle2, Tags, UsersRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { AdminStatCard, AdminStatGrid } from '@/components/admin/ui'
+import { StatCard, StatGrid } from '@/components/admin/ui'
 import { formatNumber, getPromoCodeStats } from '../utils/promoCodeHelpers'
+
+const iconProps = {
+  className: 'h-5 w-5',
+  strokeWidth: 1.8
+}
 
 export default function PromoCodesStats({ promoCodes, language }) {
   const { t } = useTranslation('adminPromoCodes')
@@ -13,35 +18,35 @@ export default function PromoCodesStats({ promoCodes, language }) {
       label: t('stats.total'),
       value: formatNumber(stats.total, language),
       meta: t('stats.totalHint'),
-      icon: Tags
+      icon: <Tags {...iconProps} />
     },
     {
       key: 'active',
       label: t('stats.active'),
       value: formatNumber(stats.active, language),
       meta: t('stats.activeHint'),
-      icon: CheckCircle2
+      icon: <CheckCircle2 {...iconProps} />
     },
     {
       key: 'expired',
       label: t('stats.expired'),
       value: formatNumber(stats.expired, language),
       meta: t('stats.expiredHint'),
-      icon: CalendarClock
+      icon: <CalendarClock {...iconProps} />
     },
     {
       key: 'usage',
       label: t('stats.usage'),
       value: formatNumber(stats.totalUsed, language),
       meta: t('stats.usageHint'),
-      icon: UsersRound
+      icon: <UsersRound {...iconProps} />
     }
   ]
 
   return (
-    <AdminStatGrid className="admin-promo-stats-section" columns={4}>
+    <StatGrid className="admin-promo-stats-section" columns={4}>
       {items.map(item => (
-        <AdminStatCard
+        <StatCard
           key={item.key}
           className={`admin-promo-stat-card admin-promo-stat-card--${item.key}`}
           label={item.label}
@@ -50,6 +55,6 @@ export default function PromoCodesStats({ promoCodes, language }) {
           icon={item.icon}
         />
       ))}
-    </AdminStatGrid>
+    </StatGrid>
   )
 }

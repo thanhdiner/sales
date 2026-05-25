@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Select } from 'antd'
+import { useIsFetching, useQueryClient } from '@tanstack/react-query'
 import { CalendarDays, Clock, RefreshCw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useDashboardStats } from '../hooks/useDashboardQueries'
 import { DATE_RANGE_OPTIONS, getDashboardLocale } from '../utils/dashboardTransforms'
 
 const formatToday = locale =>
@@ -19,14 +21,21 @@ const formatUpdatedTime = (date, locale) =>
       }).format(date)
     : '--:--'
 
-export default function DashboardHeader({ dateRange, loading, lastUpdatedAt, onDateRangeChange, onRefresh, refreshing }) {
+export default function DashboardHeader({ dateRange, onDateRangeChange }) {
   const { t, i18n } = useTranslation('adminDashboard')
+  const queryClient = useQueryClient()
+  const dashboardFetchingCount = useIsFetching({ queryKey: ['adminDashboard'] })
+  const { isLoading, lastUpdatedAt } = useDashboardStats()
   const locale = getDashboardLocale(i18n.language)
   const dateRangeOptions = DATE_RANGE_OPTIONS.map(option => ({
     ...option,
     label: t(option.labelKey)
   }))
   const updatedTime = formatUpdatedTime(lastUpdatedAt, locale)
+  const isFetching = dashboardFetchingCount > 0
+  const handleRefresh = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['adminDashboard'], refetchType: 'active' })
+  }, [queryClient])
 
   return (
     <div className="dashboard-header">
@@ -41,11 +50,11 @@ export default function DashboardHeader({ dateRange, loading, lastUpdatedAt, onD
             <button
               type="button"
               className="dashboard-refresh-btn"
-              onClick={onRefresh}
-              disabled={refreshing || loading}
+              onClick={handleRefresh}
+              disabled={isFetching || isLoading}
               aria-label={t('header.refresh')}
             >
-              <RefreshCw size={15} className={refreshing ? 'dashboard-refresh-btn__icon--spinning' : undefined} />
+              <RefreshCw size={15} className={isFetching ? 'dashboard-refresh-btn__icon--spinning' : undefined} />
             </button>
           </div>
         </div>
@@ -61,7 +70,7 @@ export default function DashboardHeader({ dateRange, loading, lastUpdatedAt, onD
             onChange={onDateRangeChange}
             className="date-select"
             popupClassName="dashboard-date-dropdown"
-            disabled={loading}
+            disabled={isLoading}
             options={dateRangeOptions}
             style={{ minWidth: 150 }}
           />

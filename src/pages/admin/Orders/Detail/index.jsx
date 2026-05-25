@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+﻿import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import SEO from '@/components/shared/SEO'
 import { useDetail } from './hooks/useDetail'
@@ -39,7 +39,7 @@ export default function Detail() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-[var(--admin-text)]">
+      <div className="flex min-h-[calc(100vh-240px)] items-center justify-center text-[var(--admin-text)]">
         <SEO title={t('seo.title')} noIndex />
         <LoadingState />
       </div>
@@ -59,14 +59,14 @@ export default function Detail() {
     <div className="text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto w-full max-w-[1280px]">
         <Header
           order={order}
           successMessage={successMessage}
           onBack={handleBack}
         />
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start">
           <div className="space-y-3">
             <OrderCustomer contact={order.contact} />
             <OrderItems orderItems={order.orderItems} />
@@ -92,3 +92,4 @@ export default function Detail() {
     </div>
   )
 }
+

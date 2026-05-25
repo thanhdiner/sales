@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Button, Skeleton } from 'antd'
-import { ArrowLeftOutlined, EditOutlined, FolderOpenOutlined, HistoryOutlined, TagOutlined } from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import { getProductCategoryById } from '@/services/admin/commerce/productCategory'
 import ProductCategoryThumbnail from './components/ProductCategoryThumbnail'
@@ -10,11 +11,6 @@ import { useTranslation } from 'react-i18next'
 import './index.scss'
 
 const DASH = '-'
-
-const getStatusClassName = status =>
-  status === 'active'
-    ? 'admin-product-category-details__status-chip admin-product-category-details__status-chip--active'
-    : 'admin-product-category-details__status-chip admin-product-category-details__status-chip--inactive'
 
 const getLocale = language => (String(language || '').startsWith('en') ? 'en-US' : 'vi-VN')
 
@@ -33,31 +29,14 @@ const getUserLabel = (entry, fallback = DASH) => {
   return fallback
 }
 
-const getOverviewCards = (category, t, locale) => [
-  {
-    label: t('details.overview.status'),
-    value: t(`status.${category.status || 'inactive'}`),
-    icon: <TagOutlined />,
-    tone: 'admin-product-category-details__overview-card--status'
-  },
-  {
-    label: t('details.overview.position'),
-    value: category.position ?? DASH,
-    icon: <FolderOpenOutlined />,
-    tone: 'admin-product-category-details__overview-card--position'
-  },
-  {
-    label: t('details.overview.createdAt'),
-    value: formatDateTime(category.createdAt, locale),
-    icon: <HistoryOutlined />,
-    tone: 'admin-product-category-details__overview-card--created'
-  },
-  {
-    label: t('details.overview.updatedAt'),
-    value: formatDateTime(category.updatedAt, locale),
-    icon: <HistoryOutlined />,
-    tone: 'admin-product-category-details__overview-card--updated'
-  }
+const getDetailRows = (category, productCategory, t, locale) => [
+  { label: t('details.meta.categoryName'), value: category.title },
+  { label: t('details.meta.slug'), value: category.slug },
+  { label: t('details.meta.parent'), value: category?.parent_id?.title || t('details.noneParent') },
+  { label: t('details.meta.position'), value: category.position ?? DASH },
+  { label: t('details.meta.createdBy'), value: getUserLabel(productCategory.createdBy) },
+  { label: t('details.meta.createdAt'), value: formatDateTime(productCategory.createdAt, locale) },
+  { label: t('details.meta.updatedAt'), value: formatDateTime(productCategory.updatedAt, locale) }
 ]
 
 function DetailBlock({ title, subtitle, children }) {
@@ -77,6 +56,15 @@ function MetaItem({ label, value }) {
     <div className="admin-product-category-details__meta-item">
       <p className="admin-product-category-details__meta-label">{label}</p>
       <p className="admin-product-category-details__meta-value">{value || DASH}</p>
+    </div>
+  )
+}
+
+function DetailRow({ label, value }) {
+  return (
+    <div className="admin-product-category-details__detail-row">
+      <span className="admin-product-category-details__detail-label">{label}</span>
+      <span className="admin-product-category-details__detail-value">{value || DASH}</span>
     </div>
   )
 }
@@ -159,73 +147,41 @@ function ProductCategoriesDetails() {
           </div>
         ) : (
           <>
-            <header className="admin-product-category-details__hero">
-              <div className="admin-product-category-details__hero-head">
-                <div className="admin-product-category-details__hero-main">
-                  <Link to="/admin/product-categories" className="admin-product-category-details__back-link">
-                    <ArrowLeftOutlined />
-                    {t('details.backToCategoryList')}
-                  </Link>
+            <div className="admin-product-category-details__topbar">
+              <AdminBackButton
+                to="/admin/product-categories"
+                className="admin-product-category-details__back-link"
+                label={t('details.backToCategoryList')}
+              />
 
-                  <p className="admin-product-category-details__hero-eyebrow">{t('details.overviewEyebrow')}</p>
-                  <h1 className="admin-product-category-details__hero-title">{displayCategory.title}</h1>
+              <div className="admin-product-category-details__topbar-actions">
+                <Link to="/admin/product-categories">
+                  <Button className="admin-product-category-details-btn admin-product-category-details-btn--ghost">
+                    {t('details.categoryList')}
+                  </Button>
+                </Link>
 
-                  <div className="admin-product-category-details__chip-list">
-                    <span className={getStatusClassName(displayCategory.status)}>
-                      {t(`status.${displayCategory.status || 'inactive'}`)}
-                    </span>
-                    <span className="admin-product-category-details__meta-chip">
-                      {t('details.meta.slug')}: {displayCategory.slug || DASH}
-                    </span>
-                    <span className="admin-product-category-details__meta-chip">
-                      {t('details.parentLabel')}: {displayCategory?.parent_id?.title || t('details.noneParent')}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="admin-product-category-details__hero-actions">
-                  <Link to="/admin/product-categories">
-                    <Button size="large" className="admin-product-category-details-btn admin-product-category-details-btn--ghost">
-                      {t('details.categoryList')}
-                    </Button>
-                  </Link>
-
-                  <Link to={`/admin/product-categories/edit/${productCategory._id}`}>
-                    <Button
-                      type="primary"
-                      icon={<EditOutlined />}
-                      size="large"
-                      className="admin-product-category-details-btn admin-product-category-details-btn--primary"
-                    >
-                      {t('details.editCategory')}
-                    </Button>
-                  </Link>
-                </div>
+                <Link to={`/admin/product-categories/edit/${productCategory._id}`}>
+                  <Button
+                    type="primary"
+                    icon={<EditOutlined />}
+                    className="admin-product-category-details-btn admin-product-category-details-btn--primary"
+                  >
+                    {t('details.editCategory')}
+                  </Button>
+                </Link>
               </div>
+            </div>
 
-              <div className="admin-product-category-details__overview-grid">
-                {getOverviewCards(displayCategory, t, locale).map(card => (
-                  <div key={card.label} className={`admin-product-category-details__overview-card ${card.tone}`}>
-                    <div className="admin-product-category-details__overview-content">
-                      <div>
-                        <p className="admin-product-category-details__overview-label">{card.label}</p>
-                        <p className="admin-product-category-details__overview-value">{card.value}</p>
-                      </div>
-                      <div className="admin-product-category-details__overview-icon">{card.icon}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </header>
+            <h1 className="admin-product-category-details__page-title">{displayCategory.title}</h1>
 
             <div className="admin-product-category-details__content-grid">
               <div className="admin-product-category-details__main-column">
                 <DetailBlock title={t('details.blocks.overviewTitle')} subtitle={t('details.blocks.overviewSubtitle')}>
-                  <div className="admin-product-category-details__meta-grid">
-                    <MetaItem label={t('details.meta.categoryName')} value={displayCategory.title} />
-                    <MetaItem label={t('details.meta.slug')} value={displayCategory.slug} />
-                    <MetaItem label={t('details.meta.parent')} value={displayCategory?.parent_id?.title || t('details.noneParent')} />
-                    <MetaItem label={t('details.meta.position')} value={displayCategory.position ?? DASH} />
+                  <div className="admin-product-category-details__detail-list">
+                    {getDetailRows(displayCategory, productCategory, t, locale).map(row => (
+                      <DetailRow key={row.label} label={row.label} value={row.value} />
+                    ))}
                   </div>
                 </DetailBlock>
 

@@ -1,9 +1,8 @@
-import { Clock } from 'lucide-react'
+import { ArrowRight, Gift } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { FLASH_SALE_VIEWPORT } from '../constants'
+import { FLASH_SALE_CARD_VARIANTS, FLASH_SALE_FADE_UP_VARIANTS, FLASH_SALE_STAGGER_VARIANTS, FLASH_SALE_VIEWPORT } from '../constants'
 import { calculateTimeLeft, formatDateTime, getProgressPercent } from '../utils/flashSaleUtils'
 import FlashSaleProductCard from '../components/FlashSaleProductCard'
-import StatusBadge from '../components/StatusBadge'
 import TimeBox from '../components/TimeBox'
 
 export default function ActiveFlashSales({
@@ -24,64 +23,72 @@ export default function ActiveFlashSales({
           <motion.article
             key={sale._id}
             className="space-y-4"
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: saleIndex * 0.06, ease: 'easeOut' }}
+            initial="hidden"
+            whileInView="visible"
+            variants={FLASH_SALE_STAGGER_VARIANTS}
+            transition={{ delay: saleIndex * 0.04 }}
             viewport={FLASH_SALE_VIEWPORT}
           >
-            <div className="overflow-hidden rounded-2xl border border-red-100 bg-white shadow-sm dark:border-red-500/20 dark:bg-slate-900">
-              <div className="border-b border-red-100 bg-gradient-to-r from-red-50 to-orange-50 p-4 dark:border-red-500/20 dark:from-red-500/10 dark:to-orange-500/10 sm:p-5">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div>
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <StatusBadge status={sale.status} t={t} />
+            <div className="overflow-hidden rounded-2xl border border-red-100 bg-white shadow-sm dark:border-white/10 dark:bg-[#101213]">
+              <motion.div className="flash-sale-hero" variants={FLASH_SALE_FADE_UP_VARIANTS}>
+                <motion.div className="flash-sale-hero__gift" aria-hidden="true" variants={FLASH_SALE_CARD_VARIANTS}>
+                  <Gift className="flash-sale-hero__gift-icon" />
+                </motion.div>
 
-                      <span className="inline-flex items-center rounded-md bg-white px-2.5 py-1 text-xs font-black text-red-600 shadow-sm dark:bg-slate-950 dark:text-red-300">
-                        {t('sale.discount', { percent: sale.discountPercent })}
-                      </span>
-                    </div>
+                <motion.div className="flash-sale-hero__divider" variants={FLASH_SALE_FADE_UP_VARIANTS} />
 
-                    <h2 className="text-xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-2xl">{sale.name}</h2>
-
-                    <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 sm:text-sm">
-                      <Clock className="h-4 w-4" />
-                      {t('time.range', {
-                        start: formatDateTime(sale.startAt),
-                        end: formatDateTime(sale.endAt)
-                      })}
-                    </p>
+                <motion.div className="flash-sale-hero__content" variants={FLASH_SALE_FADE_UP_VARIANTS}>
+                  <div className="flash-sale-hero__meta">
+                    <span className="flash-sale-hero__badge">Flash Sale</span>
+                    <span className="flash-sale-hero__discount">{t('sale.discount', { percent: sale.discountPercent })}</span>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <TimeBox value={timeLeft.days} label={t('time.day')} />
-                    <TimeBox value={timeLeft.hours} label={t('time.hour')} />
-                    <TimeBox value={timeLeft.minutes} label={t('time.minute')} />
-                    <TimeBox value={timeLeft.seconds} label={t('time.second')} />
-                  </div>
+                  <h2 className="flash-sale-hero__title">{sale.name}</h2>
+
+                  <p className="flash-sale-hero__subtitle">
+                    {t('time.range', {
+                      start: formatDateTime(sale.startAt),
+                      end: formatDateTime(sale.endAt)
+                    })}
+                  </p>
+                </motion.div>
+
+                <motion.div className="flash-sale-hero__timer" aria-label={t('time.range', { start: formatDateTime(sale.startAt), end: formatDateTime(sale.endAt) })} variants={FLASH_SALE_FADE_UP_VARIANTS}>
+                  <TimeBox value={timeLeft.days} label={t('time.day')} variant="hero" />
+                  <TimeBox value={timeLeft.hours} label={t('time.hour')} variant="hero" />
+                  <TimeBox value={timeLeft.minutes} label={t('time.minute')} variant="hero" />
+                  <TimeBox value={timeLeft.seconds} label={t('time.second')} variant="hero" />
+                </motion.div>
+
+                <motion.a className="flash-sale-hero__cta" href={`#flash-sale-products-${sale._id}`} aria-label={t('sale.activeProductsTitle')} variants={FLASH_SALE_CARD_VARIANTS}>
+                  <ArrowRight className="flash-sale-hero__cta-icon" />
+                </motion.a>
+              </motion.div>
+
+              <motion.div className="flash-sale-progress px-4 pt-4 sm:px-5" variants={FLASH_SALE_FADE_UP_VARIANTS}>
+                <div className="mb-1.5 flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
+                  <span>
+                    {t('sale.soldProgress', {
+                      sold: sale.soldQuantity,
+                      max: sale.maxQuantity
+                    })}
+                  </span>
+                  <span>{progressPercent}%</span>
                 </div>
 
-                <div className="mt-4">
-                  <div className="mb-1.5 flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
-                    <span>
-                      {t('sale.soldProgress', {
-                        sold: sale.soldQuantity,
-                        max: sale.maxQuantity
-                      })}
-                    </span>
-                    <span>{progressPercent}%</span>
-                  </div>
-
-                  <div className="h-2 overflow-hidden rounded-full bg-white dark:bg-slate-800">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400 transition-all duration-300"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
+                <div className="h-2 overflow-hidden rounded-full bg-red-50 dark:bg-[#070809]">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400 transition-all duration-300"
+                    initial={{ width: '0%' }}
+                    whileInView={{ width: `${progressPercent}%` }}
+                    viewport={FLASH_SALE_VIEWPORT}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                  />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 sm:p-5">
-                <div className="mb-4 flex items-center justify-between gap-3">
+              <motion.div id={`flash-sale-products-${sale._id}`} className="p-4 sm:p-5" variants={FLASH_SALE_STAGGER_VARIANTS}>
+                <motion.div className="mb-4 flex items-center justify-between gap-3" variants={FLASH_SALE_FADE_UP_VARIANTS}>
                   <h3 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white">
                     <span className="h-5 w-1 rounded-full bg-red-600" />
                     {t('sale.activeProductsTitle')}
@@ -90,14 +97,16 @@ export default function ActiveFlashSales({
                   <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     {t('sale.productCount', { count: sale.products?.length || 0 })}
                   </span>
-                </div>
+                </motion.div>
 
-                <div className="grid auto-rows-fr grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <motion.div className="grid auto-rows-fr grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" variants={FLASH_SALE_STAGGER_VARIANTS}>
                   {(sale.products || []).map(product => (
-                    <FlashSaleProductCard key={product._id || product.id} product={product} sale={sale} t={t} {...productCardProps} />
+                    <motion.div key={product._id || product.id} className="h-full" variants={FLASH_SALE_CARD_VARIANTS}>
+                      <FlashSaleProductCard product={product} sale={sale} t={t} {...productCardProps} />
+                    </motion.div>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </motion.article>
         )

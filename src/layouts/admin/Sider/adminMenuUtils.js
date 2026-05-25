@@ -2,7 +2,12 @@ import { filterMenuChildren } from '@/utils/filterMenuChildren'
 import { hasAllPermissions } from '@/utils/hasAllPermissions'
 import { adminMenuConfig } from './adminMenuConfig'
 
-const flattenMenuConfig = items => items.flatMap(item => (item.children ? [item, ...flattenMenuConfig(item.children)] : item))
+const isMenuDivider = item => item?.divider || item?.type === 'divider'
+
+const flattenMenuConfig = items => items.flatMap(item => {
+  if (isMenuDivider(item)) return []
+  return item.children ? [item, ...flattenMenuConfig(item.children)] : item
+})
 
 export const adminRouteLabelKeys = flattenMenuConfig(adminMenuConfig).reduce((labels, item) => {
   labels[item.key] = item.labelKey
@@ -25,12 +30,15 @@ export function buildAdminMenuItems(permissions, translate = labelKey => labelKe
   const isSuperAdmin = options.isSuperAdmin === true
 
   const hasPermissionRule = item => Boolean(
-    item.permission ||
-    item.permissions ||
-    item.children?.some(hasPermissionRule)
+    !isMenuDivider(item) && (
+      item.permission ||
+      item.permissions ||
+      item.children?.some(hasPermissionRule)
+    )
   )
 
   const canShowMenuItem = item => {
+    if (isMenuDivider(item)) return true
     if (isSuperAdmin) return true
     if (preservePermissionItems && hasPermissionRule(item)) return true
     if (item.permissions) {
@@ -43,6 +51,14 @@ export function buildAdminMenuItems(permissions, translate = labelKey => labelKe
   }
 
   const buildMenuItem = item => {
+    if (isMenuDivider(item)) {
+      return {
+        key: item.key,
+        type: 'divider',
+        className: 'admin-sider-menu-divider'
+      }
+    }
+
     const hasChildren = Array.isArray(item.children) && item.children.length > 0
     const compactGroup = compactGroups[item.key]
 

@@ -27,16 +27,16 @@ const CTA = ({ section = {}, links = {} }) => {
     >
       <div className="mx-auto max-w-7xl">
         <div className="contact-cta-card relative overflow-hidden rounded-[28px] bg-white shadow-[0_16px_40px_rgba(0,0,0,0.06)] dark:bg-gray-800">
-          <div className="contact-decoration contact-decoration--accent absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#dff7ef]" />
-          <div className="contact-decoration contact-decoration--accent absolute -left-10 top-10 h-20 w-20 rounded-full bg-[#d9f7f0]" />
-          <div className="contact-decoration contact-decoration--border absolute -bottom-14 left-8 h-28 w-28 rounded-full border-[8px] border-[#b9efe3]" />
-          <div className="contact-decoration contact-decoration--accent absolute bottom-10 left-12 h-3 w-3 rounded-full bg-[#f1c94c]" />
-          <div className="contact-decoration contact-decoration--accent absolute bottom-16 left-20 h-2.5 w-2.5 rounded-full bg-[#f1c94c]" />
-          <div className="contact-decoration contact-decoration--accent absolute bottom-8 left-24 h-2.5 w-2.5 rounded-full bg-[#2a3e8f]" />
-          <div className="contact-decoration contact-decoration--line absolute bottom-7 left-36 h-16 w-px rotate-45 bg-[#2a3e8f]" />
-          <div className="contact-decoration contact-decoration--line absolute bottom-6 left-44 h-16 w-px rotate-45 bg-[#2a3e8f]" />
-          <div className="contact-decoration contact-decoration--accent absolute -bottom-8 right-20 h-24 w-24 rounded-full bg-blue-100/50 dark:bg-blue-500/10" />
-          <div className="contact-decoration contact-decoration--accent absolute right-8 top-1/2 h-3 w-3 rounded-full bg-[#4f7df0]" />
+          <div className="contact-decoration contact-decoration--accent absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#ffe0cf]" />
+          <div className="contact-decoration contact-decoration--accent absolute -left-10 top-10 h-20 w-20 rounded-full bg-[#fff0e4]" />
+          <div className="contact-decoration contact-decoration--border absolute -bottom-14 left-8 h-28 w-28 rounded-full border-[8px] border-[#ffd0b6]" />
+          <div className="contact-decoration contact-decoration--accent absolute bottom-10 left-12 h-3 w-3 rounded-full bg-[#ffb15c]" />
+          <div className="contact-decoration contact-decoration--accent absolute bottom-16 left-20 h-2.5 w-2.5 rounded-full bg-[#ffb15c]" />
+          <div className="contact-decoration contact-decoration--accent absolute bottom-8 left-24 h-2.5 w-2.5 rounded-full bg-[#ff641f]" />
+          <div className="contact-decoration contact-decoration--line absolute bottom-7 left-36 h-16 w-px rotate-45 bg-[#ff641f]" />
+          <div className="contact-decoration contact-decoration--line absolute bottom-6 left-44 h-16 w-px rotate-45 bg-[#ff641f]" />
+          <div className="contact-decoration contact-decoration--accent absolute -bottom-8 right-20 h-24 w-24 rounded-full bg-orange-100/70 dark:bg-orange-500/10" />
+          <div className="contact-decoration contact-decoration--accent absolute right-8 top-1/2 h-3 w-3 rounded-full bg-[#ff8a3d]" />
 
           <div className="relative z-10 flex min-h-[280px] flex-col items-center justify-center px-6 py-12 text-center md:px-12">
             <motion.div
@@ -45,7 +45,7 @@ const CTA = ({ section = {}, links = {} }) => {
               transition={{ duration: 0.45, ease: 'easeOut' }}
               viewport={viewport}
             >
-              <p className="contact-section-eyebrow--accent mb-3 text-sm font-bold uppercase tracking-[0.28em] text-emerald-600">
+              <p className="contact-section-eyebrow--accent contact-cta-eyebrow mb-3 text-sm font-bold uppercase tracking-[0.28em] text-[#ff641f]">
                 {section.eyebrow}
               </p>
 
@@ -62,7 +62,7 @@ const CTA = ({ section = {}, links = {} }) => {
                   href={links.zaloUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-brand-action group inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 hover:shadow-blue-700/30"
+                  className="contact-brand-action contact-brand-action--orange group inline-flex items-center justify-center gap-2 rounded-full bg-[#ff641f] px-7 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-orange-500/25 transition hover:bg-[#f25312] hover:shadow-orange-600/30"
                 >
                   <MessageCircle className="h-4 w-4" />
                   {section.chatButton}

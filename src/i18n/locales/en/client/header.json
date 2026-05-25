@@ -4,7 +4,13 @@
     "products": "Products",
     "flashSale": "Flash Sale",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "more": "More",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "shoppingGuide": "Shopping guide",
+    "coupons": "Deals & vouchers",
+    "vip": "VIP"
   },
   "search": {
     "placeholder": "Search accounts, software, games...",

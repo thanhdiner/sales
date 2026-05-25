@@ -19,6 +19,11 @@ export default function ChatbotConfig() {
     runtimeModel,
     enabledTools,
     totalTools,
+    providerOptions,
+    modelOptions,
+    fallbackProviderOptions,
+    fallbackModelOptions,
+    toolsModelWarning,
     handleReload,
     handleSave
   } = useChatbotConfig()
@@ -28,7 +33,7 @@ export default function ChatbotConfig() {
   }
 
   return (
-    <div className="admin-chatbot-page mx-auto max-w-7xl">
+    <div className="admin-chatbot-page admin-chatbot-config-page mx-auto max-w-7xl">
       <SEO title={t('seo.title')} noIndex />
 
       <ChatbotConfigHeader
@@ -47,7 +52,14 @@ export default function ChatbotConfig() {
 
       <ChatbotConfigOverview />
 
-      <ChatbotConfigForm form={form} />
+      <ChatbotConfigForm
+        form={form}
+        providerOptions={providerOptions}
+        modelOptions={modelOptions}
+        fallbackProviderOptions={fallbackProviderOptions}
+        fallbackModelOptions={fallbackModelOptions}
+        toolsModelWarning={toolsModelWarning}
+      />
     </div>
   )
 }

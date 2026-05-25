@@ -1,6 +1,6 @@
 import { get, patch, post } from '@/utils/request'
 
-export const getProducts = ({ page = 1, limit = 10, sortField, sortOrder, ...rest } = {}) => {
+export const getProducts = ({ page = 1, limit = 10, sortField, sortOrder, ...rest } = {}, options = {}) => {
   const query = new URLSearchParams({
     page,
     limit,
@@ -8,7 +8,7 @@ export const getProducts = ({ page = 1, limit = 10, sortField, sortOrder, ...res
     ...rest
   }).toString()
 
-  return get(`admin/products?${query}`)
+  return get(`admin/products?${query}`, options)
 }
 
 export const createProduct = data => {

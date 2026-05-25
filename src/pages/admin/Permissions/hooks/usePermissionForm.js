@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Form, message } from 'antd'
 import { getPermissionGroups } from '@/services/admin/rbac/permissionGroup'
 import { createPermissions, updatePermissionById } from '@/services/admin/rbac/permission'
@@ -18,20 +18,19 @@ export function usePermissionForm({ onSaved, t = key => key }) {
   const [permissionGroups, setPermissionGroups] = useState([])
 
   const fetchPermissionGroups = useCallback(async () => {
+    if (permissionGroups.length) return
+
     try {
       const res = await getPermissionGroups()
       setPermissionGroups((res.data || []).filter(group => group.isActive && !group.deleted))
     } catch {
       setPermissionGroups([])
     }
-  }, [])
+  }, [permissionGroups.length])
 
-  useEffect(() => {
-    fetchPermissionGroups()
-  }, [fetchPermissionGroups])
-
-  const openModal = permission => {
+  const openModal = async permission => {
     setEditingPermission(permission || null)
+    fetchPermissionGroups()
 
     if (permission) {
       form.setFieldsValue(getPermissionFormValues(permission))

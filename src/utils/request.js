@@ -44,7 +44,7 @@ const refreshAccessToken = async () => {
     if (json?.accessToken) {
       setAccessToken(json.accessToken)
 
-      const currentUser = store.getState().user.user
+      const currentUser = store.getState().adminUser.user
       if (currentUser) {
         store.dispatch(setUser({ user: currentUser, token: json.accessToken }))
       }
@@ -65,7 +65,9 @@ const getFreshAccessToken = async path => {
   if (refreshingPromise) {
     try {
       await refreshingPromise
-    } catch {}
+    } catch {
+      // The request below will start a fresh authentication check if needed.
+    }
   }
 
   let accessToken = getAccessToken()
@@ -83,7 +85,7 @@ const getFreshAccessToken = async path => {
   return accessToken
 }
 
-const requestWithAuth = async (method, path, data) => {
+const requestWithAuth = async (method, path, data, requestOptions = {}) => {
   const isFormData = data instanceof FormData
   let accessToken = await getFreshAccessToken(path)
 
@@ -98,6 +100,7 @@ const requestWithAuth = async (method, path, data) => {
     cache: 'no-store',
     credentials: 'include',
     headers,
+    signal: requestOptions.signal,
     ...(method !== 'GET' && { body: isFormData ? data : JSON.stringify(data) })
   }
 
@@ -130,7 +133,7 @@ const requestWithAuth = async (method, path, data) => {
       } catch {
         json = null
       }
-    } catch (err) {
+    } catch {
       clearTokens()
       throw new Error('Vui lòng đăng nhập lại')
     }
@@ -146,8 +149,8 @@ const requestWithAuth = async (method, path, data) => {
   return json
 }
 
-export const get = path => requestWithAuth('GET', path)
-export const post = (path, data) => requestWithAuth('POST', path, data)
-export const put = (path, data) => requestWithAuth('PUT', path, data)
-export const patch = (path, data) => requestWithAuth('PATCH', path, data)
-export const del = (path, data) => requestWithAuth('DELETE', path, data)
+export const get = (path, options) => requestWithAuth('GET', path, undefined, options)
+export const post = (path, data, options) => requestWithAuth('POST', path, data, options)
+export const put = (path, data, options) => requestWithAuth('PUT', path, data, options)
+export const patch = (path, data, options) => requestWithAuth('PATCH', path, data, options)
+export const del = (path, data, options) => requestWithAuth('DELETE', path, data, options)

@@ -1,0 +1,92 @@
+.admin-chatbot-rules-page {
+  --chatbot-rules-card-radius: 8px;
+  --chatbot-rules-control-radius: 6px;
+
+  &.admin-chatbot-page .ant-card,
+  &.admin-chatbot-page .admin-chatbot-card.ant-card,
+  &.admin-chatbot-page .admin-chatbot-stat-card.ant-card,
+  .admin-chatbot-alert.ant-alert {
+    border-radius: var(--chatbot-rules-card-radius) !important;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-select-selector,
+  .ant-picker,
+  textarea.ant-input {
+    border-radius: var(--chatbot-rules-control-radius) !important;
+  }
+
+  .admin-chatbot-rules-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .admin-chatbot-rules-header__title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 280px;
+    max-width: 560px;
+  }
+
+  .admin-chatbot-rules-header__icon {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f59e0b, #ea580c);
+  }
+
+  .admin-chatbot-rules-header__copy {
+    min-width: 0;
+  }
+
+  .admin-chatbot-rules-header__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .admin-chatbot-rules-header__primary-actions,
+  .admin-chatbot-rules-header__secondary-actions {
+    justify-content: flex-end;
+  }
+
+  .admin-chatbot-rules-header__save.ant-btn {
+    min-width: 144px;
+  }
+
+  .admin-chatbot-rules-stat-card.ant-card {
+    .ant-card-body {
+      min-height: 62px;
+      padding: 1px 20px !important;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .admin-chatbot-rules-page {
+    .admin-chatbot-rules-header {
+      flex-direction: column;
+    }
+
+    .admin-chatbot-rules-header__actions {
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .admin-chatbot-rules-header__primary-actions,
+    .admin-chatbot-rules-header__secondary-actions {
+      justify-content: flex-start;
+    }
+  }
+}

@@ -16,7 +16,7 @@ import {
   Store,
   UploadCloud
 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
@@ -70,6 +70,27 @@ function beforeImageUpload(file, t) {
   return isImage ? false : Upload.LIST_IGNORE
 }
 
+function appendTextField(formData, name, value) {
+  if (value !== undefined) formData.append(name, value ?? '')
+}
+
+function appendJsonField(formData, name, value) {
+  if (value !== undefined) formData.append(name, JSON.stringify(value ?? {}))
+}
+
+function appendImageField(formData, name, fileList, currentUrl, oldImages, deleteImages) {
+  const newFile = fileList?.[0]?.originFileObj
+
+  if (currentUrl) {
+    oldImages.push(currentUrl)
+    deleteImages.push(!!newFile)
+  }
+
+  if (newFile) {
+    formData.append(name, newFile)
+  }
+}
+
 function SettingsPanel({ title, description, Icon, children, className = '' }) {
   return (
     <section
@@ -117,7 +138,7 @@ export default function WebsiteConfigTab() {
   const dispatch = useDispatch()
   const activeTab = WEBSITE_CONFIG_TAB_KEYS.includes(searchParams.get('tab')) ? searchParams.get('tab') : 'basic'
   const isEnglish = String(i18n.resolvedLanguage || i18n.language || '').toLowerCase().startsWith('en')
-  const defaultText = (vi, en) => (isEnglish ? en : vi)
+  const defaultText = useCallback((vi, en) => (isEnglish ? en : vi), [isEnglish])
 
   const configTabs = useMemo(() => ([
     {
@@ -171,38 +192,43 @@ export default function WebsiteConfigTab() {
       setLoading(true)
       const formData = new FormData()
 
-      const oldImages = []
-      const deleteImages = []
+      if (activeTab === 'basic') {
+        const oldImages = []
+        const deleteImages = []
 
-      if (websiteConfig?.logoUrl) {
-        oldImages.push(websiteConfig.logoUrl)
-        deleteImages.push(!!(values.logo && values.logo[0]?.originFileObj))
-      }
-      if (websiteConfig?.faviconUrl) {
-        oldImages.push(websiteConfig.faviconUrl)
-        deleteImages.push(!!(values.favicon && values.favicon[0]?.originFileObj))
+        appendImageField(formData, 'logo', values.logo, websiteConfig?.logoUrl, oldImages, deleteImages)
+        appendImageField(formData, 'favicon', values.favicon, websiteConfig?.faviconUrl, oldImages, deleteImages)
+
+        if (oldImages.length > 0) {
+          formData.append('oldImages', JSON.stringify(oldImages))
+          formData.append('deleteImages', JSON.stringify(deleteImages))
+        }
+
+        appendTextField(formData, 'siteName', values.siteName)
+        appendTextField(formData, 'tagline', values.tagline)
+        appendTextField(formData, 'description', values.description)
       }
 
-      formData.append('oldImages', JSON.stringify(oldImages))
-      formData.append('deleteImages', JSON.stringify(deleteImages))
-      if (values.logo && values.logo[0]?.originFileObj) {
-        formData.append('logo', values.logo[0].originFileObj)
+      if (activeTab === 'contact') {
+        appendJsonField(formData, 'contactInfo', values.contactInfo)
       }
-      if (values.favicon && values.favicon[0]?.originFileObj) {
-        formData.append('favicon', values.favicon[0].originFileObj)
+
+      if (activeTab === 'seo') {
+        appendJsonField(formData, 'seoSettings', values.seoSettings)
       }
-      formData.append('siteName', values.siteName)
-      formData.append('tagline', values.tagline)
-      formData.append('description', values.description)
-      formData.append('contactInfo', JSON.stringify(values.contactInfo || {}))
-      formData.append('seoSettings', JSON.stringify(values.seoSettings || {}))
-      formData.append('shoppingGuide', JSON.stringify(values.shoppingGuide || getShoppingGuideInitialValues()))
-      formData.append('specialPackage', JSON.stringify(values.specialPackage || getSpecialPackageInitialValues()))
+
+      if (activeTab === 'shopping-guide') {
+        appendJsonField(formData, 'shoppingGuide', values.shoppingGuide)
+      }
+
+      if (activeTab === 'special-package') {
+        appendJsonField(formData, 'specialPackage', values.specialPackage)
+      }
 
       await editWebsiteConfig(formData)
       message.success(t('website.messages.saveSuccess'))
       dispatch(fetchWebsiteConfig())
-    } catch (e) {
+    } catch {
       message.error(t('website.messages.saveError'))
     } finally {
       setLoading(false)
@@ -315,11 +341,29 @@ export default function WebsiteConfigTab() {
                 />
               </Form.Item>
 
+              <Form.Item label={t('website.fields.hotline.label')} name={['contactInfo', 'hotline']}>
+                <Input
+                  className={inputClass}
+                  prefix={<Phone className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder={t('website.fields.hotline.placeholder')}
+                  size="large"
+                />
+              </Form.Item>
+
               <Form.Item label={t('website.fields.email.label')} name={['contactInfo', 'email']} rules={[{ type: 'email', message: t('website.fields.email.invalid') }]}>
                 <Input
                   className={inputClass}
                   prefix={<Mail className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
                   placeholder={t('website.fields.email.placeholder')}
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item label={t('website.fields.supportEmail.label')} name={['contactInfo', 'supportEmail']} rules={[{ type: 'email', message: t('website.fields.supportEmail.invalid') }]}>
+                <Input
+                  className={inputClass}
+                  prefix={<Mail className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder={t('website.fields.supportEmail.placeholder')}
                   size="large"
                 />
               </Form.Item>
@@ -333,6 +377,24 @@ export default function WebsiteConfigTab() {
                   className={inputClass}
                   prefix={<MapPin className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
                   placeholder={t('website.fields.website.placeholder')}
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item label={t('website.fields.businessHours.label')} name={['contactInfo', 'businessHours']}>
+                <Input
+                  className={inputClass}
+                  prefix={<Store className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder={t('website.fields.businessHours.placeholder')}
+                  size="large"
+                />
+              </Form.Item>
+
+              <Form.Item label={t('website.fields.supportHours.label')} name={['contactInfo', 'supportHours']}>
+                <Input
+                  className={inputClass}
+                  prefix={<Store className="mr-1 h-4 w-4 text-[var(--admin-text-subtle)]" />}
+                  placeholder={t('website.fields.supportHours.placeholder')}
                   size="large"
                 />
               </Form.Item>

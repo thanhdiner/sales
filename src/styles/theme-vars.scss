@@ -262,11 +262,11 @@ html.dark .admin-login-trust-modal {
 }
 
 .product-detail-page {
-  --product-detail-bg: var(--surface-page);
-  --product-detail-surface: var(--surface-base);
-  --product-detail-surface-2: var(--surface-elevated);
+  --product-detail-bg: var(--client-bg, #ffffff);
+  --product-detail-surface: var(--client-surface, #ffffff);
+  --product-detail-surface-2: var(--client-surface-2, #f8fafc);
   --product-detail-surface-3: var(--surface-muted);
-  --product-detail-border: var(--border-default);
+  --product-detail-border: var(--client-border, var(--border-default));
   --product-detail-border-strong: var(--border-stronger);
   --product-detail-text: var(--text-strong);
   --product-detail-muted: var(--text-secondary);

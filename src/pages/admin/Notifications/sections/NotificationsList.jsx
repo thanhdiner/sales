@@ -17,8 +17,8 @@ export default function NotificationsList({
   const { t } = useTranslation('adminNotifications')
 
   return (
-    <section className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
-      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+    <section className="admin-notifications-table-shell rounded-xl border bg-[var(--admin-surface)] p-4 shadow-[var(--admin-shadow)] sm:p-5">
+      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('list.title')}</h2>
           <p className="mt-1 text-sm text-[var(--admin-text-muted)]">{t('list.description')}</p>
@@ -46,19 +46,21 @@ export default function NotificationsList({
           />
         </div>
       ) : (
-        <div className="space-y-3">
-          {notifications.map(notification => (
-            <NotificationItem
-              key={notification._id}
-              notification={notification}
-              selected={selectedRowKeys.includes(notification._id)}
-              language={language}
-              onToggleSelect={onToggleSelect}
-              onView={onView}
-              onMarkRead={onMarkRead}
-              onArchive={onArchive}
-              onDelete={onDelete}
-            />
+        <div className="admin-notifications-list-card rounded-xl border bg-[var(--admin-surface)]">
+          {notifications.map((notification, index) => (
+            <div key={notification._id}>
+              {index > 0 && <div className="admin-notifications-list-divider mx-5 h-px sm:mx-6" />}
+              <NotificationItem
+                notification={notification}
+                selected={selectedRowKeys.includes(notification._id)}
+                language={language}
+                onToggleSelect={onToggleSelect}
+                onView={onView}
+                onMarkRead={onMarkRead}
+                onArchive={onArchive}
+                onDelete={onDelete}
+              />
+            </div>
           ))}
         </div>
       )}

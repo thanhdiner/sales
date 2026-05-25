@@ -19,6 +19,8 @@ export default function MessageList({
   bottomRef,
   showScrollToBottom,
   newIncomingCount = 0,
+  isRenderingReply = false,
+  onTypewriterChange,
   onScrollToBottom,
   onOpenImagePreview,
   onReactToMessage,
@@ -80,6 +82,7 @@ export default function MessageList({
             onOpenImagePreview={onOpenImagePreview}
             onReactToMessage={onReactToMessage}
             reactionActor={reactionActor}
+            onTypewriterChange={onTypewriterChange}
           />
         ))}
 
@@ -125,7 +128,7 @@ export default function MessageList({
         onClick={() => onScrollToBottom?.()}
         aria-label={t('actions.scrollBottom')}
         title={t('actions.scrollBottom')}
-        className={`absolute bottom-4 right-4 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-gray-700 shadow-lg ring-1 ring-black/5 backdrop-blur transition-all duration-200 hover:bg-white hover:text-blue-600 dark:bg-gray-800/95 dark:text-gray-200 dark:ring-white/10 dark:hover:bg-gray-800 dark:hover:text-blue-300 ${
+        className={`absolute bottom-4 right-4 z-20 inline-flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-full bg-white/95 px-3 text-gray-700 shadow-lg ring-1 ring-black/5 backdrop-blur transition-all duration-200 hover:bg-white hover:text-blue-600 dark:bg-gray-800/95 dark:text-gray-200 dark:ring-white/10 dark:hover:bg-gray-800 dark:hover:text-blue-300 ${
           newIncomingCount > 0 ? 'ring-2 ring-blue-200 dark:ring-blue-500/40' : ''
         } ${
           showScrollToBottom
@@ -133,7 +136,16 @@ export default function MessageList({
             : 'translate-y-2 opacity-0 pointer-events-none'
         }`}
       >
-        <ChevronDown className="h-4 w-4" />
+        {isRenderingReply ? (
+          <>
+            <span className="typing-dot !h-1.5 !w-1.5" />
+            <span className="typing-dot !h-1.5 !w-1.5" />
+            <span className="typing-dot !h-1.5 !w-1.5" />
+            <ChevronDown className="h-3.5 w-3.5" />
+          </>
+        ) : (
+          <ChevronDown className="h-4 w-4" />
+        )}
         {newIncomingCount > 0 && (
           <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-md">
             {newIncomingCount > 9 ? '9+' : newIncomingCount}

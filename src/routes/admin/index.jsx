@@ -34,13 +34,13 @@ const withAdminAuth = children => (
 )
 
 const renderAdminRouteElement = route => {
-  const page = withAdminAuth(lazyElement(route.Component))
+  const page = lazyElement(route.Component)
   const permissions = Array.isArray(route.permissions) ? route.permissions : undefined
   const needsPermissionGuard = Boolean(route.permission || permissions?.length)
 
-  if (!needsPermissionGuard) return page
+  if (!needsPermissionGuard) return withAdminAuth(page)
 
-  return (
+  return withAdminAuth(
     <AdminProtectedRoute permission={route.permission} permissions={permissions} requireAll={route.requireAll ?? true}>
       {page}
     </AdminProtectedRoute>

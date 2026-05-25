@@ -28,6 +28,7 @@
     "markRead": "Mark read",
     "archive": "Archive",
     "delete": "Delete",
+    "detail": "Detail",
     "viewOrder": "View order",
     "viewPayment": "View payment",
     "viewProduct": "View product",
@@ -133,6 +134,11 @@
     "selectedArchived": "Selected notifications archived.",
     "selectedDeleted": "Selected notifications deleted.",
     "settingsComing": "Notification settings will be connected when backend configuration is available."
+  },
+  "confirm": {
+    "deleteTitle": "Delete this notification?",
+    "deleteOk": "Delete",
+    "cancel": "Cancel"
   },
   "socket": {
     "orderTitle": "New order #{{orderId}}",

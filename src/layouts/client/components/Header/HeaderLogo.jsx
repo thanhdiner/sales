@@ -30,8 +30,28 @@ export default function HeaderLogo({ websiteConfig, isDesktop, onOpenMenu }) {
           fetchpriority="high"
         />
 
-        <span className="header__site-name l-2 text-lg md:text-xl font-semibold text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out overflow-hidden inline-block">
-          {websiteConfig?.siteName}
+        <span className="header__site-name header__site-name--sketch" aria-label={websiteConfig?.siteName || 'Smartmall'}>
+          <svg width="180" height="56" viewBox="0 0 180 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <text
+              x="8"
+              y="36"
+              fontFamily="Comic Sans MS, Segoe Print, cursive"
+              fontSize="28"
+              fontWeight="800"
+              fill="#071B4D"
+              transform="rotate(-0.6 8 36)"
+            >
+              Smartmall
+            </text>
+            <path
+              d="M10 43C45 45 82 42.5 124 43.5"
+              stroke="#1677FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.45"
+            />
+          </svg>
+          <span>{websiteConfig?.siteName}</span>
         </span>
       </Link>
     </Col>

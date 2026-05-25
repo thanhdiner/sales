@@ -4,49 +4,27 @@ import { message } from 'antd'
 import SEO from '@/components/shared/SEO'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { downloadAdminResourceCsv, useAdminResourceColumns } from '@/hooks/shared/adminResourceList'
 import { useOrders } from './hooks/useOrders'
 import OrdersFilters from './sections/OrdersFilters'
 import OrdersHeader from './sections/OrdersHeader'
 import OrdersPagination from './sections/OrdersPagination'
 import OrdersTable from './sections/OrdersTable'
-import { ORDER_COLUMN_KEYS, buildCsv, getOrderExportRows } from './utils'
+import { ORDER_COLUMN_KEYS, getOrderExportRows } from './utils'
 import './index.scss'
 
 const ORDERS_COLUMNS_STORAGE_KEY = 'adminOrdersColumnsVisible'
-
-const getDefaultColumnsVisible = () =>
-  ORDER_COLUMN_KEYS.reduce((columns, key) => ({ ...columns, [key]: true }), {})
-
-const normalizeColumnsVisible = value => {
-  const defaults = getDefaultColumnsVisible()
-  const nextColumns = { ...defaults, ...(value && typeof value === 'object' ? value : {}) }
-  nextColumns.actions = true
-  return nextColumns
-}
-
-const getStoredColumnsVisible = () => {
-  try {
-    const rawValue = localStorage.getItem(ORDERS_COLUMNS_STORAGE_KEY)
-    if (!rawValue) return getDefaultColumnsVisible()
-
-    return normalizeColumnsVisible(JSON.parse(rawValue))
-  } catch {
-    return getDefaultColumnsVisible()
-  }
-}
-
-const persistColumnsVisible = columns => {
-  try {
-    localStorage.setItem(ORDERS_COLUMNS_STORAGE_KEY, JSON.stringify(columns))
-  } catch {}
-}
+const ORDERS_DEFAULT_COLUMNS_VISIBLE = ORDER_COLUMN_KEYS.reduce((columns, key) => ({ ...columns, [key]: true }), {})
 
 export default function Orders() {
   const { t, i18n } = useTranslation('adminOrders')
   const language = i18n.resolvedLanguage || i18n.language
   const navigate = useNavigate()
   const [showFilters, setShowFilters] = useState(true)
-  const [columnsVisible, setColumnsVisible] = useState(getStoredColumnsVisible)
+  const { columnsVisible, setColumnsVisible } = useAdminResourceColumns({
+    storageKey: ORDERS_COLUMNS_STORAGE_KEY,
+    defaults: ORDERS_DEFAULT_COLUMNS_VISIBLE
+  })
   const {
     orders,
     loading,
@@ -75,33 +53,20 @@ export default function Orders() {
       return
     }
 
-    persistColumnsVisible(nextColumns)
     setColumnsVisible(nextColumns)
   }
 
   const handleExport = () => {
-    const rows = getOrderExportRows(orders, language, t)
-
-    if (!rows.length) {
-      message.info(t('messages.exportEmpty'))
-      return
-    }
-
-    const blob = new Blob([`﻿${buildCsv(rows)}`], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-
-    link.href = url
-    link.download = `orders-${dayjs().format('YYYYMMDD-HHmm')}.csv`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
-    message.success(t('messages.exportSuccess'))
+    downloadAdminResourceCsv({
+      rows: getOrderExportRows(orders, language, t),
+      filename: `orders-${dayjs().format('YYYYMMDD-HHmm')}.csv`,
+      onEmpty: () => message.info(t('messages.exportEmpty')),
+      onSuccess: () => message.success(t('messages.exportSuccess'))
+    })
   }
 
   return (
-    <div className="admin-orders-page min-h-screen text-[var(--admin-text)]">
+    <div className="admin-orders-page text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
       <div className="mx-auto max-w-7xl space-y-3 sm:space-y-4">

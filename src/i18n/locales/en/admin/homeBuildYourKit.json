@@ -1,0 +1,80 @@
+{
+  "seo": {
+    "title": "Admin - Home Build Your Kit"
+  },
+  "page": {
+    "title": "Build Your Kit",
+    "description": "Manage bilingual content for the Build Your Kit homepage section."
+  },
+  "tabs": {
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "actions": {
+    "preview": "Preview",
+    "reload": "Reload",
+    "reset": "Reset saved",
+    "resetDefaults": "Use defaults",
+    "save": "Save content",
+    "remove": "Remove",
+    "addKit": "Add kit",
+    "addHighlight": "Add highlight",
+    "addProduct": "Add product"
+  },
+  "messages": {
+    "fetchError": "Unable to load Build Your Kit content",
+    "saveSuccess": "Build Your Kit content saved",
+    "saveError": "Unable to save Build Your Kit content",
+    "resetDone": "Form reset to saved content",
+    "defaultsDone": "Default content loaded"
+  },
+  "validation": {
+    "required": "This field is required",
+    "uniqueId": "Kit IDs must be unique within the same language",
+    "link": "Links must start with / or https://"
+  },
+  "sections": {
+    "status": "Status",
+    "header": "Shared heading",
+    "headerDescription": "Left-side content and secondary CTA for the section.",
+    "kits": "Kit/scenario list",
+    "kitsDescription": "Each kit is a selectable tab on the client homepage.",
+    "kitDescription": "ID is the tab identifier; label is shown to customers.",
+    "highlights": "Small highlights",
+    "products": "Products around mascot",
+    "productsDescription": "Pick existing products or enter fallback data. Each product needs one display position around the mascot."
+  },
+  "positionOptions": {
+    "item": "Position {{index}}"
+  },
+  "fields": {
+    "enabled": "Show section",
+    "eyebrow": "Eyebrow",
+    "title": "Title",
+    "description": "Description",
+    "defaultKitId": "Default kit",
+    "primaryCtaFallback": "Primary CTA fallback",
+    "secondaryCta": "Secondary CTA",
+    "secondaryCtaLink": "Secondary CTA link",
+    "kit": "Kit {{index}}",
+    "kitId": "Kit ID",
+    "kitLabel": "Tab label",
+    "kicker": "Combo kicker",
+    "kitTitle": "Combo title",
+    "kitDescription": "Combo description",
+    "primaryCta": "Primary CTA",
+    "primaryCtaLink": "Primary CTA link",
+    "categorySlug": "Category slug",
+    "highlight": "Highlight {{index}}",
+    "product": "Product {{index}}",
+    "productRef": "Product picker",
+    "productSlug": "Product slug",
+    "positionKey": "Position",
+    "customLabel": "Custom display name",
+    "customImage": "Custom image",
+    "categorySlugFallback": "Fallback category slug"
+  },
+  "placeholders": {
+    "productSearch": "Search products by name"
+  }
+}

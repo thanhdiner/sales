@@ -2,29 +2,23 @@ import { Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, TreeS
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FeatureListField, FormActions, RichTextField, UploadField } from '@/components/admin/form'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import { getLocalizedProductCategoryTree } from '@/pages/admin/ProductCategories/utils/productCategoryLocalization'
+import { PRODUCT_FORM_INITIAL_VALUES } from '../constants'
 import ProductAIAssistant from './ProductAIAssistant'
 import ProductCredentialManager from './ProductCredentialManager'
 import ProductTranslationFields from './ProductTranslationFields'
 
 const { RangePicker } = DatePicker
 
-export const PRODUCT_FORM_INITIAL_VALUES = {
-  status: 'active',
-  discountPercentage: 0,
-  stock: 0,
-  deliveryEstimateDays: 0,
-  deliveryType: 'manual',
-  deliveryInstructions: '',
-  images: []
-}
-
 export default function ProductForm({
+  backLabel,
   beforeUploadImage,
   form,
   getFileListFromEvent,
   loading,
   mode,
+  onBack,
   onCancel,
   onSubmit,
   productId,
@@ -106,6 +100,8 @@ export default function ProductForm({
 
   return (
     <section className={prefix}>
+      {onBack ? <AdminBackButton className="mb-4" onClick={onBack} label={backLabel} /> : null}
+
       <Form
         className={`${prefix}__form`}
         form={form}

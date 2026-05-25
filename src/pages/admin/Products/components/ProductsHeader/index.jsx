@@ -1,7 +1,6 @@
 import { UnorderedListOutlined } from '@ant-design/icons'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ResourceHeader } from '@/components/admin/shared/ResourceManager'
+import { ResourceListHeader } from '@/components/admin/resources/ResourceManager'
 import ProductsUtility from '../ProductsUtility'
 import ProductsFilter from '../ProductsFilter'
 
@@ -13,29 +12,24 @@ function ProductsHeader({
   columnsVisible,
   setColumnsVisible,
   products,
+  isFetching,
   fetchData
 }) {
   const { t } = useTranslation('adminProducts')
-  const [isFilterVisible, setIsFilterVisible] = useState(false)
-
-  const handleFilter = values => {
-    const { show, ...rest } = values
-    setCurrentPage(1)
-    setLimitItems(show ? parseInt(show) : 10)
-    setFilterValues(rest)
-  }
-
-  const handleToggleFilter = () => {
-    setIsFilterVisible(!isFilterVisible)
-  }
 
   return (
-    <ResourceHeader
+    <ResourceListHeader
       className="products-wrap admin-products-title-wrap text-base"
       icon={<UnorderedListOutlined />}
       title={t('page.title')}
-      utility={<ProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products, fetchData }} />}
-      filter={isFilterVisible && <ProductsFilter onFilter={handleFilter} initialValues={filterInitialValues} />}
+      utility={({ handleToggleFilter }) => (
+        <ProductsUtility {...{ handleToggleFilter, columnsVisible, setColumnsVisible, products, isFetching, fetchData }} />
+      )}
+      FilterComponent={ProductsFilter}
+      filterInitialValues={filterInitialValues}
+      setCurrentPage={setCurrentPage}
+      setLimitItems={setLimitItems}
+      setFilterValues={setFilterValues}
     />
   )
 }

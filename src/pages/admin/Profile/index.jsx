@@ -1,5 +1,6 @@
 import { Form } from 'antd'
 import { useTranslation } from 'react-i18next'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import useProfile from './hooks/useProfile'
 import ProfileActions from './sections/ProfileActions'
@@ -32,8 +33,10 @@ export default function Profile() {
   }
 
   return (
-    <div className="mx-auto max-w-[1200px] rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-8 shadow-[var(--admin-shadow)]">
+    <div className="w-full rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2 shadow-[var(--admin-shadow)]">
       <SEO title={t('seo.title')} noIndex />
+
+      <AdminBackButton className="mb-4" label={t('actions.back')} />
 
       <ProfileHeader t={t} />
 

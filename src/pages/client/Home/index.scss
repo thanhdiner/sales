@@ -7,6 +7,11 @@
   max-width: 100%;
   overflow: hidden;
 
+  &__replay-section {
+    transform-origin: center top;
+    will-change: transform, opacity, filter;
+  }
+
   &__section-divider {
     display: flex;
     align-items: center;
@@ -115,6 +120,24 @@
   }
 }
 
+@media (min-width: 768px) {
+  html:not(.dark) .layout-default--home {
+    .product-slider-flash-sale,
+    .product-slider-top-deal,
+    .product-slider-featured {
+      .product .group {
+        border: 1px solid #eef2f7;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+      }
+
+      .product .group:hover {
+        border-color: #e2e8f0;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.065);
+      }
+    }
+  }
+}
+
 @media (max-width: 767.98px) {
   .home {
     overflow: clip;
@@ -183,7 +206,7 @@
   .layout-default--home .product .group {
     overflow: hidden;
     border-color: rgba(148, 163, 184, 0.24) !important;
-    border-radius: 16px !important;
+    border-radius: 12px !important;
     background: linear-gradient(180deg, rgba(12, 31, 57, 0.98), rgba(4, 17, 35, 0.98)) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 24px rgba(0, 0, 0, 0.25) !important;
   }

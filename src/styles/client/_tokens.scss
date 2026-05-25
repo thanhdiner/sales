@@ -1,0 +1,35 @@
+.client-root,
+.client-layout,
+.layout-default {
+  --client-bg: #ffffff;
+  --client-surface: #ffffff;
+  --client-surface-2: #f8fafc;
+
+  --client-text: #111827;
+  --client-text-muted: #64748b;
+
+  --client-border: rgba(15, 23, 42, 0.1);
+
+  --client-primary: #111827;
+  --client-accent: #f97316;
+  --client-sale: #ef4444;
+  --client-success: #16a34a;
+
+  --client-radius-md: var(--radius-lg);
+  --client-radius-lg: var(--radius-xl);
+
+  --client-shadow-card: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+html.dark .client-root,
+html.dark .client-layout,
+html.dark body:not(.admin-layout-active) .layout-default {
+  --client-bg: #070809;
+  --client-surface: #101213;
+  --client-surface-2: #151719;
+  --client-text: #f4f6f8;
+  --client-text-muted: #a8b0ba;
+  --client-border: rgba(255, 255, 255, 0.08);
+  --client-primary: #f4f6f8;
+  --client-shadow-card: 0 14px 34px rgba(0, 0, 0, 0.24);
+}

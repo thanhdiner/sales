@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SEO from '@/components/shared/SEO'
 import useAccounts from './hooks/useAccounts'
@@ -32,19 +32,13 @@ export default function Accounts() {
   } = useAccounts()
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const maxPage = Math.max(1, Math.ceil(data.length / pageSize))
+  const safeCurrentPage = Math.min(currentPage, maxPage)
 
   const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize
+    const startIndex = (safeCurrentPage - 1) * pageSize
     return data.slice(startIndex, startIndex + pageSize)
-  }, [currentPage, data, pageSize])
-
-  useEffect(() => {
-    const maxPage = Math.max(1, Math.ceil(data.length / pageSize))
-
-    if (currentPage > maxPage) {
-      setCurrentPage(maxPage)
-    }
-  }, [currentPage, data.length, pageSize])
+  }, [data, pageSize, safeCurrentPage])
 
   return (
     <div className="admin-accounts-page min-h-full text-[var(--admin-text)]">
@@ -56,7 +50,7 @@ export default function Accounts() {
         <AccountsTable
           data={paginatedData}
           total={data.length}
-          currentPage={currentPage}
+          currentPage={safeCurrentPage}
           pageSize={pageSize}
           roles={roles}
           loading={loading}

@@ -52,7 +52,11 @@ export default function DailySuggestionsSession() {
     placeholderData: (previousData, previousQuery) => (
       previousQuery?.queryKey?.[2] === activeTab ? previousData : undefined
     ),
-    staleTime: 5 * 60 * 1000
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    meta: { persist: false }
   })
 
   const products = data?.pages.flatMap(page => page.data || []) || []

@@ -1,0 +1,9 @@
+.admin-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  background: var(--admin-surface-2);
+  color: var(--admin-text-muted);
+}

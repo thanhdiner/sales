@@ -32,7 +32,7 @@ const ChangePasswordForm = () => {
   return (
     <section className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 shadow-sm sm:p-5">
       <div className="mb-5 flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]">
           <LockKeyhole className="h-4 w-4" />
         </div>
 

@@ -1,0 +1,34 @@
+.admin-page-shell {
+  min-height: 100%;
+  border-radius: var(--admin-frame-radius-lg, 14px);
+  background: var(--admin-bg-soft);
+  color: var(--admin-text);
+  padding: 24px;
+}
+
+.admin-page-shell__inner {
+  width: 100%;
+  max-width: var(--admin-page-shell-max-width, 1320px);
+  margin: 0 auto;
+}
+
+.admin-page-shell__panel.ant-card {
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-frame-radius-lg, 14px);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow);
+}
+
+.admin-page-shell__panel.ant-card > .ant-card-body {
+  padding: 20px;
+}
+
+@media (max-width: 767.98px) {
+  .admin-page-shell {
+    padding: 14px;
+  }
+
+  .admin-page-shell__panel.ant-card > .ant-card-body {
+    padding: 16px;
+  }
+}

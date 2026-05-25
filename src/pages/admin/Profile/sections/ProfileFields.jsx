@@ -10,6 +10,7 @@ export default function ProfileFields({ loading, roleLabel, statusLabel, lastLog
     <Row gutter={16}>
       <Col span={12}>
         <Form.Item
+          className="!mb-2"
           label={<span className={labelClassName}>{t('fields.fullName')}</span>}
           name="fullName"
           rules={[{ required: true, message: t('fields.fullNameRequired') }]}
@@ -19,31 +20,31 @@ export default function ProfileFields({ loading, roleLabel, statusLabel, lastLog
       </Col>
 
       <Col span={12}>
-        <Form.Item label={<span className={labelClassName}>{t('fields.email')}</span>} name="email">
+        <Form.Item className="!mb-2" label={<span className={labelClassName}>{t('fields.email')}</span>} name="email">
           <Input className={readonlyInputClassName} disabled />
         </Form.Item>
       </Col>
 
       <Col span={12}>
-        <Form.Item label={<span className={labelClassName}>{t('fields.username')}</span>} name="username">
+        <Form.Item className="!mb-2" label={<span className={labelClassName}>{t('fields.username')}</span>} name="username">
           <Input className={readonlyInputClassName} disabled />
         </Form.Item>
       </Col>
 
       <Col span={12}>
-        <Form.Item label={<span className={labelClassName}>{t('fields.role')}</span>}>
+        <Form.Item className="!mb-2" label={<span className={labelClassName}>{t('fields.role')}</span>}>
           <Input className={readonlyInputClassName} value={roleLabel} disabled />
         </Form.Item>
       </Col>
 
       <Col span={12}>
-        <Form.Item label={<span className={labelClassName}>{t('fields.status')}</span>}>
+        <Form.Item className="!mb-2" label={<span className={labelClassName}>{t('fields.status')}</span>}>
           <Input className={readonlyInputClassName} value={statusLabel} disabled />
         </Form.Item>
       </Col>
 
       <Col span={12}>
-        <Form.Item label={<span className={labelClassName}>{t('fields.lastLogin')}</span>}>
+        <Form.Item className="!mb-2" label={<span className={labelClassName}>{t('fields.lastLogin')}</span>}>
           <Input className={readonlyInputClassName} value={lastLoginLabel} disabled />
         </Form.Item>
       </Col>

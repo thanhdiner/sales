@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Avatar, Button, Dropdown, Grid, Pagination, Space, Table, Tooltip, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, LinkOutlined, MoreOutlined } from '@ant-design/icons'
-import { AdminStatusTag, AdminTablePanel } from '@/components/admin/ui'
+import { StatusTag, TablePanel } from '@/components/admin/ui'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getLocalizedWidgetTitle } from '../utils'
 
@@ -134,9 +134,9 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
       key: 'isActive',
       width: 160,
       render: value => (
-        <AdminStatusTag tone={value ? 'active' : 'inactive'}>
+        <StatusTag tone={value ? 'active' : 'inactive'}>
           {value ? t('status.active') : t('status.inactive')}
-        </AdminStatusTag>
+        </StatusTag>
       ),
       filters: [
         { text: t('status.active'), value: true },
@@ -175,7 +175,7 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
   }, [isTablet, language, onDeleteWidget, onEditWidget, t])
 
   return (
-    <AdminTablePanel className="admin-widgets-table-wrapper" bodyClassName="admin-widgets-table-panel__body">
+    <TablePanel className="admin-widgets-table-wrapper" bodyClassName="admin-widgets-table-panel__body">
       <div className="admin-widgets-table-desktop-tablet">
         <Table
           rowKey="_id"
@@ -261,9 +261,9 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
                 )}
 
                 <div className="admin-widgets-mobile-card__status-row">
-                  <AdminStatusTag tone={widget.isActive ? 'active' : 'inactive'}>
+                  <StatusTag tone={widget.isActive ? 'active' : 'inactive'}>
                     {widget.isActive ? t('status.active') : t('status.inactive')}
-                  </AdminStatusTag>
+                  </StatusTag>
                 </div>
               </article>
             ))
@@ -298,6 +298,6 @@ export default function WidgetsTable({ widgets, loading, onEditWidget, onDeleteW
           </div>
         </div>
       </div>
-    </AdminTablePanel>
+    </TablePanel>
   )
 }

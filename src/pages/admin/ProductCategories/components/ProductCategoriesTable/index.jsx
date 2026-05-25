@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
-import { Checkbox, Empty, message, Modal, Skeleton, Table } from 'antd'
+import { Checkbox, Empty, Image, message, Modal, Skeleton, Table } from 'antd'
 import { deleteProductCategory } from '@/services/admin/commerce/productCategory'
 import FieldThumbnail from './FieldThumbnail'
 import FieldTitle from './FieldTitle'
@@ -60,7 +60,7 @@ function ProductCategoryMobileCard({ record, selected, onSelectChange, setEdited
         <Checkbox checked={selected} onChange={event => onSelectChange(record._id, event.target.checked)} />
 
         <div className="admin-product-category-card__thumb">
-          <img src={record.thumbnail} alt={localizedTitle} />
+          <Image src={record.thumbnail} alt={localizedTitle} />
         </div>
 
         <div className="admin-product-category-card__main">
@@ -91,6 +91,22 @@ function ProductCategoryMobileCard({ record, selected, onSelectChange, setEdited
       </div>
     </article>
   )
+}
+
+const toSkeletonColumns = (columns) => {
+  return columns.map(col => ({
+    ...col,
+    sorter: false,
+    render: () => {
+      if (col.key === 'thumbnail') {
+        return <Skeleton.Avatar active shape="square" size={40} style={{ display: 'block', margin: '0 auto' }} />
+      }
+      if (col.key === 'action' || col.key === 'status') {
+        return <Skeleton.Button active size="small" style={{ width: 60, minWidth: 40, height: 24 }} />
+      }
+      return <Skeleton.Input active size="small" style={{ width: '80%', height: 20, minWidth: 60 }} />
+    }
+  }))
 }
 
 function ProductCategoriesTable({
@@ -284,15 +300,11 @@ function ProductCategoriesTable({
     <>
       <div className="admin-product-categories-table-wrapper overflow-x-auto">
         <Table
-          loading={{
-            spinning: isLoading,
-            tip: t('table.loading')
-          }}
           rowKey="_id"
-          rowSelection={rowSelection}
-          columns={visibleColumns}
-          dataSource={safeProductCategories}
-          locale={{ emptyText: <Empty description={t('table.empty')} /> }}
+          rowSelection={isLoading ? null : rowSelection}
+          columns={isLoading ? toSkeletonColumns(visibleColumns) : visibleColumns}
+          dataSource={isLoading ? Array.from({ length: 5 }).map((_, i) => ({ _id: `skeleton-${i}`, key: `skeleton-${i}` })) : safeProductCategories}
+          locale={{ emptyText: isLoading ? null : <Empty description={t('table.empty')} /> }}
           pagination={false}
           bordered
           scroll={{ x: 'max-content' }}

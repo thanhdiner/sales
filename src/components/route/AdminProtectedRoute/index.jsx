@@ -13,11 +13,17 @@ const isSuperAdmin = user => {
 function AdminProtectedRoute({ permission, permissions: requiredPermissions, requireAll = true, children }) {
   const user = useSelector(state => state.adminUser.user)
 
-  if (!user) return null
+  if (!user) {
+    return (
+      <div className="flex min-h-[240px] items-center justify-center text-sm text-gray-500 dark:text-gray-300">
+        Loading...
+      </div>
+    )
+  }
 
   if (isSuperAdmin(user)) return children
 
-  const permissions = user.role_id?.permissions || []
+  const permissions = user.role_id?.permissions || user.role?.permissions || []
   const required = Array.isArray(requiredPermissions)
     ? requiredPermissions
     : permission

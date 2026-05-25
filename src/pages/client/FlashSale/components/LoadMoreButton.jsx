@@ -1,8 +1,16 @@
 import { Loader2 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { FLASH_SALE_FADE_UP_VARIANTS, FLASH_SALE_VIEWPORT } from '../constants'
 
 export default function LoadMoreButton({ loadingMore, onLoadMore, t }) {
   return (
-    <div className="mt-8 flex justify-center">
+    <motion.div
+      className="mt-8 flex justify-center"
+      initial="hidden"
+      whileInView="visible"
+      variants={FLASH_SALE_FADE_UP_VARIANTS}
+      viewport={FLASH_SALE_VIEWPORT}
+    >
       <button
         type="button"
         onClick={onLoadMore}
@@ -12,6 +20,6 @@ export default function LoadMoreButton({ loadingMore, onLoadMore, t }) {
         {loadingMore && <Loader2 className="h-4 w-4 animate-spin" />}
         {loadingMore ? t('loadMore.loading') : t('loadMore.default')}
       </button>
-    </div>
+    </motion.div>
   )
 }

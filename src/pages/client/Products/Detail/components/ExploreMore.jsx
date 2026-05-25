@@ -123,7 +123,7 @@ function ExploreMore({ productId, product }) {
   return (
     <section className="DailySuggestions-root ExploreMore-root">
       <div className="Suggestions-header-block">
-        <div className="Suggestions-title">{t('productDetail.exploreMore.sectionTitle')}</div>
+        <div className="ExploreMore-title">{t('productDetail.exploreMore.sectionTitle')}</div>
 
         <div className="ExploreMore-highlights">
           <button

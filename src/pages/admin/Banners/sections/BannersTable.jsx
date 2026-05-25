@@ -18,7 +18,7 @@ import {
   LinkOutlined,
   MoreOutlined
 } from '@ant-design/icons'
-import { AdminStatusTag, TablePanel } from '@/components/admin/ui'
+import { StatusTag, TablePanel } from '@/components/admin/ui'
 import { getLocalizedBannerLink, getLocalizedBannerTitle } from '@/utils/bannerLocalization'
 
 const { Text } = Typography
@@ -27,7 +27,7 @@ const DEFAULT_PAGE_SIZE = 10
 function BannerStatusTag({ value }) {
   const { t } = useTranslation('adminBanners')
 
-  return <AdminStatusTag tone={value ? 'active' : 'inactive'}>{value ? t('status.active') : t('status.inactive')}</AdminStatusTag>
+  return <StatusTag tone={value ? 'active' : 'inactive'}>{value ? t('status.active') : t('status.inactive')}</StatusTag>
 }
 
 function BannerLink({ link, compact = false }) {

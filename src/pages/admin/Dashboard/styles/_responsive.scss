@@ -1,0 +1,161 @@
+@media (min-width: 1440px) {
+  .dashboard-logic-section--vitals .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@container (max-width: 620px) {
+  .dashboard-order-content,
+  .dashboard-payment-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-status-list,
+  .dashboard-payment-list {
+    width: min(100%, 320px);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dashboard-overview-grid,
+  .dashboard-vitals-grid,
+  .dashboard-operations-grid,
+  .dashboard-analytics-grid,
+  .dashboard-pending-actions,
+  .dashboard-bottom-grid--half,
+  .dashboard-bottom-grid--three,
+  .dashboard-target-layout,
+  .dashboard-funnel-list,
+  .dashboard-funnel-skeleton-wrap,
+  .dashboard-stock-list {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-pending-actions {
+    align-items: stretch;
+  }
+
+  .dashboard-stock-row {
+    border-right: 0;
+    border-bottom: 1px solid var(--dashboard-border);
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .dashboard-stock-row:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 1440px) and (min-width: 1181px) {
+  .dashboard-target-layout {
+    grid-template-columns: minmax(320px, 0.8fr) minmax(560px, 1.4fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-container {
+    overflow: visible;
+  }
+
+  .dashboard-header {
+    padding: 14px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-actions,
+  .dashboard-today,
+  .date-select.ant-select {
+    width: 100%;
+  }
+
+  .dashboard-today {
+    justify-content: center;
+  }
+
+  .date-select .ant-select-selector {
+    width: 100%;
+  }
+
+  .dashboard-content {
+    padding: 8px;
+  }
+
+  .dashboard-order-content,
+  .dashboard-payment-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-order-row {
+    grid-template-columns: 34px minmax(66px, 0.7fr) minmax(96px, 1fr) 46px;
+  }
+
+  .dashboard-order-row .dashboard-order-amount {
+    display: none;
+  }
+
+  .dashboard-status-badge {
+    max-width: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dashboard-funnel-row {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-list {
+    padding: 10px 12px;
+  }
+
+  .dashboard-order-row {
+    grid-template-columns: 34px minmax(0, 1fr) max-content;
+    grid-template-areas:
+      "icon order time"
+      "icon status status";
+    column-gap: 10px;
+    row-gap: 5px;
+    min-height: 68px;
+  }
+
+  .dashboard-order-row .dashboard-square-icon {
+    grid-area: icon;
+  }
+
+  .dashboard-order-row .dashboard-order-id {
+    grid-area: order;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dashboard-order-row .dashboard-status-badge {
+    grid-area: status;
+    justify-self: start;
+    min-width: 156px;
+    max-width: 100%;
+  }
+
+  .dashboard-order-row .dashboard-order-time {
+    grid-area: time;
+    justify-self: end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-container *,
+  .dashboard-container *::before,
+  .dashboard-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

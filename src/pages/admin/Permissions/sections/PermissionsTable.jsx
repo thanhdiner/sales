@@ -1,9 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space, Table } from 'antd'
-import { getPermissionGroupLabel } from '../utils'
 import {
   getLocalizedPermissionDescription,
-  getLocalizedPermissionGroupLabel,
   getLocalizedPermissionTitle
 } from '@/utils/permissionLocalization'
 
@@ -13,7 +11,6 @@ export default function PermissionsTable({
   total,
   currentPage,
   pageSize,
-  permissionGroups,
   language,
   loading,
   grantedPermissions,
@@ -104,16 +101,11 @@ export default function PermissionsTable({
       className: 'admin-permissions-col-group',
       width: '16%',
       responsive: ['md'],
-      render: group => {
-        const matchedGroup = permissionGroups.find(item => item.value === group)
-        const fallbackLabel = getPermissionGroupLabel(permissionGroups, group, t('table.noGroup'))
-
-        return (
-          <span className="admin-permissions-muted-text text-[var(--admin-text-muted)]">
-            {getLocalizedPermissionGroupLabel(matchedGroup, language, fallbackLabel)}
-          </span>
-        )
-      }
+      render: group => (
+        <span className="admin-permissions-muted-text text-[var(--admin-text-muted)]">
+          {group || t('table.noGroup')}
+        </span>
+      )
     },
     {
       title: t('table.columns.status'),

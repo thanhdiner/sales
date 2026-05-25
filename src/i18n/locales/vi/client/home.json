@@ -72,5 +72,88 @@
         "desc": "<em>Tư vấn nhanh</em>, dễ hiểu và đồng hành trong suốt quá trình <em>mua hàng</em>."
       }
     }
+  },
+  "buildYourKitSection": {
+    "enabled": true,
+    "eyebrow": "Build Your Kit",
+    "title": "Gợi ý combo theo nhu cầu",
+    "description": "SmartMall gom sẵn những món nên đi cùng nhau theo từng lối sống, giúp bạn chọn nhanh một combo gọn, đẹp và đúng việc.",
+    "defaultKitId": "travel",
+    "activeScenario": "Du lịch",
+    "activeCardKicker": "Combo đang gợi ý",
+    "activeCardTitle": "Du lịch thông minh",
+    "primaryCta": "Xem combo du lịch",
+    "primaryCtaFallback": "Xem combo",
+    "secondaryCta": "Tự chọn sản phẩm",
+    "secondaryCtaLink": "/products",
+    "scenarios": ["Du lịch", "Đi học", "Gaming"],
+    "highlights": ["8 món nên mang", "Chọn theo lối sống"],
+    "products": [
+      { "label": "Kính râm", "image": "/icons/fashionAccessories.webp", "positionKey": "sunglasses" },
+      { "label": "Kem chống nắng", "image": "/icons/beauty.webp", "positionKey": "sunscreen" },
+      { "label": "Pin dự phòng", "image": "/icons/consumerElectronics.webp", "positionKey": "battery" },
+      { "label": "Máy ảnh", "image": "/icons/cameras.webp", "positionKey": "camera" },
+      { "label": "Balo", "image": "/icons/backpackSuitcase.webp", "positionKey": "backpack" },
+      { "label": "Gối cổ", "image": "/icons/homeAndLiving.webp", "positionKey": "pillow" },
+      { "label": "Bình nước", "image": "/icons/sportOutdoor.webp", "positionKey": "bottle" },
+      { "label": "Sổ tay", "image": "/icons/widgetsBook.webp", "positionKey": "notebook" }
+    ],
+    "kits": [
+      {
+        "id": "travel",
+        "label": "Du lịch",
+        "kicker": "Combo đang gợi ý",
+        "title": "Du lịch thông minh",
+        "description": "Những món nhỏ gọn, dễ mang theo cho chuyến đi cuối tuần hoặc kỳ nghỉ dài.",
+        "primaryCta": "Xem combo du lịch",
+        "primaryCtaLink": "/products?q=du%20lịch",
+        "categorySlug": "fashion-accessories",
+        "highlights": ["8 món nên mang", "Gọn nhẹ khi di chuyển"],
+        "products": [
+          { "customLabel": "Kính râm", "customImage": "/icons/fashionAccessories.webp", "positionKey": "sunglasses", "categorySlugFallback": "fashion-accessories" },
+          { "customLabel": "Kem chống nắng", "customImage": "/icons/beauty.webp", "positionKey": "sunscreen", "categorySlugFallback": "beauty" },
+          { "customLabel": "Pin dự phòng", "customImage": "/icons/consumerElectronics.webp", "positionKey": "battery", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Máy ảnh", "customImage": "/icons/cameras.webp", "positionKey": "camera", "categorySlugFallback": "cameras" },
+          { "customLabel": "Balo", "customImage": "/icons/backpackSuitcase.webp", "positionKey": "backpack", "categorySlugFallback": "backpack-suitcase" },
+          { "customLabel": "Gối cổ", "customImage": "/icons/homeAndLiving.webp", "positionKey": "pillow", "categorySlugFallback": "home-and-living" },
+          { "customLabel": "Bình nước", "customImage": "/icons/sportOutdoor.webp", "positionKey": "bottle", "categorySlugFallback": "sport-outdoor" },
+          { "customLabel": "Sổ tay", "customImage": "/icons/widgetsBook.webp", "positionKey": "notebook", "categorySlugFallback": "books" }
+        ]
+      },
+      {
+        "id": "school",
+        "label": "Đi học",
+        "kicker": "Combo học tập",
+        "title": "Gọn gàng đến lớp",
+        "description": "Chuẩn bị nhanh đồ dùng học tập, thiết bị nhỏ và phụ kiện cần thiết mỗi ngày.",
+        "primaryCta": "Xem combo đi học",
+        "primaryCtaLink": "/products?q=đi%20học",
+        "highlights": ["Dễ mang mỗi ngày", "Ưu tiên đồ bền"],
+        "products": [
+          { "customLabel": "Balo", "customImage": "/icons/backpackSuitcase.webp", "positionKey": "sunglasses", "categorySlugFallback": "backpack-suitcase" },
+          { "customLabel": "Sổ tay", "customImage": "/icons/widgetsBook.webp", "positionKey": "sunscreen", "categorySlugFallback": "books" },
+          { "customLabel": "Tai nghe", "customImage": "/icons/consumerElectronics.webp", "positionKey": "battery", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Bình nước", "customImage": "/icons/sportOutdoor.webp", "positionKey": "camera", "categorySlugFallback": "sport-outdoor" },
+          { "customLabel": "Đèn bàn", "customImage": "/icons/homeAndLiving.webp", "positionKey": "backpack", "categorySlugFallback": "home-and-living" }
+        ]
+      },
+      {
+        "id": "gaming",
+        "label": "Gaming",
+        "kicker": "Combo giải trí",
+        "title": "Góc chơi game sẵn sàng",
+        "description": "Gợi ý phụ kiện và thiết bị giúp góc giải trí gọn đẹp hơn.",
+        "primaryCta": "Xem combo gaming",
+        "primaryCtaLink": "/products?q=gaming",
+        "highlights": ["Tối ưu góc chơi", "Dễ nâng cấp dần"],
+        "products": [
+          { "customLabel": "Tai nghe", "customImage": "/icons/consumerElectronics.webp", "positionKey": "sunglasses", "categorySlugFallback": "consumer-electronics" },
+          { "customLabel": "Tay cầm", "customImage": "/icons/widgetsBook.webp", "positionKey": "sunscreen", "categorySlugFallback": "gaming" },
+          { "customLabel": "Đèn LED", "customImage": "/icons/homeAndLiving.webp", "positionKey": "battery", "categorySlugFallback": "home-and-living" },
+          { "customLabel": "Webcam", "customImage": "/icons/cameras.webp", "positionKey": "camera", "categorySlugFallback": "cameras" },
+          { "customLabel": "Ghế ngồi", "customImage": "/icons/sportOutdoor.webp", "positionKey": "backpack", "categorySlugFallback": "home-and-living" }
+        ]
+      }
+    ]
   }
 }

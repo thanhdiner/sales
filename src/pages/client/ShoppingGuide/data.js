@@ -1,6 +1,6 @@
 import { Search, UserPlus, CreditCard, Truck, Wallet, Landmark } from 'lucide-react'
 
-export const shoppingGuideViewport = { once: true, amount: 0.2 }
+export const shoppingGuideViewport = { once: false, amount: 0.2 }
 
 export const shoppingGuideHeroImage =
   'https://images.unsplash.com/photo-1634733988596-093e2a324c2f?auto=format&fit=crop&w=1600&q=82'

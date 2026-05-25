@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { getProducts } from '@/services/admin/commerce/product'
-import { useAsyncListData } from '@/hooks/shared/useAsyncListData'
+import { useAdminResourceColumns, useAdminResourceList } from '@/hooks/shared/adminResourceList'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { useFilterInitialValues } from '@/hooks/shared/useListFilterHelpers'
-import { numberFilter, stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
+import { numberFilter, stringFilter } from '@/hooks/shared/useListSearchParams'
 
 const productFilterParsers = {
   productName: stringFilter,
@@ -13,6 +13,23 @@ const productFilterParsers = {
   stock: numberFilter,
   position: numberFilter,
   discountPercentage: numberFilter
+}
+
+const PRODUCT_COLUMNS_VISIBLE = {
+  _id: false,
+  title: true,
+  productCategory: true,
+  price: true,
+  stock: true,
+  position: false,
+  discountPercentage: true,
+  status: true,
+  thumbnail: true,
+  actions: true,
+  createdBy: false,
+  createdAt: false,
+  updateBy: false,
+  updateAt: false
 }
 
 export function useProducts() {
@@ -27,73 +44,34 @@ export function useProducts() {
     sortOrder,
     setSortOrder,
     filters: filterValues,
-    setFilters: setFilterValues
-  } = useListSearchParams({
-    defaultPage: 1,
-    defaultPageSize: 10,
-    sortable: true,
-    filterParsers: productFilterParsers
-  })
-
-  const filterDefaults = useMemo(() => ({ status: filterValues.status || 'all' }), [filterValues.status])
-  const filterInitialValues = useFilterInitialValues(filterValues, limitItems, filterDefaults)
-
-  const listQuery = useMemo(
-    () => ({
-      page: currentPage,
-      limit: limitItems,
-      sortField,
-      sortOrder,
-      ...filterValues
-    }),
-    [currentPage, limitItems, sortField, sortOrder, filterValues]
-  )
-
-  const [columnsVisible, setColumnsVisible] = useState(() => {
-    const saved = localStorage.getItem('product_columns')
-    return saved
-      ? JSON.parse(saved)
-      : {
-          _id: false,
-          title: true,
-          productCategory: true,
-          price: true,
-          stock: true,
-          position: false,
-          discountPercentage: true,
-          status: true,
-          thumbnail: true,
-          actions: true,
-          createdBy: false,
-          createdAt: false,
-          updateBy: false,
-          updateAt: false
-        }
-  })
-
-  useEffect(() => {
-    localStorage.setItem('product_columns', JSON.stringify(columnsVisible))
-  }, [columnsVisible])
-
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [value, setValue] = useState()
-  const [editedPositions, setEditedPositions] = useState({})
-
-  const {
+    setFilters: setFilterValues,
     items: products,
     setItems: setProducts,
     total: totalProducts,
     setTotal: setTotalProducts,
     loading: isLoading,
+    fetching: isFetching,
     refetch: fetchData
-  } = useAsyncListData(async () => {
-    const result = await getProducts(listQuery)
-
-    return {
-      items: result?.products,
-      total: result?.total
-    }
-  }, [listQuery, language])
+  } = useAdminResourceList({
+    resource: 'products',
+    defaultPage: 1,
+    defaultPageSize: 10,
+    sortable: true,
+    filterParsers: productFilterParsers,
+    queryKeyDeps: { language },
+    queryFn: getProducts,
+    selectItems: result => result?.products,
+    selectTotal: result => result?.total
+  })
+  const { columnsVisible, setColumnsVisible } = useAdminResourceColumns({
+    storageKey: 'product_columns',
+    defaults: PRODUCT_COLUMNS_VISIBLE
+  })
+  const filterDefaults = useMemo(() => ({ status: filterValues.status || 'all' }), [filterValues.status])
+  const filterInitialValues = useFilterInitialValues(filterValues, limitItems, filterDefaults)
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [value, setValue] = useState()
+  const [editedPositions, setEditedPositions] = useState({})
 
   return {
     columnsVisible,
@@ -109,6 +87,7 @@ export function useProducts() {
     products,
     setProducts,
     isLoading,
+    isFetching,
     value,
     setValue,
     editedPositions,

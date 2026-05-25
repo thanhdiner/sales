@@ -3,6 +3,749 @@
   position: relative;
 }
 
+.contact-support-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 74% 38%, rgba(255, 190, 132, 0.28), transparent 31%),
+    linear-gradient(135deg, #fffaf5 0%, #fff4e8 54%, #ffe9d7 100%);
+}
+
+.contact-hero-accent {
+  color: #ff641f;
+}
+
+.contact-support-visual {
+  isolation: isolate;
+}
+
+.contact-support-visual__circle {
+  position: absolute;
+  z-index: 0;
+  right: 20%;
+  bottom: 17%;
+  width: min(62%, 330px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: #ffd8ba;
+}
+
+.contact-support-visual__dots {
+  position: absolute;
+  z-index: 0;
+  width: 72px;
+  height: 88px;
+  opacity: 0.62;
+  background-image: radial-gradient(circle, rgba(255, 100, 31, 0.38) 1.3px, transparent 1.4px);
+  background-size: 12px 12px;
+}
+
+.contact-support-visual__dots--left {
+  left: 11%;
+  bottom: 25%;
+}
+
+.contact-support-visual__dots--right {
+  right: 7%;
+  top: 22%;
+}
+
+.contact-support-visual__image {
+  filter: drop-shadow(0 18px 24px rgba(134, 72, 37, 0.12));
+}
+
+.contact-highlight-shell {
+  min-height: 160px;
+}
+
+.contact-highlight-dots {
+  position: absolute;
+  z-index: 0;
+  width: 128px;
+  height: 128px;
+  opacity: 0.5;
+  background-image: radial-gradient(circle, rgba(255, 100, 31, 0.42) 1.35px, transparent 1.45px);
+  background-size: 8px 8px;
+  pointer-events: none;
+}
+
+.contact-highlight-dots--left {
+  top: -4px;
+  left: -4px;
+  mask-image: linear-gradient(135deg, #000 0 24%, transparent 64%);
+}
+
+.contact-highlight-dots--right {
+  right: -4px;
+  bottom: -4px;
+  mask-image: linear-gradient(315deg, #000 0 24%, transparent 64%);
+}
+
+.contact-highlight-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(50% + 54px);
+  right: -46px;
+  top: 50%;
+  height: 1px;
+  background: #ff641f;
+  transform: translateY(-50%);
+}
+
+.contact-highlight-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  z-index: 1;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #ff641f;
+  transform: translateY(-50%);
+}
+
+.contact-direct-panel {
+  min-height: 480px;
+}
+
+.contact-direct-section {
+  scroll-margin-top: 96px;
+}
+
+.contact-direct-panel__arc {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  border: 64px solid rgba(255, 214, 187, 0.38);
+}
+
+.contact-direct-panel__arc--top {
+  top: -172px;
+  left: -136px;
+  width: 360px;
+  height: 360px;
+}
+
+.contact-direct-panel__arc--bottom {
+  right: -122px;
+  bottom: -178px;
+  width: 330px;
+  height: 330px;
+  border-color: rgba(255, 214, 187, 0.3);
+}
+
+.contact-direct-panel__dots {
+  position: absolute;
+  top: 28px;
+  right: 34px;
+  z-index: 0;
+  width: 86px;
+  height: 86px;
+  opacity: 0.9;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #ff641f 1.8px, transparent 2px);
+  background-size: 14px 14px;
+}
+
+.contact-direct-heading__eyebrow {
+  color: #ff641f;
+}
+
+.contact-direct-heading__title {
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.contact-direct-heading__title span {
+  color: #ff641f;
+}
+
+.contact-seller-card {
+  min-width: 0;
+}
+
+.contact-seller-card__head {
+  min-height: 96px;
+}
+
+.contact-seller-card__avatar img {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.82);
+}
+
+.contact-direct-panel .contact-icon-box,
+.contact-direct-panel .contact-icon-box .anticon {
+  color: #ff641f;
+}
+
+.contact-request-section {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 246, 0.92), rgba(255, 255, 255, 0.98)) !important;
+}
+
+.contact-request-shell {
+  padding-top: 4px;
+}
+
+.contact-request-section .contact-section-eyebrow {
+  color: #ff641f !important;
+}
+
+.contact-request-section .contact-title {
+  max-width: 640px;
+  color: #151821;
+  font-size: clamp(28px, 4.1vw, 42px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.contact-request-section .contact-description {
+  max-width: 520px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.contact-request-section .contact-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.contact-request-number {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #ff641f;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 12px 24px rgba(255, 100, 31, 0.22);
+}
+
+.contact-request-card {
+  min-height: 100%;
+  border-color: #ffe1d0 !important;
+}
+
+.contact-request-icon {
+  background: #fff2eb;
+  color: #ff641f;
+}
+
+.contact-request-icon--message {
+  background: #fff7f2;
+}
+
+.contact-request-icon--small {
+  border: 1px solid #ffe1d0;
+  background: #ffffff;
+}
+
+.contact-request-section .contact-input {
+  min-height: 44px;
+}
+
+.contact-request-section textarea.contact-input {
+  min-height: 92px;
+}
+
+.contact-request-section .contact-subject-select .ant-select-selector {
+  min-height: 44px !important;
+  border-radius: 6px !important;
+  border-color: #e5e7eb !important;
+  box-shadow: none !important;
+}
+
+.contact-request-section .contact-subject-select:hover .ant-select-selector,
+.contact-request-section .contact-subject-select.ant-select-focused .ant-select-selector {
+  border-color: #fb923c !important;
+  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.14) !important;
+}
+
+.contact-faq-section {
+  background: linear-gradient(180deg, rgba(255, 250, 246, 0.76), rgba(255, 255, 255, 0.96));
+}
+
+.contact-faq-showcase {
+  overflow: hidden;
+  border: 1px solid #ffe2d2;
+  border-radius: 8px;
+  background: #fffaf7;
+  box-shadow: 0 22px 54px rgba(125, 65, 28, 0.12);
+}
+
+.contact-faq-hero {
+  position: relative;
+  min-height: 168px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 28px 24px 74px;
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.18) 0 42px, transparent 43px),
+    radial-gradient(circle at 85% 4%, rgba(255, 255, 255, 0.16) 0 56px, transparent 57px),
+    linear-gradient(135deg, #ff8c25 0%, #ff6b1b 48%, #ff7a20 100%);
+  color: #ffffff;
+}
+
+.contact-faq-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 28px;
+  background: #fffaf7;
+  border-radius: 28px 28px 0 0;
+}
+
+.contact-faq-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  text-align: center;
+}
+
+.contact-faq-hero__eyebrow {
+  margin: 0 0 4px;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.contact-faq-hero__title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(30px, 5.2vw, 44px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.contact-faq-hero__description {
+  max-width: 390px;
+  margin: 12px auto 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.contact-faq-hero__bubble {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.contact-faq-hero__bubble--question {
+  left: 72px;
+  top: 73px;
+  width: 39px;
+  height: 39px;
+  border-radius: 999px;
+}
+
+.contact-faq-hero__bubble--chat {
+  left: 126px;
+  top: 36px;
+  width: 58px;
+  height: 42px;
+  border-radius: 14px;
+}
+
+.contact-faq-hero__bubble--chat span {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: -8px 0 0 currentColor, 8px 0 0 currentColor;
+  opacity: 0.86;
+}
+
+.contact-faq-hero__dots {
+  position: absolute;
+  z-index: 0;
+  width: 92px;
+  height: 92px;
+  opacity: 0.16;
+  background-image: radial-gradient(circle, #ffffff 1.4px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+
+.contact-faq-hero__dots--left {
+  left: 28px;
+  bottom: 18px;
+}
+
+.contact-faq-hero__dots--right {
+  right: 30px;
+  top: 24px;
+}
+
+.contact-faq-body {
+  position: relative;
+  z-index: 2;
+  margin-top: -48px;
+  padding: 0 32px 32px;
+}
+
+.contact-faq-shell {
+  border-radius: 8px;
+}
+
+.contact-faq-list {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-faq-item {
+  display: block;
+  border: 1px solid #efe7e1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0;
+  color: #1f2937;
+  box-shadow: 0 10px 26px rgba(36, 24, 14, 0.07);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.contact-faq-item:hover {
+  border-color: #ffd0b5;
+  box-shadow: 0 13px 30px rgba(255, 100, 31, 0.1);
+  transform: translateY(-1px);
+}
+
+.contact-faq-item__row {
+  min-height: 59px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px 12px 18px;
+}
+
+.contact-faq-item__question-wrap {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.contact-faq-index {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #fff4ec;
+  color: #ff641f;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.contact-faq-question {
+  min-width: 0;
+  color: #2b2d33;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.contact-faq-chevron {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  color: #ff641f;
+  transition: transform 180ms ease;
+}
+
+.contact-faq-item--open {
+  border-color: #ffc29f;
+}
+
+.contact-faq-item--open .contact-faq-chevron {
+  transform: rotate(180deg);
+}
+
+.contact-faq-answer {
+  margin: 0;
+  padding: 0 22px 18px 70px;
+  color: #667085;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+.contact-faq-help-card {
+  border: 1px solid #eadfd8;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 28px 24px 22px;
+  box-shadow: 0 14px 34px rgba(36, 24, 14, 0.1);
+}
+
+.contact-faq-help-card__eyebrow {
+  margin: 0;
+  color: #ff641f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contact-faq-help-card__title {
+  margin: 6px 0 0;
+  color: #2b2d33;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: 0;
+}
+
+.contact-faq-help-card__description {
+  margin: 18px 0 0;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.contact-faq-help-card__actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.contact-faq-help-card__button {
+  display: inline-flex;
+  min-height: 41px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.contact-faq-help-card__button:hover {
+  transform: translateY(-1px);
+}
+
+.contact-faq-help-card__button--primary {
+  border: 1px solid #ff641f;
+  background: #ff641f;
+  color: #ffffff;
+  box-shadow: 0 12px 22px rgba(255, 100, 31, 0.2);
+}
+
+.contact-faq-help-card__button--primary:hover {
+  background: #f25312;
+  border-color: #f25312;
+  color: #ffffff;
+}
+
+.contact-faq-help-card__button--secondary {
+  border: 1px solid #ffb083;
+  background: #ffffff;
+  color: #ff641f;
+}
+
+.contact-faq-help-card__button--secondary:hover {
+  background: #fff7f1;
+  color: #f25312;
+}
+
+.contact-faq-help-card__tip {
+  margin: 18px 0 0;
+  border-radius: 8px;
+  background: #fff3ec;
+  padding: 15px 16px;
+  color: #8b5d45;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+  .contact-support-hero {
+    border-radius: 22px;
+    width: min(100%, calc(100vw - 56px));
+    margin-right: auto;
+    margin-left: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-support-hero > * {
+    min-width: 0;
+  }
+
+  .contact-hero-copy {
+    text-align: left;
+    min-width: 0;
+  }
+
+  .contact-support-hero .contact-heading {
+    max-width: 300px;
+    font-size: 28px;
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .contact-support-hero .contact-copy {
+    max-width: 285px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .contact-support-visual__image {
+    right: -18%;
+    width: 112%;
+  }
+
+  .contact-support-hero .contact-media-frame {
+    width: min(100%, 285px);
+  }
+
+  .contact-support-visual__circle {
+    right: 7%;
+    width: 78%;
+  }
+
+  .contact-highlight-shell {
+    min-height: 0;
+  }
+
+  .contact-highlight-dots {
+    width: 96px;
+    height: 96px;
+  }
+
+  .contact-highlight-item {
+    justify-content: flex-start;
+    max-width: 260px;
+    margin-inline: auto;
+  }
+
+  .contact-highlight-item:not(:last-child)::before,
+  .contact-highlight-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .contact-direct-panel {
+    min-height: 0;
+    padding-inline: 16px;
+  }
+
+  .contact-direct-section {
+    scroll-margin-top: 82px;
+  }
+
+  .contact-direct-panel__arc {
+    border-width: 42px;
+  }
+
+  .contact-direct-panel__arc--top {
+    top: -126px;
+    left: -126px;
+    width: 260px;
+    height: 260px;
+  }
+
+  .contact-direct-panel__arc--bottom {
+    right: -118px;
+    bottom: -132px;
+    width: 250px;
+    height: 250px;
+  }
+
+  .contact-direct-panel__dots {
+    top: 18px;
+    right: 16px;
+    width: 66px;
+    height: 66px;
+    background-size: 11px 11px;
+  }
+
+  .contact-direct-heading__title {
+    font-size: 28px;
+  }
+
+  .contact-faq-hero {
+    min-height: 188px;
+    padding: 30px 18px 78px;
+  }
+
+  .contact-faq-hero__bubble--question {
+    left: 22px;
+    top: 82px;
+  }
+
+  .contact-faq-hero__bubble--chat {
+    left: 72px;
+    top: 34px;
+  }
+
+  .contact-faq-body {
+    margin-top: -44px;
+    padding: 0 14px 18px;
+  }
+
+  .contact-faq-item__row {
+    align-items: flex-start;
+    padding: 13px 14px;
+  }
+
+  .contact-faq-item__question-wrap {
+    gap: 12px;
+  }
+
+  .contact-faq-index {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+    font-size: 12px;
+  }
+
+  .contact-faq-answer {
+    padding: 0 14px 16px 56px;
+  }
+
+  .contact-faq-help-card {
+    padding: 22px 18px 18px;
+  }
+}
+
 html.dark .contact-themed {
   --contact-bg: var(--client-dark-bg, #070809);
   --contact-surface: var(--client-dark-surface, #101213);
@@ -95,6 +838,10 @@ html.dark .contact-themed .contact-section-eyebrow {
 
 html.dark .contact-themed .contact-section-eyebrow--accent {
   color: var(--contact-accent) !important;
+}
+
+html.dark .contact-themed .contact-cta-eyebrow {
+  color: #ff641f !important;
 }
 
 html.dark .contact-themed .contact-badge,
@@ -201,6 +948,19 @@ html.dark .contact-themed .contact-brand-action:hover {
   color: #ffffff !important;
 }
 
+html.dark .contact-themed .contact-brand-action--orange {
+  border-color: #ff641f !important;
+  background: #ff641f !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 28px rgba(255, 100, 31, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-brand-action--orange:hover {
+  border-color: #f25312 !important;
+  background: #f25312 !important;
+  color: #ffffff !important;
+}
+
 html.dark .contact-themed .contact-tip {
   background: var(--contact-surface-2) !important;
   color: var(--contact-muted) !important;
@@ -222,20 +982,52 @@ html.dark .contact-themed .contact-bg-orb--cyan {
   background: rgba(59, 130, 246, 0.1) !important;
 }
 
+html.dark .contact-themed .contact-highlight-shell {
+  border-color: rgba(255, 100, 31, 0.46) !important;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 100, 31, 0.1), transparent 24%),
+    var(--contact-surface) !important;
+}
+
+html.dark .contact-themed .contact-highlight-icon {
+  border-color: rgba(255, 100, 31, 0.5) !important;
+  background: rgba(255, 100, 31, 0.12) !important;
+  color: #ff8a3d !important;
+}
+
+html.dark .contact-themed .contact-highlight-eyebrow,
+html.dark .contact-themed .contact-highlight-shell .contact-metric-value {
+  color: #ff8a3d !important;
+}
+
+html.dark .contact-themed .contact-highlight-shell .contact-title {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-highlight-shell .contact-description,
+html.dark .contact-themed .contact-highlight-shell .contact-metric-label {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-highlight-item:not(:last-child)::before,
+html.dark .contact-themed .contact-highlight-item:not(:last-child)::after {
+  background: #ff641f !important;
+}
+
 html.dark .contact-themed .contact-decoration {
   opacity: 0.24;
 }
 
 html.dark .contact-themed .contact-decoration--accent {
-  background: var(--contact-accent-soft) !important;
+  background: rgba(255, 100, 31, 0.16) !important;
 }
 
 html.dark .contact-themed .contact-decoration--line {
-  background: rgba(244, 246, 248, 0.22) !important;
+  background: rgba(255, 100, 31, 0.32) !important;
 }
 
 html.dark .contact-themed .contact-decoration--border {
-  border-color: rgba(94, 106, 210, 0.28) !important;
+  border-color: rgba(255, 100, 31, 0.28) !important;
 }
 
 html.dark .contact-themed .contact-arrow {
@@ -271,4 +1063,360 @@ html.dark .contact-subject-select-dropdown .ant-select-item-option-selected:not(
   background: rgba(94, 106, 210, 0.18) !important;
   color: #c7d2fe !important;
   font-weight: 600 !important;
+}
+
+html.dark .contact-themed .contact-support-hero {
+  border-color: var(--contact-border) !important;
+  background:
+    radial-gradient(circle at 78% 32%, rgba(255, 100, 31, 0.16), transparent 34%),
+    radial-gradient(circle at 16% 12%, rgba(94, 106, 210, 0.14), transparent 32%),
+    linear-gradient(135deg, #101213 0%, #151719 54%, #0b0d0f 100%) !important;
+  color: var(--contact-text) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 52px rgba(0, 0, 0, 0.28) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-heading {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-hero-accent,
+html.dark .contact-themed .contact-support-hero .contact-eyebrow,
+html.dark .contact-themed .contact-support-hero .contact-section-eyebrow--accent {
+  color: #ff641f !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-copy {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-media-frame {
+  border-color: var(--contact-border-strong) !important;
+  background: rgba(16, 18, 19, 0.9) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-media-inner {
+  border-color: transparent !important;
+  background:
+    radial-gradient(circle at 43% 56%, rgba(255, 100, 31, 0.16), transparent 35%),
+    var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-badge,
+html.dark .contact-themed .contact-support-hero .contact-overlay-card {
+  border-color: var(--contact-border) !important;
+  background: rgba(16, 18, 19, 0.9) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.26) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-card-title,
+html.dark .contact-themed .contact-support-hero .contact-topic-tag {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-brand-action {
+  border-color: #ff641f !important;
+  background: #ff641f !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 24px rgba(255, 100, 31, 0.22) !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-brand-action:hover {
+  border-color: #f25312 !important;
+  background: #f25312 !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-secondary-action {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-support-hero .contact-topic-tag {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel {
+  border-color: var(--contact-border) !important;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 100, 31, 0.12), transparent 28%),
+    radial-gradient(circle at 92% 92%, rgba(94, 106, 210, 0.12), transparent 30%),
+    var(--contact-surface) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-title,
+html.dark .contact-themed .contact-direct-panel .contact-card-title {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-direct-heading__title span,
+html.dark .contact-themed .contact-direct-panel .contact-direct-heading__eyebrow,
+html.dark .contact-themed .contact-direct-panel .contact-arrow {
+  color: #ff641f !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-description,
+html.dark .contact-themed .contact-direct-panel .contact-method-value,
+html.dark .contact-themed .contact-direct-panel .contact-muted-text {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-seller-card {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-seller-card__head {
+  background: #ff641f !important;
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-seller-card__head .contact-card-title,
+html.dark .contact-themed .contact-direct-panel .contact-seller-card__head .contact-muted-text {
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-method-row,
+html.dark .contact-themed .contact-direct-panel .contact-method-row:hover {
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-method-row:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html.dark .contact-themed .contact-direct-panel .contact-icon-box {
+  border-color: var(--contact-border) !important;
+  background: rgba(255, 100, 31, 0.12) !important;
+  color: #ff8a3d !important;
+}
+
+html.dark .contact-themed .contact-request-section {
+  background:
+    linear-gradient(180deg, rgba(16, 18, 19, 0.96), rgba(7, 8, 9, 0.98)) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-title,
+html.dark .contact-themed .contact-request-section .contact-card-title,
+html.dark .contact-themed .contact-request-section .contact-form-label {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-description,
+html.dark .contact-themed .contact-request-section .contact-form-help,
+html.dark .contact-themed .contact-request-section .contact-muted-text {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-request-card,
+html.dark .contact-themed .contact-request-section .contact-form-card,
+html.dark .contact-themed .contact-request-section .contact-card {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-input,
+html.dark .contact-themed .contact-request-section .contact-subject-select .ant-select-selector {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-input::placeholder,
+html.dark .contact-themed .contact-request-section .contact-subject-select .ant-select-selection-placeholder {
+  color: var(--contact-subtle) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-input:hover,
+html.dark .contact-themed .contact-request-section .contact-input:focus,
+html.dark .contact-themed .contact-request-section .contact-subject-select:hover .ant-select-selector,
+html.dark .contact-themed .contact-request-section .contact-subject-select.ant-select-focused .ant-select-selector {
+  border-color: #fb923c !important;
+  background: var(--contact-surface-3) !important;
+  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.16) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-submit-button,
+html.dark .contact-themed .contact-request-section .contact-submit-button:hover {
+  border-color: #ff641f !important;
+  background: #ff641f !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-submit-button:hover {
+  background: #f25312 !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-outline-action {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-outline-action:hover {
+  background: var(--contact-surface-3) !important;
+  color: #ff8a3d !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-muted-box {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+}
+
+html.dark .contact-themed .contact-request-section .contact-request-icon {
+  border-color: var(--contact-border) !important;
+  background: rgba(255, 100, 31, 0.12) !important;
+  color: #ff8a3d !important;
+}
+
+html.dark body .contact-themed .contact-request-section .contact-form-card input.contact-input.contact-input,
+html.dark body .contact-themed .contact-request-section .contact-form-card textarea.contact-input.contact-input {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark body .contact-themed .contact-request-section .contact-form-card .contact-subject-select .ant-select-selector {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark body .contact-themed .contact-request-section .contact-card .contact-card-row.contact-card-row {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-faq-section {
+  background: linear-gradient(180deg, rgba(7, 8, 9, 0.98), rgba(16, 18, 19, 0.96)) !important;
+}
+
+html.dark .contact-themed .contact-faq-showcase {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.32) !important;
+}
+
+html.dark .contact-themed .contact-faq-hero {
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.18) 0 42px, transparent 43px),
+    radial-gradient(circle at 85% 4%, rgba(255, 255, 255, 0.16) 0 56px, transparent 57px),
+    linear-gradient(135deg, #ff8c25 0%, #ff6b1b 48%, #ff7a20 100%) !important;
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-faq-hero::after {
+  background: var(--contact-surface) !important;
+}
+
+html.dark .contact-themed .contact-faq-hero__title,
+html.dark .contact-themed .contact-faq-hero__eyebrow,
+html.dark .contact-themed .contact-faq-hero__description {
+  color: #ffffff !important;
+}
+
+html.dark .contact-themed .contact-faq-list,
+html.dark .contact-themed .contact-faq-shell {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-faq-item,
+html.dark .contact-themed .contact-faq-item:hover,
+html.dark .contact-themed .contact-faq-item--open {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.dark .contact-themed .contact-faq-item:hover,
+html.dark .contact-themed .contact-faq-item--open {
+  border-color: var(--contact-border-strong) !important;
+}
+
+html.dark .contact-themed .contact-faq-question,
+html.dark .contact-themed .contact-faq-item--open .contact-faq-question {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-faq-answer {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-faq-index,
+html.dark .contact-themed .contact-faq-chevron,
+html.dark .contact-themed .contact-faq-item--open .contact-faq-index,
+html.dark .contact-themed .contact-faq-item--open .contact-faq-chevron {
+  border-color: var(--contact-border) !important;
+  background: rgba(255, 100, 31, 0.12) !important;
+  color: #ff8a3d !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-2) !important;
+  color: var(--contact-text) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__eyebrow {
+  color: #ff641f !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__title {
+  color: var(--contact-text) !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__description {
+  color: var(--contact-muted) !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__button--primary,
+html.dark .contact-themed .contact-faq-help-card__button--primary:hover {
+  border-color: #ff641f !important;
+  background: #ff641f !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 22px rgba(255, 100, 31, 0.2) !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__button--primary:hover {
+  border-color: #f25312 !important;
+  background: #f25312 !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__button--secondary,
+html.dark .contact-themed .contact-faq-help-card__button--secondary:hover {
+  border-color: var(--contact-border) !important;
+  background: var(--contact-surface-3) !important;
+  color: #ff8a3d !important;
+  box-shadow: none !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__button--secondary:hover {
+  background: rgba(255, 100, 31, 0.12) !important;
+  color: #f25312 !important;
+}
+
+html.dark .contact-themed .contact-faq-help-card__tip {
+  background: var(--contact-surface-3) !important;
+  color: var(--contact-muted) !important;
 }

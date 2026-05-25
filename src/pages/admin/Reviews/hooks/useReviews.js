@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { message, Modal } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useAsyncListData } from '@/hooks/shared/useAsyncListData'
+import { useAdminResourceList } from '@/hooks/shared/adminResourceList'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { del, get } from '@/utils/request'
 import { useDebouncedFilterSync } from '@/hooks/shared/useListFilterHelpers'
-import { stringFilter, useListSearchParams } from '@/hooks/shared/useListSearchParams'
+import { stringFilter } from '@/hooks/shared/useListSearchParams'
 import { deleteReply, hideReview, replyReview } from '@/services/client/commerce/review'
 import {
   REVIEWS_PAGE_LIMIT,
@@ -20,12 +20,44 @@ import {
 export default function useReviews() {
   const { t } = useTranslation('adminReviews')
   const language = useCurrentLanguage()
-  const { page, setPage, filters, setFilters } = useListSearchParams({
+  const {
+    page,
+    setPage,
+    filters,
+    setFilters,
+    items: reviews,
+    setItems: setReviews,
+    total,
+    setTotal,
+    loading,
+    refetch: refetchReviews
+  } = useAdminResourceList({
+    resource: 'reviews',
     defaultPage: 1,
+    defaultPageSize: REVIEWS_PAGE_LIMIT,
     filterParsers: {
       search: stringFilter,
       rating: stringFilter
-    }
+    },
+    queryKeyDeps: { language },
+    queryFn: async query => {
+      const response = await get(
+        `admin/reviews?${getReviewsQueryParams({
+          page: query.page,
+          limit: REVIEWS_PAGE_LIMIT,
+          rating: query.rating,
+          search: query.search
+        })}`
+      )
+
+      return {
+        reviews: response?.reviews,
+        total: response?.total
+      }
+    },
+    selectItems: response => response?.reviews,
+    selectTotal: response => response?.total,
+    onError: () => message.error(t('messages.fetchError'))
   })
   const [search, setSearch] = useState(filters.search || '')
   const [ratingFilter, setRatingFilter] = useState(filters.rating || '')
@@ -44,8 +76,10 @@ export default function useReviews() {
     const nextSearch = filters.search || ''
     const nextRating = filters.rating || ''
 
-    setSearch(prevSearch => (prevSearch === nextSearch ? prevSearch : nextSearch))
-    setRatingFilter(prevRating => (prevRating === nextRating ? prevRating : nextRating))
+    queueMicrotask(() => {
+      setSearch(prevSearch => (prevSearch === nextSearch ? prevSearch : nextSearch))
+      setRatingFilter(prevRating => (prevRating === nextRating ? prevRating : nextRating))
+    })
   }, [filters.rating, filters.search])
 
   const normalizedSearch = search.trim()
@@ -55,49 +89,19 @@ export default function useReviews() {
       const response = await get(`admin/reviews?${getReviewsQueryParams({ limit: REVIEWS_STATS_LIMIT })}`)
 
       setStats(calculateReviewStats(Array.isArray(response?.reviews) ? response.reviews : []))
-    } catch (error) {
+    } catch {
       return null
     }
 
     return null
-  }, [language])
-
-  const fetchReviews = useCallback(async () => {
-    try {
-      const response = await get(
-        `admin/reviews?${getReviewsQueryParams({
-          page,
-          limit: REVIEWS_PAGE_LIMIT,
-          rating: ratingFilter,
-          search: normalizedSearch
-        })}`
-      )
-
-      if (page === 1 && !ratingFilter && !normalizedSearch) {
-        void refreshStats()
-      }
-
-      return {
-        items: response?.reviews,
-        total: response?.total
-      }
-    } catch (error) {
-      message.error(t('messages.fetchError'))
-      throw error
-    }
-  }, [language, normalizedSearch, page, ratingFilter, refreshStats, t])
-
-  const {
-    items: reviews,
-    setItems: setReviews,
-    total,
-    setTotal,
-    loading,
-    refetch: refetchReviews
-  } = useAsyncListData(fetchReviews, [fetchReviews])
+  }, [])
 
   const totalPages = Math.ceil(total / REVIEWS_PAGE_LIMIT)
   const replyRate = stats.total > 0 ? Math.round((stats.replied / stats.total) * 100) : 0
+
+  useEffect(() => {
+    if (page === 1 && !ratingFilter && !normalizedSearch) queueMicrotask(() => void refreshStats())
+  }, [normalizedSearch, page, ratingFilter, refreshStats, reviews])
 
   useDebouncedFilterSync(
     () => syncFiltersToUrl({ nextSearch: normalizedSearch, nextRating: ratingFilter }),
@@ -247,7 +251,7 @@ export default function useReviews() {
         }
       })
     },
-    [refreshStats, replyTarget?._id, setReviews, t]
+    [refreshStats, replyTarget, setReviews, t]
   )
 
   const handleHide = useCallback(

@@ -82,8 +82,7 @@ body.admin-layout-active {
   min-width: 0;
 }
 
-.admin-product-edit__form,
-.admin-product-edit__card {
+.admin-product-edit__form{
   min-width: 0;
 }
 
@@ -92,13 +91,6 @@ body.admin-layout-active {
   min-width: 0;
 }
 
-.admin-product-edit__card {
-  border: 1px solid var(--product-edit-border);
-  border-radius: 14px;
-  background: var(--product-edit-surface);
-  padding: 20px;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
-}
 
 .admin-product-edit__label {
   color: var(--product-edit-text-muted);

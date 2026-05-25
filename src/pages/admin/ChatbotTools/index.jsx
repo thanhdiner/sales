@@ -35,7 +35,7 @@ export default function ChatbotTools() {
   }
 
   return (
-    <div className="admin-chatbot-page mx-auto max-w-7xl">
+    <div className="admin-chatbot-page admin-chatbot-tools-page mx-auto max-w-7xl">
       <SEO title={t('seo.title')} noIndex />
 
       <ChatbotToolsHeader

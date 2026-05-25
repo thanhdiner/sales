@@ -14,32 +14,26 @@ export default function PermissionsStats({ permissionList, t }) {
       key: 'total',
       label: t('stats.total'),
       meta: t('stats.totalHint'),
-      icon: LockOutlined
+      icon: <LockOutlined />
     },
     {
       key: 'active',
       label: t('stats.active'),
       meta: t('stats.activeHint'),
-      icon: CheckCircleOutlined
+      icon: <CheckCircleOutlined />
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
       meta: t('stats.inactiveHint'),
-      icon: StopOutlined
+      icon: <StopOutlined />
     }
   ]
 
   return (
     <StatGrid className="admin-permissions-stats" columns={3}>
       {statItems.map(item => (
-        <StatCard
-          key={item.key}
-          label={item.label}
-          value={stats[item.key]}
-          meta={item.meta}
-          icon={item.icon}
-        />
+        <StatCard key={item.key} label={item.label} value={stats[item.key]} meta={item.meta} icon={item.icon} />
       ))}
     </StatGrid>
   )

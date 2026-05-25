@@ -1,6 +1,7 @@
 import { Button, Card, Form, Image, Input, Modal, Space, Tag, message } from 'antd'
 import { useEffect, useState } from 'react'
 
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import { deleteMediaAsset, getMediaAssets, updateMediaAsset } from '@/services/admin/content/mediaLibrary'
 
@@ -49,7 +50,11 @@ export default function MediaLibrary() {
   return (
     <div className="p-6">
       <SEO title="Media Library" noIndex />
-      <div className="mb-4"><h1 className="text-2xl font-bold">Media Library</h1><p>Uploaded blog/CMS media</p></div>
+      <div className="mb-4">
+        <AdminBackButton className="mb-3" to="/admin/blog" label="Back to Blog" />
+        <h1 className="text-2xl font-bold">Media Library</h1>
+        <p>Uploaded blog/CMS media</p>
+      </div>
       <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
         {items.map(item => (
           <Card key={item._id} loading={loading} cover={item.resourceType === 'image' ? <Image src={item.url} height={160} className="object-cover" /> : null}>

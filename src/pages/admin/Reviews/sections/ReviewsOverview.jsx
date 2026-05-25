@@ -2,16 +2,31 @@ import { MessageCircleReply, MessageCircleX, Star, StarHalf, X } from 'lucide-re
 import { useTranslation } from 'react-i18next'
 import { StatCard, StatGrid } from '@/components/admin/ui'
 
+const iconProps = {
+  className: 'h-5 w-5',
+  strokeWidth: 1.8
+}
+
 export default function ReviewsOverview({ stats, replyRate, ratingFilter, onRatingFilterChange }) {
   const { t } = useTranslation('adminReviews')
 
   return (
     <>
       <StatGrid columns={4}>
-        <StatCard label={t('stats.total')} value={stats.total} meta={t('stats.totalSub')} icon={Star} />
-        <StatCard label={t('stats.average')} value={stats.avg} meta={t('stats.averageSub')} icon={StarHalf} />
-        <StatCard label={t('stats.replied')} value={stats.replied} meta={t('stats.replyRate', { rate: replyRate })} icon={MessageCircleReply} />
-        <StatCard label={t('stats.unreplied')} value={stats.total - stats.replied} meta={t('stats.unrepliedSub')} icon={MessageCircleX} />
+        <StatCard label={t('stats.total')} value={stats.total} meta={t('stats.totalSub')} icon={<Star {...iconProps} />} />
+        <StatCard label={t('stats.average')} value={stats.avg} meta={t('stats.averageSub')} icon={<StarHalf {...iconProps} />} />
+        <StatCard
+          label={t('stats.replied')}
+          value={stats.replied}
+          meta={t('stats.replyRate', { rate: replyRate })}
+          icon={<MessageCircleReply {...iconProps} />}
+        />
+        <StatCard
+          label={t('stats.unreplied')}
+          value={stats.total - stats.replied}
+          meta={t('stats.unrepliedSub')}
+          icon={<MessageCircleX {...iconProps} />}
+        />
       </StatGrid>
 
       {stats.total > 0 && (

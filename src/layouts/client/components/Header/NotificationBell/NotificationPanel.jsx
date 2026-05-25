@@ -43,10 +43,10 @@ export default function NotificationPanel({ notifications, unreadCount, onMarkAl
   const language = useCurrentLanguage()
 
   return (
-    <div className="client-notification-panel absolute right-0 top-12 z-50 max-h-[520px] w-[400px] max-w-[calc(100vw-24px)] overflow-hidden rounded-[18px] border border-gray-200 bg-white text-gray-900 shadow-2xl shadow-slate-900/15 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/40">
-      <div className="m-3 mb-0 flex min-h-[76px] items-center justify-between gap-3 rounded-2xl border border-dashed border-gray-200 px-4 py-3 dark:border-gray-700">
+    <div className="client-notification-panel absolute right-0 top-12 z-50 max-h-[504px] w-[372px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl border border-gray-200 bg-white text-gray-900 shadow-2xl shadow-slate-900/15 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:shadow-black/40">
+      <div className="m-2.5 mb-0 flex min-h-[68px] items-center justify-between gap-2.5 rounded-lg border border-dashed border-gray-200 px-3.5 py-2.5 dark:border-gray-700">
         <div>
-          <h3 className="mb-1 text-xl font-bold leading-tight tracking-normal text-gray-950 dark:text-white">
+          <h3 className="mb-1 text-lg font-bold leading-tight tracking-normal text-gray-950 dark:text-white">
             {t('notification.panelTitle')}
           </h3>
 
@@ -59,7 +59,7 @@ export default function NotificationPanel({ notifications, unreadCount, onMarkAl
           <button
             type="button"
             onClick={onMarkAllRead}
-            className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
           >
             <CheckCheck className="h-4 w-4" />
             {t('notification.markAllRead')}
@@ -67,14 +67,14 @@ export default function NotificationPanel({ notifications, unreadCount, onMarkAl
         )}
       </div>
 
-      <div className="m-3 max-h-[340px] rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+      <div className="m-2.5 max-h-[312px] rounded-lg border border-dashed border-gray-200 dark:border-gray-700">
         {shouldShowEmptyState(notifications) ? (
-          <div className="flex min-h-[220px] flex-col items-center justify-center px-6 py-10 text-center text-gray-500 dark:text-gray-400">
+          <div className="flex min-h-[196px] flex-col items-center justify-center px-6 py-8 text-center text-gray-500 dark:text-gray-400">
             <Bell className="mb-3 h-9 w-9 opacity-40" />
             <span className="text-sm">{t('notification.empty')}</span>
           </div>
         ) : (
-          <div className="max-h-[338px] overflow-y-auto px-3 py-1">
+          <div className="max-h-[310px] overflow-y-auto px-3 py-1">
             {notifications.map(notif => {
               const title = getNotificationItemTitle(notif)
               const body = getNotificationItemBody(notif)
@@ -85,10 +85,10 @@ export default function NotificationPanel({ notifications, unreadCount, onMarkAl
                   type="button"
                   key={createNotificationRowKey(notif)}
                   onClick={() => onClickNotification(notif)}
-                  className="group flex min-h-[84px] w-full items-start gap-3 border-b border-gray-200 py-3 text-left transition last:border-b-0 hover:bg-gray-50/80 dark:border-gray-700 dark:hover:bg-gray-800/80"
+                  className="group flex min-h-[76px] w-full items-start gap-2.5 border-b border-gray-200 py-2.5 text-left transition last:border-b-0 hover:bg-gray-50/80 dark:border-gray-700 dark:hover:bg-gray-800/80"
                   aria-label={`${t('notification.openNotification')}: ${title}`}
                 >
-                  <span className={`mt-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border ${getIconClassName(notif)}`}>
+                  <span className={`mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${getIconClassName(notif)}`}>
                     <Icon className="h-5 w-5" />
                   </span>
 
@@ -117,11 +117,11 @@ export default function NotificationPanel({ notifications, unreadCount, onMarkAl
         )}
       </div>
 
-      <div className="m-3 mt-0 flex h-[64px] items-center rounded-2xl border border-dashed border-gray-200 p-2 dark:border-gray-700">
+      <div className="mx-2.5 mb-5 mt-0 flex h-[56px] items-center">
         <button
           type="button"
           onClick={onViewAll}
-          className="flex h-11 w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-semibold text-gray-900 transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+          className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-900 transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
         >
           {t('notification.viewAll')}
         </button>

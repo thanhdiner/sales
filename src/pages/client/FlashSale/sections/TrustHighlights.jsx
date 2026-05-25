@@ -1,4 +1,6 @@
 import { Clock, ShieldCheck, Zap } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { FLASH_SALE_CARD_VARIANTS, FLASH_SALE_STAGGER_VARIANTS, FLASH_SALE_VIEWPORT } from '../constants'
 
 export default function TrustHighlights({ t }) {
   const trustItems = [
@@ -20,25 +22,31 @@ export default function TrustHighlights({ t }) {
   ]
 
   return (
-    <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6">
-      <div className="grid gap-5 md:grid-cols-3">
+    <motion.section
+      className="flash-sale-trust"
+      initial="hidden"
+      whileInView="visible"
+      variants={FLASH_SALE_STAGGER_VARIANTS}
+      viewport={FLASH_SALE_VIEWPORT}
+    >
+      <motion.div className="flash-sale-trust__grid" variants={FLASH_SALE_STAGGER_VARIANTS}>
         {trustItems.map(item => {
           const Icon = item.icon
 
           return (
-            <div key={item.title} className="flex gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-300">
-                <Icon className="h-5 w-5" />
+            <motion.div key={item.title} className="flash-sale-trust__item" variants={FLASH_SALE_CARD_VARIANTS}>
+              <div className="flash-sale-trust__icon">
+                <Icon className="flash-sale-trust__icon-svg" />
               </div>
 
-              <div>
-                <h3 className="font-bold text-slate-900 dark:text-white">{item.title}</h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{item.desc}</p>
+              <div className="flash-sale-trust__copy">
+                <h3 className="flash-sale-trust__title">{item.title}</h3>
+                <p className="flash-sale-trust__desc">{item.desc}</p>
               </div>
-            </div>
+            </motion.div>
           )
         })}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }

@@ -1,5 +1,6 @@
 import { XCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 
 export default function EmptyState({ onBack }) {
   const { t } = useTranslation('adminOrderDetail')
@@ -12,13 +13,7 @@ export default function EmptyState({ onBack }) {
 
       <p className="text-base font-semibold text-[var(--admin-text)]">{t('states.notFound')}</p>
 
-      <button
-        type="button"
-        onClick={onBack}
-        className="mt-4 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2 text-sm font-medium text-[var(--admin-text-muted)] transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] hover:text-[var(--admin-text)]"
-      >
-        {t('actions.backToList')}
-      </button>
+      <AdminBackButton className="mt-4" variant="outline" onClick={onBack} label={t('actions.backToList')} />
     </div>
   )
 }

@@ -25,25 +25,25 @@ export default function BankInfoStats({ bankInfos, t }) {
       key: 'total',
       label: t('stats.total'),
       meta: t('stats.totalDesc'),
-      icon: Building2
+      icon: <Building2 className="h-5 w-5" strokeWidth={1.8} />
     },
     {
       key: 'active',
       label: t('stats.active'),
       meta: t('stats.activeDesc'),
-      icon: CircleCheck
+      icon: <CircleCheck className="h-5 w-5" strokeWidth={1.8} />
     },
     {
       key: 'inactive',
       label: t('stats.inactive'),
       meta: t('stats.inactiveDesc'),
-      icon: CirclePause
+      icon: <CirclePause className="h-5 w-5" strokeWidth={1.8} />
     },
     {
       key: 'withQr',
       label: t('stats.withQr'),
       meta: t('stats.withQrDesc'),
-      icon: QrCode
+      icon: <QrCode className="h-5 w-5" strokeWidth={1.8} />
     }
   ]
 

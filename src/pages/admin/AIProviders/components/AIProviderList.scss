@@ -1,0 +1,108 @@
+.admin-ai-providers-page .ant-card {
+  border-radius: 10px !important;
+}
+
+.admin-ai-providers-page .ant-btn {
+  border-radius: 6px !important;
+}
+
+.admin-ai-providers-page .ant-tag {
+  border-radius: 4px !important;
+}
+
+.admin-ai-provider-button {
+  height: auto !important;
+  justify-content: flex-start !important;
+  padding: 1rem !important;
+  text-align: left;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
+}
+
+.admin-ai-provider-button__code {
+  color: var(--chatbot-text-muted);
+}
+
+.admin-ai-provider-button__model.ant-typography {
+  color: var(--chatbot-text-muted) !important;
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button:hover,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button:focus {
+  background: #f8fbff !important;
+  border-color: #bfdbfe !important;
+  color: var(--chatbot-text) !important;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.08);
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.45);
+  outline-offset: 2px;
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active {
+  background: linear-gradient(135deg, #eef6ff 0%, #f6f5ff 100%) !important;
+  border-color: #93c5fd !important;
+  color: #1e3a5f !important;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1);
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus {
+  background: linear-gradient(135deg, #e7f1ff 0%, #f0efff 100%) !important;
+  border-color: #60a5fa !important;
+  color: #163a66 !important;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active .admin-ai-provider-button__code,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active .admin-ai-provider-button__model.ant-typography {
+  color: #476581 !important;
+}
+
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover .admin-ai-provider-button__code,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus .admin-ai-provider-button__code,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover .admin-ai-provider-button__model.ant-typography,
+.admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus .admin-ai-provider-button__model.ant-typography {
+  color: #315a78 !important;
+}
+
+html.dark {
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button:hover,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button:focus {
+    background: rgba(94, 106, 210, 0.14) !important;
+    border-color: rgba(147, 197, 253, 0.32) !important;
+    color: var(--chatbot-text) !important;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26);
+  }
+
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus {
+    background: linear-gradient(135deg, rgba(94, 106, 210, 0.22) 0%, rgba(37, 99, 235, 0.18) 100%) !important;
+    border-color: rgba(147, 197, 253, 0.42) !important;
+    color: #e5edff !important;
+  }
+
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus {
+    background: linear-gradient(135deg, rgba(94, 106, 210, 0.3) 0%, rgba(37, 99, 235, 0.26) 100%) !important;
+    border-color: rgba(147, 197, 253, 0.62) !important;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.32);
+  }
+
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active .admin-ai-provider-button__code,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active .admin-ai-provider-button__model.ant-typography {
+    color: #b8c7e6 !important;
+  }
+
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover .admin-ai-provider-button__code,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus .admin-ai-provider-button__code,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:hover .admin-ai-provider-button__model.ant-typography,
+  .admin-chatbot-page .ant-btn.admin-ai-provider-button--active:focus .admin-ai-provider-button__model.ant-typography {
+    color: #d0dcf3 !important;
+  }
+}

@@ -53,6 +53,7 @@ import adminAboutVi from './locales/vi/admin/about.json'
 import adminBlogVi from './locales/vi/admin/blog.json'
 import adminTermsVi from './locales/vi/admin/terms.json'
 import adminCooperationContactVi from './locales/vi/admin/cooperationContact.json'
+import adminHomeBuildYourKitVi from './locales/vi/admin/homeBuildYourKit.json'
 import adminHomeWhyChooseUsVi from './locales/vi/admin/homeWhyChooseUs.json'
 import adminWidgetsVi from './locales/vi/admin/widgets.json'
 import adminContactPageVi from './locales/vi/admin/contactPage.json'
@@ -121,6 +122,7 @@ import adminAboutEn from './locales/en/admin/about.json'
 import adminBlogEn from './locales/en/admin/blog.json'
 import adminTermsEn from './locales/en/admin/terms.json'
 import adminCooperationContactEn from './locales/en/admin/cooperationContact.json'
+import adminHomeBuildYourKitEn from './locales/en/admin/homeBuildYourKit.json'
 import adminHomeWhyChooseUsEn from './locales/en/admin/homeWhyChooseUs.json'
 import adminWidgetsEn from './locales/en/admin/widgets.json'
 import adminContactPageEn from './locales/en/admin/contactPage.json'
@@ -207,6 +209,7 @@ i18n.use(initReactI18next).init({
       adminBlog: adminBlogVi,
       adminTerms: adminTermsVi,
       adminCooperationContact: adminCooperationContactVi,
+      adminHomeBuildYourKit: adminHomeBuildYourKitVi,
       adminHomeWhyChooseUs: adminHomeWhyChooseUsVi,
       adminWidgets: adminWidgetsVi,
       adminContactPage: adminContactPageVi,
@@ -276,6 +279,7 @@ i18n.use(initReactI18next).init({
       adminBlog: adminBlogEn,
       adminTerms: adminTermsEn,
       adminCooperationContact: adminCooperationContactEn,
+      adminHomeBuildYourKit: adminHomeBuildYourKitEn,
       adminHomeWhyChooseUs: adminHomeWhyChooseUsEn,
       adminWidgets: adminWidgetsEn,
       adminContactPage: adminContactPageEn,
@@ -347,6 +351,7 @@ i18n.use(initReactI18next).init({
     'adminBlog',
     'adminTerms',
     'adminCooperationContact',
+    'adminHomeBuildYourKit',
     'adminHomeWhyChooseUs',
     'adminWidgets',
     'adminContactPage',

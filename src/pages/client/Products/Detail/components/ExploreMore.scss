@@ -1,6 +1,18 @@
 .ExploreMore-root {
   margin-top: 12px;
 
+  .Suggestions-header-block {
+    padding-top: 0;
+  }
+
+  .ExploreMore-title {
+    padding: 14px 12px 8px;
+    color: var(--product-detail-text, #0f172a);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
   .ExploreMore-highlights {
     display: flex;
     flex-wrap: wrap;
@@ -130,6 +142,10 @@
     color: var(--product-detail-muted, #667085);
     line-height: 1.7;
   }
+}
+
+html.dark body:not(.admin-layout-active) .product-detail-page .ExploreMore-title {
+  color: var(--product-detail-text, #f8fafc);
 }
 
 @keyframes exploreMorePulse {

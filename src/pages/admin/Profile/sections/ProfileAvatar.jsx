@@ -3,19 +3,19 @@ import { Form } from 'antd'
 
 export default function ProfileAvatar({ avatarPreview, initialLetterAvatar, inputRef, onFileChange, onRemove, t }) {
   return (
-    <Form.Item label={<span className="text-[var(--admin-text-muted)]">{t('avatar.label')}</span>}>
-      <div className="flex min-h-[110px] items-center gap-10">
-        <div className="relative h-[110px] w-[110px]">
+    <Form.Item className="!mb-2" label={<span className="text-[var(--admin-text-muted)]">{t('avatar.label')}</span>}>
+      <div className="flex items-center gap-4">
+        <div className="relative h-[72px] w-[72px]">
           {avatarPreview ? (
             <img
               src={avatarPreview}
               alt={t('avatar.alt')}
-              className="h-[110px] w-[110px] cursor-pointer rounded-[12px] border-[2.4px] border-solid border-[var(--admin-border)] bg-[var(--admin-surface-2)] object-cover shadow-[0_1px_8px_rgba(0,0,0,0.12)]"
+              className="h-[72px] w-[72px] cursor-pointer rounded-md border-[2px] border-solid border-[var(--admin-border)] bg-[var(--admin-surface-2)] object-cover shadow-[0_1px_8px_rgba(0,0,0,0.12)]"
               onClick={() => inputRef.current?.click()}
             />
           ) : (
             <div
-              className="flex h-[110px] w-[110px] cursor-pointer items-center justify-center rounded-[12px] border border-solid border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[40px] font-semibold text-[var(--admin-text-subtle)] shadow-[0_1px_8px_rgba(0,0,0,0.12)]"
+              className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-md border border-solid border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[28px] font-semibold text-[var(--admin-text-subtle)] shadow-[0_1px_8px_rgba(0,0,0,0.12)]"
               onClick={() => inputRef.current?.click()}
             >
               {initialLetterAvatar}

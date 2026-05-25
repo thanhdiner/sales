@@ -47,7 +47,7 @@
   border-radius: 8px;
   background: var(--admin-accent) !important;
   color: #f4f5f8 !important;
-  font-weight: 700;
+  font-weight: 500;
   box-shadow: none;
 }
 
@@ -99,7 +99,7 @@
 
 .admin-permission-groups-table.ant-table-wrapper .ant-pagination {
   margin: 14px 0 0;
-  padding: 0 2px;
+  padding: 0 10px 10px;
 }
 
 .admin-permission-groups-name-cell {

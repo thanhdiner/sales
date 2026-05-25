@@ -3,6 +3,7 @@
     "title": "Admin - Settings"
   },
   "page": {
+    "back": "Back",
     "eyebrow": "Admin settings",
     "title": "System settings",
     "description": "Manage admin account security and the website information shown to customers."
@@ -96,9 +97,18 @@
         "label": "Phone number",
         "placeholder": "Enter phone number"
       },
+      "hotline": {
+        "label": "Hotline",
+        "placeholder": "Enter hotline number"
+      },
       "email": {
         "label": "Email",
         "invalid": "Email is invalid",
+        "placeholder": "support@example.com"
+      },
+      "supportEmail": {
+        "label": "Support email",
+        "invalid": "Support email is invalid",
         "placeholder": "support@example.com"
       },
       "address": {
@@ -108,6 +118,14 @@
       "website": {
         "label": "Website",
         "placeholder": "https://example.com"
+      },
+      "businessHours": {
+        "label": "Business hours",
+        "placeholder": "8:00 - 21:00 daily"
+      },
+      "supportHours": {
+        "label": "Support hours",
+        "placeholder": "8:00 - 21:00 daily"
       },
       "facebook": {
         "label": "Facebook",

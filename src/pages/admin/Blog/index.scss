@@ -268,7 +268,15 @@ html.dark .admin-blog-table-btn.ant-btn:not(.ant-btn-primary):not(.ant-btn-dange
   gap: 14px;
 }
 
-.admin-blog-post-cell__image {
+.admin-blog-post-cell .ant-image {
+  width: 72px;
+  height: 54px;
+}
+
+.admin-blog-post-cell__image,
+.admin-blog-post-cell .ant-image-img {
+  width: 72px;
+  height: 54px;
   border-radius: 8px;
   object-fit: cover;
 }

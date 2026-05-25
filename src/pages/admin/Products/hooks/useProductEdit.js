@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import { getProductCategoryTree } from '@/services/admin/commerce/productCategory'
 import { getProductById, updateProductById } from '@/services/admin/commerce/product'
 import { useTranslation } from 'react-i18next'
+import { buildEditProductFormData, getProductFieldId } from '../utils/productFormData'
 
 const toUploadFileList = (urls = [], prefix = 'image') =>
   (Array.isArray(urls) ? urls : []).filter(Boolean).map((url, index) => ({
@@ -13,18 +14,6 @@ const toUploadFileList = (urls = [], prefix = 'image') =>
     status: 'done',
     url
   }))
-
-const getExistingImageUrl = file => {
-  if (!file || file.originFileObj) return ''
-  return file.url || file.thumbUrl || ''
-}
-
-const getIdValue = value => {
-  if (!value) return ''
-  if (typeof value === 'string') return value
-  if (typeof value === 'object') return value._id || value.id || value.value || ''
-  return String(value)
-}
 
 export function useProductEdit() {
   const { t } = useTranslation('adminProducts')
@@ -52,7 +41,7 @@ export function useProductEdit() {
 
         form.setFieldsValue({
           ...product,
-          productCategory: getIdValue(product.productCategory),
+          productCategory: getProductFieldId(product.productCategory),
           thumbnail: toUploadFileList(product.thumbnail ? [product.thumbnail] : [], 'thumbnail'),
           images: toUploadFileList(product.images || [], 'image'),
           timeRange: product.timeStart && product.timeFinish ? [dayjs(product.timeStart), dayjs(product.timeFinish)] : []
@@ -85,72 +74,13 @@ export function useProductEdit() {
     setLoading(true)
 
     try {
-      const formData = new FormData()
-      const file = submitValues.thumbnail?.[0]?.originFileObj
-
-      if (file) {
-        formData.append('thumbnail', file)
-        formData.append('oldImage', oldThumbnail)
-      } else if (typeof submitValues.thumbnail === 'string') {
-        formData.append('thumbnail', submitValues.thumbnail)
-      }
-
-      const imageFileList = submitValues.images || []
-      const existingImages = imageFileList.map(getExistingImageUrl).filter(Boolean)
-      const deletedImages = oldImages.filter(url => !existingImages.includes(url))
-
-      imageFileList.forEach(fileItem => {
-        const imageFile = fileItem.originFileObj
-        if (imageFile) formData.append('images', imageFile)
-      })
-
-      formData.append('existingImages', JSON.stringify(existingImages))
-      formData.append('oldImages', JSON.stringify(oldImages))
-      formData.append('deleteImages', JSON.stringify(deletedImages))
-
-      if (submitValues.features) {
-        if (submitValues.features.length > 0) {
-          submitValues.features.forEach(feature => formData.append('features', feature))
-        } else {
-          formData.append('features', '')
-        }
-      }
-
-      if (submitValues.translations != null) {
-        formData.append('translations', JSON.stringify(submitValues.translations))
-      }
-
-      formData.append('title', submitValues.title)
-      formData.append('productCategory', getIdValue(submitValues.productCategory))
-      formData.append('price', submitValues.price)
-      formData.append('costPrice', submitValues.costPrice)
-      formData.append('discountPercentage', submitValues.discountPercentage || 0)
-      formData.append('stock', submitValues.stock || 0)
-      formData.append('deliveryType', submitValues.deliveryType || 'manual')
-      formData.append('deliveryInstructions', submitValues.deliveryInstructions || '')
-      formData.append('description', submitValues.description || '')
-      formData.append('status', submitValues.status || 'active')
-      formData.append('slug', submitValues.slug || '')
-      formData.append('content', submitValues.content || '')
-      formData.append('isTopDeal', submitValues.isTopDeal ? 'true' : 'false')
-      formData.append('isFeatured', submitValues.isFeatured ? 'true' : 'false')
-
-      if (submitValues.position !== undefined && submitValues.position !== null && submitValues.position !== '') {
-        formData.append('position', submitValues.position)
-      }
-
-      const [timeStart, timeFinish] = submitValues.timeRange || []
-      if (timeStart) formData.append('timeStart', timeStart.toISOString())
-      if (timeFinish) formData.append('timeFinish', timeFinish.toISOString())
-
+      const formData = buildEditProductFormData(submitValues, { oldThumbnail, oldImages })
       await updateProductById(id, formData)
 
       message.success(t('formMessages.updateSuccess'))
       navigate(pathNavigate)
     } catch (err) {
       const response = err?.response || {}
-
-      console.error(err)
 
       if (response?.error === 'Slug already exists') {
         message.error(t('formMessages.slugExists', { suggestedSlug: response.suggestedSlug || '' }))

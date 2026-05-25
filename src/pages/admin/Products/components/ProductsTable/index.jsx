@@ -135,6 +135,22 @@ function ProductMobileCard({ record, selected, onSelectChange, setProducts, hand
   )
 }
 
+const toSkeletonColumns = (columns) => {
+  return columns.map(col => ({
+    ...col,
+    sorter: false,
+    render: () => {
+      if (col.key === 'thumbnail') {
+        return <Skeleton.Avatar active shape="square" size={40} style={{ display: 'block', margin: '0 auto' }} />
+      }
+      if (col.key === 'action' || col.key === 'status') {
+        return <Skeleton.Button active size="small" style={{ width: 60, minWidth: 40, height: 24 }} />
+      }
+      return <Skeleton.Input active size="small" style={{ width: '80%', height: 20, minWidth: 60 }} />
+    }
+  }))
+}
+
 function ProductsTable({
   isLoading,
   products,
@@ -375,15 +391,11 @@ function ProductsTable({
     <>
       <div className="mt-[10px] admin-products-table-wrapper overflow-x-auto">
         <Table
-          loading={{
-            spinning: isLoading,
-            tip: t('table.loading')
-          }}
           rowKey="_id"
-          rowSelection={rowSelection}
-          columns={visibleColumns}
-          dataSource={safeProducts}
-          locale={{ emptyText: <Empty description={t('table.empty')} /> }}
+          rowSelection={isLoading ? null : rowSelection}
+          columns={isLoading ? toSkeletonColumns(visibleColumns) : visibleColumns}
+          dataSource={isLoading ? Array.from({ length: 5 }).map((_, i) => ({ _id: `skeleton-${i}`, key: `skeleton-${i}` })) : safeProducts}
+          locale={{ emptyText: isLoading ? null : <Empty description={t('table.empty')} /> }}
           pagination={false}
           bordered
           scroll={{ x: 'max-content' }}

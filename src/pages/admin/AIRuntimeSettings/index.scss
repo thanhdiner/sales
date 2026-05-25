@@ -1,0 +1,136 @@
+.admin-ai-runtime-settings {
+  .admin-ai-runtime-settings__header {
+    margin-bottom: 20px;
+  }
+
+  .admin-ai-runtime-settings__header-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--chatbot-border);
+    border-radius: 8px;
+    background: var(--chatbot-accent-soft);
+    color: var(--chatbot-accent);
+    font-size: 21px;
+  }
+
+  .admin-ai-runtime-settings__content {
+    padding-top: 20px;
+    border-top: 1px solid var(--chatbot-border);
+  }
+
+  .admin-ai-runtime-settings__actions .ant-btn {
+    border-radius: 6px !important;
+  }
+
+  .admin-ai-runtime-settings__content .ant-spin-nested-loading {
+    min-height: 280px;
+  }
+
+  .admin-ai-runtime-settings__form {
+    min-width: 0;
+  }
+
+  .admin-ai-runtime-settings__status-panel {
+    min-width: 0;
+    padding-left: 24px;
+    border-left: 1px solid var(--chatbot-border);
+  }
+
+  .admin-ai-runtime-settings__status-title.ant-typography {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--chatbot-text) !important;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .admin-ai-runtime-settings__status-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .admin-ai-runtime-settings__status-row {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--chatbot-border);
+  }
+
+  .admin-ai-runtime-settings__status-row:first-child {
+    padding-top: 0;
+  }
+
+  .admin-ai-runtime-settings__status-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .admin-ai-runtime-settings__status-label.ant-typography {
+    flex: 0 0 88px;
+    color: var(--chatbot-text-muted) !important;
+    font-size: 13px;
+  }
+
+  .admin-ai-runtime-settings__status-value {
+    min-width: 0;
+    text-align: right;
+  }
+
+  .admin-ai-runtime-settings__status-value .ant-tag {
+    max-width: 100%;
+    margin-inline-end: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+  }
+
+  .admin-ai-runtime-settings__status-error.ant-typography {
+    display: block;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 991px) {
+  .admin-ai-runtime-settings {
+    .admin-ai-runtime-settings__status-panel {
+      padding-top: 20px;
+      padding-left: 0;
+      border-top: 1px solid var(--chatbot-border);
+      border-left: 0;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-ai-runtime-settings {
+    .admin-ai-runtime-settings__actions,
+    .admin-ai-runtime-settings__actions .ant-space-item {
+      width: 100%;
+    }
+
+    .admin-ai-runtime-settings__actions .ant-btn {
+      width: 100%;
+    }
+
+    .admin-ai-runtime-settings__status-row {
+      display: grid;
+      gap: 4px;
+    }
+
+    .admin-ai-runtime-settings__status-label.ant-typography {
+      flex-basis: auto;
+    }
+
+    .admin-ai-runtime-settings__status-value {
+      text-align: left;
+    }
+  }
+}

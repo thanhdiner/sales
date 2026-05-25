@@ -60,6 +60,8 @@ const getStepOneErrorKey = formData => {
 
 const getHighestAllowedStep = formData => (getStepOneErrorKey(formData) ? 1 : 3)
 
+const getCheckoutDefaultsHydrationKey = user => user?._id || user?.id || user?.email || user?.username || ''
+
 const getIncomingPromo = (locationState, draft) => {
   if (locationState?.__fromCart) return locationState.promo || null
   if (Object.prototype.hasOwnProperty.call(locationState || {}, 'promo')) {
@@ -76,7 +78,7 @@ export default function Checkout() {
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
   const clientUser = useSelector(state => state.clientUser.user)
-  const checkoutDefaultsHydratedRef = useRef(false)
+  const checkoutDefaultsHydratedUserRef = useRef('')
   const checkoutAddressAutofillAttemptedRef = useRef(false)
   const initialDraftRef = useRef(readCheckoutDraft())
   const stepScrollInitializedRef = useRef(false)
@@ -161,7 +163,9 @@ export default function Checkout() {
   }, [location.key, location.state])
 
   useEffect(() => {
-    if (checkoutDefaultsHydratedRef.current) return
+    const hydrationKey = getCheckoutDefaultsHydrationKey(clientUser)
+    if (!hydrationKey) return
+    if (checkoutDefaultsHydratedUserRef.current === hydrationKey) return
 
     const defaults = buildCheckoutFormDefaults(clientUser)
     const hasProfileDefaults = Object.entries(defaults).some(([key, value]) => {
@@ -171,7 +175,7 @@ export default function Checkout() {
     })
 
     if (!hasProfileDefaults) {
-      checkoutDefaultsHydratedRef.current = true
+      checkoutDefaultsHydratedUserRef.current = hydrationKey
       return
     }
 
@@ -194,7 +198,7 @@ export default function Checkout() {
     setDeliveryMethod(prev => (prev === 'pickup' ? defaults.deliveryMethod : prev))
     setPaymentMethod(prev => (prev === 'vnpay' ? normalizeCheckoutPaymentMethod(defaults.paymentMethod) : normalizeCheckoutPaymentMethod(prev)))
     checkoutAddressAutofillAttemptedRef.current = false
-    checkoutDefaultsHydratedRef.current = true
+    checkoutDefaultsHydratedUserRef.current = hydrationKey
   }, [clientUser])
 
   useEffect(() => {

@@ -23,6 +23,7 @@ import ChatAvatar, { getAvatarSrc, getInitials } from '../components/ChatAvatar'
 import StatusBadge from '../components/StatusBadge'
 
 const SCROLL_TO_LATEST_THRESHOLD = 96
+const LOAD_OLDER_MESSAGES_THRESHOLD = 180
 const QUICK_REPLY_CATEGORY_ORDER = ['greeting', 'info', 'order', 'payment', 'shipping', 'warranty', 'product', 'closing', 'other']
 
 function getQuickReplyCategoryRank(category) {
@@ -149,16 +150,10 @@ function QuickRepliesPopover({
     setCategory('all')
   }
 
-  useEffect(() => {
-    if (disabled && open) {
-      setOpen(false)
-    }
-  }, [disabled, open])
-
   const content = (
     <div className="admin-chat-quick-replies-panel w-[min(400px,calc(100vw-32px))]">
       <div className="mb-3">
-        <p className="text-sm font-semibold text-[var(--admin-text)]">
+        <p className="text-sm font-medium text-[var(--admin-text)]">
           {t('quickReplies.title')}
         </p>
       </div>
@@ -178,7 +173,7 @@ function QuickRepliesPopover({
           <button
             type="button"
             onClick={() => setCategory('all')}
-            className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors ${
+            className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
               category === 'all'
                 ? 'border-[var(--admin-accent)] bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
                 : 'border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text-muted)] hover:border-[var(--admin-border-strong)] hover:text-[var(--admin-text)]'
@@ -192,7 +187,7 @@ function QuickRepliesPopover({
               key={value}
               type="button"
               onClick={() => setCategory(value)}
-              className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors ${
+              className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
                 category === value
                   ? 'border-[var(--admin-accent)] bg-[var(--admin-accent-soft)] text-[var(--admin-accent)]'
                   : 'border-[var(--admin-border)] bg-[var(--admin-surface-2)] text-[var(--admin-text-muted)] hover:border-[var(--admin-border-strong)] hover:text-[var(--admin-text)]'
@@ -220,7 +215,7 @@ function QuickRepliesPopover({
               >
                 <span className="flex items-start justify-between gap-3">
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold text-[var(--admin-text)]">
+                    <span className="block truncate text-sm font-medium text-[var(--admin-text)]">
                       {reply.title}
                     </span>
                     <span className="mt-1 block max-h-10 overflow-hidden text-xs leading-5 text-[var(--admin-text-muted)]">
@@ -229,10 +224,10 @@ function QuickRepliesPopover({
                   </span>
 
                   <span className="flex shrink-0 flex-col items-end gap-1">
-                    <span className="rounded-md bg-[var(--admin-surface-2)] px-1.5 py-0.5 font-mono text-[11px] font-bold text-[var(--admin-accent)]">
+                    <span className="rounded-md bg-[var(--admin-surface-2)] px-1.5 py-0.5 font-mono text-[11px] font-medium text-[var(--admin-accent)]">
                       {reply.shortcut}
                     </span>
-                    <span className="text-[11px] font-semibold text-[var(--admin-text-subtle)]">
+                    <span className="text-[11px] font-medium text-[var(--admin-text-subtle)]">
                       {t('quickReplies.insert')}
                     </span>
                   </span>
@@ -249,7 +244,7 @@ function QuickRepliesPopover({
         <Link
           to="/admin/live-chat/quick-replies"
           onClick={() => setOpen(false)}
-          className="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold text-[var(--admin-accent)] transition-colors hover:bg-[var(--admin-accent-soft)]"
+          className="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-[var(--admin-accent)] transition-colors hover:bg-[var(--admin-accent-soft)]"
         >
           <span aria-hidden="true">+</span>
           {t('quickReplies.manage')}
@@ -263,7 +258,7 @@ function QuickRepliesPopover({
       trigger="click"
       placement="topLeft"
       open={open}
-      onOpenChange={nextOpen => setOpen(nextOpen)}
+      onOpenChange={nextOpen => setOpen(disabled ? false : nextOpen)}
       content={content}
       overlayClassName="admin-chat-quick-replies-popover"
     >
@@ -272,7 +267,7 @@ function QuickRepliesPopover({
         disabled={disabled}
         title={t('quickReplies.button')}
         aria-label={t('quickReplies.button')}
-        className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold text-[var(--admin-text-muted)] transition-colors hover:bg-[var(--admin-surface)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-50 sm:px-3 ${
+        className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-[var(--admin-text-muted)] transition-colors hover:bg-[var(--admin-surface)] hover:text-[var(--admin-text)] disabled:cursor-not-allowed disabled:opacity-50 sm:px-3 ${
           open ? 'bg-[var(--admin-surface)] text-[var(--admin-text)]' : ''
         }`}
       >
@@ -469,8 +464,10 @@ export default function ChatConversationPane({
   isNote,
   isResolved,
   isUploadingImage,
+  messagesHasMore,
   messages,
   messagesLoading,
+  messagesLoadingMore,
   messagesViewportRef,
   pendingImage,
   quickReplies,
@@ -485,6 +482,7 @@ export default function ChatConversationPane({
   onImageChange,
   onInsertQuickReply,
   onKeyDown,
+  onLoadOlderMessages,
   onOpenImagePreview,
   onOpenImagePicker,
   onReactToMessage,
@@ -519,6 +517,27 @@ export default function ChatConversationPane({
     setShowScrollToLatest(distanceFromBottom > SCROLL_TO_LATEST_THRESHOLD)
   }, [messagesViewportRef])
 
+  const syncMessageViewportScroll = useCallback(() => {
+    const viewport = messagesViewportRef.current
+
+    syncScrollToLatestButton()
+
+    if (!viewport || messagesLoading || messagesLoadingMore || !messagesHasMore) {
+      return
+    }
+
+    if (viewport.scrollTop <= LOAD_OLDER_MESSAGES_THRESHOLD) {
+      onLoadOlderMessages()
+    }
+  }, [
+    messagesHasMore,
+    messagesLoading,
+    messagesLoadingMore,
+    messagesViewportRef,
+    onLoadOlderMessages,
+    syncScrollToLatestButton
+  ])
+
   const scrollToLatestMessage = useCallback(() => {
     const viewport = messagesViewportRef.current
     if (!viewport) return
@@ -542,14 +561,14 @@ export default function ChatConversationPane({
     }
 
     syncScrollToLatestButton()
-    viewport.addEventListener('scroll', syncScrollToLatestButton, { passive: true })
+    viewport.addEventListener('scroll', syncMessageViewportScroll, { passive: true })
     window.addEventListener('resize', syncScrollToLatestButton)
 
     return () => {
-      viewport.removeEventListener('scroll', syncScrollToLatestButton)
+      viewport.removeEventListener('scroll', syncMessageViewportScroll)
       window.removeEventListener('resize', syncScrollToLatestButton)
     }
-  }, [messagesViewportRef, syncScrollToLatestButton])
+  }, [messagesViewportRef, syncMessageViewportScroll, syncScrollToLatestButton])
 
   useEffect(() => {
     const frameId = requestAnimationFrame(syncScrollToLatestButton)
@@ -650,18 +669,29 @@ export default function ChatConversationPane({
               </div>
             </div>
           ) : (
-            messages.map((message, index) => (
-              <AgentMessageBubble
-                key={message._id || index}
-                message={message}
-                onOpenImagePreview={onOpenImagePreview}
-                onReactToMessage={onReactToMessage}
-                reactionActor={reactionActor}
-              />
-            ))
+            <>
+              {messages.map((message, index) => (
+                <AgentMessageBubble
+                  key={message._id || index}
+                  message={message}
+                  onOpenImagePreview={onOpenImagePreview}
+                  onReactToMessage={onReactToMessage}
+                  reactionActor={reactionActor}
+                />
+              ))}
+            </>
           )}
           {customerTyping && <CustomerTypingIndicator name={customerName} src={customerAvatar} />}
         </div>
+
+        {messagesLoadingMore && (
+          <div className="pointer-events-none absolute left-0 right-0 top-3 z-10 flex justify-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface)_94%,transparent)] px-3 py-1.5 text-xs font-medium text-[var(--admin-text-muted)] shadow-sm backdrop-blur">
+              <Spin size="small" />
+              {t('sidebar.loadingMore')}
+            </div>
+          </div>
+        )}
 
         <button
           type="button"

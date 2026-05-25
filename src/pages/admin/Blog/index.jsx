@@ -1,5 +1,5 @@
 import { Button, Card, Dropdown, Image, Modal, Select, Table, message } from 'antd'
-import { AdminStatusTag, StatCard, StatGrid } from '@/components/admin/ui'
+import { StatusTag, StatCard, StatGrid } from '@/components/admin/ui'
 import { Archive, CalendarDays, Eye, Layers3, MoreHorizontal, Pencil, Plus, RefreshCw, Send, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -151,7 +151,7 @@ export default function Blog() {
         const localizedPost = getLocalizedPost(post, language)
         return (
           <div className="admin-blog-post-cell">
-            <Image src={post.thumbnail || FALLBACK_IMAGE} width={72} height={54} preview={false} className="admin-blog-post-cell__image" />
+            <Image src={post.thumbnail || FALLBACK_IMAGE} width={72} height={54} className="admin-blog-post-cell__image" />
             <div className="admin-blog-post-cell__body">
               <div className="admin-blog-post-cell__title">{localizedPost.title}</div>
               <div className="admin-blog-post-cell__slug">/{post.slug}</div>
@@ -185,9 +185,9 @@ export default function Blog() {
       key: 'status',
       width: 130,
       render: status => (
-        <AdminStatusTag color={statusColor[status] || 'default'} tone={getBlogStatusTone(status)}>
+        <StatusTag color={statusColor[status] || 'default'} tone={getBlogStatusTone(status)}>
           {t(`status.${status || 'draft'}`)}
-        </AdminStatusTag>
+        </StatusTag>
       )
     },
     {

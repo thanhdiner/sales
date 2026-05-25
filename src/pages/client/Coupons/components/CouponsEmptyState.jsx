@@ -6,7 +6,7 @@ const CouponsEmptyState = () => {
   const { t } = useTranslation('clientCoupons')
 
   return (
-    <Card className="py-12 text-center dark:bg-gray-800">
+    <Card className="coupons-empty-state py-12 text-center dark:bg-gray-800">
       <Empty description={<span className="dark:text-gray-100">{t('empty.noCoupons')}</span>} image={Empty.PRESENTED_IMAGE_SIMPLE} />
     </Card>
   )

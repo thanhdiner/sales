@@ -35,7 +35,7 @@ export default function ChatHeader({
         <ChevronDown className="w-4 h-4 rotate-90" />
       </button>
       <div className="flex items-center gap-2.5 flex-1 min-w-0">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm shadow-teal-500/20">
           {assignedAgent?.agentAvatar
             ? <img src={assignedAgent.agentAvatar} alt="" className="w-full h-full object-cover" />
             : assignedAgent

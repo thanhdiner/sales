@@ -82,22 +82,13 @@ body.admin-layout-active {
   min-width: 0;
 }
 
-.admin-product-create__form,
-.admin-product-create__card {
+.admin-product-create__form {
   min-width: 0;
 }
 
 .admin-product-create .ant-row,
 .admin-product-create .ant-col {
   min-width: 0;
-}
-
-.admin-product-create__card {
-  border: 1px solid var(--product-create-border);
-  border-radius: 14px;
-  background: var(--product-create-surface);
-  padding: 20px;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
 }
 
 .admin-product-create__label {

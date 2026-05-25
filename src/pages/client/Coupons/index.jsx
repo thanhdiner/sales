@@ -11,6 +11,7 @@ import CouponsSearchCard from './sections/CouponsSearchCard'
 import CouponsTabsCard from './sections/CouponsTabsCard'
 import CouponsTipsCard from './sections/CouponsTipsCard'
 import { getLocalizedPromoCode } from '@/utils/promoCodeLocalization'
+import './index.scss'
 
 const Coupon = () => {
   const { t, i18n } = useTranslation('clientCoupons')
@@ -20,19 +21,30 @@ const Coupon = () => {
   const [activeTab, setActiveTab] = useState('all')
   const [timeLeft, setTimeLeft] = useState({})
   const [coupons, setCoupons] = useState([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
+    let isMounted = true
+
     const fetchCoupons = async () => {
+      setLoading(true)
+
       try {
         const response = await getPromoCodes()
-        setCoupons(response.promoCodes || [])
+        if (isMounted) setCoupons(response.promoCodes || [])
       } catch {
-        message.error(t('message.loadFailed'))
+        if (isMounted) message.error(t('message.loadFailed'))
+      } finally {
+        if (isMounted) setLoading(false)
       }
     }
 
     fetchCoupons()
+
+    return () => {
+      isMounted = false
+    }
   }, [t])
 
   useEffect(() => {
@@ -90,17 +102,18 @@ const Coupon = () => {
   })
 
   return (
-    <div className="coupons-page min-h-screen rounded-xl bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 p-4 dark:bg-gray-950 dark:bg-none">
+    <div className="coupons-page">
       <SEO title={t('page.seo.title')} description={t('page.seo.description')} />
 
-      <div className="mx-auto max-w-7xl">
+      <div className="coupons-page__shell">
         <MobileBackButton />
         <CouponsHero />
-        <CouponsSearchCard searchText={searchText} onSearchChange={setSearchText} resultCount={filteredCoupons.length} />
+        <CouponsSearchCard searchText={searchText} onSearchChange={setSearchText} resultCount={loading ? 0 : filteredCoupons.length} />
         <CouponsTabsCard activeTab={activeTab} onTabChange={setActiveTab} />
         <CouponGrid
           coupons={filteredCoupons}
           copiedCoupons={copiedCoupons}
+          loading={loading}
           timeLeft={timeLeft}
           onCopyCoupon={handleCopyCoupon}
           onUseCoupon={handleUseCoupon}

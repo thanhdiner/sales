@@ -1,9 +1,5 @@
 import ApplyButton from './ApplyButton'
-import {
-  ResourceActionSelect,
-  ResourceAddButton,
-  ResourceBulkActions
-} from '@/components/admin/shared/ResourceManager'
+import { buildStatusBulkActions, ResourceBulkActionBar } from '@/components/admin/resources/ResourceManager'
 import useAdminPermissions from '@/hooks/admin/useAdminPermissions'
 import { useTranslation } from 'react-i18next'
 
@@ -24,56 +20,43 @@ function ProductCategoriesHeaderActions({
   const { t } = useTranslation('adminProductCategories')
   const permissions = useAdminPermissions()
 
-  const treeData = [
-    permissions.includes('delete_product_category') && {
-      title: t('bulk.actions.delete'),
-      value: 'delete'
-    },
-    permissions.includes('edit_product_category') && {
-      title: t('bulk.actions.changePosition'),
-      value: 'change-position'
-    },
-    permissions.includes('edit_product_category') && {
-      title: t('bulk.actions.changeStatus'),
-      value: 'change-status',
-      disabled: true,
-      children: [
-        {
-          title: t('status.active'),
-          value: 'status-active'
-        },
-        {
-          title: t('status.inactive'),
-          value: 'status-inactive'
-        }
-      ]
-    }
-  ].filter(Boolean)
+  const treeData = buildStatusBulkActions(t, permissions, {
+    canDelete: permissions.includes('delete_product_category'),
+    canEdit: permissions.includes('edit_product_category'),
+    deleteLabel: t('bulk.actions.delete'),
+    changePositionLabel: t('bulk.actions.changePosition'),
+    changeStatusLabel: t('bulk.actions.changeStatus'),
+    activeLabel: t('status.active'),
+    inactiveLabel: t('status.inactive')
+  })
 
   return (
-    <ResourceBulkActions
+    <ResourceBulkActionBar
       className="product-categories-header"
       rightClassName="product-categories-header-right"
       selectedCountClassName="admin-product-categories-selected-count"
+      selectedCount={selectedRowKeys.length}
       selectedLabel={t('bulk.selected', { count: selectedRowKeys.length })}
+      addConfig={
+        permissions.includes('create_product_category')
+          ? {
+              to: '/admin/product-categories/create',
+              buttonClassName: 'admin-product-categories-btn admin-product-categories-btn--add admin-resource-btn--add font-bold',
+              label: t('bulk.add')
+            }
+          : null
+      }
+      actionConfig={{
+        value,
+        treeData,
+        onChange: setValue,
+        placeholder: t('bulk.choiceAction'),
+        className: 'admin-product-categories-action-select',
+        popupClassName: 'admin-product-categories-popup admin-product-categories-action-popup',
+        dropdownClassName: 'admin-product-categories-popup admin-product-categories-action-popup',
+        getPopupContainer: trigger => trigger?.parentElement || document.body
+      }}
     >
-      {permissions.includes('create_product_category') && (
-        <ResourceAddButton
-          to="/admin/product-categories/create"
-          buttonClassName="admin-product-categories-btn admin-product-categories-btn--add font-bold"
-          label={t('bulk.add')}
-        />
-      )}
-      <ResourceActionSelect
-        value={value}
-        treeData={treeData}
-        onChange={setValue}
-        placeholder={t('bulk.choiceAction')}
-        className="admin-product-categories-action-select"
-        popupClassName="admin-product-categories-popup admin-product-categories-action-popup"
-        dropdownClassName="admin-product-categories-popup admin-product-categories-action-popup"
-        getPopupContainer={trigger => trigger?.parentElement || document.body}
-      />
       <ApplyButton
         {...{
           value,
@@ -90,7 +73,7 @@ function ProductCategoriesHeaderActions({
           fetchData
         }}
       />
-    </ResourceBulkActions>
+    </ResourceBulkActionBar>
   )
 }
 

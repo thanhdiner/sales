@@ -3,6 +3,19 @@ export const CLIENT_NOTIFICATIONS_STORAGE_KEY = 'client_order_notifications'
 export const CLIENT_NOTIFICATIONS_UPDATED_EVENT = 'client-notifications-updated'
 
 const isBrowser = typeof window !== 'undefined'
+const LEGACY_VI_NOTIFICATION_REPLACEMENTS = [
+  ['Cap nhat don hang', 'Cập nhật đơn hàng'],
+  ['Trang thai don:', 'Trạng thái đơn:'],
+  ['Thanh toan:', 'Thanh toán:'],
+  ['Cho xac nhan', 'Chờ xác nhận'],
+  ['Da xac nhan', 'Đã xác nhận'],
+  ['Dang giao hang', 'Đang giao hàng'],
+  ['Hoan thanh', 'Hoàn thành'],
+  ['Da huy', 'Đã hủy'],
+  ['Chua thanh toan', 'Chưa thanh toán'],
+  ['Da thanh toan', 'Đã thanh toán'],
+  ['Thanh toan that bai', 'Thanh toán thất bại']
+]
 
 export function getShortOrderId(orderId) {
   return String(orderId || '')
@@ -229,15 +242,15 @@ export function getNotificationUnreadDotClassName() {
 }
 
 export function getNotificationItemTitle(notif) {
-  return notif.title
+  return normalizeLegacyVietnameseNotificationText(notif.title)
 }
 
 export function getNotificationItemBody(notif) {
-  return notif.body
+  return normalizeLegacyVietnameseNotificationText(notif.body)
 }
 
 export function getNotificationItemTime(notif) {
-  return notif.time
+  return notif.time || notif.createdAt
 }
 
 export function getNotificationItemAriaLabel(notif, t) {
@@ -278,6 +291,36 @@ export function prependNotification(list, notification) {
   return [notification, ...list].slice(0, MAX_NOTIFICATIONS)
 }
 
+export function normalizeLegacyVietnameseNotificationText(value) {
+  if (!value) return value
+
+  return LEGACY_VI_NOTIFICATION_REPLACEMENTS.reduce(
+    (text, [legacy, replacement]) => text.replaceAll(legacy, replacement),
+    String(value)
+  )
+}
+
+export function normalizeServerNotification(notification = {}) {
+  const id = notification.id || notification.notificationId || notification._id
+  return {
+    ...notification,
+    id,
+    notificationId: id,
+    title: normalizeLegacyVietnameseNotificationText(notification.title),
+    body: normalizeLegacyVietnameseNotificationText(notification.body),
+    read: Boolean(notification.read ?? notification.readAt),
+    time: notification.time || notification.createdAt || new Date().toISOString(),
+    status: notification.status || notification.data?.status || notification.data?.paymentStatus || '',
+    orderId: notification.orderId || notification.targetId || null
+  }
+}
+
+export function mergeNotification(list, notification) {
+  const normalized = normalizeServerNotification(notification)
+  if (!normalized.id) return list
+  return [normalized, ...list.filter(item => item.id !== normalized.id)].slice(0, MAX_NOTIFICATIONS)
+}
+
 export function loadStoredNotifications() {
   if (!isBrowser) return []
 
@@ -286,7 +329,9 @@ export function loadStoredNotifications() {
     if (!raw) return []
 
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed.slice(0, MAX_NOTIFICATIONS) : []
+    return Array.isArray(parsed)
+      ? parsed.slice(0, MAX_NOTIFICATIONS).map(normalizeServerNotification)
+      : []
   } catch {
     return []
   }

@@ -3,11 +3,124 @@
   isolation: isolate;
 }
 
+.about-page__hero-shell {
+  position: relative;
+  min-height: 418px;
+  border: 1px solid rgba(254, 215, 170, 0.9);
+  background:
+    radial-gradient(circle at 76% 7%, rgba(251, 146, 60, 0.22), transparent 28%),
+    linear-gradient(103deg, #ffffff 0%, #ffffff 46%, #fff3e7 100%);
+  box-shadow: 0 22px 70px rgba(154, 75, 18, 0.09);
+}
+
+.about-page__hero-eyebrow {
+  letter-spacing: 0;
+}
+
+.about-page__benefits-card {
+  position: relative;
+}
+
+.about-page__benefits-heading {
+  position: relative;
+  z-index: 1;
+}
+
+.about-page__benefits-rule {
+  position: relative;
+  display: block;
+  width: clamp(64px, 12vw, 118px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ff8a2a 18%, #ff8a2a 82%, transparent);
+}
+
+.about-page__benefits-rule::before,
+.about-page__benefits-rule::after {
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  content: '';
+  border: 1px solid #ff8a2a;
+  border-radius: 999px;
+  background: #fffdfa;
+  transform: translateY(-50%);
+}
+
+.about-page__benefits-rule::before {
+  left: 0;
+}
+
+.about-page__benefits-rule::after {
+  right: 0;
+}
+
+.about-page__benefit-item + .about-page__benefit-item::before {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 1px;
+  height: 44px;
+  content: '';
+  background: #ff8a2a;
+  opacity: 0.7;
+}
+
+.about-page__benefits-dots,
+.about-page__benefits-wave {
+  position: absolute;
+  pointer-events: none;
+}
+
+.about-page__benefits-dots {
+  z-index: 0;
+  width: 62px;
+  height: 54px;
+  background-image: radial-gradient(circle, rgba(255, 125, 23, 0.55) 1.5px, transparent 1.7px);
+  background-size: 12px 12px;
+}
+
+.about-page__benefits-dots--left {
+  left: 12px;
+  top: 10px;
+}
+
+.about-page__benefits-dots--right {
+  right: 10px;
+  bottom: 22px;
+}
+
+.about-page__benefits-wave {
+  bottom: -22px;
+  width: 190px;
+  height: 58px;
+  border-radius: 999px 999px 0 0;
+  background: rgba(248, 214, 151, 0.42);
+}
+
+.about-page__benefits-wave--left {
+  left: -48px;
+  transform: rotate(10deg);
+}
+
+.about-page__benefits-wave--right {
+  right: -40px;
+  transform: rotate(-8deg);
+}
+
 .about-page__surface,
 .about-page__surface-soft,
 .about-page__mini-card,
+.about-page__hero-shell,
 .about-page__image-frame,
 .about-page__image-canvas,
+.about-page__owner-template,
+.about-page__owner-stat-icon,
+.about-page__hero-orbit,
+.about-page__hero-dot-grid,
+.about-page__hero-pill,
+.about-page__hero-corner,
+.about-page__floating-icon,
 .about-page__timeline-card,
 .about-page__cta,
 .about-page__secondary-button,
@@ -17,6 +130,381 @@
     border-color 0.2s ease,
     box-shadow 0.2s ease,
     color 0.2s ease;
+}
+
+.about-page__hero-orbit,
+.about-page__hero-dot-grid,
+.about-page__hero-pill,
+.about-page__hero-corner,
+.about-page__floating-icon {
+  position: absolute;
+  pointer-events: none;
+}
+
+.about-page__hero-orbit {
+  z-index: 1;
+  border-radius: 999px;
+  opacity: 1;
+}
+
+.about-page__hero-orbit--primary {
+  right: 5%;
+  top: -3%;
+  width: clamp(250px, 31vw, 420px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(249, 115, 22, 0.3);
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.13), transparent 67%);
+}
+
+.about-page__hero-orbit--secondary {
+  right: -9%;
+  top: -9%;
+  width: clamp(330px, 42vw, 560px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(249, 115, 22, 0.15);
+  background: transparent;
+}
+
+.about-page__hero-dot-grid {
+  right: 5%;
+  top: 28%;
+  z-index: 1;
+  width: 58px;
+  height: 78px;
+  opacity: 0.58;
+  background-image: radial-gradient(circle, rgba(249, 115, 22, 0.55) 1.8px, transparent 2.1px);
+  background-size: 13px 13px;
+}
+
+.about-page__floating-icon {
+  z-index: 4;
+  display: grid;
+  width: 78px;
+  height: 78px;
+  place-items: center;
+  border: 1px solid rgba(254, 215, 170, 0.9);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #f97316;
+  box-shadow: 0 18px 35px rgba(154, 75, 18, 0.14);
+}
+
+.about-page__floating-icon--shield {
+  left: 7%;
+  top: 8%;
+}
+
+.about-page__floating-icon--cart {
+  right: 8%;
+  bottom: 8%;
+}
+
+.about-page__hero-person {
+  filter: drop-shadow(0 22px 28px rgba(67, 38, 129, 0.1));
+}
+
+.about-page__owner-template {
+  box-shadow: 0 22px 60px rgba(255, 122, 18, 0.1);
+}
+
+.about-page__owner-title {
+  letter-spacing: 0;
+}
+
+.about-page__owner-stat-icon {
+  border: 1px solid #ff7a12;
+  background: #ffffff;
+  color: #ff6b00;
+  box-shadow: 0 9px 18px rgba(255, 122, 18, 0.1);
+}
+
+.about-page__owner-dot-grid {
+  position: absolute;
+  z-index: 1;
+  width: 76px;
+  height: 92px;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 106, 0, 0.6) 1.5px, transparent 1.8px);
+  background-size: 12px 12px;
+}
+
+.about-page__owner-dot-grid--center {
+  left: 51%;
+  top: 27%;
+  opacity: 0.8;
+}
+
+.about-page__owner-dot-grid--right {
+  right: 18px;
+  top: 66px;
+  opacity: 0.36;
+}
+
+.about-page__owner-blob,
+.about-page__owner-outline {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.about-page__owner-blob {
+  background: #ff8b35;
+}
+
+.about-page__owner-blob--top {
+  right: 46px;
+  top: 30px;
+  width: 82px;
+  height: 82px;
+  clip-path: polygon(24% 8%, 55% 0, 87% 20%, 100% 54%, 80% 91%, 42% 100%, 12% 78%, 0 38%);
+  opacity: 0.9;
+}
+
+.about-page__owner-blob--bottom {
+  right: -12px;
+  bottom: 44px;
+  width: 176px;
+  height: 190px;
+  clip-path: polygon(55% 0, 100% 18%, 95% 76%, 55% 100%, 8% 78%, 0 28%);
+  opacity: 0.98;
+}
+
+.about-page__owner-outline--top {
+  left: 17%;
+  top: 27px;
+  width: 290px;
+  height: 40px;
+  border-top: 2px solid #ff6b00;
+  border-left: 2px solid #ff6b00;
+  border-radius: 44% 56% 0 0;
+  transform: rotate(-2deg);
+}
+
+.about-page__owner-outline--side {
+  left: 10%;
+  top: 40px;
+  width: 360px;
+  height: 330px;
+  border: 2px solid rgba(255, 106, 0, 0.72);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 48% 52% 44% 56%;
+  transform: rotate(-15deg);
+}
+
+.about-page__owner-photo-wrap,
+.about-page__owner-photo {
+  clip-path: polygon(26% 0, 74% 0, 100% 28%, 90% 75%, 56% 100%, 15% 88%, 0 48%);
+}
+
+.about-page__owner-photo-wrap {
+  left: 13%;
+  top: 46px;
+  z-index: 3;
+  width: min(68%, 390px);
+  height: calc(100% - 98px);
+  min-height: 312px;
+  border: 2px solid #ff6b00;
+  background: #fff3e8;
+  padding: 8px;
+  filter: drop-shadow(0 20px 34px rgba(255, 122, 18, 0.16));
+}
+
+.about-page__owner-photo {
+  display: block;
+}
+
+.about-page__hero-pill {
+  z-index: 4;
+  width: 92px;
+  height: 13px;
+  border-radius: 999px;
+  opacity: 0.82;
+  transform: rotate(-24deg);
+}
+
+.about-page__hero-pill--blue {
+  left: 4%;
+  top: 15%;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0), rgba(37, 99, 235, 0.58));
+}
+
+.about-page__hero-pill--green {
+  right: 4%;
+  top: 14%;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0), rgba(16, 185, 129, 0.52));
+}
+
+.about-page__hero-corner {
+  z-index: 4;
+  width: 82px;
+  height: 82px;
+  border: 3px solid rgba(37, 99, 235, 0.5);
+  opacity: 0.7;
+}
+
+.about-page__hero-corner--top {
+  right: 5%;
+  top: 10%;
+  border-bottom: 0;
+  border-left: 0;
+  border-top-right-radius: 28px;
+}
+
+.about-page__hero-corner--bottom {
+  left: 5%;
+  bottom: 12%;
+  border-top: 0;
+  border-right: 0;
+  border-bottom-left-radius: 28px;
+  border-color: rgba(16, 185, 129, 0.48);
+}
+
+@media (max-width: 767px) {
+  .about-page__hero-shell {
+    background:
+      radial-gradient(circle at 68% 40%, rgba(251, 146, 60, 0.16), transparent 34%),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 54%, #fff3e7 100%);
+  }
+
+  .about-page__hero-orbit--primary {
+    right: 0;
+    top: 45%;
+    width: 250px;
+  }
+
+  .about-page__hero-orbit--secondary {
+    right: -34%;
+    top: 36%;
+    width: 360px;
+  }
+
+  .about-page__hero-dot-grid {
+    right: 4%;
+    top: 55%;
+    width: 64px;
+    height: 48px;
+    background-size: 16px 16px;
+  }
+
+  .about-page__floating-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .about-page__floating-icon--shield {
+    left: 8%;
+    top: 49%;
+  }
+
+  .about-page__floating-icon--cart {
+    right: 8%;
+    bottom: 8%;
+  }
+
+  .about-page__hero-pill--blue {
+    left: 5%;
+  }
+
+  .about-page__hero-pill--green {
+    right: 6%;
+  }
+
+  .about-page__hero-corner {
+    width: 56px;
+    height: 56px;
+  }
+
+  .about-page__owner-template {
+    min-height: auto;
+  }
+
+  .about-page__owner-title {
+    max-width: 290px;
+  }
+
+  .about-page__owner-copy {
+    max-width: none;
+  }
+
+  .about-page__owner-stat-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .about-page__owner-media {
+    min-height: 360px;
+  }
+
+  .about-page__owner-photo-wrap {
+    left: 50%;
+    top: 34px;
+    width: min(72%, 310px);
+    height: 280px;
+    min-height: 0;
+    transform: translateX(-50%);
+  }
+
+  .about-page__owner-ribbon {
+    bottom: 22px;
+  }
+
+  .about-page__owner-dot-grid--center {
+    display: none;
+  }
+
+  .about-page__owner-outline--top {
+    left: 14%;
+    width: 230px;
+  }
+
+  .about-page__owner-outline--side {
+    left: 11%;
+    top: 42px;
+    width: 278px;
+    height: 258px;
+  }
+
+  .about-page__owner-blob--top {
+    right: 22px;
+    width: 66px;
+    height: 66px;
+  }
+
+  .about-page__owner-blob--bottom {
+    right: -30px;
+    bottom: 38px;
+    width: 132px;
+    height: 148px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-page__benefits-card {
+    padding-top: 18px;
+  }
+
+  .about-page__benefits-rule {
+    width: min(16vw, 58px);
+  }
+
+  .about-page__benefit-item {
+    padding-bottom: 18px;
+  }
+
+  .about-page__benefit-item:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 138, 42, 0.26);
+  }
+
+  .about-page__benefit-item + .about-page__benefit-item::before {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .about-page__hero-shell {
+    grid-template-columns: 1fr 0.9fr;
+  }
 }
 
 html.dark body:not(.admin-layout-active) .about-page {
@@ -52,6 +540,7 @@ html.dark body:not(.admin-layout-active) .about-page__cta {
 
 html.dark body:not(.admin-layout-active) .about-page__surface-soft,
 html.dark body:not(.admin-layout-active) .about-page__mini-card,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell,
 html.dark body:not(.admin-layout-active) .about-page__image-frame,
 html.dark body:not(.admin-layout-active) .about-page__image-canvas,
 html.dark body:not(.admin-layout-active) .about-page__milestone {
@@ -125,6 +614,27 @@ html.dark body:not(.admin-layout-active) .about-page__primary-button:hover {
   box-shadow: none !important;
 }
 
+html.dark body:not(.admin-layout-active) .about-page__cta {
+  border-color: #fed7aa !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 42px rgba(249, 115, 22, 0.12) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta h2 {
+  color: #431407 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta .about-page__muted {
+  color: #7c2d12 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta-button,
+html.dark body:not(.admin-layout-active) .about-page__cta-button:hover {
+  background: #f97316 !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28) !important;
+}
+
 html.dark body:not(.admin-layout-active) .about-page__secondary-button {
   border-color: var(--client-dark-border) !important;
   background: var(--client-dark-surface-2) !important;
@@ -142,6 +652,14 @@ html.dark body:not(.admin-layout-active) .about-page__cta-decor {
   background: var(--client-dark-surface-3) !important;
   border-color: var(--client-dark-surface-3) !important;
   opacity: 0.55;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-orbit,
+html.dark body:not(.admin-layout-active) .about-page__hero-dot-grid,
+html.dark body:not(.admin-layout-active) .about-page__hero-pill,
+html.dark body:not(.admin-layout-active) .about-page__hero-corner {
+  opacity: 0.7;
+  box-shadow: none;
 }
 
 html.dark body:not(.admin-layout-active) .about-page__timeline-inner,
@@ -163,12 +681,237 @@ html.dark body:not(.admin-layout-active) .about-page__owner-rail {
 }
 
 html.dark body:not(.admin-layout-active) .about-page__owner-ribbon {
-  background:
-    linear-gradient(90deg, rgba(34, 197, 94, 0.9), rgba(59, 130, 246, 0.86)) !important;
+  background: #ff7a12 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template {
+  border-color: #ff8a2a !important;
+  background: #fffaf7 !important;
+  box-shadow: 0 22px 60px rgba(255, 122, 18, 0.1) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-title,
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__stat-label {
+  color: #050505 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-copy {
+  color: #4d4d4d !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-stat-icon {
+  border-color: #ff7a12 !important;
+  background: #ffffff !important;
+  color: #ff6b00 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-media {
+  background: transparent !important;
 }
 
 html.dark body:not(.admin-layout-active) .about-page__skeleton {
   background:
     linear-gradient(90deg, #171a1d 25%, #23272c 37%, #171a1d 63%) !important;
   background-size: 400% 100% !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell {
+  border-color: rgba(254, 215, 170, 0.9) !important;
+  background:
+    radial-gradient(circle at 76% 7%, rgba(251, 146, 60, 0.22), transparent 28%),
+    linear-gradient(103deg, #ffffff 0%, #ffffff 46%, #fff3e7 100%) !important;
+  box-shadow: 0 22px 70px rgba(154, 75, 18, 0.09) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__image-canvas {
+  background: transparent !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__image-frame {
+  background: transparent !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__hero-title,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__rating-value {
+  color: #2b1307 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__lead {
+  color: #5a3928 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__hero-eyebrow {
+  color: #f97316 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__mini-card,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__floating-icon {
+  border-color: #ffead5 !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 34px rgba(154, 75, 18, 0.1) !important;
+  color: #f97316 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__primary-button {
+  background: #f97316 !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 26px rgba(249, 115, 22, 0.28) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__secondary-button {
+  border-color: #fed7aa !important;
+  background: #ffffff !important;
+  color: #c2410c !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card {
+  border-color: #ff8a2a !important;
+  background: #fffdfa !important;
+  color: #111111 !important;
+  box-shadow: 0 8px 24px rgba(255, 126, 26, 0.08) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__section-title {
+  color: #ff650f !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__item-title {
+  color: #111111 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__muted {
+  color: #555555 !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__icon-pill {
+  background: linear-gradient(135deg, #ff9c1f, #ff5f0b) !important;
+  color: #ffffff !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell {
+  border-color: var(--client-dark-border) !important;
+  background:
+    radial-gradient(circle at 72% 24%, rgba(249, 115, 22, 0.18), transparent 34%),
+    radial-gradient(circle at 16% 8%, rgba(34, 197, 94, 0.08), transparent 30%),
+    linear-gradient(103deg, var(--client-dark-surface) 0%, var(--client-dark-surface-2) 52%, #10100f 100%) !important;
+  color: var(--client-dark-text) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 22px 70px rgba(0, 0, 0, 0.28) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__hero-title,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__rating-value {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__lead,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__subtle {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__hero-eyebrow,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__accent {
+  color: #fb923c !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__mini-card,
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__floating-icon {
+  border-color: var(--client-dark-border) !important;
+  background: rgba(16, 18, 19, 0.9) !important;
+  color: #fb923c !important;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__secondary-button,
+html.dark body:not(.admin-layout-active) .about-page__secondary-button {
+  border-color: var(--client-dark-border) !important;
+  background: var(--client-dark-surface-2) !important;
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__hero-shell .about-page__secondary-button:hover,
+html.dark body:not(.admin-layout-active) .about-page__secondary-button:hover {
+  border-color: var(--client-dark-border-strong) !important;
+  background: var(--client-dark-surface-3) !important;
+  color: #fb923c !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__floating-icon,
+html.dark body:not(.admin-layout-active) .about-page__owner-stat-icon,
+html.dark body:not(.admin-layout-active) .about-page__milestone {
+  border-color: var(--client-dark-border) !important;
+  background: var(--client-dark-surface-3) !important;
+  color: #fb923c !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card {
+  border-color: rgba(249, 115, 22, 0.44) !important;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(249, 115, 22, 0.12), transparent 26%),
+    var(--client-dark-surface) !important;
+  color: var(--client-dark-text) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__section-title,
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__item-title {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-card .about-page__muted {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__benefits-rule::before,
+html.dark body:not(.admin-layout-active) .about-page__benefits-rule::after {
+  background: var(--client-dark-surface) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template {
+  border-color: var(--client-dark-border) !important;
+  background:
+    radial-gradient(circle at 100% 26%, rgba(249, 115, 22, 0.16), transparent 30%),
+    var(--client-dark-surface) !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-title,
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__stat-label {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-copy {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-template .about-page__owner-stat-icon {
+  border-color: var(--client-dark-border) !important;
+  background: rgba(249, 115, 22, 0.12) !important;
+  color: #fb923c !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__owner-photo-wrap {
+  background: var(--client-dark-surface-2) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta {
+  border-color: var(--client-dark-border) !important;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(249, 115, 22, 0.12), transparent 30%),
+    var(--client-dark-surface) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta h2 {
+  color: var(--client-dark-text) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta .about-page__muted {
+  color: var(--client-dark-muted) !important;
+}
+
+html.dark body:not(.admin-layout-active) .about-page__cta-decor {
+  background: rgba(249, 115, 22, 0.16) !important;
+  border-color: rgba(249, 115, 22, 0.28) !important;
 }

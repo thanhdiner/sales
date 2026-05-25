@@ -1,0 +1,22 @@
+.admin-ai-provider-detail {
+  .admin-chatbot-card.ant-card,
+  .ant-card {
+    border-radius: 8px !important;
+  }
+
+  .ant-card-head {
+    border-radius: 8px 8px 0 0 !important;
+  }
+
+  .ant-card-body {
+    border-radius: 0 0 8px 8px !important;
+  }
+
+  .ant-btn-primary {
+    border-radius: 8px !important;
+  }
+
+  .admin-ai-provider-model-item {
+    border-radius: 8px;
+  }
+}

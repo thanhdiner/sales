@@ -1,10 +1,12 @@
-import { Button, Empty, Spin, Tag } from 'antd'
-import { ArrowRight, CalendarDays, Clock3, Home, Share2, ShoppingBag } from 'lucide-react'
+import { Button, Empty, Input, Modal, Tag, message } from 'antd'
+import { ArrowRight, CalendarDays, Clock3, Copy, Home, Mail, Share2, ShoppingBag, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaFacebookF, FaLinkedinIn, FaTwitter, FaWhatsapp } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 
 import SEO from '@/components/shared/SEO'
+import { useRegisterPageEntity } from '@/features/chat/pageContext/PageContextProvider'
 import useCurrentLanguage from '@/hooks/shared/useCurrentLanguage'
 import { getBlogPostBySlug, getBlogPosts } from '@/services/client/content/blog'
 import { getCmsPage } from '@/services/client/content/cmsPage'
@@ -65,7 +67,7 @@ function slugifyHeading(value, index) {
   const slug = String(value || '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
   return slug || `section-${index + 1}`
@@ -133,6 +135,44 @@ function extractHeadings(content) {
     .slice(0, 8)
 }
 
+function getPlainTextFromHtml(html) {
+  const value = String(html || '')
+  if (typeof window === 'undefined') return value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+
+  const template = document.createElement('template')
+  template.innerHTML = value
+  return template.content.textContent.replace(/\s+/g, ' ').trim()
+}
+
+function buildBlogPageContext(post) {
+  const route = typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search || ''}` : ''
+  const description = getPlainTextFromHtml(post?.excerpt || post?.seo?.description || post?.content).slice(0, 1000)
+
+  return {
+    route,
+    pageType: 'blog_detail',
+    entity: post ? {
+      type: 'blog_post',
+      id: post._id,
+      slug: post.slug,
+      title: post.title,
+      description,
+      category: getDisplayText(post.category)
+    } : null
+  }
+}
+
+function getDisplayText(value) {
+  if (!value) return ''
+  if (typeof value === 'string' || typeof value === 'number') return String(value)
+  if (typeof value === 'object') return value.name || value.title || value.slug || value._id || ''
+  return ''
+}
+
+function getStableKey(value, index) {
+  if (value && typeof value === 'object') return value._id || value.slug || value.name || `item-${index}`
+  return String(value || `item-${index}`)
+}
 function getProductName(product) {
   if (!product || typeof product !== 'object') return ''
   return product.productName || product.name || product.title || product.slug || product._id || ''
@@ -143,56 +183,291 @@ function getProductUrl(product) {
   return product.slug ? `/products/${product.slug}` : '/products'
 }
 
-function BlogDetailSection({ section, post, sanitizedContent, headings, readTime, relatedProducts, relatedPosts, language, t }) {
+function buildShareUrls({ title, url }) {
+  const encodedUrl = encodeURIComponent(url)
+  const encodedTitle = encodeURIComponent(title || '')
+
+  return {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+    email: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`
+  }
+}
+
+async function copyTextToClipboard(value) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value)
+    return
+  }
+
+  const textarea = document.createElement('textarea')
+  textarea.value = value
+  textarea.setAttribute('readonly', '')
+  textarea.style.position = 'fixed'
+  textarea.style.opacity = '0'
+  document.body.appendChild(textarea)
+  textarea.select()
+
+  try {
+    const copied = document.execCommand('copy')
+    if (!copied) throw new Error('Copy command failed')
+  } finally {
+    document.body.removeChild(textarea)
+  }
+}
+
+function SharePostModal({ open, onClose, post, postUrl }) {
+  const [copiedMessage, contextHolder] = message.useMessage()
+  const shareUrls = useMemo(() => buildShareUrls({ title: post?.title, url: postUrl }), [post?.title, postUrl])
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=168x168&data=${encodeURIComponent(postUrl)}`
+
+  const handleCopy = async () => {
+    try {
+      await copyTextToClipboard(postUrl)
+      copiedMessage.success('Link copied')
+    } catch {
+      copiedMessage.error('Could not copy link')
+    }
+  }
+
+  const shareItems = [
+    { key: 'facebook', label: 'Facebook', icon: <FaFacebookF />, className: 'blog-share-action--facebook', href: shareUrls.facebook },
+    { key: 'twitter', label: 'Twitter', icon: <FaTwitter />, className: 'blog-share-action--twitter', href: shareUrls.twitter },
+    { key: 'linkedin', label: 'LinkedIn', icon: <FaLinkedinIn />, className: 'blog-share-action--linkedin', href: shareUrls.linkedin },
+    { key: 'whatsapp', label: 'WhatsApp', icon: <FaWhatsapp />, className: 'blog-share-action--whatsapp', href: shareUrls.whatsapp },
+    { key: 'email', label: 'Email', icon: <Mail />, className: 'blog-share-action--email', href: shareUrls.email }
+  ]
+
+  return (
+    <Modal
+      centered
+      className="blog-share-modal"
+      footer={null}
+      open={open}
+      title={null}
+      width={560}
+      onCancel={onClose}
+    >
+      {contextHolder}
+      <div className="blog-share-modal__header">
+        <h2>Share this post</h2>
+        <p>Share this article with your friends and followers.</p>
+      </div>
+
+      <div className="blog-share-actions" aria-label="Share channels">
+        {shareItems.map(item => (
+          <a
+            className={`blog-share-action ${item.className}`}
+            href={item.href}
+            key={item.key}
+            rel="noopener noreferrer"
+            target={item.key === 'email' ? undefined : '_blank'}
+          >
+            <span className="blog-share-action__icon">{item.icon}</span>
+            <span>{item.label}</span>
+          </a>
+        ))}
+      </div>
+
+      <div className="blog-share-copy">
+        <label htmlFor="blog-share-link">Copy link</label>
+        <div className="blog-share-copy__row">
+          <Input id="blog-share-link" readOnly value={postUrl} />
+          <Button onClick={handleCopy}>Copy</Button>
+        </div>
+      </div>
+
+      <div className="blog-share-qr">
+        <span>Or scan QR code</span>
+        <img src={qrCodeUrl} alt="QR code for this post" />
+      </div>
+    </Modal>
+  )
+}
+
+function BlogDetailSection({ section, post, sanitizedContent, headings, readTime, relatedProducts, relatedPosts, language, t, onShareClick }) {
   const settings = section.settings || {}
 
   if (section.type === 'post_header') {
+    const categoryName = getDisplayText(post.category)
+
     return (
       <article className="blog-detail-hero">
+        <div className="blog-detail-hero__masthead">
+          <span>SMARTMALL BLOG</span>
+          <span>{categoryName || t('breadcrumb.blog')}</span>
+        </div>
+        <h1>{post.title}</h1>
+        <div className="blog-detail-hero__ticker">
+          <strong>NEWS TICKER+++</strong>
+          <span>{post.excerpt || post.title}</span>
+        </div>
         <div className="blog-detail-hero__copy">
-          {post.category ? <Tag>{post.category}</Tag> : null}
-          <h1>{post.title}</h1>
-          {post.excerpt ? <p>{post.excerpt}</p> : null}
+          <div className="blog-detail-hero__lead">
+            <span>{categoryName || t('breadcrumb.blog')}</span>
+            {post.excerpt ? <p>{post.excerpt}</p> : null}
+          </div>
           <div className="blog-detail-meta">
             <span>{t('labels.author')}</span>
             {post.publishedAt ? <span><CalendarDays className="blog-detail-icon" />{formatDate(post.publishedAt, language)}</span> : null}
             <span><Clock3 className="blog-detail-icon" />{t('labels.readTime', { count: readTime })}</span>
-            {settings.showShare === false ? null : <Button icon={<Share2 className="blog-detail-icon" />} onClick={() => navigator.clipboard?.writeText(window.location.href)}>{t('detail.share')}</Button>}
+            {categoryName ? <Tag>{categoryName}</Tag> : null}
+            {settings.showShare === false ? null : <Button icon={<Share2 className="blog-detail-icon" />} onClick={onShareClick}>{t('detail.share')}</Button>}
           </div>
         </div>
-        <img src={post.thumbnail || FALLBACK_IMAGE} alt={post.title} />
+        <img className="blog-detail-hero__image" src={post.thumbnail || FALLBACK_IMAGE} alt={post.title} />
       </article>
     )
   }
 
   if (section.type === 'post_content') {
-    return <section className="blog-detail-layout"><article className="blog-detail-content"><div className="blog-detail-rich-content" dangerouslySetInnerHTML={{ __html: sanitizedContent }} /></article></section>
+    const plainContent = getPlainTextFromHtml(sanitizedContent)
+
+    const handleCopyContent = async () => {
+      try {
+        if (!navigator.clipboard) throw new Error('Clipboard unavailable')
+        await navigator.clipboard.writeText(plainContent)
+        message.success(t('detail.copyContentSuccess', { defaultValue: 'Content copied' }))
+      } catch {
+        message.error(t('detail.copyContentError', { defaultValue: 'Could not copy content' }))
+      }
+    }
+
+    const handleSummarizeContent = () => {
+      window.dispatchEvent(new CustomEvent('smartmall:chat-send', {
+        detail: {
+          message: 'Tóm tắt trang này',
+          currentPage: window.location.pathname,
+          pageContext: buildBlogPageContext(post)
+        }
+      }))
+    }
+
+    return (
+      <section className="blog-detail-layout">
+        <article className="blog-detail-content">
+          <div className="blog-detail-content__tools">
+            <Button icon={<Sparkles className="blog-detail-icon" />} onClick={handleSummarizeContent}>
+              {t('detail.summarizeContent', { defaultValue: 'Tóm tắt' })}
+            </Button>
+            <Button icon={<Copy className="blog-detail-icon" />} onClick={handleCopyContent}>
+              {t('detail.copyContent', { defaultValue: 'Copy content' })}
+            </Button>
+          </div>
+          <div className="blog-detail-rich-content" dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+        </article>
+      </section>
+    )
   }
 
   if (section.type === 'table_of_contents') {
-    return <section className="blog-detail-sidebar-card blog-detail-toc blog-container"><h2>{settings.title || t('sections.toc')}</h2>{headings.length ? headings.map(item => <a className={item.level === 'h3' ? 'blog-detail-toc__sub' : ''} href={`#${item.id}`} key={item.id}>{item.title}</a>) : <span>{t('messages.noToc')}</span>}</section>
+    return headings.length ? <section className="blog-detail-sidebar-card blog-detail-toc"><h2>{settings.title || t('sections.toc')}</h2>{headings.map(item => <a className={item.level === 'h3' ? 'blog-detail-toc__sub' : ''} href={`#${item.id}`} key={item.id}>{item.title}</a>)}</section> : null
   }
 
   if (section.type === 'related_products') {
     const items = relatedProducts.slice(0, Number(settings.limit) || 3)
-    return <section className="blog-detail-sidebar-card blog-container"><h2>{settings.title || t('sections.relatedProducts')}</h2><div className="blog-product-stack">{items.length ? items.map(product => <Link to={getProductUrl(product)} className="blog-product-card" key={product._id || getProductName(product)}><ShoppingBag className="blog-detail-icon" /><span>{getProductName(product)}</span><ArrowRight className="blog-detail-icon" /></Link>) : [1, 2, 3].map(item => <Link to="/products" className="blog-product-card" key={item}><ShoppingBag className="blog-detail-icon" /><span>{t('detail.productPlaceholder')}</span><ArrowRight className="blog-detail-icon" /></Link>)}</div></section>
+    return items.length ? <section className="blog-detail-sidebar-card"><h2>{settings.title || t('sections.relatedProducts')}</h2><div className="blog-product-stack">{items.map(product => <Link to={getProductUrl(product)} className="blog-product-card" key={product._id || getProductName(product)}><ShoppingBag className="blog-detail-icon" /><span>{getProductName(product)}</span><ArrowRight className="blog-detail-icon" /></Link>)}</div></section> : null
   }
 
   if (section.type === 'tags') {
-    return Array.isArray(post.tags) && post.tags.length ? <section className="blog-detail-tags"><span>{settings.title || t('sections.tags')}</span><div>{post.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}</div></section> : null
+    return Array.isArray(post.tags) && post.tags.length ? <section className="blog-detail-tags"><span>{settings.title || t('sections.tags')}</span><div>{post.tags.map((tag, index) => getDisplayText(tag) ? <Tag key={getStableKey(tag, index)}>{getDisplayText(tag)}</Tag> : null)}</div></section> : null
   }
 
   if (section.type === 'related_posts') {
-    return <section className="blog-detail-related"><h2>{settings.title || t('sections.relatedPosts')}</h2><div className="blog-related-posts">{relatedPosts.slice(0, Number(settings.limit) || 3).map(item => <Link to={`/blog/${item.slug}`} className="blog-related-card" key={item._id}><img src={item.thumbnail || FALLBACK_IMAGE} alt={item.title} />{item.category ? <span>{item.category}</span> : null}<strong>{item.title}</strong></Link>)}</div></section>
+    return (
+      <section className="blog-detail-related">
+        <h2>{settings.title || t('sections.relatedPosts')}</h2>
+        <div className="blog-related-posts">
+          {relatedPosts.slice(0, Number(settings.limit) || 3).map(item => (
+            <Link to={`/blog/${item.slug}`} className="blog-related-card" key={item._id}>
+              <img src={item.thumbnail || FALLBACK_IMAGE} alt={item.title} />
+              <div className="blog-related-card__body">
+                {getDisplayText(item.category) ? <span className="blog-related-card__category">{getDisplayText(item.category)}</span> : null}
+                <strong>{item.title}</strong>
+                {item.excerpt ? <p>{item.excerpt}</p> : null}
+                <small>
+                  {item.publishedAt ? <>{formatDate(item.publishedAt, language)}<span>•</span></> : null}
+                  {t('labels.readTime', { count: estimateReadTime(item.content || item.excerpt) })}
+                </small>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    )
   }
 
   if (section.type === 'cta') {
-    return <section className="blog-detail-cta blog-container"><strong>{settings.title || t('detail.ctaTitle')}</strong><span>{settings.description || t('detail.ctaDescription')}</span><Button type="primary" href={settings.primaryUrl || '/products'}>{settings.primaryText || t('detail.ctaAction')}</Button></section>
+    return (
+      <section className="blog-detail-cta">
+        <div className="blog-detail-cta__body">
+          <strong>{settings.title || t('detail.ctaTitle')}</strong>
+          <span>{settings.description || t('detail.ctaDescription')}</span>
+          <Button href={settings.primaryUrl || '/products'}>
+            <span>{settings.primaryText || t('detail.ctaAction')}</span>
+            <ArrowRight className="blog-detail-cta__button-icon" />
+          </Button>
+        </div>
+        <div className="blog-detail-cta__art" aria-hidden="true">
+          <img className="blog-detail-cta__gift" src="/images/box.png" alt="" loading="lazy" />
+        </div>
+      </section>
+    )
   }
 
-  if (section.type === 'author_box') return <section className="blog-detail-sidebar-card blog-container"><h2>{settings.title || 'Author'}</h2><span>{t('labels.author')}</span></section>
-  if (section.type === 'comments') return <section className="blog-detail-sidebar-card blog-container"><h2>{settings.title || 'Comments'}</h2><Empty /></section>
+  if (section.type === 'author_box') return <section className="blog-detail-sidebar-card"><h2>{settings.title || 'Author'}</h2><span>{t('labels.author')}</span></section>
+  if (section.type === 'comments') return <section className="blog-detail-sidebar-card"><h2>{settings.title || 'Comments'}</h2><Empty /></section>
   return null
+}
+
+function BlogDetailLoading({ text }) {
+  return (
+    <main className="blog-detail-page" aria-busy="true">
+      <section className="blog-detail-loading">
+        <div className="blog-detail-loading__masthead">
+          <span className="blog-detail-loading__line blog-detail-loading__line--kicker" />
+          <span className="blog-detail-loading__line blog-detail-loading__line--kicker" />
+        </div>
+
+        <div className="blog-detail-loading__headline">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="blog-detail-loading__ticker">
+          <span>{text}</span>
+          <i />
+        </div>
+
+        <div className="blog-detail-loading__copy">
+          <div>
+            <span className="blog-detail-loading__line blog-detail-loading__line--lead" />
+            <span className="blog-detail-loading__line blog-detail-loading__line--lead-short" />
+          </div>
+          <div className="blog-detail-loading__meta">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
+        <div className="blog-detail-loading__image" />
+      </section>
+
+      <section className="blog-detail-layout">
+        <article className="blog-detail-content blog-detail-loading__content">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </article>
+      </section>
+    </main>
+  )
 }
 
 export default function BlogDetail() {
@@ -204,6 +479,7 @@ export default function BlogDetail() {
   const [templatePage, setTemplatePage] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [shareOpen, setShareOpen] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -211,6 +487,7 @@ export default function BlogDetail() {
     const fetchPost = async () => {
       setLoading(true)
       setError('')
+      setPost(null)
 
       try {
         const [postResponse, postsResponse, templateResponse] = await Promise.allSettled([
@@ -239,24 +516,40 @@ export default function BlogDetail() {
     }
   }, [slug, t])
 
-  const sanitizedContent = useMemo(() => sanitizeRichHtml(post?.content || post?.excerpt), [post?.content, post?.excerpt])
-  const headings = useMemo(() => extractHeadings(post?.content), [post?.content])
-  const readTime = estimateReadTime(post?.content || post?.excerpt)
+  const activePost = post?.slug === slug ? post : null
+  const sanitizedContent = useMemo(() => sanitizeRichHtml(activePost?.content || activePost?.excerpt), [activePost?.content, activePost?.excerpt])
+  const headings = useMemo(() => extractHeadings(activePost?.content), [activePost?.content])
+  const readTime = estimateReadTime(activePost?.content || activePost?.excerpt)
   const templateSections = useMemo(() => {
     const sections = Array.isArray(templatePage?.sections) ? templatePage.sections.filter(section => section?.enabled !== false) : []
     return sections.length ? sections : DEFAULT_TEMPLATE_SECTIONS
   }, [templatePage])
-  const relatedProducts = Array.isArray(post?.relatedProducts) ? post.relatedProducts.filter(product => typeof product === 'object').slice(0, 6) : []
+  const relatedProducts = Array.isArray(activePost?.relatedProducts) ? activePost.relatedProducts.filter(product => typeof product === 'object').slice(0, 6) : []
+  const pageEntity = useMemo(() => {
+    if (!activePost) return null
+
+    return {
+      type: 'blog_post',
+      id: activePost._id,
+      slug: activePost.slug,
+      title: activePost.title,
+      description: getPlainTextFromHtml(activePost.excerpt || activePost.seo?.description || activePost.content).slice(0, 1000),
+      category: getDisplayText(activePost.category)
+    }
+  }, [activePost])
+
+  useRegisterPageEntity(pageEntity)
+  const postUrl = useMemo(() => {
+    if (!activePost?.slug) return ''
+    if (typeof window !== 'undefined') return window.location.href
+    return `https://smartmall.site/blog/${activePost.slug}`
+  }, [activePost?.slug])
 
   if (loading) {
-    return (
-      <main className="blog-detail-page">
-        <div className="blog-detail-state"><Spin /><span>{t('messages.loading')}</span></div>
-      </main>
-    )
+    return <BlogDetailLoading text={t('messages.loading')} />
   }
 
-  if (error || !post) {
+  if (error || !activePost) {
     return (
       <main className="blog-detail-page">
         <div className="blog-detail-state blog-detail-state--error">
@@ -269,21 +562,21 @@ export default function BlogDetail() {
 
   return (
     <main className="blog-detail-page">
-      <SEO title={post.seo?.title || post.title} description={post.seo?.description || post.excerpt} url={`https://smartmall.site/blog/${post.slug}`} />
+      <SEO title={activePost.seo?.title || activePost.title} description={activePost.seo?.description || activePost.excerpt} url={`https://smartmall.site/blog/${activePost.slug}`} />
 
       <section className="blog-detail-breadcrumb">
         <Link to="/"><Home className="blog-detail-icon" />{t('breadcrumb.home')}</Link>
         <span>/</span>
         <Link to="/blog">{t('breadcrumb.blog')}</Link>
         <span>/</span>
-        <span>{post.title}</span>
+        <span>{activePost.title}</span>
       </section>
 
       {templateSections.map(section => (
         <BlogDetailSection
           key={section.id}
           section={section}
-          post={post}
+          post={activePost}
           sanitizedContent={sanitizedContent}
           headings={headings}
           readTime={readTime}
@@ -291,8 +584,11 @@ export default function BlogDetail() {
           relatedPosts={relatedPosts}
           language={language}
           t={t}
+          onShareClick={() => setShareOpen(true)}
         />
       ))}
+
+      <SharePostModal open={shareOpen} onClose={() => setShareOpen(false)} post={activePost} postUrl={postUrl} />
     </main>
   )
 }

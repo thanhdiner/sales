@@ -1,0 +1,82 @@
+.admin-layout-content--dashboard {
+  padding: 0 !important;
+  border-color: var(--admin-border) !important;
+  background: var(--admin-bg) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+.dashboard-container {
+  --dashboard-bg: var(--admin-bg);
+  --dashboard-surface: var(--admin-surface);
+  --dashboard-surface-2: var(--admin-surface-2);
+  --dashboard-surface-3: var(--admin-surface-3);
+  --dashboard-border: var(--admin-border);
+  --dashboard-border-strong: var(--admin-border-strong);
+  --dashboard-text: var(--admin-text);
+  --dashboard-text-muted: var(--admin-text-muted);
+  --dashboard-text-subtle: var(--admin-text-subtle);
+  --dashboard-header-bg: rgba(255, 255, 255, 0.94);
+  --dashboard-overlay-soft: rgba(94, 106, 210, 0.045);
+  --dashboard-surface-glint: rgba(255, 255, 255, 0.72);
+  --dashboard-inset-highlight: rgba(255, 255, 255, 0.72);
+  --dashboard-track: rgba(15, 23, 42, 0.11);
+  --dashboard-neutral-soft: rgba(15, 23, 42, 0.08);
+  --dashboard-avatar-bg: #e2e8f0;
+  --dashboard-success: var(--admin-success);
+  --dashboard-success-soft: rgba(22, 163, 74, 0.12);
+  --dashboard-info: var(--admin-info);
+  --dashboard-info-soft: rgba(37, 99, 235, 0.12);
+  --dashboard-warning: var(--admin-warning);
+  --dashboard-warning-soft: rgba(202, 138, 4, 0.13);
+  --dashboard-danger: var(--admin-danger);
+  --dashboard-danger-soft: rgba(220, 38, 38, 0.12);
+  --dashboard-purple: #7c3aed;
+  --dashboard-purple-soft: rgba(124, 58, 237, 0.12);
+  --dashboard-skeleton: linear-gradient(90deg, #eef2f7 25%, #e2e8f0 37%, #eef2f7 63%);
+  --dashboard-dropdown-shadow: 0 18px 42px rgba(15, 23, 42, 0.15);
+
+  min-height: 100%;
+  background:
+    linear-gradient(180deg, var(--dashboard-overlay-soft), transparent 160px),
+    var(--dashboard-bg);
+  color: var(--dashboard-text);
+  font-family: inherit;
+  overflow: hidden;
+}
+
+html.dark .admin-layout-content--dashboard {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-bg) !important;
+  box-shadow: var(--admin-shadow) !important;
+}
+
+html.dark .dashboard-container {
+  --dashboard-bg: var(--admin-bg);
+  --dashboard-surface: var(--admin-surface);
+  --dashboard-surface-2: var(--admin-surface-2);
+  --dashboard-surface-3: var(--admin-surface-3);
+  --dashboard-border: var(--admin-border);
+  --dashboard-border-strong: var(--admin-border-strong);
+  --dashboard-text: var(--admin-text);
+  --dashboard-text-muted: var(--admin-text-muted);
+  --dashboard-text-subtle: var(--admin-text-subtle);
+  --dashboard-header-bg: rgba(12, 14, 15, 0.96);
+  --dashboard-overlay-soft: rgba(255, 255, 255, 0.025);
+  --dashboard-surface-glint: rgba(255, 255, 255, 0.025);
+  --dashboard-inset-highlight: rgba(255, 255, 255, 0.035);
+  --dashboard-track: rgba(255, 255, 255, 0.13);
+  --dashboard-neutral-soft: rgba(255, 255, 255, 0.1);
+  --dashboard-avatar-bg: #2f3740;
+  --dashboard-success: var(--admin-success);
+  --dashboard-success-soft: rgba(34, 197, 94, 0.13);
+  --dashboard-info: var(--admin-info);
+  --dashboard-info-soft: rgba(59, 130, 246, 0.14);
+  --dashboard-warning: var(--admin-warning);
+  --dashboard-warning-soft: rgba(250, 204, 21, 0.14);
+  --dashboard-danger: var(--admin-danger);
+  --dashboard-danger-soft: rgba(239, 68, 68, 0.15);
+  --dashboard-purple: #a855f7;
+  --dashboard-purple-soft: rgba(168, 85, 247, 0.16);
+  --dashboard-skeleton: linear-gradient(90deg, #171a1d 25%, #23272c 37%, #171a1d 63%);
+  --dashboard-dropdown-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+}

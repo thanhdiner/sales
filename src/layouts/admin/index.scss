@@ -1,3 +1,5 @@
+@use '../../styles/admin/admin-ui';
+
 .admin-layout-root {
   height: 100vh;
   height: 100dvh;
@@ -61,6 +63,11 @@ html.dark body.admin-layout-active .admin-layout-breadcrumb {
   box-shadow: var(--admin-shadow);
 }
 
+.admin-layout-content--product-detail {
+  margin-top: 8px !important;
+  padding: 10px 18px 18px !important;
+}
+
 /* Shared admin form/input system */
 body.admin-layout-active .ant-input,
 body.admin-layout-active .ant-input-affix-wrapper,
@@ -81,6 +88,20 @@ body.admin-layout-active .ant-select-selection-placeholder,
 body.admin-layout-active .ant-picker-input > input::placeholder,
 body.admin-layout-active .ant-mentions::placeholder {
   color: var(--admin-text-subtle) !important;
+}
+
+body.admin-layout-active .ant-input-affix-wrapper > .ant-input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--admin-text) !important;
+}
+
+body.admin-layout-active .ant-input-affix-wrapper > .ant-input:focus,
+body.admin-layout-active .ant-input-affix-wrapper > .ant-input:hover {
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 body.admin-layout-active .ant-input:hover,
@@ -605,6 +626,12 @@ body.admin-layout-active .admin-chat-quick-replies-panel p {
   margin: 4px 6px !important;
   border-radius: 8px;
   color: var(--admin-text-muted) !important;
+}
+
+.admin-sider-menu .ant-menu-item-divider,
+.admin-sider-menu .admin-sider-menu-divider {
+  margin: 8px 18px !important;
+  border-color: var(--admin-border) !important;
 }
 
 .admin-sider-menu .ant-menu-item .anticon,

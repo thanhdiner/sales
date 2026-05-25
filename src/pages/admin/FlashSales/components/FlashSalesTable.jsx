@@ -1,7 +1,7 @@
 import { CopyPlus, Edit2, MoreHorizontal, Trash2 } from 'lucide-react'
-import { Button, Dropdown, Pagination, Tooltip } from 'antd'
+import { Button, Dropdown, Pagination, Tooltip, Skeleton } from 'antd'
 import { useSelector } from 'react-redux'
-import { AdminStatusTag } from '@/components/admin/ui'
+import { StatusTag } from '@/components/admin/ui'
 import { useTranslation } from 'react-i18next'
 import {
   formatCurrency,
@@ -70,10 +70,48 @@ export default function FlashSalesTable({
 
 function FlashSalesLoadingState({ t }) {
   return (
-    <div className="flex items-center justify-center py-16">
-      <div className="flex flex-col items-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[var(--admin-border)] border-t-[var(--admin-accent)]" />
-        <p className="text-sm font-medium text-[var(--admin-text-muted)]">{t('table.loading')}</p>
+    <div>
+      {/* Desktop/Tablet Table Skeleton */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full table-fixed divide-y divide-[var(--admin-border)] text-sm" style={{ minWidth: 900 }}>
+          <thead className="bg-[var(--admin-surface-2)]">
+            <tr>
+              <th className="px-4 py-3 text-left w-[22%]">{t('table.columns.name')}</th>
+              <th className="px-4 py-3 text-left w-[20%]">{t('table.columns.time')}</th>
+              <th className="px-4 py-3 text-left w-[11%]">{t('table.columns.discount')}</th>
+              <th className="px-4 py-3 text-left w-[14%]">{t('table.columns.quantity')}</th>
+              <th className="px-4 py-3 text-left w-[13%]">{t('table.columns.status')}</th>
+              <th className="px-4 py-3 text-left w-[13%]">{t('table.columns.revenue')}</th>
+              <th className="px-4 py-3 text-right w-[7%]">{t('table.columns.actions')}</th>
+            </tr>
+          </thead>
+          <tbody className="bg-[var(--admin-surface)] divide-y divide-slate-100">
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <tr key={idx}>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '80%' }} /></td>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '70%' }} /></td>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '50%' }} /></td>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '90%' }} /></td>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '60%' }} /></td>
+                <td className="px-4 py-4"><Skeleton active paragraph={false} title={{ width: '75%' }} /></td>
+                <td className="px-4 py-4 text-right"><Skeleton.Button active size="small" style={{ width: 60 }} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile Card Skeleton */}
+      <div className="block md:hidden p-4 space-y-4">
+        {Array.from({ length: 3 }).map((_, idx) => (
+          <div key={idx} className="border border-[var(--admin-border)] rounded-lg p-4 bg-[var(--admin-surface)] space-y-3">
+            <Skeleton active paragraph={{ rows: 2 }} title={{ width: '60%' }} />
+            <div className="flex justify-between items-center pt-2 border-t border-[var(--admin-border)]">
+              <Skeleton.Button active size="small" style={{ width: 80 }} />
+              <Skeleton.Button active size="small" style={{ width: 60 }} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -160,9 +198,9 @@ function FlashSalesDesktopTable({ flashSales, language, locale, columnsVisible =
           </tr>
         </thead>
 
-        <tbody className="divide-y divide-[var(--admin-border)] bg-[var(--admin-surface)]">
+        <tbody className="bg-[var(--admin-surface)]">
           {flashSales.map(sale => (
-            <tr key={sale._id} className="transition-colors hover:bg-[var(--admin-surface-2)]">
+            <tr key={sale._id} className="border-b border-slate-200 last:border-b-0 transition-colors hover:bg-[var(--admin-surface-2)]">
               {columns.map(column => (
                 <td key={column.key} className={`whitespace-nowrap px-4 py-4 align-middle ${column.align === 'right' ? 'text-right' : ''}`}>
                   {column.render(sale)}
@@ -302,7 +340,7 @@ function SaleTitle({ language, sale, t, titleClassName }) {
 function StatusBadge({ status, t }) {
   const statusMeta = getFlashSaleStatusMeta(status, t)
 
-  return <AdminStatusTag color={statusMeta.color} tone={statusMeta.tone}>{statusMeta.label}</AdminStatusTag>
+  return <StatusTag color={statusMeta.color} tone={statusMeta.tone}>{statusMeta.label}</StatusTag>
 }
 
 function DiscountBadge({ discountPercent, locale }) {

@@ -1,0 +1,178 @@
+.admin-home-byk-page {
+  color: var(--admin-text);
+}
+
+.admin-home-byk-card {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.admin-home-byk-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-home-byk-header .ant-typography {
+  margin: 0;
+  color: var(--admin-text);
+}
+
+html.dark .admin-home-byk-header .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous) {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface-2) !important;
+  color: var(--admin-text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .admin-home-byk-header .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):hover,
+html.dark .admin-home-byk-header .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):focus {
+  border-color: var(--admin-border-strong) !important;
+  background: var(--admin-surface-3) !important;
+  color: var(--admin-text) !important;
+}
+
+html.dark .admin-home-byk-header .ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous):disabled {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-home-byk-section {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
+}
+
+.admin-home-byk-section__header {
+  margin-bottom: 14px;
+}
+
+.admin-home-byk-section__header h3,
+.admin-home-byk-list__header h4,
+.admin-home-byk-list-item__title,
+.admin-home-byk-kit__header h4 {
+  margin: 0;
+  color: var(--admin-text);
+  font-weight: 700;
+}
+
+.admin-home-byk-section__header p,
+.admin-home-byk-list__header p,
+.admin-home-byk-kit__header p {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+}
+
+.admin-home-byk-list {
+  width: 100%;
+}
+
+.admin-home-byk-list__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.admin-home-byk-list-item,
+.admin-home-byk-kit {
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-2);
+}
+
+.admin-home-byk-list-item:last-child,
+.admin-home-byk-kit:last-child {
+  margin-bottom: 0;
+}
+
+.admin-home-byk-kit {
+  border-style: dashed;
+}
+
+.admin-home-byk-kit__header,
+.admin-home-byk-list-item__header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.admin-home-byk-list-item--inline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.admin-home-byk-list-item--inline .ant-form-item {
+  margin-bottom: 0;
+}
+
+.admin-home-byk-list-item__title {
+  margin-bottom: 12px;
+}
+
+.admin-home-byk-page .ant-input,
+.admin-home-byk-page .ant-input-affix-wrapper,
+.admin-home-byk-page .ant-select-selector {
+  border-color: var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+.admin-home-byk-page .ant-input::placeholder {
+  color: var(--admin-text-subtle) !important;
+}
+
+.admin-home-byk-page .ant-tabs-tab,
+.admin-home-byk-page .ant-form-item-label > label,
+.admin-home-byk-page .ant-typography,
+.admin-home-byk-page .ant-select-selection-item,
+.admin-home-byk-page .ant-select-selection-placeholder {
+  color: var(--admin-text-muted);
+}
+
+.admin-home-byk-page .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--admin-accent) !important;
+}
+
+.admin-home-byk-page .ant-tabs-ink-bar {
+  background: var(--admin-accent) !important;
+}
+
+@media (max-width: 767px) {
+  .admin-home-byk-page {
+    padding: 0;
+  }
+
+  .admin-home-byk-card {
+    padding: 14px;
+  }
+
+  .admin-home-byk-header {
+    flex-direction: column;
+  }
+
+  .admin-home-byk-list-item--inline {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-home-byk-kit__header,
+  .admin-home-byk-list-item__header {
+    flex-direction: column;
+  }
+}
+

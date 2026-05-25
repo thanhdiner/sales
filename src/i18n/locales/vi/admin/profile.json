@@ -28,6 +28,7 @@
     "inactive": "Không hoạt động"
   },
   "actions": {
+    "back": "Quay lại",
     "cancel": "Hủy",
     "save": "Lưu"
   },

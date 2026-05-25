@@ -19,7 +19,7 @@ function ProductItem({ product, isDragging }) {
   }
 
   const content = (
-    <div className="group relative flex flex-1 flex-col overflow-hidden rounded-[18px] border border-slate-200/80 bg-white shadow-[0_10px_28px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_18px_38px_rgba(15,23,42,0.1)] sm:rounded-[20px] dark:border-white/10 dark:bg-[#111315] dark:hover:border-white/15 dark:hover:shadow-[0_18px_38px_rgba(0,0,0,0.38)]">
+    <div className="group relative flex flex-1 flex-col overflow-hidden rounded-[12px] border border-slate-200/80 bg-white shadow-[0_10px_28px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_18px_38px_rgba(15,23,42,0.1)] sm:rounded-[14px] dark:border-white/10 dark:bg-[#111315] dark:hover:border-white/15 dark:hover:shadow-[0_18px_38px_rgba(0,0,0,0.38)]">
       <Link
         to={`/products/${product.slug}`}
         state={{

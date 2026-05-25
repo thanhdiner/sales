@@ -157,8 +157,8 @@ body.admin-layout-active {
 }
 
 .admin-products-btn--add.ant-btn {
-  border-color: var(--products-accent) !important;
-  background: var(--products-accent) !important;
+  border-color: var(--admin-accent, #5e6ad2) !important;
+  background: var(--admin-accent, #5e6ad2) !important;
   color: #f4f5f8 !important;
 }
 
@@ -567,9 +567,13 @@ html.dark body.admin-layout-active .admin-products-popup.ant-select-dropdown .an
   background: var(--products-surface-2);
 }
 
-.admin-products-table-product__thumb img {
+.admin-products-table-product__thumb .ant-image,
+.admin-products-table-product__thumb .ant-image-img {
   width: 100%;
   height: 100%;
+}
+
+.admin-products-table-product__thumb .ant-image-img {
   object-fit: cover;
 }
 
@@ -594,7 +598,13 @@ html.dark body.admin-layout-active .admin-products-popup.ant-select-dropdown .an
   justify-content: center;
 }
 
-.admin-products-thumbnail {
+.admin-products-thumbnail-wrap .ant-image {
+  width: 36px;
+  height: 36px;
+}
+
+.admin-products-thumbnail,
+.admin-products-thumbnail-wrap .ant-image-img {
   width: 36px;
   height: 36px;
   border-radius: 6px;
@@ -690,9 +700,13 @@ html.dark body.admin-layout-active .admin-products-popup.ant-select-dropdown .an
   background: var(--products-surface-2);
 }
 
-.admin-product-card__thumb img {
+.admin-product-card__thumb .ant-image,
+.admin-product-card__thumb .ant-image-img {
   width: 100%;
   height: 100%;
+}
+
+.admin-product-card__thumb .ant-image-img {
   object-fit: cover;
 }
 

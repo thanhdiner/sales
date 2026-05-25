@@ -1,41 +1,68 @@
 import React from 'react'
-import { Card, Col, Row, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { CalendarDays, ClipboardList, Layers } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { couponTips } from '../constants'
 
-const { Title, Text } = Typography
+const tipIcons = [ClipboardList, CalendarDays, Layers]
+
+const tipsVariants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.42,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.08
+    }
+  }
+}
+
+const tipPartVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.34, ease: 'easeOut' }
+  }
+}
 
 const CouponsTipsCard = () => {
   const { t } = useTranslation('clientCoupons')
 
   return (
-    <Card className="mt-12 rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <div className="mb-6 text-center">
-        <Title level={3} className="!mb-2 !text-2xl !font-semibold !tracking-[-0.02em] !text-gray-900 dark:!text-gray-100">
-          {t('tipsSection.title')}
-        </Title>
+    <motion.section
+      className="coupons-tips"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.18 }}
+      variants={tipsVariants}
+    >
+      <motion.header className="coupons-tips__header" variants={tipPartVariants}>
+        <h2>{t('tipsSection.title')}</h2>
+        <p>{t('tipsSection.description')}</p>
+      </motion.header>
 
-        <p className="mx-auto mb-0 max-w-xl text-sm leading-6 text-gray-600 dark:text-gray-300">{t('tipsSection.description')}</p>
-      </div>
+      <div className="coupons-tips__grid">
+        {couponTips.map((tip, index) => {
+          const TipIcon = tipIcons[index]
 
-      <Row gutter={[16, 16]}>
-        {couponTips.map((tip, index) => (
-          <Col xs={24} md={8} key={tip.titleKey}>
-            <div className="h-full rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <span className="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-sm font-semibold text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                {index + 1}
+          return (
+            <motion.article className="coupons-tips__item" key={tip.titleKey} variants={tipPartVariants}>
+              <span className="coupons-tips__number">{index + 1}</span>
+              <span className="coupons-tips__icon" aria-hidden="true">
+                <TipIcon size={28} strokeWidth={2.2} />
               </span>
-
-              <Title level={4} className="!mb-2 !text-base !font-semibold !text-gray-900 dark:!text-gray-100">
-                {t(tip.titleKey)}
-              </Title>
-
-              <Text className="block !text-sm !leading-6 !text-gray-600 dark:!text-gray-300">{t(tip.descriptionKey)}</Text>
-            </div>
-          </Col>
-        ))}
-      </Row>
-    </Card>
+              <div className="coupons-tips__content">
+                <h3>{t(tip.titleKey)}</h3>
+                <p>{t(tip.descriptionKey)}</p>
+              </div>
+            </motion.article>
+          )
+        })}
+      </div>
+    </motion.section>
   )
 }
 

@@ -8,14 +8,14 @@ import WorkingHoursCard from '../components/WorkingHoursCard'
 const FormAndSchedule = ({ section = {}, workingHoursCard = {}, links = {} }) => {
   return (
     <motion.section
-      className="contact-band bg-white px-4 py-12 md:py-20 dark:bg-gray-950"
+      className="contact-request-section contact-band bg-white px-4 py-12 md:py-16 dark:bg-gray-950"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       viewport={viewport}
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="contact-panel rounded-2xl border border-white/70 bg-white/75 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur md:p-7 dark:border-gray-700 dark:bg-gray-900/80">
+      <div className="mx-auto max-w-6xl">
+        <div className="contact-request-shell relative">
           <SectionHeader eyebrow={section.eyebrow} title={section.title} description={section.description} eyebrowClassName="text-gray-500" />
 
           <div className="grid items-start gap-6 lg:grid-cols-12 lg:gap-8">
@@ -26,7 +26,7 @@ const FormAndSchedule = ({ section = {}, workingHoursCard = {}, links = {} }) =>
               transition={{ duration: 0.45, ease: 'easeOut' }}
               viewport={viewport}
             >
-              <ContactForm />
+              <ContactForm links={links} actionLabels={{ zalo: workingHoursCard.zaloButton, email: workingHoursCard.emailButton }} />
             </motion.div>
 
             <motion.div

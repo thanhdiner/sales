@@ -2,18 +2,21 @@ import { message } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Bell, CheckCircle2, Clock3, Info } from 'lucide-react'
+import { getSocket } from '@/services/realtime/socket'
 import SEO from '@/components/shared/SEO'
-import { adminNotificationsMock } from './data'
+import { StatCard, StatGrid } from '@/components/admin/ui'
+import {
+  archiveAdminNotifications,
+  deleteAdminNotifications,
+  getAdminNotifications,
+  markAdminNotificationsRead
+} from '@/services/admin/commerce/notifications'
 import NotificationsFilters from './sections/NotificationsFilters'
 import NotificationsHeader from './sections/NotificationsHeader'
 import NotificationsList from './sections/NotificationsList'
 import NotificationsPagination from './sections/NotificationsPagination'
-import NotificationsStats from './sections/NotificationsStats'
-import {
-  createNotificationStats,
-  getNotificationActionRoute,
-  notificationMatchesFilters
-} from './utils'
+import { createNotificationStats, getNotificationActionRoute } from './utils'
 
 const defaultFilters = {
   tab: 'all',
@@ -28,33 +31,68 @@ export default function Notifications() {
   const { t, i18n } = useTranslation('adminNotifications')
   const navigate = useNavigate()
   const language = i18n.resolvedLanguage || i18n.language
-  const [notifications, setNotifications] = useState(adminNotificationsMock)
+  const [notifications, setNotifications] = useState([])
+  const [stats, setStats] = useState(createNotificationStats([]))
   const [filters, setFilters] = useState(defaultFilters)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(10)
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [refreshToken, setRefreshToken] = useState(0)
 
-  const stats = useMemo(() => createNotificationStats(notifications), [notifications])
-
-  const filteredNotifications = useMemo(
-    () =>
-      notifications
-        .filter(notification => notificationMatchesFilters(notification, filters, language))
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
-    [filters, language, notifications]
-  )
-
-  const visibleNotifications = useMemo(() => {
-    const startIndex = (page - 1) * pageSize
-    return filteredNotifications.slice(startIndex, startIndex + pageSize)
-  }, [filteredNotifications, page, pageSize])
-
+  const visibleNotifications = useMemo(() => notifications, [notifications])
   const selectedCount = selectedRowKeys.length
 
   useEffect(() => {
-    const maxPage = Math.max(1, Math.ceil(filteredNotifications.length / pageSize))
-    if (page > maxPage) setPage(maxPage)
-  }, [filteredNotifications.length, page, pageSize])
+    let ignore = false
+
+    const fetchNotifications = async () => {
+      setLoading(true)
+      try {
+        const response = await getAdminNotifications({ page, limit: pageSize, ...filters })
+        if (ignore) return
+        const nextTotal = Number(response?.total) || 0
+        const maxPage = Math.max(1, Math.ceil(nextTotal / pageSize))
+        setNotifications(Array.isArray(response?.notifications) ? response.notifications : [])
+        setStats(response?.stats || createNotificationStats([]))
+        setTotal(nextTotal)
+        setSelectedRowKeys([])
+        if (page > maxPage) setPage(maxPage)
+      } catch (error) {
+        if (!ignore) {
+          setNotifications([])
+          setStats(createNotificationStats([]))
+          setTotal(0)
+          message.error(error.message || t('messages.fetchError', { defaultValue: 'Unable to load notifications.' }))
+        }
+      } finally {
+        if (!ignore) setLoading(false)
+      }
+    }
+
+    fetchNotifications()
+    return () => {
+      ignore = true
+    }
+  }, [filters, language, page, pageSize, refreshToken, t])
+
+  useEffect(() => {
+    const socket = getSocket()
+    const refresh = () => setRefreshToken(value => value + 1)
+    const intervalId = window.setInterval(refresh, 30000)
+
+    socket.on('notification:created', refresh)
+    socket.on('notification:read', refresh)
+    socket.on('notification:deleted', refresh)
+
+    return () => {
+      window.clearInterval(intervalId)
+      socket.off('notification:created', refresh)
+      socket.off('notification:read', refresh)
+      socket.off('notification:deleted', refresh)
+    }
+  }, [])
 
   const handleFiltersChange = nextFilters => {
     setFilters(nextFilters)
@@ -75,7 +113,7 @@ export default function Notifications() {
     setSelectedRowKeys(prev => (prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]))
   }
 
-  const markReadByIds = ids => {
+  const markReadByIds = async ids => {
     const readAt = new Date().toISOString()
     setNotifications(prev =>
       prev.map(notification =>
@@ -84,50 +122,77 @@ export default function Notifications() {
           : notification
       )
     )
+    await markAdminNotificationsRead(ids)
   }
 
   const removeByIds = ids => {
+    const removed = notifications.filter(notification => ids.includes(notification._id))
     setNotifications(prev => prev.filter(notification => !ids.includes(notification._id)))
     setSelectedRowKeys(prev => prev.filter(id => !ids.includes(id)))
+    setTotal(prev => Math.max(prev - ids.length, 0))
+    setStats(prev => ({
+      ...prev,
+      total: Math.max(prev.total - removed.length, 0),
+      unread: Math.max(prev.unread - removed.filter(notification => !notification.readAt).length, 0),
+      actionRequired: Math.max(prev.actionRequired - removed.filter(notification => notification.actionRequired).length, 0),
+      today: Math.max(
+        prev.today - removed.filter(notification => {
+          const createdAt = new Date(notification.createdAt)
+          const today = new Date()
+          return createdAt.toDateString() === today.toDateString()
+        }).length,
+        0
+      )
+    }))
   }
 
-  const handleMarkAllRead = () => {
-    markReadByIds(notifications.map(notification => notification._id))
+  const handleMarkAllRead = async () => {
+    const readAt = new Date().toISOString()
+    setNotifications(prev => prev.map(notification => ({ ...notification, readAt: notification.readAt || readAt })))
+    setStats(prev => ({ ...prev, unread: 0 }))
+    await markAdminNotificationsRead()
     message.success(t('messages.allRead'))
   }
 
-  const handleMarkRead = id => {
-    markReadByIds([id])
+  const handleMarkRead = async id => {
+    await markReadByIds([id])
+    setStats(prev => ({ ...prev, unread: Math.max(prev.unread - 1, 0) }))
     message.success(t('messages.markRead'))
   }
 
-  const handleView = notification => {
-    markReadByIds([notification._id])
+  const handleView = async notification => {
+    await markReadByIds([notification._id])
     navigate(getNotificationActionRoute(notification))
   }
 
-  const handleArchive = id => {
+  const handleArchive = async id => {
+    await archiveAdminNotifications([id])
     removeByIds([id])
     message.success(t('messages.archived'))
   }
 
-  const handleDelete = id => {
+  const handleDelete = async id => {
+    await deleteAdminNotifications([id])
     removeByIds([id])
     message.success(t('messages.deleted'))
   }
 
-  const handleMarkSelectedRead = () => {
-    markReadByIds(selectedRowKeys)
+  const handleMarkSelectedRead = async () => {
+    const unreadSelected = notifications.filter(notification => selectedRowKeys.includes(notification._id) && !notification.readAt).length
+    await markReadByIds(selectedRowKeys)
+    setStats(prev => ({ ...prev, unread: Math.max(prev.unread - unreadSelected, 0) }))
     setSelectedRowKeys([])
     message.success(t('messages.selectedRead'))
   }
 
-  const handleArchiveSelected = () => {
+  const handleArchiveSelected = async () => {
+    await archiveAdminNotifications(selectedRowKeys)
     removeByIds(selectedRowKeys)
     message.success(t('messages.selectedArchived'))
   }
 
-  const handleDeleteSelected = () => {
+  const handleDeleteSelected = async () => {
+    await deleteAdminNotifications(selectedRowKeys)
     removeByIds(selectedRowKeys)
     message.success(t('messages.selectedDeleted'))
   }
@@ -137,16 +202,21 @@ export default function Notifications() {
   }
 
   return (
-    <div className="min-h-screen rounded-xl bg-[var(--admin-bg-soft)] p-3 text-[var(--admin-text)] sm:p-4 lg:p-6">
+    <div className="text-[var(--admin-text)]">
       <SEO title={t('seo.title')} noIndex />
 
-      <div className="mx-auto max-w-7xl space-y-5">
+      <div className="admin-notifications-page mx-auto max-w-7xl">
         <NotificationsHeader
           onMarkAllRead={handleMarkAllRead}
           onOpenSettings={handleOpenSettings}
         />
 
-        <NotificationsStats stats={stats} />
+        <StatGrid className="admin-notifications-stats" columns={4}>
+          <StatCard icon={<Bell size={18} />} label={t('stats.total.label')} meta={t('stats.total.description')} value={stats.total} />
+          <StatCard icon={<Clock3 size={18} />} label={t('stats.unread.label')} meta={t('stats.unread.description')} value={stats.unread} />
+          <StatCard icon={<Info size={18} />} label={t('stats.actionRequired.label')} meta={t('stats.actionRequired.description')} value={stats.actionRequired} />
+          <StatCard icon={<CheckCircle2 size={18} />} label={t('stats.today.label')} meta={t('stats.today.description')} value={stats.today} />
+        </StatGrid>
 
         <NotificationsFilters
           filters={filters}
@@ -160,7 +230,7 @@ export default function Notifications() {
         />
 
         <NotificationsList
-          loading={false}
+          loading={loading}
           notifications={visibleNotifications}
           selectedRowKeys={selectedRowKeys}
           language={language}
@@ -174,7 +244,7 @@ export default function Notifications() {
         <NotificationsPagination
           page={page}
           pageSize={pageSize}
-          total={filteredNotifications.length}
+          total={total}
           onPageChange={handlePageChange}
         />
       </div>

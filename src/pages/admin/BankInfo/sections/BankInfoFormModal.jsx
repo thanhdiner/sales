@@ -1,6 +1,6 @@
 import { BankOutlined, GlobalOutlined, QrcodeOutlined } from '@ant-design/icons'
 import { Form, Input, Modal, Typography, Upload } from 'antd'
-import { Form as UiForm } from '@/components/admin/ui'
+import { FormSection } from '@/components/admin/ui'
 import { BANK_INFO_FORM_INITIAL_VALUES } from '../utils'
 
 const { Text } = Typography
@@ -29,12 +29,8 @@ export default function BankInfoFormModal({
             <BankOutlined />
           </div>
           <div>
-            <div className="admin-bank-info-modal__title">
-              {editing ? t('form.editTitle') : t('form.createTitle')}
-            </div>
-            <div className="admin-bank-info-modal__subtitle">
-              {t('form.subtitle')}
-            </div>
+            <div className="admin-bank-info-modal__title">{editing ? t('form.editTitle') : t('form.createTitle')}</div>
+            <div className="admin-bank-info-modal__subtitle">{t('form.subtitle')}</div>
           </div>
         </div>
       }
@@ -64,11 +60,19 @@ export default function BankInfoFormModal({
           </Form.Item>
 
           <div className="admin-bank-info-modal__grid">
-            <Form.Item name="accountNumber" label={t('form.accountNumber')} rules={[{ required: true, message: t('form.accountNumberRequired') }]}>
+            <Form.Item
+              name="accountNumber"
+              label={t('form.accountNumber')}
+              rules={[{ required: true, message: t('form.accountNumberRequired') }]}
+            >
               <Input size="large" placeholder="1234567890" className="admin-bank-info-input admin-bank-info-input--mono" />
             </Form.Item>
 
-            <Form.Item name="accountHolder" label={t('form.accountHolder')} rules={[{ required: true, message: t('form.accountHolderRequired') }]}>
+            <Form.Item
+              name="accountHolder"
+              label={t('form.accountHolder')}
+              rules={[{ required: true, message: t('form.accountHolderRequired') }]}
+            >
               <Input size="large" placeholder="NGUYEN VAN A" className="admin-bank-info-input" />
             </Form.Item>
           </div>
@@ -81,7 +85,7 @@ export default function BankInfoFormModal({
             <Input.TextArea rows={3} placeholder="[Ten KH] - [So dien thoai]" className="admin-bank-info-input" />
           </Form.Item>
 
-          <UiForm
+          <FormSection
             className="admin-bank-info-modal__translation-section"
             title={t('form.translations.sectionTitle')}
             extra={<GlobalOutlined />}
@@ -96,14 +100,10 @@ export default function BankInfoFormModal({
               </Form.Item>
 
               <Form.Item name={['translations', 'en', 'noteTemplate']} label={t('form.translations.noteTemplate')}>
-                <Input.TextArea
-                  rows={3}
-                  placeholder={t('form.translations.noteTemplatePlaceholder')}
-                  className="admin-bank-info-input"
-                />
+                <Input.TextArea rows={3} placeholder={t('form.translations.noteTemplatePlaceholder')} className="admin-bank-info-input" />
               </Form.Item>
             </div>
-          </UiForm>
+          </FormSection>
 
           <Form.Item
             name="qrCode"
@@ -126,9 +126,7 @@ export default function BankInfoFormModal({
             </Upload>
           </Form.Item>
 
-          <Text className="admin-bank-info-modal__hint">
-            {t('form.hint')}
-          </Text>
+          <Text className="admin-bank-info-modal__hint">{t('form.hint')}</Text>
         </Form>
       </div>
     </Modal>

@@ -1,0 +1,119 @@
+.admin-ai-agents {
+  .ant-card,
+  .admin-chatbot-card.ant-card {
+    border-radius: 10px !important;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-input-number,
+  .ant-select-selector {
+    border-radius: 6px !important;
+  }
+
+  .admin-ai-provider-list-extra__group {
+    border-radius: 6px;
+  }
+
+  .admin-ai-provider-model-item {
+    border-radius: 6px;
+  }
+
+  .admin-ai-agent-row {
+    &__avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    &__avatar img {
+      object-fit: cover;
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &__pill {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--chatbot-border);
+      background: var(--chatbot-surface-2);
+    }
+  }
+
+}
+
+.admin-ai-agent-modal {
+  .admin-ai-agent-avatar-upload {
+    width: 100%;
+
+    .ant-upload-select,
+    .ant-btn {
+      width: 100%;
+    }
+
+    .ant-upload-list-item-container,
+    .ant-upload-list-item {
+      width: 100%;
+    }
+  }
+}
+
+.admin-ai-agent-tool-dropdown {
+  .admin-ai-agent-tool-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+
+    &__main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    &__label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--chatbot-text, #111827);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    &__name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--chatbot-text-muted, #64748b);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    &__tags {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+
+      .ant-tag {
+        margin-inline-end: 4px;
+      }
+    }
+  }
+}
+
+html.dark .admin-ai-agent-tool-dropdown {
+  .admin-ai-agent-tool-option__label {
+    color: #f4f5f8;
+  }
+
+  .admin-ai-agent-tool-option__name {
+    color: #a1a1aa;
+  }
+}

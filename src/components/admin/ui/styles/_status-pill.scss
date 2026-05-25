@@ -1,0 +1,53 @@
+.admin-status-pill.ant-tag {
+  display: inline-flex;
+  margin-inline-end: 0;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 999px;
+  padding-inline: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.admin-status-pill__dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.admin-status-pill--success.ant-tag,
+.admin-status-pill--active.ant-tag {
+  background: rgba(38, 162, 105, 0.16);
+  color: #26a269;
+}
+
+.admin-status-pill--danger.ant-tag {
+  background: rgba(248, 81, 73, 0.18);
+  color: #f87171;
+}
+
+.admin-status-pill--warning.ant-tag {
+  background: var(--admin-warning-bg-soft);
+  color: var(--admin-warning-text);
+}
+
+.admin-status-pill--info.ant-tag {
+  background: var(--admin-info-bg-soft);
+  color: var(--admin-info-text);
+}
+
+.admin-status-pill--neutral.ant-tag {
+  background: var(--admin-surface-3);
+  color: var(--admin-text-muted);
+}
+
+.admin-status-pill--inactive.ant-tag {
+  background: rgba(248, 81, 73, 0.18);
+  color: #f87171;
+}

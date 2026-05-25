@@ -1,5 +1,7 @@
 import './index.scss'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion, useAnimationControls, useInView, useReducedMotion } from 'framer-motion'
 import SEO from '@/components/shared/SEO'
 import Widgets from '@/components/client/Widgets'
 import HeroBanner from '@/components/client/HeroBanner'
@@ -8,6 +10,8 @@ import FeaturedProducts from '@/components/client/FeaturedProductsSection'
 import FlashSale from '@/components/client/FlashSaleSection'
 import WhyChooseUs from '@/components/client/WhyChooseUs'
 import DailySuggestions from '@/components/client/DailySuggestionsSection'
+import BuildYourKitSection from '@/components/client/BuildYourKitSection'
+import BuildYourKitSkeleton from '@/components/client/BuildYourKitSection/BuildYourKitSkeleton'
 
 import Lazy from '@/components/shared/LazyLoad/LazySection'
 import SliderSkeleton from '@/components/shared/LazyLoad/SliderSkeleton'
@@ -24,6 +28,56 @@ const SectionDivider = () => (
   </div>
 )
 
+const sectionMotionVariants = {
+  hidden: {
+    opacity: 0,
+    y: 34,
+    scale: 0.985,
+    filter: 'blur(8px)'
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.62,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+}
+
+function ReplaySection({ children, className = '' }) {
+  const ref = useRef(null)
+  const controls = useAnimationControls()
+  const reduceMotion = useReducedMotion()
+  const isInView = useInView(ref, {
+    amount: 0.18,
+    margin: '-80px 0px -80px 0px'
+  })
+
+  useEffect(() => {
+    if (reduceMotion) {
+      controls.set('visible')
+      return
+    }
+
+    controls.start(isInView ? 'visible' : 'hidden')
+  }, [controls, isInView, reduceMotion])
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`home__replay-section ${className}`.trim()}
+      initial={reduceMotion ? 'visible' : 'hidden'}
+      animate={controls}
+      variants={sectionMotionVariants}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 function Home() {
   const { t } = useTranslation('clientHome')
 
@@ -35,34 +89,55 @@ function Home() {
         url="https://smartmall.site"
       />
 
-      <HeroBanner />
+      <ReplaySection>
+        <HeroBanner />
+      </ReplaySection>
       <SectionDivider />
-      <Widgets />
-      <SectionDivider />
-
-      <Lazy placeholder={<FlashSaleSkeleton />} rootMargin="600px">
-        <FlashSale />
-      </Lazy>
-      <SectionDivider />
-
-      <Lazy placeholder={<SliderSkeleton />} rootMargin="300px">
-        <TopDeal />
-      </Lazy>
+      <ReplaySection>
+        <Widgets />
+      </ReplaySection>
       <SectionDivider />
 
-      <Lazy placeholder={<SliderSkeleton />} rootMargin="300px">
-        <FeaturedProducts />
-      </Lazy>
+      <ReplaySection>
+        <Lazy placeholder={<FlashSaleSkeleton />} rootMargin="600px">
+          <FlashSale />
+        </Lazy>
+      </ReplaySection>
       <SectionDivider />
 
-      <Lazy placeholder={<GridSkeleton />} rootMargin="300px">
-        <DailySuggestions />
-      </Lazy>
+      <ReplaySection>
+        <Lazy placeholder={<SliderSkeleton />} rootMargin="300px">
+          <TopDeal />
+        </Lazy>
+      </ReplaySection>
       <SectionDivider />
 
-      <Lazy placeholder={<WhyChooseUsSkeleton />} rootMargin="200px">
-        <WhyChooseUs />
-      </Lazy>
+      <ReplaySection>
+        <Lazy placeholder={<SliderSkeleton />} rootMargin="300px">
+          <FeaturedProducts />
+        </Lazy>
+      </ReplaySection>
+      <SectionDivider />
+
+      <ReplaySection>
+        <Lazy placeholder={<GridSkeleton />} rootMargin="300px">
+          <DailySuggestions />
+        </Lazy>
+      </ReplaySection>
+      <SectionDivider />
+
+      <ReplaySection>
+        <Lazy placeholder={<WhyChooseUsSkeleton />} rootMargin="200px">
+          <WhyChooseUs />
+        </Lazy>
+      </ReplaySection>
+      <SectionDivider />
+
+      <ReplaySection>
+        <Lazy placeholder={<BuildYourKitSkeleton />} rootMargin="200px">
+          <BuildYourKitSection />
+        </Lazy>
+      </ReplaySection>
     </div>
   )
 }

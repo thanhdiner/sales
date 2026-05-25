@@ -2,6 +2,7 @@ import { Col, Form, Input, InputNumber, Row, Select, TreeSelect } from 'antd'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormActions, RichTextField, UploadField } from '@/components/admin/form'
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import { getLocalizedProductCategoryTree } from '../utils/productCategoryLocalization'
 import CategoryTranslationFields from './CategoryTranslationFields'
 
@@ -16,7 +17,18 @@ const secondaryButtonClass =
   'rounded-lg !border-[var(--admin-border)] !bg-[var(--admin-surface)] !text-[var(--admin-text-muted)] hover:!border-[var(--admin-border-strong)] hover:!bg-[var(--admin-surface-2)] hover:!text-[var(--admin-text)]'
 const primaryButtonClass = 'rounded-lg !border-none !bg-[var(--admin-accent)] !text-white hover:!opacity-90'
 
-export default function CategoryForm({ beforeUploadImage, form, getFileListFromEvent, loading, mode, onCancel, onSubmit, treeData }) {
+export default function CategoryForm({
+  backLabel,
+  beforeUploadImage,
+  form,
+  getFileListFromEvent,
+  loading,
+  mode,
+  onBack,
+  onCancel,
+  onSubmit,
+  treeData
+}) {
   const { t, i18n } = useTranslation('adminProductCategories')
   const isCreate = mode === 'create'
   const language = i18n.resolvedLanguage || i18n.language
@@ -24,7 +36,10 @@ export default function CategoryForm({ beforeUploadImage, form, getFileListFromE
   const label = key => <span className={labelClassName}>{t(key)}</span>
 
   return (
-    <Form
+    <>
+      {onBack ? <AdminBackButton className="mb-4" onClick={onBack} label={backLabel} /> : null}
+
+      <Form
       className="admin-product-categories-form"
       form={form}
       initialValues={isCreate ? CATEGORY_FORM_INITIAL_VALUES : undefined}
@@ -124,6 +139,7 @@ export default function CategoryForm({ beforeUploadImage, form, getFileListFromE
         submitLabel={isCreate ? t('form.create') : t('form.save')}
         submittingLabel={isCreate ? t('form.creating') : t('form.saving')}
       />
-    </Form>
+      </Form>
+    </>
   )
 }

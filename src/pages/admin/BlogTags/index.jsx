@@ -1,6 +1,7 @@
 import { Button, Drawer, Form, Input, Modal, Select, Space, Table, Tag, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 
+import AdminBackButton from '@/components/admin/ui/AdminBackButton'
 import SEO from '@/components/shared/SEO'
 import { createBlogTag, deleteBlogTag, getBlogTags, updateBlogTag, updateBlogTagStatus } from '@/services/admin/content/blogTag'
 import { translateContentToEnglish } from '@/services/admin/content/contentTranslation'
@@ -128,8 +129,12 @@ export default function BlogTags() {
   return (
     <div className="p-6">
       <SEO title="Blog Tags" noIndex />
-      <div className="mb-4 flex items-center justify-between">
-        <div><h1 className="text-2xl font-bold">Blog Tags</h1><p>Manage blog tag metadata</p></div>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div>
+          <AdminBackButton className="mb-3" to="/admin/blog" label="Back to Blog" />
+          <h1 className="text-2xl font-bold">Blog Tags</h1>
+          <p>Manage blog tag metadata</p>
+        </div>
         <Button type="primary" disabled={saving || actionLoading} onClick={() => openForm(null)}>Add tag</Button>
       </div>
       <Table rowKey="_id" loading={loading} dataSource={items} columns={[

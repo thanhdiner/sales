@@ -45,7 +45,6 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
   const handleTabsPointerDown = event => {
     if (!tabsRef.current || event.button !== 0) return
 
-    tabsRef.current.setPointerCapture?.(event.pointerId)
     dragStateRef.current = {
       active: true,
       pointerId: event.pointerId,
@@ -53,7 +52,6 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
       scrollLeft: tabsRef.current.scrollLeft,
       dragged: false
     }
-    setIsDraggingTabs(true)
   }
 
   const handleTabsPointerMove = event => {
@@ -61,9 +59,13 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
     if (!dragState.active || dragState.pointerId !== event.pointerId || !tabsRef.current) return
 
     const distance = event.clientX - dragState.startX
-    if (Math.abs(distance) <= 8) return
+    if (Math.abs(distance) <= 12) return
 
     event.preventDefault()
+    if (!dragState.dragged) {
+      tabsRef.current.setPointerCapture?.(event.pointerId)
+      setIsDraggingTabs(true)
+    }
     dragState.dragged = true
     tabsRef.current.scrollLeft = dragState.scrollLeft - distance
   }
@@ -71,7 +73,9 @@ export function useFlashSaleCategoryTabs({ categories, loading, selectedCategory
   const handleTabsPointerUp = event => {
     if (dragStateRef.current.pointerId !== event.pointerId) return
 
-    tabsRef.current?.releasePointerCapture?.(event.pointerId)
+    if (dragStateRef.current.dragged) {
+      tabsRef.current?.releasePointerCapture?.(event.pointerId)
+    }
     dragStateRef.current.active = false
     dragStateRef.current.pointerId = null
     setIsDraggingTabs(false)

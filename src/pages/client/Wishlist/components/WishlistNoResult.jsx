@@ -8,7 +8,7 @@ function WishlistNoResult({ onFilterReset, t }) {
         <Heart className="h-8 w-8 text-slate-400" />
       </div>
 
-      <h3 className="text-lg font-extrabold text-slate-950 dark:text-gray-100">{t('noResult.title')}</h3>
+      <h3 className="text-lg font-bold text-slate-950 dark:text-gray-100">{t('noResult.title')}</h3>
 
       <p className="mt-2 text-sm text-slate-500 dark:text-gray-400">{t('noResult.description')}</p>
 

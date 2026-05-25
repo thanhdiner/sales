@@ -25,6 +25,13 @@ import './index.scss'
 const EMPTY_CART_ITEMS = []
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+function stripHtml(value = '') {
+  return String(value || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 const isMobileDevice = () => {
   if (typeof navigator === 'undefined') return false
 
@@ -105,6 +112,7 @@ function Detail() {
       id: productId,
       slug,
       title: product.title,
+      description: stripHtml(product.description).slice(0, 1000),
       price: priceNew,
       stock: product.stock,
       category: product.productCategory?.title

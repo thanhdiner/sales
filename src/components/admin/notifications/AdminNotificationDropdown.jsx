@@ -22,7 +22,7 @@ export default function AdminNotificationDropdown({
   const { t } = useTranslation('adminNotifications')
 
   return (
-    <div className="absolute right-0 top-12 z-50 w-[400px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text)] shadow-2xl shadow-slate-900/15 dark:shadow-black/40">
+    <div className="absolute right-0 top-12 z-50 w-[400px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] p-2 text-[var(--admin-text)] shadow-lg shadow-slate-900/10 dark:shadow-black/25">
       <div className="flex min-h-[78px] items-start justify-between gap-4 border-b border-[var(--admin-border)] px-4 py-4">
         <div className="min-w-0">
           <h2 className="text-base font-semibold text-[var(--admin-text)]">{t('dropdown.title')}</h2>

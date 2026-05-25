@@ -13,7 +13,7 @@ export default function ChatbotConfigOverview() {
       message={t('overview.message')}
       description={(
         <Space wrap>
-          <Link to="/admin/chatbot-runtime">
+          <Link to="/admin/ai-runtime-settings">
             <Button size="small" className="admin-chatbot-action-btn">{t('overview.runtime')}</Button>
           </Link>
 

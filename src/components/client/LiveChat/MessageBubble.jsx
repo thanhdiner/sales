@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -7,18 +7,29 @@ import { getChatImageUrls, getLocalizedSystemMessage, hasChatImages } from '@/ut
 import { ChatReactionPicker, ChatReactionSummary } from '@/components/shared/ChatMessageReactions'
 import AgentActivityPanel from './AgentActivityPanel'
 
-function TypewriterText({ text, speed = 15, linkClassName }) {
+function TypewriterText({ text, speed = 15, linkClassName, onTypingChange }) {
   const [displayed, setDisplayed] = useState('')
+  const onTypingChangeRef = useRef(onTypingChange)
 
   useEffect(() => {
-    setDisplayed('')
+    onTypingChangeRef.current = onTypingChange
+  }, [onTypingChange])
+
+  useEffect(() => {
+    onTypingChangeRef.current?.(true)
     let i = 0
     const interval = setInterval(() => {
       setDisplayed(text.slice(0, i + 1))
       i += 1
-      if (i >= text.length) clearInterval(interval)
+      if (i >= text.length) {
+        clearInterval(interval)
+        onTypingChangeRef.current?.(false)
+      }
     }, speed)
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      onTypingChangeRef.current?.(false)
+    }
   }, [text, speed])
 
   return <>{renderTextWithLinks(displayed, linkClassName)}</>
@@ -119,7 +130,8 @@ export default function MessageBubble({
   onSuggestionClick,
   onOpenImagePreview,
   onReactToMessage,
-  reactionActor
+  reactionActor,
+  onTypewriterChange
 }) {
   const { t, i18n } = useTranslation('clientChat')
   const isCustomer = msg.sender === 'customer' || msg.sender === 'guest'
@@ -222,7 +234,14 @@ export default function MessageBubble({
           )}
           <div className="w-fit bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-gray-800 dark:text-gray-100 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm leading-relaxed shadow-sm border border-emerald-100 dark:border-emerald-800/40 whitespace-pre-wrap break-words">
             {msg.isNew
-              ? <TypewriterText text={msg.message} linkClassName={botLinkClassName} />
+              ? (
+                <TypewriterText
+                  key={msg._id || msg.clientTempId || msg.createdAt}
+                  text={msg.message}
+                  linkClassName={botLinkClassName}
+                  onTypingChange={isTyping => onTypewriterChange?.(msg._id || msg.clientTempId || msg.createdAt, isTyping)}
+                />
+              )
               : renderTextWithLinks(msg.message, botLinkClassName)}
           </div>
           <AgentActivityPanel msg={msg} />

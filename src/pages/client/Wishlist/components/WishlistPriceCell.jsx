@@ -7,7 +7,7 @@ function WishlistPriceCell({ className = '', formatPrice, item }) {
 
   return (
     <div className={className}>
-      <p className="text-base font-extrabold leading-6 text-[#ff424e] dark:text-red-300">{formatPrice(price)}</p>
+      <p className="text-base font-bold leading-6 text-[#ff424e] dark:text-red-300">{formatPrice(price)}</p>
 
       {discountPct > 0 && originalPrice > price && (
         <p className="mt-0.5 text-sm font-medium text-slate-400 line-through dark:text-gray-500">

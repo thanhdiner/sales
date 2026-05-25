@@ -99,9 +99,7 @@
 .product-detail-page {
   position: relative;
   isolation: isolate;
-  background:
-    linear-gradient(180deg, rgba(94, 106, 210, 0.045), transparent 160px),
-    var(--product-detail-bg);
+  background: var(--product-detail-bg);
   color: var(--product-detail-text);
   overflow: visible;
 }
@@ -148,9 +146,7 @@
 }
 
 html.dark body:not(.admin-layout-active) .product-detail-page {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 180px),
-    var(--product-detail-bg) !important;
+  background: var(--product-detail-bg) !important;
   color: var(--product-detail-text);
 }
 

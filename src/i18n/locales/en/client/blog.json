@@ -62,6 +62,7 @@
     "fetchError": "Failed to load blog posts",
     "detailFetchError": "Failed to load blog post",
     "empty": "No matching posts yet",
+    "emptyAll": "No posts yet",
     "notFound": "Blog post not found",
     "noToc": "No table of contents yet"
   }

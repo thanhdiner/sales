@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn'
 
-export default function AdminTablePanel({
+export default function TablePanel({
   bodyClassName,
   children,
   className,

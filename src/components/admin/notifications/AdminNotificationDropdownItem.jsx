@@ -1,9 +1,9 @@
 import { AlertTriangle } from 'lucide-react'
+import { createElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   formatNotificationRelativeTime,
   getLocalizedNotificationField,
-  getNotificationActionKey,
   getNotificationGroup,
   getNotificationIcon,
   isUrgentNotification
@@ -29,7 +29,7 @@ export default function AdminNotificationDropdownItem({ notification, language, 
                 : 'border-[var(--admin-border)] bg-[var(--admin-surface)] text-[var(--admin-text-muted)]'
             }`}
           >
-            <Icon className="h-4 w-4" />
+            {createElement(Icon, { className: 'h-4 w-4' })}
           </span>
           {unread && <span className="absolute -left-1 top-1.5 h-2.5 w-2.5 rounded-full bg-[var(--admin-accent)] ring-2 ring-[var(--admin-surface)]" />}
         </div>
@@ -56,9 +56,9 @@ export default function AdminNotificationDropdownItem({ notification, language, 
             <button
               type="button"
               onClick={() => onView(notification)}
-              className="ml-auto rounded-md px-1.5 py-0.5 text-xs font-semibold text-[var(--admin-accent)] transition hover:bg-[var(--admin-accent-soft)]"
+              className="ml-auto inline-flex shrink-0 items-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--admin-accent)] transition hover:border-[var(--admin-accent)] hover:bg-[var(--admin-accent-soft)]"
             >
-              {t(`actions.${getNotificationActionKey(notification)}`)}
+              {t('actions.detail')}
             </button>
           </div>
         </div>

@@ -1,3 +1,209 @@
+.admin-notifications-page {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-notifications-stats.admin-stat-grid {
+  margin-bottom: 0;
+  gap: 12px;
+}
+
+.admin-notifications-stats .admin-stat-card {
+  min-height: 78px;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+}
+
+.admin-notifications-stats .admin-stat-card__label {
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.admin-notifications-stats .admin-stat-card__value {
+  margin-top: 3px;
+  font-size: 17px;
+  line-height: 1.05;
+}
+
+.admin-notifications-stats .admin-stat-card__meta {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.admin-notifications-stats .admin-stat-card__icon {
+  --admin-stat-icon-size: 34px;
+  --admin-stat-icon-radius: 8px;
+}
+
+.admin-notifications-table-shell {
+  border-color: var(--admin-border) !important;
+  position: relative;
+  padding-bottom: 6px !important;
+}
+
+.admin-notifications-table-shell::before {
+  position: absolute;
+  top: -7px;
+  right: 1.25rem;
+  left: 1.25rem;
+  height: 1px;
+  background: var(--admin-border);
+  content: '';
+}
+
+@media (max-width: 640px) {
+  .admin-notifications-page {
+    gap: 6px;
+  }
+
+  .admin-notifications-table-shell::before {
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+.admin-notifications-pagination-card {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+}
+
+.admin-notifications-pagination-card p {
+  margin-bottom: 0;
+}
+
+.admin-notifications-filters {
+  border-color: var(--admin-border) !important;
+}
+
+.admin-notifications-filters__controls {
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-notifications-list-card {
+  border-color: var(--admin-border) !important;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--admin-border) 65%, transparent);
+}
+
+.admin-notifications-list-divider {
+  background: var(--admin-border);
+}
+
+.admin-notifications-item {
+  position: relative;
+  overflow: hidden;
+  --notification-color: var(--admin-accent);
+  --notification-soft: var(--admin-accent-soft);
+}
+
+.admin-notifications-item::before {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 0;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--notification-color);
+  content: '';
+  opacity: 0.82;
+}
+
+.admin-notifications-item h2 {
+  color: var(--notification-color) !important;
+  font-weight: 600;
+}
+
+.admin-notifications-item__icon {
+  border-color: color-mix(in srgb, var(--notification-color) 32%, transparent) !important;
+  background: var(--notification-soft) !important;
+  color: var(--notification-color) !important;
+}
+
+.admin-notifications-item--tone-order {
+  --notification-color: #2563eb;
+  --notification-soft: rgba(37, 99, 235, 0.09);
+}
+
+.admin-notifications-item--tone-payment {
+  --notification-color: #059669;
+  --notification-soft: rgba(5, 150, 105, 0.1);
+}
+
+.admin-notifications-item--tone-inventory {
+  --notification-color: #d97706;
+  --notification-soft: rgba(217, 119, 6, 0.12);
+}
+
+.admin-notifications-item--tone-review {
+  --notification-color: #7c3aed;
+  --notification-soft: rgba(124, 58, 237, 0.09);
+}
+
+.admin-notifications-item--tone-refund {
+  --notification-color: #e11d48;
+  --notification-soft: rgba(225, 29, 72, 0.1);
+}
+
+.admin-notifications-item--tone-user {
+  --notification-color: #0891b2;
+  --notification-soft: rgba(8, 145, 178, 0.1);
+}
+
+.admin-notifications-item--tone-system {
+  --notification-color: #64748b;
+  --notification-soft: rgba(100, 116, 139, 0.11);
+}
+
+html.dark .admin-notifications-item--tone-order {
+  --notification-color: #93c5fd;
+  --notification-soft: rgba(59, 130, 246, 0.15);
+}
+
+html.dark .admin-notifications-item--tone-payment {
+  --notification-color: #6ee7b7;
+  --notification-soft: rgba(16, 185, 129, 0.14);
+}
+
+html.dark .admin-notifications-item--tone-inventory {
+  --notification-color: #fbbf24;
+  --notification-soft: rgba(245, 158, 11, 0.16);
+}
+
+html.dark .admin-notifications-item--tone-review {
+  --notification-color: #c4b5fd;
+  --notification-soft: rgba(139, 92, 246, 0.15);
+}
+
+html.dark .admin-notifications-item--tone-refund {
+  --notification-color: #fb7185;
+  --notification-soft: rgba(244, 63, 94, 0.15);
+}
+
+html.dark .admin-notifications-item--tone-user {
+  --notification-color: #67e8f9;
+  --notification-soft: rgba(6, 182, 212, 0.14);
+}
+
+html.dark .admin-notifications-item--tone-system {
+  --notification-color: #cbd5e1;
+  --notification-soft: rgba(148, 163, 184, 0.13);
+}
+
+.admin-notifications-item--unread {
+  background: linear-gradient(90deg, var(--notification-soft), transparent 48%);
+}
+
+.admin-notifications-item--unread .admin-notifications-item__icon {
+  box-shadow: 0 0 0 3px var(--notification-soft);
+}
+
+.admin-notifications-item--unread p {
+  color: var(--admin-text) !important;
+}
+
 .admin-notifications-pagination-card .ant-pagination {
   color: var(--admin-text-muted) !important;
 }

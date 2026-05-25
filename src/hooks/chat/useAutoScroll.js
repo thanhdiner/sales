@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 const BOTTOM_THRESHOLD = 72
 const SCROLL_RETRY_DELAYS = [0, 40, 120, 260, 500]
+const STICKY_LOOP_EXTENSION_MS = 700
 
 const getMessageKey = message => {
   if (!message) return ''
@@ -20,7 +21,14 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
   const containerRef = useRef(null)
   const wasChatOpenRef = useRef(false)
   const shouldStickToBottomRef = useRef(true)
+  const userScrollIntentRef = useRef(false)
+  const userScrollIntentTimerRef = useRef(null)
+  const lastScrollTopRef = useRef(0)
+  const touchStartYRef = useRef(null)
   const latestMessageKeyRef = useRef('')
+  const stickyLoopFrameRef = useRef(null)
+  const stickyLoopUntilRef = useRef(0)
+  const cancelScheduledScrollRef = useRef(null)
   const [showScrollToBottom, setShowScrollToBottom] = useState(false)
   const [newIncomingCount, setNewIncomingCount] = useState(0)
 
@@ -31,7 +39,7 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
     return Math.max(container.scrollHeight - container.scrollTop - container.clientHeight, 0)
   }, [])
 
-  const syncScrollState = useCallback(() => {
+  const syncScrollState = useCallback((source = 'system') => {
     const container = containerRef.current
 
     if (!container) {
@@ -42,8 +50,22 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
 
     const canScroll = container.scrollHeight > container.clientHeight + 4
     const nearBottom = getScrollDistanceFromBottom() <= BOTTOM_THRESHOLD
+    const scrollingUp = container.scrollTop < lastScrollTopRef.current - 1
 
-    shouldStickToBottomRef.current = nearBottom
+    if (source === 'user') {
+      if (nearBottom) {
+        shouldStickToBottomRef.current = true
+      } else if (scrollingUp) {
+        shouldStickToBottomRef.current = false
+        if (stickyLoopFrameRef.current) {
+          cancelAnimationFrame(stickyLoopFrameRef.current)
+          stickyLoopFrameRef.current = null
+        }
+        stickyLoopUntilRef.current = 0
+      }
+    }
+
+    lastScrollTopRef.current = container.scrollTop
     setShowScrollToBottom(canScroll && !nearBottom)
     if (nearBottom) setNewIncomingCount(0)
   }, [getScrollDistanceFromBottom])
@@ -68,37 +90,123 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
     setNewIncomingCount(0)
   }, [])
 
+  const stopStickyLoop = useCallback(() => {
+    if (stickyLoopFrameRef.current) {
+      cancelAnimationFrame(stickyLoopFrameRef.current)
+      stickyLoopFrameRef.current = null
+    }
+    stickyLoopUntilRef.current = 0
+  }, [])
+
+  const startStickyLoop = useCallback((durationMs = STICKY_LOOP_EXTENSION_MS) => {
+    stickyLoopUntilRef.current = Math.max(stickyLoopUntilRef.current, Date.now() + durationMs)
+
+    if (stickyLoopFrameRef.current) return
+
+    const tick = () => {
+      if (!shouldStickToBottomRef.current || Date.now() > stickyLoopUntilRef.current) {
+        stickyLoopFrameRef.current = null
+        return
+      }
+
+      scrollToBottom('auto')
+      stickyLoopFrameRef.current = requestAnimationFrame(tick)
+    }
+
+    stickyLoopFrameRef.current = requestAnimationFrame(tick)
+  }, [scrollToBottom])
+
   const scheduleScrollToBottom = useCallback((behavior = 'auto') => {
     const frameIds = []
     const timeoutIds = []
+    const scrollIfSticky = nextBehavior => {
+      if (shouldStickToBottomRef.current) {
+        scrollToBottom(nextBehavior)
+        startStickyLoop()
+      }
+    }
 
     frameIds.push(
       requestAnimationFrame(() => {
-        scrollToBottom(behavior)
-        frameIds.push(requestAnimationFrame(() => scrollToBottom('auto')))
+        scrollIfSticky(behavior)
+        frameIds.push(requestAnimationFrame(() => scrollIfSticky('auto')))
       })
     )
 
     SCROLL_RETRY_DELAYS.filter(delay => delay > 0).forEach(delay => {
-      timeoutIds.push(window.setTimeout(() => scrollToBottom('auto'), delay))
+      timeoutIds.push(window.setTimeout(() => scrollIfSticky('auto'), delay))
     })
 
     return () => {
       frameIds.forEach(cancelAnimationFrame)
       timeoutIds.forEach(clearTimeout)
     }
-  }, [scrollToBottom])
+  }, [scrollToBottom, startStickyLoop])
+
+  const scrollToBottomAndStick = useCallback((behavior = 'smooth') => {
+    cancelScheduledScrollRef.current?.()
+    cancelScheduledScrollRef.current = null
+    scrollToBottom(behavior)
+    startStickyLoop(1200)
+  }, [scrollToBottom, startStickyLoop])
+
+  const markUserScrollIntent = useCallback(() => {
+    userScrollIntentRef.current = true
+
+    if (userScrollIntentTimerRef.current) {
+      window.clearTimeout(userScrollIntentTimerRef.current)
+    }
+
+    userScrollIntentTimerRef.current = window.setTimeout(() => {
+      userScrollIntentRef.current = false
+      userScrollIntentTimerRef.current = null
+    }, 160)
+  }, [])
+
+  const releaseStickyFromUserScroll = useCallback(() => {
+    markUserScrollIntent()
+    shouldStickToBottomRef.current = false
+    cancelScheduledScrollRef.current?.()
+    cancelScheduledScrollRef.current = null
+    stopStickyLoop()
+    syncScrollState()
+  }, [markUserScrollIntent, stopStickyLoop, syncScrollState])
 
   const handleScroll = useCallback(() => {
-    syncScrollState()
+    syncScrollState(userScrollIntentRef.current ? 'user' : 'system')
   }, [syncScrollState])
+
+  const handleWheel = useCallback(event => {
+    if (event.deltaY < 0) {
+      releaseStickyFromUserScroll()
+    }
+  }, [releaseStickyFromUserScroll])
+
+  const handleTouchStart = useCallback(event => {
+    markUserScrollIntent()
+    touchStartYRef.current = event.touches?.[0]?.clientY ?? null
+  }, [markUserScrollIntent])
+
+  const handleTouchMove = useCallback(event => {
+    const startY = touchStartYRef.current
+    const currentY = event.touches?.[0]?.clientY
+
+    if (typeof startY === 'number' && typeof currentY === 'number' && currentY > startY + 4) {
+      releaseStickyFromUserScroll()
+    }
+  }, [releaseStickyFromUserScroll])
 
   useEffect(() => {
     const isChatOpen = open && view === 'chat'
     if (!isChatOpen) {
       wasChatOpenRef.current = false
-      setShowScrollToBottom(false)
-      setNewIncomingCount(0)
+      queueMicrotask(() => {
+        setShowScrollToBottom(false)
+        setNewIncomingCount(0)
+      })
+      shouldStickToBottomRef.current = true
+      lastScrollTopRef.current = 0
+      stopStickyLoop()
       return
     }
 
@@ -106,14 +214,29 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
     if (!container) return
 
     syncScrollState()
-    container.addEventListener('scroll', syncScrollState, { passive: true })
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    container.addEventListener('wheel', handleWheel, { passive: true })
+    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: true })
 
-    let cancelScheduledScroll
+    const handleKeyDown = event => {
+      if (['ArrowUp', 'PageUp', 'Home'].includes(event.key)) {
+        releaseStickyFromUserScroll()
+        return
+      }
+
+      if (['ArrowDown', 'PageDown', 'End', ' '].includes(event.key)) {
+        markUserScrollIntent()
+      }
+    }
+    container.addEventListener('keydown', handleKeyDown)
+
     const keepBottomIfNeeded = () => {
-      cancelScheduledScroll?.()
+      cancelScheduledScrollRef.current?.()
+      cancelScheduledScrollRef.current = null
 
       if (shouldStickToBottomRef.current) {
-        cancelScheduledScroll = scheduleScrollToBottom('auto')
+        cancelScheduledScrollRef.current = scheduleScrollToBottom('auto')
         return
       }
 
@@ -145,13 +268,25 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
     }
 
     return () => {
-      cancelScheduledScroll?.()
-      container.removeEventListener('scroll', syncScrollState)
+      cancelScheduledScrollRef.current?.()
+      cancelScheduledScrollRef.current = null
+      stopStickyLoop()
+      container.removeEventListener('scroll', handleScroll)
+      container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('keydown', handleKeyDown)
       container.removeEventListener('load', handleContentLoad, true)
+      if (userScrollIntentTimerRef.current) {
+        window.clearTimeout(userScrollIntentTimerRef.current)
+        userScrollIntentTimerRef.current = null
+        userScrollIntentRef.current = false
+      }
+      touchStartYRef.current = null
       mutationObserver?.disconnect()
       resizeObserver?.disconnect()
     }
-  }, [open, view, scheduleScrollToBottom, syncScrollState])
+  }, [open, view, handleScroll, handleTouchMove, handleTouchStart, handleWheel, markUserScrollIntent, releaseStickyFromUserScroll, scheduleScrollToBottom, stopStickyLoop, syncScrollState])
 
   useEffect(() => {
     const isChatOpen = open && view === 'chat'
@@ -183,9 +318,9 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
       setNewIncomingCount(count => count + 1)
     }
 
-    setShowScrollToBottom(true)
+    syncScrollState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, view, messages, scheduleScrollToBottom, ...dependencies])
+  }, [open, view, messages, scheduleScrollToBottom, syncScrollState, ...dependencies])
 
   return {
     bottomRef,
@@ -193,6 +328,6 @@ export function useAutoScroll({ dependencies = [], messages = [], open, view }) 
     handleScroll,
     showScrollToBottom,
     newIncomingCount,
-    scrollToBottom
+    scrollToBottom: scrollToBottomAndStick
   }
 }

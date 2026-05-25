@@ -7,28 +7,37 @@
     "description": "Manage prompts, system rules, fallback messages, and auto-escalate keywords.",
     "openAgentSettings": "Open Agent Settings",
     "reload": "Reload",
-    "save": "Save rules"
+    "save": "Save rules",
+    "preview": "Preview prompt",
+    "resetDefaults": "Reset defaults"
   },
   "stats": {
     "systemRules": "System rules",
+    "systemRulesDesc": "Behavior guardrails applied to every agent response.",
     "escalateKeywords": "Escalation keywords",
+    "escalateKeywordsDesc": "Customer phrases that should route the chat to staff.",
     "promptOverride": "Prompt override",
     "overrideEnabled": "Enabled",
-    "defaultPrompt": "Default"
+    "defaultPrompt": "Default",
+    "promptOverrideEnabledDesc": "A custom system prompt is replacing the generated prompt.",
+    "promptOverrideDefaultDesc": "The agent is using the generated default prompt."
   },
   "alert": {
     "message": "Rules should only contain behavior policies and guardrails",
     "description": "Use Runtime & Provider for model/provider configuration. Use Agent Tools for tool enablement permissions."
   },
   "content": {
-    "title": "Prompt, rules, and fallback"
+    "title": "Prompt, rules, and fallback",
+    "identityTitle": "Brand voice and fallback",
+    "overrideTitle": "System prompt override",
+    "rulesTitle": "Rules and auto-escalate"
   },
   "form": {
     "brandVoice": "Brand voice",
     "brandVoiceExtra": "Guide how the agent should communicate with customers.",
     "brandVoicePlaceholder": "Example: Friendly, use we/you, concise, avoid rambling...",
     "systemPromptOverride": "System prompt override",
-    "systemPromptOverrideExtra": "If filled in, this prompt replaces the default dynamic prompt.",
+    "systemPromptOverrideExtra": "If filled in, this prompt replaces the default dynamic prompt. Use only when necessary.",
     "systemPromptOverridePlaceholder": "Leave blank to use the default prompt...",
     "fallbackMessage": "Fallback message",
     "fallbackMessageExtra": "Message returned when AI encounters an error or cannot handle the request.",
@@ -39,6 +48,38 @@
     "autoEscalateKeywords": "Auto-escalate keywords",
     "autoEscalateKeywordsPlaceholder": "Example: refund, cancel order, talk to staff",
     "add": "Add"
+  },
+  "validation": {
+    "max": "Max {{count}} characters"
+  },
+  "override": {
+    "active": "Override active",
+    "warningTitle": "System prompt override is enabled",
+    "warningDescription": "The default dynamic prompt will be replaced. Sales-scope guardrails are still appended by the backend.",
+    "confirmTitle": "Save prompt override?",
+    "confirmDescription": "Override can strongly change chatbot behavior. Preview the prompt before saving."
+  },
+  "defaults": {
+    "confirmTitle": "Reset defaults?",
+    "confirmDescription": "Defaults are applied to the form only. DB is unchanged until Save rules.",
+    "applied": "Defaults applied to form"
+  },
+  "preview": {
+    "title": "Preview final prompt",
+    "note": "Preview uses sample customer context and the current tool registry."
+  },
+  "test": {
+    "title": "Test chatbot",
+    "placeholder": "Enter a test message...",
+    "button": "Test with current rules"
+  },
+  "history": {
+    "title": "Rules history",
+    "empty": "No history yet",
+    "rollback": "Rollback",
+    "rollbackConfirmTitle": "Rollback rules?",
+    "rollbackConfirmDescription": "Rules config will return to the previous snapshot.",
+    "rollbackSuccess": "Rules rollback complete"
   },
   "messages": {
     "updateSuccess": "Agent rules updated successfully"

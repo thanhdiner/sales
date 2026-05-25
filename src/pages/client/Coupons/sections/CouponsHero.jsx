@@ -1,24 +1,44 @@
 import React from 'react'
-import { Typography } from 'antd'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
-const { Title, Paragraph } = Typography
+const heroVariants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.42,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.07
+    }
+  }
+}
+
+const heroPartVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.36, ease: 'easeOut' }
+  }
+}
 
 const CouponsHero = () => {
   const { t } = useTranslation('clientCoupons')
 
   return (
-    <div className="mb-10 text-center">
-      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">{t('hero.eyebrow')}</p>
+    <motion.header className="coupons-hero" initial="hidden" animate="visible" variants={heroVariants}>
+      <motion.p className="coupons-hero__eyebrow" variants={heroPartVariants}>{t('hero.eyebrow')}</motion.p>
 
-      <Title level={1} className="!mb-4 !text-4xl !font-semibold !tracking-[-0.03em] !text-gray-900 dark:!text-white">
+      <motion.h1 className="coupons-hero__title" variants={heroPartVariants}>
         {t('hero.title')}
-      </Title>
+      </motion.h1>
 
-      <Paragraph className="mx-auto !mb-0 max-w-2xl !text-base !leading-7 !text-gray-600 dark:!text-gray-300">
+      <motion.p className="coupons-hero__description" variants={heroPartVariants}>
         {t('hero.description')}
-      </Paragraph>
-    </div>
+      </motion.p>
+    </motion.header>
   )
 }
 

@@ -59,7 +59,6 @@ export default function Permissions() {
             total={permissionList.length}
             currentPage={currentPage}
             pageSize={pageSize}
-            permissionGroups={permissionForm.permissionGroups}
             language={language}
             loading={loading}
             grantedPermissions={grantedPermissions}

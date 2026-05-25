@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Form, Input, Modal, Space, Table, Tag, Tooltip, Typography, message } from 'antd'
 import { Ban, Eye, PackagePlus, Upload } from 'lucide-react'
 import {
@@ -88,7 +88,7 @@ export default function ProductCredentialManager({ productId, enabled }) {
   const [bulkModalOpen, setBulkModalOpen] = useState(false)
   const [bulkText, setBulkText] = useState('')
 
-  const fetchCredentials = async () => {
+  const fetchCredentials = useCallback(async () => {
     if (!productId || !enabled) return
 
     setLoading(true)
@@ -101,12 +101,11 @@ export default function ProductCredentialManager({ productId, enabled }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [enabled, productId, t])
 
   useEffect(() => {
-    fetchCredentials()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId, enabled])
+    queueMicrotask(fetchCredentials)
+  }, [fetchCredentials])
 
   const createCredentials = async payloads => {
     if (!payloads.length) {
