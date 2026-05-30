@@ -441,6 +441,68 @@ html.dark .sovereign-auth-page .sovereign-register-btn-social img[alt='GitHub'] 
   background-color: var(--auth-primary) !important;
 }
 
+.sovereign-auth-header nav {
+  width: 100%;
+  min-height: 4rem;
+}
+
+.sovereign-auth-nav-actions {
+  height: 2.5rem;
+}
+
+.sovereign-auth-nav-actions > a,
+.sovereign-auth-language-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 2.5rem !important;
+  min-height: 2.5rem !important;
+  box-sizing: border-box;
+  line-height: 1 !important;
+  white-space: nowrap;
+}
+
+.sovereign-auth-nav-actions > a {
+  padding: 0 0.75rem !important;
+}
+
+.sovereign-auth-nav-actions > a .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  font-size: 1.125rem !important;
+  line-height: 1 !important;
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+}
+
+.sovereign-auth-nav-actions > a span:not(.material-symbols-outlined),
+.sovereign-auth-language-toggle span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1 !important;
+}
+
+.sovereign-auth-language-toggle {
+  padding: 0 0.875rem !important;
+}
+
+.sovereign-auth-language-toggle .anticon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  line-height: 1 !important;
+}
+
+.sovereign-auth-language-toggle .anticon svg {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
 @media (max-width: 1024px) {
   .sovereign-auth-page {
     min-height: 100svh !important;

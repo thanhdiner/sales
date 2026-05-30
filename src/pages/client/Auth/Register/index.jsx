@@ -9,12 +9,15 @@ import {
   PhoneOutlined,
   ContactsOutlined
 } from '@ant-design/icons'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import SEO from '@/components/shared/SEO'
 import { userRegister } from '@/services/client/auth/user'
 import { API_URL, APP_NAME } from '@/utils/env'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { AUTH_HERO_IMAGE_URL } from '../authHero'
+import { getAuthMotion } from '../authMotion'
 import { getAuthTheme } from '../authTheme'
 import AuthLanguageToggle from '../components/AuthLanguageToggle'
 import './index.scss'
@@ -24,7 +27,9 @@ const Register = () => {
   const navigate = useNavigate()
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const isDarkMode = useSelector(state => !!state.darkMode?.value)
+  const shouldReduceMotion = useReducedMotion()
   const C = getAuthTheme(isDarkMode)
+  const motionConfig = getAuthMotion(shouldReduceMotion)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
 
@@ -68,8 +73,9 @@ const Register = () => {
   }
 
   return (
-    <div
+    <motion.div
       className="sovereign-auth-page sovereign-auth-page--register"
+      {...motionConfig.page}
       style={{
         minHeight: '100vh',
         background: C.surface,
@@ -81,8 +87,9 @@ const Register = () => {
     >
       <SEO title={t('register.seoTitle')} noIndex />
 
-      <header
+      <motion.header
         className="sovereign-auth-header"
+        {...motionConfig.header}
         style={{
           position: 'fixed',
           top: 0,
@@ -136,7 +143,7 @@ const Register = () => {
                 letterSpacing: '-0.04em'
               }}
             >
-              {websiteConfig?.siteName || APP_NAME || 'Sovereign'}
+              {websiteConfig?.siteName || APP_NAME || 'SmartMall'}
             </span>
           </Link>
 
@@ -214,7 +221,7 @@ const Register = () => {
             <AuthLanguageToggle colors={C} />
           </div>
         </nav>
-      </header>
+      </motion.header>
 
       <main
         className="sovereign-auth-main"
@@ -226,8 +233,9 @@ const Register = () => {
           overflow: 'hidden'
         }}
       >
-        <section
+        <motion.section
           className="sovereign-register-left-panel"
+          {...motionConfig.leftPanel}
           style={{
             width: '45%',
             flex: '0 0 45%',
@@ -241,9 +249,10 @@ const Register = () => {
           }}
         >
           <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
+            <motion.img
+              src={AUTH_HERO_IMAGE_URL}
               alt={t('shared.hero.backgroundAlt')}
+              {...motionConfig.heroImage}
               style={{
                 width: '100%',
                 height: '100%',
@@ -262,7 +271,8 @@ const Register = () => {
             />
           </div>
 
-          <div
+          <motion.div
+            {...motionConfig.heroContent}
             style={{
               position: 'relative',
               zIndex: 10,
@@ -339,12 +349,13 @@ const Register = () => {
                   textTransform: 'uppercase'
                 }}
               >
-                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'Sovereign' })}
+                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'SmartMall' })}
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
+            {...motionConfig.sideFooter}
             style={{
               position: 'absolute',
               left: '3rem',
@@ -364,11 +375,11 @@ const Register = () => {
                 color: '#ffffff'
               }}
             >
-              {t('shared.footer.registrar', { appName: APP_NAME || 'Sovereign' })}
+              {t('shared.footer.registrar', { appName: APP_NAME || 'SmartMall' })}
             </span>
 
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              {t('shared.footer.copyright', { appName: APP_NAME || 'Sovereign' })} {t('shared.footer.rights')}
+              {t('shared.footer.copyright', { appName: APP_NAME || 'SmartMall' })} {t('shared.footer.rights')}
             </span>
 
             <div
@@ -406,11 +417,12 @@ const Register = () => {
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
-        <section
+        <motion.section
           className="sovereign-register-right-panel"
+          {...motionConfig.rightPanel}
           style={{
             width: '55%',
             flex: '1 1 55%',
@@ -423,21 +435,22 @@ const Register = () => {
             overflowY: 'auto'
           }}
         >
-          <div
+          <motion.div
             className="sovereign-auth-card"
+            {...motionConfig.card}
             style={{
               width: '100%',
               maxWidth: '28rem',
               background: C.cardBackground,
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
-              borderRadius: '2rem',
+              borderRadius: '1rem',
               padding: '2.5rem',
               boxShadow: C.cardShadow,
               border: C.cardBorder
             }}
           >
-            <div style={{ marginBottom: '2rem' }}>
+            <motion.div {...motionConfig.cardHeader} style={{ marginBottom: '2rem' }}>
               <h2
                 style={{
                   fontFamily: 'Manrope, sans-serif',
@@ -459,9 +472,9 @@ const Register = () => {
               >
                 {t('register.form.description')}
               </p>
-            </div>
+            </motion.div>
 
-            <div className="sovereign-register-input" style={{ margin: '0 0.25rem' }}>
+            <motion.div className="sovereign-register-input" {...motionConfig.formContent} style={{ margin: '0 0.25rem' }}>
               <Form form={form} name="register" onFinish={onFinish} layout="vertical" size="middle">
                 <Form.Item
                   name="fullName"
@@ -720,11 +733,11 @@ const Register = () => {
                   </Link>
                 </p>
               </Form>
-            </div>
-          </div>
-        </section>
+            </motion.div>
+          </motion.div>
+        </motion.section>
       </main>
-    </div>
+    </motion.div>
   )
 }
 

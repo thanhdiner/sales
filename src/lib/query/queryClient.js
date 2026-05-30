@@ -42,7 +42,7 @@ export const queryPersistOptions = queryPersister
   ? {
       persister: queryPersister,
       maxAge: HOUR,
-      buster: 'sales-react-query-v3',
+      buster: 'sales-react-query-v4',
       dehydrateOptions: {
         shouldDehydrateQuery: shouldPersistQuery
       }

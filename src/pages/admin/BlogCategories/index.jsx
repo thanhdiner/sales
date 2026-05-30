@@ -326,7 +326,7 @@ export default function BlogCategories() {
   }
 
   return (
-    <div className="p-6">
+    <div className="px-1 py-2 sm:px-2 md:px-3">
       <SEO title={text.title} noIndex />
       <div className="mb-4 flex items-center justify-between gap-4">
         <div>

@@ -802,6 +802,8 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
 }
 
 .layout-default {
+  --client-sidebar-transition: 420ms cubic-bezier(0.22, 1, 0.36, 1);
+
   &__sider {
     position: fixed;
     top: 100px;
@@ -815,8 +817,8 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
     -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
     background-color: var(--client-surface);
-    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s ease-in-out, min-width 0.3s ease-in-out, max-width 0.3s ease-in-out;
-    will-change: top, width;
+    transition: top var(--client-sidebar-transition), width var(--client-sidebar-transition), min-width var(--client-sidebar-transition), max-width var(--client-sidebar-transition), flex-basis var(--client-sidebar-transition), box-shadow var(--client-sidebar-transition);
+    will-change: top, width, min-width, max-width, flex-basis;
 
     .ant-layout-sider-children {
       height: 100%;
@@ -833,7 +835,8 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
       min-width: 250px;
       opacity: 1;
       transform: translateX(0);
-      transition: opacity 0.18s ease-in-out, transform 0.24s ease-in-out;
+      transition: min-width var(--client-sidebar-transition), opacity 240ms ease, transform var(--client-sidebar-transition);
+      will-change: min-width, opacity, transform;
     }
 
     &-toggle {
@@ -847,6 +850,7 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
       color: #6b7280;
       background: rgba(255, 255, 255, 0.84);
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+      transition: top var(--client-sidebar-transition), right var(--client-sidebar-transition), color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 
       &:hover,
       &:focus-visible {
@@ -877,7 +881,7 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
     padding-top: 100px; // offset for fixed header (~70px) + spacing
     padding-left: 250px;
     background-color: var(--client-bg);
-    transition: padding-left 0.3s ease-in-out;
+    transition: padding-left var(--client-sidebar-transition);
     will-change: padding-left;
   }
   &__body--sub {
@@ -912,6 +916,16 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
       border-inline-end: 0;
     }
 
+    .menu-sider .ant-menu-item-group-title {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateX(-8px);
+      visibility: hidden;
+    }
+
     .menu-sider .ant-menu-item,
     .menu-sider .ant-menu-submenu-title {
       position: relative;
@@ -937,7 +951,6 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
       border-radius: 8px;
     }
 
-    .menu-sider__group--divider .ant-menu-item-group-title,
     .menu-sider__secondary-group {
       display: none;
     }
@@ -949,6 +962,9 @@ html.dark body:not(.admin-layout-active) .header-nav-more-dropdown.ant-dropdown 
       height: 44px;
       overflow: hidden;
       color: transparent;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-8px);
       white-space: nowrap;
     }
 

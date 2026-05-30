@@ -1,56 +1,501 @@
 {
   "gameAccount": {
     "seo": {
-      "title": "Tài khoản game – Sắp ra mắt"
+      "title": "Tài khoản game uy tín",
+      "description": "Khám phá dịch vụ tư vấn tài khoản game an toàn, minh bạch và có hỗ trợ trước khi giao dịch."
     },
-    "eyebrow": "Sắp ra mắt",
-    "title": "Tài khoản game",
-    "description": "Hiện tại chúng tôi chưa mở bán tài khoản game. Vui lòng quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.",
-    "note": "Dịch vụ sẽ được cập nhật trong thời gian tới."
+    "breadcrumb": {
+      "label": "Đường dẫn tài khoản game",
+      "home": "Trang chủ",
+      "current": "Tài khoản game"
+    },
+    "eyebrow": "Dịch vụ tài khoản game",
+    "title": "Tìm tài khoản game phù hợp nhu cầu của bạn",
+    "description": "Chọn nhanh nhóm tài khoản theo game, ngân sách và tiêu chí an toàn. Đội ngũ hỗ trợ sẽ tư vấn kỹ trước khi bạn quyết định.",
+    "note": "Nếu bạn cần tài khoản theo tiêu chí riêng, hãy gửi yêu cầu để đội ngũ kiểm tra nguồn hàng phù hợp.",
+    "hero": {
+      "primaryAction": "Xem sản phẩm hiện có",
+      "secondaryAction": "Nhờ tư vấn tài khoản",
+      "supportMessage": "Tôi cần tư vấn chọn tài khoản game phù hợp.",
+      "previewEyebrow": "Danh sách nổi bật",
+      "previewTitle": "Gợi ý tài khoản đang được quan tâm"
+    },
+    "trust": [
+      {
+        "title": "Kiểm tra thông tin trước",
+        "description": "Tài khoản được rà soát các tiêu chí cơ bản trước khi tư vấn để giảm rủi ro cho khách hàng."
+      },
+      {
+        "title": "Hỗ trợ chọn nhanh",
+        "description": "Bạn chỉ cần nói game, ngân sách và nhu cầu, đội ngũ sẽ gợi ý lựa chọn phù hợp."
+      },
+      {
+        "title": "Ưu tiên minh bạch",
+        "description": "Thông tin quan trọng như rank, server, vật phẩm nổi bật và ghi chú bàn giao được trình bày rõ ràng."
+      }
+    ],
+    "catalog": {
+      "eyebrow": "Danh mục gợi ý",
+      "title": "Nhóm tài khoản phổ biến",
+      "description": "Các nhóm dưới đây giúp khách hàng hình dung nhanh loại tài khoản có thể yêu cầu tư vấn.",
+      "action": "Tư vấn",
+      "supportMessage": "Tôi muốn được tư vấn về {{account}}.",
+      "items": {
+        "genshin": {
+          "badge": "RPG",
+          "title": "Tài khoản Genshin/HSR",
+          "description": "Phù hợp người chơi muốn khởi đầu nhanh với nhân vật, vũ khí hoặc tài nguyên đã tích lũy.",
+          "price": "Theo yêu cầu",
+          "features": ["Lọc theo nhân vật", "Ghi chú server", "Tư vấn ngân sách"]
+        },
+        "lol": {
+          "badge": "MOBA",
+          "title": "Tài khoản Liên Minh",
+          "description": "Gợi ý theo rank, tướng, trang phục và mục tiêu sử dụng của người chơi.",
+          "price": "Theo cấu hình",
+          "features": ["Lọc theo rank", "Gợi ý skin", "Hỗ trợ kiểm tra"]
+        },
+        "valorant": {
+          "badge": "FPS",
+          "title": "Tài khoản Valorant",
+          "description": "Dành cho nhu cầu tìm tài khoản có skin, rank hoặc lịch sử chơi phù hợp.",
+          "price": "Theo nhu cầu",
+          "features": ["Lọc skin nổi bật", "Ghi chú rank", "Tư vấn an toàn"]
+        },
+        "steam": {
+          "badge": "PC",
+          "title": "Tài khoản game PC",
+          "description": "Hỗ trợ tư vấn tài khoản có thư viện game, DLC hoặc vật phẩm theo yêu cầu.",
+          "price": "Liên hệ",
+          "features": ["Danh sách game", "Ghi chú DLC", "Tư vấn bàn giao"]
+        }
+      }
+    },
+    "filters": {
+      "all": "Tất cả",
+      "genshin": "RPG",
+      "lol": "MOBA",
+      "valorant": "FPS",
+      "steam": "PC"
+    },
+    "process": {
+      "steps": [
+        {
+          "title": "Gửi tiêu chí",
+          "description": "Cho biết game, ngân sách, server, rank hoặc vật phẩm bạn đang cần."
+        },
+        {
+          "title": "Nhận gợi ý",
+          "description": "Đội ngũ tổng hợp lựa chọn phù hợp và giải thích điểm cần lưu ý."
+        },
+        {
+          "title": "Xác nhận an toàn",
+          "description": "Chỉ tiếp tục khi bạn đã hiểu rõ thông tin, rủi ro và cách bàn giao."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Bạn cần tài khoản theo yêu cầu riêng?",
+      "description": "Gửi yêu cầu chi tiết để đội ngũ hỗ trợ tìm lựa chọn phù hợp thay vì phải tự lọc thủ công.",
+      "button": "Liên hệ tư vấn"
+    }
   },
   "specialPackage": {
     "seo": {
-      "title": "Gói đặc biệt – Sắp ra mắt"
+      "title": "Gói dịch vụ đặc biệt",
+      "description": "Các gói dịch vụ tư vấn, combo sản phẩm và hỗ trợ theo nhu cầu riêng cho khách hàng."
     },
-    "eyebrow": "Sắp ra mắt",
-    "title": "Gói dịch vụ đặc biệt",
-    "description": "Hiện tại chúng tôi chưa cung cấp các gói dịch vụ đặc biệt. Hãy quay lại sau hoặc liên hệ nếu bạn có nhu cầu riêng.",
-    "note": "Dịch vụ này sẽ được cập nhật trong thời gian tới."
+    "breadcrumb": {
+      "label": "Đường dẫn gói đặc biệt",
+      "home": "Trang chủ",
+      "current": "Gói đặc biệt"
+    },
+    "eyebrow": "Gói thiết kế riêng",
+    "title": "Gói dịch vụ đặc biệt cho nhu cầu không theo mẫu",
+    "description": "Kết hợp sản phẩm, ưu đãi và hỗ trợ theo mục tiêu riêng của bạn, phù hợp khi một sản phẩm đơn lẻ chưa đáp ứng đủ nhu cầu.",
+    "note": "Các gói đặc biệt được tư vấn theo từng trường hợp để đảm bảo phạm vi hỗ trợ rõ ràng trước khi thực hiện.",
+    "hero": {
+      "primaryAction": "Tư vấn gói riêng",
+      "secondaryAction": "Xem hướng dẫn mua",
+      "supportMessage": "Tôi muốn được tư vấn gói dịch vụ đặc biệt.",
+      "previewEyebrow": "Combo nổi bật",
+      "previewTitle": "Các dạng gói có thể triển khai"
+    },
+    "packagesEyebrow": "Gợi ý gói",
+    "packagesTitle": "Chọn dạng gói phù hợp",
+    "packagesDescription": "Các nhóm gói giúp bạn mô tả nhanh nhu cầu trước khi đội ngũ tư vấn chi tiết.",
+    "packages": [
+      {
+        "title": "Gói khởi động nhanh",
+        "description": "Phù hợp khách hàng muốn bắt đầu nhanh với sản phẩm, tài khoản hoặc dịch vụ đã được gợi ý sẵn.",
+        "features": ["Tư vấn lựa chọn", "Ưu tiên dễ dùng", "Hướng dẫn sau khi nhận"]
+      },
+      {
+        "title": "Gói combo tiết kiệm",
+        "description": "Kết hợp nhiều nhu cầu liên quan để tối ưu chi phí và giảm thời gian trao đổi.",
+        "features": ["Gộp nhiều hạng mục", "Tư vấn ngân sách", "Ưu tiên giá trị sử dụng"]
+      },
+      {
+        "title": "Gói theo yêu cầu",
+        "description": "Dành cho nhu cầu đặc thù cần kiểm tra nguồn hàng, điều kiện hoặc cách bàn giao riêng.",
+        "features": ["Tiếp nhận yêu cầu", "Kiểm tra khả năng đáp ứng", "Theo dõi tiến độ"]
+      }
+    ],
+    "workflow": {
+      "eyebrow": "Quy trình",
+      "title": "Tư vấn rõ phạm vi trước khi thực hiện",
+      "steps": [
+        {
+          "title": "Tiếp nhận nhu cầu",
+          "description": "Bạn gửi mục tiêu, ngân sách và thời gian mong muốn."
+        },
+        {
+          "title": "Đề xuất phương án",
+          "description": "Đội ngũ đưa ra lựa chọn phù hợp, phạm vi hỗ trợ và lưu ý quan trọng."
+        },
+        {
+          "title": "Chốt cách hỗ trợ",
+          "description": "Hai bên thống nhất nội dung trước khi chuyển sang bước xử lý tiếp theo."
+        }
+      ]
+    },
+    "benefits": [
+      {
+        "title": "Linh hoạt theo nhu cầu",
+        "description": "Không bị giới hạn vào một sản phẩm cố định khi bạn cần giải pháp nhiều phần."
+      },
+      {
+        "title": "Tiết kiệm thời gian",
+        "description": "Đội ngũ giúp gom thông tin và đề xuất phương án thay vì bạn tự tìm từng mục."
+      },
+      {
+        "title": "Rõ ràng phạm vi",
+        "description": "Các hạng mục được trao đổi trước để tránh hiểu nhầm trong quá trình hỗ trợ."
+      }
+    ],
+    "cta": {
+      "title": "Bạn có nhu cầu đặc biệt?",
+      "description": "Gửi mô tả ngắn, đội ngũ sẽ phản hồi hướng xử lý phù hợp nhất.",
+      "button": "Liên hệ ngay"
+    }
   },
   "gameNews": {
     "seo": {
-      "title": "Tin tức game – Sắp ra mắt"
+      "title": "Tin tức game",
+      "description": "Cập nhật tin game, sự kiện, hướng dẫn và ưu đãi nổi bật cho cộng đồng người chơi."
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn tin game",
+      "home": "Trang chủ",
+      "current": "Tin game"
     },
     "title": "Tin tức game",
-    "description": "Mục tin tức game sẽ cập nhật các sự kiện, khuyến mãi và thông tin mới nhất trong thời gian tới.",
-    "descriptionSecondLine": "Đừng quên quay lại để không bỏ lỡ bất kỳ tin nóng nào!",
-    "status": "Chức năng này sẽ sớm ra mắt!"
+    "description": "Theo dõi các cập nhật game, sự kiện, hướng dẫn và xu hướng thị trường.",
+    "descriptionSecondLine": "Nội dung được thiết kế để giúp bạn ra quyết định mua sắm và trải nghiệm game tốt hơn.",
+    "status": "Trung tâm nội dung game",
+    "featured": "Bài nổi bật",
+    "hero": {
+      "primaryAction": "Đọc blog",
+      "secondaryAction": "Xem flash sale"
+    },
+    "latest": {
+      "eyebrow": "Cập nhật mới",
+      "title": "Chủ đề đáng chú ý",
+      "description": "Lọc nhanh theo nhóm nội dung để xem các tin phù hợp với nhu cầu của bạn.",
+      "readMore": "Đọc thêm"
+    },
+    "categories": {
+      "all": "Tất cả",
+      "updates": "Cập nhật",
+      "events": "Sự kiện",
+      "guides": "Hướng dẫn"
+    },
+    "articles": {
+      "patch": {
+        "title": "Cập nhật phiên bản mới và vật phẩm đáng chú ý",
+        "excerpt": "Tóm tắt nhanh các thay đổi ảnh hưởng đến trải nghiệm chơi và nhu cầu mua sắm.",
+        "readTime": "4 phút đọc",
+        "date": "Hôm nay"
+      },
+      "event": {
+        "title": "Sự kiện giới hạn thời gian không nên bỏ lỡ",
+        "excerpt": "Gợi ý cách theo dõi mốc thời gian, phần thưởng và ưu đãi trong mùa sự kiện.",
+        "readTime": "3 phút đọc",
+        "date": "Tuần này"
+      },
+      "guide": {
+        "title": "Hướng dẫn chọn sản phẩm game an toàn hơn",
+        "excerpt": "Các tiêu chí nên kiểm tra trước khi chọn tài khoản, key hoặc vật phẩm số.",
+        "readTime": "5 phút đọc",
+        "date": "Mới cập nhật"
+      },
+      "market": {
+        "title": "Xu hướng giá và nhu cầu trong cộng đồng",
+        "excerpt": "Nhìn nhanh các nhóm sản phẩm đang được quan tâm để chọn thời điểm phù hợp.",
+        "readTime": "6 phút đọc",
+        "date": "Phân tích"
+      }
+    },
+    "trendingTitle": "Đang được quan tâm",
+    "trending": [
+      "Cách kiểm tra thông tin tài khoản trước khi mua",
+      "Những ưu đãi thường gặp trong mùa sự kiện",
+      "Khi nào nên chọn gói combo thay vì mua lẻ",
+      "Các lưu ý khi nhận key bản quyền"
+    ],
+    "newsletter": {
+      "title": "Theo dõi nội dung mới",
+      "description": "Truy cập blog để xem bài viết đầy đủ, tin khuyến mãi và hướng dẫn chi tiết.",
+      "button": "Mở blog"
+    },
+    "cta": {
+      "eyebrow": "Kho nội dung",
+      "title": "Muốn đọc thêm bài phân tích chi tiết?",
+      "description": "Blog hiện có thể lưu trữ bài viết dài, chuyên mục và nội dung hướng dẫn đầy đủ.",
+      "button": "Đi tới blog"
+    }
   },
   "community": {
     "seo": {
-      "title": "Cộng đồng – Sắp ra mắt"
+      "title": "Cộng đồng game thủ",
+      "description": "Không gian kết nối, chia sẻ kinh nghiệm và cập nhật hoạt động dành cho cộng đồng khách hàng."
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn cộng đồng",
+      "home": "Trang chủ",
+      "current": "Cộng đồng"
     },
     "title": "Cộng đồng game thủ",
-    "description": "Khu vực giao lưu, chia sẻ kinh nghiệm và kết nối các game thủ sẽ sớm được mở cửa.",
-    "descriptionSecondLine": "Đừng bỏ lỡ cơ hội trở thành thành viên đầu tiên của cộng đồng chúng tôi!",
-    "status": "Tính năng này đang được phát triển!"
+    "description": "Khu vực giao lưu, chia sẻ kinh nghiệm và kết nối người chơi theo cùng sở thích.",
+    "descriptionSecondLine": "Bạn có thể theo dõi tin tức, đặt câu hỏi và nhận hỗ trợ nhanh từ đội ngũ.",
+    "status": "Không gian cộng đồng",
+    "hero": {
+      "primaryAction": "Tham gia tư vấn",
+      "secondaryAction": "Đọc tin cộng đồng",
+      "supportMessage": "Tôi muốn tìm hiểu thêm về cộng đồng game thủ.",
+      "panelEyebrow": "Hoạt động cộng đồng",
+      "panelTitle": "Kết nối người chơi cùng nhu cầu"
+    },
+    "stats": [
+      { "value": "24/7", "label": "Kênh hỗ trợ" },
+      { "value": "3+", "label": "Nhóm chủ đề" },
+      { "value": "1:1", "label": "Tư vấn cá nhân" }
+    ],
+    "features": {
+      "eyebrow": "Tính năng cộng đồng",
+      "title": "Nơi khách hàng dễ hỏi, dễ theo dõi, dễ kết nối",
+      "description": "Trang cộng đồng gom các hoạt động hữu ích xoay quanh sản phẩm game và hỗ trợ sau mua.",
+      "items": [
+        {
+          "title": "Hỏi đáp nhanh",
+          "description": "Gửi câu hỏi về sản phẩm, tài khoản, key hoặc quy trình nhận hàng để được hướng dẫn."
+        },
+        {
+          "title": "Sự kiện và ưu đãi",
+          "description": "Theo dõi các hoạt động nổi bật, ưu đãi theo mùa và nội dung được cộng đồng quan tâm."
+        },
+        {
+          "title": "Chia sẻ kinh nghiệm",
+          "description": "Tổng hợp mẹo chọn sản phẩm, lưu ý an toàn và trải nghiệm sử dụng thực tế."
+        }
+      ]
+    },
+    "values": {
+      "eyebrow": "Giá trị cốt lõi",
+      "title": "Cộng đồng xoay quanh sự minh bạch",
+      "description": "Mục tiêu là giúp khách hàng trao đổi thông tin rõ ràng trước và sau khi sử dụng dịch vụ.",
+      "items": [
+        {
+          "title": "Tôn trọng thông tin",
+          "description": "Khuyến khích chia sẻ có kiểm chứng và hạn chế lời hứa mơ hồ."
+        },
+        {
+          "title": "Phản hồi nhanh",
+          "description": "Các chủ đề phổ biến được chuyển thành hướng dẫn hoặc FAQ để dễ tra cứu."
+        },
+        {
+          "title": "Tập trung game thủ",
+          "description": "Nội dung ưu tiên nhu cầu thực tế của người chơi và khách hàng sản phẩm số."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Bạn muốn đề xuất chủ đề cộng đồng?",
+      "description": "Gửi góp ý để đội ngũ bổ sung nội dung, hướng dẫn hoặc hoạt động phù hợp hơn.",
+      "button": "Gửi đề xuất",
+      "supportMessage": "Tôi muốn đề xuất chủ đề cho cộng đồng."
+    }
   },
   "quickSupport": {
     "seo": {
-      "title": "Hỗ trợ nhanh – Sắp ra mắt"
+      "title": "Hỗ trợ nhanh",
+      "description": "Trung tâm hỗ trợ nhanh cho tư vấn sản phẩm, đơn hàng, thanh toán và các câu hỏi thường gặp."
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn hỗ trợ nhanh",
+      "home": "Trang chủ",
+      "current": "Hỗ trợ nhanh"
     },
     "title": "Hỗ trợ nhanh",
-    "description": "Tính năng hỗ trợ khách hàng, giải đáp thắc mắc tức thì sẽ sớm ra mắt.",
-    "descriptionSecondLine": "Hãy yên tâm, đội ngũ của chúng tôi luôn sẵn sàng đồng hành cùng bạn!",
-    "status": "Chức năng này sẽ sớm hoạt động!"
+    "description": "Chọn đúng nhu cầu để được điều hướng tới chat, đơn hàng hoặc trang liên hệ nhanh hơn.",
+    "descriptionSecondLine": "Đội ngũ hỗ trợ luôn sẵn sàng đồng hành trước và sau khi bạn sử dụng dịch vụ.",
+    "status": "Sẵn sàng hỗ trợ",
+    "hero": {
+      "primaryAction": "Mở chat hỗ trợ",
+      "secondaryAction": "Tra cứu đơn hàng",
+      "supportMessage": "Tôi cần hỗ trợ nhanh."
+    },
+    "assistant": {
+      "title": "Trợ lý hỗ trợ",
+      "status": "Đang trực tuyến",
+      "messages": [
+        "Bạn cần tư vấn sản phẩm, kiểm tra đơn hàng hay hỏi về cách nhận hàng?",
+        "Hãy chọn một tác vụ nhanh bên dưới để được điều hướng đúng nơi.",
+        "Nếu vấn đề phức tạp, đội ngũ sẽ tiếp nhận và phản hồi chi tiết."
+      ]
+    },
+    "actions": {
+      "eyebrow": "Tác vụ nhanh",
+      "title": "Bạn cần hỗ trợ việc gì?",
+      "items": [
+        {
+          "title": "Tư vấn sản phẩm",
+          "description": "Hỏi nhanh về tài khoản, key, gói dịch vụ hoặc sản phẩm phù hợp.",
+          "message": "Tôi cần tư vấn sản phẩm phù hợp."
+        },
+        {
+          "title": "Theo dõi đơn hàng",
+          "description": "Đi tới danh sách đơn hàng để kiểm tra trạng thái xử lý và nhận hàng.",
+          "message": "Tôi muốn kiểm tra trạng thái đơn hàng."
+        },
+        {
+          "title": "Hỗ trợ thanh toán",
+          "description": "Gửi câu hỏi về chuyển khoản, xác nhận thanh toán hoặc mã ưu đãi.",
+          "message": "Tôi cần hỗ trợ về thanh toán."
+        },
+        {
+          "title": "Câu hỏi bảo mật",
+          "description": "Nhận hướng dẫn về bàn giao tài khoản, key bản quyền và thông tin an toàn.",
+          "message": "Tôi có câu hỏi về bảo mật và bàn giao."
+        }
+      ]
+    },
+    "sla": {
+      "title": "Mục tiêu phản hồi rõ ràng",
+      "description": "Các mốc dưới đây giúp bạn biết nên chọn kênh nào cho từng mức độ cần hỗ trợ.",
+      "items": [
+        { "value": "1-5p", "label": "Chat nhanh" },
+        { "value": "24/7", "label": "Tiếp nhận" },
+        { "value": "1:1", "label": "Tư vấn riêng" }
+      ]
+    },
+    "faq": {
+      "eyebrow": "FAQ nhanh",
+      "title": "Câu hỏi thường gặp",
+      "items": [
+        {
+          "question": "Tôi nên hỏi ở đâu nếu chưa biết chọn sản phẩm nào?",
+          "answer": "Hãy dùng chat hỗ trợ và mô tả game, ngân sách, mục tiêu sử dụng để được gợi ý."
+        },
+        {
+          "question": "Tôi có thể kiểm tra đơn hàng ở đâu?",
+          "answer": "Bạn có thể vào trang Đơn hàng sau khi đăng nhập để xem trạng thái xử lý."
+        },
+        {
+          "question": "Nếu đã chuyển khoản thì cần làm gì?",
+          "answer": "Hãy giữ lại thông tin giao dịch và liên hệ hỗ trợ nếu cần xác nhận nhanh."
+        },
+        {
+          "question": "Tôi có thể yêu cầu tư vấn riêng không?",
+          "answer": "Có, bạn có thể gửi yêu cầu qua chat hoặc trang Liên hệ để đội ngũ phản hồi chi tiết."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Vấn đề của bạn chưa nằm trong danh sách?",
+      "description": "Gửi thông tin qua trang liên hệ để đội ngũ tiếp nhận và hỗ trợ theo đúng trường hợp.",
+      "button": "Đi tới liên hệ"
+    }
   },
   "license": {
     "seo": {
-      "title": "Bản quyền – Sắp ra mắt"
+      "title": "Bản quyền phần mềm và key chính hãng",
+      "description": "Tư vấn key bản quyền, phần mềm chính hãng và quy trình nhận mã minh bạch."
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn bản quyền",
+      "home": "Trang chủ",
+      "current": "Bản quyền"
     },
     "title": "Bản quyền phần mềm",
-    "description": "Chuyên mục cung cấp phần mềm bản quyền, key chính hãng, cam kết nguồn gốc rõ ràng sẽ được cập nhật trong thời gian tới.",
-    "descriptionSecondLine": "Hãy theo dõi để không bỏ lỡ các ưu đãi độc quyền!",
-    "status": "Tính năng này đang trong quá trình phát triển!"
+    "description": "Chuyên mục cung cấp phần mềm bản quyền, key chính hãng và tư vấn lựa chọn theo nhu cầu sử dụng.",
+    "descriptionSecondLine": "Tập trung vào nguồn gốc rõ ràng, hướng dẫn kích hoạt và hỗ trợ sau khi nhận.",
+    "status": "Key và license chính hãng",
+    "hero": {
+      "primaryAction": "Xem sản phẩm",
+      "secondaryAction": "Nhờ tư vấn license",
+      "supportMessage": "Tôi cần tư vấn key bản quyền hoặc license phần mềm.",
+      "panelEyebrow": "Nhóm sản phẩm",
+      "panelTitle": "License cho học tập, làm việc và giải trí"
+    },
+    "catalog": {
+      "eyebrow": "Danh mục license",
+      "title": "Nhóm bản quyền có thể tư vấn",
+      "description": "Chọn nhóm nhu cầu để đội ngũ hỗ trợ tìm license hoặc key phù hợp hơn.",
+      "action": "Tư vấn nhóm này",
+      "supportMessage": "Tôi muốn được tư vấn về {{product}}.",
+      "items": [
+        {
+          "title": "Key phần mềm",
+          "description": "Tư vấn key cho ứng dụng học tập, làm việc, bảo mật hoặc tiện ích phổ biến."
+        },
+        {
+          "title": "License game",
+          "description": "Hỗ trợ chọn mã game, DLC hoặc gói nội dung số theo nhu cầu sử dụng."
+        },
+        {
+          "title": "Gói hỗ trợ kích hoạt test",
+          "description": "Hướng dẫn kiểm tra, nhận mã và xử lý các vấn đề thường gặp khi kích hoạt."
+        }
+      ]
+    },
+    "process": {
+      "eyebrow": "Quy trình nhận license",
+      "title": "Rõ nguồn gốc, rõ cách kích hoạt",
+      "description": "Mỗi yêu cầu được tư vấn theo loại phần mềm, khu vực, thời hạn và điều kiện sử dụng.",
+      "steps": [
+        {
+          "title": "Xác định nhu cầu",
+          "description": "Cho biết phần mềm, nền tảng, thời hạn và mục đích sử dụng."
+        },
+        {
+          "title": "Kiểm tra lựa chọn",
+          "description": "Đội ngũ gợi ý loại key/license phù hợp với điều kiện sử dụng."
+        },
+        {
+          "title": "Hướng dẫn nhận mã",
+          "description": "Bạn được hướng dẫn các bước nhận, kích hoạt và lưu thông tin cần thiết."
+        }
+      ]
+    },
+    "trust": [
+      {
+        "title": "Ưu tiên nguồn rõ ràng",
+        "description": "Thông tin điều kiện sử dụng và phạm vi hỗ trợ được trao đổi trước."
+      },
+      {
+        "title": "Tư vấn đúng nhu cầu",
+        "description": "Tránh chọn nhầm gói license không phù hợp nền tảng hoặc khu vực sử dụng."
+      },
+      {
+        "title": "Hỗ trợ sau nhận",
+        "description": "Có kênh hỗ trợ nếu bạn cần hỏi thêm về kích hoạt hoặc lưu trữ mã."
+      }
+    ],
+    "cta": {
+      "title": "Cần tìm key/license cụ thể?",
+      "description": "Gửi tên phần mềm hoặc nhu cầu sử dụng, đội ngũ sẽ tư vấn nhóm sản phẩm phù hợp.",
+      "button": "Liên hệ tư vấn"
+    }
   }
 }

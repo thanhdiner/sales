@@ -90,6 +90,8 @@ export default function Orders() {
             />
           ) : null}
 
+          {showFilters ? <div className="admin-orders-section-divider" /> : null}
+
           <OrdersTable
             loading={loading}
             orders={orders}

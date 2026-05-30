@@ -25,6 +25,29 @@
       })()
     </script>
     <meta name="description" content="SmartMall" />
+    <style>
+      html,
+      body,
+      #root {
+        min-height: 100%;
+      }
+
+      body {
+        background: #fbf8ff;
+      }
+
+      html.dark body {
+        background: #070809;
+      }
+
+      body.auth-route-boot {
+        background: linear-gradient(90deg, #27389a 0 45%, #f4f2fc 45% 100%);
+      }
+
+      html.dark body.auth-route-boot {
+        background: linear-gradient(90deg, #060708 0 45%, #070809 45% 100%);
+      }
+    </style>
     <link rel="stylesheet" href="/styles/reset.css" />
     <title>SmartMall</title>
   </head>
@@ -32,6 +55,10 @@
     <script>
       if (window.location.pathname === '/admin' || window.location.pathname.indexOf('/admin/') === 0) {
         document.body.classList.add('admin-layout-active')
+      }
+
+      if (/^\/user\/(login|register|forgot-password|oauth-callback)/.test(window.location.pathname)) {
+        document.body.classList.add('auth-route-boot')
       }
     </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>

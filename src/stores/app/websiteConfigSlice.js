@@ -28,9 +28,13 @@ export const fetchWebsiteConfig = createAsyncThunk('websiteConfig/fetch', async 
   return json
 })
 
+const DEFAULT_WEBSITE_CONFIG = {
+  siteName: 'SmartMall'
+}
+
 const websiteConfigSlice = createSlice({
   name: 'websiteConfig',
-  initialState: { data: null, status: 'idle', error: null },
+  initialState: { data: DEFAULT_WEBSITE_CONFIG, status: 'idle', error: null },
   reducers: {
     setWebsiteConfig(state, action) {
       state.data = action.payload

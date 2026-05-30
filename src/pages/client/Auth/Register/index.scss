@@ -12,7 +12,7 @@
 .sovereign-register-input .ant-input {
   background: #fff !important;
   border: 1px solid #c5c5d4 !important;
-  border-radius: 14px !important;
+  border-radius: 8px !important;
   box-shadow: none !important;
   min-height: 44px !important;
   padding: 0 14px !important;
@@ -79,7 +79,7 @@
   gap: 8px;
   padding: 8px 12px;
   border: 1px solid rgba(197, 197, 212, 0.7);
-  border-radius: 12px;
+  border-radius: 0;
   background: #fff;
   color: #1a1b22;
   transition: all 0.25s ease;
@@ -93,7 +93,7 @@
 .sovereign-register-btn-primary {
   background: linear-gradient(135deg, #27389a 0%, #4151b3 100%) !important;
   border: none !important;
-  border-radius: 14px !important;
+  border-radius: 8px !important;
   font-weight: 700;
 
   &:hover {
@@ -120,3 +120,24 @@
 }
 
 @import '../AuthTheme.scss';
+
+.sovereign-auth-page .sovereign-register-btn-primary.ant-btn-primary {
+  border-radius: 8px !important;
+}
+
+.sovereign-auth-page .sovereign-register-btn-social,
+.sovereign-auth-page .sovereign-register-btn-social:hover {
+  border-radius: 0;
+}
+
+@media (max-width: 1024px) {
+  .sovereign-auth-page .sovereign-auth-card {
+    border-radius: 1rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .sovereign-auth-page .sovereign-auth-card {
+    border-radius: 0.875rem !important;
+  }
+}

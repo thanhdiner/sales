@@ -9,12 +9,15 @@ import {
   CheckCircleOutlined,
   ArrowLeftOutlined
 } from '@ant-design/icons'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import SEO from '@/components/shared/SEO'
 import { forgotPassword, verifyResetCode, resetPassword } from '@/services/client/auth/user'
 import { APP_NAME } from '@/utils/env'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { AUTH_HERO_IMAGE_URL } from '../authHero'
+import { getAuthMotion } from '../authMotion'
 import { getAuthTheme } from '../authTheme'
 import AuthLanguageToggle from '../components/AuthLanguageToggle'
 import './index.scss'
@@ -26,7 +29,9 @@ const ForgotPassword = () => {
   const { t } = useTranslation('clientAuth')
   const websiteConfig = useSelector(state => state.websiteConfig.data)
   const isDarkMode = useSelector(state => !!state.darkMode?.value)
+  const shouldReduceMotion = useReducedMotion()
   const C = getAuthTheme(isDarkMode)
+  const motionConfig = getAuthMotion(shouldReduceMotion)
   const [loading, setLoading] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [email, setEmail] = useState('')
@@ -332,8 +337,9 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div
+    <motion.div
       className="sovereign-auth-page sovereign-auth-page--forgot"
+      {...motionConfig.page}
       style={{
         minHeight: '100vh',
         background: C.surface,
@@ -345,8 +351,9 @@ const ForgotPassword = () => {
     >
       <SEO title={t('forgot.seoTitle')} noIndex />
 
-      <header
+      <motion.header
         className="sovereign-auth-header"
+        {...motionConfig.header}
         style={{
           position: 'fixed',
           top: 0,
@@ -400,7 +407,7 @@ const ForgotPassword = () => {
                 letterSpacing: '-0.04em'
               }}
             >
-              {websiteConfig?.siteName || APP_NAME || 'Sovereign'}
+              {websiteConfig?.siteName || APP_NAME || 'SmartMall'}
             </span>
           </Link>
 
@@ -480,7 +487,7 @@ const ForgotPassword = () => {
             <AuthLanguageToggle colors={C} />
           </div>
         </nav>
-      </header>
+      </motion.header>
 
       <main
         className="sovereign-auth-main"
@@ -492,8 +499,9 @@ const ForgotPassword = () => {
           overflow: 'hidden'
         }}
       >
-        <section
+        <motion.section
           className="sovereign-forgot-left-panel"
+          {...motionConfig.leftPanel}
           style={{
             width: '45%',
             flex: '0 0 45%',
@@ -507,9 +515,10 @@ const ForgotPassword = () => {
           }}
         >
           <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuACe3IlpkpA5MRMYLbvo78c6QZClHSwMUL-D2OU4TRpVnaAPXf4IIoq94S2MmUtm7dV9FIeA4OwDELo4F6cFbOkX3jhNye0-CqlmvKREe9w-Js096Zs6JpK4JAzI56015zq9QcB5JpVpCLQhcCJ3TUq5gYgly3EAytdv2QG6-4XEbNxXRp1OAOAyGIYmRvYyuDU3Qmry-PkWwzw2jmcaNuiGmZdA-VngkTDfXtH_zhdwx-6-R6u2YHVCvZx389GIqs1lpDI2UV1ARw"
+            <motion.img
+              src={AUTH_HERO_IMAGE_URL}
               alt={t('shared.hero.backgroundAlt')}
+              {...motionConfig.heroImage}
               style={{
                 width: '100%',
                 height: '100%',
@@ -528,7 +537,8 @@ const ForgotPassword = () => {
             />
           </div>
 
-          <div
+          <motion.div
+            {...motionConfig.heroContent}
             style={{
               position: 'relative',
               zIndex: 10,
@@ -610,12 +620,13 @@ const ForgotPassword = () => {
                   textTransform: 'uppercase'
                 }}
               >
-                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'Sovereign' })}
+                {t('shared.hero.quoteAuthor', { appName: APP_NAME || 'SmartMall' })}
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
+            {...motionConfig.sideFooter}
             style={{
               position: 'absolute',
               left: '3rem',
@@ -635,11 +646,11 @@ const ForgotPassword = () => {
                 color: '#ffffff'
               }}
             >
-              {t('shared.footer.registrar', { appName: APP_NAME || 'Sovereign' })}
+              {t('shared.footer.registrar', { appName: APP_NAME || 'SmartMall' })}
             </span>
 
             <span style={{ fontSize: '0.8125rem', color: C.primaryFixed }}>
-              {t('shared.footer.copyright', { appName: APP_NAME || 'Sovereign' })}
+              {t('shared.footer.copyright', { appName: APP_NAME || 'SmartMall' })}
               {' '}
               {t('shared.footer.rights')}
             </span>
@@ -675,11 +686,12 @@ const ForgotPassword = () => {
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
-        <section
+        <motion.section
           className="sovereign-forgot-right-panel"
+          {...motionConfig.rightPanel}
           style={{
             width: '55%',
             flex: '1 1 55%',
@@ -692,21 +704,22 @@ const ForgotPassword = () => {
             overflowY: 'auto'
           }}
         >
-          <div
+          <motion.div
             className="sovereign-auth-card"
+            {...motionConfig.card}
             style={{
               width: '100%',
               maxWidth: '28rem',
               background: C.cardBackground,
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
-              borderRadius: '2rem',
+              borderRadius: '1rem',
               padding: '2.5rem',
               boxShadow: C.cardShadow,
               border: C.cardBorder
             }}
           >
-            <div style={{ marginBottom: '1.25rem' }}>
+            <motion.div {...motionConfig.cardHeader} style={{ marginBottom: '1.25rem' }}>
               <h2
                 style={{
                   fontFamily: 'Manrope, sans-serif',
@@ -728,7 +741,7 @@ const ForgotPassword = () => {
               >
                 {getStepDescription()}
               </p>
-            </div>
+            </motion.div>
 
             {currentStep < 3 && (
               <div style={{ marginBottom: '1.25rem' }}>
@@ -745,7 +758,13 @@ const ForgotPassword = () => {
               </div>
             )}
 
-            <div className="sovereign-forgot-input">{renderStepContent()}</div>
+            <motion.div className="sovereign-forgot-input" {...motionConfig.formContent}>
+              <AnimatePresence mode="wait">
+                <motion.div key={currentStep} {...motionConfig.stepContent}>
+                  {renderStepContent()}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
 
             {currentStep < 3 && (
               <div style={{ textAlign: 'center', marginTop: '1.25rem' }}>
@@ -765,10 +784,10 @@ const ForgotPassword = () => {
                 </Link>
               </div>
             )}
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
       </main>
-    </div>
+    </motion.div>
   )
 }
 

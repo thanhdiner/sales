@@ -1,8 +1,15 @@
-.menu-sider {
+﻿.menu-sider {
+  transition: padding-top 420ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease;
+
   &__group--divider .ant-menu-item-group-title {
     height: auto;
+    max-height: 96px;
     padding: 22px 50px 14px 20px;
     color: #0f172a;
+    opacity: 1;
+    overflow: hidden;
+    transform: translateX(0);
+    transition: max-height 420ms cubic-bezier(0.22, 1, 0.36, 1), padding 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
   }
   &__title-sketch {
     position: relative;
@@ -66,11 +73,18 @@
     padding: 7px 0;
   }
   &__icon {
+    display: block;
     width: 32px;
     height: 32px;
     aspect-ratio: 1/1;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 8px;
+    transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1), height 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &__icon-placeholder {
+    display: block;
+    width: 32px;
+    height: 32px;
   }
   & a {
     width: 135px;
@@ -87,6 +101,18 @@
   overflow-wrap: break-word;
   line-height: 1.4;
   display: inline-block;
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 180ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms ease;
+}
+
+.menu-sider.ant-menu .ant-menu-item,
+.menu-sider.ant-menu .ant-menu-submenu-title {
+  transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1), height 420ms cubic-bezier(0.22, 1, 0.36, 1), margin 420ms cubic-bezier(0.22, 1, 0.36, 1), padding 420ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease, color 180ms ease;
+}
+
+.menu-sider.ant-menu .ant-menu-item-icon {
+  transition: left 420ms cubic-bezier(0.22, 1, 0.36, 1), margin 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .menu-sider__secondary-group {
@@ -152,3 +178,4 @@ html.dark body:not(.admin-layout-active) .ant-menu-item.ant-menu-item-selected {
   background-color: #202327;
   color: #22c55e;
 }
+

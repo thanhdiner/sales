@@ -30,7 +30,7 @@ const persistClientUser = (user, storage) => {
   localStorage.setItem('user', serializedUser)
 }
 
-export default function useClientAuthStatus() {
+export default function useClientAuthStatus({ skipRefreshWhenNoStoredToken = false } = {}) {
   const dispatch = useDispatch()
   const clientUser = useSelector(state => state.clientUser)
   const hasSyncAuth = Boolean(clientUser?.token || clientUser?.user || hasStoredClientAccessToken())
@@ -42,6 +42,12 @@ export default function useClientAuthStatus() {
     let isMounted = true
 
     if (hasSyncAuth) {
+      setIsChecking(false)
+      setIsRefreshAuthenticated(false)
+      return undefined
+    }
+
+    if (skipRefreshWhenNoStoredToken && !hasStoredClientAccessToken()) {
       setIsChecking(false)
       setIsRefreshAuthenticated(false)
       return undefined
@@ -87,7 +93,7 @@ export default function useClientAuthStatus() {
     return () => {
       isMounted = false
     }
-  }, [dispatch, hasCheckedRefresh, hasSyncAuth])
+  }, [dispatch, hasCheckedRefresh, hasSyncAuth, skipRefreshWhenNoStoredToken])
 
   return {
     isAuthenticated: hasSyncAuth || isRefreshAuthenticated,

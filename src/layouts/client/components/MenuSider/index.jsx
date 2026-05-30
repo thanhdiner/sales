@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+﻿import { useMemo } from 'react'
 import { Menu, Skeleton, Tooltip } from 'antd'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCategoriesQuery } from '@/hooks/queries/useSharedAppQueries'
+import { buildCloudinaryThumbnailUrl } from '@/lib/media/cloudinary'
 import { isNavItemActive, secondaryNavItems } from '@/layouts/client/components/Header/constants'
 import './MenuSider.scss'
 
@@ -92,7 +93,15 @@ function MenuSider({ showGroupTitle = true }) {
       return {
         key,
         icon: category.thumbnail ? (
-          <img src={category.thumbnail} alt={category.title} className="menu-sider__icon" loading="eager" decoding="async" />
+          <img
+            src={buildCloudinaryThumbnailUrl(category.thumbnail, 64)}
+            alt={category.title}
+            className="menu-sider__icon"
+            width="32"
+            height="32"
+            loading="eager"
+            decoding="async"
+          />
         ) : (
           <span className="menu-sider__icon-placeholder" />
         ),
@@ -160,3 +169,4 @@ function MenuSider({ showGroupTitle = true }) {
 }
 
 export default MenuSider
+

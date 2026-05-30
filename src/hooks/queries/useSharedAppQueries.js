@@ -20,6 +20,7 @@ export function useWebsiteConfigQuery(options = {}) {
     placeholderData: previousData => previousData,
     staleTime: 30 * MINUTE,
     gcTime: 2 * HOUR,
+    meta: { persist: false },
     ...options
   })
 }

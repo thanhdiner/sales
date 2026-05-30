@@ -100,12 +100,12 @@ function OrdersDesktopRow({ columnsVisible, order, onViewOrder }) {
 
   return (
     <div
-      className="group hidden cursor-pointer items-center gap-4 px-5 py-3 transition-colors hover:bg-[var(--admin-surface-2)] xl:grid"
+      className="admin-orders-table__row group hidden cursor-pointer gap-0 transition-colors hover:bg-[var(--admin-surface-2)] xl:grid"
       style={{ gridTemplateColumns: getGridTemplateColumns(columnsVisible) }}
       onClick={() => onViewOrder(order._id)}
     >
       {isVisible('orderCode') && (
-        <div>
+        <div className="admin-orders-table__cell">
           <div className="inline-flex rounded-md border border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-2.5 py-1 font-mono text-xs font-semibold text-[var(--admin-text)]">
             {getOrderCode(order._id)}
           </div>
@@ -113,21 +113,21 @@ function OrdersDesktopRow({ columnsVisible, order, onViewOrder }) {
       )}
 
       {isVisible('customer') && (
-        <div className="min-w-0">
+        <div className="admin-orders-table__cell min-w-0">
           <div className="truncate text-sm font-medium text-[var(--admin-text)]">{customerName}</div>
           {itemsSummary && <div className="mt-1 truncate text-xs text-[var(--admin-text-subtle)]">{itemsSummary}</div>}
         </div>
       )}
-      {isVisible('contact') && <div className="break-words text-sm text-[var(--admin-text-muted)]">{order.contact?.phone || '--'}</div>}
-      {isVisible('createdAt') && <div className="text-sm text-[var(--admin-text-muted)]">{formatOrderDate(order.createdAt, language)}</div>}
-      {isVisible('status') && <OrderStatusBadge order={order} t={t} />}
+      {isVisible('contact') && <div className="admin-orders-table__cell break-words text-sm text-[var(--admin-text-muted)]">{order.contact?.phone || '--'}</div>}
+      {isVisible('createdAt') && <div className="admin-orders-table__cell text-sm text-[var(--admin-text-muted)]">{formatOrderDate(order.createdAt, language)}</div>}
+      {isVisible('status') && <div className="admin-orders-table__cell"><OrderStatusBadge order={order} t={t} /></div>}
       {isVisible('total') && (
-        <div>
+        <div className="admin-orders-table__cell">
           <div className="text-sm font-semibold text-[var(--admin-text)]">{formatOrderTotal(order.total, language)}</div>
           {paymentMeta && <div className="mt-1 text-xs font-medium text-[var(--admin-text-muted)]">{paymentMeta}</div>}
         </div>
       )}
-      <div className="text-center">
+      <div className="admin-orders-table__cell text-center">
         <OrderViewButton order={order} onViewOrder={onViewOrder} t={t} />
       </div>
     </div>
@@ -147,7 +147,7 @@ function OrdersTabletRow({ columnsVisible, order, onViewOrder }) {
 
   return (
     <div
-      className="group hidden cursor-pointer rounded-xl border border-transparent px-4 py-3.5 transition-colors hover:border-[var(--admin-border)] hover:bg-[var(--admin-surface-2)] md:block xl:hidden"
+      className="admin-orders-table__tablet-row group hidden cursor-pointer rounded-xl border border-[var(--admin-border)] px-4 py-3.5 transition-colors hover:border-[var(--admin-border-strong)] hover:bg-[var(--admin-surface-2)] md:block xl:hidden"
       onClick={() => onViewOrder(order._id)}
     >
       <div className="grid grid-cols-12 items-center gap-3">
@@ -205,7 +205,7 @@ function OrdersMobileCard({ columnsVisible, order, onViewOrder }) {
   const isVisible = key => columnsVisible?.[key] !== false || key === 'actions'
 
   return (
-    <article className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3.5 shadow-[var(--admin-shadow)] md:hidden">
+    <article className="admin-orders-table__mobile-card rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-3.5 shadow-[var(--admin-shadow)] md:hidden">
       <div className="mb-2 flex items-start justify-between gap-3">
         <div className="min-w-0">
           {isVisible('customer') && <h3 className="truncate text-[17px] font-semibold leading-6 text-[var(--admin-text)]">{customerName}</h3>}
@@ -251,20 +251,20 @@ export default function OrdersTable({ columnsVisible, loading, orders, onViewOrd
   const visibleColumns = getVisibleColumns(columnsVisible)
 
   return (
-    <div className="overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)] sm:rounded-xl">
+    <div className="admin-orders-table overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)] sm:rounded-xl">
       {loading ? (
         <OrdersLoadingState />
       ) : orders.length === 0 ? (
         <OrdersEmptyState />
       ) : (
         <>
-          <div className="hidden overflow-x-auto border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] px-5 py-3 xl:block">
+          <div className="admin-orders-table__header hidden overflow-x-auto border-b border-[var(--admin-border)] bg-[var(--admin-surface-2)] xl:block">
             <div
-              className="grid min-w-[760px] gap-4 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)]"
+              className="grid min-w-[760px] gap-0 text-xs font-semibold uppercase tracking-wide text-[var(--admin-text-muted)]"
               style={{ gridTemplateColumns: getGridTemplateColumns(columnsVisible) }}
             >
               {visibleColumns.map(key => (
-                <div key={key} className={key === 'actions' ? 'text-center' : ''}>{t(`table.columns.${key}`)}</div>
+                <div key={key} className={`admin-orders-table__head-cell ${key === 'actions' ? 'text-center' : ''}`}>{t(`table.columns.${key}`)}</div>
               ))}
             </div>
           </div>
@@ -278,9 +278,9 @@ export default function OrdersTable({ columnsVisible, loading, orders, onViewOrd
             </div>
           </div>
 
-          <div className="divide-y divide-[var(--admin-border)]">
+          <div className="admin-orders-table__body">
             {orders.map(order => (
-              <div key={order._id} className="px-2 py-2 sm:px-3 md:px-0 md:py-0">
+              <div key={order._id} className="admin-orders-table__item px-2 py-2 sm:px-3 md:px-3 md:py-2 xl:px-0 xl:py-0">
                 <OrdersDesktopRow columnsVisible={columnsVisible} order={order} onViewOrder={onViewOrder} />
                 <OrdersTabletRow columnsVisible={columnsVisible} order={order} onViewOrder={onViewOrder} />
                 <OrdersMobileCard columnsVisible={columnsVisible} order={order} onViewOrder={onViewOrder} />

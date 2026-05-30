@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +8,7 @@ import { setUser } from '@/stores/client/user'
 import { setClientAccessToken } from '@/utils/auth'
 import { API_URL } from '@/utils/env'
 import SEO from '@/components/shared/SEO'
+import { getAuthMotion } from '../authMotion'
 import '../AuthTheme.scss'
 
 function getQueryParam(search, key) {
@@ -19,6 +21,8 @@ export default function OauthCallback() {
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const shouldReduceMotion = useReducedMotion()
+  const motionConfig = getAuthMotion(shouldReduceMotion)
 
   useEffect(() => {
     const code = getQueryParam(location.search, 'code')
@@ -55,9 +59,11 @@ export default function OauthCallback() {
   }, [location.search, dispatch, navigate, t])
 
   return (
-    <div className="sovereign-auth-page sovereign-auth-oauth">
+    <motion.div className="sovereign-auth-page sovereign-auth-oauth" {...motionConfig.page}>
       <SEO title={t('oauth.seoTitle')} noIndex />
-      <Spin size="large" tip={t('oauth.loading')} />
-    </div>
+      <motion.div {...motionConfig.card}>
+        <Spin size="large" tip={t('oauth.loading')} />
+      </motion.div>
+    </motion.div>
   )
 }

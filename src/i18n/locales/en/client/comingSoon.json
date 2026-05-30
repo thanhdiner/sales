@@ -1,56 +1,501 @@
 {
   "gameAccount": {
     "seo": {
-      "title": "Game accounts – Coming soon"
+      "title": "Trusted game accounts",
+      "description": "Explore safe, transparent game account consulting with support before any transaction."
     },
-    "eyebrow": "Coming soon",
-    "title": "Game accounts",
-    "description": "We are not selling game accounts yet. Please check back later or contact us if you have a specific request.",
-    "note": "This service will be updated soon."
+    "breadcrumb": {
+      "label": "Game account breadcrumb",
+      "home": "Home",
+      "current": "Game accounts"
+    },
+    "eyebrow": "Game account service",
+    "title": "Find a game account that fits your needs",
+    "description": "Quickly browse account groups by game, budget, and safety criteria. The support team can advise you before you decide.",
+    "note": "If you need an account with custom criteria, send a request so the team can check suitable availability.",
+    "hero": {
+      "primaryAction": "Browse current products",
+      "secondaryAction": "Ask for account advice",
+      "supportMessage": "I need advice choosing a suitable game account.",
+      "previewEyebrow": "Featured list",
+      "previewTitle": "Account ideas customers often ask about"
+    },
+    "trust": [
+      {
+        "title": "Information checked first",
+        "description": "Accounts are reviewed against basic criteria before consulting to reduce risk for customers."
+      },
+      {
+        "title": "Fast matching support",
+        "description": "Tell us the game, budget, and goal, and the team will suggest suitable options."
+      },
+      {
+        "title": "Transparency first",
+        "description": "Important details such as rank, server, notable items, and handover notes are presented clearly."
+      }
+    ],
+    "catalog": {
+      "eyebrow": "Suggested categories",
+      "title": "Popular account groups",
+      "description": "These groups help customers quickly describe what type of account they want advice on.",
+      "action": "Ask advice",
+      "supportMessage": "I want advice about {{account}}.",
+      "items": {
+        "genshin": {
+          "badge": "RPG",
+          "title": "Genshin/HSR accounts",
+          "description": "For players who want a faster start with characters, weapons, or accumulated resources.",
+          "price": "By request",
+          "features": ["Character filter", "Server notes", "Budget advice"]
+        },
+        "lol": {
+          "badge": "MOBA",
+          "title": "League accounts",
+          "description": "Suggestions by rank, champions, skins, and intended use.",
+          "price": "By setup",
+          "features": ["Rank filter", "Skin suggestions", "Review support"]
+        },
+        "valorant": {
+          "badge": "FPS",
+          "title": "Valorant accounts",
+          "description": "For customers looking for suitable skins, rank, or play history.",
+          "price": "By need",
+          "features": ["Featured skins", "Rank notes", "Safety advice"]
+        },
+        "steam": {
+          "badge": "PC",
+          "title": "PC game accounts",
+          "description": "Consulting for accounts with game libraries, DLC, or digital items by request.",
+          "price": "Contact us",
+          "features": ["Game list", "DLC notes", "Handover advice"]
+        }
+      }
+    },
+    "filters": {
+      "all": "All",
+      "genshin": "RPG",
+      "lol": "MOBA",
+      "valorant": "FPS",
+      "steam": "PC"
+    },
+    "process": {
+      "steps": [
+        {
+          "title": "Send criteria",
+          "description": "Tell us the game, budget, server, rank, or items you need."
+        },
+        {
+          "title": "Receive suggestions",
+          "description": "The team gathers suitable options and explains the key notes."
+        },
+        {
+          "title": "Confirm safely",
+          "description": "Continue only after you understand the details, risks, and handover method."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Need a custom account request?",
+      "description": "Send detailed requirements so the support team can find suitable options instead of manual searching.",
+      "button": "Contact support"
+    }
   },
   "specialPackage": {
     "seo": {
-      "title": "Special packages – Coming soon"
+      "title": "Special service packages",
+      "description": "Custom consulting packages, product combos, and support bundles for specific customer needs."
     },
-    "eyebrow": "Coming soon",
-    "title": "Special service packages",
-    "description": "We do not currently provide special service packages. Please check back later or contact us if you have a custom request.",
-    "note": "This service will be updated soon."
+    "breadcrumb": {
+      "label": "Special package breadcrumb",
+      "home": "Home",
+      "current": "Special packages"
+    },
+    "eyebrow": "Custom packages",
+    "title": "Special service packages for non-standard needs",
+    "description": "Combine products, offers, and support around your own goal when a single product is not enough.",
+    "note": "Special packages are consulted case by case so the support scope is clear before execution.",
+    "hero": {
+      "primaryAction": "Get custom advice",
+      "secondaryAction": "View buying guide",
+      "supportMessage": "I want advice about a special service package.",
+      "previewEyebrow": "Featured combos",
+      "previewTitle": "Package types we can arrange"
+    },
+    "packagesEyebrow": "Package ideas",
+    "packagesTitle": "Choose the package type that fits",
+    "packagesDescription": "These groups help you describe your needs before the team gives detailed advice.",
+    "packages": [
+      {
+        "title": "Fast-start package",
+        "description": "For customers who want a quick start with suggested products, accounts, or services.",
+        "features": ["Choice consulting", "Easy-to-use priority", "Guidance after delivery"]
+      },
+      {
+        "title": "Value combo package",
+        "description": "Combine related needs to optimize cost and reduce back-and-forth time.",
+        "features": ["Multiple items bundled", "Budget advice", "Usage-value focus"]
+      },
+      {
+        "title": "Custom request package",
+        "description": "For special needs that require checking availability, conditions, or a custom handover method.",
+        "features": ["Request intake", "Feasibility check", "Progress updates"]
+      }
+    ],
+    "workflow": {
+      "eyebrow": "Workflow",
+      "title": "Clear scope before execution",
+      "steps": [
+        {
+          "title": "Receive requirements",
+          "description": "You share your goal, budget, and preferred timeline."
+        },
+        {
+          "title": "Propose options",
+          "description": "The team suggests suitable choices, support scope, and important notes."
+        },
+        {
+          "title": "Confirm support plan",
+          "description": "Both sides agree on the details before moving to the next step."
+        }
+      ]
+    },
+    "benefits": [
+      {
+        "title": "Flexible by need",
+        "description": "You are not limited to a fixed product when you need a multi-part solution."
+      },
+      {
+        "title": "Save time",
+        "description": "The team gathers information and proposes options instead of making you search item by item."
+      },
+      {
+        "title": "Clear support scope",
+        "description": "Items are discussed beforehand to avoid misunderstanding during support."
+      }
+    ],
+    "cta": {
+      "title": "Have a special request?",
+      "description": "Send a short description and the team will suggest the best handling direction.",
+      "button": "Contact now"
+    }
   },
   "gameNews": {
     "seo": {
-      "title": "Game news – Coming soon"
+      "title": "Game news",
+      "description": "Game updates, events, guides, and featured offers for players."
+    },
+    "breadcrumb": {
+      "label": "Game news breadcrumb",
+      "home": "Home",
+      "current": "Game news"
     },
     "title": "Game news",
-    "description": "The game news section will update events, promotions, and the latest information soon.",
-    "descriptionSecondLine": "Do not forget to come back so you will not miss any hot news!",
-    "status": "This feature is coming soon!"
+    "description": "Follow game updates, events, guides, and market trends.",
+    "descriptionSecondLine": "Content is designed to help you shop smarter and improve your game experience.",
+    "status": "Game content hub",
+    "featured": "Featured story",
+    "hero": {
+      "primaryAction": "Read blog",
+      "secondaryAction": "View flash sale"
+    },
+    "latest": {
+      "eyebrow": "Latest updates",
+      "title": "Topics worth watching",
+      "description": "Filter content groups quickly to find updates that match your needs.",
+      "readMore": "Read more"
+    },
+    "categories": {
+      "all": "All",
+      "updates": "Updates",
+      "events": "Events",
+      "guides": "Guides"
+    },
+    "articles": {
+      "patch": {
+        "title": "New version updates and notable items",
+        "excerpt": "A quick summary of changes that affect gameplay and shopping needs.",
+        "readTime": "4 min read",
+        "date": "Today"
+      },
+      "event": {
+        "title": "Limited-time events you should not miss",
+        "excerpt": "Tips for tracking timelines, rewards, and seasonal offers.",
+        "readTime": "3 min read",
+        "date": "This week"
+      },
+      "guide": {
+        "title": "How to choose safer game products",
+        "excerpt": "Criteria to check before choosing an account, key, or digital item.",
+        "readTime": "5 min read",
+        "date": "Updated"
+      },
+      "market": {
+        "title": "Pricing trends and community demand",
+        "excerpt": "A quick look at product groups getting attention so you can choose the right timing.",
+        "readTime": "6 min read",
+        "date": "Analysis"
+      }
+    },
+    "trendingTitle": "Trending now",
+    "trending": [
+      "How to check account information before buying",
+      "Common offers during event seasons",
+      "When to choose a combo instead of single items",
+      "Notes when receiving license keys"
+    ],
+    "newsletter": {
+      "title": "Follow new content",
+      "description": "Open the blog to see full articles, promotions, and detailed guides.",
+      "button": "Open blog"
+    },
+    "cta": {
+      "eyebrow": "Content library",
+      "title": "Want more detailed analysis?",
+      "description": "The blog can host long-form articles, categories, and complete guide content.",
+      "button": "Go to blog"
+    }
   },
   "community": {
     "seo": {
-      "title": "Community – Coming soon"
+      "title": "Gaming community",
+      "description": "A place to connect, share experience, and follow activities for customers."
+    },
+    "breadcrumb": {
+      "label": "Community breadcrumb",
+      "home": "Home",
+      "current": "Community"
     },
     "title": "Gaming community",
-    "description": "A place to connect, share experiences, and meet other gamers will open soon.",
-    "descriptionSecondLine": "Do not miss the chance to become one of the first members of our community!",
-    "status": "This feature is under development!"
+    "description": "A space for players to connect, share experience, and meet others with similar interests.",
+    "descriptionSecondLine": "You can follow news, ask questions, and receive quick support from the team.",
+    "status": "Community space",
+    "hero": {
+      "primaryAction": "Ask to join",
+      "secondaryAction": "Read community news",
+      "supportMessage": "I want to learn more about the gaming community.",
+      "panelEyebrow": "Community activities",
+      "panelTitle": "Connect players with shared needs"
+    },
+    "stats": [
+      { "value": "24/7", "label": "Support channel" },
+      { "value": "3+", "label": "Topic groups" },
+      { "value": "1:1", "label": "Personal advice" }
+    ],
+    "features": {
+      "eyebrow": "Community features",
+      "title": "Easy to ask, easy to follow, easy to connect",
+      "description": "The community page gathers useful activities around game products and after-sales support.",
+      "items": [
+        {
+          "title": "Quick Q&A",
+          "description": "Ask about products, accounts, keys, or delivery steps and get guidance."
+        },
+        {
+          "title": "Events and offers",
+          "description": "Follow featured activities, seasonal offers, and content the community cares about."
+        },
+        {
+          "title": "Experience sharing",
+          "description": "Collect tips on product selection, safety notes, and real usage experience."
+        }
+      ]
+    },
+    "values": {
+      "eyebrow": "Core values",
+      "title": "A community centered on transparency",
+      "description": "The goal is to help customers exchange clear information before and after using services.",
+      "items": [
+        {
+          "title": "Respect information",
+          "description": "Encourage verified sharing and reduce vague promises."
+        },
+        {
+          "title": "Fast feedback",
+          "description": "Popular topics can become guides or FAQ entries for easier lookup."
+        },
+        {
+          "title": "Player-focused",
+          "description": "Content prioritizes real needs from players and digital product customers."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Want to suggest a community topic?",
+      "description": "Send feedback so the team can add better content, guides, or activities.",
+      "button": "Send suggestion",
+      "supportMessage": "I want to suggest a topic for the community."
+    }
   },
   "quickSupport": {
     "seo": {
-      "title": "Quick support – Coming soon"
+      "title": "Quick support",
+      "description": "A quick support center for product consulting, orders, payment questions, and FAQs."
+    },
+    "breadcrumb": {
+      "label": "Quick support breadcrumb",
+      "home": "Home",
+      "current": "Quick support"
     },
     "title": "Quick support",
-    "description": "The customer support and instant question-answering feature will launch soon.",
-    "descriptionSecondLine": "Rest assured, our team is always ready to support you!",
-    "status": "This feature will be available soon!"
+    "description": "Choose the right need to reach chat, orders, or contact pages faster.",
+    "descriptionSecondLine": "The support team is ready to help before and after you use the service.",
+    "status": "Support ready",
+    "hero": {
+      "primaryAction": "Open support chat",
+      "secondaryAction": "Track orders",
+      "supportMessage": "I need quick support."
+    },
+    "assistant": {
+      "title": "Support assistant",
+      "status": "Online now",
+      "messages": [
+        "Do you need product advice, order checking, or delivery guidance?",
+        "Choose a quick action below to go to the right place.",
+        "For complex issues, the team will receive details and respond properly."
+      ]
+    },
+    "actions": {
+      "eyebrow": "Quick actions",
+      "title": "What do you need help with?",
+      "items": [
+        {
+          "title": "Product advice",
+          "description": "Ask quickly about accounts, keys, packages, or suitable products.",
+          "message": "I need advice choosing a suitable product."
+        },
+        {
+          "title": "Order tracking",
+          "description": "Go to your order list to check processing and delivery status.",
+          "message": "I want to check my order status."
+        },
+        {
+          "title": "Payment support",
+          "description": "Ask about bank transfer, payment confirmation, or promo codes.",
+          "message": "I need payment support."
+        },
+        {
+          "title": "Security questions",
+          "description": "Get guidance on account handover, license keys, and safety information.",
+          "message": "I have a question about security and handover."
+        }
+      ]
+    },
+    "sla": {
+      "title": "Clear response targets",
+      "description": "These markers help you pick the right channel for each support level.",
+      "items": [
+        { "value": "1-5m", "label": "Quick chat" },
+        { "value": "24/7", "label": "Intake" },
+        { "value": "1:1", "label": "Private advice" }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Quick FAQ",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "question": "Where should I ask if I do not know which product to choose?",
+          "answer": "Use support chat and describe the game, budget, and intended use for suggestions."
+        },
+        {
+          "question": "Where can I check my order?",
+          "answer": "After signing in, go to the Orders page to see processing status."
+        },
+        {
+          "question": "What should I do after a bank transfer?",
+          "answer": "Keep the transaction information and contact support if you need quick confirmation."
+        },
+        {
+          "question": "Can I request private consulting?",
+          "answer": "Yes, send your request via chat or the Contact page for detailed support."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Your issue is not listed?",
+      "description": "Send details through the contact page so the team can handle your case properly.",
+      "button": "Go to contact"
+    }
   },
   "license": {
     "seo": {
-      "title": "Licenses – Coming soon"
+      "title": "Software licenses and genuine keys",
+      "description": "Consulting for license keys, genuine software, and transparent key delivery."
+    },
+    "breadcrumb": {
+      "label": "License breadcrumb",
+      "home": "Home",
+      "current": "Licenses"
     },
     "title": "Software licenses",
-    "description": "A section for licensed software, genuine keys, and clearly sourced products will be updated soon.",
-    "descriptionSecondLine": "Stay tuned so you do not miss exclusive offers!",
-    "status": "This feature is currently under development!"
+    "description": "A section for software licenses, genuine keys, and product consulting by usage need.",
+    "descriptionSecondLine": "Focused on clear sourcing, activation guidance, and support after delivery.",
+    "status": "Genuine keys and licenses",
+    "hero": {
+      "primaryAction": "Browse products",
+      "secondaryAction": "Ask license advice",
+      "supportMessage": "I need advice about software keys or licenses.",
+      "panelEyebrow": "Product groups",
+      "panelTitle": "Licenses for study, work, and entertainment"
+    },
+    "catalog": {
+      "eyebrow": "License categories",
+      "title": "License groups we can advise on",
+      "description": "Choose a need group so the team can help find a more suitable key or license.",
+      "action": "Ask about this group",
+      "supportMessage": "I want advice about {{product}}.",
+      "items": [
+        {
+          "title": "Software keys",
+          "description": "Consulting for keys for study, work, security, or popular utility apps."
+        },
+        {
+          "title": "Game licenses",
+          "description": "Support choosing game codes, DLC, or digital content packages by need."
+        },
+        {
+          "title": "Activation support package",
+          "description": "Guidance for checking, receiving codes, and handling common activation issues."
+        }
+      ]
+    },
+    "process": {
+      "eyebrow": "License delivery flow",
+      "title": "Clear source, clear activation path",
+      "description": "Each request is consulted by software type, region, term, and usage conditions.",
+      "steps": [
+        {
+          "title": "Identify needs",
+          "description": "Tell us the software, platform, term, and usage purpose."
+        },
+        {
+          "title": "Check options",
+          "description": "The team suggests the key or license type that fits your usage conditions."
+        },
+        {
+          "title": "Guide code delivery",
+          "description": "You receive guidance for receiving, activating, and storing important information."
+        }
+      ]
+    },
+    "trust": [
+      {
+        "title": "Clear source priority",
+        "description": "Usage conditions and support scope are discussed beforehand."
+      },
+      {
+        "title": "Advice by need",
+        "description": "Avoid choosing a license package that does not fit your platform or region."
+      },
+      {
+        "title": "After-delivery support",
+        "description": "Support is available if you need more help with activation or key storage."
+      }
+    ],
+    "cta": {
+      "title": "Need a specific key or license?",
+      "description": "Send the software name or usage need and the team will suggest a suitable product group.",
+      "button": "Contact support"
+    }
   }
 }
